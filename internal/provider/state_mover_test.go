@@ -164,10 +164,10 @@ func TestRenameStateMoverSourceSchema(t *testing.T) {
 func TestDeclaredResourceSchema(t *testing.T) {
 	ctx := context.Background()
 
-	declared := declaredResourceSchema(ctx, NewIncidentScheduleBetaResource())
+	declared := declaredResourceSchema(ctx, NewIncidentScheduleResource())
 
 	var direct resource.SchemaResponse
-	NewIncidentScheduleBetaResource().Schema(ctx, resource.SchemaRequest{}, &direct)
+	NewIncidentScheduleResource().Schema(ctx, resource.SchemaRequest{}, &direct)
 
 	if len(declared.Attributes) == 0 {
 		t.Fatal("expected the resource's attributes")

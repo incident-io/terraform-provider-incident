@@ -1,13 +1,13 @@
 # Look up a rotation by name. Names are unique within a schedule, so this is
 # unambiguous.
-data "incident_schedule_rotation_beta" "primary" {
-  schedule_id = incident_schedule_beta.platform.id
+data "incident_schedule_rotation" "primary" {
+  schedule_id = incident_schedule.platform.id
   name        = "Primary"
 }
 
 # ...or by ID.
-data "incident_schedule_rotation_beta" "primary_by_id" {
-  schedule_id = incident_schedule_beta.platform.id
+data "incident_schedule_rotation" "primary_by_id" {
+  schedule_id = incident_schedule.platform.id
   id          = "01MNO456PQR789STU012VWX"
 }
 
@@ -23,10 +23,10 @@ resource "incident_escalation_path" "platform" {
         targets = [
           {
             type             = "schedule"
-            id               = incident_schedule_beta.platform.id
+            id               = incident_schedule.platform.id
             urgency          = "high"
             schedule_mode    = "all_users_for_rota"
-            selected_rota_id = data.incident_schedule_rotation_beta.primary.id
+            selected_rota_id = data.incident_schedule_rotation.primary.id
           }
         ]
       }

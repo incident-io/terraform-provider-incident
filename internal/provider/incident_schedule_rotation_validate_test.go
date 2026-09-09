@@ -60,7 +60,7 @@ func validateScheduleRotation(t *testing.T, overrides map[string]tftypes.Value) 
 	t.Helper()
 
 	var schemaResp resource.SchemaResponse
-	NewIncidentScheduleRotationBetaResource().Schema(context.Background(), resource.SchemaRequest{}, &schemaResp)
+	NewIncidentScheduleRotationResource().Schema(context.Background(), resource.SchemaRequest{}, &schemaResp)
 	if schemaResp.Diagnostics.HasError() {
 		t.Fatalf("schema build failed: %+v", schemaResp.Diagnostics)
 	}
@@ -98,9 +98,9 @@ func validateScheduleRotation(t *testing.T, overrides map[string]tftypes.Value) 
 		Raw:    tftypes.NewValue(objType, attributes),
 	}
 
-	r, ok := NewIncidentScheduleRotationBetaResource().(*IncidentScheduleRotationBetaResource)
+	r, ok := NewIncidentScheduleRotationResource().(*IncidentScheduleRotationResource)
 	if !ok {
-		t.Fatalf("NewIncidentScheduleRotationBetaResource did not return a *IncidentScheduleRotationBetaResource")
+		t.Fatalf("NewIncidentScheduleRotationResource did not return a *IncidentScheduleRotationResource")
 	}
 	var resp resource.ValidateConfigResponse
 	r.ValidateConfig(context.Background(), resource.ValidateConfigRequest{Config: config}, &resp)
@@ -439,7 +439,7 @@ func validateScheduleRotationDataSource(t *testing.T, id, name tftypes.Value) da
 	t.Helper()
 
 	var schemaResp datasource.SchemaResponse
-	NewIncidentScheduleRotationBetaDataSource().Schema(context.Background(), datasource.SchemaRequest{}, &schemaResp)
+	NewIncidentScheduleRotationDataSource().Schema(context.Background(), datasource.SchemaRequest{}, &schemaResp)
 	if schemaResp.Diagnostics.HasError() {
 		t.Fatalf("schema build failed: %+v", schemaResp.Diagnostics)
 	}
@@ -465,9 +465,9 @@ func validateScheduleRotationDataSource(t *testing.T, id, name tftypes.Value) da
 		}),
 	}
 
-	d, ok := NewIncidentScheduleRotationBetaDataSource().(*IncidentScheduleRotationBetaDataSource)
+	d, ok := NewIncidentScheduleRotationDataSource().(*IncidentScheduleRotationDataSource)
 	if !ok {
-		t.Fatalf("NewIncidentScheduleRotationBetaDataSource did not return a *IncidentScheduleRotationBetaDataSource")
+		t.Fatalf("NewIncidentScheduleRotationDataSource did not return a *IncidentScheduleRotationDataSource")
 	}
 	var resp datasource.ValidateConfigResponse
 	d.ValidateConfig(context.Background(), datasource.ValidateConfigRequest{Config: config}, &resp)

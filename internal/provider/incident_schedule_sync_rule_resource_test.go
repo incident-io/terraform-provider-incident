@@ -155,9 +155,12 @@ func TestAccIncidentScheduleSyncRuleResource_Rotation(t *testing.T) {
 		Steps: []resource.TestStep{
 			// Create scoped to the "primary" rotation.
 			{
-				Config: testAccScheduleSyncRuleResourceConfigWithRotation("primary"),
+				Config: testAccScheduleSyncRuleResourceConfigWithRotation(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_schedule_sync_rule.test", "rotation_id", "primary"),
+					resource.TestCheckResourceAttrPair(
+						"incident_schedule_sync_rule.test", "rotation_id",
+						"incident_schedule_rotation.test", "id",
+					),
 					resource.TestCheckResourceAttr("incident_schedule_sync_rule.test", "sync_type", "on_call"),
 				),
 			},
@@ -177,23 +180,20 @@ func testAccScheduleSyncRuleResourceConfig(syncType string) string {
 resource "incident_schedule" "test" {
   name     = {{ stableSuffix "Test Schedule for Sync Rule" | quote }}
   timezone = "Europe/London"
+}
 
-  rotations = [{
-    id   = "primary"
-    name = "Primary"
+resource "incident_schedule_rotation" "test" {
+  schedule_id = incident_schedule.test.id
+  name        = "Primary"
 
-    versions = [{
-      handover_start_at = "2024-05-01T12:00:00Z"
-      users             = []
-      layers = [{
-        id   = "primary"
-        name = "Primary"
-      }]
-      handovers = [{
-        interval_type = "daily"
-        interval      = 1
-      }]
-    }]
+  # NOBODY is how a rotation with nobody in it is spelled now. The old shape
+  # wrote users = [], which this resource rejects at plan time.
+  users = ["NOBODY"]
+
+  first_interval_starts_at = "2024-05-01T12:00:00Z"
+  handovers = [{
+    interval_type = "daily"
+    interval      = 1
   }]
 }
 
@@ -229,23 +229,20 @@ func testAccScheduleSyncRuleResourceConfigWithPermanentMembers(userID string) st
 resource "incident_schedule" "test" {
   name     = {{ stableSuffix "Sync Rule Permanent Members" | quote }}
   timezone = "Europe/London"
+}
 
-  rotations = [{
-    id   = "primary"
-    name = "Primary"
+resource "incident_schedule_rotation" "test" {
+  schedule_id = incident_schedule.test.id
+  name        = "Primary"
 
-    versions = [{
-      handover_start_at = "2024-05-01T12:00:00Z"
-      users             = []
-      layers = [{
-        id   = "primary"
-        name = "Primary"
-      }]
-      handovers = [{
-        interval_type = "daily"
-        interval      = 1
-      }]
-    }]
+  # NOBODY is how a rotation with nobody in it is spelled now. The old shape
+  # wrote users = [], which this resource rejects at plan time.
+  users = ["NOBODY"]
+
+  first_interval_starts_at = "2024-05-01T12:00:00Z"
+  handovers = [{
+    interval_type = "daily"
+    interval      = 1
   }]
 }
 
@@ -277,23 +274,20 @@ func testAccScheduleSyncRuleResourceConfigWithPermanentMembersCleared() string {
 resource "incident_schedule" "test" {
   name     = {{ stableSuffix "Sync Rule Permanent Members" | quote }}
   timezone = "Europe/London"
+}
 
-  rotations = [{
-    id   = "primary"
-    name = "Primary"
+resource "incident_schedule_rotation" "test" {
+  schedule_id = incident_schedule.test.id
+  name        = "Primary"
 
-    versions = [{
-      handover_start_at = "2024-05-01T12:00:00Z"
-      users             = []
-      layers = [{
-        id   = "primary"
-        name = "Primary"
-      }]
-      handovers = [{
-        interval_type = "daily"
-        interval      = 1
-      }]
-    }]
+  # NOBODY is how a rotation with nobody in it is spelled now. The old shape
+  # wrote users = [], which this resource rejects at plan time.
+  users = ["NOBODY"]
+
+  first_interval_starts_at = "2024-05-01T12:00:00Z"
+  handovers = [{
+    interval_type = "daily"
+    interval      = 1
   }]
 }
 
@@ -316,28 +310,25 @@ resource "incident_schedule_sync_rule" "test" {
 `, struct{}{})
 }
 
-func testAccScheduleSyncRuleResourceConfigWithRotation(rotationID string) string {
+func testAccScheduleSyncRuleResourceConfigWithRotation() string {
 	return testRunTemplate("incident_schedule_sync_rule", `
 resource "incident_schedule" "test" {
   name     = {{ stableSuffix "Test Schedule for Sync Rule" | quote }}
   timezone = "Europe/London"
+}
 
-  rotations = [{
-    id   = "primary"
-    name = "Primary"
+resource "incident_schedule_rotation" "test" {
+  schedule_id = incident_schedule.test.id
+  name        = "Primary"
 
-    versions = [{
-      handover_start_at = "2024-05-01T12:00:00Z"
-      users             = []
-      layers = [{
-        id   = "primary"
-        name = "Primary"
-      }]
-      handovers = [{
-        interval_type = "daily"
-        interval      = 1
-      }]
-    }]
+  # NOBODY is how a rotation with nobody in it is spelled now. The old shape
+  # wrote users = [], which this resource rejects at plan time.
+  users = ["NOBODY"]
+
+  first_interval_starts_at = "2024-05-01T12:00:00Z"
+  handovers = [{
+    interval_type = "daily"
+    interval      = 1
   }]
 }
 
@@ -355,13 +346,9 @@ resource "incident_schedule_sync_rule" "test" {
   schedule_id             = incident_schedule.test.id
   schedule_sync_target_id = incident_schedule_sync_target.test.id
   sync_type               = "on_call"
-  rotation_id             = {{ quote .RotationID }}
+  rotation_id             = incident_schedule_rotation.test.id
 }
-`, struct {
-		RotationID string
-	}{
-		RotationID: rotationID,
-	})
+`, nil)
 }
 
 // importScheduleSyncRuleStateIDFunc returns a function that generates the composite import ID.

@@ -18,11 +18,11 @@ import (
 // against a stale schema.
 func TestScheduleRotationResourceSchema(t *testing.T) {
 	ctx := context.Background()
-	r := NewIncidentScheduleRotationBetaResource()
+	r := NewIncidentScheduleRotationResource()
 
 	var metaResp resource.MetadataResponse
 	r.Metadata(ctx, resource.MetadataRequest{ProviderTypeName: "incident"}, &metaResp)
-	if metaResp.TypeName != "incident_schedule_rotation_beta" {
+	if metaResp.TypeName != "incident_schedule_rotation" {
 		t.Fatalf("unexpected type name: %q", metaResp.TypeName)
 	}
 
@@ -70,7 +70,7 @@ func TestScheduleRotationFromAPIWorkingIntervals(t *testing.T) {
 	rotation := rotationFixture()
 	rotation.WorkingIntervals = &[]client.ScheduleRotationWorkingIntervalV2{}
 
-	unrestricted := incidentScheduleRotationBetaFromAPI(rotation, IncidentScheduleRotationBetaModel{}, londonTZ)
+	unrestricted := incidentScheduleRotationFromAPI(rotation, IncidentScheduleRotationModel{}, londonTZ)
 	if unrestricted.WorkingIntervals != nil {
 		t.Errorf("no intervals should read back as absent, got %+v", unrestricted.WorkingIntervals)
 	}
@@ -78,7 +78,7 @@ func TestScheduleRotationFromAPIWorkingIntervals(t *testing.T) {
 	rotation.WorkingIntervals = &[]client.ScheduleRotationWorkingIntervalV2{
 		{Weekday: client.ScheduleRotationWorkingIntervalV2Weekday("monday"), StartTime: "09:00", EndTime: "17:00"},
 	}
-	populated := incidentScheduleRotationBetaFromAPI(rotation, IncidentScheduleRotationBetaModel{}, londonTZ)
+	populated := incidentScheduleRotationFromAPI(rotation, IncidentScheduleRotationModel{}, londonTZ)
 	if len(populated.WorkingIntervals) != 1 {
 		t.Fatalf("expected one interval, got %+v", populated.WorkingIntervals)
 	}
@@ -94,12 +94,12 @@ func TestScheduleRotationFromAPIRank(t *testing.T) {
 	rotation := rotationFixture()
 	rotation.Rank = ptr(int64(3))
 
-	unset := incidentScheduleRotationBetaFromAPI(rotation, IncidentScheduleRotationBetaModel{Rank: types.Int64Null()}, londonTZ)
+	unset := incidentScheduleRotationFromAPI(rotation, IncidentScheduleRotationModel{Rank: types.Int64Null()}, londonTZ)
 	if !unset.Rank.IsNull() {
 		t.Errorf("rank should stay null when the config doesn't set it, got %v", unset.Rank)
 	}
 
-	declared := incidentScheduleRotationBetaFromAPI(rotation, IncidentScheduleRotationBetaModel{Rank: types.Int64Value(3)}, londonTZ)
+	declared := incidentScheduleRotationFromAPI(rotation, IncidentScheduleRotationModel{Rank: types.Int64Value(3)}, londonTZ)
 	if declared.Rank.ValueInt64() != 3 {
 		t.Errorf("expected rank 3, got %v", declared.Rank)
 	}
@@ -114,7 +114,7 @@ func TestScheduleRotationFromAPISchedulingMode(t *testing.T) {
 
 	// The create path: nothing in config, nothing in the response. Anything other than a
 	// known value here is "provider returned invalid result object after apply".
-	unset := incidentScheduleRotationBetaFromAPI(rotation, IncidentScheduleRotationBetaModel{
+	unset := incidentScheduleRotationFromAPI(rotation, IncidentScheduleRotationModel{
 		SchedulingMode: types.StringNull(),
 	}, londonTZ)
 	if unset.SchedulingMode.IsUnknown() {
@@ -128,7 +128,7 @@ func TestScheduleRotationFromAPISchedulingMode(t *testing.T) {
 	// carried an unknown into the projection, which passed it straight back out. Guards
 	// the projection itself rather than the schema, so re-adding Computed can't
 	// reintroduce it.
-	fromUnknown := incidentScheduleRotationBetaFromAPI(rotation, IncidentScheduleRotationBetaModel{
+	fromUnknown := incidentScheduleRotationFromAPI(rotation, IncidentScheduleRotationModel{
 		SchedulingMode: types.StringUnknown(),
 	}, londonTZ)
 	if fromUnknown.SchedulingMode.IsUnknown() {
@@ -138,7 +138,7 @@ func TestScheduleRotationFromAPISchedulingMode(t *testing.T) {
 	mode := client.ScheduleRotationV3SchedulingModeSequential
 	rotation.SchedulingMode = &mode
 
-	declared := incidentScheduleRotationBetaFromAPI(rotation, IncidentScheduleRotationBetaModel{
+	declared := incidentScheduleRotationFromAPI(rotation, IncidentScheduleRotationModel{
 		SchedulingMode: types.StringValue("sequential"),
 	}, londonTZ)
 	if declared.SchedulingMode.ValueString() != "sequential" {
@@ -147,7 +147,7 @@ func TestScheduleRotationFromAPISchedulingMode(t *testing.T) {
 
 	// Set on the rotation but absent from config — someone chose it in the dashboard.
 	// Adopting it would diff against a config that doesn't mention it, on every plan.
-	ignored := incidentScheduleRotationBetaFromAPI(rotation, IncidentScheduleRotationBetaModel{
+	ignored := incidentScheduleRotationFromAPI(rotation, IncidentScheduleRotationModel{
 		SchedulingMode: types.StringNull(),
 	}, londonTZ)
 	if !ignored.SchedulingMode.IsNull() {
@@ -170,7 +170,7 @@ func TestScheduleRotationFirstIntervalStartsAt(t *testing.T) {
 		"2024-01-08T09:00:00+00:00", // the same instant, written with a zero offset
 		"2024-01-08T10:00:00+01:00", // the same instant, in another zone
 	} {
-		got := incidentScheduleRotationBetaFromAPI(rotation, IncidentScheduleRotationBetaModel{
+		got := incidentScheduleRotationFromAPI(rotation, IncidentScheduleRotationModel{
 			FirstIntervalStartsAt: timetypes.NewRFC3339ValueMust(configured),
 		}, londonTZ).FirstIntervalStartsAt
 
@@ -185,7 +185,7 @@ func TestScheduleRotationFirstIntervalStartsAt(t *testing.T) {
 
 	// A moment that isn't the one the config asked for is a real change, so the API's
 	// value has to win — otherwise the drift would be invisible.
-	moved := incidentScheduleRotationBetaFromAPI(rotation, IncidentScheduleRotationBetaModel{
+	moved := incidentScheduleRotationFromAPI(rotation, IncidentScheduleRotationModel{
 		FirstIntervalStartsAt: timetypes.NewRFC3339ValueMust("2024-02-01T09:00:00Z"),
 	}, londonTZ).FirstIntervalStartsAt
 	if moved.ValueString() != "2024-01-08T09:00:00Z" {
@@ -193,7 +193,7 @@ func TestScheduleRotationFirstIntervalStartsAt(t *testing.T) {
 	}
 
 	// No prior value at all, e.g. an import.
-	imported := incidentScheduleRotationBetaFromAPI(rotation, IncidentScheduleRotationBetaModel{}, londonTZ).FirstIntervalStartsAt
+	imported := incidentScheduleRotationFromAPI(rotation, IncidentScheduleRotationModel{}, londonTZ).FirstIntervalStartsAt
 	if imported.ValueString() != "2024-01-08T09:00:00Z" {
 		t.Errorf("expected the API's timestamp, got %q", imported.ValueString())
 	}
@@ -211,14 +211,14 @@ func TestScheduleRotationTimestampValidation(t *testing.T) {
 // TestScheduleRotationFromAPIEffectiveFrom checks a rotation that has only ever had
 // one shape reads back with no effective_from, rather than a zero timestamp.
 func TestScheduleRotationFromAPIEffectiveFrom(t *testing.T) {
-	only := incidentScheduleRotationBetaFromAPI(rotationFixture(), IncidentScheduleRotationBetaModel{}, londonTZ)
+	only := incidentScheduleRotationFromAPI(rotationFixture(), IncidentScheduleRotationModel{}, londonTZ)
 	if !only.EffectiveFrom.IsNull() {
 		t.Errorf("expected no effective_from, got %v", only.EffectiveFrom)
 	}
 
 	rotation := rotationFixture()
 	rotation.EffectiveFrom = ptr(time.Date(2024, 3, 1, 0, 0, 0, 0, time.UTC))
-	phased := incidentScheduleRotationBetaFromAPI(rotation, IncidentScheduleRotationBetaModel{}, londonTZ)
+	phased := incidentScheduleRotationFromAPI(rotation, IncidentScheduleRotationModel{}, londonTZ)
 	if phased.EffectiveFrom.ValueString() != "2024-03-01T00:00:00Z" {
 		t.Errorf("unexpected effective_from: %v", phased.EffectiveFrom)
 	}
@@ -228,7 +228,7 @@ func TestScheduleRotationFromAPIEffectiveFrom(t *testing.T) {
 // nothing to say about it, so losing it here would drop the attribute out of state
 // and plan a change on every run.
 func TestScheduleRotationFromAPIRollout(t *testing.T) {
-	got := incidentScheduleRotationBetaFromAPI(rotationFixture(), IncidentScheduleRotationBetaModel{
+	got := incidentScheduleRotationFromAPI(rotationFixture(), IncidentScheduleRotationModel{
 		Rollout: types.StringValue("after_current_shift"),
 	}, londonTZ)
 	if got.Rollout.ValueString() != "after_current_shift" {
@@ -271,7 +271,7 @@ func TestScheduleRotationAnchorPhasing(t *testing.T) {
 			}
 			rotation.FirstIntervalStartsAt = served
 
-			got := incidentScheduleRotationBetaFromAPI(rotation, IncidentScheduleRotationBetaModel{
+			got := incidentScheduleRotationFromAPI(rotation, IncidentScheduleRotationModel{
 				FirstIntervalStartsAt: timetypes.NewRFC3339ValueMust("2024-01-08T09:00:00Z"),
 			}, londonTZ).FirstIntervalStartsAt
 
@@ -288,7 +288,7 @@ func TestScheduleRotationAnchorPhasing(t *testing.T) {
 	alternating.Handovers = append(alternating.Handovers,
 		client.ScheduleRotationHandoverV2{Interval: 2, IntervalType: client.ScheduleRotationHandoverV2IntervalTypeWeekly})
 
-	got := incidentScheduleRotationBetaFromAPI(alternating, IncidentScheduleRotationBetaModel{
+	got := incidentScheduleRotationFromAPI(alternating, IncidentScheduleRotationModel{
 		FirstIntervalStartsAt: timetypes.NewRFC3339ValueMust("2024-01-08T09:00:00Z"),
 	}, londonTZ).FirstIntervalStartsAt
 	if got.ValueString() != "2026-01-05T09:00:00Z" {
@@ -301,7 +301,7 @@ func TestScheduleRotationAnchorPhasing(t *testing.T) {
 	unresolved := rotationFixture()
 	unresolved.FirstIntervalStartsAt = time.Date(2026, 1, 5, 14, 0, 0, 0, time.UTC)
 
-	kept := incidentScheduleRotationBetaFromAPI(unresolved, IncidentScheduleRotationBetaModel{
+	kept := incidentScheduleRotationFromAPI(unresolved, IncidentScheduleRotationModel{
 		FirstIntervalStartsAt: timetypes.NewRFC3339ValueMust("2024-01-08T09:00:00Z"),
 	}, "").FirstIntervalStartsAt
 	if kept.ValueString() != "2024-01-08T09:00:00Z" {
@@ -313,11 +313,11 @@ func TestScheduleRotationAnchorPhasing(t *testing.T) {
 // decides both whether the plan asks the API to preview, and whether the apply sends
 // a rollout at all.
 func TestRotationLineUpDiffers(t *testing.T) {
-	base := func() IncidentScheduleRotationBetaModel {
-		return IncidentScheduleRotationBetaModel{
+	base := func() IncidentScheduleRotationModel {
+		return IncidentScheduleRotationModel{
 			Name:                  types.StringValue("Primary"),
 			Users:                 []types.String{types.StringValue("01USER")},
-			Handovers:             []IncidentScheduleRotationBetaHandover{{Interval: types.Int64Value(1), IntervalType: types.StringValue("weekly")}},
+			Handovers:             []IncidentScheduleRotationHandover{{Interval: types.Int64Value(1), IntervalType: types.StringValue("weekly")}},
 			FirstIntervalStartsAt: timetypes.NewRFC3339ValueMust("2024-01-08T09:00:00Z"),
 			ConcurrentShifts:      types.Int64Value(1),
 			Rank:                  types.Int64Value(1),
@@ -340,17 +340,17 @@ func TestRotationLineUpDiffers(t *testing.T) {
 		t.Error("a rename, reorder or moved handover time should need no rollout")
 	}
 
-	for name, changed := range map[string]func(*IncidentScheduleRotationBetaModel){
-		"users":             func(m *IncidentScheduleRotationBetaModel) { m.Users = append(m.Users, types.StringValue("02USER")) },
-		"handovers":         func(m *IncidentScheduleRotationBetaModel) { m.Handovers[0].Interval = types.Int64Value(2) },
-		"concurrent_shifts": func(m *IncidentScheduleRotationBetaModel) { m.ConcurrentShifts = types.Int64Value(2) },
+	for name, changed := range map[string]func(*IncidentScheduleRotationModel){
+		"users":             func(m *IncidentScheduleRotationModel) { m.Users = append(m.Users, types.StringValue("02USER")) },
+		"handovers":         func(m *IncidentScheduleRotationModel) { m.Handovers[0].Interval = types.Int64Value(2) },
+		"concurrent_shifts": func(m *IncidentScheduleRotationModel) { m.ConcurrentShifts = types.Int64Value(2) },
 		// Picks who lands on which shift, so on an uneven rotation it can move who is
 		// on call — exactly what a rollout is asked to hold back.
-		"scheduling_mode": func(m *IncidentScheduleRotationBetaModel) {
+		"scheduling_mode": func(m *IncidentScheduleRotationModel) {
 			m.SchedulingMode = types.StringValue("sequential")
 		},
-		"working_intervals": func(m *IncidentScheduleRotationBetaModel) {
-			m.WorkingIntervals = []IncidentScheduleRotationBetaWorkingWindow{{
+		"working_intervals": func(m *IncidentScheduleRotationModel) {
+			m.WorkingIntervals = []IncidentScheduleRotationWorkingWindow{{
 				Weekday:   types.StringValue("monday"),
 				StartTime: types.StringValue("09:00"),
 				EndTime:   types.StringValue("17:00"),

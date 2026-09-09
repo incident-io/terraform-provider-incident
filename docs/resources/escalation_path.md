@@ -20,28 +20,20 @@ We'd generally recommend building escalation paths in our [web dashboard](https:
 resource "incident_schedule" "primary_on_call" {
   name     = "Primary"
   timezone = "Europe/London"
-  rotations = [{
-    id   = "primary"
-    name = "Primary"
+}
 
-    versions = [
-      {
-        handover_start_at = "2024-05-01T12:00:00Z"
-        users             = []
-        layers = [
-          {
-            id   = "primary"
-            name = "Primary"
-          }
-        ]
-        handovers = [
-          {
-            interval_type = "daily"
-            interval      = 1
-          }
-        ]
-      },
-    ]
+resource "incident_schedule_rotation" "primary_on_call" {
+  schedule_id = incident_schedule.primary_on_call.id
+  name        = "Primary"
+
+  # NOBODY is a slot with nobody in it: the shift is scheduled, but nobody is on
+  # call for it until an override covers it.
+  users = ["NOBODY"]
+
+  first_interval_starts_at = "2024-05-01T12:00:00Z"
+  handovers = [{
+    interval_type = "daily"
+    interval      = 1
   }]
 }
 

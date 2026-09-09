@@ -27,23 +27,20 @@ func testAccIncidentScheduleReplicasDataSourceEmptyConfig() string {
 resource "incident_schedule" "test" {
   name     = {{ stableSuffix "Test Schedule for Replica List" | quote }}
   timezone = "Europe/London"
+}
 
-  rotations = [{
-    id   = "primary"
-    name = "Primary"
+resource "incident_schedule_rotation" "test" {
+  schedule_id = incident_schedule.test.id
+  name        = "Primary"
 
-    versions = [{
-      handover_start_at = "2024-05-01T12:00:00Z"
-      users             = []
-      layers = [{
-        id   = "primary"
-        name = "Primary"
-      }]
-      handovers = [{
-        interval_type = "daily"
-        interval      = 1
-      }]
-    }]
+  # NOBODY is how a rotation with nobody in it is spelled now. The old shape
+  # wrote users = [], which this resource rejects at plan time.
+  users = ["NOBODY"]
+
+  first_interval_starts_at = "2024-05-01T12:00:00Z"
+  handovers = [{
+    interval_type = "daily"
+    interval      = 1
   }]
 }
 

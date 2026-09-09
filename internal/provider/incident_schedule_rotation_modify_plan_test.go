@@ -116,7 +116,7 @@ func rotationValue(t *testing.T, scheduleID string, concurrentShifts int64) tfty
 	t.Helper()
 
 	var schemaResp resource.SchemaResponse
-	NewIncidentScheduleRotationBetaResource().Schema(context.Background(), resource.SchemaRequest{}, &schemaResp)
+	NewIncidentScheduleRotationResource().Schema(context.Background(), resource.SchemaRequest{}, &schemaResp)
 	objType, ok := schemaResp.Schema.Type().TerraformType(context.Background()).(tftypes.Object)
 	if !ok {
 		t.Fatalf("schema type is not an object")
@@ -153,14 +153,14 @@ func modifyRotationPlan(t *testing.T, api *fakeAPI, state tftypes.Value, plan *t
 	t.Helper()
 
 	var schemaResp resource.SchemaResponse
-	NewIncidentScheduleRotationBetaResource().Schema(context.Background(), resource.SchemaRequest{}, &schemaResp)
+	NewIncidentScheduleRotationResource().Schema(context.Background(), resource.SchemaRequest{}, &schemaResp)
 
 	planRaw := tftypes.NewValue(schemaResp.Schema.Type().TerraformType(context.Background()), nil)
 	if plan != nil {
 		planRaw = *plan
 	}
 
-	r := &IncidentScheduleRotationBetaResource{resourceConfigurer: withClient(api.start(t))}
+	r := &IncidentScheduleRotationResource{resourceConfigurer: withClient(api.start(t))}
 	var resp resource.ModifyPlanResponse
 	r.ModifyPlan(context.Background(), resource.ModifyPlanRequest{
 		State: tfsdk.State{Schema: schemaResp.Schema, Raw: state},
@@ -277,7 +277,7 @@ func TestScheduleRotationModifyPlanQuietChanges(t *testing.T) {
 	t.Run("a create", func(t *testing.T) {
 		api := newFake()
 		var schemaResp resource.SchemaResponse
-		NewIncidentScheduleRotationBetaResource().Schema(context.Background(), resource.SchemaRequest{}, &schemaResp)
+		NewIncidentScheduleRotationResource().Schema(context.Background(), resource.SchemaRequest{}, &schemaResp)
 		nullState := tftypes.NewValue(schemaResp.Schema.Type().TerraformType(context.Background()), nil)
 
 		plan := rotationValue(t, "01SCHED", 1)
@@ -383,10 +383,10 @@ func TestScheduleRotationModifyPlanLookupFailed(t *testing.T) {
 // Configure has run, which is how Terraform validates a configuration.
 func TestScheduleRotationModifyPlanUnconfigured(t *testing.T) {
 	var schemaResp resource.SchemaResponse
-	NewIncidentScheduleRotationBetaResource().Schema(context.Background(), resource.SchemaRequest{}, &schemaResp)
+	NewIncidentScheduleRotationResource().Schema(context.Background(), resource.SchemaRequest{}, &schemaResp)
 
 	plan := rotationValue(t, "01SCHED", 1)
-	r := &IncidentScheduleRotationBetaResource{}
+	r := &IncidentScheduleRotationResource{}
 	var resp resource.ModifyPlanResponse
 	r.ModifyPlan(context.Background(), resource.ModifyPlanRequest{
 		State: tfsdk.State{Schema: schemaResp.Schema, Raw: rotationValue(t, "01SCHED", 2)},
@@ -467,9 +467,9 @@ func supersededWarnings(t *testing.T, state, plan tftypes.Value) []string {
 	t.Helper()
 
 	var schemaResp resource.SchemaResponse
-	NewIncidentScheduleRotationBetaResource().Schema(context.Background(), resource.SchemaRequest{}, &schemaResp)
+	NewIncidentScheduleRotationResource().Schema(context.Background(), resource.SchemaRequest{}, &schemaResp)
 
-	r := &IncidentScheduleRotationBetaResource{}
+	r := &IncidentScheduleRotationResource{}
 	var resp resource.ModifyPlanResponse
 	r.warnSupersededChange(context.Background(), resource.ModifyPlanRequest{
 		State: tfsdk.State{Schema: schemaResp.Schema, Raw: state},
@@ -515,12 +515,12 @@ func TestScheduleRotationModifyPlanSupersededChangeReplaced(t *testing.T) {
 	}
 
 	var schemaResp resource.SchemaResponse
-	NewIncidentScheduleRotationBetaResource().Schema(context.Background(), resource.SchemaRequest{}, &schemaResp)
+	NewIncidentScheduleRotationResource().Schema(context.Background(), resource.SchemaRequest{}, &schemaResp)
 
 	state := effectiveFrom(t, rotationValue(t, "01SCHED", 1), 90*24*time.Hour)
 	plan := effectiveFrom(t, rotationValue(t, "01OTHERSCHED", 1), 90*24*time.Hour)
 
-	r := &IncidentScheduleRotationBetaResource{resourceConfigurer: withClient(api.start(t))}
+	r := &IncidentScheduleRotationResource{resourceConfigurer: withClient(api.start(t))}
 	resp := resource.ModifyPlanResponse{RequiresReplace: path.Paths{path.Root("schedule_id")}}
 	r.ModifyPlan(context.Background(), resource.ModifyPlanRequest{
 		State: tfsdk.State{Schema: schemaResp.Schema, Raw: state},

@@ -26,56 +26,57 @@ import (
 )
 
 var (
-	_ resource.Resource                   = &IncidentScheduleRotationBetaResource{}
-	_ resource.ResourceWithConfigure      = &IncidentScheduleRotationBetaResource{}
-	_ resource.ResourceWithImportState    = &IncidentScheduleRotationBetaResource{}
-	_ resource.ResourceWithModifyPlan     = &IncidentScheduleRotationBetaResource{}
-	_ resource.ResourceWithValidateConfig = &IncidentScheduleRotationBetaResource{}
+	_ resource.Resource                   = &IncidentScheduleRotationResource{}
+	_ resource.ResourceWithConfigure      = &IncidentScheduleRotationResource{}
+	_ resource.ResourceWithImportState    = &IncidentScheduleRotationResource{}
+	_ resource.ResourceWithMoveState      = &IncidentScheduleRotationResource{}
+	_ resource.ResourceWithModifyPlan     = &IncidentScheduleRotationResource{}
+	_ resource.ResourceWithValidateConfig = &IncidentScheduleRotationResource{}
 )
 
 // The strategies the API accepts for introducing a changed line-up.
 var scheduleRotationRollouts = []string{"immediate", "after_current_shift", "after_full_rotation"}
 
-func NewIncidentScheduleRotationBetaResource() resource.Resource {
-	return &IncidentScheduleRotationBetaResource{}
+func NewIncidentScheduleRotationResource() resource.Resource {
+	return &IncidentScheduleRotationResource{}
 }
 
-type IncidentScheduleRotationBetaResource struct {
+type IncidentScheduleRotationResource struct {
 	resourceConfigurer
 }
 
-// IncidentScheduleRotationBetaModel is the Terraform state/plan shape for the resource.
-type IncidentScheduleRotationBetaModel struct {
-	ID                    types.String                                `tfsdk:"id"`
-	ScheduleID            types.String                                `tfsdk:"schedule_id"`
-	Name                  types.String                                `tfsdk:"name"`
-	Users                 []types.String                              `tfsdk:"users"`
-	Handovers             []IncidentScheduleRotationBetaHandover      `tfsdk:"handovers"`
-	FirstIntervalStartsAt timetypes.RFC3339                           `tfsdk:"first_interval_starts_at"`
-	ConcurrentShifts      types.Int64                                 `tfsdk:"concurrent_shifts"`
-	WorkingIntervals      []IncidentScheduleRotationBetaWorkingWindow `tfsdk:"working_intervals"`
-	Rank                  types.Int64                                 `tfsdk:"rank"`
-	SchedulingMode        types.String                                `tfsdk:"scheduling_mode"`
-	Rollout               types.String                                `tfsdk:"rollout"`
-	EffectiveFrom         timetypes.RFC3339                           `tfsdk:"effective_from"`
+// IncidentScheduleRotationModel is the Terraform state/plan shape for the resource.
+type IncidentScheduleRotationModel struct {
+	ID                    types.String                            `tfsdk:"id"`
+	ScheduleID            types.String                            `tfsdk:"schedule_id"`
+	Name                  types.String                            `tfsdk:"name"`
+	Users                 []types.String                          `tfsdk:"users"`
+	Handovers             []IncidentScheduleRotationHandover      `tfsdk:"handovers"`
+	FirstIntervalStartsAt timetypes.RFC3339                       `tfsdk:"first_interval_starts_at"`
+	ConcurrentShifts      types.Int64                             `tfsdk:"concurrent_shifts"`
+	WorkingIntervals      []IncidentScheduleRotationWorkingWindow `tfsdk:"working_intervals"`
+	Rank                  types.Int64                             `tfsdk:"rank"`
+	SchedulingMode        types.String                            `tfsdk:"scheduling_mode"`
+	Rollout               types.String                            `tfsdk:"rollout"`
+	EffectiveFrom         timetypes.RFC3339                       `tfsdk:"effective_from"`
 }
 
-type IncidentScheduleRotationBetaHandover struct {
+type IncidentScheduleRotationHandover struct {
 	Interval     types.Int64  `tfsdk:"interval"`
 	IntervalType types.String `tfsdk:"interval_type"`
 }
 
-type IncidentScheduleRotationBetaWorkingWindow struct {
+type IncidentScheduleRotationWorkingWindow struct {
 	Weekday   types.String `tfsdk:"weekday"`
 	StartTime types.String `tfsdk:"start_time"`
 	EndTime   types.String `tfsdk:"end_time"`
 }
 
-func (r *IncidentScheduleRotationBetaResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_schedule_rotation_beta"
+func (r *IncidentScheduleRotationResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_schedule_rotation"
 }
 
-func (r *IncidentScheduleRotationBetaResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *IncidentScheduleRotationResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		MarkdownDescription: `Manage a rotation on an on-call schedule.
 
@@ -122,15 +123,13 @@ shifts differ in length, ` + "`working_intervals`" + ` is set, or the list of us
 changes. Reach for ` + "`sequential`" + ` when it matters that the running order is
 obvious to the people in it.
 
-## Beta, and what happens next
+## What changed in v7
 
-This resource is in beta. Its schema may still change in ways that are not
-backwards compatible, so pin the provider version if that matters to you.
-
-The plan is for these resources to become the only way to manage schedules. In
-v7.0 they lose the ` + "`_beta`" + ` suffix and ` + "`incident_schedule`" + `, which declares
-its rotations inline, is removed. Until then both work and neither is deprecated.
-See ` + "`incident_schedule_beta`" + ` for how the two differ and how to migrate.`,
+Before v7, rotations were declared inline on the schedule, so a change to one
+rewrote the whole schedule. Each rotation is now its own resource with its own
+lifecycle. See ` + "`incident_schedule`" + ` for what that buys you, and the [v7 migration
+guide](https://registry.terraform.io/providers/incident-io/incident/latest/docs/guides/migrating-to-v7)
+for how to move a configuration across without recreating anything.`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,
@@ -280,7 +279,7 @@ var clockTimePattern = regexp.MustCompile(`^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$`)
 // ever rejects what the API would: being stricter here would fail a config that applies
 // fine, which is worse than leaving the 422 where it already was.
 //
-// It reads attributes one at a time rather than decoding IncidentScheduleRotationBetaModel,
+// It reads attributes one at a time rather than decoding IncidentScheduleRotationModel,
 // because the model holds working_intervals as a slice, which can't represent a
 // list that isn't known yet — decoding a config built from another resource's
 // output would fail here instead of validating.
@@ -290,7 +289,7 @@ var clockTimePattern = regexp.MustCompile(`^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$`)
 // not send someone round the loop twice. For the same reason each value is guarded
 // before it's judged — unknown is not null, and treating it as a value would reject a
 // config that's fine.
-func (r *IncidentScheduleRotationBetaResource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
+func (r *IncidentScheduleRotationResource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
 	r.validateName(ctx, req, resp)
 	r.validateUsers(ctx, req, resp)
 	r.validateHandovers(ctx, req, resp)
@@ -304,7 +303,7 @@ func (r *IncidentScheduleRotationBetaResource) ValidateConfig(ctx context.Contex
 // validateName rejects a blank name. Required only makes Terraform insist the attribute
 // is set, and the API has no minimum length, so an empty string gets all the way to the
 // domain before anything objects.
-func (r *IncidentScheduleRotationBetaResource) validateName(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
+func (r *IncidentScheduleRotationResource) validateName(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
 	namePath := path.Root("name")
 
 	var name types.String
@@ -328,7 +327,7 @@ func (r *IncidentScheduleRotationBetaResource) validateName(ctx context.Context,
 // validateUsers rejects a rotation with nobody in it. This is the only place the mistake
 // surfaces: the API accepts an empty list, and the renderer then schedules "NOBODY"
 // rather than failing, so the rotation applies cleanly and pages no one.
-func (r *IncidentScheduleRotationBetaResource) validateUsers(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
+func (r *IncidentScheduleRotationResource) validateUsers(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
 	usersPath := path.Root("users")
 
 	var users types.List
@@ -352,7 +351,7 @@ func (r *IncidentScheduleRotationBetaResource) validateUsers(ctx context.Context
 
 // validateHandovers checks the cadence shifts change hands on: at least one, a recognised
 // interval type, and a repeat the domain allows for that type.
-func (r *IncidentScheduleRotationBetaResource) validateHandovers(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
+func (r *IncidentScheduleRotationResource) validateHandovers(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
 	handoversPath := path.Root("handovers")
 
 	var handovers types.List
@@ -411,7 +410,7 @@ func (r *IncidentScheduleRotationBetaResource) validateHandovers(ctx context.Con
 //
 // Omitting working_intervals is how you say "on call around the clock", so an empty list
 // is someone reaching for that and getting a rotation nobody is ever on call for.
-func (r *IncidentScheduleRotationBetaResource) validateWorkingIntervals(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
+func (r *IncidentScheduleRotationResource) validateWorkingIntervals(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
 	intervalsPath := path.Root("working_intervals")
 
 	var intervals types.List
@@ -515,7 +514,7 @@ func (r *IncidentScheduleRotationBetaResource) validateWorkingIntervals(ctx cont
 
 // validateConcurrentShifts mirrors the bounds on the API. The attribute is required, so
 // the only way to get it wrong is a number out of range.
-func (r *IncidentScheduleRotationBetaResource) validateConcurrentShifts(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
+func (r *IncidentScheduleRotationResource) validateConcurrentShifts(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
 	shiftsPath := path.Root("concurrent_shifts")
 
 	var shifts types.Int64
@@ -537,7 +536,7 @@ func (r *IncidentScheduleRotationBetaResource) validateConcurrentShifts(ctx cont
 // validateRank mirrors the API's lower bound. Rank counts from one, and zero is how the
 // config records a rotation that has never been ordered, so it isn't something to ask for
 // — leave the attribute out instead.
-func (r *IncidentScheduleRotationBetaResource) validateRank(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
+func (r *IncidentScheduleRotationResource) validateRank(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
 	rankPath := path.Root("rank")
 
 	var rank types.Int64
@@ -557,7 +556,7 @@ func (r *IncidentScheduleRotationBetaResource) validateRank(ctx context.Context,
 }
 
 // validateRollout rejects a strategy the API doesn't offer.
-func (r *IncidentScheduleRotationBetaResource) validateRollout(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
+func (r *IncidentScheduleRotationResource) validateRollout(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
 	rolloutPath := path.Root("rollout")
 
 	var rollout types.String
@@ -578,7 +577,7 @@ func (r *IncidentScheduleRotationBetaResource) validateRollout(ctx context.Conte
 }
 
 // validateSchedulingMode rejects an allocation strategy the API doesn't offer.
-func (r *IncidentScheduleRotationBetaResource) validateSchedulingMode(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
+func (r *IncidentScheduleRotationResource) validateSchedulingMode(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
 	modePath := path.Root("scheduling_mode")
 
 	var mode types.String
@@ -622,7 +621,7 @@ func clockTimeMinutes(value string) (int, bool) {
 // Overrides come first so that a change which both strands overrides and can't be
 // planned still says what it would cost, rather than reporting only the second
 // problem and leaving the first to be discovered after the apply.
-func (r *IncidentScheduleRotationBetaResource) ModifyPlan(ctx context.Context, req resource.ModifyPlanRequest, resp *resource.ModifyPlanResponse) {
+func (r *IncidentScheduleRotationResource) ModifyPlan(ctx context.Context, req resource.ModifyPlanRequest, resp *resource.ModifyPlanResponse) {
 	r.warnStrandedOverrides(ctx, req, resp)
 	r.warnSupersededChange(ctx, req, resp)
 	r.planEffectiveFrom(ctx, req, resp)
@@ -631,7 +630,7 @@ func (r *IncidentScheduleRotationBetaResource) ModifyPlan(ctx context.Context, r
 // warnSupersededChange says so when an edit lands on a change that was already
 // scheduled — a rotation holds at most one. Easy to walk into after an import, since we
 // report the scheduled shape rather than the line-up on call.
-func (r *IncidentScheduleRotationBetaResource) warnSupersededChange(ctx context.Context, req resource.ModifyPlanRequest, resp *resource.ModifyPlanResponse) {
+func (r *IncidentScheduleRotationResource) warnSupersededChange(ctx context.Context, req resource.ModifyPlanRequest, resp *resource.ModifyPlanResponse) {
 	// A create has nothing scheduled, and a destroy or replace takes the whole rotation
 	// with its scheduled change — the override warning is what matters there.
 	if req.State.Raw.IsNull() || req.Plan.Raw.IsNull() || len(resp.RequiresReplace) > 0 {
@@ -643,7 +642,7 @@ func (r *IncidentScheduleRotationBetaResource) warnSupersededChange(ctx context.
 		return
 	}
 
-	var state, plan IncidentScheduleRotationBetaModel
+	var state, plan IncidentScheduleRotationModel
 	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &plan)...)
 	if resp.Diagnostics.HasError() || state.EffectiveFrom.IsNull() || state.EffectiveFrom.IsUnknown() {
@@ -688,7 +687,7 @@ func (r *IncidentScheduleRotationBetaResource) warnSupersededChange(ctx context.
 // and hand the answer back on apply — which refuses the write if the schedule has
 // moved on since. A plan someone sat on then fails rather than quietly landing the
 // change at a time they never saw.
-func (r *IncidentScheduleRotationBetaResource) planEffectiveFrom(ctx context.Context, req resource.ModifyPlanRequest, resp *resource.ModifyPlanResponse) {
+func (r *IncidentScheduleRotationResource) planEffectiveFrom(ctx context.Context, req resource.ModifyPlanRequest, resp *resource.ModifyPlanResponse) {
 	// A rotation being destroyed, created or replaced has no shift to protect, so it
 	// takes effect immediately whatever the config asked for.
 	if r.client == nil || req.Plan.Raw.IsNull() || req.State.Raw.IsNull() || len(resp.RequiresReplace) > 0 {
@@ -709,7 +708,7 @@ func (r *IncidentScheduleRotationBetaResource) planEffectiveFrom(ctx context.Con
 		return
 	}
 
-	var plan, state IncidentScheduleRotationBetaModel
+	var plan, state IncidentScheduleRotationModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &plan)...)
 	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
 	if resp.Diagnostics.HasError() || !rotationLineUpDiffers(plan, state) {
@@ -761,7 +760,7 @@ func (r *IncidentScheduleRotationBetaResource) planEffectiveFrom(ctx context.Con
 				"Apply the first_interval_starts_at change on its own with rollout unset, then "+
 				"make the line-up change with rollout set. Or drop rollout from this change, if "+
 				"replacing the line-up straight away is acceptable.\n\n"+
-				"See \"Changing when shifts hand over\" in the incident_schedule_rotation_beta "+
+				"See \"Changing when shifts hand over\" in the incident_schedule_rotation "+
 				"documentation for why.",
 		)
 		return
@@ -784,14 +783,14 @@ const overrideLookupPageSize = 250
 // Only a change that actually loses layers asks the API anything. Layer IDs survive
 // every other edit — a rename, a different set of users, a new handover cadence — so
 // their overrides keep applying, and planning an unchanged rotation costs no calls.
-func (r *IncidentScheduleRotationBetaResource) warnStrandedOverrides(ctx context.Context, req resource.ModifyPlanRequest, resp *resource.ModifyPlanResponse) {
+func (r *IncidentScheduleRotationResource) warnStrandedOverrides(ctx context.Context, req resource.ModifyPlanRequest, resp *resource.ModifyPlanResponse) {
 	// A rotation being created has no overrides yet, and Configure hasn't run when
 	// Terraform is only validating the configuration.
 	if req.State.Raw.IsNull() || r.client == nil {
 		return
 	}
 
-	var state IncidentScheduleRotationBetaModel
+	var state IncidentScheduleRotationModel
 	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -808,7 +807,7 @@ func (r *IncidentScheduleRotationBetaResource) warnStrandedOverrides(ctx context
 		return
 	}
 
-	var plan IncidentScheduleRotationBetaModel
+	var plan IncidentScheduleRotationModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &plan)...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -880,10 +879,10 @@ func (r *IncidentScheduleRotationBetaResource) warnStrandedOverrides(ctx context
 // warnLostOverrides counts the overrides the change costs and, when there are any,
 // attaches detail as a plan warning. attribute names the attribute at fault, or is nil
 // when the whole resource is (a destroy has no plan to point into).
-func (r *IncidentScheduleRotationBetaResource) warnLostOverrides(
+func (r *IncidentScheduleRotationResource) warnLostOverrides(
 	ctx context.Context,
 	resp *resource.ModifyPlanResponse,
-	state IncidentScheduleRotationBetaModel,
+	state IncidentScheduleRotationModel,
 	layerIDs map[string]bool,
 	attribute *path.Path,
 	detail func(count string) string,
@@ -917,7 +916,7 @@ func (r *IncidentScheduleRotationBetaResource) warnLostOverrides(
 // which are the ones somebody would notice losing — a past override has already had
 // whatever effect it was going to have. layerIDs narrows it to overrides on those
 // layers; a nil map counts the whole rotation.
-func (r *IncidentScheduleRotationBetaResource) countAffectedOverrides(
+func (r *IncidentScheduleRotationResource) countAffectedOverrides(
 	ctx context.Context, scheduleID, rotationID string, layerIDs map[string]bool,
 ) (int, error) {
 	var (
@@ -963,7 +962,7 @@ func (r *IncidentScheduleRotationBetaResource) countAffectedOverrides(
 // warnCheckSkipped says the override check didn't run. It's a warning rather than an
 // error because the apply doesn't depend on it: failing the plan would turn a broken
 // advisory lookup into an outage for anyone editing a schedule.
-func (r *IncidentScheduleRotationBetaResource) warnCheckSkipped(
+func (r *IncidentScheduleRotationResource) warnCheckSkipped(
 	resp *resource.ModifyPlanResponse, err error, result *client.SchedulesV3ShowRotationResponse,
 ) {
 	detail := "unknown error"
@@ -991,8 +990,8 @@ func describeOverrideCount(count int) string {
 	return fmt.Sprintf("%d active or upcoming overrides", count)
 }
 
-func (r *IncidentScheduleRotationBetaResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	var data IncidentScheduleRotationBetaModel
+func (r *IncidentScheduleRotationResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+	var data IncidentScheduleRotationModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -1033,12 +1032,12 @@ func (r *IncidentScheduleRotationBetaResource) Create(ctx context.Context, req r
 		return
 	}
 
-	resp.Diagnostics.Append(resp.State.Set(ctx, incidentScheduleRotationBetaFromAPI(result.JSON201.Rotation, data,
+	resp.Diagnostics.Append(resp.State.Set(ctx, incidentScheduleRotationFromAPI(result.JSON201.Rotation, data,
 		r.scheduleTimezone(ctx, data.ScheduleID.ValueString())))...)
 }
 
-func (r *IncidentScheduleRotationBetaResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	var data IncidentScheduleRotationBetaModel
+func (r *IncidentScheduleRotationResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+	var data IncidentScheduleRotationModel
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -1063,12 +1062,12 @@ func (r *IncidentScheduleRotationBetaResource) Read(ctx context.Context, req res
 		return
 	}
 
-	resp.Diagnostics.Append(resp.State.Set(ctx, incidentScheduleRotationBetaFromAPI(result.JSON200.Rotation, data,
+	resp.Diagnostics.Append(resp.State.Set(ctx, incidentScheduleRotationFromAPI(result.JSON200.Rotation, data,
 		r.scheduleTimezone(ctx, data.ScheduleID.ValueString())))...)
 }
 
-func (r *IncidentScheduleRotationBetaResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var plan, state IncidentScheduleRotationBetaModel
+func (r *IncidentScheduleRotationResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	var plan, state IncidentScheduleRotationModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &plan)...)
 	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
 	if resp.Diagnostics.HasError() {
@@ -1122,12 +1121,12 @@ func (r *IncidentScheduleRotationBetaResource) Update(ctx context.Context, req r
 		return
 	}
 
-	resp.Diagnostics.Append(resp.State.Set(ctx, incidentScheduleRotationBetaFromAPI(result.JSON200.Rotation, plan,
+	resp.Diagnostics.Append(resp.State.Set(ctx, incidentScheduleRotationFromAPI(result.JSON200.Rotation, plan,
 		r.scheduleTimezone(ctx, state.ScheduleID.ValueString())))...)
 }
 
-func (r *IncidentScheduleRotationBetaResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var data IncidentScheduleRotationBetaModel
+func (r *IncidentScheduleRotationResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	var data IncidentScheduleRotationModel
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -1142,7 +1141,7 @@ func (r *IncidentScheduleRotationBetaResource) Delete(ctx context.Context, req r
 
 // ImportState takes "<schedule_id>:<rotation_id>", since a rotation is only
 // addressable through the schedule that holds it.
-func (r *IncidentScheduleRotationBetaResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+func (r *IncidentScheduleRotationResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	scheduleID, rotationID, found := strings.Cut(req.ID, ":")
 	if !found || scheduleID == "" || rotationID == "" {
 		resp.Diagnostics.AddError(
@@ -1156,6 +1155,20 @@ func (r *IncidentScheduleRotationBetaResource) ImportState(ctx context.Context, 
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), rotationID)...)
 }
 
+// MoveState takes the state of a `incident_schedule_rotation_beta`, which is the name this
+// resource went by before v7. The schema is the same one, so a `moved` block is
+// all it takes to bring a rotation across:
+//
+//	moved {
+//	  from = incident_schedule_rotation_beta.primary
+//	  to   = incident_schedule_rotation.primary
+//	}
+func (r *IncidentScheduleRotationResource) MoveState(ctx context.Context) []resource.StateMover {
+	return []resource.StateMover{
+		renameStateMover("incident_schedule_rotation_beta", declaredResourceSchema(ctx, r)),
+	}
+}
+
 func toUserReferences(users []types.String) []client.UserReferencePayloadV2 {
 	references := make([]client.UserReferencePayloadV2, len(users))
 	for i, user := range users {
@@ -1164,7 +1177,7 @@ func toUserReferences(users []types.String) []client.UserReferencePayloadV2 {
 	return references
 }
 
-func toHandoversPayload(handovers []IncidentScheduleRotationBetaHandover) []client.ScheduleRotationHandoverV2 {
+func toHandoversPayload(handovers []IncidentScheduleRotationHandover) []client.ScheduleRotationHandoverV2 {
 	payload := make([]client.ScheduleRotationHandoverV2, len(handovers))
 	for i, handover := range handovers {
 		payload[i] = client.ScheduleRotationHandoverV2{
@@ -1178,7 +1191,7 @@ func toHandoversPayload(handovers []IncidentScheduleRotationBetaHandover) []clie
 // toWorkingIntervalsPayload returns an empty list rather than nil when the
 // attribute is unset, because omitting it tells the API to leave the current
 // windows alone — which would strand a rotation on hours removed from the config.
-func toWorkingIntervalsPayload(windows []IncidentScheduleRotationBetaWorkingWindow) *[]client.ScheduleRotationWorkingIntervalCreatePayloadV2 {
+func toWorkingIntervalsPayload(windows []IncidentScheduleRotationWorkingWindow) *[]client.ScheduleRotationWorkingIntervalCreatePayloadV2 {
 	payload := make([]client.ScheduleRotationWorkingIntervalCreatePayloadV2, len(windows))
 	for i, window := range windows {
 		payload[i] = client.ScheduleRotationWorkingIntervalCreatePayloadV2{
@@ -1190,7 +1203,7 @@ func toWorkingIntervalsPayload(windows []IncidentScheduleRotationBetaWorkingWind
 	return &payload
 }
 
-func rotationUpdatePayload(data IncidentScheduleRotationBetaModel, startsAt time.Time) client.ScheduleRotationUpdatePayloadV3 {
+func rotationUpdatePayload(data IncidentScheduleRotationModel, startsAt time.Time) client.ScheduleRotationUpdatePayloadV3 {
 	payload := client.ScheduleRotationUpdatePayloadV3{
 		Name:      data.Name.ValueString(),
 		Users:     toUserReferences(data.Users),
@@ -1216,7 +1229,7 @@ func rotationUpdatePayload(data IncidentScheduleRotationBetaModel, startsAt time
 
 // rotationInputsKnown reports whether the attributes describing the line-up have
 // settled. One taken from a resource this apply hasn't created yet is unknown at
-// plan time, which is a value IncidentScheduleRotationBetaModel has no way to hold — so this
+// plan time, which is a value IncidentScheduleRotationModel has no way to hold — so this
 // reads the plan's raw attributes rather than decoding it.
 func rotationInputsKnown(plan tftypes.Value) bool {
 	var attributes map[string]tftypes.Value
@@ -1249,7 +1262,7 @@ func rotationInputsKnown(plan tftypes.Value) bool {
 // rotation with uneven handovers or working intervals — the rotations someone would
 // set it on at all — changing it can move who is on call, which is the thing a
 // rollout exists to hold back.
-func rotationLineUpDiffers(plan, state IncidentScheduleRotationBetaModel) bool {
+func rotationLineUpDiffers(plan, state IncidentScheduleRotationModel) bool {
 	return !plan.ConcurrentShifts.Equal(state.ConcurrentShifts) ||
 		!plan.SchedulingMode.Equal(state.SchedulingMode) ||
 		!reflect.DeepEqual(plan.Users, state.Users) ||
@@ -1306,7 +1319,7 @@ func anchorToState(rotation client.ScheduleRotationV3, config timetypes.RFC3339,
 //
 // An empty return means it couldn't be resolved, which callers treat as "can't judge
 // the anchor" rather than failing the whole operation over it.
-func (r *IncidentScheduleRotationBetaResource) scheduleTimezone(ctx context.Context, scheduleID string) string {
+func (r *IncidentScheduleRotationResource) scheduleTimezone(ctx context.Context, scheduleID string) string {
 	result, err := r.client.SchedulesV3ShowWithResponse(ctx, scheduleID)
 	if err != nil || result.JSON200 == nil {
 		return ""
@@ -1351,18 +1364,18 @@ func sameHandoverSlot(a, b time.Time, intervalType, timezone string) bool {
 	}
 }
 
-// incidentScheduleRotationBetaFromAPI projects an API rotation into Terraform state. config is
+// incidentScheduleRotationFromAPI projects an API rotation into Terraform state. config is
 // whatever the plan or prior state held, which is needed to tell an unset rank apart
 // from one the server happens to hold, and to keep the config's timestamp spelling.
-func incidentScheduleRotationBetaFromAPI(rotation client.ScheduleRotationV3, config IncidentScheduleRotationBetaModel, timezone string) *IncidentScheduleRotationBetaModel {
+func incidentScheduleRotationFromAPI(rotation client.ScheduleRotationV3, config IncidentScheduleRotationModel, timezone string) *IncidentScheduleRotationModel {
 	users := make([]types.String, len(rotation.Users))
 	for i, user := range rotation.Users {
 		users[i] = types.StringValue(user.Id)
 	}
 
-	handovers := make([]IncidentScheduleRotationBetaHandover, len(rotation.Handovers))
+	handovers := make([]IncidentScheduleRotationHandover, len(rotation.Handovers))
 	for i, handover := range rotation.Handovers {
-		handovers[i] = IncidentScheduleRotationBetaHandover{
+		handovers[i] = IncidentScheduleRotationHandover{
 			Interval:     types.Int64Value(handover.Interval),
 			IntervalType: types.StringValue(string(handover.IntervalType)),
 		}
@@ -1370,11 +1383,11 @@ func incidentScheduleRotationBetaFromAPI(rotation client.ScheduleRotationV3, con
 
 	// The API sends an empty list for a rotation with no restrictions, which config
 	// expresses by omitting the attribute — so storing [] would diff on every plan.
-	var windows []IncidentScheduleRotationBetaWorkingWindow
+	var windows []IncidentScheduleRotationWorkingWindow
 	if rotation.WorkingIntervals != nil && len(*rotation.WorkingIntervals) > 0 {
-		windows = make([]IncidentScheduleRotationBetaWorkingWindow, len(*rotation.WorkingIntervals))
+		windows = make([]IncidentScheduleRotationWorkingWindow, len(*rotation.WorkingIntervals))
 		for i, window := range *rotation.WorkingIntervals {
-			windows[i] = IncidentScheduleRotationBetaWorkingWindow{
+			windows[i] = IncidentScheduleRotationWorkingWindow{
 				Weekday:   types.StringValue(string(window.Weekday)),
 				StartTime: types.StringValue(window.StartTime),
 				EndTime:   types.StringValue(window.EndTime),
@@ -1396,7 +1409,7 @@ func incidentScheduleRotationBetaFromAPI(rotation client.ScheduleRotationV3, con
 		rank = types.Int64Value(*rotation.Rank)
 	}
 
-	return &IncidentScheduleRotationBetaModel{
+	return &IncidentScheduleRotationModel{
 		ID:                    types.StringValue(rotation.Id),
 		ScheduleID:            types.StringValue(rotation.ScheduleId),
 		Name:                  types.StringValue(rotation.Name),

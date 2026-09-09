@@ -161,34 +161,24 @@ resource "incident_catalog_entry" "terraform" {
 
 # This is the primary schedule that receives pages in working hours.
 resource "incident_schedule" "primary_on_call" {
-  name = {{ quote .ScheduleName }}
+  name     = {{ quote .ScheduleName }}
   timezone = "Europe/London"
-  rotations = [{
-    id   = "primary"
-    name = "Primary"
-
-    versions = [
-      {
-        handover_start_at = "2024-05-01T12:00:00Z"
-        users = []
-        layers = [
-          {
-            id   = "primary"
-            name = "Primary"
-          }
-        ]
-        handovers = [
-          {
-            interval_type = "daily"
-            interval      = 1
-          }
-        ]
-      },
-    ]
-  }]
-
-  # Teams that use this schedule
   team_ids = [incident_catalog_entry.terraform.id]
+}
+
+resource "incident_schedule_rotation" "primary_on_call" {
+  schedule_id = incident_schedule.primary_on_call.id
+  name        = "Primary"
+
+  # NOBODY is how a rotation with nobody in it is spelled now. The old shape
+  # wrote users = [], which this resource rejects at plan time.
+  users = ["NOBODY"]
+
+  first_interval_starts_at = "2024-05-01T12:00:00Z"
+  handovers = [{
+    interval_type = "daily"
+    interval      = 1
+  }]
 }
 
 # If in working hours, send high-urgency alerts. Otherwise use low-urgency.
@@ -419,19 +409,22 @@ func testAccIncidentEscalationPathNestedConfig(ifElseLevels int) string {
 resource "incident_schedule" "primary_on_call" {
   name     = %[2]q
   timezone = "Europe/London"
-  rotations = [{
-    id   = "primary"
-    name = "Primary"
-    versions = [
-      {
-        handover_start_at = "2024-05-01T12:00:00Z"
-        users             = []
-        layers            = [{ id = "primary", name = "Primary" }]
-        handovers         = [{ interval_type = "daily", interval = 1 }]
-      },
-    ]
-  }]
   team_ids = []
+}
+
+resource "incident_schedule_rotation" "primary_on_call" {
+  schedule_id = incident_schedule.primary_on_call.id
+  name        = "Primary"
+
+  # NOBODY is how a rotation with nobody in it is spelled now. The old shape
+  # wrote users = [], which this resource rejects at plan time.
+  users = ["NOBODY"]
+
+  first_interval_starts_at = "2024-05-01T12:00:00Z"
+  handovers = [{
+    interval_type = "daily"
+    interval      = 1
+  }]
 }
 
 resource "incident_escalation_path" "example" {
@@ -522,23 +515,22 @@ resource "incident_catalog_entry" "terraform_rota_modes" {
 resource "incident_schedule" "rota_modes" {
   name     = %[2]q
   timezone = "Europe/London"
-  rotations = [{
-    id   = "primary"
-    name = "Primary"
-    versions = [{
-      handover_start_at = "2024-05-01T12:00:00Z"
-      users             = []
-      layers = [{
-        id   = "primary"
-        name = "Primary"
-      }]
-      handovers = [{
-        interval_type = "daily"
-        interval      = 1
-      }]
-    }]
-  }]
   team_ids = [incident_catalog_entry.terraform_rota_modes.id]
+}
+
+resource "incident_schedule_rotation" "rota_modes" {
+  schedule_id = incident_schedule.rota_modes.id
+  name        = "Primary"
+
+  # NOBODY is how a rotation with nobody in it is spelled now. The old shape
+  # wrote users = [], which this resource rejects at plan time.
+  users = ["NOBODY"]
+
+  first_interval_starts_at = "2024-05-01T12:00:00Z"
+  handovers = [{
+    interval_type = "daily"
+    interval      = 1
+  }]
 }
 
 resource "incident_escalation_path" "rota_modes" {
@@ -616,23 +608,22 @@ resource "incident_catalog_entry" "terraform_retries" {
 resource "incident_schedule" "retries" {
   name     = %[2]q
   timezone = "Europe/London"
-  rotations = [{
-    id   = "primary"
-    name = "Primary"
-    versions = [{
-      handover_start_at = "2024-05-01T12:00:00Z"
-      users             = []
-      layers = [{
-        id   = "primary"
-        name = "Primary"
-      }]
-      handovers = [{
-        interval_type = "daily"
-        interval      = 1
-      }]
-    }]
-  }]
   team_ids = [incident_catalog_entry.terraform_retries.id]
+}
+
+resource "incident_schedule_rotation" "retries" {
+  schedule_id = incident_schedule.retries.id
+  name        = "Primary"
+
+  # NOBODY is how a rotation with nobody in it is spelled now. The old shape
+  # wrote users = [], which this resource rejects at plan time.
+  users = ["NOBODY"]
+
+  first_interval_starts_at = "2024-05-01T12:00:00Z"
+  handovers = [{
+    interval_type = "daily"
+    interval      = 1
+  }]
 }
 
 resource "incident_escalation_path" "retries" {
@@ -852,23 +843,22 @@ resource "incident_catalog_entry" "terraform_unknown_values" {
 resource "incident_schedule" "unknown_values" {
   name     = %[2]q
   timezone = "Europe/London"
-  rotations = [{
-    id   = "primary"
-    name = "Primary"
-    versions = [{
-      handover_start_at = "2024-05-01T12:00:00Z"
-      users             = []
-      layers = [{
-        id   = "primary"
-        name = "Primary"
-      }]
-      handovers = [{
-        interval_type = "daily"
-        interval      = 1
-      }]
-    }]
-  }]
   team_ids = [incident_catalog_entry.terraform_unknown_values.id]
+}
+
+resource "incident_schedule_rotation" "unknown_values" {
+  schedule_id = incident_schedule.unknown_values.id
+  name        = "Primary"
+
+  # NOBODY is how a rotation with nobody in it is spelled now. The old shape
+  # wrote users = [], which this resource rejects at plan time.
+  users = ["NOBODY"]
+
+  first_interval_starts_at = "2024-05-01T12:00:00Z"
+  handovers = [{
+    interval_type = "daily"
+    interval      = 1
+  }]
 }
 
 # Mirrors the customer's local.path_templates[var.path_template]: the path is
@@ -986,23 +976,22 @@ resource "incident_catalog_entry" "terraform_reassignment" {
 resource "incident_schedule" "reassignment" {
   name     = %[2]q
   timezone = "Europe/London"
-  rotations = [{
-    id   = "primary"
-    name = "Primary"
-    versions = [{
-      handover_start_at = "2024-05-01T12:00:00Z"
-      users             = []
-      layers = [{
-        id   = "primary"
-        name = "Primary"
-      }]
-      handovers = [{
-        interval_type = "daily"
-        interval      = 1
-      }]
-    }]
-  }]
   team_ids = [incident_catalog_entry.terraform_reassignment.id]
+}
+
+resource "incident_schedule_rotation" "reassignment" {
+  schedule_id = incident_schedule.reassignment.id
+  name        = "Primary"
+
+  # NOBODY is how a rotation with nobody in it is spelled now. The old shape
+  # wrote users = [], which this resource rejects at plan time.
+  users = ["NOBODY"]
+
+  first_interval_starts_at = "2024-05-01T12:00:00Z"
+  handovers = [{
+    interval_type = "daily"
+    interval      = 1
+  }]
 }
 
 # The path the reassignment hands over to. It continues from this path's first node.

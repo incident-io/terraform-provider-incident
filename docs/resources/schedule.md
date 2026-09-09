@@ -3,115 +3,77 @@
 page_title: "incident_schedule Resource - terraform-provider-incident"
 subcategory: ""
 description: |-
-  View and manage schedules.
-  Manage your full schedule of on-call rotations, including the users and rotation configuration.
-  We'd generally recommend building schedules in our web dashboard https://app.incident.io/~/on-call/schedules, and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing schedule and copy the resulting Terraform without persisting it.
+  Manage an on-call schedule.
+  A schedule holds the rotations that decide who is on call. This resource manages
+  only the schedule itself — its name, timezone, owning teams and public holidays.
+  Rotations are managed separately, as incident_schedule_rotation, so
+  adding or editing one never means rewriting the whole schedule.
+  A schedule created here starts with no rotations, and nobody is on call until one
+  is added.
+  What changed in v7
+  Before v7, a schedule and every one of its rotations were declared in a single
+  resource. A change to one rotation rewrote the whole schedule, which is why
+  editing a rotation could disturb who was on call elsewhere on it, or drop
+  overrides attached to a shift.
+  Splitting the two apart confines a change to the rotation you edited, and brings
+  controls the old shape had no way to express: rollout decides when a
+  changed line-up takes over rather than swapping it under whoever is on call right
+  now, scheduling_mode decides how people are allocated across shifts of
+  differing length, and working_intervals restricts a rotation to given hours.
+  Moving a configuration across is not a rename, because one old resource becomes
+  one schedule plus one incident_schedule_rotation per rotation. Import the
+  schedule and each of its rotations by ID rather than recreating them, so nobody's
+  on-call history is disturbed - the v7 migration
+  guide https://registry.terraform.io/providers/incident-io/incident/latest/docs/guides/migrating-to-v7
+  has the field-by-field mapping and the import IDs.
 ---
 
 # incident_schedule (Resource)
 
-View and manage schedules.
-Manage your full schedule of on-call rotations, including the users and rotation configuration.
+Manage an on-call schedule.
 
+A schedule holds the rotations that decide who is on call. This resource manages
+only the schedule itself — its name, timezone, owning teams and public holidays.
+Rotations are managed separately, as `incident_schedule_rotation`, so
+adding or editing one never means rewriting the whole schedule.
 
-We'd generally recommend building schedules in our [web dashboard](https://app.incident.io/~/on-call/schedules), and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing schedule and copy the resulting Terraform without persisting it.
+A schedule created here starts with no rotations, and nobody is on call until one
+is added.
+
+## What changed in v7
+
+Before v7, a schedule and every one of its rotations were declared in a single
+resource. A change to one rotation rewrote the whole schedule, which is why
+editing a rotation could disturb who was on call elsewhere on it, or drop
+overrides attached to a shift.
+
+Splitting the two apart confines a change to the rotation you edited, and brings
+controls the old shape had no way to express: `rollout` decides when a
+changed line-up takes over rather than swapping it under whoever is on call right
+now, `scheduling_mode` decides how people are allocated across shifts of
+differing length, and `working_intervals` restricts a rotation to given hours.
+
+Moving a configuration across is not a rename, because one old resource becomes
+one schedule plus one `incident_schedule_rotation` per rotation. Import the
+schedule and each of its rotations by ID rather than recreating them, so nobody's
+on-call history is disturbed - the [v7 migration
+guide](https://registry.terraform.io/providers/incident-io/incident/latest/docs/guides/migrating-to-v7)
+has the field-by-field mapping and the import IDs.
 
 ## Example Usage
 
 ```terraform
-data "incident_user" "rory" {
-  id = "01HPFH8T92MPGSQS5C1SPAF4V0"
-}
-
-data "incident_user" "martha" {
-  slack_user_id = "U01HJ1J2Z6Z"
-}
-
-# This allows lookups by email, slack user ID, or user ID
-data "incident_user" "roryb" {
-  email = "rory@incident.io"
-}
-
-# This is exportable from the incident.io dashboard as a Terraform configuration
-resource "incident_schedule" "primary_on_call" {
-  name = "Primary On-call"
-
-  # This is a valid value from the tz database
-  # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+# A schedule holds the rotations that decide who is on call. This resource covers
+# the schedule itself; rotations are managed separately, so a schedule created
+# here has none and nobody is on call until one is added.
+resource "incident_schedule" "platform" {
+  name     = "Platform on-call"
   timezone = "Europe/London"
 
-  rotations = [{
-    // A string ID for a schedule rotation, user provided
-    id   = "testing-terraform"
-    name = "Testing Terraform"
-    versions = [
-      {
-        # The date that the handover for this rotation version began
-        # Expects an RFC3339 formatted string
-        handover_start_at = "2024-05-01T12:54:13Z"
+  # Optional: teams that own this schedule.
+  team_ids = [data.incident_catalog_entry.platform_team.id]
 
-        # Reference the data sources for the users
-        users = [
-          data.incident_user.martha.id,
-        ]
-
-        # The number of concurrent users that can be on-call at the same time for a given
-        # rotation.
-        layers = [
-          {
-            // A string ID for a layer, to be shared across versions if required
-            id   = "primary"
-            name = "Primary"
-          }
-        ]
-
-        handovers = [
-          {
-            # Allowed values are 'daily' and 'weekly' and 'hourly'
-            interval_type = "daily"
-            interval      = 1
-          }
-        ]
-      },
-      {
-        # The date that a schedule rotation version came into effect
-        # Expects an RFC3339 formatted string
-        effective_from = "2024-05-14T12:54:13Z"
-
-        # Expects an RFC3339 formatted string
-        # Used to adjust the handover interval candence
-        # for example, 'changes every week, from the tuesday of that week'
-        handover_start_at = "2024-05-01T12:54:13Z"
-
-        # Reference the data sources for the users
-        users = [
-          data.incident_user.martha.id,
-          data.incident_user.rory.id,
-        ]
-
-        # The number of concurrent users that can be on-call at the same time for a given
-        # rotation.
-        layers = [
-          {
-            // A string ID for a layer, to be shared across versions if required
-            id   = "primary"
-            name = "Primary"
-          }
-        ]
-
-        # A list of handover intervals, can be used to construct 'changes every week, then every 3 days, then every week'
-        handovers = [
-          {
-            # Allowed values are 'daily' and 'weekly' and 'hourly'
-            interval_type = "weekly"
-            interval      = 1
-          }
-        ]
-      },
-    ]
-  }]
-
-  # If you want to show a country's public holidays on your schedule, use a list of alpha-2 country codes.
+  # Optional: public holidays to show on the schedule.
   holidays_public_config = {
     country_codes = ["GB", "FR"]
   }
@@ -123,72 +85,17 @@ resource "incident_schedule" "primary_on_call" {
 
 ### Required
 
-- `name` (String) Human readable name synced from external provider
-- `rotations` (Attributes Set) (see [below for nested schema](#nestedatt--rotations))
-- `timezone` (String)
+- `name` (String) Human readable name for the schedule
+- `timezone` (String) Timezone the schedule's rotations are anchored to, as an IANA name. Changing this replaces the schedule: a timezone is what its rotations are anchored to, and we don't support moving an existing schedule to another one.
 
 ### Optional
 
-- `holidays_public_config` (Attributes) (see [below for nested schema](#nestedatt--holidays_public_config))
+- `holidays_public_config` (Attributes) Public holidays to show on this schedule. Omit the block entirely to show none. (see [below for nested schema](#nestedatt--holidays_public_config))
 - `team_ids` (Set of String) IDs of teams that own this schedule
 
 ### Read-Only
 
 - `id` (String) Unique internal ID of the schedule
-
-<a id="nestedatt--rotations"></a>
-### Nested Schema for `rotations`
-
-Required:
-
-- `id` (String) Unique internal ID of the rotation
-- `name` (String) Human readable name synced from external provider
-- `versions` (Attributes Set) (see [below for nested schema](#nestedatt--rotations--versions))
-
-<a id="nestedatt--rotations--versions"></a>
-### Nested Schema for `rotations.versions`
-
-Required:
-
-- `handover_start_at` (String) Determines when shifts change hands and who takes them: the first user in `users` comes on shift at this time, handing over to the next user after each `handovers` interval, cycling through the list — for example, weekly handovers from a Monday 09:00 give week-long shifts that change hands on Mondays at 09:00.
-- `handovers` (Attributes List) The cadence shifts hand over on. With more than one entry, the intervals apply in turn — for example, one day then three days produces alternating one-day and three-day shifts. (see [below for nested schema](#nestedatt--rotations--versions--handovers))
-- `layers` (Attributes List) Controls how many people are on-call concurrently (see [below for nested schema](#nestedatt--rotations--versions--layers))
-- `users` (List of String) The incident.io ID of a user
-
-Optional:
-
-- `effective_from` (String) When this version of the rotation takes effect. A rotation can appear multiple times in `rotations` with the same `id`, scheduling changes ahead of time: each version applies from its `effective_from` until the next version's. A rotation's first version has no `effective_from`.
-- `working_intervals` (Attributes List) Optional restrictions that define when to schedule people for this rota (see [below for nested schema](#nestedatt--rotations--versions--working_intervals))
-
-<a id="nestedatt--rotations--versions--handovers"></a>
-### Nested Schema for `rotations.versions.handovers`
-
-Required:
-
-- `interval` (Number)
-- `interval_type` (String) How often a handover occurs. Possible values are: `hourly`, `daily`, `weekly`.
-
-
-<a id="nestedatt--rotations--versions--layers"></a>
-### Nested Schema for `rotations.versions.layers`
-
-Required:
-
-- `id` (String)
-- `name` (String)
-
-
-<a id="nestedatt--rotations--versions--working_intervals"></a>
-### Nested Schema for `rotations.versions.working_intervals`
-
-Required:
-
-- `end_time` (String)
-- `start_time` (String)
-- `weekday` (String) Weekdays for use with a schedule. Possible values are: `monday`, `tuesday`, `wednesday`, `thursday`, `friday`, `saturday`, `sunday`.
-
-
-
 
 <a id="nestedatt--holidays_public_config"></a>
 ### Nested Schema for `holidays_public_config`

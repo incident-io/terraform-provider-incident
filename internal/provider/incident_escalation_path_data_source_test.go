@@ -182,34 +182,24 @@ resource "incident_catalog_entry" "terraform" {
 
 # This is the primary schedule that receives pages in working hours.
 resource "incident_schedule" "primary_on_call" {
-  name = {{ quote .ScheduleName }}
+  name     = {{ quote .ScheduleName }}
   timezone = "Europe/London"
-  rotations = [{
-    id   = "primary"
-    name = "Primary"
-
-    versions = [
-      {
-        handover_start_at = "2024-05-01T12:00:00Z"
-        users = []
-        layers = [
-          {
-            id   = "primary"
-            name = "Primary"
-          }
-        ]
-        handovers = [
-          {
-            interval_type = "daily"
-            interval      = 1
-          }
-        ]
-      },
-    ]
-  }]
-
-  # Teams that use this schedule
   team_ids = [incident_catalog_entry.terraform.id]
+}
+
+resource "incident_schedule_rotation" "primary_on_call" {
+  schedule_id = incident_schedule.primary_on_call.id
+  name        = "Primary"
+
+  # NOBODY is how a rotation with nobody in it is spelled now. The old shape
+  # wrote users = [], which this resource rejects at plan time.
+  users = ["NOBODY"]
+
+  first_interval_starts_at = "2024-05-01T12:00:00Z"
+  handovers = [{
+    interval_type = "daily"
+    interval      = 1
+  }]
 }
 
 # Escalation path resource

@@ -3,43 +3,24 @@
 page_title: "incident_schedule Data Source - terraform-provider-incident"
 subcategory: ""
 description: |-
-  View and manage schedules.
-  Manage your full schedule of on-call rotations, including the users and rotation configuration.
-  Use this data source to retrieve information about an existing schedule.
+  Look up a schedule by id or name. Exactly one lookup field should be set.
 ---
 
 # incident_schedule (Data Source)
 
-View and manage schedules.
-Manage your full schedule of on-call rotations, including the users and rotation configuration.
-
-
-Use this data source to retrieve information about an existing schedule.
+Look up a schedule by `id` or `name`. Exactly one lookup field should be set.
 
 ## Example Usage
 
 ```terraform
-# Reference the incident schedule by its id.
-data "incident_schedule" "by_id" {
-  id = "01HPFH8T92MPGSQS5C1SPAF4V0"
+# Look up a schedule by name...
+data "incident_schedule" "platform" {
+  name = "Platform on-call"
 }
 
-# Reference the incident schedule by its name (case sensitive).
-data "incident_schedule" "by_name" {
-  name = "Primary On-call"
-}
-
-# Output the schedule details
-output "schedule_id" {
-  value = data.incident_schedule.by_name.id
-}
-
-output "schedule_timezone" {
-  value = data.incident_schedule.by_name.timezone
-}
-
-output "schedule_team_ids" {
-  value = data.incident_schedule.by_name.team_ids
+# ...or by ID, which is what you want if several schedules share a name.
+data "incident_schedule" "platform_by_id" {
+  id = "01ABC123DEF456GHI789JKL"
 }
 ```
 
@@ -48,10 +29,10 @@ output "schedule_team_ids" {
 
 ### Optional
 
-- `id` (String) Unique internal ID of the schedule
-- `name` (String) Human readable name synced from external provider
+- `id` (String) Look up the schedule by ID.
+- `name` (String) Look up the schedule by name. Names aren't unique, so this fails if more than one schedule matches.
 
 ### Read-Only
 
 - `team_ids` (Set of String) IDs of teams that own this schedule
-- `timezone` (String) Timezone of the schedule, as interpreted at the point of generating the report
+- `timezone` (String) Timezone the schedule's rotations are anchored to, as an IANA name

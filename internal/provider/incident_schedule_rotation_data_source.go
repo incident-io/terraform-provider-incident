@@ -16,9 +16,9 @@ import (
 )
 
 var (
-	_ datasource.DataSource                   = &IncidentScheduleRotationBetaDataSource{}
-	_ datasource.DataSourceWithConfigure      = &IncidentScheduleRotationBetaDataSource{}
-	_ datasource.DataSourceWithValidateConfig = &IncidentScheduleRotationBetaDataSource{}
+	_ datasource.DataSource                   = &IncidentScheduleRotationDataSource{}
+	_ datasource.DataSourceWithConfigure      = &IncidentScheduleRotationDataSource{}
+	_ datasource.DataSourceWithValidateConfig = &IncidentScheduleRotationDataSource{}
 )
 
 // scheduleRotationLookupPageSize is the page size used when searching a schedule's
@@ -26,33 +26,33 @@ var (
 // single request unless it has an implausible number of rotations.
 const scheduleRotationLookupPageSize = 250
 
-func NewIncidentScheduleRotationBetaDataSource() datasource.DataSource {
-	return &IncidentScheduleRotationBetaDataSource{}
+func NewIncidentScheduleRotationDataSource() datasource.DataSource {
+	return &IncidentScheduleRotationDataSource{}
 }
 
-type IncidentScheduleRotationBetaDataSource struct {
+type IncidentScheduleRotationDataSource struct {
 	dataSourceConfigurer
 }
 
-type IncidentScheduleRotationBetaDataSourceModel struct {
-	ID                    types.String                                `tfsdk:"id"`
-	ScheduleID            types.String                                `tfsdk:"schedule_id"`
-	Name                  types.String                                `tfsdk:"name"`
-	Users                 []types.String                              `tfsdk:"users"`
-	Handovers             []IncidentScheduleRotationBetaHandover      `tfsdk:"handovers"`
-	FirstIntervalStartsAt timetypes.RFC3339                           `tfsdk:"first_interval_starts_at"`
-	ConcurrentShifts      types.Int64                                 `tfsdk:"concurrent_shifts"`
-	WorkingIntervals      []IncidentScheduleRotationBetaWorkingWindow `tfsdk:"working_intervals"`
-	Rank                  types.Int64                                 `tfsdk:"rank"`
-	SchedulingMode        types.String                                `tfsdk:"scheduling_mode"`
-	EffectiveFrom         timetypes.RFC3339                           `tfsdk:"effective_from"`
+type IncidentScheduleRotationDataSourceModel struct {
+	ID                    types.String                            `tfsdk:"id"`
+	ScheduleID            types.String                            `tfsdk:"schedule_id"`
+	Name                  types.String                            `tfsdk:"name"`
+	Users                 []types.String                          `tfsdk:"users"`
+	Handovers             []IncidentScheduleRotationHandover      `tfsdk:"handovers"`
+	FirstIntervalStartsAt timetypes.RFC3339                       `tfsdk:"first_interval_starts_at"`
+	ConcurrentShifts      types.Int64                             `tfsdk:"concurrent_shifts"`
+	WorkingIntervals      []IncidentScheduleRotationWorkingWindow `tfsdk:"working_intervals"`
+	Rank                  types.Int64                             `tfsdk:"rank"`
+	SchedulingMode        types.String                            `tfsdk:"scheduling_mode"`
+	EffectiveFrom         timetypes.RFC3339                       `tfsdk:"effective_from"`
 }
 
-func (d *IncidentScheduleRotationBetaDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_schedule_rotation_beta"
+func (d *IncidentScheduleRotationDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_schedule_rotation"
 }
 
-func (d *IncidentScheduleRotationBetaDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
+func (d *IncidentScheduleRotationDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		MarkdownDescription: "Look up a rotation on a schedule by `id` or `name`. Exactly one lookup field should be set.",
 		Attributes: map[string]schema.Attribute{
@@ -142,7 +142,7 @@ func (d *IncidentScheduleRotationBetaDataSource) Schema(_ context.Context, _ dat
 // ValidateConfig rejects an ambiguous lookup at plan time. Both attributes are
 // Optional and Computed so either can be used, which means setting both would
 // otherwise silently ignore one of them.
-func (d *IncidentScheduleRotationBetaDataSource) ValidateConfig(ctx context.Context, req datasource.ValidateConfigRequest, resp *datasource.ValidateConfigResponse) {
+func (d *IncidentScheduleRotationDataSource) ValidateConfig(ctx context.Context, req datasource.ValidateConfigRequest, resp *datasource.ValidateConfigResponse) {
 	var id, name types.String
 	resp.Diagnostics.Append(req.Config.GetAttribute(ctx, path.Root("id"), &id)...)
 	resp.Diagnostics.Append(req.Config.GetAttribute(ctx, path.Root("name"), &name)...)
@@ -165,8 +165,8 @@ func (d *IncidentScheduleRotationBetaDataSource) ValidateConfig(ctx context.Cont
 	}
 }
 
-func (d *IncidentScheduleRotationBetaDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data IncidentScheduleRotationBetaDataSourceModel
+func (d *IncidentScheduleRotationDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
+	var data IncidentScheduleRotationDataSourceModel
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -199,12 +199,12 @@ func (d *IncidentScheduleRotationBetaDataSource) Read(ctx context.Context, req d
 		return
 	}
 
-	resp.Diagnostics.Append(resp.State.Set(ctx, incidentScheduleRotationBetaDataSourceFromAPI(*rotation))...)
+	resp.Diagnostics.Append(resp.State.Set(ctx, incidentScheduleRotationDataSourceFromAPI(*rotation))...)
 }
 
 // findByName looks through the schedule's rotations for an exact name match. Names
 // are unique within a schedule, so at most one can match.
-func (d *IncidentScheduleRotationBetaDataSource) findByName(ctx context.Context, scheduleID, name string) (*client.ScheduleRotationV3, error) {
+func (d *IncidentScheduleRotationDataSource) findByName(ctx context.Context, scheduleID, name string) (*client.ScheduleRotationV3, error) {
 	var after *string
 
 	for {
@@ -235,24 +235,24 @@ func (d *IncidentScheduleRotationBetaDataSource) findByName(ctx context.Context,
 	return nil, fmt.Errorf("no rotation found named %q on schedule %s", name, scheduleID)
 }
 
-func incidentScheduleRotationBetaDataSourceFromAPI(rotation client.ScheduleRotationV3) *IncidentScheduleRotationBetaDataSourceModel {
+func incidentScheduleRotationDataSourceFromAPI(rotation client.ScheduleRotationV3) *IncidentScheduleRotationDataSourceModel {
 	users := make([]types.String, len(rotation.Users))
 	for i, user := range rotation.Users {
 		users[i] = types.StringValue(user.Id)
 	}
 
-	handovers := make([]IncidentScheduleRotationBetaHandover, len(rotation.Handovers))
+	handovers := make([]IncidentScheduleRotationHandover, len(rotation.Handovers))
 	for i, handover := range rotation.Handovers {
-		handovers[i] = IncidentScheduleRotationBetaHandover{
+		handovers[i] = IncidentScheduleRotationHandover{
 			Interval:     types.Int64Value(handover.Interval),
 			IntervalType: types.StringValue(string(handover.IntervalType)),
 		}
 	}
 
-	windows := []IncidentScheduleRotationBetaWorkingWindow{}
+	windows := []IncidentScheduleRotationWorkingWindow{}
 	if rotation.WorkingIntervals != nil {
 		for _, window := range *rotation.WorkingIntervals {
-			windows = append(windows, IncidentScheduleRotationBetaWorkingWindow{
+			windows = append(windows, IncidentScheduleRotationWorkingWindow{
 				Weekday:   types.StringValue(string(window.Weekday)),
 				StartTime: types.StringValue(window.StartTime),
 				EndTime:   types.StringValue(window.EndTime),
@@ -270,7 +270,7 @@ func incidentScheduleRotationBetaDataSourceFromAPI(rotation client.ScheduleRotat
 		schedulingMode = types.StringValue(string(*rotation.SchedulingMode))
 	}
 
-	return &IncidentScheduleRotationBetaDataSourceModel{
+	return &IncidentScheduleRotationDataSourceModel{
 		ID:                    types.StringValue(rotation.Id),
 		ScheduleID:            types.StringValue(rotation.ScheduleId),
 		Name:                  types.StringValue(rotation.Name),

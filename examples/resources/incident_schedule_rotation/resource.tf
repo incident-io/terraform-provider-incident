@@ -1,7 +1,7 @@
 # A rotation is a group of people who take turns being on call. Each one is managed
 # on its own, so editing this rotation doesn't touch the others on the schedule.
-resource "incident_schedule_rotation_beta" "primary" {
-  schedule_id = incident_schedule_beta.platform.id
+resource "incident_schedule_rotation" "primary" {
+  schedule_id = incident_schedule.platform.id
   name        = "Primary"
 
   # The people in the rotation, in the order they take shifts.
@@ -24,8 +24,8 @@ resource "incident_schedule_rotation_beta" "primary" {
 
 # A rotation that only covers weekday working hours, with two people on call at
 # once and a place in the schedule's running order.
-resource "incident_schedule_rotation_beta" "business_hours" {
-  schedule_id = incident_schedule_beta.platform.id
+resource "incident_schedule_rotation" "business_hours" {
+  schedule_id = incident_schedule.platform.id
   name        = "Business hours"
   rank        = 2
 

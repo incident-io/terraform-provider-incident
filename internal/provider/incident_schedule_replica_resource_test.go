@@ -18,6 +18,12 @@ import (
 //	TF_ACC_REPLICA_PROVIDER          e.g. pagerduty
 //	TF_ACC_REPLICA_PROVIDER_ID       the external schedule ID
 //	TF_ACC_REPLICA_FALLBACK_USER_ID  a user ID in that external provider
+//	TF_ACC_REPLICA_LAYER_ID          a layer ID on the schedule being replicated
+//
+// A replica source names a rotation and a layer within it. Rotations no longer
+// declare their layers - concurrent_shifts replaced them - so the provider has
+// no way to hand a layer ID to this test, and it has to be supplied. See the
+// note on the sources block in the config below.
 func TestAccIncidentScheduleReplicaResource(t *testing.T) {
 	if os.Getenv("TF_ACC_SCHEDULE_REPLICAS") == "" {
 		t.Skip("TF_ACC_SCHEDULE_REPLICAS is not set: skipping test that requires an external on-call integration")
@@ -26,8 +32,9 @@ func TestAccIncidentScheduleReplicaResource(t *testing.T) {
 	replicaProvider := os.Getenv("TF_ACC_REPLICA_PROVIDER")
 	replicaProviderID := os.Getenv("TF_ACC_REPLICA_PROVIDER_ID")
 	fallbackUserID := os.Getenv("TF_ACC_REPLICA_FALLBACK_USER_ID")
-	if replicaProvider == "" || replicaProviderID == "" || fallbackUserID == "" {
-		t.Fatal("TF_ACC_REPLICA_PROVIDER, TF_ACC_REPLICA_PROVIDER_ID, and TF_ACC_REPLICA_FALLBACK_USER_ID must be set")
+	layerID := os.Getenv("TF_ACC_REPLICA_LAYER_ID")
+	if replicaProvider == "" || replicaProviderID == "" || fallbackUserID == "" || layerID == "" {
+		t.Fatal("TF_ACC_REPLICA_PROVIDER, TF_ACC_REPLICA_PROVIDER_ID, TF_ACC_REPLICA_FALLBACK_USER_ID, and TF_ACC_REPLICA_LAYER_ID must be set")
 	}
 
 	resource.Test(t, resource.TestCase{
@@ -35,7 +42,7 @@ func TestAccIncidentScheduleReplicaResource(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccScheduleReplicaResourceConfig(replicaProvider, replicaProviderID, fallbackUserID, 14),
+				Config: testAccScheduleReplicaResourceConfig(replicaProvider, replicaProviderID, fallbackUserID, layerID, 14),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr("incident_schedule_replica.test", "replica_provider", replicaProvider),
 					resource.TestCheckResourceAttr("incident_schedule_replica.test", "replica_provider_id", replicaProviderID),
@@ -70,7 +77,7 @@ func TestAccIncidentScheduleReplicaResource(t *testing.T) {
 				ImportStateIdFunc: importScheduleReplicaStateIDFunc("incident_schedule_replica.test"),
 			},
 			{
-				Config: testAccScheduleReplicaResourceConfig(replicaProvider, replicaProviderID, fallbackUserID, 21),
+				Config: testAccScheduleReplicaResourceConfig(replicaProvider, replicaProviderID, fallbackUserID, layerID, 21),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr("incident_schedule_replica.test", "mirror_window_days", "21"),
 				),
@@ -87,8 +94,9 @@ func TestAccIncidentScheduleReplicaResource_InvalidImportID(t *testing.T) {
 	replicaProvider := os.Getenv("TF_ACC_REPLICA_PROVIDER")
 	replicaProviderID := os.Getenv("TF_ACC_REPLICA_PROVIDER_ID")
 	fallbackUserID := os.Getenv("TF_ACC_REPLICA_FALLBACK_USER_ID")
-	if replicaProvider == "" || replicaProviderID == "" || fallbackUserID == "" {
-		t.Fatal("TF_ACC_REPLICA_PROVIDER, TF_ACC_REPLICA_PROVIDER_ID, and TF_ACC_REPLICA_FALLBACK_USER_ID must be set")
+	layerID := os.Getenv("TF_ACC_REPLICA_LAYER_ID")
+	if replicaProvider == "" || replicaProviderID == "" || fallbackUserID == "" || layerID == "" {
+		t.Fatal("TF_ACC_REPLICA_PROVIDER, TF_ACC_REPLICA_PROVIDER_ID, TF_ACC_REPLICA_FALLBACK_USER_ID, and TF_ACC_REPLICA_LAYER_ID must be set")
 	}
 
 	resource.Test(t, resource.TestCase{
@@ -96,7 +104,7 @@ func TestAccIncidentScheduleReplicaResource_InvalidImportID(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccScheduleReplicaResourceConfig(replicaProvider, replicaProviderID, fallbackUserID, 14),
+				Config: testAccScheduleReplicaResourceConfig(replicaProvider, replicaProviderID, fallbackUserID, layerID, 14),
 			},
 			{
 				ResourceName:  "incident_schedule_replica.test",
@@ -118,28 +126,25 @@ func importScheduleReplicaStateIDFunc(resourceName string) resource.ImportStateI
 	}
 }
 
-func testAccScheduleReplicaResourceConfig(replicaProvider, replicaProviderID, fallbackUserID string, mirrorWindowDays int) string {
+func testAccScheduleReplicaResourceConfig(replicaProvider, replicaProviderID, fallbackUserID, layerID string, mirrorWindowDays int) string {
 	return testRunTemplate("incident_schedule_replica", `
 resource "incident_schedule" "test" {
   name     = {{ stableSuffix "Test Schedule for Replica" | quote }}
   timezone = "Europe/London"
+}
 
-  rotations = [{
-    id   = "primary"
-    name = "Primary"
+resource "incident_schedule_rotation" "test" {
+  schedule_id = incident_schedule.test.id
+  name        = "Primary"
 
-    versions = [{
-      handover_start_at = "2024-05-01T12:00:00Z"
-      users             = []
-      layers = [{
-        id   = "primary"
-        name = "Primary"
-      }]
-      handovers = [{
-        interval_type = "daily"
-        interval      = 1
-      }]
-    }]
+  # NOBODY is how a rotation with nobody in it is spelled now. The old shape
+  # wrote users = [], which this resource rejects at plan time.
+  users = ["NOBODY"]
+
+  first_interval_starts_at = "2024-05-01T12:00:00Z"
+  handovers = [{
+    interval_type = "daily"
+    interval      = 1
   }]
 }
 
@@ -150,9 +155,12 @@ resource "incident_schedule_replica" "test" {
   replica_fallback_user_id  = {{ quote .FallbackUserID }}
   mirror_window_days        = {{ .MirrorWindowDays }}
 
+  # rotation_id comes from the rotation resource, whose ID the API assigns.
+  # layer_id has no equivalent to reference: a layer is not something the
+  # rotation resource declares, so it is passed in.
   sources = [{
-    rotation_id = "primary"
-    layer_id    = "primary"
+    rotation_id = incident_schedule_rotation.test.id
+    layer_id    = {{ quote .LayerID }}
   }]
 }
 
@@ -168,11 +176,13 @@ data "incident_schedule_replicas" "test" {
 		ReplicaProvider   string
 		ReplicaProviderID string
 		FallbackUserID    string
+		LayerID           string
 		MirrorWindowDays  int
 	}{
 		ReplicaProvider:   replicaProvider,
 		ReplicaProviderID: replicaProviderID,
 		FallbackUserID:    fallbackUserID,
+		LayerID:           layerID,
 		MirrorWindowDays:  mirrorWindowDays,
 	})
 }
