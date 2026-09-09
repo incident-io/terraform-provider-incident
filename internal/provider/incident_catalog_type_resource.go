@@ -91,12 +91,13 @@ func (r *IncidentCatalogTypeResource) Schema(ctx context.Context, req resource.S
 				Computed:            true, // If not provided, we'll use the generated ID
 				MarkdownDescription: apischema.Docstring("CatalogTypeV3", "type_name"),
 				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplace(),
-					// Without this, a type_name left out of the config replans as unknown
-					// whenever any other attribute changes, and RequiresReplace reads that
-					// as a change - so editing a description would destroy the type and
-					// every entry in it.
+					// This has to come first. Modifiers run in order, each seeing the plan
+					// value the last one left, and RequiresReplace appends to a list nothing
+					// later can unset - so settle an omitted type_name to its state value
+					// before RequiresReplace decides whether it changed. Without it, editing
+					// a description could destroy the type and every entry in it.
 					stringplanmodifier.UseStateForUnknown(),
+					stringplanmodifier.RequiresReplace(),
 				},
 			},
 			"attribute_type": schema.StringAttribute{

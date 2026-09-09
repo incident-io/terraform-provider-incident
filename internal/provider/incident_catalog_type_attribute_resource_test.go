@@ -9,6 +9,8 @@ import (
 	"text/template"
 
 	"github.com/google/uuid"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
@@ -276,6 +278,38 @@ func TestBuildModel_PathAlwaysTyped(t *testing.T) {
 			}
 			if elemType := model.Path.ElementType(ctx); elemType != types.StringType {
 				t.Errorf("buildModel() path element type = %v, want %v", elemType, types.StringType)
+			}
+		})
+	}
+}
+
+// TestArrayRequiresReplace covers when turning `array` off replaces the attribute. The API
+// refuses to make an existing array attribute scalar in place, so that case has to replace -
+// but ValueBool() reads false for an omitted *and* for an unsettled value, so both would look
+// like a request for a scalar if they weren't checked for first.
+func TestArrayRequiresReplace(t *testing.T) {
+	for _, tc := range []struct {
+		name   string
+		state  types.Bool
+		config types.Bool
+		want   bool
+	}{
+		{"an array asked to become scalar replaces", types.BoolValue(true), types.BoolValue(false), true},
+		{"an array left as an array does not", types.BoolValue(true), types.BoolValue(true), false},
+		{"an omitted array does not", types.BoolValue(true), types.BoolNull(), false},
+		{"an unsettled array does not", types.BoolValue(true), types.BoolUnknown(), false},
+		{"a scalar becoming an array does not", types.BoolValue(false), types.BoolValue(true), false},
+		{"a scalar left scalar does not", types.BoolValue(false), types.BoolValue(false), false},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			resp := &boolplanmodifier.RequiresReplaceIfFuncResponse{}
+			arrayRequiresReplace(context.Background(), planmodifier.BoolRequest{
+				StateValue:  tc.state,
+				ConfigValue: tc.config,
+			}, resp)
+
+			if resp.RequiresReplace != tc.want {
+				t.Errorf("RequiresReplace is %v, want %v", resp.RequiresReplace, tc.want)
 			}
 		})
 	}

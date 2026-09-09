@@ -134,6 +134,21 @@ func (r *IncidentCatalogTypeAttributeResource) Metadata(ctx context.Context, req
 	resp.TypeName = req.ProviderTypeName + "_catalog_type_attribute"
 }
 
+// arrayRequiresReplace replaces the attribute only when its config turns an array into a
+// scalar, which the API refuses to do in place. An omitted or unsettled array says nothing
+// about which way it is going - and ValueBool() reads false for both - so neither counts as
+// asking for a scalar.
+func arrayRequiresReplace(_ context.Context, req planmodifier.BoolRequest, resp *boolplanmodifier.RequiresReplaceIfFuncResponse) {
+	if !req.StateValue.ValueBool() {
+		return
+	}
+	if req.ConfigValue.IsNull() || req.ConfigValue.IsUnknown() {
+		return
+	}
+
+	resp.RequiresReplace = !req.ConfigValue.ValueBool()
+}
+
 func (r *IncidentCatalogTypeAttributeResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		MarkdownDescription: apischema.TagDocstring("Catalog V3"),
@@ -186,11 +201,7 @@ func (r *IncidentCatalogTypeAttributeResource) Schema(ctx context.Context, req r
 					// refuses to go the other way: that attribute has to be replaced. Doing
 					// it here keeps the plan honest instead of failing the apply.
 					boolplanmodifier.RequiresReplaceIf(
-						func(ctx context.Context, req planmodifier.BoolRequest, resp *boolplanmodifier.RequiresReplaceIfFuncResponse) {
-							if req.StateValue.ValueBool() && !req.ConfigValue.IsNull() && !req.ConfigValue.ValueBool() {
-								resp.RequiresReplace = true
-							}
-						},
+						arrayRequiresReplace,
 						"Turning an array attribute back into a scalar one replaces it.",
 						"Turning an array attribute back into a scalar one replaces it.",
 					),
