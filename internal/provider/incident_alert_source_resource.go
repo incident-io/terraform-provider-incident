@@ -85,6 +85,15 @@ func (r *IncidentAlertSourceResource) ValidateConfig(ctx context.Context, req re
 		return
 	}
 
+	req.Config.GetAttribute(ctx, path.Root("disabled"), &data.Disabled)
+	if !data.Disabled.IsNull() && !data.Disabled.IsUnknown() &&
+		!data.SourceType.IsUnknown() && data.SourceType.ValueString() != "heartbeat" {
+		resp.Diagnostics.Append(diag.NewErrorDiagnostic(
+			"disabled can only be set when source_type is heartbeat",
+			"Pausing and resuming monitoring is only supported for heartbeat sources."))
+		return
+	}
+
 	req.Config.GetAttribute(ctx, path.Root("email_options"), &data.EmailOptions)
 	if data.EmailOptions != nil && data.SourceType.ValueString() != "email" {
 		resp.Diagnostics.Append(diag.NewErrorDiagnostic(
@@ -711,6 +720,14 @@ splits each attribute into its own resource.`),
 					useStateForUnknownIncludingNull{},
 				},
 			},
+			"disabled": schema.BoolAttribute{
+				Optional:            true,
+				Computed:            true,
+				MarkdownDescription: apischema.Docstring("AlertSourcesUpdatePayloadV2", "disabled") + "\n\n" + heartbeatDisabledDescription,
+				PlanModifiers: []planmodifier.Bool{
+					useStateForUnknownIncludingNull{},
+				},
+			},
 			"owning_team_ids": schema.SetAttribute{
 				Optional:            true,
 				ElementType:         types.StringType,
@@ -782,11 +799,34 @@ func (r *IncidentAlertSourceResource) Create(ctx context.Context, req resource.C
 
 	tflog.Trace(ctx, fmt.Sprintf("created an alert source with id=%s", result.JSON200.AlertSource.Id))
 
+	source := result.JSON200.AlertSource
+	// Create has no disabled field. Pause with a follow-up update when the config asked
+	// for a heartbeat that starts paused.
+	if wantsHeartbeatPaused(data.SourceType.ValueString(), data.Disabled) {
+		data.ID = types.StringValue(source.Id)
+		paused, err := r.updateAlertSourceV2(ctx, data)
+		switch {
+		case err != nil:
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to pause alert source, got error: %s", err))
+			// No early return: the source exists and is monitoring, so returning without
+			// state would orphan it and the next apply would create a second one. Terraform
+			// logs rather than raises the mismatch with the plan because we're returning an
+			// error. Drop the planned disabled, which FromAPIWithPlan would otherwise store
+			// as true over a source that is still running, so the next plan pauses it.
+			data.Disabled = types.BoolNull()
+		case paused.JSON200 == nil:
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to pause alert source, unexpected response: %s", paused.Status()))
+			data.Disabled = types.BoolNull()
+		default:
+			source = paused.JSON200.AlertSource
+		}
+	}
+
 	// Save the planned values before overwriting with API response.
 	planAutoResolveIncidentAlerts := data.AutoResolveIncidentAlerts
 	planEmailOptions := data.EmailOptions
 
-	data = models.AlertSourceResourceModel{}.FromAPIWithPlan(result.JSON200.AlertSource, &data)
+	data = models.AlertSourceResourceModel{}.FromAPIWithPlan(source, &data)
 
 	// When auto_resolve_timeout_minutes isn't set, the API ignores
 	// auto_resolve_incident_alerts and won't return it. Preserve the
@@ -868,52 +908,7 @@ func (r *IncidentAlertSourceResource) Update(ctx context.Context, req resource.U
 		return
 	}
 
-	result, err := lockForAlertConfig(ctx, func(ctx context.Context) (*client.AlertSourcesV2UpdateResponse, error) {
-		var owningTeamIDs *[]string
-		if !data.OwningTeamIDs.IsNull() {
-			teamIDs := []string{}
-			for _, elem := range data.OwningTeamIDs.Elements() {
-				if str, ok := elem.(types.String); ok {
-					teamIDs = append(teamIDs, str.ValueString())
-				}
-			}
-
-			owningTeamIDs = &teamIDs
-		}
-
-		payload := client.AlertSourcesUpdatePayloadV2{
-			Name:              data.Name.ValueString(),
-			Template:          data.Template.ToPayload(),
-			JiraOptions:       data.JiraOptions.ToPayload(),
-			HeartbeatOptions:  data.HeartbeatOptions.ToPayload(),
-			EmailOptions:      data.EmailOptions.ToPayload(),
-			HttpCustomOptions: data.HTTPCustomOptions.ToPayload(),
-			// Always sent, as an empty path when the config has no block: the API reads an
-			// omission as "leave the stored path alone", so removing the block would never clear
-			// it.
-			RateLimitSharding: data.RateLimitSharding.ToUpdatePayload(),
-			// Likewise always sent, as an empty string when the config has no value, so
-			// removing the attribute un-fixes the source instead of leaving a team no config
-			// change can clear.
-			FixedTeamId:   models.FixedTeamIDUpdatePayload(data.FixedTeamID),
-			OwningTeamIds: owningTeamIDs,
-
-			// Always sent, as an empty list when the config has no filters: removing the
-			// attribute from HCL clears them, the same way rate_limit_sharding's omission clears
-			// the shard key path above.
-			FilterConditionGroups: data.FilterConditionGroups.ToPayloadPtr(),
-		}
-
-		if !data.AutoResolveTimeoutMinutes.IsNull() && !data.AutoResolveTimeoutMinutes.IsUnknown() {
-			payload.AutoResolveTimeoutMinutes = data.AutoResolveTimeoutMinutes.ValueInt64Pointer()
-		}
-		if !data.AutoResolveIncidentAlerts.IsNull() && !data.AutoResolveIncidentAlerts.IsUnknown() {
-			payload.AutoResolveIncidentAlerts = data.AutoResolveIncidentAlerts.ValueBoolPointer()
-		}
-
-		return r.client.AlertSourcesV2UpdateWithResponse(ctx, data.ID.ValueString(), payload)
-	})
-
+	result, err := r.updateAlertSourceV2(ctx, data)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update alert source, got error: %s", err))
 		return
@@ -948,6 +943,55 @@ func (r *IncidentAlertSourceResource) Update(ctx context.Context, req resource.U
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+func (r *IncidentAlertSourceResource) updateAlertSourceV2(ctx context.Context, data models.AlertSourceResourceModel) (*client.AlertSourcesV2UpdateResponse, error) {
+	return lockForAlertConfig(ctx, func(ctx context.Context) (*client.AlertSourcesV2UpdateResponse, error) {
+		var owningTeamIDs *[]string
+		if !data.OwningTeamIDs.IsNull() {
+			teamIDs := []string{}
+			for _, elem := range data.OwningTeamIDs.Elements() {
+				if str, ok := elem.(types.String); ok {
+					teamIDs = append(teamIDs, str.ValueString())
+				}
+			}
+
+			owningTeamIDs = &teamIDs
+		}
+
+		payload := client.AlertSourcesUpdatePayloadV2{
+			Name:              data.Name.ValueString(),
+			Template:          data.Template.ToPayload(),
+			JiraOptions:       data.JiraOptions.ToPayload(),
+			HeartbeatOptions:  data.HeartbeatOptions.ToPayload(),
+			EmailOptions:      data.EmailOptions.ToPayload(),
+			HttpCustomOptions: data.HTTPCustomOptions.ToPayload(),
+			// Always sent, as an empty path when the config has no block: the API reads an
+			// omission as "leave the stored path alone", so removing the block would never clear
+			// it.
+			RateLimitSharding: data.RateLimitSharding.ToUpdatePayload(),
+			// Likewise always sent, as an empty string when the config has no value, so
+			// removing the attribute un-fixes the source instead of leaving a team no config
+			// change can clear.
+			FixedTeamId:   models.FixedTeamIDUpdatePayload(data.FixedTeamID),
+			OwningTeamIds: owningTeamIDs,
+			Disabled:      heartbeatDisabledPayload(data.SourceType.ValueString(), data.Disabled),
+
+			// Always sent, as an empty list when the config has no filters: removing the
+			// attribute from HCL clears them, the same way rate_limit_sharding's omission clears
+			// the shard key path above.
+			FilterConditionGroups: data.FilterConditionGroups.ToPayloadPtr(),
+		}
+
+		if !data.AutoResolveTimeoutMinutes.IsNull() && !data.AutoResolveTimeoutMinutes.IsUnknown() {
+			payload.AutoResolveTimeoutMinutes = data.AutoResolveTimeoutMinutes.ValueInt64Pointer()
+		}
+		if !data.AutoResolveIncidentAlerts.IsNull() && !data.AutoResolveIncidentAlerts.IsUnknown() {
+			payload.AutoResolveIncidentAlerts = data.AutoResolveIncidentAlerts.ValueBoolPointer()
+		}
+
+		return r.client.AlertSourcesV2UpdateWithResponse(ctx, data.ID.ValueString(), payload)
+	})
 }
 
 func (r *IncidentAlertSourceResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {

@@ -86,6 +86,9 @@ type alertSourceBetaModel struct {
 	AutoResolveTimeoutMinutes types.Int64 `tfsdk:"auto_resolve_timeout_minutes"`
 	AutoResolveIncidentAlerts types.Bool  `tfsdk:"auto_resolve_incident_alerts"`
 
+	// Only heartbeat sources support this: true pauses monitoring, false resumes it.
+	Disabled types.Bool `tfsdk:"disabled"`
+
 	Version types.Int64 `tfsdk:"version"`
 }
 
@@ -229,6 +232,14 @@ compatible, so pin the provider version if that matters to you.
 					useStateForUnknownIncludingNull{},
 				},
 			},
+			"disabled": schema.BoolAttribute{
+				Optional:            true,
+				Computed:            true,
+				MarkdownDescription: apischema.Docstring("AlertSourceV3", "disabled") + "\n\n" + heartbeatDisabledV3Description,
+				PlanModifiers: []planmodifier.Bool{
+					useStateForUnknownIncludingNull{},
+				},
+			},
 
 			"version": schema.Int64Attribute{
 				Computed:            true,
@@ -257,6 +268,7 @@ func (r *alertSourceBetaResource) ValidateConfig(ctx context.Context, req resour
 	r.validateHeartbeatTemplate(&data, &resp.Diagnostics)
 	r.validateTemplateProvided(&data, &resp.Diagnostics)
 	r.validatePrivacy(&data, &resp.Diagnostics)
+	r.validateDisabled(&data, &resp.Diagnostics)
 
 	// An empty list stores no options at all, so the block would read back absent and fail the
 	// apply. A Jira source watching no projects does nothing anyway.
@@ -420,6 +432,22 @@ func (r *alertSourceBetaResource) validatePrivacy(data *alertSourceBetaModel, di
 			path.Root("visible_to_teams"),
 			"visible_to_teams is required when is_private is true",
 			"A private source's alerts are visible to nobody until you say which teams can see them.",
+		)
+	}
+}
+
+// validateDisabled rejects pausing a source that can't be paused. The API only honours
+// disabled for heartbeats, and sending it on any other type is a 422 at apply.
+func (r *alertSourceBetaResource) validateDisabled(data *alertSourceBetaModel, diags *diag.Diagnostics) {
+	if data.Disabled.IsNull() || data.Disabled.IsUnknown() || data.SourceType.IsUnknown() {
+		return
+	}
+
+	if data.SourceType.ValueString() != "heartbeat" {
+		diags.AddAttributeError(
+			path.Root("disabled"),
+			"disabled can only be set on a heartbeat alert source",
+			"Pausing and resuming monitoring is only supported for heartbeat sources. Remove disabled, or change source_type to heartbeat.",
 		)
 	}
 }
@@ -633,7 +661,25 @@ func (r *alertSourceBetaResource) Create(ctx context.Context, req resource.Creat
 		return
 	}
 
-	resp.Diagnostics.Append(resp.State.Set(ctx, alertSourceBetaFromAPI(result.JSON201.AlertSource, &data, &resp.Diagnostics))...)
+	source := result.JSON201.AlertSource
+	// Create has no disabled field: a heartbeat is always born monitoring. Pause with a
+	// follow-up update when the config asked for that, so apply doesn't store false against a
+	// plan of true.
+	if wantsHeartbeatPaused(data.SourceType.ValueString(), data.Disabled) {
+		updated := r.updateAlertSource(ctx, source.Id, &data, &resp.Diagnostics)
+		if updated != nil {
+			source = *updated
+		} else {
+			// No early return when the pause fails: the source exists and is monitoring, so
+			// returning without state would orphan it and the next apply would create a
+			// second one. Terraform logs rather than raises the mismatch with the plan
+			// because we're returning an error. Drop the planned disabled so state records
+			// what the source is actually doing, and the next plan pauses it.
+			data.Disabled = types.BoolNull()
+		}
+	}
+
+	resp.Diagnostics.Append(resp.State.Set(ctx, alertSourceBetaFromAPI(source, &data, &resp.Diagnostics))...)
 }
 
 func (r *alertSourceBetaResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
@@ -671,15 +717,26 @@ func (r *alertSourceBetaResource) Update(ctx context.Context, req resource.Updat
 		return
 	}
 
-	expressions, bindings := r.toPayloads(&plan, &resp.Diagnostics)
+	source := r.updateAlertSource(ctx, state.ID.ValueString(), &plan, &resp.Diagnostics)
 	if resp.Diagnostics.HasError() {
 		return
+	}
+
+	resp.Diagnostics.Append(resp.State.Set(ctx, alertSourceBetaFromAPI(*source, &plan, &resp.Diagnostics))...)
+}
+
+// updateAlertSource writes the planned source. Create calls it after a paused heartbeat is
+// born, because the create payload has no disabled field.
+func (r *alertSourceBetaResource) updateAlertSource(ctx context.Context, id string, plan *alertSourceBetaModel, diags *diag.Diagnostics) *client.AlertSourceV3 {
+	expressions, bindings := r.toPayloads(plan, diags)
+	if diags.HasError() {
+		return nil
 	}
 
 	// Always send owning_team_ids, as an empty list when the attribute is unset: omitting it
 	// tells the API to leave ownership alone, which would strand the source on its old teams
 	// after they're removed from the config.
-	owningTeamIDs := r.toTeamIDsPayload(ctx, plan.OwningTeamIDs, &resp.Diagnostics)
+	owningTeamIDs := r.toTeamIDsPayload(ctx, plan.OwningTeamIDs, diags)
 	if owningTeamIDs == nil {
 		owningTeamIDs = &[]string{}
 	}
@@ -702,6 +759,7 @@ func (r *alertSourceBetaResource) Update(ctx context.Context, req resource.Updat
 		EmailOptions:      emailOptionsUpdatePayload(plan.EmailOptions, plan.SourceType),
 		HttpCustomOptions: plan.HTTPCustomOptions.toPayload(),
 		RateLimitSharding: rateLimitShardingUpdatePayload(plan.RateLimitSharding),
+		Disabled:          heartbeatDisabledPayload(plan.SourceType.ValueString(), plan.Disabled),
 
 		// Always sent, as an empty list when the config has no filters: removing the attribute
 		// from HCL clears them, the same way an omitted rate_limit_sharding block does above.
@@ -722,27 +780,27 @@ func (r *alertSourceBetaResource) Update(ctx context.Context, req resource.Updat
 		// the marker, and the recorded version tracks the Terraform in use.
 		Annotations: r.annotations(),
 	}
-	r.applyAutoResolve(&plan, &payload.AutoResolveTimeoutMinutes, &payload.AutoResolveIncidentAlerts)
+	r.applyAutoResolve(plan, &payload.AutoResolveTimeoutMinutes, &payload.AutoResolveIncidentAlerts)
 
-	validateRateLimitSharding(plan.RateLimitSharding, &resp.Diagnostics)
+	validateRateLimitSharding(plan.RateLimitSharding, diags)
 
-	if resp.Diagnostics.HasError() {
-		return
+	if diags.HasError() {
+		return nil
 	}
 
-	result, err := r.client.AlertSourcesV3UpdateWithResponse(ctx, state.ID.ValueString(), client.AlertSourcesV3UpdateJSONRequestBody{
+	result, err := r.client.AlertSourcesV3UpdateWithResponse(ctx, id, client.AlertSourcesV3UpdateJSONRequestBody{
 		AlertSource: payload,
 	})
 	if err != nil {
-		resp.Diagnostics.AddError("Unable to update alert source", err.Error())
-		return
+		diags.AddError("Unable to update alert source", err.Error())
+		return nil
 	}
 	if result.JSON200 == nil {
-		resp.Diagnostics.AddError("Unable to update alert source", fmt.Sprintf("unexpected response: %s", result.Status()))
-		return
+		diags.AddError("Unable to update alert source", fmt.Sprintf("unexpected response: %s", result.Status()))
+		return nil
 	}
 
-	resp.Diagnostics.Append(resp.State.Set(ctx, alertSourceBetaFromAPI(result.JSON200.AlertSource, &plan, &resp.Diagnostics))...)
+	return &result.JSON200.AlertSource
 }
 
 func (r *alertSourceBetaResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
@@ -926,6 +984,8 @@ func alertSourceBetaFromAPI(
 
 		AutoResolveTimeoutMinutes: types.Int64PointerValue(source.AutoResolveTimeoutMinutes),
 		AutoResolveIncidentAlerts: types.BoolPointerValue(source.AutoResolveIncidentAlerts),
+		// Only heartbeat sources return this; every other type omits it, which reads as null.
+		Disabled: types.BoolPointerValue(source.Disabled),
 
 		// Minted for email sources and absent for every other type, so it lives at the top
 		// level rather than inside the optional email_options block.
@@ -960,6 +1020,13 @@ func alertSourceBetaFromAPI(
 		model.AutoResolveIncidentAlerts = config.AutoResolveIncidentAlerts
 	}
 
+	// Same pattern: the API omits disabled for types that can't pause, and may omit false
+	// for a heartbeat that is monitoring. Keep a known planned value so apply doesn't
+	// fail as an inconsistent result.
+	if model.Disabled.IsNull() && !config.Disabled.IsUnknown() {
+		model.Disabled = config.Disabled
+	}
+
 	// Heartbeat sources generate their own title and description. ValidateConfig rejects
 	// setting either, so drop what the API generated rather than showing a permanent diff
 	// against a config that can't hold it.
@@ -969,4 +1036,36 @@ func alertSourceBetaFromAPI(
 	}
 
 	return model
+}
+
+const (
+	// heartbeatDisabledDescription documents pausing, for the v2 alert source resource.
+	heartbeatDisabledDescription = "Only heartbeat sources can be paused." + heartbeatDisabledUnsetDescription
+
+	// heartbeatDisabledV3Description adds a rule the v3 API enforces and v2 doesn't, so it
+	// only belongs on the beta resource.
+	heartbeatDisabledV3Description = "Only heartbeat sources can be paused, and only once one " +
+		"has received its first ping: the API refuses to disable a source that has never " +
+		"reported, so a new one can't be created paused." + heartbeatDisabledUnsetDescription
+
+	heartbeatDisabledUnsetDescription = " Leave the attribute unset to keep whatever the " +
+		"source is currently doing, so a pause made in the dashboard survives an unrelated apply."
+)
+
+// heartbeatDisabledPayload is the update field for pausing a heartbeat. Omitted for every
+// other source type (the API rejects it), and omitted when the config didn't set it so a
+// dashboard pause isn't overwritten by an unrelated apply.
+func heartbeatDisabledPayload(sourceType string, disabled types.Bool) *bool {
+	if sourceType != "heartbeat" {
+		return nil
+	}
+	if disabled.IsNull() || disabled.IsUnknown() {
+		return nil
+	}
+
+	return disabled.ValueBoolPointer()
+}
+
+func wantsHeartbeatPaused(sourceType string, disabled types.Bool) bool {
+	return lo.FromPtr(heartbeatDisabledPayload(sourceType, disabled))
 }

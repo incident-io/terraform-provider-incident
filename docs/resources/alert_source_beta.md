@@ -162,6 +162,12 @@ resource "incident_alert_source_beta" "nightly_backup" {
     failure_threshold    = 1
     grace_period_seconds = 3600
   }
+
+  # Pause monitoring without deleting the source, for example during maintenance.
+  # A heartbeat can only be paused once it has received its first ping, so this
+  # starts monitoring and is flipped to true on a later apply. Omit the attribute
+  # entirely to leave a pause made in the dashboard alone.
+  disabled = false
 }
 
 # A private source's alerts are visible to nobody until you say which teams can
@@ -199,6 +205,9 @@ resource "incident_alert_source_beta" "security_scanner" {
 - `auto_resolve_incident_alerts` (Boolean) Whether alerts from this source keep counting down to auto-resolve while attached to an incident. Defaults to true. Has no effect without auto_resolve_timeout_minutes.
 - `auto_resolve_timeout_minutes` (Number) How long to wait before automatically resolving alerts from this source
 - `description` (Attributes) (see [below for nested schema](#nestedatt--description))
+- `disabled` (Boolean) Whether monitoring is paused for this source. Only returned for source types that support being disabled.
+
+Only heartbeat sources can be paused, and only once one has received its first ping: the API refuses to disable a source that has never reported, so a new one can't be created paused. Leave the attribute unset to keep whatever the source is currently doing, so a pause made in the dashboard survives an unrelated apply.
 - `email_options` (Attributes) (see [below for nested schema](#nestedatt--email_options))
 - `filter_condition_groups` (Attributes List) Conditions an incoming event must match to be ingested from this source, evaluated against the event's payload and this source's expressions. (see [below for nested schema](#nestedatt--filter_condition_groups))
 - `fixed_team_id` (String) When set, the team every alert from this source is attributed to. The team attribute is managed from this field: it is not returned by the attribute endpoints and cannot be bound directly. While set, an `incident_alert_source_attribute_beta` resource binding the organisation's team attribute is rejected at apply time: the binding is managed from this field.

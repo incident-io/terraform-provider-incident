@@ -42,7 +42,7 @@ func TestAlertSourceBetaResourceSchema(t *testing.T) {
 		"owning_team_ids", "is_private", "title", "description", "priority", "visible_to_teams",
 		"jira_options", "heartbeat_options", "email_options", "http_custom_options",
 		"rate_limit_sharding", "fixed_team_id", "filter_condition_groups",
-		"auto_resolve_timeout_minutes", "auto_resolve_incident_alerts", "version",
+		"auto_resolve_timeout_minutes", "auto_resolve_incident_alerts", "disabled", "version",
 	} {
 		if _, ok := schemaResp.Schema.Attributes[name]; !ok {
 			t.Errorf("schema missing expected attribute %q", name)
@@ -339,6 +339,73 @@ func TestAlertSourceBetaFromAPIHeartbeatTemplate(t *testing.T) {
 	http.Title = literalPayload("Heartbeat missed")
 	if fromAPI(t, http, &alertSourceBetaModel{}).Title == nil {
 		t.Error("a title should be kept for a source type that takes one")
+	}
+}
+
+// TestAlertSourceBetaFromAPIDisabled covers pausing a heartbeat. The API only returns
+// disabled for source types that support it, so a null on any other type must stay null.
+func TestAlertSourceBetaFromAPIDisabled(t *testing.T) {
+	t.Run("reads a paused heartbeat", func(t *testing.T) {
+		source := alertSourceV3("heartbeat")
+		source.Disabled = lo.ToPtr(true)
+
+		if !fromAPI(t, source, &alertSourceBetaModel{}).Disabled.ValueBool() {
+			t.Error("a paused heartbeat should read disabled = true")
+		}
+	})
+
+	t.Run("reads a monitoring heartbeat", func(t *testing.T) {
+		source := alertSourceV3("heartbeat")
+		source.Disabled = lo.ToPtr(false)
+
+		got := fromAPI(t, source, &alertSourceBetaModel{})
+		if got.Disabled.IsNull() || got.Disabled.ValueBool() {
+			t.Errorf("a monitoring heartbeat should read disabled = false, got %v", got.Disabled)
+		}
+	})
+
+	t.Run("keeps the configured value when the API omits it", func(t *testing.T) {
+		config := &alertSourceBetaModel{Disabled: types.BoolValue(false)}
+
+		got := fromAPI(t, alertSourceV3("heartbeat"), config).Disabled
+		if got.IsNull() || got.ValueBool() {
+			t.Errorf("the configured false should be kept when the API omits it, got %v", got)
+		}
+	})
+
+	t.Run("never stores an unknown", func(t *testing.T) {
+		config := &alertSourceBetaModel{Disabled: types.BoolUnknown()}
+
+		got := fromAPI(t, alertSourceV3("heartbeat"), config).Disabled
+		if got.IsUnknown() {
+			t.Error("an unknown planned value must not be written into state")
+		}
+		if !got.IsNull() {
+			t.Errorf("it should settle as null, got %v", got)
+		}
+	})
+
+	t.Run("stays null for a source type that cannot pause", func(t *testing.T) {
+		got := fromAPI(t, alertSourceV3("http"), &alertSourceBetaModel{}).Disabled
+		if !got.IsNull() {
+			t.Errorf("http sources do not return disabled, got %v", got)
+		}
+	})
+}
+
+func TestHeartbeatDisabledPayload(t *testing.T) {
+	if heartbeatDisabledPayload("http", types.BoolValue(true)) != nil {
+		t.Error("non-heartbeat sources must omit disabled")
+	}
+	if heartbeatDisabledPayload("heartbeat", types.BoolNull()) != nil {
+		t.Error("an unset disabled must be omitted")
+	}
+	if heartbeatDisabledPayload("heartbeat", types.BoolUnknown()) != nil {
+		t.Error("an unknown disabled must be omitted")
+	}
+	got := heartbeatDisabledPayload("heartbeat", types.BoolValue(true))
+	if got == nil || !*got {
+		t.Errorf("a paused heartbeat should send true, got %v", got)
 	}
 }
 

@@ -239,6 +239,32 @@ func TestAlertSourceBetaValidateHeartbeatTemplate(t *testing.T) {
 	assertNoErrorContaining(t, diags, "title")
 }
 
+// TestAlertSourceBetaValidateDisabled covers pausing: only heartbeat sources support it,
+// and sending disabled on any other type is a 422 at apply.
+func TestAlertSourceBetaValidateDisabled(t *testing.T) {
+	diags := validateAlertSourceBeta(t, alertSourceBetaConfig(t, map[string]tftypes.Value{
+		"source_type": stringValue("http"),
+		"disabled":    tftypes.NewValue(tftypes.Bool, true),
+	}))
+
+	assertErrorContaining(t, diags, "disabled can only be set on a heartbeat alert source")
+
+	diags = validateAlertSourceBeta(t, alertSourceBetaConfig(t, map[string]tftypes.Value{
+		"source_type": stringValue("heartbeat"),
+		"disabled":    tftypes.NewValue(tftypes.Bool, true),
+	}))
+
+	assertNoErrorContaining(t, diags, "disabled")
+
+	// source_type from another resource isn't known yet, so don't guess.
+	diags = validateAlertSourceBeta(t, alertSourceBetaConfig(t, map[string]tftypes.Value{
+		"source_type": tftypes.NewValue(tftypes.String, tftypes.UnknownValue),
+		"disabled":    tftypes.NewValue(tftypes.Bool, true),
+	}))
+
+	assertNoErrorContaining(t, diags, "disabled")
+}
+
 // TestAlertSourceBetaValidateTemplatedText covers a title carrying neither form or both. The
 // mapping reads neither as absent, silently dropping the field and planning it again next time,
 // and reads both as a conflict the API rejects only at apply.
