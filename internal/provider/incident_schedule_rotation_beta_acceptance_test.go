@@ -46,11 +46,17 @@ func TestAccIncidentScheduleRotationBeta(t *testing.T) {
 			},
 			// A rotation is nested under its schedule in the API, so it imports
 			// by both IDs rather than by its own.
+			//
+			// rank is Optional and not Computed, so it is only tracked when the
+			// config asks for it, and an import has no config to ask: the
+			// rotation comes back unordered rather than adopting the position it
+			// happens to hold, which is the point of not computing it.
 			{
-				ResourceName:      "incident_schedule_rotation_beta.test",
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateIdFunc: importScheduleRotationBetaStateIDFunc("incident_schedule_rotation_beta.test"),
+				ResourceName:            "incident_schedule_rotation_beta.test",
+				ImportState:             true,
+				ImportStateVerify:       true,
+				ImportStateVerifyIgnore: []string{"rank"},
+				ImportStateIdFunc:       importScheduleRotationBetaStateIDFunc("incident_schedule_rotation_beta.test"),
 			},
 			// The controls the inline shape had no way to express: two people on
 			// call at once, restricted to weekday working hours, allocated in a

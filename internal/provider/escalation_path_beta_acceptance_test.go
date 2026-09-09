@@ -80,6 +80,11 @@ resource "incident_escalation_path_beta" "test" {
   name  = {{ stableSuffix "acc-escalation-path" | quote }}
   start = "main"
 
+  # The test account has an escalation paths attribute on its Teams, which makes
+  # team_ids required: the API rejects a path that omits it, and an empty list is
+  # how a path says it belongs to no team.
+  team_ids = []
+
   sequences = {
     main = {
       nodes = [
@@ -157,6 +162,8 @@ func testAccEscalationPathBetaConfigWithoutLoop() string {
 resource "incident_escalation_path_beta" "test" {
   name  = {{ stableSuffix "acc-escalation-path" | quote }}
   start = "main"
+
+  team_ids = []
 
   sequences = {
     main = {
