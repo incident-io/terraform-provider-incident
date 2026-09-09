@@ -63,6 +63,13 @@ To view the full documentation of this provider, we recommend reading the
 documentation on the [Terraform
 Registry](https://registry.terraform.io/providers/incident-io/incident/latest).
 
+## Upgrading to v7
+
+v7 promotes the beta resources to the names they keep, and removes the schemas
+they replace. Nothing in your account has to be recreated to get there: read
+[Migrating to v7](https://registry.terraform.io/providers/incident-io/incident/latest/docs/guides/migrating-to-v7)
+for what changed and how to move.
+
 ## Supported Terraform versions
 
 From v6.0.0 this provider supports Terraform 1.14 and above, and is tested
