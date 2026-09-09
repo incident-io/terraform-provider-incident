@@ -46,7 +46,20 @@ renaming one is an edit to your configuration and nothing else.
 
 `incident_schedule_replica`, `incident_schedule_sync_rule` and
 `incident_schedule_sync_target` are unchanged. They reference a schedule by ID,
-so the only edit they need is to the address they read that ID from.
+so the only edit they need is to the address they read that ID from. Two things
+worth knowing about them:
+
+- A sync rule scoped to a rotation used to name it with an ID you chose. A
+  rotation's ID comes from us now, so point `rotation_id` at the rotation
+  resource: `rotation_id = incident_schedule_rotation.primary.id`.
+- A replica source names a rotation *and a layer*. Layers are not something
+  `incident_schedule_rotation` declares - `concurrent_shifts` replaced them - so
+  replicating a schedule Terraform manages needs a layer ID from elsewhere.
+
+The `incident_alert_source` and `incident_alert_sources` data sources are also
+unchanged, which means the plural one still reports a source's bindings as a
+`template`: that is the shape our API returns, rather than the shape the
+resources now take.
 
 ## Which path you are on
 
@@ -123,6 +136,9 @@ rotation.
   `rollout` on the rotation are how a change to the line-up is introduced.
 - `timezone`, `team_ids` and `holidays_public_config` are unchanged, and stay on
   the schedule.
+- `users = []` is rejected where the old schema took it. A rotation nobody is in
+  is `users = ["NOBODY"]`, which schedules the shifts and leaves them uncovered
+  until an override fills one.
 
 {{ codefile "terraform" "examples/guides/migrating-to-v7/schedule-before.tf" }}
 
@@ -155,6 +171,10 @@ it populates.
 
 - `template.title`, `template.description`, `template.is_private` and
   `template.visible_to_teams` move to the top level of the source.
+- `title` and `description` are required for every source type but `heartbeat`,
+  which writes its own. A configuration that left them out and took the API's
+  default has to say what it wants now, because an attribute the config omits is
+  one the provider has nowhere to keep.
 - Each entry of `template.attributes` becomes an
   `incident_alert_source_attribute` resource. The binding's value keeps its
   shape, and `merge_strategy` comes with it.
