@@ -97,11 +97,15 @@ resource "incident_custom_field" "customers_affected" {
 resource "incident_catalog_type" "service" {
   name        = "Service"
   description = "All services that we run across our product"
+  # Required. Point this at the repo that manages the type to send people there
+  # instead of letting them edit it in the dashboard; "" keeps it editable.
+  source_repo_url = ""
 }
 
 resource "incident_catalog_type" "service_tier" {
-  name        = "Service Tier"
-  description = "Level of importance for each service"
+  name            = "Service Tier"
+  description     = "Level of importance for each service"
+  source_repo_url = ""
 }
 
 resource "incident_catalog_type_attribute" "service_service_tier" {

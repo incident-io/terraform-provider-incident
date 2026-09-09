@@ -42,6 +42,109 @@ func TestAccAlertSourceAttributeBeta(t *testing.T) {
 	})
 }
 
+// TestAccAlertSourceAttributeBetaNavigate covers a navigate operation end to end, which
+// nothing else does. The API addresses a catalog entry's attributes as
+// catalog_attribute["<id>"], so the provider wraps the bare attribute ID `to` takes and
+// unwraps it on read: send the ID unwrapped and the apply fails with "Reference not found in
+// scope", and skip the unwrapping and every plan shows a diff against the wrapped form the
+// API returns. Both halves are asserted here — the apply, and `to` reading back as the bare
+// ID it was written as.
+func TestAccAlertSourceAttributeBetaNavigate(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccAlertSourceAttributeBetaNavigateConfig("test-navigate"),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					// The wrapping round-trips: state holds the bare attribute ID.
+					resource.TestCheckResourceAttrPair(
+						"incident_alert_source_attribute_beta.test", "expression.operation.1.navigate.to",
+						"incident_catalog_type_attribute.owner", "id"),
+					resource.TestCheckResourceAttr(
+						"incident_alert_source_attribute_beta.test", "expression.start_from", "payload"),
+				),
+			},
+			// A second apply of the same config must be a no-op. resource.Test fails on a
+			// non-empty plan after each step, so this is the drift guard for the read path.
+			{
+				Config:   testAccAlertSourceAttributeBetaNavigateConfig("test-navigate"),
+				PlanOnly: true,
+			},
+		},
+	})
+}
+
+// testAccAlertSourceAttributeBetaNavigateConfig builds a Service type whose Owner attribute
+// points at a Team type, then an expression that parses a service out of the payload and
+// navigates to its owners. Owner is an array because the pipeline ends with first {}, which
+// the API rejects over a scalar.
+func testAccAlertSourceAttributeBetaNavigateConfig(name string) string {
+	return testRunTemplate("incident_alert_source_attribute_beta_navigate", `
+resource "incident_catalog_type" "team" {
+  name            = "{{ .Name }} team"
+  description     = "Used in terraform acceptance tests"
+  source_repo_url = ""
+}
+
+resource "incident_catalog_type" "service" {
+  name            = "{{ .Name }} service"
+  description     = "Used in terraform acceptance tests"
+  source_repo_url = ""
+}
+
+resource "incident_catalog_type_attribute" "owner" {
+  catalog_type_id = incident_catalog_type.service.id
+  name            = "Owner"
+  type            = incident_catalog_type.team.type_name
+  array           = true
+}
+
+resource "incident_alert_source_beta" "test" {
+  name        = {{ quote .Name }}
+  source_type = "http"
+
+  title       = { literal = "a title" }
+  description = { literal = "a description" }
+}
+
+resource "incident_alert_attribute" "test" {
+  name  = {{ quote .Name }}
+  type  = incident_catalog_type.team.attribute_type
+  array = false
+}
+
+resource "incident_alert_source_attribute_beta" "test" {
+  alert_source_id    = incident_alert_source_beta.test.id
+  alert_attribute_id = incident_alert_attribute.test.id
+
+  expression {
+    start_from = "payload"
+
+    operation {
+      parse = {
+        function = "$.service"
+        as       = incident_catalog_type.service.attribute_type
+      }
+    }
+
+    // The operation under test: follow the parsed service's Owner attribute.
+    operation {
+      navigate = {
+        to = incident_catalog_type_attribute.owner.id
+      }
+    }
+
+    operation { first = {} }
+  }
+}
+`, struct {
+		Name string
+	}{
+		Name: StableSuffix(name),
+	})
+}
+
 func testAccAlertSourceAttributeBetaConfig(name, value string) string {
 	return testRunTemplate("incident_alert_source_attribute_beta", `
 resource "incident_alert_source_beta" "test" {

@@ -11,6 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -133,6 +134,21 @@ func (r *IncidentCatalogTypeAttributeResource) Metadata(ctx context.Context, req
 	resp.TypeName = req.ProviderTypeName + "_catalog_type_attribute"
 }
 
+// arrayRequiresReplace replaces the attribute only when its config turns an array into a
+// scalar, which the API refuses to do in place. An omitted or unsettled array says nothing
+// about which way it is going - and ValueBool() reads false for both - so neither counts as
+// asking for a scalar.
+func arrayRequiresReplace(_ context.Context, req planmodifier.BoolRequest, resp *boolplanmodifier.RequiresReplaceIfFuncResponse) {
+	if !req.StateValue.ValueBool() {
+		return
+	}
+	if req.ConfigValue.IsNull() || req.ConfigValue.IsUnknown() {
+		return
+	}
+
+	resp.RequiresReplace = !req.ConfigValue.ValueBool()
+}
+
 func (r *IncidentCatalogTypeAttributeResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		MarkdownDescription: apischema.TagDocstring("Catalog V3"),
@@ -176,6 +192,20 @@ func (r *IncidentCatalogTypeAttributeResource) Schema(ctx context.Context, req r
 				Description: `Whether this attribute is an array or scalar.`,
 				Optional:    true,
 				Computed:    true,
+				PlanModifiers: []planmodifier.Bool{
+					// Leaving array out means "whatever it is already". Without this the
+					// planned value goes unknown and the update sends false, which the API
+					// rejects for an attribute that is currently an array.
+					boolplanmodifier.UseStateForUnknown(),
+					// Going scalar -> array is an in-place change the API backfills, but it
+					// refuses to go the other way: that attribute has to be replaced. Doing
+					// it here keeps the plan honest instead of failing the apply.
+					boolplanmodifier.RequiresReplaceIf(
+						arrayRequiresReplace,
+						"Turning an array attribute back into a scalar one replaces it.",
+						"Turning an array attribute back into a scalar one replaces it.",
+					),
+				},
 			},
 			"backlink_attribute": schema.StringAttribute{
 				Description: `If this is a backlink, the id of the attribute that it's linked from`,

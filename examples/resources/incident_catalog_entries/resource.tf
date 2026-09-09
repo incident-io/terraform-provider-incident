@@ -99,6 +99,9 @@ locals {
 resource "incident_catalog_type" "service" {
   name        = "Service"
   description = "All services that we run at Example Org"
+  # Required. Point this at the repo that manages the type to send people there
+  # instead of letting them edit it in the dashboard; "" keeps it editable.
+  source_repo_url = ""
 }
 
 resource "incident_catalog_type_attribute" "service_owner" {

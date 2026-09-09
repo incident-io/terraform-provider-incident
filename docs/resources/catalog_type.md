@@ -79,6 +79,7 @@ resource "incident_catalog_type" "service_tier" {
 
 ### Read-Only
 
+- `attribute_type` (String) How to refer to this type when saying that something holds its entries: the `type` of an alert attribute or catalog attribute, or the `as` of an engine expression. Take it from here rather than writing it out - a type that one of our integrations owns is referenced by its registry name rather than its ID, so the two don't have the same shape.
 - `id` (String) ID of this catalog type
 
 ## Import

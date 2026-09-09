@@ -31,8 +31,11 @@ output "webhook_alert_sources_count" {
   value       = length(data.incident_alert_sources.webhooks_only.alert_sources)
 }
 
+# secret_token authenticates events sent to a source, so an output carrying one has to say
+# it's sensitive - Terraform refuses to build an output from a sensitive value otherwise.
 output "webhook_alert_source_details" {
   description = "Details of webhook alert sources"
+  sensitive   = true
   value = [for source in data.incident_alert_sources.webhooks_only.alert_sources : {
     id           = source.id
     name         = source.name
@@ -63,8 +66,10 @@ locals {
 }
 
 # Output the processed data
+# Grouping keeps whole alert sources, so this output carries their secret_tokens too.
 output "alert_sources_by_type" {
   description = "Alert sources grouped by type"
+  sensitive   = true
   value       = local.alert_sources_by_type
 }
 

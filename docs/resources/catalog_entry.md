@@ -67,6 +67,9 @@ locals {
 resource "incident_catalog_type" "service_tier" {
   name        = "Service Tier"
   description = "Level of importance for each service"
+  # Required. Point this at the repo that manages the type to send people there
+  # instead of letting them edit it in the dashboard; "" keeps it editable.
+  source_repo_url = ""
 }
 
 resource "incident_catalog_type_attribute" "service_tier_description" {

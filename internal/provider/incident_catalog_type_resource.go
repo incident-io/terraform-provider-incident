@@ -34,6 +34,7 @@ type IncidentCatalogTypeResourceModel struct {
 	ID                  types.String `tfsdk:"id"`
 	Name                types.String `tfsdk:"name"`
 	TypeName            types.String `tfsdk:"type_name"`
+	AttributeType       types.String `tfsdk:"attribute_type"`
 	Description         types.String `tfsdk:"description"`
 	SourceRepoURL       types.String `tfsdk:"source_repo_url"`
 	Categories          types.List   `tfsdk:"categories"`
@@ -60,6 +61,16 @@ func (r IncidentCatalogTypeResource) CategoryDescription() string {
 	return fmt.Sprintf("The categories that this type belongs to, to be shown in the web dashboard. Possible values are: %s.", strings.Join(categories, ", "))
 }
 
+// AttributeTypeDescription documents attribute_type, which the catalog type data source
+// exposes too.
+func (r IncidentCatalogTypeResource) AttributeTypeDescription() string {
+	return "How to refer to this type when saying that something holds its entries: the " +
+		"`type` of an alert attribute or catalog attribute, or the `as` of an engine " +
+		"expression. Take it from here rather than writing it out - a type that one of our " +
+		"integrations owns is referenced by its registry name rather than its ID, so the two " +
+		"don't have the same shape."
+}
+
 func (r *IncidentCatalogTypeResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		MarkdownDescription: apischema.TagDocstring("Catalog V3"),
@@ -80,7 +91,24 @@ func (r *IncidentCatalogTypeResource) Schema(ctx context.Context, req resource.S
 				Computed:            true, // If not provided, we'll use the generated ID
 				MarkdownDescription: apischema.Docstring("CatalogTypeV3", "type_name"),
 				PlanModifiers: []planmodifier.String{
+					// This has to come first. Modifiers run in order, each seeing the plan
+					// value the last one left, and RequiresReplace appends to a list nothing
+					// later can unset - so settle an omitted type_name to its state value
+					// before RequiresReplace decides whether it changed. Without it, editing
+					// a description could destroy the type and every entry in it.
+					stringplanmodifier.UseStateForUnknown(),
 					stringplanmodifier.RequiresReplace(),
+				},
+			},
+			"attribute_type": schema.StringAttribute{
+				MarkdownDescription: r.AttributeTypeDescription(),
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					// This is derived from the type's identity, so it can only change if the
+					// type is replaced. Without this it replans as unknown on every edit, and
+					// that unknown fans out to everything that takes the value for an
+					// attribute's type or an expression's `as`.
+					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
 			"description": schema.StringAttribute{
@@ -273,6 +301,7 @@ func (r *IncidentCatalogTypeResource) buildModel(catalogType client.CatalogTypeV
 		ID:                  types.StringValue(catalogType.Id),
 		Name:                types.StringValue(catalogType.Name),
 		TypeName:            types.StringValue(catalogType.TypeName),
+		AttributeType:       types.StringValue(catalogType.EngineResourceType),
 		Description:         types.StringValue(catalogType.Description),
 		UseNameAsIdentifier: types.BoolValue(catalogType.UseNameAsIdentifier),
 	}

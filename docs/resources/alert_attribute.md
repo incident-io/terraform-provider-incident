@@ -86,10 +86,18 @@ but it is read-only through the API: read it with the data source rather than de
 ## Example Usage
 
 ```terraform
-# Create an alert attribute that points at a single Github user in the catalog
+# Create an alert attribute that points at a single Github user in the catalog.
+#
+# Take the engine type from the catalog type itself rather than writing it out: a type one
+# of our integrations owns is referenced by its registry name, and a type you manage by its
+# ID, so the two don't have the same shape.
+data "incident_catalog_type" "github_user" {
+  type_name = "GithubUser"
+}
+
 resource "incident_alert_attribute" "github_user" {
   name     = "Github user"
-  type     = "CatalogEntry[\"Github User\"]"
+  type     = data.incident_catalog_type.github_user.attribute_type
   array    = false
   required = true
 }
@@ -117,14 +125,40 @@ resource "incident_alert_source_attribute_beta" "gcp_service_staging" {
   alert_source_id    = incident_alert_source_beta.gcp_staging.id
   alert_attribute_id = incident_alert_attribute.gcp_service.id
 
-  value_reference = "payload.resource.labels.service_name"
+  # The payload is opaque JSON, so `payload` as a whole is the only part of it in scope: a
+  # reference to "payload.resource.labels.service_name" resolves to nothing. A parse reaches
+  # inside it.
+  expression {
+    start_from = "payload"
+
+    operation {
+      parse = {
+        # JavaScript, evaluated with the payload bound to `$`.
+        function = "$.resource.labels.service_name"
+        as       = "String"
+      }
+    }
+  }
 }
 
 resource "incident_alert_source_attribute_beta" "gcp_service_production" {
   alert_source_id    = incident_alert_source_beta.gcp_production.id
   alert_attribute_id = incident_alert_attribute.gcp_service.id
 
-  value_reference = "payload.resource.labels.service_name"
+  # The payload is opaque JSON, so `payload` as a whole is the only part of it in scope: a
+  # reference to "payload.resource.labels.service_name" resolves to nothing. A parse reaches
+  # inside it.
+  expression {
+    start_from = "payload"
+
+    operation {
+      parse = {
+        # JavaScript, evaluated with the payload bound to `$`.
+        function = "$.resource.labels.service_name"
+        as       = "String"
+      }
+    }
+  }
 }
 
 # Where a source lives in a different workspace to the attribute it binds, read the attribute
@@ -138,7 +172,20 @@ resource "incident_alert_source_attribute_beta" "gcp_service_other_workspace" {
   alert_source_id    = incident_alert_source_beta.gcp_other.id
   alert_attribute_id = data.incident_alert_attribute.existing_gcp_service.id
 
-  value_reference = "payload.resource.labels.service_name"
+  # The payload is opaque JSON, so `payload` as a whole is the only part of it in scope: a
+  # reference to "payload.resource.labels.service_name" resolves to nothing. A parse reaches
+  # inside it.
+  expression {
+    start_from = "payload"
+
+    operation {
+      parse = {
+        # JavaScript, evaluated with the payload bound to `$`.
+        function = "$.resource.labels.service_name"
+        as       = "String"
+      }
+    }
+  }
 }
 ```
 

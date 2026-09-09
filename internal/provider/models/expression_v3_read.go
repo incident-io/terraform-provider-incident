@@ -260,7 +260,7 @@ func operationFromPayload(operation client.ExpressionOperationPayloadV3) Operati
 			Array:    boolOrNull(operation.Parse.Returns.Array),
 		}
 	case operation.Navigate != nil:
-		model.Navigate = &Navigate{To: types.StringValue(operation.Navigate.Reference)}
+		model.Navigate = &Navigate{To: types.StringValue(catalogAttributeID(operation.Navigate.Reference))}
 	case operation.Cast != nil:
 		model.Cast = &Cast{As: types.StringValue(operation.Cast.Returns.Type)}
 	case operation.Concatenate != nil:

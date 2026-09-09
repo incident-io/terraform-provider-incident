@@ -67,38 +67,76 @@ resource "incident_alert_source_beta" "prometheus" {
     literal = data.incident_rich_text.prometheus_alert.json
   }
 
-  # An expression this source owns, addressed by name.
+  # Expressions this source owns, addressed by name. Setting a priority from the payload
+  # takes two of them.
+  #
+  # The payload is opaque JSON, so a condition can't reach inside it: `payload` as a whole
+  # is all one can see, and a subject of "payload.labels.severity" resolves to nothing.
+  # Parse the value out first...
   named_expression {
-    name = "severity_lookup"
+    name       = "severity_string"
+    start_from = "payload"
 
-    # A branches-only expression starts from the whole scope, so its conditions
-    # reference absolute paths.
+    operation {
+      parse = {
+        # JavaScript, evaluated with the payload bound to `$`.
+        function = "$.labels.severity"
+        as       = "String"
+      }
+    }
+  }
+
+  # ...then map that string onto a priority. Parsing straight into a priority would be
+  # shorter, but it resolves by matching the value against a priority's name, so a payload
+  # saying "critical" would match no priority called "Urgent" and every alert would land on
+  # the fallback. Branching on the value says what you mean.
+  named_expression {
+    name       = "severity_lookup"
     start_from = "."
 
     operation {
       branches {
-        as = incident_alert_attribute.severity.type
+        # A priority is a catalog entry, so the branches return its catalog type. Take the
+        # type from attribute_type rather than writing it out.
+        as = data.incident_catalog_type.alert_priority.attribute_type
 
         if {
           conditions = [{
-            subject   = "payload.labels.severity"
+            subject   = "expressions[\"severity_string\"]"
             operation = "one_of"
             params    = [{ values = ["critical", "page"] }]
           }]
-          result = { value_literal = "high" }
+          result = { value_literal = data.incident_catalog_entry.urgent_priority.id }
         }
       }
     }
 
     # What the expression produces when no branch matched.
     fallback {
-      result = { value_literal = "low" }
+      result = { value_literal = data.incident_catalog_entry.in_hours_priority.id }
     }
   }
 
   priority = {
     expression_ref = "severity_lookup"
   }
+}
+
+# An alert's priority is a catalog entry, so the priorities themselves are looked up rather
+# than declared. Urgent and In-hours are the ones a new account starts with; use whichever
+# your organisation has.
+data "incident_catalog_type" "alert_priority" {
+  type_name = "AlertPriority"
+}
+
+data "incident_catalog_entry" "urgent_priority" {
+  catalog_type_id = data.incident_catalog_type.alert_priority.id
+  identifier      = "Urgent"
+}
+
+data "incident_catalog_entry" "in_hours_priority" {
+  catalog_type_id = data.incident_catalog_type.alert_priority.id
+  identifier      = "In-hours"
 }
 
 data "incident_rich_text" "prometheus_alert" {
@@ -131,6 +169,15 @@ resource "incident_alert_source_beta" "nightly_backup" {
 resource "incident_alert_source_beta" "security_scanner" {
   name        = "Security scanner"
   source_type = "http"
+
+  # Every source but a heartbeat needs both of these: leave one out and the API writes
+  # its own default, which this resource has nowhere to store.
+  title = {
+    literal = "{{payload.rule}} on {{payload.target}}"
+  }
+  description = {
+    literal = "{{payload.detail}}"
+  }
 
   is_private = true
   visible_to_teams = {
