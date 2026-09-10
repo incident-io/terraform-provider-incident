@@ -10,6 +10,7 @@ description: |-
   This resource has no priority field. An alert's priority is set the same way as any other
   attribute: as an entry in template.attributes bound to the built-in Priority alert attribute,
   which you look up by name.
+  
   data "incident_alert_attribute" "priority" {
     name = "Priority"
   }
@@ -37,6 +38,7 @@ description: |-
   expression reaches into it with a parse operation, and a condition can only ask whether
   payload as a whole is set, so subject = "payload.severity" resolves to nothing. Parse the
   value out first, then branch on the result:
+  
   expressions = [
     {
       label          = "Severity"
@@ -96,15 +98,17 @@ This resource has no `priority` field. An alert's priority is set the same way a
 attribute: as an entry in `template.attributes` bound to the built-in `Priority` alert attribute,
 which you look up by name.
 
-    data "incident_alert_attribute" "priority" {
-      name = "Priority"
-    }
+```terraform
+data "incident_alert_attribute" "priority" {
+  name = "Priority"
+}
 
-    # ...then, in template.attributes
-    {
-      alert_attribute_id = data.incident_alert_attribute.priority.id
-      binding            = { value = { reference = "expressions[\"my-priority\"]" } }
-    }
+# ...then, in template.attributes
+{
+  alert_attribute_id = data.incident_alert_attribute.priority.id
+  binding            = { value = { reference = "expressions[\"my-priority\"]" } }
+}
+```
 
 A priority binding's `merge_strategy` can only be `last_wins`. Leave it out and the API fills
 it in — it reads back as `last_wins` either way, so there is no diff to manage. Setting any other
@@ -128,44 +132,46 @@ expression reaches into it with a `parse` operation, and a condition can only as
 `payload` as a whole is set, so `subject = "payload.severity"` resolves to nothing. Parse the
 value out first, then branch on the result:
 
-    expressions = [
-      {
-        label          = "Severity"
-        reference      = "severity"
-        root_reference = "payload"
-        operations = [{
-          operation_type = "parse"
-          parse = {
-            source  = "$['severity']"
-            returns = { type = "String", array = false }
-          }
-        }]
-      },
-      {
-        label          = "Priority"
-        reference      = "priority"
-        root_reference = "."
-        operations = [{
-          operation_type = "branches"
-          branches = {
-            returns = { type = "CatalogEntry[\"AlertPriority\"]", array = false }
-            branches = [{
-              condition_groups = [{
-                conditions = [{
-                  subject        = "expressions[\"severity\"]"
-                  operation      = "one_of"
-                  param_bindings = [{ values = ["CRITICAL", "critical"] }]
-                }]
-              }]
-              result = { value_literal = data.incident_catalog_entry.urgent_priority.id }
+```terraform
+expressions = [
+  {
+    label          = "Severity"
+    reference      = "severity"
+    root_reference = "payload"
+    operations = [{
+      operation_type = "parse"
+      parse = {
+        source  = "$['severity']"
+        returns = { type = "String", array = false }
+      }
+    }]
+  },
+  {
+    label          = "Priority"
+    reference      = "priority"
+    root_reference = "."
+    operations = [{
+      operation_type = "branches"
+      branches = {
+        returns = { type = "CatalogEntry[\"AlertPriority\"]", array = false }
+        branches = [{
+          condition_groups = [{
+            conditions = [{
+              subject        = "expressions[\"severity\"]"
+              operation      = "one_of"
+              param_bindings = [{ values = ["CRITICAL", "critical"] }]
             }]
-          }
+          }]
+          result = { value_literal = data.incident_catalog_entry.urgent_priority.id }
         }]
-        else_branch = {
-          result = { value_literal = data.incident_catalog_entry.low_priority.id }
-        }
-      },
-    ]
+      }
+    }]
+    else_branch = {
+      result = { value_literal = data.incident_catalog_entry.low_priority.id }
+    }
+  },
+]
+```
 
 A `branches` operation reads the whole scope, so it needs `root_reference = "."` and has to be the
 only operation in its expression.
@@ -224,7 +230,7 @@ resource "incident_alert_source" "cloudwatch" {
       })
     }
 
-    ## Bind the `team` expression to an Alert Attribute we can use to label our Alerts
+    ## Bind the `team` expression to an Alert Attribute we can use to label our Alerts
     attributes = [
       {
         alert_attribute_id = data.incident_alert_attribute.team.id
@@ -256,7 +262,7 @@ resource "incident_alert_source" "cloudwatch" {
       },
     ]
 
-    ## Query the `team` value from the endpoint referenced in the SNS Topic Subscription
+    ## Query the `team` value from the endpoint referenced in the SNS Topic Subscription
     expressions = [
       {
         label = "Team"
@@ -266,7 +272,7 @@ resource "incident_alert_source" "cloudwatch" {
             parse = {
               returns = {
                 array = false
-                ## This'll bind to some Catalog Entry Type
+                ## This'll bind to some Catalog Entry Type
                 type = "CatalogEntry[\"CatalogEntryID\"]"
               }
               source = "$['query_params']['team']"
@@ -378,13 +384,13 @@ data "incident_catalog_entry" "low_priority" {
   identifier      = "Low"
 }
 
-## AWS Resources
+## AWS Resources
 
 resource "aws_sns_topic" "alerts" {
   name = "cloudwatch-alerts"
 }
 
-## SNS Topic Subscription that routes to the incident.io Alert Source created above
+## SNS Topic Subscription that routes to the incident.io Alert Source created above
 
 resource "aws_sns_topic_subscription" "incidentio_alert_source" {
   endpoint               = "https://api.incident.io/v2/alert_events/cloudwatch/${incident_alert_source.cloudwatch.id}?team=platform"

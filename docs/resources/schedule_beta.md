@@ -32,6 +32,7 @@ description: |-
   Moving across is not a rename, because one incident_schedule becomes one
   incident_schedule_beta plus one incident_schedule_rotation_beta per
   rotation. The schedule itself moves, with a moved block:
+  
   moved {
     from = incident_schedule.primary
     to   = incident_schedule_beta.primary
@@ -41,6 +42,7 @@ description: |-
   there is nowhere to take a second from. A rotation is identified by the schedule it
   belongs to as well as itself, and its own ID is the one your old configuration chose -
   the old resource sent it - so you already know both:
+  
   import {
     to = incident_schedule_rotation_beta.primary_weekdays
     id = "01ABC123DEF456GHI789JKL:primary_weekdays"
@@ -95,20 +97,24 @@ Moving across is not a rename, because one `incident_schedule` becomes one
 `incident_schedule_beta` plus one `incident_schedule_rotation_beta` per
 rotation. The schedule itself moves, with a `moved` block:
 
-    moved {
-      from = incident_schedule.primary
-      to   = incident_schedule_beta.primary
-    }
+```terraform
+moved {
+  from = incident_schedule.primary
+  to   = incident_schedule_beta.primary
+}
+```
 
 Its rotations are imported instead, because a `moved` block has one target and
 there is nowhere to take a second from. A rotation is identified by the schedule it
 belongs to as well as itself, and its own ID is the one your old configuration chose -
 the old resource sent it - so you already know both:
 
-    import {
-      to = incident_schedule_rotation_beta.primary_weekdays
-      id = "01ABC123DEF456GHI789JKL:primary_weekdays"
-    }
+```terraform
+import {
+  to = incident_schedule_rotation_beta.primary_weekdays
+  id = "01ABC123DEF456GHI789JKL:primary_weekdays"
+}
+```
 
 Write the new resources alongside those blocks, delete the old `incident_schedule`
 from your configuration, and plan. The schedule should report no changes and each

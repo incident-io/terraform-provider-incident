@@ -46,7 +46,7 @@ resource "incident_alert_source" "cloudwatch" {
       })
     }
 
-    ## Bind the `team` expression to an Alert Attribute we can use to label our Alerts
+    ## Bind the `team` expression to an Alert Attribute we can use to label our Alerts
     attributes = [
       {
         alert_attribute_id = data.incident_alert_attribute.team.id
@@ -78,7 +78,7 @@ resource "incident_alert_source" "cloudwatch" {
       },
     ]
 
-    ## Query the `team` value from the endpoint referenced in the SNS Topic Subscription
+    ## Query the `team` value from the endpoint referenced in the SNS Topic Subscription
     expressions = [
       {
         label = "Team"
@@ -88,7 +88,7 @@ resource "incident_alert_source" "cloudwatch" {
             parse = {
               returns = {
                 array = false
-                ## This'll bind to some Catalog Entry Type
+                ## This'll bind to some Catalog Entry Type
                 type = "CatalogEntry[\"CatalogEntryID\"]"
               }
               source = "$['query_params']['team']"
@@ -200,13 +200,13 @@ data "incident_catalog_entry" "low_priority" {
   identifier      = "Low"
 }
 
-## AWS Resources
+## AWS Resources
 
 resource "aws_sns_topic" "alerts" {
   name = "cloudwatch-alerts"
 }
 
-## SNS Topic Subscription that routes to the incident.io Alert Source created above
+## SNS Topic Subscription that routes to the incident.io Alert Source created above
 
 resource "aws_sns_topic_subscription" "incidentio_alert_source" {
   endpoint               = "https://api.incident.io/v2/alert_events/cloudwatch/${incident_alert_source.cloudwatch.id}?team=platform"
