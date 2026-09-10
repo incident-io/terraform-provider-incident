@@ -2,10 +2,12 @@
 package client
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/hashicorp/go-retryablehttp"
@@ -56,6 +58,10 @@ func New(ctx context.Context, apiKey, apiEndpoint, version string, opts ...Clien
 			}
 		}
 
+		if err := requireJSONBody(resp); err != nil {
+			return nil, err
+		}
+
 		return resp, err
 	})
 
@@ -75,6 +81,59 @@ func New(ctx context.Context, apiKey, apiEndpoint, version string, opts ...Clien
 	}
 
 	return client, nil
+}
+
+// requireJSONBody rejects a success response carrying a body the generated client won't
+// parse, which is any body that isn't JSON.
+//
+// The generated Parse functions only populate the typed body (JSON200, JSON201...) when the
+// status matches and the content type contains "json". Otherwise they return the response
+// with every typed field nil and no error, and every caller dereferences that field — so the
+// provider panics and the plugin crashes, rather than reporting anything useful.
+//
+// The API schema only ever describes JSON response bodies, so a non-JSON body on a 2xx means
+// something between us and the API rewrote the response: a proxy's HTML error or sign-in
+// page is the usual culprit. Surfacing that beats a nil dereference.
+//
+// An empty body is left alone: the schema has 44 success responses that declare no body at
+// all, all of them 204s from a delete, and those callers don't touch the typed field.
+func requireJSONBody(resp *http.Response) error {
+	if isJSONContentType(resp.Header.Get("Content-Type")) {
+		return nil
+	}
+
+	data, err := io.ReadAll(resp.Body)
+	_ = resp.Body.Close()
+	if err != nil {
+		return fmt.Errorf("status %d: reading response body: %w", resp.StatusCode, err)
+	}
+
+	// Put the body back for the caller, which still has to parse it.
+	resp.Body = io.NopCloser(bytes.NewReader(data))
+
+	if len(bytes.TrimSpace(data)) == 0 {
+		return nil
+	}
+
+	return fmt.Errorf(
+		"status %d: expected a JSON response body but the content type was %q, so the response could not be read. This usually means something between you and the incident.io API rewrote the response, such as a proxy returning an error page. Body: %s",
+		resp.StatusCode, resp.Header.Get("Content-Type"), truncateForError(data))
+}
+
+// isJSONContentType matches the test the generated client uses to decide whether to parse a
+// body, so the two can't disagree about what counts as JSON.
+func isJSONContentType(contentType string) bool {
+	return strings.Contains(contentType, "json")
+}
+
+// truncateForError keeps an unexpected body short enough to put in a diagnostic.
+func truncateForError(data []byte) string {
+	const limit = 512
+	if len(data) <= limit {
+		return string(data)
+	}
+
+	return string(data[:limit]) + "... (truncated)"
 }
 
 const (
