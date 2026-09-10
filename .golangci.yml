@@ -5,6 +5,7 @@ linters:
     - copyloopvar
     - durationcheck
     - errcheck
+    - forbidigo
     - forcetypeassert
     - godot
     - govet
@@ -18,12 +19,32 @@ linters:
     - unparam
     - unused
   settings:
+    forbidigo:
+      forbid:
+        # A panic takes the whole provider process down, and Terraform reports it as a
+        # plugin crash with a Go stack trace rather than an error against the resource
+        # that caused it. Return diagnostics instead, so the user sees which attribute
+        # is wrong. Unreachable assertions count: write them as an error return.
+        - pattern: ^panic$
+          msg: return diagnostics or an error rather than panicking; a panic is reported to the user as a provider crash
     staticcheck:
       checks:
         - all
         - -SA1006
   exclusions:
     generated: lax
+    rules:
+      # Tests may panic: a panic in a test fails that test, rather than crashing a
+      # user's apply.
+      - path: _test\.go
+        linters:
+          - forbidigo
+      # apischema asserts against the embedded OpenAPI schema while the provider's own
+      # schemas are built, before any request. A wrong name there is a build-time
+      # mistake that fails identically on every run, so panicking is the report.
+      - path: internal/apischema/
+        linters:
+          - forbidigo
     presets:
       - comments
       - common-false-positives

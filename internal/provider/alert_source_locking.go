@@ -16,7 +16,27 @@ import (
 //
 // Keyed per source rather than one global lock, because a version is per source and two
 // sources have no reason to wait for each other.
-var alertSourceWriteMutexes sync.Map
+//
+// A typed map behind its own mutex rather than a sync.Map, so reading one back needs no type
+// assertion: there is no wrong-type case to report, and so nothing here has to panic.
+var (
+	alertSourceWriteMutexesLock sync.Mutex
+	alertSourceWriteMutexes     = map[string]*sync.Mutex{}
+)
+
+// alertSourceWriteMutex returns the mutex for sourceID, creating it on first use.
+func alertSourceWriteMutex(sourceID string) *sync.Mutex {
+	alertSourceWriteMutexesLock.Lock()
+	defer alertSourceWriteMutexesLock.Unlock()
+
+	mutex, ok := alertSourceWriteMutexes[sourceID]
+	if !ok {
+		mutex = &sync.Mutex{}
+		alertSourceWriteMutexes[sourceID] = mutex
+	}
+
+	return mutex
+}
 
 // lockForAlertSource runs fn holding the write lock for sourceID.
 //
@@ -27,12 +47,7 @@ func lockForAlertSource[T any](
 	sourceID string,
 	fn func(context.Context) (T, error),
 ) (T, error) {
-	value, _ := alertSourceWriteMutexes.LoadOrStore(sourceID, &sync.Mutex{})
-	mutex, ok := value.(*sync.Mutex)
-	if !ok {
-		// Unreachable: alertSourceWriteMutexes only ever stores *sync.Mutex.
-		panic("alertSourceWriteMutexes contained a non-*sync.Mutex value")
-	}
+	mutex := alertSourceWriteMutex(sourceID)
 
 	mutex.Lock()
 	defer mutex.Unlock()

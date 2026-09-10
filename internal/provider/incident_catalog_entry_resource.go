@@ -7,6 +7,7 @@ import (
 	"sort"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -43,7 +44,8 @@ type IncidentCatalogEntryResourceModel struct {
 	ManagedAttributes types.Set                    `tfsdk:"managed_attributes"`
 }
 
-func (m IncidentCatalogEntryResourceModel) buildAttributeValues(ctx context.Context) map[string]client.CatalogEngineParamBindingPayloadV3 {
+func (m IncidentCatalogEntryResourceModel) buildAttributeValues() (map[string]client.CatalogEngineParamBindingPayloadV3, diag.Diagnostics) {
+	var diags diag.Diagnostics
 	values := map[string]client.CatalogEngineParamBindingPayloadV3{}
 
 	for _, attributeValue := range m.AttributeValues {
@@ -62,13 +64,15 @@ func (m IncidentCatalogEntryResourceModel) buildAttributeValues(ctx context.Cont
 		}
 		if !attributeValue.ArrayValue.IsNull() {
 			arrayValue := []client.CatalogEngineParamBindingValuePayloadV3{}
-			for _, element := range attributeValue.ArrayValue.Elements() {
+			for idx, element := range attributeValue.ArrayValue.Elements() {
 				elementString, ok := element.(types.String)
 				if !ok {
-					tflog.Error(ctx, "Failed to map attribute for catalog entry to string", map[string]any{
-						"element_type": fmt.Sprintf("element should have been types.String but was %T", element),
-					})
-					panic(fmt.Sprintf("element should have been types.String but was %T", element))
+					diags.AddAttributeError(
+						path.Root("attribute_values"),
+						"Unexpected attribute value type",
+						fmt.Sprintf("array_value[%d] of attribute %q should have been a string but was %T. Please report this issue to the provider developers.", idx, attrID, element),
+					)
+					return nil, diags
 				}
 				arrayValue = append(arrayValue, client.CatalogEngineParamBindingValuePayloadV3{
 					Literal: lo.ToPtr(elementString.ValueString()),
@@ -81,7 +85,7 @@ func (m IncidentCatalogEntryResourceModel) buildAttributeValues(ctx context.Cont
 		values[attrID] = payload
 	}
 
-	return values
+	return values, diags
 }
 
 type CatalogEntryAttributeValue struct {
@@ -223,13 +227,19 @@ func (r *IncidentCatalogEntryResource) Create(ctx context.Context, req resource.
 		externalID = nil
 	}
 
+	attributeValues, diags := data.buildAttributeValues()
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
 	result, err := r.client.CatalogV3CreateEntryWithResponse(ctx, client.CatalogCreateEntryPayloadV3{
 		CatalogTypeId:   data.CatalogTypeID.ValueString(),
 		Name:            data.Name.ValueString(),
 		ExternalId:      externalID,
 		Rank:            rank,
 		Aliases:         &aliases,
-		AttributeValues: data.buildAttributeValues(ctx),
+		AttributeValues: attributeValues,
 	})
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create catalog entry, got error: %s", err))
@@ -300,12 +310,18 @@ func (r *IncidentCatalogEntryResource) Update(ctx context.Context, req resource.
 		externalID = nil
 	}
 
+	attributeValues, diags := data.buildAttributeValues()
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
 	result, err := r.client.CatalogV3UpdateEntryWithResponse(ctx, data.ID.ValueString(), client.CatalogUpdateEntryPayloadV3{
 		Name:             data.Name.ValueString(),
 		Rank:             rank,
 		ExternalId:       externalID,
 		Aliases:          &aliases,
-		AttributeValues:  data.buildAttributeValues(ctx),
+		AttributeValues:  attributeValues,
 		UpdateAttributes: updateAttributes,
 	})
 	if err != nil {
