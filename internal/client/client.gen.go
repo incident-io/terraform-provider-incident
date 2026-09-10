@@ -5061,6 +5061,24 @@ func (e EscalationPathTemplateNodeV2Type) Valid() bool {
 	}
 }
 
+// Defines values for EscalationPathV2Kind.
+const (
+	EscalationPathV2KindStandalone EscalationPathV2Kind = "standalone"
+	EscalationPathV2KindTemplated  EscalationPathV2Kind = "templated"
+)
+
+// Valid indicates whether the value is a known member of the EscalationPathV2Kind enum.
+func (e EscalationPathV2Kind) Valid() bool {
+	switch e {
+	case EscalationPathV2KindStandalone:
+		return true
+	case EscalationPathV2KindTemplated:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for EscalationUserResponseOptionsV2AvailableActions.
 const (
 	EscalationUserResponseOptionsV2AvailableActionsAck    EscalationUserResponseOptionsV2AvailableActions = "ack"
@@ -5121,6 +5139,24 @@ func (e EscalationV2Status) Valid() bool {
 	}
 }
 
+// Defines values for EscalationsCreatePathPayloadV2Kind.
+const (
+	EscalationsCreatePathPayloadV2KindStandalone EscalationsCreatePathPayloadV2Kind = "standalone"
+	EscalationsCreatePathPayloadV2KindTemplated  EscalationsCreatePathPayloadV2Kind = "templated"
+)
+
+// Valid indicates whether the value is a known member of the EscalationsCreatePathPayloadV2Kind enum.
+func (e EscalationsCreatePathPayloadV2Kind) Valid() bool {
+	switch e {
+	case EscalationsCreatePathPayloadV2KindStandalone:
+		return true
+	case EscalationsCreatePathPayloadV2KindTemplated:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for EscalationsRespondEscalationPayloadV2Response.
 const (
 	EscalationsRespondEscalationPayloadV2ResponseAck    EscalationsRespondEscalationPayloadV2Response = "ack"
@@ -5136,6 +5172,42 @@ func (e EscalationsRespondEscalationPayloadV2Response) Valid() bool {
 	case EscalationsRespondEscalationPayloadV2ResponseNack:
 		return true
 	case EscalationsRespondEscalationPayloadV2ResponseSnooze:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for EscalationsUpdatePathPayloadV2Kind.
+const (
+	EscalationsUpdatePathPayloadV2KindStandalone EscalationsUpdatePathPayloadV2Kind = "standalone"
+	EscalationsUpdatePathPayloadV2KindTemplated  EscalationsUpdatePathPayloadV2Kind = "templated"
+)
+
+// Valid indicates whether the value is a known member of the EscalationsUpdatePathPayloadV2Kind enum.
+func (e EscalationsUpdatePathPayloadV2Kind) Valid() bool {
+	switch e {
+	case EscalationsUpdatePathPayloadV2KindStandalone:
+		return true
+	case EscalationsUpdatePathPayloadV2KindTemplated:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for EscalationsValidatePathPayloadV2Kind.
+const (
+	EscalationsValidatePathPayloadV2KindStandalone EscalationsValidatePathPayloadV2Kind = "standalone"
+	EscalationsValidatePathPayloadV2KindTemplated  EscalationsValidatePathPayloadV2Kind = "templated"
+)
+
+// Valid indicates whether the value is a known member of the EscalationsValidatePathPayloadV2Kind enum.
+func (e EscalationsValidatePathPayloadV2Kind) Valid() bool {
+	switch e {
+	case EscalationsValidatePathPayloadV2KindStandalone:
+		return true
+	case EscalationsValidatePathPayloadV2KindTemplated:
 		return true
 	default:
 		return false
@@ -13268,19 +13340,6 @@ type AlertSourcesValidateResultV3 struct {
 	Warnings []AlertSourceValidateWarningV3 `json:"warnings"`
 }
 
-// AlertTagInputV2 Example: {"id":"01GW2G3V0S59R238FAHPDS1R66","name":"noisy"}
-type AlertTagInputV2 struct {
-	// Id Unique identifier for an existing tag
-	//
-	// Example: 01GW2G3V0S59R238FAHPDS1R66
-	Id *string `json:"id,omitempty"`
-
-	// Name The name of a tag to look up or create
-	//
-	// Example: noisy
-	Name *string `json:"name,omitempty"`
-}
-
 // AlertTagV2 Example: {"id":"01GW2G3V0S59R238FAHPDS1R66","name":"noisy"}
 type AlertTagV2 struct {
 	// Id Unique identifier for the tag
@@ -13487,12 +13546,12 @@ type AlertV2 struct {
 // Example: firing
 type AlertV2Status string
 
-// AlertsAddTagsPayloadV2 Example: {"tags":[{"id":"01GW2G3V0S59R238FAHPDS1R66"},{"name":"known issue"}]}
+// AlertsAddTagsPayloadV2 Example: {"tags":["known issue","customer impacting"]}
 type AlertsAddTagsPayloadV2 struct {
-	// Tags Tags to add to this alert
+	// Tags Tag names to add to this alert
 	//
-	// Example: [{"id":"01GW2G3V0S59R238FAHPDS1R66"},{"name":"known issue"}]
-	Tags []AlertTagInputV2 `json:"tags"`
+	// Example: ["known issue","customer impacting"]
+	Tags []string `json:"tags"`
 }
 
 // AlertsAddTagsResultV2 Example: {"alert":{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","attributes":[{"array_value":[{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}],"attribute":{"array":false,"emoji":"fire","id":"01GW2G3V0S59R238FAHPDS1R66","name":"service","required":false,"type":"CatalogEntry[\"01GW2G3V0S59R238FAHPDS1R67\"]"},"value":{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}}],"created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","tags":[{"id":"01GW2G3V0S59R238FAHPDS1R66","name":"noisy"}],"title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}}
@@ -13552,12 +13611,12 @@ type AlertsListResultV2 struct {
 	PaginationMeta PaginationMetaResultV2 `json:"pagination_meta"`
 }
 
-// AlertsRemoveTagsPayloadV2 Example: {"tags":[{"id":"01GW2G3V0S59R238FAHPDS1R66"},{"name":"known issue"}]}
+// AlertsRemoveTagsPayloadV2 Example: {"tags":["known issue","customer impacting"]}
 type AlertsRemoveTagsPayloadV2 struct {
-	// Tags Tags to remove from this alert
+	// Tags Tag names to remove from this alert
 	//
-	// Example: [{"id":"01GW2G3V0S59R238FAHPDS1R66"},{"name":"known issue"}]
-	Tags []AlertTagInputV2 `json:"tags"`
+	// Example: ["known issue","customer impacting"]
+	Tags []string `json:"tags"`
 }
 
 // AlertsRemoveTagsResultV2 Example: {"alert":{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","attributes":[{"array_value":[{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}],"attribute":{"array":false,"emoji":"fire","id":"01GW2G3V0S59R238FAHPDS1R66","name":"service","required":false,"type":"CatalogEntry[\"01GW2G3V0S59R238FAHPDS1R67\"]"},"value":{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}}],"created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","tags":[{"id":"01GW2G3V0S59R238FAHPDS1R66","name":"noisy"}],"title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}}
@@ -13572,12 +13631,12 @@ type AlertsResolveResultV2 struct {
 	Alert AlertV2 `json:"alert"`
 }
 
-// AlertsSetTagsPayloadV2 Example: {"tags":[{"id":"01GW2G3V0S59R238FAHPDS1R66"},{"name":"known issue"}]}
+// AlertsSetTagsPayloadV2 Example: {"tags":["known issue","customer impacting"]}
 type AlertsSetTagsPayloadV2 struct {
-	// Tags The complete set of tags for this alert
+	// Tags The complete set of tag names for this alert
 	//
-	// Example: [{"id":"01GW2G3V0S59R238FAHPDS1R66"},{"name":"known issue"}]
-	Tags []AlertTagInputV2 `json:"tags"`
+	// Example: ["known issue","customer impacting"]
+	Tags []string `json:"tags"`
 }
 
 // AlertsSetTagsResultV2 Example: {"alert":{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","attributes":[{"array_value":[{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}],"attribute":{"array":false,"emoji":"fire","id":"01GW2G3V0S59R238FAHPDS1R66","name":"service","required":false,"type":"CatalogEntry[\"01GW2G3V0S59R238FAHPDS1R67\"]"},"value":{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}}],"created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","tags":[{"id":"01GW2G3V0S59R238FAHPDS1R66","name":"noisy"}],"title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}}
@@ -17804,7 +17863,7 @@ type EscalationPathTemplatesUpdateResultV2 struct {
 	EscalationPathTemplate EscalationPathTemplateV2 `json:"escalation_path_template"`
 }
 
-// EscalationPathV2 Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
+// EscalationPathV2 Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
 type EscalationPathV2 struct {
 	// CurrentResponders Users who are currently on-call for this escalation path
 	//
@@ -17816,12 +17875,22 @@ type EscalationPathV2 struct {
 	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
 	Id string `json:"id"`
 
+	// Kind Whether this path carries its own nodes, or is built from an escalation path template.
+	//
+	// Example: templated
+	Kind EscalationPathV2Kind `json:"kind"`
+
 	// Name The name of this escalation path, for the user's reference.
 	//
 	// Example: Urgent Support
 	Name string `json:"name"`
 
-	// Path The nodes that form the levels and branches of this escalation path.
+	// ParamBindings For a templated path, the values bound to the template's declared parameters, keyed by parameter name.
+	//
+	// Example: {"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}
+	ParamBindings *map[string]EngineParamBindingV2 `json:"param_bindings,omitempty"`
+
+	// Path The nodes that form the levels and branches of this escalation path. Empty for a templated path, which takes them from its template.
 	//
 	// Example: [{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]
 	Path []EscalationPathNodeV2 `json:"path"`
@@ -17834,11 +17903,21 @@ type EscalationPathV2 struct {
 	// Example: ["01JPQA75EPNEES4479P16P4XAB"]
 	TeamIds []string `json:"team_ids"`
 
-	// WorkingHours The working hours for this escalation path.
+	// TemplateId For a templated path, the template it is built from.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	TemplateId *string `json:"template_id,omitempty"`
+
+	// WorkingHours The working hours for this escalation path. Absent for a templated path, which takes them from its template.
 	//
 	// Example: [{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]
 	WorkingHours *[]WeekdayIntervalConfigV2 `json:"working_hours,omitempty"`
 }
+
+// EscalationPathV2Kind Whether this path carries its own nodes, or is built from an escalation path template.
+//
+// Example: templated
+type EscalationPathV2Kind string
 
 // EscalationPathValidateWarningV2 Example: {"detail":"When the condition matches, escalation stops here instead of continuing.","path":"path.0.if_else.then_path","summary":"if_else has an empty \"then\" branch"}
 type EscalationPathValidateWarningV2 struct {
@@ -17991,18 +18070,28 @@ type EscalationsCreateExternalEscalationPathPayloadV2 struct {
 	ExternalEscalationPathId string `json:"external_escalation_path_id"`
 }
 
-// EscalationsCreateExternalEscalationPathResultV2 Example: {"escalation_path":{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}}
+// EscalationsCreateExternalEscalationPathResultV2 Example: {"escalation_path":{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}}
 type EscalationsCreateExternalEscalationPathResultV2 struct {
-	// EscalationPath Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
+	// EscalationPath Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
 	EscalationPath EscalationPathV2 `json:"escalation_path"`
 }
 
-// EscalationsCreatePathPayloadV2 Example: {"name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
+// EscalationsCreatePathPayloadV2 Example: {"kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
 type EscalationsCreatePathPayloadV2 struct {
+	// Kind Whether this path carries its own nodes, or is built from an escalation path template.
+	//
+	// Example: templated
+	Kind *EscalationsCreatePathPayloadV2Kind `json:"kind,omitempty"`
+
 	// Name The name of this escalation path, for the user's reference.
 	//
 	// Example: Urgent Support
 	Name string `json:"name"`
+
+	// ParamBindings For a templated path, the values to bind to the template's declared parameters, keyed by parameter name.
+	//
+	// Example: {"abc123":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
+	ParamBindings *map[string]EngineParamBindingPayloadV2 `json:"param_bindings,omitempty"`
 
 	// Path The nodes that form the levels and branches of this escalation path.
 	//
@@ -18017,15 +18106,25 @@ type EscalationsCreatePathPayloadV2 struct {
 	// Example: ["01JPQA75EPNEES4479P16P4XAB"]
 	TeamIds *[]string `json:"team_ids,omitempty"`
 
+	// TemplateId For a templated path, the template to build it from. Required when kind is templated.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	TemplateId *string `json:"template_id,omitempty"`
+
 	// WorkingHours The working hours for this escalation path.
 	//
 	// Example: [{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]
 	WorkingHours *[]WeekdayIntervalConfigV2 `json:"working_hours,omitempty"`
 }
 
-// EscalationsCreatePathResultV2 Example: {"escalation_path":{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}}
+// EscalationsCreatePathPayloadV2Kind Whether this path carries its own nodes, or is built from an escalation path template.
+//
+// Example: templated
+type EscalationsCreatePathPayloadV2Kind string
+
+// EscalationsCreatePathResultV2 Example: {"escalation_path":{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}}
 type EscalationsCreatePathResultV2 struct {
-	// EscalationPath Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
+	// EscalationPath Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
 	EscalationPath EscalationPathV2 `json:"escalation_path"`
 }
 
@@ -18077,9 +18176,9 @@ type EscalationsListExternalEscalationPathsResultV2 struct {
 	PaginationMeta PaginationMetaResultV2 `json:"pagination_meta"`
 }
 
-// EscalationsListPathsResultV2 Example: {"escalation_paths":[{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}],"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}}
+// EscalationsListPathsResultV2 Example: {"escalation_paths":[{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}],"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}}
 type EscalationsListPathsResultV2 struct {
-	// EscalationPaths Example: [{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}]
+	// EscalationPaths Example: [{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}]
 	EscalationPaths []EscalationPathV2 `json:"escalation_paths"`
 
 	// PaginationMeta Example: {"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}
@@ -18145,9 +18244,9 @@ type EscalationsRespondEscalationPayloadV2 struct {
 // Example: ack
 type EscalationsRespondEscalationPayloadV2Response string
 
-// EscalationsShowPathResultV2 Example: {"escalation_path":{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}}
+// EscalationsShowPathResultV2 Example: {"escalation_path":{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}}
 type EscalationsShowPathResultV2 struct {
-	// EscalationPath Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
+	// EscalationPath Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
 	EscalationPath EscalationPathV2 `json:"escalation_path"`
 }
 
@@ -18157,13 +18256,23 @@ type EscalationsShowResultV2 struct {
 	Escalation EscalationV2 `json:"escalation"`
 }
 
-// EscalationsUpdatePathPayloadV2 Example: {"name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
+// EscalationsUpdatePathPayloadV2 Example: {"kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
 type EscalationsUpdatePathPayloadV2 struct {
+	// Kind Whether this path carries its own nodes, or is built from an escalation path template.
+	//
+	// Example: templated
+	Kind *EscalationsUpdatePathPayloadV2Kind `json:"kind,omitempty"`
+
 	// Name The name of this escalation path, for the user's reference.
 	//
 	// Example: Urgent Support
 	Name string `json:"name"`
 
+	// ParamBindings For a templated path, the values to bind to the template's declared parameters, keyed by parameter name.
+	//
+	// Example: {"abc123":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
+	ParamBindings *map[string]EngineParamBindingPayloadV2 `json:"param_bindings,omitempty"`
+
 	// Path The nodes that form the levels and branches of this escalation path.
 	//
 	// Example: [{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]
@@ -18177,20 +18286,40 @@ type EscalationsUpdatePathPayloadV2 struct {
 	// Example: ["01JPQA75EPNEES4479P16P4XAB"]
 	TeamIds *[]string `json:"team_ids,omitempty"`
 
+	// TemplateId For a templated path, the template to build it from. Required when kind is templated.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	TemplateId *string `json:"template_id,omitempty"`
+
 	// WorkingHours The working hours for this escalation path.
 	//
 	// Example: [{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]
 	WorkingHours *[]WeekdayIntervalConfigV2 `json:"working_hours,omitempty"`
 }
 
-// EscalationsUpdatePathResultV2 Example: {"escalation_path":{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}}
+// EscalationsUpdatePathPayloadV2Kind Whether this path carries its own nodes, or is built from an escalation path template.
+//
+// Example: templated
+type EscalationsUpdatePathPayloadV2Kind string
+
+// EscalationsUpdatePathResultV2 Example: {"escalation_path":{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}}
 type EscalationsUpdatePathResultV2 struct {
-	// EscalationPath Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
+	// EscalationPath Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
 	EscalationPath EscalationPathV2 `json:"escalation_path"`
 }
 
-// EscalationsValidatePathPayloadV2 Example: {"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
+// EscalationsValidatePathPayloadV2 Example: {"kind":"templated","param_bindings":{"abc123":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
 type EscalationsValidatePathPayloadV2 struct {
+	// Kind Whether this path carries its own nodes, or is built from an escalation path template.
+	//
+	// Example: templated
+	Kind *EscalationsValidatePathPayloadV2Kind `json:"kind,omitempty"`
+
+	// ParamBindings For a templated path, the values to bind to the template's declared parameters, keyed by parameter name.
+	//
+	// Example: {"abc123":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
+	ParamBindings *map[string]EngineParamBindingPayloadV2 `json:"param_bindings,omitempty"`
+
 	// Path The nodes that form the levels and branches of this escalation path.
 	//
 	// Example: [{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]
@@ -18204,11 +18333,21 @@ type EscalationsValidatePathPayloadV2 struct {
 	// Example: ["01JPQA75EPNEES4479P16P4XAB"]
 	TeamIds *[]string `json:"team_ids,omitempty"`
 
+	// TemplateId For a templated path, the template to build it from. Required when kind is templated.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	TemplateId *string `json:"template_id,omitempty"`
+
 	// WorkingHours The working hours for this escalation path.
 	//
 	// Example: [{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]
 	WorkingHours *[]WeekdayIntervalConfigV2 `json:"working_hours,omitempty"`
 }
+
+// EscalationsValidatePathPayloadV2Kind Whether this path carries its own nodes, or is built from an escalation path template.
+//
+// Example: templated
+type EscalationsValidatePathPayloadV2Kind string
 
 // EscalationsValidatePathResultV2 Example: {"warnings":[{"detail":"When the condition matches, escalation stops here instead of continuing.","path":"path.0.if_else.then_path","summary":"if_else has an empty \"then\" branch"}]}
 type EscalationsValidatePathResultV2 struct {
@@ -30918,9 +31057,9 @@ type ClientInterface interface {
 	//
 	// Add tags to an alert without changing its existing tags.
 	//
-	// Each tag must specify exactly one of id or name. A name that does not exist is created,
-	// except on private alerts, where only names already in the organisation's tag vocabulary
-	// can be used. Tags that are already present are ignored.
+	// Each tag is a name. A name that does not exist is created, except on private alerts,
+	// where only names already in the organisation's tag vocabulary can be used. Tags that are
+	// already present are ignored.
 	//
 	// Takes any type of body and a specified content type.
 	//
@@ -30931,9 +31070,9 @@ type ClientInterface interface {
 	//
 	// Add tags to an alert without changing its existing tags.
 	//
-	// Each tag must specify exactly one of id or name. A name that does not exist is created,
-	// except on private alerts, where only names already in the organisation's tag vocabulary
-	// can be used. Tags that are already present are ignored.
+	// Each tag is a name. A name that does not exist is created, except on private alerts,
+	// where only names already in the organisation's tag vocabulary can be used. Tags that are
+	// already present are ignored.
 	//
 	// Takes a body of the `application/json` content type.
 	//
@@ -30944,8 +31083,7 @@ type ClientInterface interface {
 	//
 	// Remove tags from an alert without changing its other tags.
 	//
-	// Each tag must specify exactly one of id or name. Tags that are not present on the alert
-	// are ignored.
+	// Each tag is a name. Tags that are not present on the alert are ignored.
 	//
 	// Takes any type of body and a specified content type.
 	//
@@ -30956,8 +31094,7 @@ type ClientInterface interface {
 	//
 	// Remove tags from an alert without changing its other tags.
 	//
-	// Each tag must specify exactly one of id or name. Tags that are not present on the alert
-	// are ignored.
+	// Each tag is a name. Tags that are not present on the alert are ignored.
 	//
 	// Takes a body of the `application/json` content type.
 	//
@@ -30981,9 +31118,9 @@ type ClientInterface interface {
 	//
 	// Replace all tags on an alert.
 	//
-	// Each tag must specify exactly one of id or name. A name that does not exist is created,
-	// except on private alerts, where only names already in the organisation's tag vocabulary
-	// can be used. Passing an empty list removes every tag.
+	// Each tag is a name. A name that does not exist is created, except on private alerts,
+	// where only names already in the organisation's tag vocabulary can be used. Passing an
+	// empty list removes every tag.
 	//
 	// Takes any type of body and a specified content type.
 	//
@@ -30994,9 +31131,9 @@ type ClientInterface interface {
 	//
 	// Replace all tags on an alert.
 	//
-	// Each tag must specify exactly one of id or name. A name that does not exist is created,
-	// except on private alerts, where only names already in the organisation's tag vocabulary
-	// can be used. Passing an empty list removes every tag.
+	// Each tag is a name. A name that does not exist is created, except on private alerts,
+	// where only names already in the organisation's tag vocabulary can be used. Passing an
+	// empty list removes every tag.
 	//
 	// Takes a body of the `application/json` content type.
 	//
@@ -37475,9 +37612,9 @@ func (c *Client) AlertsV2Show(ctx context.Context, id string, reqEditors ...Requ
 //
 // Add tags to an alert without changing its existing tags.
 //
-// Each tag must specify exactly one of id or name. A name that does not exist is created,
-// except on private alerts, where only names already in the organisation's tag vocabulary
-// can be used. Tags that are already present are ignored.
+// Each tag is a name. A name that does not exist is created, except on private alerts,
+// where only names already in the organisation's tag vocabulary can be used. Tags that are
+// already present are ignored.
 //
 // Takes any type of body and a specified content type.
 //
@@ -37498,9 +37635,9 @@ func (c *Client) AlertsV2AddTagsWithBody(ctx context.Context, id string, content
 //
 // Add tags to an alert without changing its existing tags.
 //
-// Each tag must specify exactly one of id or name. A name that does not exist is created,
-// except on private alerts, where only names already in the organisation's tag vocabulary
-// can be used. Tags that are already present are ignored.
+// Each tag is a name. A name that does not exist is created, except on private alerts,
+// where only names already in the organisation's tag vocabulary can be used. Tags that are
+// already present are ignored.
 //
 // Takes a body of the `application/json` content type.
 //
@@ -37521,8 +37658,7 @@ func (c *Client) AlertsV2AddTags(ctx context.Context, id string, body AlertsV2Ad
 //
 // Remove tags from an alert without changing its other tags.
 //
-// Each tag must specify exactly one of id or name. Tags that are not present on the alert
-// are ignored.
+// Each tag is a name. Tags that are not present on the alert are ignored.
 //
 // Takes any type of body and a specified content type.
 //
@@ -37543,8 +37679,7 @@ func (c *Client) AlertsV2RemoveTagsWithBody(ctx context.Context, id string, cont
 //
 // Remove tags from an alert without changing its other tags.
 //
-// Each tag must specify exactly one of id or name. Tags that are not present on the alert
-// are ignored.
+// Each tag is a name. Tags that are not present on the alert are ignored.
 //
 // Takes a body of the `application/json` content type.
 //
@@ -37588,9 +37723,9 @@ func (c *Client) AlertsV2Resolve(ctx context.Context, id string, reqEditors ...R
 //
 // Replace all tags on an alert.
 //
-// Each tag must specify exactly one of id or name. A name that does not exist is created,
-// except on private alerts, where only names already in the organisation's tag vocabulary
-// can be used. Passing an empty list removes every tag.
+// Each tag is a name. A name that does not exist is created, except on private alerts,
+// where only names already in the organisation's tag vocabulary can be used. Passing an
+// empty list removes every tag.
 //
 // Takes any type of body and a specified content type.
 //
@@ -37611,9 +37746,9 @@ func (c *Client) AlertsV2SetTagsWithBody(ctx context.Context, id string, content
 //
 // Replace all tags on an alert.
 //
-// Each tag must specify exactly one of id or name. A name that does not exist is created,
-// except on private alerts, where only names already in the organisation's tag vocabulary
-// can be used. Passing an empty list removes every tag.
+// Each tag is a name. A name that does not exist is created, except on private alerts,
+// where only names already in the organisation's tag vocabulary can be used. Passing an
+// empty list removes every tag.
 //
 // Takes a body of the `application/json` content type.
 //
@@ -60780,9 +60915,9 @@ type ClientWithResponsesInterface interface {
 	//
 	// Add tags to an alert without changing its existing tags.
 	//
-	// Each tag must specify exactly one of id or name. A name that does not exist is created,
-	// except on private alerts, where only names already in the organisation's tag vocabulary
-	// can be used. Tags that are already present are ignored.
+	// Each tag is a name. A name that does not exist is created, except on private alerts,
+	// where only names already in the organisation's tag vocabulary can be used. Tags that are
+	// already present are ignored.
 	//
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -60793,9 +60928,9 @@ type ClientWithResponsesInterface interface {
 	//
 	// Add tags to an alert without changing its existing tags.
 	//
-	// Each tag must specify exactly one of id or name. A name that does not exist is created,
-	// except on private alerts, where only names already in the organisation's tag vocabulary
-	// can be used. Tags that are already present are ignored.
+	// Each tag is a name. A name that does not exist is created, except on private alerts,
+	// where only names already in the organisation's tag vocabulary can be used. Tags that are
+	// already present are ignored.
 	//
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -60806,8 +60941,7 @@ type ClientWithResponsesInterface interface {
 	//
 	// Remove tags from an alert without changing its other tags.
 	//
-	// Each tag must specify exactly one of id or name. Tags that are not present on the alert
-	// are ignored.
+	// Each tag is a name. Tags that are not present on the alert are ignored.
 	//
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -60818,8 +60952,7 @@ type ClientWithResponsesInterface interface {
 	//
 	// Remove tags from an alert without changing its other tags.
 	//
-	// Each tag must specify exactly one of id or name. Tags that are not present on the alert
-	// are ignored.
+	// Each tag is a name. Tags that are not present on the alert are ignored.
 	//
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -60845,9 +60978,9 @@ type ClientWithResponsesInterface interface {
 	//
 	// Replace all tags on an alert.
 	//
-	// Each tag must specify exactly one of id or name. A name that does not exist is created,
-	// except on private alerts, where only names already in the organisation's tag vocabulary
-	// can be used. Passing an empty list removes every tag.
+	// Each tag is a name. A name that does not exist is created, except on private alerts,
+	// where only names already in the organisation's tag vocabulary can be used. Passing an
+	// empty list removes every tag.
 	//
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -60858,9 +60991,9 @@ type ClientWithResponsesInterface interface {
 	//
 	// Replace all tags on an alert.
 	//
-	// Each tag must specify exactly one of id or name. A name that does not exist is created,
-	// except on private alerts, where only names already in the organisation's tag vocabulary
-	// can be used. Passing an empty list removes every tag.
+	// Each tag is a name. A name that does not exist is created, except on private alerts,
+	// where only names already in the organisation's tag vocabulary can be used. Passing an
+	// empty list removes every tag.
 	//
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -108496,9 +108629,9 @@ func (c *ClientWithResponses) AlertsV2ShowWithResponse(ctx context.Context, id s
 //
 // Add tags to an alert without changing its existing tags.
 //
-// Each tag must specify exactly one of id or name. A name that does not exist is created,
-// except on private alerts, where only names already in the organisation's tag vocabulary
-// can be used. Tags that are already present are ignored.
+// Each tag is a name. A name that does not exist is created, except on private alerts,
+// where only names already in the organisation's tag vocabulary can be used. Tags that are
+// already present are ignored.
 //
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
@@ -108515,9 +108648,9 @@ func (c *ClientWithResponses) AlertsV2AddTagsWithBodyWithResponse(ctx context.Co
 //
 // Add tags to an alert without changing its existing tags.
 //
-// Each tag must specify exactly one of id or name. A name that does not exist is created,
-// except on private alerts, where only names already in the organisation's tag vocabulary
-// can be used. Tags that are already present are ignored.
+// Each tag is a name. A name that does not exist is created, except on private alerts,
+// where only names already in the organisation's tag vocabulary can be used. Tags that are
+// already present are ignored.
 //
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
@@ -108534,8 +108667,7 @@ func (c *ClientWithResponses) AlertsV2AddTagsWithResponse(ctx context.Context, i
 //
 // Remove tags from an alert without changing its other tags.
 //
-// Each tag must specify exactly one of id or name. Tags that are not present on the alert
-// are ignored.
+// Each tag is a name. Tags that are not present on the alert are ignored.
 //
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
@@ -108552,8 +108684,7 @@ func (c *ClientWithResponses) AlertsV2RemoveTagsWithBodyWithResponse(ctx context
 //
 // Remove tags from an alert without changing its other tags.
 //
-// Each tag must specify exactly one of id or name. Tags that are not present on the alert
-// are ignored.
+// Each tag is a name. Tags that are not present on the alert are ignored.
 //
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
@@ -108591,9 +108722,9 @@ func (c *ClientWithResponses) AlertsV2ResolveWithResponse(ctx context.Context, i
 //
 // Replace all tags on an alert.
 //
-// Each tag must specify exactly one of id or name. A name that does not exist is created,
-// except on private alerts, where only names already in the organisation's tag vocabulary
-// can be used. Passing an empty list removes every tag.
+// Each tag is a name. A name that does not exist is created, except on private alerts,
+// where only names already in the organisation's tag vocabulary can be used. Passing an
+// empty list removes every tag.
 //
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
@@ -108610,9 +108741,9 @@ func (c *ClientWithResponses) AlertsV2SetTagsWithBodyWithResponse(ctx context.Co
 //
 // Replace all tags on an alert.
 //
-// Each tag must specify exactly one of id or name. A name that does not exist is created,
-// except on private alerts, where only names already in the organisation's tag vocabulary
-// can be used. Passing an empty list removes every tag.
+// Each tag is a name. A name that does not exist is created, except on private alerts,
+// where only names already in the organisation's tag vocabulary can be used. Passing an
+// empty list removes every tag.
 //
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
