@@ -62,6 +62,15 @@ func stateObjectWith(ctx context.Context, t *testing.T, s schema.Schema, overrid
 	objectType, ok := s.Type().TerraformType(ctx).(tftypes.Object)
 	require.True(t, ok, "schema is not an object")
 
+	return objectValueWith(t, objectType, overrides)
+}
+
+// objectValueWith is the same thing for an object type rather than a whole schema, which
+// is what a test needs to write a value nested inside one - a v6 alert source's
+// template, say.
+func objectValueWith(t *testing.T, objectType tftypes.Object, overrides map[string]tftypes.Value) tftypes.Value {
+	t.Helper()
+
 	values := make(map[string]tftypes.Value, len(objectType.AttributeTypes))
 	for name, attributeType := range objectType.AttributeTypes {
 		if override, given := overrides[name]; given {
@@ -71,10 +80,24 @@ func stateObjectWith(ctx context.Context, t *testing.T, s schema.Schema, overrid
 		values[name] = tftypes.NewValue(attributeType, nil)
 	}
 	for name := range overrides {
-		require.Contains(t, objectType.AttributeTypes, name, "override names an attribute the schema doesn't have")
+		require.Contains(t, objectType.AttributeTypes, name, "override names an attribute the object doesn't have")
 	}
 
 	return tftypes.NewValue(objectType, values)
+}
+
+// nestedObjectType reads the type of an object attribute nested inside another, failing
+// rather than panicking when the schema no longer holds one there.
+func nestedObjectType(t *testing.T, objectType tftypes.Object, name string) tftypes.Object {
+	t.Helper()
+
+	attributeType, held := objectType.AttributeTypes[name]
+	require.True(t, held, "the schema has no %s attribute", name)
+
+	nested, isObject := attributeType.(tftypes.Object)
+	require.True(t, isObject, "%s is not an object", name)
+
+	return nested
 }
 
 // stringOverrides gives every string attribute in the schema a value of its own, so a
@@ -181,8 +204,7 @@ func TestBetaResourceMovesLeaveTheRestToTheRefresh(t *testing.T) {
 		"incident_schedule_beta":        {},
 		"incident_escalation_path_beta": {"start", "sequences"},
 		"incident_alert_source_beta": {
-			"title", "description", "priority", "visible_to_teams", "named_expression",
-			"is_private", "version",
+			"priority", "visible_to_teams", "named_expression", "is_private", "version",
 		},
 	}
 
@@ -250,6 +272,83 @@ func TestBetaResourceMovesCarryWhatAReadWouldNot(t *testing.T) {
 			}
 		})
 	}
+}
+
+// TestAlertSourceMoveCarriesTheTemplatedText covers the one rewrite the provider has:
+// an alert source's title and description sit under `template` on the v6 resource and at
+// the top level on the beta one, in the same shape, so the move carries them out rather
+// than leaving them to the refresh.
+//
+// Reading them back instead would look like it worked and then plan a change. The
+// framework skips a type's semantic equality when the prior value is null, which is what
+// a move leaves behind, so the refresh would store the API's JSON where the
+// configuration has the author's - the same document, different bytes - and the plan
+// straight after the move would ask to rewrite both.
+func TestAlertSourceMoveCarriesTheTemplatedText(t *testing.T) {
+	ctx := context.Background()
+
+	move := betaResourceMove{
+		source: NewIncidentAlertSourceResource(),
+		target: NewAlertSourceBetaResource(),
+	}
+	sourceSchema := declaredResourceSchema(ctx, move.source)
+	targetSchema := declaredResourceSchema(ctx, move.target)
+
+	sourceType, isObject := sourceSchema.Type().TerraformType(ctx).(tftypes.Object)
+	require.True(t, isObject)
+	templateType := nestedObjectType(t, sourceType, "template")
+
+	// A literal and a reference, one each, because they are the two spellings a rich
+	// text value has and the mover carries the value whichever it holds.
+	title := objectValueWith(t, nestedObjectType(t, templateType, "title"), map[string]tftypes.Value{
+		"literal": tftypes.NewValue(tftypes.String,
+			`{"content":[{"content":[{"text":"An alert","type":"text"}],"type":"paragraph"}],"type":"doc"}`),
+	})
+	description := objectValueWith(t, nestedObjectType(t, templateType, "description"), map[string]tftypes.Value{
+		"reference": tftypes.NewValue(tftypes.String, "payload.summary"),
+	})
+
+	moveAlertSource := func(t *testing.T, template tftypes.Value) map[string]tftypes.Value {
+		t.Helper()
+
+		resp := moveStateResponse(ctx, t, targetSchema)
+		move.mover(ctx, t).StateMover(ctx, resource.MoveStateRequest{
+			SourceTypeName:      resourceTypeName(ctx, move.source),
+			SourceSchemaVersion: sourceSchema.Version,
+			SourceState: &tfsdk.State{
+				Schema: sourceSchema,
+				Raw: stateObjectWith(ctx, t, sourceSchema, map[string]tftypes.Value{
+					"id":       tftypes.NewValue(tftypes.String, "01ABC123DEF456GHI789JKL"),
+					"template": template,
+				}),
+			},
+		}, &resp)
+
+		require.Empty(t, resp.Diagnostics)
+		require.False(t, resp.TargetState.Raw.IsNull(), "the mover skipped a source it should have taken")
+
+		return attributesOf(t, resp.TargetState.Raw)
+	}
+
+	t.Run("a template holding both", func(t *testing.T) {
+		moved := moveAlertSource(t, objectValueWith(t, templateType, map[string]tftypes.Value{
+			"title":       title,
+			"description": description,
+		}))
+
+		assert.Equal(t, title, moved["title"], "the title has to move, or the plan after the move rewrites it")
+		assert.Equal(t, description, moved["description"])
+	})
+
+	// A heartbeat source has no template to carry anything out of, and neither has state
+	// written before the attribute existed. Both leave the attributes null, which is what
+	// the refresh reads onto.
+	t.Run("a source with no template", func(t *testing.T) {
+		moved := moveAlertSource(t, tftypes.NewValue(templateType, nil))
+
+		assert.True(t, moved["title"].IsNull())
+		assert.True(t, moved["description"].IsNull())
+	})
 }
 
 // A resource can offer several movers and the framework tries them in turn, so a mover

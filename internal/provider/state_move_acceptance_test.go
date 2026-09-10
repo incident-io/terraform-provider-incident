@@ -258,6 +258,12 @@ func testAccMoveEscalationPathBefore() string {
 resource "incident_escalation_path" "moving" {
   name = {{ stableSuffix "Moving path" | quote }}
 
+  # The test account has an escalation paths attribute on its Teams, which makes
+  # team_ids required: the API rejects a path that omits it, and an empty list is
+  # how a path says it belongs to no team. Both sides of the move set it, because
+  # team_ids is carried across rather than read back.
+  team_ids = []
+
   path = [
     {
       id   = "start"
@@ -287,6 +293,10 @@ const escalationPathMoveFixture = escalationPathMoveTarget + `
 resource "incident_escalation_path_beta" "moving" {
   name  = {{ stableSuffix "Moving path" | quote }}
   start = "main"
+
+  # As above: required by the test account, and carried across by the move, so the
+  # configuration either side of it has to agree.
+  team_ids = []
 
   sequences = {
     main = {

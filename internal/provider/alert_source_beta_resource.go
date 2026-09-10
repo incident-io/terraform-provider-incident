@@ -862,14 +862,16 @@ func (r *alertSourceBetaResource) ImportState(ctx context.Context, req resource.
 // including `owning_team_ids` and `filter_condition_groups` - the two this resource
 // reconciles against prior state rather than reading straight back.
 //
-// The template does not. `template.title` and `template.description` become `title`
-// and `description` here, so the refresh reads them from the API instead, as the same
-// document: a template compares equal to the document it produces, so there is nothing
-// to translate.
+// The template does not, but two of its fields are carried out of it: `template.title`
+// and `template.description` are `title` and `description` here, holding the same value
+// in the same shape, so they move rather than being read back. Reading them back would
+// store the API's spelling of a document where the configuration has the author's -
+// equivalent JSON, different bytes - and the plan straight after the move would ask to
+// rewrite both.
 //
-// Neither do `visible_to_teams`, which the v6 resource holds under `template`,
-// `named_expression`, which it holds as `template.expressions`, or `priority`, which it
-// has no way to express at all. The refresh reads each of them back in whatever
+// `visible_to_teams`, which the v6 resource holds under `template`, does not move, nor
+// does `named_expression`, which it holds as `template.expressions`, nor `priority`,
+// which it has no way to express at all. The refresh reads each of them back in whatever
 // spelling the API uses, so a configuration that spells a binding the other way - a
 // literal where the API returns a reference - plans a change for it, which applies as a
 // no-op against the API and settles.
@@ -879,7 +881,10 @@ func (r *alertSourceBetaResource) ImportState(ctx context.Context, req resource.
 // target, so those are imported alongside this move by
 // `<alert source id>:<alert attribute id>`.
 func (r *alertSourceBetaResource) MoveState(ctx context.Context) []resource.StateMover {
-	return movedFrom(ctx, NewIncidentAlertSourceResource(), r)
+	return movedFrom(ctx, NewIncidentAlertSourceResource(), r,
+		rewrite("title", "template", "title"),
+		rewrite("description", "template", "description"),
+	)
 }
 
 func (r *alertSourceBetaResource) annotations() *map[string]string {

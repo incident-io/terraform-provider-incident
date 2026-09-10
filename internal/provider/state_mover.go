@@ -35,8 +35,18 @@ import (
 // new resource's own Read, in the shape the new schema wants. Copying is for
 // the attributes a Read cannot recover - the ones the new resource keeps from
 // prior state rather than from the API, like a schedule's `team_ids` or an
-// alert source's `named_expression`, which describe how the author wrote
+// alert source's `owning_team_ids`, which describe how the author wrote
 // something rather than what the API holds.
+//
+// A rewrite carries one of those attributes anyway, for the case where the two
+// schemas hold the same value in the same shape under different names - an
+// alert source's title, which the v6 resource keeps under `template`. Reading
+// one of those back is not enough: the framework only applies a type's semantic
+// equality when the prior value is not null, so a refresh onto the null a move
+// leaves stores the API's spelling of the value rather than the author's, and
+// the next plan compares that against the configuration byte for byte. Carrying
+// it keeps the author's spelling, which is what makes the plan after the move
+// empty.
 //
 // It follows that a value the new resource derives, rather than reads, is
 // whatever the refresh derives it as. An escalation path's sequence names are
@@ -50,7 +60,11 @@ import (
 // the resource offers, and if none of them take the move Terraform reports an
 // error naming the source and target types. That is a better error than any we
 // could write here, so recognising the source is all this has to do.
-func migrateStateMover(sourceTypeName string, sourceSchema, targetSchema schema.Schema) resource.StateMover {
+func migrateStateMover(
+	sourceTypeName string,
+	sourceSchema, targetSchema schema.Schema,
+	rewrites ...attributeRewrite,
+) resource.StateMover {
 	return resource.StateMover{
 		// Setting this asks the framework to decode the source state against the old
 		// resource's own schema, which is the only schema it was ever written with.
@@ -112,11 +126,29 @@ func migrateStateMover(sourceTypeName string, sourceSchema, targetSchema schema.
 				carried[name] = true
 			}
 
+			rewritten := map[string]attributeRewrite{}
+			for _, rewrite := range rewrites {
+				rewritten[rewrite.target] = rewrite
+			}
+
 			values := make(map[string]tftypes.Value, len(targetType.AttributeTypes))
 			for name, attributeType := range targetType.AttributeTypes {
 				if carried[name] {
 					values[name] = sourceAttributes[name]
 					continue
+				}
+
+				if rewrite, isRewritten := rewritten[name]; isRewritten {
+					if value, held := rewrite.value(sourceAttributes); held && value.Type().Equal(attributeType) {
+						values[name] = value
+						continue
+					}
+
+					// Nothing there to carry, or a shape the target attribute can't hold,
+					// which means one of the two schemas has moved. Fall through to the
+					// null below: the refresh still fills the attribute in, so the
+					// migration plans a change rather than failing, and the unit test
+					// naming the rewrite is what catches the drift.
 				}
 
 				// Null rather than unknown: state holds no unknowns, and null is what the
@@ -148,6 +180,50 @@ func migrateStateMover(sourceTypeName string, sourceSchema, targetSchema schema.
 			// the old one's, so anything kept there would be a value it cannot interpret.
 		},
 	}
+}
+
+// attributeRewrite says where in the source state a target attribute's value comes
+// from, for a value both schemas hold the same way but under different names. The path
+// is attribute names from the root of the source state, walked one at a time, so an
+// alert source's title reads `rewrite("title", "template", "title")`.
+//
+// The value is copied as it stands rather than translated: a rewrite is for the case
+// where the two attributes hold the same Terraform type, and migrateStateMover checks
+// that before writing it. Anything needing translation belongs in the new resource's
+// Read, against the API, rather than here against state.
+type attributeRewrite struct {
+	target string
+	from   []string
+}
+
+func rewrite(target string, from ...string) attributeRewrite {
+	return attributeRewrite{target: target, from: from}
+}
+
+// value walks the source state to the value being carried. Not held means there is
+// nothing there to carry: an attribute the old configuration never set, or a whole
+// object it left out, which a move leaves null the same way it leaves the rest.
+func (r attributeRewrite) value(sourceAttributes map[string]tftypes.Value) (tftypes.Value, bool) {
+	attributes := sourceAttributes
+
+	for idx, name := range r.from {
+		value, held := attributes[name]
+		if !held || value.IsNull() || !value.IsKnown() {
+			return tftypes.Value{}, false
+		}
+
+		if idx == len(r.from)-1 {
+			return value, true
+		}
+
+		// Another step to walk, so this one has to be an object to walk into.
+		attributes = map[string]tftypes.Value{}
+		if err := value.As(&attributes); err != nil {
+			return tftypes.Value{}, false
+		}
+	}
+
+	return tftypes.Value{}, false
 }
 
 // sharedAttributes returns the attributes the two schemas hold in common: the same
@@ -198,13 +274,20 @@ func resourceTypeName(ctx context.Context, r resource.Resource) string {
 }
 
 // movedFrom builds the mover a beta resource offers for the v6 resource it replaces,
-// which is the one thing every one of them does the same way.
-func movedFrom(ctx context.Context, source resource.Resource, target resource.Resource) []resource.StateMover {
+// which is the one thing every one of them does the same way. Any rewrites are the
+// attributes that resource renamed rather than restated: see attributeRewrite.
+func movedFrom(
+	ctx context.Context,
+	source resource.Resource,
+	target resource.Resource,
+	rewrites ...attributeRewrite,
+) []resource.StateMover {
 	return []resource.StateMover{
 		migrateStateMover(
 			resourceTypeName(ctx, source),
 			declaredResourceSchema(ctx, source),
 			declaredResourceSchema(ctx, target),
+			rewrites...,
 		),
 	}
 }
