@@ -36,6 +36,13 @@ description: |-
   branch leads to are main_then and main_else, after the sequence the
   branch sits in. A configuration that calls them something else plans a change, so run
   terraform plan after the move and before you apply.
+  Write out each level's ack_mode while you are there. This resource defaults it to
+  first and incident_escalation_path defaults it to all, and a
+  default applies wherever the configuration is silent - so a level that never set ack_mode
+  plans a change from all to first as part of the move, and applying it
+  changes how the level pages: with first, the first person to acknowledge cancels
+  everyone else's escalation on that level. Set ack_mode = "all" on every level whose
+  behaviour you mean to keep.
 ---
 
 # incident_escalation_path_beta (Resource)
@@ -84,6 +91,14 @@ the sequences itself: the one the path starts with is `main`, and the sequences 
 branch leads to are `main_then` and `main_else`, after the sequence the
 branch sits in. A configuration that calls them something else plans a change, so run
 `terraform plan` after the move and before you apply.
+
+Write out each level's `ack_mode` while you are there. This resource defaults it to
+`first` and `incident_escalation_path` defaults it to `all`, and a
+default applies wherever the configuration is silent - so a level that never set `ack_mode`
+plans a change from `all` to `first` as part of the move, and applying it
+changes how the level pages: with `first`, the first person to acknowledge cancels
+everyone else's escalation on that level. Set `ack_mode = "all"` on every level whose
+behaviour you mean to keep.
 
 ## Example Usage
 

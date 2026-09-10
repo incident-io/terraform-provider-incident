@@ -5,6 +5,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-testing/compare"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/knownvalue"
 	"github.com/hashicorp/terraform-plugin-testing/plancheck"
 	"github.com/hashicorp/terraform-plugin-testing/statecheck"
 	"github.com/hashicorp/terraform-plugin-testing/tfjsonpath"
@@ -193,42 +194,146 @@ func testAccMoveScheduleSettled() string {
 // TestAccMoveEscalationPathOntoBetaResource covers the case a `moved` block handles on
 // its own: one resource becomes one, with no field left in place. Nothing is imported
 // here, so an empty plan at the end is the mover's work and the refresh's alone.
+//
+// It runs once per way of writing a level's `ack_mode`, because that is the one attribute
+// the two resources disagree about: `incident_escalation_path` defaults it to "all" and
+// `incident_escalation_path_beta` defaults it to "first". A framework default is applied
+// wherever the configuration is null, which means it beats the value the refresh read
+// back rather than deferring to it, so a level that never wrote `ack_mode` plans a change
+// the first time it is planned under the new resource. That change is a real one - with
+// "first", the first person to ack cancels the rest of the level's escalations - so the
+// cases below pin both halves of it: the path that plans the change, and the two
+// configurations that don't.
 func TestAccMoveEscalationPathOntoBetaResource(t *testing.T) {
-	pathID := statecheck.CompareValue(compare.ValuesSame())
+	// The planned ack_mode of the one level in the one sequence, which is what the case
+	// leaving both configurations silent is really about.
+	plannedAckMode := tfjsonpath.New("sequences").AtMapKey("main").
+		AtMapKey("nodes").AtSliceIndex(0).
+		AtMapKey("level").AtMapKey("ack_mode")
 
-	resource.Test(t, resource.TestCase{
-		PreCheck:                 func() { testAccPreCheck(t) },
-		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps: []resource.TestStep{
-			{
-				Config: testAccMoveEscalationPathBefore(),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_escalation_path.moving", "path.#", "1"),
-				),
-				ConfigStateChecks: []statecheck.StateCheck{
-					pathID.AddStateValue("incident_escalation_path.moving", tfjsonpath.New("id")),
-				},
-			},
-			{
-				Config: testAccMoveEscalationPathAfter(),
-				ConfigPlanChecks: resource.ConfigPlanChecks{
-					PreApply: []plancheck.PlanCheck{
-						plancheck.ExpectResourceAction("incident_escalation_path_beta.moving", plancheck.ResourceActionNoop),
-					},
-				},
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_escalation_path_beta.moving", "start", "main"),
-				),
-				ConfigStateChecks: []statecheck.StateCheck{
-					pathID.AddStateValue("incident_escalation_path_beta.moving", tfjsonpath.New("id")),
-				},
-			},
-			{
-				Config:   testAccMoveEscalationPathSettled(),
-				PlanOnly: true,
+	for _, testCase := range []escalationPathMoveCase{
+		// Nobody wrote ack_mode, so each resource applies its own default and the move
+		// plans the difference between them. This is what a migration looks like when
+		// it's done the obvious way, and the change is why the resource documents it.
+		{
+			name:   "each resource left to its own default",
+			suffix: "ack-default",
+			action: plancheck.ResourceActionUpdate,
+			extraPlanChecks: []plancheck.PlanCheck{
+				plancheck.ExpectKnownValue("incident_escalation_path_beta.moving",
+					plannedAckMode, knownvalue.StringExact("first")),
 			},
 		},
-	})
+		// The same path, with the old default written out in the new configuration: the
+		// migration that keeps the behaviour, and so the one the documentation asks for.
+		{
+			name:   "the old default written out",
+			suffix: "ack-all",
+			after:  "all",
+			action: plancheck.ResourceActionNoop,
+		},
+		// A path that always wanted "first" needs nothing doing, but it is worth proving
+		// rather than assuming: it is the same code path with the values swapped.
+		{
+			name:   "already what the new resource defaults to",
+			suffix: "ack-first",
+			before: "first",
+			after:  "first",
+			action: plancheck.ResourceActionNoop,
+		},
+	} {
+		t.Run(testCase.name, func(t *testing.T) {
+			pathID := statecheck.CompareValue(compare.ValuesSame())
+
+			resource.Test(t, resource.TestCase{
+				PreCheck:                 func() { testAccPreCheck(t) },
+				ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+				Steps: []resource.TestStep{
+					{
+						Config: testAccMoveEscalationPathBefore(testCase),
+						Check: resource.ComposeAggregateTestCheckFunc(
+							resource.TestCheckResourceAttr("incident_escalation_path.moving", "path.#", "1"),
+							// Whatever the old configuration said, or "all" where it said
+							// nothing, which is the default the case above is about.
+							resource.TestCheckResourceAttr("incident_escalation_path.moving",
+								"path.0.level.ack_mode", testCase.ackModeBefore()),
+						),
+						ConfigStateChecks: []statecheck.StateCheck{
+							pathID.AddStateValue("incident_escalation_path.moving", tfjsonpath.New("id")),
+						},
+					},
+					{
+						Config: testAccMoveEscalationPathAfter(testCase),
+						ConfigPlanChecks: resource.ConfigPlanChecks{
+							PreApply: append([]plancheck.PlanCheck{
+								plancheck.ExpectResourceAction(
+									"incident_escalation_path_beta.moving", testCase.action),
+							}, testCase.extraPlanChecks...),
+						},
+						Check: resource.ComposeAggregateTestCheckFunc(
+							resource.TestCheckResourceAttr("incident_escalation_path_beta.moving", "start", "main"),
+						),
+						ConfigStateChecks: []statecheck.StateCheck{
+							// The same path either way: a plan that updates ack_mode is
+							// still the object coming across rather than a second one.
+							pathID.AddStateValue("incident_escalation_path_beta.moving", tfjsonpath.New("id")),
+						},
+					},
+					{
+						Config:   testAccMoveEscalationPathSettled(testCase),
+						PlanOnly: true,
+					},
+				},
+			})
+		})
+	}
+}
+
+// escalationPathMoveCase is one way of writing a level's ack_mode across the move.
+type escalationPathMoveCase struct {
+	// name names the subtest, and suffix names the objects it creates: two cases sharing
+	// an account must not share a path name, and a name Terraform will accept is shorter
+	// than a name that reads well as a test.
+	name   string
+	suffix string
+
+	// before and after are the ack_mode each configuration writes, empty for one that
+	// leaves it to the resource's own default.
+	before, after string
+
+	// action is what the moved path is expected to plan, which is the point of the case.
+	action plancheck.ResourceActionType
+
+	// extraPlanChecks say more about that plan, where there is more worth saying.
+	extraPlanChecks []plancheck.PlanCheck
+}
+
+// ackModeBefore is what the old resource stores for the case: what it was told, or the
+// default it applies when it was told nothing.
+func (c escalationPathMoveCase) ackModeBefore() string {
+	if c.before == "" {
+		return "all"
+	}
+
+	return c.before
+}
+
+// args is what the templates below render from: names unique to the case, and the two
+// ack_mode spellings.
+func (c escalationPathMoveCase) args() escalationPathMoveArgs {
+	return escalationPathMoveArgs{
+		ScheduleName: StableSuffix("Move target " + c.suffix),
+		PathName:     StableSuffix("Moving path " + c.suffix),
+		Before:       c.before,
+		After:        c.after,
+	}
+}
+
+type escalationPathMoveArgs struct {
+	ScheduleName string
+	PathName     string
+	Before       string
+	After        string
 }
 
 // escalationPathMoveTarget is the schedule the path escalates to, which stays on the old
@@ -236,7 +341,7 @@ func TestAccMoveEscalationPathOntoBetaResource(t *testing.T) {
 // keeps a failure here legible.
 const escalationPathMoveTarget = `
 resource "incident_schedule" "target" {
-  name     = {{ stableSuffix "Moving path target" | quote }}
+  name     = {{ .ScheduleName | quote }}
   timezone = "Europe/London"
 
   rotations = [{
@@ -253,10 +358,10 @@ resource "incident_schedule" "target" {
 }
 `
 
-func testAccMoveEscalationPathBefore() string {
+func testAccMoveEscalationPathBefore(testCase escalationPathMoveCase) string {
 	return testRunTemplate("move_escalation_path_before", escalationPathMoveTarget+`
 resource "incident_escalation_path" "moving" {
-  name = {{ stableSuffix "Moving path" | quote }}
+  name = {{ .PathName | quote }}
 
   # The test account has an escalation paths attribute on its Teams, which makes
   # team_ids required: the API rejects a path that omits it, and an empty list is
@@ -274,12 +379,13 @@ resource "incident_escalation_path" "moving" {
           id      = incident_schedule.target.id
           urgency = "high"
         }]
-        time_to_ack_seconds = 300
+        time_to_ack_seconds = 300{{ with .Before }}
+        ack_mode            = {{ . | quote }}{{ end }}
       }
     }
   ]
 }
-`, nil)
+`, testCase.args())
 }
 
 // The same path as sequences.
@@ -291,7 +397,7 @@ resource "incident_escalation_path" "moving" {
 // a change, which is what the settled step would catch.
 const escalationPathMoveFixture = escalationPathMoveTarget + `
 resource "incident_escalation_path_beta" "moving" {
-  name  = {{ stableSuffix "Moving path" | quote }}
+  name  = {{ .PathName | quote }}
   start = "main"
 
   # As above: required by the test account, and carried across by the move, so the
@@ -309,7 +415,8 @@ resource "incident_escalation_path_beta" "moving" {
               id      = incident_schedule.target.id
               urgency = "high"
             }]
-            time_to_ack_seconds = 300
+            time_to_ack_seconds = 300{{ with .After }}
+            ack_mode            = {{ . | quote }}{{ end }}
           }
         }
       ]
@@ -318,17 +425,17 @@ resource "incident_escalation_path_beta" "moving" {
 }
 `
 
-func testAccMoveEscalationPathAfter() string {
+func testAccMoveEscalationPathAfter(testCase escalationPathMoveCase) string {
 	return testRunTemplate("move_escalation_path_after", escalationPathMoveFixture+`
 moved {
   from = incident_escalation_path.moving
   to   = incident_escalation_path_beta.moving
 }
-`, nil)
+`, testCase.args())
 }
 
-func testAccMoveEscalationPathSettled() string {
-	return testRunTemplate("move_escalation_path_settled", escalationPathMoveFixture, nil)
+func testAccMoveEscalationPathSettled(testCase escalationPathMoveCase) string {
+	return testRunTemplate("move_escalation_path_settled", escalationPathMoveFixture, testCase.args())
 }
 
 // TestAccMoveAlertSourceOntoBetaResources covers the other one-becomes-several case: the
