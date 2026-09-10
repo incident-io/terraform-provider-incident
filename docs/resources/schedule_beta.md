@@ -3,144 +3,44 @@
 page_title: "incident_schedule_beta Resource - terraform-provider-incident"
 subcategory: ""
 description: |-
-  Manage an on-call schedule.
-  A schedule holds the rotations that decide who is on call. This resource manages
-  only the schedule itself — its name, timezone, owning teams and public holidays.
-  Rotations are managed separately, as incident_schedule_rotation_beta, so
-  adding or editing one never means rewriting the whole schedule.
-  A schedule created here starts with no rotations, and nobody is on call until one
-  is added.
-  How this differs from incident_schedule
-  incident_schedule declares a schedule and every one of its rotations in a
-  single resource. That means a change to one rotation rewrites the whole schedule,
-  and it is why editing a rotation there can disturb who is on call elsewhere on the
-  schedule, or drop overrides that were attached to a shift.
-  This resource splits the two apart. Each rotation is its own resource with its own
-  lifecycle, so a change is confined to the rotation you edited. It also brings
-  controls the older resource has no way to express: rollout decides when a
-  changed line-up takes over rather than swapping it under whoever is on call right
-  now, scheduling_mode decides how people are allocated across shifts of
-  differing length, and working_intervals restricts a rotation to given hours.
-  Beta, and what happens next
-  This resource is in beta. Its schema may still change in ways that are not
-  backwards compatible, so pin the provider version if that matters to you.
-  The plan is for these resources to become the only way to manage schedules. In
-  v7.0 they lose the _beta suffix and incident_schedule is removed. Until
-  then both work, and incident_schedule is not deprecated — there is no need to
-  move anything yet.
-  Migrating from incident_schedule
-  Moving across is not a rename, because one incident_schedule becomes one
-  incident_schedule_beta plus one incident_schedule_rotation_beta per
-  rotation. The schedule itself moves, with a moved block:
+  incident_schedule_beta was renamed to incident_schedule in v7.0.
+  This name still works and still manages the same thing, so upgrading to v7 needs no change
+  to a configuration that uses it. It is deprecated: every plan naming it warns, and it will
+  be removed in v8.0.
+  To move onto the new name:
   
   moved {
-    from = incident_schedule.primary
-    to   = incident_schedule_beta.primary
+    from = incident_schedule_beta.primary
+    to   = incident_schedule.primary
   }
   
-  Its rotations are imported instead, because a moved block has one target and
-  there is nowhere to take a second from. A rotation is identified by the schedule it
-  belongs to as well as itself, and its own ID is the one your old configuration chose -
-  the old resource sent it - so you already know both:
-  
-  import {
-    to = incident_schedule_rotation_beta.primary_weekdays
-    id = "01ABC123DEF456GHI789JKL:primary_weekdays"
-  }
-  
-  Write the new resources alongside those blocks, delete the old incident_schedule
-  from your configuration, and plan. The schedule should report no changes and each
-  rotation an import, with nothing created and nothing destroyed, so nobody's on-call
-  history is disturbed. Delete the moved and import blocks in a
-  follow-up commit once you have applied it.
+  Both names are the same resource, backed by the same schema and the same API, so the move
+  carries your state across and the plan after it is empty. See incident_schedule for the
+  documentation.
 ---
 
 # incident_schedule_beta (Resource)
 
-Manage an on-call schedule.
+`incident_schedule_beta` was renamed to `incident_schedule` in v7.0.
 
-A schedule holds the rotations that decide who is on call. This resource manages
-only the schedule itself — its name, timezone, owning teams and public holidays.
-Rotations are managed separately, as `incident_schedule_rotation_beta`, so
-adding or editing one never means rewriting the whole schedule.
+This name still works and still manages the same thing, so upgrading to v7 needs no change
+to a configuration that uses it. It is deprecated: every plan naming it warns, and it will
+be removed in v8.0.
 
-A schedule created here starts with no rotations, and nobody is on call until one
-is added.
-
-## How this differs from `incident_schedule`
-
-`incident_schedule` declares a schedule and every one of its rotations in a
-single resource. That means a change to one rotation rewrites the whole schedule,
-and it is why editing a rotation there can disturb who is on call elsewhere on the
-schedule, or drop overrides that were attached to a shift.
-
-This resource splits the two apart. Each rotation is its own resource with its own
-lifecycle, so a change is confined to the rotation you edited. It also brings
-controls the older resource has no way to express: `rollout` decides when a
-changed line-up takes over rather than swapping it under whoever is on call right
-now, `scheduling_mode` decides how people are allocated across shifts of
-differing length, and `working_intervals` restricts a rotation to given hours.
-
-## Beta, and what happens next
-
-This resource is in beta. Its schema may still change in ways that are not
-backwards compatible, so pin the provider version if that matters to you.
-
-The plan is for these resources to become the only way to manage schedules. In
-v7.0 they lose the `_beta` suffix and `incident_schedule` is removed. Until
-then both work, and `incident_schedule` is not deprecated — there is no need to
-move anything yet.
-
-## Migrating from `incident_schedule`
-
-Moving across is not a rename, because one `incident_schedule` becomes one
-`incident_schedule_beta` plus one `incident_schedule_rotation_beta` per
-rotation. The schedule itself moves, with a `moved` block:
+To move onto the new name:
 
 ```terraform
 moved {
-  from = incident_schedule.primary
-  to   = incident_schedule_beta.primary
+  from = incident_schedule_beta.primary
+  to   = incident_schedule.primary
 }
 ```
 
-Its rotations are imported instead, because a `moved` block has one target and
-there is nowhere to take a second from. A rotation is identified by the schedule it
-belongs to as well as itself, and its own ID is the one your old configuration chose -
-the old resource sent it - so you already know both:
+Both names are the same resource, backed by the same schema and the same API, so the move
+carries your state across and the plan after it is empty. See `incident_schedule` for the
+documentation.
 
-```terraform
-import {
-  to = incident_schedule_rotation_beta.primary_weekdays
-  id = "01ABC123DEF456GHI789JKL:primary_weekdays"
-}
-```
 
-Write the new resources alongside those blocks, delete the old `incident_schedule`
-from your configuration, and plan. The schedule should report no changes and each
-rotation an import, with nothing created and nothing destroyed, so nobody's on-call
-history is disturbed. Delete the `moved` and `import` blocks in a
-follow-up commit once you have applied it.
-
-## Example Usage
-
-```terraform
-# A schedule holds the rotations that decide who is on call. This resource covers
-# the schedule itself; rotations are managed separately, so a schedule created
-# here has none and nobody is on call until one is added.
-resource "incident_schedule_beta" "platform" {
-  name     = "Platform on-call"
-  timezone = "Europe/London"
-
-  # Optional: teams that own this schedule.
-  team_ids = [data.incident_catalog_entry.platform_team.id]
-
-  # Optional: public holidays to show on the schedule.
-  holidays_public_config = {
-    country_codes = ["GB", "FR"]
-  }
-}
-```
 
 <!-- schema generated by tfplugindocs -->
 ## Schema
@@ -165,28 +65,3 @@ resource "incident_schedule_beta" "platform" {
 Required:
 
 - `country_codes` (List of String) ISO 3166-1 alpha-2 country codes for the countries that this schedule is configured to view holidays for
-
-## Import
-
-Import is supported using an [`import` block](https://developer.hashicorp.com/terraform/language/import) or the [`terraform import` command](https://developer.hashicorp.com/terraform/cli/commands/import):
-
-The [`import` block](https://developer.hashicorp.com/terraform/language/import) can be used with the `id` attribute, for example:
-
-```terraform
-# Import a schedule using its ID
-# Replace the ID with a real ID from your incident.io organization
-import {
-  to = incident_schedule_beta.example
-  id = "01ABC123DEF456GHI789JKL"
-}
-```
-
-The [`terraform import` command](https://developer.hashicorp.com/terraform/cli/commands/import) can be used, for example:
-
-```shell
-#!/bin/bash
-
-# Import a schedule using its ID
-# Replace the ID with a real ID from your incident.io organization
-terraform import incident_schedule_beta.example 01ABC123DEF456GHI789JKL
-```

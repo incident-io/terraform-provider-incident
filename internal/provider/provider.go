@@ -13,7 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
-	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
+	"github.com/incident-io/terraform-provider-incident/v7/internal/client"
 )
 
 var _ provider.Provider = &IncidentProvider{}
@@ -146,8 +146,7 @@ func (p *IncidentProvider) Resources(ctx context.Context) []func() resource.Reso
 		NewIncidentAlertAttributeResource,
 		NewIncidentAlertRouteResource,
 		NewIncidentAlertSourceResource,
-		NewAlertSourceAttributeBetaResource,
-		NewAlertSourceBetaResource,
+		NewIncidentAlertSourceAttributeResource,
 		NewIncidentAPIKeyResource,
 		NewIncidentCatalogEntriesResource,
 		NewIncidentCatalogEntryResource,
@@ -156,21 +155,28 @@ func (p *IncidentProvider) Resources(ctx context.Context) []func() resource.Reso
 		NewIncidentCustomFieldResource,
 		NewIncidentCustomFieldOptionResource,
 		NewIncidentEscalationPathResource,
-		NewEscalationPathBetaResource,
 		NewIncidentRoleResource,
 		NewIncidentIncidentTemplateResource,
 		NewIncidentMaintenanceWindowResource,
 		NewIncidentPolicyResource,
 		NewIncidentScheduleResource,
-		NewIncidentScheduleBetaResource,
 		NewIncidentScheduleReplicaResource,
-		NewIncidentScheduleRotationBetaResource,
+		NewIncidentScheduleRotationResource,
 		NewIncidentScheduleSyncRuleResource,
 		NewIncidentScheduleSyncTargetResource,
 		NewIncidentSecretResource,
 		NewIncidentSeverityResource,
 		NewIncidentStatusResource,
 		NewIncidentWorkflowResource,
+
+		// The `_beta` names these resources answered to in v6, kept so an upgrade needs no
+		// change to a configuration written against them. Deprecated, and removed in v8:
+		// see aliases.go.
+		NewIncidentAlertSourceBetaResource,
+		NewIncidentAlertSourceAttributeBetaResource,
+		NewIncidentEscalationPathBetaResource,
+		NewIncidentScheduleBetaResource,
+		NewIncidentScheduleRotationBetaResource,
 	}
 }
 
@@ -179,7 +185,7 @@ func (p *IncidentProvider) DataSources(ctx context.Context) []func() datasource.
 		NewIncidentAlertAttributeDataSource,
 		NewIncidentAlertSourceDataSource,
 		NewIncidentAlertSourcesDataSource,
-		NewAlertSourceAttributeBetaDataSource,
+		NewIncidentAlertSourceAttributeDataSource,
 		NewIncidentAPIKeyDataSource,
 		NewIncidentCatalogEntriesDataSource,
 		NewIncidentCatalogEntryDataSource,
@@ -188,7 +194,6 @@ func (p *IncidentProvider) DataSources(ctx context.Context) []func() datasource.
 		NewIncidentCustomFieldDataSource,
 		NewIncidentCustomFieldOptionDataSource,
 		NewIncidentEscalationPathDataSource,
-		NewEscalationPathBetaDataSource,
 		NewIncidentRoleDataSource,
 		NewIncidentIncidentTemplateDataSource,
 		NewIncidentTimestampDataSource,
@@ -197,10 +202,9 @@ func (p *IncidentProvider) DataSources(ctx context.Context) []func() datasource.
 		NewIncidentPolicyDataSource,
 		NewRichTextDataSource,
 		NewIncidentScheduleDataSource,
-		NewIncidentScheduleBetaDataSource,
 		NewIncidentScheduleReplicaDataSource,
 		NewIncidentScheduleReplicasDataSource,
-		NewIncidentScheduleRotationBetaDataSource,
+		NewIncidentScheduleRotationDataSource,
 		NewIncidentScheduleSyncRuleDataSource,
 		NewIncidentScheduleSyncTargetDataSource,
 		NewIncidentSecretDataSource,
@@ -208,5 +212,11 @@ func (p *IncidentProvider) DataSources(ctx context.Context) []func() datasource.
 		NewIncidentStatusDataSource,
 		NewIncidentUserDataSource,
 		NewIncidentWorkflowDataSource,
+
+		// The `_beta` names these data sources answered to in v6. See aliases.go.
+		NewIncidentAlertSourceAttributeBetaDataSource,
+		NewIncidentEscalationPathBetaDataSource,
+		NewIncidentScheduleBetaDataSource,
+		NewIncidentScheduleRotationBetaDataSource,
 	}
 }

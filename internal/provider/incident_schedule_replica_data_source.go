@@ -8,8 +8,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 
-	"github.com/incident-io/terraform-provider-incident/v6/internal/apischema"
-	"github.com/incident-io/terraform-provider-incident/v6/internal/provider/models"
+	"github.com/incident-io/terraform-provider-incident/v7/internal/apischema"
+	"github.com/incident-io/terraform-provider-incident/v7/internal/provider/models"
 )
 
 var (

@@ -1,3 +1,10 @@
+## Unreleased
+
+- **Breaking**: the beta resources lose their `_beta` suffix. `incident_alert_source`, `incident_alert_source_attribute`, `incident_escalation_path`, `incident_schedule` and `incident_schedule_rotation` are now what the `_beta` resources were, and the v6 resources of those names are removed.
+- The `_beta` names still work, so upgrading changes nothing if you were using them. They warn on every plan and go in v8; rename one with a `moved` block whenever you like.
+- Upgrading from a v6 `incident_schedule`, `incident_escalation_path` or `incident_alert_source`: your state carries over, but `rotations`, `path` and `template` are no longer attributes, so your configuration needs rewriting. Each resource's page says what to write and what to import.
+- The Go module path is now `github.com/incident-io/terraform-provider-incident/v7`.
+
 ## v6.13.0
 
 - Cover setting an alert's priority from an expression with acceptance tests, on both `incident_alert_source` and `incident_alert_source_beta`. Neither had one: the only existing priority test bound a literal, so the reference form the docs recommend was never exercised.

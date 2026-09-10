@@ -7,7 +7,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/incident-io/terraform-provider-incident/v6/internal/provider/jsontypes"
+	"github.com/incident-io/terraform-provider-incident/v7/internal/provider/jsontypes"
 )
 
 // unknownBindings is every form a config can point at an expression Terraform hasn't settled:

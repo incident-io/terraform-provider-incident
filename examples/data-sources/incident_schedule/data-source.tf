@@ -1,23 +1,9 @@
-# Reference the incident schedule by its id.
-data "incident_schedule" "by_id" {
-  id = "01HPFH8T92MPGSQS5C1SPAF4V0"
+# Look up a schedule by name...
+data "incident_schedule" "platform" {
+  name = "Platform on-call"
 }
 
-# Reference the incident schedule by its name (case sensitive).
-data "incident_schedule" "by_name" {
-  name = "Primary On-call"
+# ...or by ID, which is what you want if several schedules share a name.
+data "incident_schedule" "platform_by_id" {
+  id = "01ABC123DEF456GHI789JKL"
 }
-
-# Output the schedule details
-output "schedule_id" {
-  value = data.incident_schedule.by_name.id
-}
-
-output "schedule_timezone" {
-  value = data.incident_schedule.by_name.timezone
-}
-
-output "schedule_team_ids" {
-  value = data.incident_schedule.by_name.team_ids
-}
-

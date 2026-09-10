@@ -1,191 +1,84 @@
-## Create a basic Alert Source that receives from an SNS Topic in AWS
+# An alert source, without the attributes it populates. Each of those is its own
+# incident_alert_source_attribute resource, so editing one attribute doesn't
+# mean rewriting the source.
+resource "incident_alert_source" "prometheus" {
+  name        = "Prometheus"
+  source_type = "http"
 
-resource "incident_alert_source" "cloudwatch" {
-  name        = "CloudWatch Alerts"
-  source_type = "cloudwatch"
-  template = {
-    title = {
-      literal = jsonencode({
-        content = [
-          {
-            content = [
-              {
-                attrs = {
-                  label   = "Payload → Title"
-                  missing = false
-                  name    = "title"
-                }
-                type = "varSpec"
-              },
-            ]
-            type = "paragraph"
-          },
-        ]
-        type = "doc"
-      })
+  # Optional: teams that own this alert source.
+  owning_team_ids = [data.incident_catalog_entry.platform_team.id]
+
+  # A literal interpolates the alert's scope with {{ }}, and takes the filters
+  # truncate and omit_if_unset.
+  title = {
+    literal = "{{payload.labels.alertname}} on {{payload.labels.service}}"
+  }
+
+  # For content a template can't express — formatting, links, lists — build the
+  # document from markdown instead. feature_set must match the field: a title is
+  # plain_single_line, a description is rich.
+  description = {
+    literal = data.incident_rich_text.prometheus_alert.json
+  }
+
+  # Expressions this source owns, addressed by name. Setting a priority from the payload
+  # takes two of them.
+  #
+  # The payload is opaque JSON, so a condition can't reach inside it: `payload` as a whole
+  # is all one can see, and a subject of "payload.labels.severity" resolves to nothing.
+  # Parse the value out first...
+  named_expression {
+    name       = "severity_string"
+    start_from = "payload"
+
+    operation {
+      parse = {
+        # JavaScript, evaluated with the payload bound to `$`.
+        function = "$.labels.severity"
+        as       = "String"
+      }
+    }
+  }
+
+  # ...then map that string onto a priority. Parsing straight into a priority would be
+  # shorter, but it resolves by matching the value against a priority's name, so a payload
+  # saying "critical" would match no priority called "Urgent" and every alert would land on
+  # the fallback. Branching on the value says what you mean.
+  named_expression {
+    name       = "severity_lookup"
+    start_from = "."
+
+    operation {
+      branches {
+        # A priority is a catalog entry, so the branches return its catalog type. Take the
+        # type from attribute_type rather than writing it out.
+        as = data.incident_catalog_type.alert_priority.attribute_type
+
+        if {
+          conditions = [{
+            subject   = "expressions[\"severity_string\"]"
+            operation = "one_of"
+            params    = [{ values = ["critical", "page"] }]
+          }]
+          result = { value_literal = data.incident_catalog_entry.urgent_priority.id }
+        }
+      }
     }
 
-    description = {
-      literal = jsonencode({
-        content = [
-          {
-            content = [
-              {
-                attrs = {
-                  label   = "Payload → Description"
-                  missing = false
-                  name    = "description"
-                }
-                type = "varSpec"
-              },
-            ]
-            type = "paragraph"
-          },
-        ]
-        type = "doc"
-      })
+    # What the expression produces when no branch matched.
+    fallback {
+      result = { value_literal = data.incident_catalog_entry.in_hours_priority.id }
     }
+  }
 
-    ## Bind the `team` expression to an Alert Attribute we can use to label our Alerts
-    attributes = [
-      {
-        alert_attribute_id = data.incident_alert_attribute.team.id
-        binding = {
-          value = {
-            ## Bind the expression below to this attribute for this Source
-            reference = "expressions[\"cloudwatch-team\"]"
-          }
-          ## Controls how the attribute value is handled when alert fires multiple times
-          merge_strategy = "first_wins"
-        }
-      },
-
-      ## An alert's priority is set here, as a binding on the built-in `Priority` Alert
-      ## Attribute: this resource has no `priority` field of its own. An expression that
-      ## returns an AlertPriority and is bound to nothing has no effect, so this entry is
-      ## what makes the `cloudwatch-priority` expression below do anything at all.
-      ##
-      ## A priority binding's `merge_strategy` can only be `last_wins`. Left out
-      ## here because the API fills it in, and it reads back as `last_wins`
-      ## either way; setting any other value is rejected.
-      {
-        alert_attribute_id = data.incident_alert_attribute.priority.id
-        binding = {
-          value = {
-            reference = "expressions[\"cloudwatch-priority\"]"
-          }
-        }
-      },
-    ]
-
-    ## Query the `team` value from the endpoint referenced in the SNS Topic Subscription
-    expressions = [
-      {
-        label = "Team"
-        operations = [
-          {
-            operation_type = "parse"
-            parse = {
-              returns = {
-                array = false
-                ## This'll bind to some Catalog Entry Type
-                type = "CatalogEntry[\"CatalogEntryID\"]"
-              }
-              source = "$['query_params']['team']"
-            }
-        }]
-        reference      = "cloudwatch-team"
-        root_reference = "payload"
-      },
-
-      ## Mapping the payload's severity onto an AlertPriority takes two expressions.
-      ##
-      ## The payload is opaque JSON: an expression reaches into it with a `parse`
-      ## operation, and a condition can only ask whether `payload` as a whole is set. So
-      ## `subject = "payload.severity"` resolves to nothing — pull the value out first.
-      ##
-      ## Step one: parse the severity out of the payload as a plain string.
-      {
-        label = "Severity"
-        operations = [
-          {
-            operation_type = "parse"
-            parse = {
-              returns = {
-                array = false
-                type  = "String"
-              }
-              source = "$['severity']"
-            }
-        }]
-        reference      = "cloudwatch-severity"
-        root_reference = "payload"
-      },
-
-      ## Step two: map that string onto a priority.
-      ##
-      ## Parsing the severity straight into a CatalogEntry["AlertPriority"] instead would
-      ## be shorter, but it resolves by matching the value against a priority's name, alias
-      ## or external ID exactly. A payload saying "CRITICAL" matches no priority called
-      ## "Urgent", so it resolves to nothing and every alert lands on the else_branch.
-      ## Branching on the value says what you mean.
-      {
-        label = "Priority"
-        operations = [
-          {
-            operation_type = "branches"
-            branches = {
-              returns = {
-                array = false
-                type  = "CatalogEntry[\"AlertPriority\"]"
-              }
-              branches = [
-                {
-                  condition_groups = [
-                    {
-                      conditions = [
-                        {
-                          subject   = "expressions[\"cloudwatch-severity\"]"
-                          operation = "one_of"
-                          param_bindings = [
-                            { values = ["CRITICAL", "critical"] },
-                          ]
-                        },
-                      ]
-                    },
-                  ]
-                  result = { value_literal = data.incident_catalog_entry.urgent_priority.id }
-                },
-              ]
-            }
-        }]
-        reference = "cloudwatch-priority"
-        ## A branches operation reads the whole scope, so root_reference must be "."
-        root_reference = "."
-        ## What the priority is when no branch matched
-        else_branch = {
-          result = { value_literal = data.incident_catalog_entry.low_priority.id }
-        }
-      },
-    ]
+  priority = {
+    expression_ref = "severity_lookup"
   }
 }
 
-## The `team` Alert Attribute we've configured to label Alerts and route alerts to schedules
-
-data "incident_alert_attribute" "team" {
-  name = "Team"
-}
-
-## `Priority` is a built-in Alert Attribute that every account already has, so it's looked
-## up rather than declared: `incident_alert_attribute` rejects the name.
-
-data "incident_alert_attribute" "priority" {
-  name = "Priority"
-}
-
-## The priorities themselves are Catalog Entries, looked up by name
-
+# An alert's priority is a catalog entry, so the priorities themselves are looked up rather
+# than declared. Urgent and In-hours are the ones a new account starts with; use whichever
+# your organisation has.
 data "incident_catalog_type" "alert_priority" {
   type_name = "AlertPriority"
 }
@@ -195,22 +88,59 @@ data "incident_catalog_entry" "urgent_priority" {
   identifier      = "Urgent"
 }
 
-data "incident_catalog_entry" "low_priority" {
+data "incident_catalog_entry" "in_hours_priority" {
   catalog_type_id = data.incident_catalog_type.alert_priority.id
-  identifier      = "Low"
+  identifier      = "In-hours"
 }
 
-## AWS Resources
+data "incident_rich_text" "prometheus_alert" {
+  feature_set = "rich"
+  markdown    = <<-EOT
+    Fired by the **Prometheus alertmanager**.
 
-resource "aws_sns_topic" "alerts" {
-  name = "cloudwatch-alerts"
+    Runbook: {{payload.annotations.runbook_url}}
+  EOT
 }
 
-## SNS Topic Subscription that routes to the incident.io Alert Source created above
+# A heartbeat source writes its own title and description, and needs the interval a
+# ping is expected within.
+resource "incident_alert_source" "nightly_backup" {
+  name        = "Nightly backup"
+  source_type = "heartbeat"
 
-resource "aws_sns_topic_subscription" "incidentio_alert_source" {
-  endpoint               = "https://api.incident.io/v2/alert_events/cloudwatch/${incident_alert_source.cloudwatch.id}?team=platform"
-  endpoint_auto_confirms = true
-  protocol               = "https"
-  topic_arn              = aws_sns_topic.alerts.arn
+  heartbeat_options = {
+    interval_seconds = 86400
+
+    # Optional: how many missed intervals before we alert, and how long to wait
+    # after each one.
+    failure_threshold    = 1
+    grace_period_seconds = 3600
+  }
+
+  # Pause monitoring without deleting the source, for example during maintenance.
+  # A heartbeat can only be paused once it has received its first ping, so this
+  # starts monitoring and is flipped to true on a later apply. Omit the attribute
+  # entirely to leave a pause made in the dashboard alone.
+  disabled = false
+}
+
+# A private source's alerts are visible to nobody until you say which teams can
+# see them.
+resource "incident_alert_source" "security_scanner" {
+  name        = "Security scanner"
+  source_type = "http"
+
+  # Every source but a heartbeat needs both of these: leave one out and the API writes
+  # its own default, which this resource has nowhere to store.
+  title = {
+    literal = "{{payload.rule}} on {{payload.target}}"
+  }
+  description = {
+    literal = "{{payload.detail}}"
+  }
+
+  is_private = true
+  visible_to_teams = {
+    values = [data.incident_catalog_entry.security_team.id]
+  }
 }

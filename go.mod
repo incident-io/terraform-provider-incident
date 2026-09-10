@@ -1,4 +1,4 @@
-module github.com/incident-io/terraform-provider-incident/v6
+module github.com/incident-io/terraform-provider-incident/v7
 
 go 1.26.7
 

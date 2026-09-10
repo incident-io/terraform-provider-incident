@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/samber/lo"
 
-	"github.com/incident-io/terraform-provider-incident/v6/internal/apischema"
-	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
+	"github.com/incident-io/terraform-provider-incident/v7/internal/apischema"
+	"github.com/incident-io/terraform-provider-incident/v7/internal/client"
 )
 
 var (
@@ -56,10 +56,9 @@ on it.
 
 What varies per source is the *binding*: the rule parsing a value for this attribute out of an
 incoming event. A source binds a given attribute at most once, and two sources can fill the
-same attribute from completely different parts of their payloads. Write bindings either as
-`+"`template.attributes`"+` on `+"`incident_alert_source`"+`, which declares a source and everything it
-populates together, or as one `+"`incident_alert_source_attribute_beta`"+` resource per binding
-against an `+"`incident_alert_source_beta`"+` source.
+same attribute from completely different parts of their payloads. Write each binding as an
+`+"`incident_alert_source_attribute`"+` resource, naming the attribute and the
+`+"`incident_alert_source`"+` that fills it in.
 
 So a `+"`GCP service`"+` attribute is declared once, then bound separately by each source that sets it.
 

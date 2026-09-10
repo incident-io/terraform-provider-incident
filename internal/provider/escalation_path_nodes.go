@@ -11,15 +11,57 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/samber/lo"
 
-	"github.com/incident-io/terraform-provider-incident/v6/internal/apischema"
-	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
-	"github.com/incident-io/terraform-provider-incident/v6/internal/provider/models"
+	"github.com/incident-io/terraform-provider-incident/v7/internal/apischema"
+	"github.com/incident-io/terraform-provider-incident/v7/internal/client"
+	"github.com/incident-io/terraform-provider-incident/v7/internal/provider/models"
 )
 
-// The level, notify_channel and delay blocks are identical in incident_escalation_path
-// and incident_escalation_path_beta: only the way nodes are arranged differs between the
-// two. Their schema, attribute types and conversions live here so the two resources share
-// one definition rather than drifting apart.
+// A node's level, notify_channel, delay and escalation_path blocks say the same thing
+// wherever they appear, and both the resource and its data source read them, so their
+// models, schema, attribute types and conversions live here as one definition.
+
+type IncidentEscalationPathNodeLevel struct {
+	Targets                          types.List                          `tfsdk:"targets"`
+	RoundRobinConfig                 *IncidentEscalationRoundRobinConfig `tfsdk:"round_robin_config"`
+	RetryConfig                      *IncidentEscalationRetryConfig      `tfsdk:"retry_config"`
+	TimeToAckIntervalCondition       types.String                        `tfsdk:"time_to_ack_interval_condition"`
+	TimeToAckSeconds                 types.Int64                         `tfsdk:"time_to_ack_seconds"`
+	TimeToAckWeekdayIntervalConfigID types.String                        `tfsdk:"time_to_ack_weekday_interval_config_id"`
+
+	AckMode types.String `tfsdk:"ack_mode"`
+}
+
+type IncidentEscalationPathNodeNotifyChannel struct {
+	Targets                          types.List   `tfsdk:"targets"`
+	TimeToAckIntervalCondition       types.String `tfsdk:"time_to_ack_interval_condition"`
+	TimeToAckSeconds                 types.Int64  `tfsdk:"time_to_ack_seconds"`
+	TimeToAckWeekdayIntervalConfigID types.String `tfsdk:"time_to_ack_weekday_interval_config_id"`
+}
+
+type IncidentEscalationPathNodeDelay struct {
+	DelayIntervalCondition       types.String `tfsdk:"delay_interval_condition"`
+	DelaySeconds                 types.Int64  `tfsdk:"delay_seconds"`
+	DelayWeekdayIntervalConfigID types.String `tfsdk:"delay_weekday_interval_config_id"`
+}
+
+type IncidentEscalationPathNodeEscalationPath struct {
+	EscalationPathID types.String `tfsdk:"escalation_path_id"`
+}
+
+type IncidentEscalationRoundRobinConfig struct {
+	Enabled            types.Bool  `tfsdk:"enabled"`
+	RotateAfterSeconds types.Int64 `tfsdk:"rotate_after_seconds"`
+}
+
+type IncidentEscalationRetryConfig struct {
+	Attempts        types.Int64 `tfsdk:"attempts"`
+	IntervalSeconds types.Int64 `tfsdk:"interval_seconds"`
+}
+
+type IncidentEscalationPathRepeatConfig struct {
+	RepeatAfterSeconds    types.Int64 `tfsdk:"repeat_after_seconds"`
+	DelayRepeatOnActivity types.Bool  `tfsdk:"delay_repeat_on_activity"`
+}
 
 // levelAttrTypes returns the attribute types for a level node's block.
 func levelAttrTypes() map[string]attr.Type {

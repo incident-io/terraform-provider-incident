@@ -3,31 +3,40 @@ package provider
 import (
 	"context"
 	"fmt"
-	"sync"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/incident-io/terraform-provider-incident/v6/internal/apischema"
-	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
-	"github.com/incident-io/terraform-provider-incident/v6/internal/provider/models"
+	"github.com/samber/lo"
+
+	"github.com/incident-io/terraform-provider-incident/v7/internal/apischema"
+	"github.com/incident-io/terraform-provider-incident/v7/internal/client"
 )
 
 var (
-	_ datasource.DataSource              = &IncidentScheduleDataSource{}
-	_ datasource.DataSourceWithConfigure = &IncidentScheduleDataSource{}
+	_ datasource.DataSource                   = &IncidentScheduleDataSource{}
+	_ datasource.DataSourceWithConfigure      = &IncidentScheduleDataSource{}
+	_ datasource.DataSourceWithValidateConfig = &IncidentScheduleDataSource{}
 )
+
+// scheduleV3LookupPageSize is the page size used when searching for a schedule by
+// name. It's the maximum the endpoint allows, so most organisations resolve in a
+// single request.
+const scheduleV3LookupPageSize = 250
 
 func NewIncidentScheduleDataSource() datasource.DataSource {
 	return &IncidentScheduleDataSource{}
 }
 
+// NewIncidentScheduleBetaDataSource registers this data source under the name it had in
+// v6. See aliases.go.
+func NewIncidentScheduleBetaDataSource() datasource.DataSource {
+	return &IncidentScheduleDataSource{betaAlias: scheduleBetaAlias}
+}
+
 type IncidentScheduleDataSource struct {
 	dataSourceConfigurer
-
-	scheduleTypeID            string
-	scheduleTypeIDOnce        sync.Once
-	scheduleTypeIDLookupError error
+	betaAlias
 }
 
 type IncidentScheduleDataSourceModel struct {
@@ -37,36 +46,61 @@ type IncidentScheduleDataSourceModel struct {
 	TeamIDs  types.Set    `tfsdk:"team_ids"`
 }
 
-func (d *IncidentScheduleDataSource) getScheduleTypeID(ctx context.Context) (string, error) {
-	d.scheduleTypeIDOnce.Do(func() {
-		typesResult, err := d.client.CatalogV3ListTypesWithResponse(ctx)
-		if err == nil && typesResult.StatusCode() >= 400 {
-			err = fmt.Errorf("%s", typesResult.Body)
-		}
-		if err != nil {
-			d.scheduleTypeIDLookupError = fmt.Errorf("unable to list catalog types, got error: %s", err)
-			return
-		}
-
-		for _, catalogType := range typesResult.JSON200.CatalogTypes {
-			if catalogType.Name == "Schedule" {
-				d.scheduleTypeID = catalogType.Id
-				return
-			}
-		}
-
-		d.scheduleTypeIDLookupError = fmt.Errorf("schedule catalog type not found")
-	})
-
-	if d.scheduleTypeIDLookupError != nil {
-		return "", d.scheduleTypeIDLookupError
-	}
-
-	return d.scheduleTypeID, nil
+func (d *IncidentScheduleDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
+	resp.TypeName = d.typeName(req.ProviderTypeName, "_schedule")
 }
 
-func (d *IncidentScheduleDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_schedule"
+func (d *IncidentScheduleDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
+	resp.Schema = schema.Schema{
+		DeprecationMessage:  d.deprecationMessage(),
+		MarkdownDescription: d.description("Look up a schedule by `id` or `name`. Exactly one lookup field should be set."),
+		Attributes: map[string]schema.Attribute{
+			"id": schema.StringAttribute{
+				Optional:            true,
+				Computed:            true,
+				MarkdownDescription: "Look up the schedule by ID.",
+			},
+			"name": schema.StringAttribute{
+				Optional:            true,
+				Computed:            true,
+				MarkdownDescription: "Look up the schedule by name. Names aren't unique, so this fails if more than one schedule matches.",
+			},
+			"timezone": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: apischema.Docstring("ScheduleV3", "timezone"),
+			},
+			"team_ids": schema.SetAttribute{
+				Computed:            true,
+				ElementType:         types.StringType,
+				MarkdownDescription: apischema.Docstring("ScheduleV3", "team_ids"),
+			},
+		},
+	}
+}
+
+// ValidateConfig rejects an ambiguous lookup at plan time. Both attributes are
+// Optional and Computed so either can be used, which means setting both would
+// otherwise silently ignore one of them.
+func (d *IncidentScheduleDataSource) ValidateConfig(ctx context.Context, req datasource.ValidateConfigRequest, resp *datasource.ValidateConfigResponse) {
+	var data *IncidentScheduleDataSourceModel
+	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
+	if resp.Diagnostics.HasError() || data == nil {
+		return
+	}
+
+	// A value that isn't known yet — an id taken from a resource created in the
+	// same apply, or either attribute behind an unresolved conditional — is
+	// non-null, so judging it here would reject a config that's actually fine.
+	if data.ID.IsUnknown() || data.Name.IsUnknown() {
+		return
+	}
+
+	switch {
+	case !data.ID.IsNull() && !data.Name.IsNull():
+		resp.Diagnostics.AddError("Ambiguous lookup", "Set either id or name, not both.")
+	case data.ID.IsNull() && data.Name.IsNull():
+		resp.Diagnostics.AddError("Missing lookup", "Set one of id or name.")
+	}
 }
 
 func (d *IncidentScheduleDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
@@ -76,105 +110,86 @@ func (d *IncidentScheduleDataSource) Read(ctx context.Context, req datasource.Re
 		return
 	}
 
-	var schedule *client.ScheduleV2
-	if !data.ID.IsNull() {
-		// Lookup by ID
-		result, err := d.client.SchedulesV2ShowWithResponse(ctx, data.ID.ValueString())
+	var schedule *client.ScheduleV3
+	switch {
+	case !data.ID.IsNull():
+		result, err := d.client.SchedulesV3ShowWithResponse(ctx, data.ID.ValueString())
 		if err != nil {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read schedule, got error: %s", err))
+			resp.Diagnostics.AddError("Unable to read schedule", err.Error())
+			return
+		}
+		if result.JSON200 == nil {
+			resp.Diagnostics.AddError("Unable to read schedule", fmt.Sprintf("unexpected response: %s", result.Status()))
 			return
 		}
 		schedule = &result.JSON200.Schedule
-	} else if !data.Name.IsNull() {
-		// Lookup by name using catalog API
-		scheduleName := data.Name.ValueString()
-
-		// Step 1: Get the cached Schedule catalog type ID
-		scheduleTypeID, err := d.getScheduleTypeID(ctx)
+	case !data.Name.IsNull():
+		got, err := d.findByName(ctx, data.Name.ValueString())
 		if err != nil {
-			resp.Diagnostics.AddError("Client Error", err.Error())
+			resp.Diagnostics.AddError("Unable to read schedule by name", err.Error())
 			return
 		}
-
-		// Step 2: Find catalog entry by name
-		entriesResult, err := d.client.CatalogV3ListEntriesWithResponse(ctx, &client.CatalogV3ListEntriesParams{
-			CatalogTypeId: scheduleTypeID,
-			Identifier:    &scheduleName,
-			PageSize:      1,
-		})
-		if err == nil && entriesResult.StatusCode() >= 400 {
-			err = fmt.Errorf("%s", entriesResult.Body)
-		}
-		if err != nil {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to list catalog entries, got error: %s", err))
-			return
-		}
-
-		if len(entriesResult.JSON200.CatalogEntries) == 0 {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to find schedule with name: %s", scheduleName))
-			return
-		}
-
-		catalogEntry := entriesResult.JSON200.CatalogEntries[0]
-		if catalogEntry.ExternalId == nil {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Catalog entry for schedule '%s' has no external ID", scheduleName))
-			return
-		}
-
-		// Step 3: Fetch schedule by ID using the external ID from catalog entry
-		scheduleID := *catalogEntry.ExternalId
-		result, err := d.client.SchedulesV2ShowWithResponse(ctx, scheduleID)
-		if err != nil {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read schedule with ID %s, got error: %s", scheduleID, err))
-			return
-		}
-		schedule = &result.JSON200.Schedule
-	} else {
-		resp.Diagnostics.AddError("Client Error", "Either 'id' or 'name' must be provided")
+		schedule = got
+	default:
+		resp.Diagnostics.AddError("Missing lookup", "Set one of id or name.")
 		return
 	}
 
-	// Build the model using the same method as the resource
-	scheduleResource := &IncidentScheduleResource{}
-	emptyPlan := &models.IncidentScheduleResourceModelV2{
-		TeamIDs: types.SetNull(types.StringType),
-	}
-	resourceModel := scheduleResource.buildModel(*schedule, emptyPlan)
-
-	// Convert to data source model
-	modelResp := &IncidentScheduleDataSourceModel{
-		ID:       resourceModel.ID,
-		Name:     resourceModel.Name,
-		Timezone: resourceModel.Timezone,
-		TeamIDs:  resourceModel.TeamIDs,
+	teamIDs := make([]string, len(schedule.TeamIds))
+	copy(teamIDs, schedule.TeamIds)
+	teamIDsSet, diags := types.SetValueFrom(ctx, types.StringType, teamIDs)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
 	}
 
-	resp.Diagnostics.Append(resp.State.Set(ctx, &modelResp)...)
+	resp.Diagnostics.Append(resp.State.Set(ctx, &IncidentScheduleDataSourceModel{
+		ID:       types.StringValue(schedule.Id),
+		Name:     types.StringValue(schedule.Name),
+		Timezone: types.StringValue(schedule.Timezone),
+		TeamIDs:  teamIDsSet,
+	})...)
 }
 
-func (d *IncidentScheduleDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
-	resp.Schema = schema.Schema{
-		MarkdownDescription: fmt.Sprintf("%s\n\n%s", apischema.TagDocstring("Schedules V2"), "Use this data source to retrieve information about an existing schedule."),
-		Attributes: map[string]schema.Attribute{
-			"id": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
-				MarkdownDescription: apischema.Docstring("ScheduleV2", "id"),
-			},
-			"name": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
-				MarkdownDescription: apischema.Docstring("ScheduleV2", "name"),
-			},
-			"timezone": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: apischema.Docstring("ScheduleV2", "timezone"),
-			},
-			"team_ids": schema.SetAttribute{
-				Computed:            true,
-				ElementType:         types.StringType,
-				MarkdownDescription: apischema.Docstring("ScheduleV2", "team_ids"),
-			},
-		},
+// findByName pages the schedule list looking for an exact name match, and
+// requires exactly one. The list endpoint has no name filter, but it only returns
+// a cursor while pages are full, so this terminates on the last page.
+func (d *IncidentScheduleDataSource) findByName(ctx context.Context, name string) (*client.ScheduleV3, error) {
+	var (
+		after   *string
+		matches []client.ScheduleV3
+	)
+
+	for {
+		result, err := d.client.SchedulesV3ListWithResponse(ctx, &client.SchedulesV3ListParams{
+			PageSize: lo.ToPtr(int64(scheduleV3LookupPageSize)),
+			After:    after,
+		})
+		if err != nil {
+			return nil, err
+		}
+		if result.JSON200 == nil {
+			return nil, fmt.Errorf("unexpected response listing schedules: %s", result.Status())
+		}
+
+		for _, schedule := range result.JSON200.Schedules {
+			if schedule.Name == name {
+				matches = append(matches, schedule)
+			}
+		}
+
+		after = result.JSON200.PaginationMeta.After
+		if after == nil {
+			break
+		}
+	}
+
+	switch len(matches) {
+	case 0:
+		return nil, fmt.Errorf("no schedule found with name %q", name)
+	case 1:
+		return &matches[0], nil
+	default:
+		return nil, fmt.Errorf("found %d schedules named %q; look it up by id instead", len(matches), name)
 	}
 }

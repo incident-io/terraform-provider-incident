@@ -3,164 +3,44 @@
 page_title: "incident_schedule_rotation_beta Resource - terraform-provider-incident"
 subcategory: ""
 description: |-
-  Manage a rotation on an on-call schedule.
-  A rotation is a group of people who take turns being on call, and the cadence they
-  hand over on. A schedule can hold several, and each is managed independently — so
-  changing one never rewrites the others.
-  Editing a rotation takes effect straight away, unless rollout says otherwise.
-  Changing when shifts hand over
-  first_interval_starts_at is the point intervals are counted from. With
-  handovers it fixes the time of day and day of week that shifts change hands —
-  the dashboard calls it the handover time.
-  It can't change in the same apply as rollout. Whenever rollout is set the
-  rotation keeps the interval start it already runs: an immediate rollout copies that
-  across so the cadence doesn't move, and a phased one works backwards from the next
-  handover so the new line-up slots into the rhythm people are already working. Either
-  way a new first_interval_starts_at is discarded, so the provider stops the apply
-  rather than storing a value that won't be kept.
-  To change both, take it in two applies:
-  Change first_interval_starts_at on its own, with rollout unset. The new
-  cadence takes effect straight away.Then make the line-up change, with rollout set.
-  Choosing a scheduling mode
-  scheduling_mode decides who takes the next shift.
-  fair shares time on call out evenly, tracking how much each person has already
-  done and giving the next shift to whoever is behind. Someone newly added has done
-  none, so fair tends to bring them on call sooner rather than adding them to
-  the back of the queue.
-  sequential goes around the list in order, so the next person on call is always
-  the one after the last.
-  For an even rotation — everyone on for the same length of time, no working hours,
-  nobody joining or leaving — the two behave identically. They only diverge once
-  shifts differ in length, working_intervals is set, or the list of users
-  changes. Reach for sequential when it matters that the running order is
-  obvious to the people in it.
-  Beta, and what happens next
-  This resource is in beta. Its schema may still change in ways that are not
-  backwards compatible, so pin the provider version if that matters to you.
-  The plan is for these resources to become the only way to manage schedules. In
-  v7.0 they lose the _beta suffix and incident_schedule, which declares
-  its rotations inline, is removed. Until then both work and neither is deprecated.
-  See incident_schedule_beta for how the two differ and how to migrate.
+  incident_schedule_rotation_beta was renamed to incident_schedule_rotation in v7.0.
+  This name still works and still manages the same thing, so upgrading to v7 needs no change
+  to a configuration that uses it. It is deprecated: every plan naming it warns, and it will
+  be removed in v8.0.
+  To move onto the new name:
+  
+  moved {
+    from = incident_schedule_rotation_beta.weekdays
+    to   = incident_schedule_rotation.weekdays
+  }
+  
+  Both names are the same resource, backed by the same schema and the same API, so the move
+  carries your state across and the plan after it is empty. See incident_schedule_rotation for the
+  documentation.
 ---
 
 # incident_schedule_rotation_beta (Resource)
 
-Manage a rotation on an on-call schedule.
+`incident_schedule_rotation_beta` was renamed to `incident_schedule_rotation` in v7.0.
 
-A rotation is a group of people who take turns being on call, and the cadence they
-hand over on. A schedule can hold several, and each is managed independently — so
-changing one never rewrites the others.
+This name still works and still manages the same thing, so upgrading to v7 needs no change
+to a configuration that uses it. It is deprecated: every plan naming it warns, and it will
+be removed in v8.0.
 
-Editing a rotation takes effect straight away, unless `rollout` says otherwise.
-
-## Changing when shifts hand over
-
-`first_interval_starts_at` is the point intervals are counted from. With
-`handovers` it fixes the time of day and day of week that shifts change hands —
-the dashboard calls it the handover time.
-
-It can't change in the same apply as `rollout`. Whenever `rollout` is set the
-rotation keeps the interval start it already runs: an immediate rollout copies that
-across so the cadence doesn't move, and a phased one works backwards from the next
-handover so the new line-up slots into the rhythm people are already working. Either
-way a new `first_interval_starts_at` is discarded, so the provider stops the apply
-rather than storing a value that won't be kept.
-
-To change both, take it in two applies:
-
-1. Change `first_interval_starts_at` on its own, with `rollout` unset. The new
-   cadence takes effect straight away.
-2. Then make the line-up change, with `rollout` set.
-
-## Choosing a scheduling mode
-
-`scheduling_mode` decides who takes the next shift.
-
-`fair` shares time on call out evenly, tracking how much each person has already
-done and giving the next shift to whoever is behind. Someone newly added has done
-none, so `fair` tends to bring them on call sooner rather than adding them to
-the back of the queue.
-
-`sequential` goes around the list in order, so the next person on call is always
-the one after the last.
-
-For an even rotation — everyone on for the same length of time, no working hours,
-nobody joining or leaving — the two behave identically. They only diverge once
-shifts differ in length, `working_intervals` is set, or the list of users
-changes. Reach for `sequential` when it matters that the running order is
-obvious to the people in it.
-
-## Beta, and what happens next
-
-This resource is in beta. Its schema may still change in ways that are not
-backwards compatible, so pin the provider version if that matters to you.
-
-The plan is for these resources to become the only way to manage schedules. In
-v7.0 they lose the `_beta` suffix and `incident_schedule`, which declares
-its rotations inline, is removed. Until then both work and neither is deprecated.
-See `incident_schedule_beta` for how the two differ and how to migrate.
-
-## Example Usage
+To move onto the new name:
 
 ```terraform
-# A rotation is a group of people who take turns being on call. Each one is managed
-# on its own, so editing this rotation doesn't touch the others on the schedule.
-resource "incident_schedule_rotation_beta" "primary" {
-  schedule_id = incident_schedule_beta.platform.id
-  name        = "Primary"
-
-  # The people in the rotation, in the order they take shifts.
-  users = [
-    data.incident_user.alice.id,
-    data.incident_user.bob.id,
-  ]
-
-  # Hand over every Monday at 09:00, counting from this moment.
-  first_interval_starts_at = "2024-01-08T09:00:00Z"
-  handovers = [
-    {
-      interval      = 1
-      interval_type = "weekly"
-    }
-  ]
-
-  # concurrent_shifts is omitted, so one person is on call at a time.
-}
-
-# A rotation that only covers weekday working hours, with two people on call at
-# once and a place in the schedule's running order.
-resource "incident_schedule_rotation_beta" "business_hours" {
-  schedule_id = incident_schedule_beta.platform.id
-  name        = "Business hours"
-  rank        = 2
-
-  users = [
-    data.incident_user.alice.id,
-    data.incident_user.bob.id,
-    data.incident_user.carol.id,
-  ]
-
-  first_interval_starts_at = "2024-01-08T09:00:00Z"
-  handovers = [
-    {
-      interval      = 1
-      interval_type = "daily"
-    }
-  ]
-
-  concurrent_shifts = 2
-
-  # Omit this to keep the rotation on call around the clock. An empty list isn't a
-  # way to say that.
-  working_intervals = [
-    { weekday = "monday", start_time = "09:00", end_time = "17:00" },
-    { weekday = "tuesday", start_time = "09:00", end_time = "17:00" },
-    { weekday = "wednesday", start_time = "09:00", end_time = "17:00" },
-    { weekday = "thursday", start_time = "09:00", end_time = "17:00" },
-    { weekday = "friday", start_time = "09:00", end_time = "17:00" },
-  ]
+moved {
+  from = incident_schedule_rotation_beta.weekdays
+  to   = incident_schedule_rotation.weekdays
 }
 ```
+
+Both names are the same resource, backed by the same schema and the same API, so the move
+carries your state across and the plan after it is empty. See `incident_schedule_rotation` for the
+documentation.
+
+
 
 <!-- schema generated by tfplugindocs -->
 ## Schema
@@ -203,30 +83,3 @@ Required:
 - `end_time` (String) Time of day this window closes, as HH:MM.
 - `start_time` (String) Time of day this window opens, as HH:MM.
 - `weekday` (String) Day of the week, lowercase. Possible values are: `monday`, `tuesday`, `wednesday`, `thursday`, `friday`, `saturday`, `sunday`.
-
-## Import
-
-Import is supported using an [`import` block](https://developer.hashicorp.com/terraform/language/import) or the [`terraform import` command](https://developer.hashicorp.com/terraform/cli/commands/import):
-
-The [`import` block](https://developer.hashicorp.com/terraform/language/import) can be used with the `id` attribute, for example:
-
-```terraform
-# Import a rotation using its schedule's ID and its own ID, separated by a colon.
-# A rotation is only addressable through the schedule that holds it.
-# Replace both IDs with real ones from your incident.io organization.
-import {
-  to = incident_schedule_rotation_beta.example
-  id = "01ABC123DEF456GHI789JKL:01MNO456PQR789STU012VWX"
-}
-```
-
-The [`terraform import` command](https://developer.hashicorp.com/terraform/cli/commands/import) can be used, for example:
-
-```shell
-#!/bin/bash
-
-# Import a rotation using its schedule's ID and its own ID, separated by a colon.
-# A rotation is only addressable through the schedule that holds it.
-# Replace both IDs with real ones from your incident.io organization.
-terraform import incident_schedule_rotation_beta.example 01ABC123DEF456GHI789JKL:01MNO456PQR789STU012VWX
-```

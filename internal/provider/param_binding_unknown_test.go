@@ -10,7 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 
-	"github.com/incident-io/terraform-provider-incident/v6/internal/provider/models"
+	"github.com/incident-io/terraform-provider-incident/v7/internal/provider/models"
 )
 
 // A param binding attribute a config points at anything other than a literal - a local, a
@@ -122,65 +122,9 @@ func conditionWithUnknownBinding(t *testing.T, conditionsType tftypes.List, subj
 	return tftypes.NewValue(conditionType, attributes)
 }
 
-// TestEscalationPathValidatesAnUnknownConditionBinding is the reported failure: an
-// escalation path whose if_else condition binds `array_value = local.priorities` (or any
-// other expression) failed to plan at all, with a value conversion error naming
-// conditions[0].param_bindings[0].array_value.
-func TestEscalationPathValidatesAnUnknownConditionBinding(t *testing.T) {
-	for _, field := range unknownBindingForms {
-		t.Run(field, func(t *testing.T) {
-			objType := escalationPathSchemaType(t)
-
-			pathType := listType(t, objType.AttributeTypes["path"])
-			nodeType := objectType(t, pathType.ElementType)
-			ifElseType := objectType(t, nodeType.AttributeTypes["if_else"])
-			conditionsType := listType(t, ifElseType.AttributeTypes["conditions"])
-
-			condition := conditionWithUnknownBinding(t, conditionsType, "escalation.priority", field)
-
-			ifElseAttributes := map[string]tftypes.Value{}
-			if err := nullFilledObject(t, ifElseType).As(&ifElseAttributes); err != nil {
-				t.Fatalf("reading if_else back: %v", err)
-			}
-			ifElseAttributes["conditions"] = tftypes.NewValue(conditionsType, []tftypes.Value{condition})
-			ifElseAttributes["then_path"] = tftypes.NewValue(ifElseType.AttributeTypes["then_path"], []tftypes.Value{})
-			ifElseAttributes["else_path"] = tftypes.NewValue(ifElseType.AttributeTypes["else_path"], []tftypes.Value{})
-
-			nodeAttributes := map[string]tftypes.Value{}
-			if err := nullFilledObject(t, nodeType).As(&nodeAttributes); err != nil {
-				t.Fatalf("reading the node back: %v", err)
-			}
-			nodeAttributes["type"] = tftypes.NewValue(tftypes.String, "if_else")
-			nodeAttributes["if_else"] = tftypes.NewValue(ifElseType, ifElseAttributes)
-			// nullFilledObject gives every nested block an object of nulls, which the
-			// node/block agreement check reads as a block that is set.
-			nodeAttributes["escalation_path"] = tftypes.NewValue(nodeType.AttributeTypes["escalation_path"], nil)
-
-			attributes := map[string]tftypes.Value{}
-			for name, attrType := range objType.AttributeTypes {
-				attributes[name] = tftypes.NewValue(attrType, nil)
-			}
-			attributes["name"] = tftypes.NewValue(tftypes.String, "Paged by priority")
-			attributes["path"] = tftypes.NewValue(pathType, []tftypes.Value{
-				tftypes.NewValue(nodeType, nodeAttributes),
-			})
-
-			var schemaResp resource.SchemaResponse
-			NewIncidentEscalationPathResource().Schema(t.Context(), resource.SchemaRequest{}, &schemaResp)
-
-			var resp resource.ValidateConfigResponse
-			(&IncidentEscalationPathResource{}).ValidateConfig(t.Context(), resource.ValidateConfigRequest{
-				Config: tfsdk.Config{Schema: schemaResp.Schema, Raw: tftypes.NewValue(objType, attributes)},
-			}, &resp)
-
-			assertNoDiagErrors(t, resp.Diagnostics)
-		})
-	}
-}
-
 // TestConditionGroupsReadAnUnknownBinding covers the resources that hold condition groups in
-// their top-level model. Those fail earlier than the escalation path does - inside
-// Config.Get itself, which takes no options - so nothing but the model's types can fix them.
+// their top-level model, which fail inside Config.Get itself - it takes no options, so
+// nothing but the model's types can fix them.
 func TestConditionGroupsReadAnUnknownBinding(t *testing.T) {
 	for name, tc := range map[string]struct {
 		schema    func(*testing.T) resource.SchemaResponse
@@ -278,7 +222,7 @@ func assertNoDiagErrors(t *testing.T, diags diag.Diagnostics) {
 func TestAlertSourceAttributeReadsAnUnknownBinding(t *testing.T) {
 	for _, field := range unknownBindingForms {
 		t.Run(field, func(t *testing.T) {
-			schemaResp := resourceSchema(NewAlertSourceAttributeBetaResource)(t)
+			schemaResp := resourceSchema(NewIncidentAlertSourceAttributeResource)(t)
 			objType := schemaType(t, schemaResp)
 
 			attributes := map[string]tftypes.Value{}
@@ -291,11 +235,11 @@ func TestAlertSourceAttributeReadsAnUnknownBinding(t *testing.T) {
 
 			config := tfsdk.Config{Schema: schemaResp.Schema, Raw: tftypes.NewValue(objType, attributes)}
 
-			var model *alertSourceAttributeBetaModel
+			var model *alertSourceAttributeModel
 			assertNoDiagErrors(t, config.Get(t.Context(), &model))
 
 			var resp resource.ValidateConfigResponse
-			(&alertSourceAttributeBetaResource{}).ValidateConfig(t.Context(), resource.ValidateConfigRequest{
+			(&alertSourceAttributeResource{}).ValidateConfig(t.Context(), resource.ValidateConfigRequest{
 				Config: config,
 			}, &resp)
 			assertNoDiagErrors(t, resp.Diagnostics)
@@ -329,4 +273,27 @@ func TestUnknownBindingCountsAsOneForm(t *testing.T) {
 			}
 		})
 	}
+}
+
+// nullFilledObject builds an object whose leaves are all null. Nested objects are built
+// rather than nulled, because the model's param-binding types don't accept a null.
+func nullFilledObject(t *testing.T, attrType tftypes.Type) tftypes.Value {
+	t.Helper()
+
+	objType, ok := attrType.(tftypes.Object)
+	if !ok {
+		t.Fatalf("expected an object type, got %s", attrType)
+	}
+
+	attributes := map[string]tftypes.Value{}
+	for name, nested := range objType.AttributeTypes {
+		if _, nestedIsObject := nested.(tftypes.Object); nestedIsObject {
+			attributes[name] = nullFilledObject(t, nested)
+			continue
+		}
+
+		attributes[name] = tftypes.NewValue(nested, nil)
+	}
+
+	return tftypes.NewValue(objType, attributes)
 }

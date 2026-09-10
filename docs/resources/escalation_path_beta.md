@@ -3,230 +3,44 @@
 page_title: "incident_escalation_path_beta Resource - terraform-provider-incident"
 subcategory: ""
 description: |-
-  Create and manage escalation paths, written as a flat map of named node sequences.
-  Each sequence runs its nodes in order and either ends with a branch, which names the sequences to continue down, or falls off the end of the escalation path.
-  We'd generally recommend building escalation paths in our web dashboard https://app.incident.io/~/on-call/escalation-paths and using the 'Export' flow to generate your Terraform.
-  How this differs from incident_escalation_path
-  incident_escalation_path nests a branch's nodes inside it, as if_else.then_path and
-  if_else.else_path. Terraform schemas can't recurse indefinitely, so that resource stops at
-  five levels of branching, and a path that branches more than that can't be written at all.
-  This resource names its sequences instead. A branch says which sequence to continue down
-  rather than holding its nodes, so every sequence sits at the same depth in the config and
-  there's no nesting limit. It also swaps repeat for loop, which names the node to go back
-  to, and replaces the raw engine conditions on a branch with a branch.if block holding one
-  attribute per thing an escalation can be tested on.
-  Beta, and what happens next
-  This resource is in beta. Its schema may still change in ways that are not backwards
-  compatible, so pin the provider version if that matters to you.
-  incident_escalation_path is not deprecated, and there is no need to move anything yet. The
-  two resources manage the same escalation paths through the same API, so don't point both at
-  one path: they'd each plan to undo the other's changes.
-  Migrating from incident_escalation_path
-  Both resources manage the same escalation path through the same API, so a path comes across
-  with a moved block:
+  incident_escalation_path_beta was renamed to incident_escalation_path in v7.0.
+  This name still works and still manages the same thing, so upgrading to v7 needs no change
+  to a configuration that uses it. It is deprecated: every plan naming it warns, and it will
+  be removed in v8.0.
+  To move onto the new name:
   
   moved {
-    from = incident_escalation_path.oncall
-    to   = incident_escalation_path_beta.oncall
+    from = incident_escalation_path_beta.urgent
+    to   = incident_escalation_path.urgent
   }
   
-  Rewrite the path as sequences in the same commit, and delete the old
-  resource. The nodes are not carried across - a nested path and a map of named sequences hold
-  them differently - so they are read back from the API after the move, and this resource names
-  the sequences itself: the one the path starts with is main, and the sequences a
-  branch leads to are main_then and main_else, after the sequence the
-  branch sits in. A configuration that calls them something else plans a change, so run
-  terraform plan after the move and before you apply.
-  Write out each level's ack_mode while you are there. This resource defaults it to
-  first and incident_escalation_path defaults it to all, and a
-  default applies wherever the configuration is silent - so a level that never set ack_mode
-  plans a change from all to first as part of the move, and applying it
-  changes how the level pages: with first, the first person to acknowledge cancels
-  everyone else's escalation on that level. Set ack_mode = "all" on every level whose
-  behaviour you mean to keep.
+  Both names are the same resource, backed by the same schema and the same API, so the move
+  carries your state across and the plan after it is empty. See incident_escalation_path for the
+  documentation.
 ---
 
 # incident_escalation_path_beta (Resource)
 
-Create and manage escalation paths, written as a flat map of named node sequences.
+`incident_escalation_path_beta` was renamed to `incident_escalation_path` in v7.0.
 
-Each sequence runs its nodes in order and either ends with a `branch`, which names the sequences to continue down, or falls off the end of the escalation path.
+This name still works and still manages the same thing, so upgrading to v7 needs no change
+to a configuration that uses it. It is deprecated: every plan naming it warns, and it will
+be removed in v8.0.
 
-We'd generally recommend building escalation paths in our [web dashboard](https://app.incident.io/~/on-call/escalation-paths) and using the 'Export' flow to generate your Terraform.
-
-## How this differs from `incident_escalation_path`
-
-`incident_escalation_path` nests a branch's nodes inside it, as `if_else.then_path` and
-`if_else.else_path`. Terraform schemas can't recurse indefinitely, so that resource stops at
-five levels of branching, and a path that branches more than that can't be written at all.
-
-This resource names its sequences instead. A `branch` says which sequence to continue down
-rather than holding its nodes, so every sequence sits at the same depth in the config and
-there's no nesting limit. It also swaps `repeat` for `loop`, which names the node to go back
-to, and replaces the raw engine `conditions` on a branch with a `branch.if` block holding one
-attribute per thing an escalation can be tested on.
-
-## Beta, and what happens next
-
-This resource is in beta. Its schema may still change in ways that are not backwards
-compatible, so pin the provider version if that matters to you.
-
-`incident_escalation_path` is not deprecated, and there is no need to move anything yet. The
-two resources manage the same escalation paths through the same API, so don't point both at
-one path: they'd each plan to undo the other's changes.
-
-## Migrating from `incident_escalation_path`
-
-Both resources manage the same escalation path through the same API, so a path comes across
-with a `moved` block:
+To move onto the new name:
 
 ```terraform
 moved {
-  from = incident_escalation_path.oncall
-  to   = incident_escalation_path_beta.oncall
+  from = incident_escalation_path_beta.urgent
+  to   = incident_escalation_path.urgent
 }
 ```
 
-Rewrite the `path` as `sequences` in the same commit, and delete the old
-resource. The nodes are not carried across - a nested path and a map of named sequences hold
-them differently - so they are read back from the API after the move, and this resource names
-the sequences itself: the one the path starts with is `main`, and the sequences a
-branch leads to are `main_then` and `main_else`, after the sequence the
-branch sits in. A configuration that calls them something else plans a change, so run
-`terraform plan` after the move and before you apply.
+Both names are the same resource, backed by the same schema and the same API, so the move
+carries your state across and the plan after it is empty. See `incident_escalation_path` for the
+documentation.
 
-Write out each level's `ack_mode` while you are there. This resource defaults it to
-`first` and `incident_escalation_path` defaults it to `all`, and a
-default applies wherever the configuration is silent - so a level that never set `ack_mode`
-plans a change from `all` to `first` as part of the move, and applying it
-changes how the level pages: with `first`, the first person to acknowledge cancels
-everyone else's escalation on that level. Set `ack_mode = "all"` on every level whose
-behaviour you mean to keep.
 
-## Example Usage
-
-```terraform
-# Look up a user to page. Escalation path targets can also be schedules or
-# Slack/Teams channels; see the `type` attribute on each target.
-data "incident_user" "on_call" {
-  email = "on-call@example.com"
-}
-
-# A last resort path, which the path below hands over to out of hours.
-resource "incident_escalation_path" "fallback" {
-  name = "Fallback"
-
-  path = [
-    {
-      type = "level"
-      level = {
-        targets = [{
-          type    = "user"
-          id      = data.incident_user.on_call.id
-          urgency = "high"
-        }]
-        time_to_ack_seconds = 300
-      }
-    }
-  ]
-}
-
-# The same escalation path as the incident_escalation_path example, written as a
-# flat map of sequences: if in working hours, page with high urgency; otherwise
-# page with low urgency.
-resource "incident_escalation_path_beta" "urgent_support" {
-  name = "Urgent support"
-
-  # The sequence the escalation path begins with.
-  start = "main"
-
-  sequences = {
-    main = {
-      nodes = [
-        {
-          # Named so the loop below can point back here. A loop may only go back to
-          # the path's first node or a branch it sits under, so this is the one node
-          # in this path a loop is allowed to name.
-          id = "start"
-          branch = {
-            # A branch tests one thing: whether a set of this path's working hours is
-            # active, or which priorities the escalation came in at.
-            if = {
-              working_hours_active = "UK"
-            }
-            then = "in_hours"
-            else = "out_of_hours"
-          }
-        }
-      ]
-    }
-
-    in_hours = {
-      nodes = [
-        {
-          # Leave `id` out on nodes nothing loops back to.
-          level = {
-            targets = [{
-              type    = "user"
-              id      = data.incident_user.on_call.id
-              urgency = "high"
-            }]
-            time_to_ack_seconds = 300
-          }
-        },
-        {
-          delay = {
-            delay_seconds = 120
-          }
-        },
-        {
-          loop = {
-            back_to = "start"
-            times   = 3
-          }
-        }
-      ]
-    }
-
-    out_of_hours = {
-      nodes = [
-        {
-          level = {
-            targets = [{
-              type    = "user"
-              id      = data.incident_user.on_call.id
-              urgency = "low"
-            }]
-            time_to_ack_seconds = 300
-          }
-        },
-        # Nobody picked it up out of hours, so hand the escalation over to
-        # another path, continuing from that path's first node.
-        {
-          escalation_path = {
-            escalation_path_id = incident_escalation_path.fallback.id
-          }
-        }
-      ]
-    }
-  }
-
-  working_hours = [
-    {
-      id       = "UK"
-      name     = "UK"
-      timezone = "Europe/London"
-      weekday_intervals = [
-        {
-          weekday    = "monday"
-          start_time = "09:00"
-          end_time   = "17:00"
-        }
-      ]
-    }
-  ]
-}
-```
 
 <!-- schema generated by tfplugindocs -->
 ## Schema
@@ -427,17 +241,3 @@ Required:
 - `end_time` (String) End time of the interval, in 24hr format
 - `start_time` (String) Start time of the interval, in 24hr format
 - `weekday` (String) Weekdays for use within a schedule or escalation path. Possible values are: `monday`, `tuesday`, `wednesday`, `thursday`, `friday`, `saturday`, `sunday`.
-
-## Import
-
-Import is supported using an [`import` block](https://developer.hashicorp.com/terraform/language/import) or the [`terraform import` command](https://developer.hashicorp.com/terraform/cli/commands/import):
-
-The [`terraform import` command](https://developer.hashicorp.com/terraform/cli/commands/import) can be used, for example:
-
-```shell
-#!/bin/bash
-
-# Import an escalation path using its ID
-# Replace the ID with a real ID from your incident.io organization
-terraform import incident_escalation_path_beta.urgent_support 01ABC123DEF456GHI789JKL
-```
