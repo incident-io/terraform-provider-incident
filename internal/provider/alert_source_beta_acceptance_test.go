@@ -125,3 +125,107 @@ func TestAccAlertSourceBetaHeartbeatDisabled(t *testing.T) {
 		},
 	})
 }
+
+// TestAccAlertSourceBetaPriority covers priority = { expression_ref = ... }, which is the
+// beta resource's whole reason for existing on this field: incident_alert_source has to
+// smuggle priority through a binding on the built-in Priority alert attribute, and here it
+// is a field.
+//
+// Two expressions, because the payload is opaque JSON: an expression reaches into it with
+// parse, and a condition can only ask whether payload as a whole is set, so the branches
+// condition tests the first expression's result rather than payload.severity.
+func TestAccAlertSourceBetaPriority(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccAlertSourceBetaPriorityConfig(),
+				ConfigPlanChecks: resource.ConfigPlanChecks{
+					PostApplyPostRefresh: []plancheck.PlanCheck{plancheck.ExpectEmptyPlan()},
+				},
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_alert_source_beta.priority", "priority.expression_ref", "priority_lookup"),
+					resource.TestCheckResourceAttr("incident_alert_source_beta.priority", "named_expression.#", "2"),
+					resource.TestCheckResourceAttrSet("incident_alert_source_beta.priority", "id"),
+				),
+			},
+			// named_expression is ignored because it is a list, and an import cannot know
+			// the order the config wrote it in. The API sorts a source's expressions by
+			// reference before serializing them, and the read sorts whatever it has no
+			// prior for, so an import lands on priority_lookup, severity where the config
+			// says severity, priority_lookup.
+			//
+			// priority is not ignored: a reference reads back as the expression_ref sugar,
+			// so the binding this test is about round-trips.
+			{
+				ResourceName:            "incident_alert_source_beta.priority",
+				ImportState:             true,
+				ImportStateVerify:       true,
+				ImportStateVerifyIgnore: []string{"named_expression"},
+			},
+		},
+	})
+}
+
+func testAccAlertSourceBetaPriorityConfig() string {
+	return testRunTemplate("incident_alert_source_beta_priority", `
+data "incident_catalog_type" "alert_priority" {
+  type_name = "AlertPriority"
+}
+
+# Indexed rather than looked up by name, because which priorities an org has is its own
+# business and this test only cares that the binding round-trips.
+data "incident_catalog_entries" "priorities" {
+  catalog_type_id = data.incident_catalog_type.alert_priority.id
+}
+
+resource "incident_alert_source_beta" "priority" {
+  name        = {{ stableSuffix "beta-priority" | quote }}
+  source_type = "http"
+
+  title       = { literal = "a title" }
+  description = { literal = "a description" }
+
+  named_expression {
+    name       = "severity"
+    start_from = "payload"
+
+    operation {
+      parse = {
+        function = "$.severity"
+        as       = "String"
+      }
+    }
+  }
+
+  named_expression {
+    name       = "priority_lookup"
+    start_from = "."
+
+    operation {
+      branches {
+        as = "CatalogEntry[\"AlertPriority\"]"
+
+        if {
+          conditions = [{
+            subject   = "expressions[\"severity\"]"
+            operation = "one_of"
+            params    = [{ values = ["CRITICAL"] }]
+          }]
+          result = { value_literal = data.incident_catalog_entries.priorities.catalog_entries[0].id }
+        }
+      }
+    }
+
+    fallback {
+      result = { value_literal = data.incident_catalog_entries.priorities.catalog_entries[0].id }
+    }
+  }
+
+  priority = {
+    expression_ref = "priority_lookup"
+  }
+}
+`, nil)
+}
