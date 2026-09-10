@@ -21,6 +21,28 @@ description: |-
   incident_escalation_path is not deprecated, and there is no need to move anything yet. The
   two resources manage the same escalation paths through the same API, so don't point both at
   one path: they'd each plan to undo the other's changes.
+  Migrating from incident_escalation_path
+  Both resources manage the same escalation path through the same API, so a path comes across
+  with a moved block:
+  moved {
+    from = incident_escalation_path.oncall
+    to   = incident_escalation_path_beta.oncall
+  }
+  
+  Rewrite the path as sequences in the same commit, and delete the old
+  resource. The nodes are not carried across - a nested path and a map of named sequences hold
+  them differently - so they are read back from the API after the move, and this resource names
+  the sequences itself: the one the path starts with is main, and the sequences a
+  branch leads to are main_then and main_else, after the sequence the
+  branch sits in. A configuration that calls them something else plans a change, so run
+  terraform plan after the move and before you apply.
+  Write out each level's ack_mode while you are there. This resource defaults it to
+  first and incident_escalation_path defaults it to all, and a
+  default applies wherever the configuration is silent - so a level that never set ack_mode
+  plans a change from all to first as part of the move, and applying it
+  changes how the level pages: with first, the first person to acknowledge cancels
+  everyone else's escalation on that level. Set ack_mode = "all" on every level whose
+  behaviour you mean to keep.
 ---
 
 # incident_escalation_path_beta (Resource)
@@ -51,6 +73,32 @@ compatible, so pin the provider version if that matters to you.
 `incident_escalation_path` is not deprecated, and there is no need to move anything yet. The
 two resources manage the same escalation paths through the same API, so don't point both at
 one path: they'd each plan to undo the other's changes.
+
+## Migrating from `incident_escalation_path`
+
+Both resources manage the same escalation path through the same API, so a path comes across
+with a `moved` block:
+
+    moved {
+      from = incident_escalation_path.oncall
+      to   = incident_escalation_path_beta.oncall
+    }
+
+Rewrite the `path` as `sequences` in the same commit, and delete the old
+resource. The nodes are not carried across - a nested path and a map of named sequences hold
+them differently - so they are read back from the API after the move, and this resource names
+the sequences itself: the one the path starts with is `main`, and the sequences a
+branch leads to are `main_then` and `main_else`, after the sequence the
+branch sits in. A configuration that calls them something else plans a change, so run
+`terraform plan` after the move and before you apply.
+
+Write out each level's `ack_mode` while you are there. This resource defaults it to
+`first` and `incident_escalation_path` defaults it to `all`, and a
+default applies wherever the configuration is silent - so a level that never set `ack_mode`
+plans a change from `all` to `first` as part of the move, and applying it
+changes how the level pages: with `first`, the first person to acknowledge cancels
+everyone else's escalation on that level. Set `ack_mode = "all"` on every level whose
+behaviour you mean to keep.
 
 ## Example Usage
 

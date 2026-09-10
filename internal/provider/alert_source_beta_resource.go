@@ -29,6 +29,7 @@ var (
 	_ resource.ResourceWithImportState    = &alertSourceBetaResource{}
 	_ resource.ResourceWithValidateConfig = &alertSourceBetaResource{}
 	_ resource.ResourceWithModifyPlan     = &alertSourceBetaResource{}
+	_ resource.ResourceWithMoveState      = &alertSourceBetaResource{}
 )
 
 func NewAlertSourceBetaResource() resource.Resource {
@@ -115,7 +116,33 @@ title, description, priority — and each attribute binding is its own
 This resource is in beta. Its schema may still change in ways that are not backwards
 compatible, so pin the provider version if that matters to you.
 
-`+"`incident_alert_source`"+` is not deprecated, and there is no need to move anything yet.`),
+`+"`incident_alert_source`"+` is not deprecated, and there is no need to move anything yet.
+
+## Migrating from `+"`incident_alert_source`"+`
+
+One `+"`incident_alert_source`"+` becomes one `+"`incident_alert_source_beta`"+` plus one
+`+"`incident_alert_source_attribute_beta`"+` per entry in its `+"`template.attributes`"+`. The
+source moves, with a `+"`moved`"+` block:
+
+    moved {
+      from = incident_alert_source.http
+      to   = incident_alert_source_beta.http
+    }
+
+and each attribute binding is imported by the source's ID and the attribute's, because a
+`+"`moved`"+` block has one target:
+
+    import {
+      to = incident_alert_source_attribute_beta.environment
+      id = "01ABC123DEF456GHI789JKL:01MNO456PQR789STU012VWX"
+    }
+
+`+"`template.title`"+` and `+"`template.description`"+` become `+"`title`"+` and
+`+"`description`"+`, carrying the same document across. `+"`template.expressions`"+` becomes
+`+"`named_expression`"+` blocks and `+"`template.visible_to_teams`"+` becomes
+`+"`visible_to_teams`"+`; those are read back from the API after the move rather than carried,
+so a binding you have spelled differently from the API plans a change. Run
+`+"`terraform plan`"+` after the move and before you apply.`),
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,
@@ -821,6 +848,43 @@ func (r *alertSourceBetaResource) ImportState(ctx context.Context, req resource.
 	// nothing, so claim the source here instead.
 	claimResourceOnImport(ctx, r.client, req.ID, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertSource, r.terraformVersion, r.markImportedAsManaged)
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
+}
+
+// MoveState takes the state of an incident_alert_source, so a source can come across
+// with a `moved` block:
+//
+//	moved {
+//	  from = incident_alert_source.http
+//	  to   = incident_alert_source_beta.http
+//	}
+//
+// Everything the two schemas hold the same way moves, which is most of the source,
+// including `owning_team_ids` and `filter_condition_groups` - the two this resource
+// reconciles against prior state rather than reading straight back.
+//
+// The template does not, but two of its fields are carried out of it: `template.title`
+// and `template.description` are `title` and `description` here, holding the same value
+// in the same shape, so they move rather than being read back. Reading them back would
+// store the API's spelling of a document where the configuration has the author's -
+// equivalent JSON, different bytes - and the plan straight after the move would ask to
+// rewrite both.
+//
+// `visible_to_teams`, which the v6 resource holds under `template`, does not move, nor
+// does `named_expression`, which it holds as `template.expressions`, nor `priority`,
+// which it has no way to express at all. The refresh reads each of them back in whatever
+// spelling the API uses, so a configuration that spells a binding the other way - a
+// literal where the API returns a reference - plans a change for it, which applies as a
+// no-op against the API and settles.
+//
+// The attribute bindings do not move either. `template.attributes` becomes one
+// incident_alert_source_attribute_beta per binding, and a `moved` block has one
+// target, so those are imported alongside this move by
+// `<alert source id>:<alert attribute id>`.
+func (r *alertSourceBetaResource) MoveState(ctx context.Context) []resource.StateMover {
+	return movedFrom(ctx, NewIncidentAlertSourceResource(), r,
+		rewrite("title", "template", "title"),
+		rewrite("description", "template", "description"),
+	)
 }
 
 func (r *alertSourceBetaResource) annotations() *map[string]string {

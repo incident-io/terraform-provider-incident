@@ -27,6 +27,7 @@ var (
 	_ resource.ResourceWithImportState    = &escalationPathBetaResource{}
 	_ resource.ResourceWithValidateConfig = &escalationPathBetaResource{}
 	_ resource.ResourceWithModifyPlan     = &escalationPathBetaResource{}
+	_ resource.ResourceWithMoveState      = &escalationPathBetaResource{}
 )
 
 func NewEscalationPathBetaResource() resource.Resource {
@@ -133,7 +134,33 @@ compatible, so pin the provider version if that matters to you.
 
 ` + "`incident_escalation_path`" + ` is not deprecated, and there is no need to move anything yet. The
 two resources manage the same escalation paths through the same API, so don't point both at
-one path: they'd each plan to undo the other's changes.`,
+one path: they'd each plan to undo the other's changes.
+
+## Migrating from ` + "`incident_escalation_path`" + `
+
+Both resources manage the same escalation path through the same API, so a path comes across
+with a ` + "`moved`" + ` block:
+
+    moved {
+      from = incident_escalation_path.oncall
+      to   = incident_escalation_path_beta.oncall
+    }
+
+Rewrite the ` + "`path`" + ` as ` + "`sequences`" + ` in the same commit, and delete the old
+resource. The nodes are not carried across - a nested path and a map of named sequences hold
+them differently - so they are read back from the API after the move, and this resource names
+the sequences itself: the one the path starts with is ` + "`main`" + `, and the sequences a
+branch leads to are ` + "`main_then`" + ` and ` + "`main_else`" + `, after the sequence the
+branch sits in. A configuration that calls them something else plans a change, so run
+` + "`terraform plan`" + ` after the move and before you apply.
+
+Write out each level's ` + "`ack_mode`" + ` while you are there. This resource defaults it to
+` + "`first`" + ` and ` + "`incident_escalation_path`" + ` defaults it to ` + "`all`" + `, and a
+default applies wherever the configuration is silent - so a level that never set ` + "`ack_mode`" + `
+plans a change from ` + "`all`" + ` to ` + "`first`" + ` as part of the move, and applying it
+changes how the level pages: with ` + "`first`" + `, the first person to acknowledge cancels
+everyone else's escalation on that level. Set ` + "`ack_mode = \"all\"`" + ` on every level whose
+behaviour you mean to keep.`,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -424,6 +451,31 @@ func (r *escalationPathBetaResource) Create(ctx context.Context, req resource.Cr
 	tflog.Trace(ctx, fmt.Sprintf("created an escalation path resource with id=%s", result.JSON201.EscalationPath.Id))
 	model := r.buildModel(ctx, result.JSON201.EscalationPath, data, &resp.Diagnostics)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &model)...)
+}
+
+// MoveState takes the state of an incident_escalation_path, which is the one of these
+// migrations where one resource becomes one:
+//
+//	moved {
+//	  from = incident_escalation_path.oncall
+//	  to   = incident_escalation_path_beta.oncall
+//	}
+//
+// The nodes are not carried across - a nested path and a map of named sequences hold
+// them in shapes nothing can translate between - so the refresh that follows the move
+// reads them back from the API and this resource names the sequences itself. The start
+// sequence is named `main`, and a sequence a branch leads to is named after the branch
+// node it hangs off. A configuration that calls them something else plans a change, so
+// `terraform plan` straight after the move is what to read the names off.
+//
+// A level's `ack_mode` plans a change for a reason no mover can fix: this resource
+// defaults it to "first" where incident_escalation_path defaults it to "all", and the
+// framework applies a default wherever the configuration is null, so the default beats
+// the value the refresh read back. The new configuration has to write `ack_mode = "all"`
+// to keep a level paging the way it did, which the resource's own documentation says and
+// TestAccMoveEscalationPathOntoBetaResource covers either way round.
+func (r *escalationPathBetaResource) MoveState(ctx context.Context) []resource.StateMover {
+	return movedFrom(ctx, NewIncidentEscalationPathResource(), r)
 }
 
 func (r *escalationPathBetaResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {

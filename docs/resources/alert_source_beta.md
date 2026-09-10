@@ -16,6 +16,28 @@ description: |-
   This resource is in beta. Its schema may still change in ways that are not backwards
   compatible, so pin the provider version if that matters to you.
   incident_alert_source is not deprecated, and there is no need to move anything yet.
+  Migrating from incident_alert_source
+  One incident_alert_source becomes one incident_alert_source_beta plus one
+  incident_alert_source_attribute_beta per entry in its template.attributes. The
+  source moves, with a moved block:
+  moved {
+    from = incident_alert_source.http
+    to   = incident_alert_source_beta.http
+  }
+  
+  and each attribute binding is imported by the source's ID and the attribute's, because a
+  moved block has one target:
+  import {
+    to = incident_alert_source_attribute_beta.environment
+    id = "01ABC123DEF456GHI789JKL:01MNO456PQR789STU012VWX"
+  }
+  
+  template.title and template.description become title and
+  description, carrying the same document across. template.expressions becomes
+  named_expression blocks and template.visible_to_teams becomes
+  visible_to_teams; those are read back from the API after the move rather than carried,
+  so a binding you have spelled differently from the API plans a change. Run
+  terraform plan after the move and before you apply.
 ---
 
 # incident_alert_source_beta (Resource)
@@ -40,6 +62,32 @@ This resource is in beta. Its schema may still change in ways that are not backw
 compatible, so pin the provider version if that matters to you.
 
 `incident_alert_source` is not deprecated, and there is no need to move anything yet.
+
+## Migrating from `incident_alert_source`
+
+One `incident_alert_source` becomes one `incident_alert_source_beta` plus one
+`incident_alert_source_attribute_beta` per entry in its `template.attributes`. The
+source moves, with a `moved` block:
+
+    moved {
+      from = incident_alert_source.http
+      to   = incident_alert_source_beta.http
+    }
+
+and each attribute binding is imported by the source's ID and the attribute's, because a
+`moved` block has one target:
+
+    import {
+      to = incident_alert_source_attribute_beta.environment
+      id = "01ABC123DEF456GHI789JKL:01MNO456PQR789STU012VWX"
+    }
+
+`template.title` and `template.description` become `title` and
+`description`, carrying the same document across. `template.expressions` becomes
+`named_expression` blocks and `template.visible_to_teams` becomes
+`visible_to_teams`; those are read back from the API after the move rather than carried,
+so a binding you have spelled differently from the API plans a change. Run
+`terraform plan` after the move and before you apply.
 
 ## Example Usage
 
