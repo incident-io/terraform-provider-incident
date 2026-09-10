@@ -28,6 +28,7 @@ var (
 	_ resource.ResourceWithConfigure      = &IncidentScheduleBetaResource{}
 	_ resource.ResourceWithImportState    = &IncidentScheduleBetaResource{}
 	_ resource.ResourceWithValidateConfig = &IncidentScheduleBetaResource{}
+	_ resource.ResourceWithMoveState      = &IncidentScheduleBetaResource{}
 )
 
 func NewIncidentScheduleBetaResource() resource.Resource {
@@ -95,23 +96,28 @@ move anything yet.
 
 Moving across is not a rename, because one ` + "`incident_schedule`" + ` becomes one
 ` + "`incident_schedule_beta`" + ` plus one ` + "`incident_schedule_rotation_beta`" + ` per
-rotation. Import the existing schedule and each of its rotations by ID rather than
-recreating them, so nobody's on-call history is disturbed:
+rotation. The schedule itself moves, with a ` + "`moved`" + ` block:
 
-    import {
-      to = incident_schedule_beta.primary
-      id = "01ABC123DEF456GHI789JKL"
+    moved {
+      from = incident_schedule.primary
+      to   = incident_schedule_beta.primary
     }
+
+Its rotations are imported instead, because a ` + "`moved`" + ` block has one target and
+there is nowhere to take a second from. A rotation is identified by the schedule it
+belongs to as well as itself, and its own ID is the one your old configuration chose -
+the old resource sent it - so you already know both:
 
     import {
       to = incident_schedule_rotation_beta.primary_weekdays
-      id = "01ABC123DEF456GHI789JKL:01MNO456PQR789STU012VWX"
+      id = "01ABC123DEF456GHI789JKL:primary_weekdays"
     }
 
-Remove the old ` + "`incident_schedule`" + ` from your configuration once the imports are
-in place. Take the schedule out of state with ` + "`terraform state rm`" + ` rather than
-letting Terraform destroy it, which would delete the schedule and everyone's
-shifts along with it.`,
+Write the new resources alongside those blocks, delete the old ` + "`incident_schedule`" + `
+from your configuration, and plan. The schedule should report no changes and each
+rotation an import, with nothing created and nothing destroyed, so nobody's on-call
+history is disturbed. Delete the ` + "`moved`" + ` and ` + "`import`" + ` blocks in a
+follow-up commit once you have applied it.`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,
@@ -391,6 +397,27 @@ func (r *IncidentScheduleBetaResource) ImportState(ctx context.Context, req reso
 	// import writes nothing, so claim the schedule here instead.
 	claimResourceOnImport(ctx, r.client, req.ID, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeSchedule, r.terraformVersion, r.markImportedAsManaged)
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
+}
+
+// MoveState takes the state of an incident_schedule, so a schedule can come across
+// with a `moved` block rather than a `terraform state rm` and an import:
+//
+//	moved {
+//	  from = incident_schedule.primary
+//	  to   = incident_schedule_beta.primary
+//	}
+//
+// Both resources manage the same schedule through the same API, so what moves is the
+// schedule's ID and the team_ids the author wrote - which Read keeps from prior state
+// rather than reading back, so a move has to carry them.
+//
+// The rotations do not move. One schedule becomes one schedule plus one
+// incident_schedule_rotation_beta per rotation, and a `moved` block has one target, so
+// the rotations are imported alongside this move by `<schedule id>:<rotation id>`.
+// Their IDs are the ones the old configuration chose, because the old resource sent
+// them.
+func (r *IncidentScheduleBetaResource) MoveState(ctx context.Context) []resource.StateMover {
+	return movedFrom(ctx, NewIncidentScheduleResource(), r)
 }
 
 func (r *IncidentScheduleBetaResource) annotations() *map[string]string {
