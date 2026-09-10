@@ -150,10 +150,19 @@ func TestAccAlertSourceBetaPriority(t *testing.T) {
 					resource.TestCheckResourceAttrSet("incident_alert_source_beta.priority", "id"),
 				),
 			},
+			// named_expression is ignored because it is a list, and an import cannot know
+			// the order the config wrote it in. The API sorts a source's expressions by
+			// reference before serializing them, and the read sorts whatever it has no
+			// prior for, so an import lands on priority_lookup, severity where the config
+			// says severity, priority_lookup.
+			//
+			// priority is not ignored: a reference reads back as the expression_ref sugar,
+			// so the binding this test is about round-trips.
 			{
-				ResourceName:      "incident_alert_source_beta.priority",
-				ImportState:       true,
-				ImportStateVerify: true,
+				ResourceName:            "incident_alert_source_beta.priority",
+				ImportState:             true,
+				ImportStateVerify:       true,
+				ImportStateVerifyIgnore: []string{"named_expression"},
 			},
 		},
 	})

@@ -1558,10 +1558,21 @@ func TestAccAlertSourceResource_PriorityFromExpression(t *testing.T) {
 					resource.TestCheckResourceAttrSet("incident_alert_source.priority", "id"),
 				),
 			},
+			// template.expressions is ignored because several of the spellings this config
+			// uses are ones an import cannot recover. The API stores a param binding as
+			// value or array_value only, so value_literal and values are restored from the
+			// prior model rather than the payload - and an import has no prior. The same
+			// goes for the operation: one_of is an alias the API accepts and answers with
+			// its canonical contains_one_of, and ReconcileSpelling correlates against the
+			// plan positionally, so with no plan it leaves what came back.
+			//
+			// Everything else still round-trips, including the attribute binding that is
+			// what this test is about.
 			{
-				ResourceName:      "incident_alert_source.priority",
-				ImportState:       true,
-				ImportStateVerify: true,
+				ResourceName:            "incident_alert_source.priority",
+				ImportState:             true,
+				ImportStateVerify:       true,
+				ImportStateVerifyIgnore: []string{"template.expressions"},
 			},
 		},
 	})
