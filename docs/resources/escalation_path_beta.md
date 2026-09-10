@@ -24,6 +24,7 @@ description: |-
   Migrating from incident_escalation_path
   Both resources manage the same escalation path through the same API, so a path comes across
   with a moved block:
+  
   moved {
     from = incident_escalation_path.oncall
     to   = incident_escalation_path_beta.oncall
@@ -79,10 +80,12 @@ one path: they'd each plan to undo the other's changes.
 Both resources manage the same escalation path through the same API, so a path comes across
 with a `moved` block:
 
-    moved {
-      from = incident_escalation_path.oncall
-      to   = incident_escalation_path_beta.oncall
-    }
+```terraform
+moved {
+  from = incident_escalation_path.oncall
+  to   = incident_escalation_path_beta.oncall
+}
+```
 
 Rewrite the `path` as `sequences` in the same commit, and delete the old
 resource. The nodes are not carried across - a nested path and a map of named sequences hold

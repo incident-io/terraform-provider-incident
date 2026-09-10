@@ -69,9 +69,11 @@ If your Terraform is split across workspaces — one per environment, say — on
 should declare an attribute as a resource. The others should read it with the
 `+"`incident_alert_attribute`"+` data source, which looks an attribute up by name:
 
-    data "incident_alert_attribute" "gcp_service" {
-      name = "GCP service"
-    }
+`+"```terraform"+`
+data "incident_alert_attribute" "gcp_service" {
+  name = "GCP service"
+}
+`+"```"+`
 
 Declaring the same `+"`name`"+` in two workspaces plans cleanly in both, then fails when the second
 applies: the attribute it means to create already exists. To bring an attribute that already

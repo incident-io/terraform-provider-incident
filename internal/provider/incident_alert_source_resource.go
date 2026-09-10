@@ -425,15 +425,17 @@ This resource has no `+"`priority`"+` field. An alert's priority is set the same
 attribute: as an entry in `+"`template.attributes`"+` bound to the built-in `+"`Priority`"+` alert attribute,
 which you look up by name.
 
-    data "incident_alert_attribute" "priority" {
-      name = "Priority"
-    }
+`+"```terraform"+`
+data "incident_alert_attribute" "priority" {
+  name = "Priority"
+}
 
-    # ...then, in template.attributes
-    {
-      alert_attribute_id = data.incident_alert_attribute.priority.id
-      binding            = { value = { reference = "expressions[\"my-priority\"]" } }
-    }
+# ...then, in template.attributes
+{
+  alert_attribute_id = data.incident_alert_attribute.priority.id
+  binding            = { value = { reference = "expressions[\"my-priority\"]" } }
+}
+`+"```"+`
 
 A priority binding's `+"`merge_strategy`"+` can only be `+"`last_wins`"+`. Leave it out and the API fills
 it in — it reads back as `+"`last_wins`"+` either way, so there is no diff to manage. Setting any other
@@ -457,44 +459,46 @@ expression reaches into it with a `+"`parse`"+` operation, and a condition can o
 `+"`payload`"+` as a whole is set, so `+"`subject = \"payload.severity\"`"+` resolves to nothing. Parse the
 value out first, then branch on the result:
 
-    expressions = [
-      {
-        label          = "Severity"
-        reference      = "severity"
-        root_reference = "payload"
-        operations = [{
-          operation_type = "parse"
-          parse = {
-            source  = "$['severity']"
-            returns = { type = "String", array = false }
-          }
-        }]
-      },
-      {
-        label          = "Priority"
-        reference      = "priority"
-        root_reference = "."
-        operations = [{
-          operation_type = "branches"
-          branches = {
-            returns = { type = "CatalogEntry[\"AlertPriority\"]", array = false }
-            branches = [{
-              condition_groups = [{
-                conditions = [{
-                  subject        = "expressions[\"severity\"]"
-                  operation      = "one_of"
-                  param_bindings = [{ values = ["CRITICAL", "critical"] }]
-                }]
-              }]
-              result = { value_literal = data.incident_catalog_entry.urgent_priority.id }
+`+"```terraform"+`
+expressions = [
+  {
+    label          = "Severity"
+    reference      = "severity"
+    root_reference = "payload"
+    operations = [{
+      operation_type = "parse"
+      parse = {
+        source  = "$['severity']"
+        returns = { type = "String", array = false }
+      }
+    }]
+  },
+  {
+    label          = "Priority"
+    reference      = "priority"
+    root_reference = "."
+    operations = [{
+      operation_type = "branches"
+      branches = {
+        returns = { type = "CatalogEntry[\"AlertPriority\"]", array = false }
+        branches = [{
+          condition_groups = [{
+            conditions = [{
+              subject        = "expressions[\"severity\"]"
+              operation      = "one_of"
+              param_bindings = [{ values = ["CRITICAL", "critical"] }]
             }]
-          }
+          }]
+          result = { value_literal = data.incident_catalog_entry.urgent_priority.id }
         }]
-        else_branch = {
-          result = { value_literal = data.incident_catalog_entry.low_priority.id }
-        }
-      },
-    ]
+      }
+    }]
+    else_branch = {
+      result = { value_literal = data.incident_catalog_entry.low_priority.id }
+    }
+  },
+]
+`+"```"+`
 
 A `+"`branches`"+` operation reads the whole scope, so it needs `+"`root_reference = \".\"`"+` and has to be the
 only operation in its expression.
