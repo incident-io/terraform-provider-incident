@@ -10,6 +10,7 @@ import (
 
 	"github.com/incident-io/terraform-provider-incident/v6/internal/apischema"
 	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
+	"github.com/incident-io/terraform-provider-incident/v6/internal/provider/jsontypes"
 )
 
 var (
@@ -87,6 +88,59 @@ func (d *EscalationPathBetaDataSource) Schema(_ context.Context, _ datasource.Sc
 				MarkdownDescription: apischema.Docstring("EscalationPathV2", "team_ids"),
 				ElementType:         types.StringType,
 			},
+			"kind": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: EnumValuesDescription("EscalationPathV2", "kind"),
+			},
+			"template_id": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "For a templated path, the `incident_escalation_path_template` it is built from.",
+			},
+			"param_bindings": schema.MapNestedAttribute{
+				Computed:            true,
+				MarkdownDescription: "For a templated path, the value bound to each of the template's params, keyed by the param's name.",
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: paramBindingDataSourceAttributes(),
+				},
+			},
+		},
+	}
+}
+
+// paramBindingDataSourceAttributes is the computed form of models.ParamBindingAttributes,
+// which is what lets the data source share the resource's model.
+func paramBindingDataSourceAttributes() map[string]schema.Attribute {
+	value := map[string]schema.Attribute{
+		"literal": schema.StringAttribute{
+			CustomType:          jsontypes.NormalizedJSONOrStringType{},
+			MarkdownDescription: apischema.Docstring("EngineParamBindingValueV2", "literal"),
+			Computed:            true,
+		},
+		"reference": schema.StringAttribute{
+			MarkdownDescription: apischema.Docstring("EngineParamBindingValueV2", "reference"),
+			Computed:            true,
+		},
+	}
+	return map[string]schema.Attribute{
+		"array_value": schema.ListNestedAttribute{
+			MarkdownDescription: "The array of literal or reference parameter values",
+			Computed:            true,
+			NestedObject:        schema.NestedAttributeObject{Attributes: value},
+		},
+		"value": schema.SingleNestedAttribute{
+			MarkdownDescription: "The literal or reference parameter value",
+			Computed:            true,
+			Attributes:          value,
+		},
+		"value_literal": schema.StringAttribute{
+			CustomType: jsontypes.NormalizedJSONOrStringType{},
+			Computed:   true,
+		},
+		"value_reference": schema.StringAttribute{Computed: true},
+		"expression_ref":  schema.StringAttribute{Computed: true},
+		"values": schema.ListAttribute{
+			ElementType: jsontypes.NormalizedJSONOrStringType{},
+			Computed:    true,
 		},
 	}
 }

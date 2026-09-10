@@ -58,7 +58,7 @@ func sequenceKeyFromNodeID(id string) (string, bool) {
 
 // nodeID returns the ID a node will be stored under: the author's own, or one derived
 // from its position.
-func (n escalationPathBetaNode) nodeID(sequenceKey string, index int) string {
+func (n escalationPathBetaNode) NodeID(sequenceKey string, index int) string {
 	if id := n.ID.ValueString(); id != "" {
 		return id
 	}
@@ -113,10 +113,124 @@ func decodeSequences(ctx context.Context, sequences types.Map, diags *diag.Diagn
 	return out
 }
 
+// sequenceCodec is what differs between an escalation path and an escalation path template
+// when converting sequences: the API node types. Everything about walking branches, naming
+// sequences and deriving node ids is the same, so it's written once over this.
+//
+// P is the API payload node and N the API response node.
+type sequenceCodec[P any, N any] interface {
+	// LeafPayload builds the payload for a node that isn't a branch. It reports false for a
+	// node setting none of its type blocks.
+	LeafPayload(ctx context.Context, id string, node escalationPathBetaNode, diags *diag.Diagnostics) (P, bool)
+	// BranchPayload builds the payload for a branch node from its two inlined sequences.
+	BranchPayload(id string, conditions []client.ConditionPayloadV2, thenPath, elsePath []P) P
+
+	// NodeID and NodeType read the response node's identity.
+	NodeID(node N) string
+	NodeType(node N) string
+	// Branch reads a response branch node, reporting false for any other node.
+	Branch(node N) (conditions []client.ConditionV2, thenPath, elsePath []N, ok bool)
+	// Leaf converts a response node that isn't a branch, reporting false for a node type
+	// the resource can't represent.
+	Leaf(ctx context.Context, node N, diags *diag.Diagnostics) (escalationPathBetaNode, bool)
+}
+
+// pathSequenceCodec is the codec for an escalation path's own nodes.
+type pathSequenceCodec struct{}
+
+func (pathSequenceCodec) LeafPayload(ctx context.Context, id string, node escalationPathBetaNode, diags *diag.Diagnostics) (client.EscalationPathNodePayloadV2, bool) {
+	payload := client.EscalationPathNodePayloadV2{Id: id}
+
+	switch {
+	case node.Loop != nil:
+		payload.Type = client.EscalationPathNodePayloadV2TypeRepeat
+		payload.Repeat = &client.EscalationPathNodeRepeatV2{
+			RepeatTimes: node.Loop.Times.ValueInt64(),
+			ToNode:      node.Loop.BackTo.ValueString(),
+		}
+
+	case node.Level != nil:
+		payload.Type = client.EscalationPathNodePayloadV2TypeLevel
+		payload.Level = levelToPayload(ctx, node.Level, diags)
+
+	case node.NotifyChannel != nil:
+		payload.Type = client.EscalationPathNodePayloadV2TypeNotifyChannel
+		payload.NotifyChannel = notifyChannelToPayload(ctx, node.NotifyChannel, diags)
+
+	case node.Delay != nil:
+		payload.Type = client.EscalationPathNodePayloadV2TypeDelay
+		payload.Delay = delayToPayload(node.Delay)
+
+	case node.EscalationPath != nil:
+		payload.Type = client.EscalationPathNodePayloadV2TypeEscalationPath
+		payload.EscalationPath = escalationPathToPayload(node.EscalationPath)
+
+	default:
+		return payload, false
+	}
+
+	return payload, true
+}
+
+func (pathSequenceCodec) BranchPayload(id string, conditions []client.ConditionPayloadV2, thenPath, elsePath []client.EscalationPathNodePayloadV2) client.EscalationPathNodePayloadV2 {
+	return client.EscalationPathNodePayloadV2{
+		Id:   id,
+		Type: client.EscalationPathNodePayloadV2TypeIfElse,
+		IfElse: &client.EscalationPathNodeIfElsePayloadV2{
+			Conditions: lo.ToPtr(conditions),
+			ThenPath:   thenPath,
+			ElsePath:   elsePath,
+		},
+	}
+}
+
+func (pathSequenceCodec) NodeID(node client.EscalationPathNodeV2) string   { return node.Id }
+func (pathSequenceCodec) NodeType(node client.EscalationPathNodeV2) string { return string(node.Type) }
+
+func (pathSequenceCodec) Branch(node client.EscalationPathNodeV2) ([]client.ConditionV2, []client.EscalationPathNodeV2, []client.EscalationPathNodeV2, bool) {
+	if node.IfElse == nil {
+		return nil, nil, nil, false
+	}
+	return node.IfElse.Conditions, node.IfElse.ThenPath, node.IfElse.ElsePath, true
+}
+
+func (pathSequenceCodec) Leaf(ctx context.Context, node client.EscalationPathNodeV2, diags *diag.Diagnostics) (escalationPathBetaNode, bool) {
+	converted := escalationPathBetaNode{}
+
+	switch {
+	case node.Repeat != nil:
+		converted.Loop = &escalationPathBetaLoop{
+			BackTo: types.StringValue(node.Repeat.ToNode),
+			Times:  types.Int64Value(node.Repeat.RepeatTimes),
+		}
+
+	case node.Level != nil:
+		converted.Level = levelFromAPI(ctx, node.Level, diags)
+
+	case node.NotifyChannel != nil:
+		converted.NotifyChannel = notifyChannelFromAPI(ctx, node.NotifyChannel, diags)
+
+	case node.Delay != nil:
+		converted.Delay = delayFromAPI(node.Delay)
+
+	case node.EscalationPath != nil:
+		converted.EscalationPath = escalationPathFromAPI(node.EscalationPath)
+
+	default:
+		return converted, false
+	}
+
+	return converted, true
+}
+
 // unflattenSequences walks the sequences from start and builds the tree the API stores,
 // inlining each branch's target sequences as its then and else paths.
 func unflattenSequences(ctx context.Context, start string, sequences map[string][]escalationPathBetaNode, diags *diag.Diagnostics) []client.EscalationPathNodePayloadV2 {
-	return unflattenSequence(ctx, start, sequences, map[string]bool{}, map[string]bool{}, diags)
+	return unflattenSequencesWith(ctx, pathSequenceCodec{}, start, sequences, diags)
+}
+
+func unflattenSequencesWith[P any, N any](ctx context.Context, codec sequenceCodec[P, N], start string, sequences map[string][]escalationPathBetaNode, diags *diag.Diagnostics) []P {
+	return unflattenSequence(ctx, codec, start, sequences, map[string]bool{}, map[string]bool{}, diags)
 }
 
 // unflattenSequence converts one sequence, recursing into the sequences its branches name.
@@ -124,7 +238,7 @@ func unflattenSequences(ctx context.Context, start string, sequences map[string]
 // validateSequences rejects a sequences map that isn't a tree at plan time, but a plan
 // holding unknown values skips that check, so this walk guards against a cycle and a
 // sequence two branches name rather than trusting it.
-func unflattenSequence(ctx context.Context, key string, sequences map[string][]escalationPathBetaNode, visiting, inlined map[string]bool, diags *diag.Diagnostics) []client.EscalationPathNodePayloadV2 {
+func unflattenSequence[P any, N any](ctx context.Context, codec sequenceCodec[P, N], key string, sequences map[string][]escalationPathBetaNode, visiting, inlined map[string]bool, diags *diag.Diagnostics) []P {
 	nodes, ok := sequences[key]
 	if !ok {
 		diags.AddError(
@@ -154,49 +268,24 @@ func unflattenSequence(ctx context.Context, key string, sequences map[string][]e
 	visiting[key] = true
 	defer delete(visiting, key)
 
-	out := make([]client.EscalationPathNodePayloadV2, 0, len(nodes))
+	out := make([]P, 0, len(nodes))
 	for index, node := range nodes {
-		payload := client.EscalationPathNodePayloadV2{Id: node.nodeID(key, index)}
+		id := node.NodeID(key, index)
 
-		switch {
-		case node.Branch != nil:
-			payload.Type = client.EscalationPathNodePayloadV2TypeIfElse
-			ifElse := &client.EscalationPathNodeIfElsePayloadV2{
-				Conditions: lo.ToPtr(node.Branch.If.toPayload(ctx, diags)),
-				ThenPath:   unflattenSequence(ctx, node.Branch.Then.ValueString(), sequences, visiting, inlined, diags),
-				ElsePath:   []client.EscalationPathNodePayloadV2{},
-			}
+		if node.Branch != nil {
+			thenPath := unflattenSequence(ctx, codec, node.Branch.Then.ValueString(), sequences, visiting, inlined, diags)
 			// else is optional: a branch with nothing on the false side just falls off the
 			// end of the escalation path.
+			elsePath := []P{}
 			if elseKey := node.Branch.Else.ValueString(); elseKey != "" {
-				ifElse.ElsePath = unflattenSequence(ctx, elseKey, sequences, visiting, inlined, diags)
+				elsePath = unflattenSequence(ctx, codec, elseKey, sequences, visiting, inlined, diags)
 			}
-			payload.IfElse = ifElse
+			out = append(out, codec.BranchPayload(id, node.Branch.If.toPayload(ctx, diags), thenPath, elsePath))
+			continue
+		}
 
-		case node.Loop != nil:
-			payload.Type = client.EscalationPathNodePayloadV2TypeRepeat
-			payload.Repeat = &client.EscalationPathNodeRepeatV2{
-				RepeatTimes: node.Loop.Times.ValueInt64(),
-				ToNode:      node.Loop.BackTo.ValueString(),
-			}
-
-		case node.Level != nil:
-			payload.Type = client.EscalationPathNodePayloadV2TypeLevel
-			payload.Level = levelToPayload(ctx, node.Level, diags)
-
-		case node.NotifyChannel != nil:
-			payload.Type = client.EscalationPathNodePayloadV2TypeNotifyChannel
-			payload.NotifyChannel = notifyChannelToPayload(ctx, node.NotifyChannel, diags)
-
-		case node.Delay != nil:
-			payload.Type = client.EscalationPathNodePayloadV2TypeDelay
-			payload.Delay = delayToPayload(node.Delay)
-
-		case node.EscalationPath != nil:
-			payload.Type = client.EscalationPathNodePayloadV2TypeEscalationPath
-			payload.EscalationPath = escalationPathToPayload(node.EscalationPath)
-
-		default:
+		payload, ok := codec.LeafPayload(ctx, id, node, diags)
+		if !ok {
 			diags.AddError(
 				"Empty escalation path node",
 				fmt.Sprintf("Node %d of sequence %q sets none of level, notify_channel, delay, escalation_path, branch or loop.", index, key),
@@ -261,31 +350,31 @@ func (p escalationPathBetaPriorNames) branchTargets(key string) (thenKey string,
 // flattenSequences walks the tree the API returns and splits it into named sequences,
 // returning the key the path starts with alongside them. The names come from prior.
 func flattenSequences(ctx context.Context, nodes []client.EscalationPathNodeV2, prior escalationPathBetaPriorNames, diags *diag.Diagnostics) (string, map[string][]escalationPathBetaNode) {
+	return flattenSequencesWith(ctx, pathSequenceCodec{}, nodes, prior, diags)
+}
+
+func flattenSequencesWith[P any, N any](ctx context.Context, codec sequenceCodec[P, N], nodes []N, prior escalationPathBetaPriorNames, diags *diag.Diagnostics) (string, map[string][]escalationPathBetaNode) {
 	sequences := map[string][]escalationPathBetaNode{}
-	start := flattenSequence(ctx, nodes, prior.start, rootSequenceKey, prior, sequences, diags)
+	start := flattenSequence(ctx, codec, nodes, prior.start, rootSequenceKey, prior, sequences, diags)
 	return start, sequences
 }
 
 // flattenSequence converts one node array into a sequence, recursing into each branch's
 // then and else paths, and returns the key it was stored under. priorKey is what the author
 // called this sequence, empty if we can't tell.
-func flattenSequence(ctx context.Context, nodes []client.EscalationPathNodeV2, priorKey, fallbackKey string, prior escalationPathBetaPriorNames, sequences map[string][]escalationPathBetaNode, diags *diag.Diagnostics) string {
-	key := chooseSequenceKey(nodes, priorKey, fallbackKey, sequences)
+func flattenSequence[P any, N any](ctx context.Context, codec sequenceCodec[P, N], nodes []N, priorKey, fallbackKey string, prior escalationPathBetaPriorNames, sequences map[string][]escalationPathBetaNode, diags *diag.Diagnostics) string {
+	ids := lo.Map(nodes, func(node N, _ int) string { return codec.NodeID(node) })
+	key := chooseSequenceKey(ids, priorKey, fallbackKey, sequences)
 
 	// Claim the key before recursing, or a child sequence could take it back.
 	sequences[key] = nil
 
 	convertedNodes := make([]escalationPathBetaNode, 0, len(nodes))
 	for index, node := range nodes {
-		// An ID we derived says where the node lives, which we already know, so leaving it
-		// out keeps state matching a config that never wrote one.
-		converted := escalationPathBetaNode{ID: types.StringNull()}
-		if _, derived := sequenceKeyFromNodeID(node.Id); !derived {
-			converted.ID = types.StringValue(node.Id)
-		}
+		id := codec.NodeID(node)
 
-		switch {
-		case node.IfElse != nil:
+		var converted escalationPathBetaNode
+		if conditions, thenPath, elsePath, ok := codec.Branch(node); ok {
 			// The API rejects a branch that isn't last in its node list, so this shouldn't
 			// be reachable. Saying so beats splitting the trailing nodes into a sequence
 			// nothing reaches, which is what carrying on would do.
@@ -298,39 +387,31 @@ func flattenSequence(ctx context.Context, nodes []client.EscalationPathNodeV2, p
 
 			priorThen, priorElse := prior.branchTargets(priorKey)
 			branch := &escalationPathBetaBranch{
-				If:   escalationPathBetaBranchIfFromAPI(ctx, node.IfElse.Conditions, diags),
-				Then: types.StringValue(flattenSequence(ctx, node.IfElse.ThenPath, priorThen, key+"_then", prior, sequences, diags)),
+				If:   escalationPathBetaBranchIfFromAPI(ctx, conditions, diags),
+				Then: types.StringValue(flattenSequence(ctx, codec, thenPath, priorThen, key+"_then", prior, sequences, diags)),
 				Else: types.StringNull(),
 			}
-			if len(node.IfElse.ElsePath) > 0 {
-				branch.Else = types.StringValue(flattenSequence(ctx, node.IfElse.ElsePath, priorElse, key+"_else", prior, sequences, diags))
+			if len(elsePath) > 0 {
+				branch.Else = types.StringValue(flattenSequence(ctx, codec, elsePath, priorElse, key+"_else", prior, sequences, diags))
 			}
 			converted.Branch = branch
-
-		case node.Repeat != nil:
-			converted.Loop = &escalationPathBetaLoop{
-				BackTo: types.StringValue(node.Repeat.ToNode),
-				Times:  types.Int64Value(node.Repeat.RepeatTimes),
+		} else {
+			leaf, ok := codec.Leaf(ctx, node, diags)
+			if !ok {
+				diags.AddError(
+					"Unsupported escalation path node",
+					fmt.Sprintf("Node %q is a %s node, which this resource can't represent yet.", id, codec.NodeType(node)),
+				)
+				continue
 			}
+			converted = leaf
+		}
 
-		case node.Level != nil:
-			converted.Level = levelFromAPI(ctx, node.Level, diags)
-
-		case node.NotifyChannel != nil:
-			converted.NotifyChannel = notifyChannelFromAPI(ctx, node.NotifyChannel, diags)
-
-		case node.Delay != nil:
-			converted.Delay = delayFromAPI(node.Delay)
-
-		case node.EscalationPath != nil:
-			converted.EscalationPath = escalationPathFromAPI(node.EscalationPath)
-
-		default:
-			diags.AddError(
-				"Unsupported escalation path node",
-				fmt.Sprintf("Node %q is a %s node, which incident_escalation_path_beta can't represent yet.", node.Id, node.Type),
-			)
-			continue
+		// An ID we derived says where the node lives, which we already know, so leaving it
+		// out keeps state matching a config that never wrote one.
+		converted.ID = types.StringNull()
+		if _, derived := sequenceKeyFromNodeID(id); !derived {
+			converted.ID = types.StringValue(id)
 		}
 
 		convertedNodes = append(convertedNodes, converted)
@@ -345,15 +426,15 @@ func flattenSequence(ctx context.Context, nodes []client.EscalationPathNodeV2, p
 // prior config) a node ID we derived carries the key the sequence had when we last wrote it.
 // Failing both we fall back to the name of the branch that reached it, and add a suffix if
 // something already holds the name.
-func chooseSequenceKey(nodes []client.EscalationPathNodeV2, priorKey, fallbackKey string, taken map[string][]escalationPathBetaNode) string {
+func chooseSequenceKey(nodeIDs []string, priorKey, fallbackKey string, taken map[string][]escalationPathBetaNode) string {
 	if priorKey != "" {
 		if _, exists := taken[priorKey]; !exists {
 			return priorKey
 		}
 	}
 
-	for _, node := range nodes {
-		key, derived := sequenceKeyFromNodeID(node.Id)
+	for _, id := range nodeIDs {
+		key, derived := sequenceKeyFromNodeID(id)
 		if !derived {
 			continue
 		}
@@ -467,7 +548,7 @@ func validateSequenceLoops(start string, sequences map[string][]escalationPathBe
 	if !ok || len(startNodes) == 0 {
 		return
 	}
-	rootID := startNodes[0].nodeID(start, 0)
+	rootID := startNodes[0].NodeID(start, 0)
 
 	parents := map[string]sequenceParent{}
 	for _, key := range sortedKeys(sequences) {
@@ -475,7 +556,7 @@ func validateSequenceLoops(start string, sequences map[string][]escalationPathBe
 			if node.Branch == nil {
 				continue
 			}
-			branchID := node.nodeID(key, index)
+			branchID := node.NodeID(key, index)
 			for _, target := range []string{node.Branch.Then.ValueString(), node.Branch.Else.ValueString()} {
 				if target != "" {
 					parents[target] = sequenceParent{key: key, branchID: branchID}
@@ -521,7 +602,7 @@ func validateSequenceLoops(start string, sequences map[string][]escalationPathBe
 func nodeExists(sequences map[string][]escalationPathBetaNode, id string) bool {
 	for key, nodes := range sequences {
 		for index, node := range nodes {
-			if node.nodeID(key, index) == id {
+			if node.NodeID(key, index) == id {
 				return true
 			}
 		}
@@ -574,7 +655,7 @@ func validateSequenceNodes(sequences map[string][]escalationPathBetaNode, diags 
 					)
 				}
 			}
-			nodeIDs[node.nodeID(key, index)] = true
+			nodeIDs[node.NodeID(key, index)] = true
 
 			// The conversion to the API matches one block and ignores the rest, so a node
 			// setting two silently loses one: this is the only place that can catch it.
@@ -764,7 +845,20 @@ func sortedKeys(sequences map[string][]escalationPathBetaNode) []string {
 
 // escalationPathBetaSequencesToMap builds the sequences map for state.
 func escalationPathBetaSequencesToMap(ctx context.Context, sequences map[string][]escalationPathBetaNode, diags *diag.Diagnostics) types.Map {
-	nodeType := types.ObjectType{AttrTypes: escalationPathBetaNodeAttrTypes()}
+	return sequencesToMap(ctx, escalationPathBetaNodeAttrTypes(), sequences, diags)
+}
+
+// sequenceMapType is the type of a sequences map whose nodes have the given attribute
+// types. The template resource's targets carry a binding the path's don't, so the two
+// resources' node types differ there and nowhere else.
+func sequenceMapType(nodeAttrTypes map[string]attr.Type) types.MapType {
+	return types.MapType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+		"nodes": types.ListType{ElemType: types.ObjectType{AttrTypes: nodeAttrTypes}},
+	}}}
+}
+
+func sequencesToMap(ctx context.Context, nodeAttrTypes map[string]attr.Type, sequences map[string][]escalationPathBetaNode, diags *diag.Diagnostics) types.Map {
+	nodeType := types.ObjectType{AttrTypes: nodeAttrTypes}
 	sequenceType := types.ObjectType{AttrTypes: map[string]attr.Type{
 		"nodes": types.ListType{ElemType: nodeType},
 	}}

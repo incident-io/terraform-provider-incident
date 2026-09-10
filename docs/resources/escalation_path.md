@@ -175,7 +175,7 @@ resource "incident_escalation_path" "with_reassignment" {
 ### Required
 
 - `name` (String) The name of this escalation path, for the user's reference.
-- `path` (Attributes List) The nodes that form the levels and branches of this escalation path.
+- `path` (Attributes List) The nodes that form the levels and branches of this escalation path. Empty for a templated path, which takes them from its template.
 
 -->**Note** Although the `if_else` block is recursive, currently a maximum of 5 levels are supported. Attempting to configure more than 5 levels of nesting will result in a validation error. (see [below for nested schema](#nestedatt--path))
 
@@ -183,7 +183,7 @@ resource "incident_escalation_path" "with_reassignment" {
 
 - `repeat_config` (Attributes) Controls if an escalation will repeat after acknowledgement, when the alert is unresolved. When configured, it will repeat after the specified delay. (see [below for nested schema](#nestedatt--repeat_config))
 - `team_ids` (Set of String) IDs of the teams that own this escalation path. This will automatically sync escalation paths with the right teams in Catalog. If you have an escalation paths attribute on your Teams, this attribute is required.
-- `working_hours` (Attributes List) The working hours for this escalation path. (see [below for nested schema](#nestedatt--working_hours))
+- `working_hours` (Attributes List) The working hours for this escalation path. Absent for a templated path, which takes them from its template. (see [below for nested schema](#nestedatt--working_hours))
 
 ### Read-Only
 
