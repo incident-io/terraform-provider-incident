@@ -2,12 +2,15 @@ package provider
 
 import (
 	"fmt"
+	"os"
 	"regexp"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/plancheck"
 	"github.com/samber/lo"
+
+	"github.com/incident-io/terraform-provider-incident/v7/internal/client"
 )
 
 // TestAccAlertSource covers the basic lifecycle: create, read back unchanged,
@@ -135,12 +138,21 @@ func TestAccAlertSourceHeartbeatDisabled(t *testing.T) {
 // parse, and a condition can only ask whether payload as a whole is set, so the branches
 // condition tests the first expression's result rather than payload.severity.
 func TestAccAlertSourcePriority(t *testing.T) {
+	// The priority is resolved before resource.Test, so honour TF_ACC ourselves rather
+	// than calling the API during a unit test run, then initialise testClient.
+	if os.Getenv("TF_ACC") == "" {
+		t.Skip("TF_ACC not set, skipping acceptance test")
+	}
+	testAccPreCheck(t)
+
+	priorityID := testAccAlertPriority(t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccAlertSourcePriorityConfig(),
+				Config: testAccAlertSourcePriorityConfig(priorityID),
 				ConfigPlanChecks: resource.ConfigPlanChecks{
 					PostApplyPostRefresh: []plancheck.PlanCheck{plancheck.ExpectEmptyPlan()},
 				},
@@ -168,18 +180,8 @@ func TestAccAlertSourcePriority(t *testing.T) {
 	})
 }
 
-func testAccAlertSourcePriorityConfig() string {
+func testAccAlertSourcePriorityConfig(priorityID string) string {
 	return testRunTemplate("incident_alert_source_priority", `
-data "incident_catalog_type" "alert_priority" {
-  type_name = "AlertPriority"
-}
-
-# Indexed rather than looked up by name, because which priorities an org has is its own
-# business and this test only cares that the binding round-trips.
-data "incident_catalog_entries" "priorities" {
-  catalog_type_id = data.incident_catalog_type.alert_priority.id
-}
-
 resource "incident_alert_source" "priority" {
   name        = {{ stableSuffix "beta-priority" | quote }}
   source_type = "http"
@@ -213,13 +215,13 @@ resource "incident_alert_source" "priority" {
             operation = "one_of"
             params    = [{ values = ["CRITICAL"] }]
           }]
-          result = { value_literal = data.incident_catalog_entries.priorities.catalog_entries[0].id }
+          result = { value_literal = {{ quote .PriorityID }} }
         }
       }
     }
 
     fallback {
-      result = { value_literal = data.incident_catalog_entries.priorities.catalog_entries[0].id }
+      result = { value_literal = {{ quote .PriorityID }} }
     }
   }
 
@@ -227,5 +229,50 @@ resource "incident_alert_source" "priority" {
     expression_ref = "priority_lookup"
   }
 }
-`, nil)
+`, struct{ PriorityID string }{PriorityID: priorityID})
+}
+
+// testAccAlertPriority returns an alert priority from the test account.
+//
+// The config used to reach for the plural catalog entries data source and index into
+// it, which is the shape that data source is being removed for: whichever entry came
+// back first is not a thing a configuration can name. Resolving it here instead keeps
+// the test working against any organisation - which priorities an account has is its
+// own business, and this test only cares that the binding round-trips - without a
+// configuration that depends on the API's ordering.
+func testAccAlertPriority(t *testing.T) string {
+	t.Helper()
+
+	// No params argument here: everything after the context is a request editor, so a
+	// nil would be a nil editor that the client then calls.
+	types, err := testClient.CatalogV3ListTypesWithResponse(t.Context())
+	if err != nil {
+		t.Fatalf("listing catalog types: %s", err)
+	}
+	if types.JSON200 == nil {
+		t.Fatalf("listing catalog types: %s", string(types.Body))
+	}
+
+	priorityType, found := lo.Find(types.JSON200.CatalogTypes, func(catalogType client.CatalogTypeV3) bool {
+		return catalogType.TypeName == "AlertPriority"
+	})
+	if !found {
+		t.Skip("the test account has no AlertPriority catalog type")
+	}
+
+	entries, err := testClient.CatalogV3ListEntriesWithResponse(t.Context(), &client.CatalogV3ListEntriesParams{
+		CatalogTypeId: priorityType.Id,
+		PageSize:      250,
+	})
+	if err != nil {
+		t.Fatalf("listing alert priorities: %s", err)
+	}
+	if entries.JSON200 == nil {
+		t.Fatalf("listing alert priorities: %s", string(entries.Body))
+	}
+	if len(entries.JSON200.CatalogEntries) == 0 {
+		t.Skip("the test account has no alert priorities")
+	}
+
+	return entries.JSON200.CatalogEntries[0].Id
 }

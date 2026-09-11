@@ -61,15 +61,6 @@ func TestAccIncidentScheduleReplicaResource(t *testing.T) {
 						"data.incident_schedule_replica.test", "replica_provider_id",
 						"incident_schedule_replica.test", "replica_provider_id",
 					),
-					resource.TestCheckResourceAttr("data.incident_schedule_replicas.test", "schedule_replicas.#", "1"),
-					resource.TestCheckResourceAttrPair(
-						"data.incident_schedule_replicas.test", "schedule_replicas.0.id",
-						"incident_schedule_replica.test", "id",
-					),
-					resource.TestCheckResourceAttrPair(
-						"data.incident_schedule_replicas.test", "schedule_replicas.0.replica_provider_id",
-						"incident_schedule_replica.test", "replica_provider_id",
-					),
 				),
 			},
 			{
@@ -164,10 +155,6 @@ resource "incident_schedule_replica" "test" {
 data "incident_schedule_replica" "test" {
   schedule_id = incident_schedule.test.id
   id          = incident_schedule_replica.test.id
-}
-
-data "incident_schedule_replicas" "test" {
-  schedule_id = incident_schedule.test.id
 }
 `, struct {
 		ReplicaProvider   string
