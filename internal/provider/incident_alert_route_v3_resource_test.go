@@ -321,49 +321,45 @@ resource "incident_custom_field" "type_field" {
 resource "incident_alert_source" "http_test" {
   name        = "hsrc3-%[1]s"
   source_type = "http"
-  template = {
-    title = {
-      literal = jsonencode({
-        content = [
-          {
-            content = [
-              {
-                attrs = {
-                  label   = "Payload → Title"
-                  missing = false
-                  name    = "title"
-                }
-                type = "varSpec"
-              },
-            ]
-            type = "paragraph"
-          },
-        ]
-        type = "doc"
-      })
-    }
-    description = {
-      literal = jsonencode({
-        content = [
-          {
-            content = [
-              {
-                attrs = {
-                  label   = "Payload → Description"
-                  missing = false
-                  name    = "description"
-                }
-                type = "varSpec"
-              },
-            ]
-            type = "paragraph"
-          },
-        ]
-        type = "doc"
-      })
-    }
-    attributes  = []
-    expressions = []
+  title = {
+    literal = jsonencode({
+      content = [
+        {
+          content = [
+            {
+              attrs = {
+                label   = "Payload → Title"
+                missing = false
+                name    = "title"
+              }
+              type = "varSpec"
+            },
+          ]
+          type = "paragraph"
+        },
+      ]
+      type = "doc"
+    })
+  }
+  description = {
+    literal = jsonencode({
+      content = [
+        {
+          content = [
+            {
+              attrs = {
+                label   = "Payload → Description"
+                missing = false
+                name    = "description"
+              }
+              type = "varSpec"
+            },
+          ]
+          type = "paragraph"
+        },
+      ]
+      type = "doc"
+    })
   }
 }
 

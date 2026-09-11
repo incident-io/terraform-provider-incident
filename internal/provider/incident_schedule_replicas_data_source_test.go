@@ -27,24 +27,6 @@ func testAccIncidentScheduleReplicasDataSourceEmptyConfig() string {
 resource "incident_schedule" "test" {
   name     = {{ stableSuffix "Test Schedule for Replica List" | quote }}
   timezone = "Europe/London"
-
-  rotations = [{
-    id   = "primary"
-    name = "Primary"
-
-    versions = [{
-      handover_start_at = "2024-05-01T12:00:00Z"
-      users             = []
-      layers = [{
-        id   = "primary"
-        name = "Primary"
-      }]
-      handovers = [{
-        interval_type = "daily"
-        interval      = 1
-      }]
-    }]
-  }]
 }
 
 data "incident_schedule_replicas" "test" {

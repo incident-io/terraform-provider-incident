@@ -203,6 +203,10 @@ resource "incident_escalation_path_beta" "moving" {
   name  = {{ stableSuffix "Renaming path" | quote }}
   start = "main"
 
+  # team_ids is required: the API rejects a path that omits it, and an empty list is
+  # how you say the path is owned by nobody.
+  team_ids = []
+
   sequences = {
     main = {
       nodes = [{

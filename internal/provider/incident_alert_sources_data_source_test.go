@@ -45,30 +45,22 @@ const testAccIncidentAlertSourcesDataSourceTemplate = `
 resource "incident_alert_source" "test1" {
   name        = {{ stableSuffix "Test HTTP Alert Source 1" | quote }}
   source_type = "http"
-  template = {
-    title = {
-      literal = "{\"content\":[{\"content\":[{\"text\":\"Test Alert Title 1\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"}"
-    }
-    description = {
-      literal = "{\"content\":[{\"content\":[{\"text\":\"Test Alert Description 1\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"}"
-    }
-    attributes = []
-    expressions = []
+  title = {
+    literal = "{\"content\":[{\"content\":[{\"text\":\"Test Alert Title 1\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"}"
+  }
+  description = {
+    literal = "{\"content\":[{\"content\":[{\"text\":\"Test Alert Description 1\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"}"
   }
 }
 
 resource "incident_alert_source" "test2" {
   name        = {{ stableSuffix "Test HTTP Alert Source 2" | quote }}
   source_type = "http"
-  template = {
-    title = {
-      literal = "{\"content\":[{\"content\":[{\"text\":\"Test Alert Title 2\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"}"
-    }
-    description = {
-      literal = "{\"content\":[{\"content\":[{\"text\":\"Test Alert Description 2\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"}"
-    }
-    attributes = []
-    expressions = []
+  title = {
+    literal = "{\"content\":[{\"content\":[{\"text\":\"Test Alert Title 2\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"}"
+  }
+  description = {
+    literal = "{\"content\":[{\"content\":[{\"text\":\"Test Alert Description 2\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"}"
   }
 }
 

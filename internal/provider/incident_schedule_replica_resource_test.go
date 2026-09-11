@@ -18,6 +18,14 @@ import (
 //	TF_ACC_REPLICA_PROVIDER          e.g. pagerduty
 //	TF_ACC_REPLICA_PROVIDER_ID       the external schedule ID
 //	TF_ACC_REPLICA_FALLBACK_USER_ID  a user ID in that external provider
+//	TF_ACC_REPLICA_LAYER_ID          a layer ID on the rotation this creates
+//
+// The layer ID has to be supplied because nothing in the configuration can produce
+// one. A replica source names the rotation layer it mirrors, and layer IDs are
+// assigned by the API: incident_schedule used to let you choose them, and
+// incident_schedule_rotation does not expose the ones it is given. Until it does,
+// running this means creating the rotation, reading a layer ID off the API, and
+// setting it here.
 func TestAccIncidentScheduleReplicaResource(t *testing.T) {
 	if os.Getenv("TF_ACC_SCHEDULE_REPLICAS") == "" {
 		t.Skip("TF_ACC_SCHEDULE_REPLICAS is not set: skipping test that requires an external on-call integration")
@@ -26,8 +34,9 @@ func TestAccIncidentScheduleReplicaResource(t *testing.T) {
 	replicaProvider := os.Getenv("TF_ACC_REPLICA_PROVIDER")
 	replicaProviderID := os.Getenv("TF_ACC_REPLICA_PROVIDER_ID")
 	fallbackUserID := os.Getenv("TF_ACC_REPLICA_FALLBACK_USER_ID")
-	if replicaProvider == "" || replicaProviderID == "" || fallbackUserID == "" {
-		t.Fatal("TF_ACC_REPLICA_PROVIDER, TF_ACC_REPLICA_PROVIDER_ID, and TF_ACC_REPLICA_FALLBACK_USER_ID must be set")
+	layerID := os.Getenv("TF_ACC_REPLICA_LAYER_ID")
+	if replicaProvider == "" || replicaProviderID == "" || fallbackUserID == "" || layerID == "" {
+		t.Fatal("TF_ACC_REPLICA_PROVIDER, TF_ACC_REPLICA_PROVIDER_ID, TF_ACC_REPLICA_FALLBACK_USER_ID and TF_ACC_REPLICA_LAYER_ID must be set")
 	}
 
 	resource.Test(t, resource.TestCase{
@@ -35,7 +44,7 @@ func TestAccIncidentScheduleReplicaResource(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccScheduleReplicaResourceConfig(replicaProvider, replicaProviderID, fallbackUserID, 14),
+				Config: testAccScheduleReplicaResourceConfig(replicaProvider, replicaProviderID, fallbackUserID, layerID, 14),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr("incident_schedule_replica.test", "replica_provider", replicaProvider),
 					resource.TestCheckResourceAttr("incident_schedule_replica.test", "replica_provider_id", replicaProviderID),
@@ -70,7 +79,7 @@ func TestAccIncidentScheduleReplicaResource(t *testing.T) {
 				ImportStateIdFunc: importScheduleReplicaStateIDFunc("incident_schedule_replica.test"),
 			},
 			{
-				Config: testAccScheduleReplicaResourceConfig(replicaProvider, replicaProviderID, fallbackUserID, 21),
+				Config: testAccScheduleReplicaResourceConfig(replicaProvider, replicaProviderID, fallbackUserID, layerID, 21),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr("incident_schedule_replica.test", "mirror_window_days", "21"),
 				),
@@ -87,8 +96,9 @@ func TestAccIncidentScheduleReplicaResource_InvalidImportID(t *testing.T) {
 	replicaProvider := os.Getenv("TF_ACC_REPLICA_PROVIDER")
 	replicaProviderID := os.Getenv("TF_ACC_REPLICA_PROVIDER_ID")
 	fallbackUserID := os.Getenv("TF_ACC_REPLICA_FALLBACK_USER_ID")
-	if replicaProvider == "" || replicaProviderID == "" || fallbackUserID == "" {
-		t.Fatal("TF_ACC_REPLICA_PROVIDER, TF_ACC_REPLICA_PROVIDER_ID, and TF_ACC_REPLICA_FALLBACK_USER_ID must be set")
+	layerID := os.Getenv("TF_ACC_REPLICA_LAYER_ID")
+	if replicaProvider == "" || replicaProviderID == "" || fallbackUserID == "" || layerID == "" {
+		t.Fatal("TF_ACC_REPLICA_PROVIDER, TF_ACC_REPLICA_PROVIDER_ID, TF_ACC_REPLICA_FALLBACK_USER_ID and TF_ACC_REPLICA_LAYER_ID must be set")
 	}
 
 	resource.Test(t, resource.TestCase{
@@ -96,7 +106,7 @@ func TestAccIncidentScheduleReplicaResource_InvalidImportID(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccScheduleReplicaResourceConfig(replicaProvider, replicaProviderID, fallbackUserID, 14),
+				Config: testAccScheduleReplicaResourceConfig(replicaProvider, replicaProviderID, fallbackUserID, layerID, 14),
 			},
 			{
 				ResourceName:  "incident_schedule_replica.test",
@@ -118,28 +128,23 @@ func importScheduleReplicaStateIDFunc(resourceName string) resource.ImportStateI
 	}
 }
 
-func testAccScheduleReplicaResourceConfig(replicaProvider, replicaProviderID, fallbackUserID string, mirrorWindowDays int) string {
+func testAccScheduleReplicaResourceConfig(replicaProvider, replicaProviderID, fallbackUserID, layerID string, mirrorWindowDays int) string {
 	return testRunTemplate("incident_schedule_replica", `
 resource "incident_schedule" "test" {
   name     = {{ stableSuffix "Test Schedule for Replica" | quote }}
   timezone = "Europe/London"
+}
 
-  rotations = [{
-    id   = "primary"
-    name = "Primary"
+resource "incident_schedule_rotation" "test" {
+  schedule_id = incident_schedule.test.id
+  name        = "Primary"
 
-    versions = [{
-      handover_start_at = "2024-05-01T12:00:00Z"
-      users             = []
-      layers = [{
-        id   = "primary"
-        name = "Primary"
-      }]
-      handovers = [{
-        interval_type = "daily"
-        interval      = 1
-      }]
-    }]
+  users = ["NOBODY"]
+
+  first_interval_starts_at = "2024-05-01T12:00:00Z"
+  handovers = [{
+    interval      = 1
+    interval_type = "daily"
   }]
 }
 
@@ -151,8 +156,8 @@ resource "incident_schedule_replica" "test" {
   mirror_window_days        = {{ .MirrorWindowDays }}
 
   sources = [{
-    rotation_id = "primary"
-    layer_id    = "primary"
+    rotation_id = incident_schedule_rotation.test.id
+    layer_id    = {{ quote .LayerID }}
   }]
 }
 
@@ -169,10 +174,12 @@ data "incident_schedule_replicas" "test" {
 		ReplicaProviderID string
 		FallbackUserID    string
 		MirrorWindowDays  int
+		LayerID           string
 	}{
 		ReplicaProvider:   replicaProvider,
 		ReplicaProviderID: replicaProviderID,
 		FallbackUserID:    fallbackUserID,
 		MirrorWindowDays:  mirrorWindowDays,
+		LayerID:           layerID,
 	})
 }
