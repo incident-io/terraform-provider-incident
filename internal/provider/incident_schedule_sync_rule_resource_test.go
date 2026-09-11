@@ -153,11 +153,15 @@ func TestAccIncidentScheduleSyncRuleResource_Rotation(t *testing.T) {
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
-			// Create scoped to the "primary" rotation.
+			// Create scoped to a single rotation. The rotation's ID is assigned by the
+			// API rather than chosen, so the rule references the rotation resource.
 			{
-				Config: testAccScheduleSyncRuleResourceConfigWithRotation("primary"),
+				Config: testAccScheduleSyncRuleResourceConfigWithRotation(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_schedule_sync_rule.test", "rotation_id", "primary"),
+					resource.TestCheckResourceAttrPair(
+						"incident_schedule_sync_rule.test", "rotation_id",
+						"incident_schedule_rotation.test", "id",
+					),
 					resource.TestCheckResourceAttr("incident_schedule_sync_rule.test", "sync_type", "on_call"),
 				),
 			},
@@ -177,24 +181,6 @@ func testAccScheduleSyncRuleResourceConfig(syncType string) string {
 resource "incident_schedule" "test" {
   name     = {{ stableSuffix "Test Schedule for Sync Rule" | quote }}
   timezone = "Europe/London"
-
-  rotations = [{
-    id   = "primary"
-    name = "Primary"
-
-    versions = [{
-      handover_start_at = "2024-05-01T12:00:00Z"
-      users             = []
-      layers = [{
-        id   = "primary"
-        name = "Primary"
-      }]
-      handovers = [{
-        interval_type = "daily"
-        interval      = 1
-      }]
-    }]
-  }]
 }
 
 resource "incident_schedule_sync_target" "test" {
@@ -229,24 +215,6 @@ func testAccScheduleSyncRuleResourceConfigWithPermanentMembers(userID string) st
 resource "incident_schedule" "test" {
   name     = {{ stableSuffix "Sync Rule Permanent Members" | quote }}
   timezone = "Europe/London"
-
-  rotations = [{
-    id   = "primary"
-    name = "Primary"
-
-    versions = [{
-      handover_start_at = "2024-05-01T12:00:00Z"
-      users             = []
-      layers = [{
-        id   = "primary"
-        name = "Primary"
-      }]
-      handovers = [{
-        interval_type = "daily"
-        interval      = 1
-      }]
-    }]
-  }]
 }
 
 resource "incident_schedule_sync_target" "test" {
@@ -277,24 +245,6 @@ func testAccScheduleSyncRuleResourceConfigWithPermanentMembersCleared() string {
 resource "incident_schedule" "test" {
   name     = {{ stableSuffix "Sync Rule Permanent Members" | quote }}
   timezone = "Europe/London"
-
-  rotations = [{
-    id   = "primary"
-    name = "Primary"
-
-    versions = [{
-      handover_start_at = "2024-05-01T12:00:00Z"
-      users             = []
-      layers = [{
-        id   = "primary"
-        name = "Primary"
-      }]
-      handovers = [{
-        interval_type = "daily"
-        interval      = 1
-      }]
-    }]
-  }]
 }
 
 resource "incident_schedule_sync_target" "test" {
@@ -316,28 +266,23 @@ resource "incident_schedule_sync_rule" "test" {
 `, struct{}{})
 }
 
-func testAccScheduleSyncRuleResourceConfigWithRotation(rotationID string) string {
+func testAccScheduleSyncRuleResourceConfigWithRotation() string {
 	return testRunTemplate("incident_schedule_sync_rule", `
 resource "incident_schedule" "test" {
   name     = {{ stableSuffix "Test Schedule for Sync Rule" | quote }}
   timezone = "Europe/London"
+}
 
-  rotations = [{
-    id   = "primary"
-    name = "Primary"
+resource "incident_schedule_rotation" "test" {
+  schedule_id = incident_schedule.test.id
+  name        = "Primary"
 
-    versions = [{
-      handover_start_at = "2024-05-01T12:00:00Z"
-      users             = []
-      layers = [{
-        id   = "primary"
-        name = "Primary"
-      }]
-      handovers = [{
-        interval_type = "daily"
-        interval      = 1
-      }]
-    }]
+  users = ["NOBODY"]
+
+  first_interval_starts_at = "2024-05-01T12:00:00Z"
+  handovers = [{
+    interval      = 1
+    interval_type = "daily"
   }]
 }
 
@@ -355,13 +300,9 @@ resource "incident_schedule_sync_rule" "test" {
   schedule_id             = incident_schedule.test.id
   schedule_sync_target_id = incident_schedule_sync_target.test.id
   sync_type               = "on_call"
-  rotation_id             = {{ quote .RotationID }}
+  rotation_id             = incident_schedule_rotation.test.id
 }
-`, struct {
-		RotationID string
-	}{
-		RotationID: rotationID,
-	})
+`, struct{}{})
 }
 
 // importScheduleSyncRuleStateIDFunc returns a function that generates the composite import ID.

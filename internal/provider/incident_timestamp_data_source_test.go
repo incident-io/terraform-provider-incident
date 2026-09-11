@@ -15,7 +15,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 
-	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
+	"github.com/incident-io/terraform-provider-incident/v7/internal/client"
 )
 
 // TestAccIncidentTimestampDataSource looks a timestamp up both ways round.

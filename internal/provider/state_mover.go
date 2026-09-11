@@ -10,50 +10,31 @@ import (
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 )
 
-// migrateStateMover moves state from an older resource that manages the same
-// object, through the same API, under a schema that says it differently.
+// migrateStateMover moves state from another name for the same resource.
 //
 // Terraform asks the provider to move state whenever a `moved` block changes a
 // resource's type, because it cannot know whether the two schemas are
-// compatible - and getting that wrong loses somebody's state. This is the case
-// where they are not compatible but the object underneath is the same one, so
-// what the move has to carry is the object's identity:
+// compatible - and getting that wrong loses somebody's state. The renames in
+// v7 are the case where they are not merely compatible but identical, because
+// both names are one registration of one resource:
 //
 //	moved {
-//	  from = incident_schedule.primary
-//	  to   = incident_schedule_beta.primary
+//	  from = incident_schedule_beta.primary
+//	  to   = incident_schedule.primary
 //	}
 //
-// which is the difference between a migration somebody can review in a pull
+// which is the difference between a rename somebody can review in a pull
 // request and one they run by hand against production state with
-// `terraform state rm` and an import.
+// `terraform state rm` and an import. See aliases.go.
 //
-// The state it writes is deliberately sparse. Attributes both schemas hold
-// under the same name with the same type are copied across, and every other
-// attribute is left null, because Terraform refreshes a moved resource before
-// it plans it: whatever the mover leaves null is read back from the API by the
-// new resource's own Read, in the shape the new schema wants. Copying is for
-// the attributes a Read cannot recover - the ones the new resource keeps from
-// prior state rather than from the API, like a schedule's `team_ids` or an
-// alert source's `owning_team_ids`, which describe how the author wrote
-// something rather than what the API holds.
-//
-// A rewrite carries one of those attributes anyway, for the case where the two
-// schemas hold the same value in the same shape under different names - an
-// alert source's title, which the v6 resource keeps under `template`. Reading
-// one of those back is not enough: the framework only applies a type's semantic
-// equality when the prior value is not null, so a refresh onto the null a move
-// leaves stores the API's spelling of the value rather than the author's, and
-// the next plan compares that against the configuration byte for byte. Carrying
-// it keeps the author's spelling, which is what makes the plan after the move
-// empty.
-//
-// It follows that a value the new resource derives, rather than reads, is
-// whatever the refresh derives it as. An escalation path's sequence names are
-// the case that matters: the API doesn't store them, so a move leaves the
-// provider to name them, and a configuration that calls them something else
-// plans a change. `sequences` and `start` are documented with the names to
-// expect.
+// What it writes is decided by comparing the two schemas rather than assumed.
+// Attributes both hold under the same name with the same type are copied
+// across, and any other attribute is left null, because Terraform refreshes a
+// moved resource before it plans it: whatever the mover leaves null is read
+// back from the API by the new resource's own Read. For a rename that is
+// nothing - every attribute is shared - and TestEveryAttributeMovesAcross
+// fails if that ever stops being true, which it would if an alias drifted from
+// the resource it aliases.
 //
 // A mover that does not recognise its source returns no state and no
 // diagnostics, which the framework reads as "skipped": it tries the next mover
@@ -63,7 +44,6 @@ import (
 func migrateStateMover(
 	sourceTypeName string,
 	sourceSchema, targetSchema schema.Schema,
-	rewrites ...attributeRewrite,
 ) resource.StateMover {
 	return resource.StateMover{
 		// Setting this asks the framework to decode the source state against the old
@@ -126,11 +106,6 @@ func migrateStateMover(
 				carried[name] = true
 			}
 
-			rewritten := map[string]attributeRewrite{}
-			for _, rewrite := range rewrites {
-				rewritten[rewrite.target] = rewrite
-			}
-
 			values := make(map[string]tftypes.Value, len(targetType.AttributeTypes))
 			for name, attributeType := range targetType.AttributeTypes {
 				if carried[name] {
@@ -138,39 +113,28 @@ func migrateStateMover(
 					continue
 				}
 
-				if rewrite, isRewritten := rewritten[name]; isRewritten {
-					if value, held := rewrite.value(sourceAttributes); held && value.Type().Equal(attributeType) {
-						values[name] = value
-						continue
-					}
-
-					// Nothing there to carry, or a shape the target attribute can't hold,
-					// which means one of the two schemas has moved. Fall through to the
-					// null below: the refresh still fills the attribute in, so the
-					// migration plans a change rather than failing, and the unit test
-					// naming the rewrite is what catches the drift.
-				}
-
 				// Null rather than unknown: state holds no unknowns, and null is what the
 				// new resource's Read will overwrite on the refresh that follows.
 				values[name] = tftypes.NewValue(attributeType, nil)
 			}
 
-			// Without the ID the moved resource names no object, so the refresh that would
-			// have filled the rest in has nothing to ask about. Better to refuse a move
-			// somebody can undo than to write state that reads as a resource to create.
-			if id, held := values["id"]; !held || id.IsNull() {
-				resp.Diagnostics.AddError(
-					"Unable to Move Resource State",
-					fmt.Sprintf(
-						"The state held by %s has no ID to move, so the resource it is moving to "+
-							"would not know which object it manages.\n\nIf the resource was never "+
-							"applied there is nothing to move: remove the `moved` block and apply the "+
-							"new resource instead.",
-						sourceTypeName,
-					),
-				)
-				return
+			// Without something naming the object, the moved resource manages nothing and a
+			// plan reads it as a resource to create. Better to refuse a move somebody can
+			// undo than to write that.
+			for _, name := range identityAttributes(targetSchema) {
+				if value, held := values[name]; !held || value.IsNull() {
+					resp.Diagnostics.AddError(
+						"Unable to Move Resource State",
+						fmt.Sprintf(
+							"The state held by %s has no %s to move, so the resource it is moving to "+
+								"would not know which object it manages.\n\nIf the resource was never "+
+								"applied there is nothing to move: remove the `moved` block and apply the "+
+								"new resource instead.",
+							sourceTypeName, name,
+						),
+					)
+					return
+				}
 			}
 
 			resp.TargetState.Raw = tftypes.NewValue(targetType, values)
@@ -182,48 +146,27 @@ func migrateStateMover(
 	}
 }
 
-// attributeRewrite says where in the source state a target attribute's value comes
-// from, for a value both schemas hold the same way but under different names. The path
-// is attribute names from the root of the source state, walked one at a time, so an
-// alert source's title reads `rewrite("title", "template", "title")`.
+// identityAttributes returns the attributes a moved resource needs filled in to name the
+// object it manages.
 //
-// The value is copied as it stands rather than translated: a rewrite is for the case
-// where the two attributes hold the same Terraform type, and migrateStateMover checks
-// that before writing it. Anything needing translation belongs in the new resource's
-// Read, against the API, rather than here against state.
-type attributeRewrite struct {
-	target string
-	from   []string
-}
-
-func rewrite(target string, from ...string) attributeRewrite {
-	return attributeRewrite{target: target, from: from}
-}
-
-// value walks the source state to the value being carried. Not held means there is
-// nothing there to carry: an attribute the old configuration never set, or a whole
-// object it left out, which a move leaves null the same way it leaves the rest.
-func (r attributeRewrite) value(sourceAttributes map[string]tftypes.Value) (tftypes.Value, bool) {
-	attributes := sourceAttributes
-
-	for idx, name := range r.from {
-		value, held := attributes[name]
-		if !held || value.IsNull() || !value.IsKnown() {
-			return tftypes.Value{}, false
-		}
-
-		if idx == len(r.from)-1 {
-			return value, true
-		}
-
-		// Another step to walk, so this one has to be an object to walk into.
-		attributes = map[string]tftypes.Value{}
-		if err := value.As(&attributes); err != nil {
-			return tftypes.Value{}, false
-		}
+// Most resources name it with `id`. One doesn't: an alert source attribute binding is
+// keyed by the source and the attribute it binds, and has no `id` at all, so a mover that
+// only ever checked `id` would refuse every move of one. Where there is no `id`, the
+// attributes the schema makes Required are what the resource is addressed by.
+func identityAttributes(target schema.Schema) []string {
+	if _, hasID := target.Attributes["id"]; hasID {
+		return []string{"id"}
 	}
 
-	return tftypes.Value{}, false
+	required := []string{}
+	for name, attribute := range target.Attributes {
+		if attribute.IsRequired() {
+			required = append(required, name)
+		}
+	}
+	sort.Strings(required)
+
+	return required
 }
 
 // sharedAttributes returns the attributes the two schemas hold in common: the same
@@ -231,10 +174,9 @@ func (r attributeRewrite) value(sourceAttributes map[string]tftypes.Value) (tfty
 // translating anything, so they are the ones migrateStateMover carries across.
 //
 // Comparing types rather than trusting the name is what makes the copy safe. Two
-// schemas can call something the same thing and hold it differently - an alert
-// source's title lives under `template` in one and at the top level in the other -
-// and copying between those would write a value the new resource cannot read.
-// Anything left out here is filled in by the refresh instead.
+// schemas can call something the same thing and hold it differently, and copying
+// between those would write a value the new resource cannot read. Anything left out
+// here is filled in by the refresh instead.
 func sharedAttributes(ctx context.Context, source, target schema.Schema) []string {
 	sourceType, sourceIsObject := source.Type().TerraformType(ctx).(tftypes.Object)
 	targetType, targetIsObject := target.Type().TerraformType(ctx).(tftypes.Object)
@@ -273,21 +215,19 @@ func resourceTypeName(ctx context.Context, r resource.Resource) string {
 	return resp.TypeName
 }
 
-// movedFrom builds the mover a beta resource offers for the v6 resource it replaces,
-// which is the one thing every one of them does the same way. Any rewrites are the
-// attributes that resource renamed rather than restated: see attributeRewrite.
+// movedFrom builds the mover a renamed resource offers for the name it used to answer
+// to, which is the one thing every one of them does the same way. The source is that
+// resource constructed under its `_beta` alias: see aliases.go.
 func movedFrom(
 	ctx context.Context,
 	source resource.Resource,
 	target resource.Resource,
-	rewrites ...attributeRewrite,
 ) []resource.StateMover {
 	return []resource.StateMover{
 		migrateStateMover(
 			resourceTypeName(ctx, source),
 			declaredResourceSchema(ctx, source),
 			declaredResourceSchema(ctx, target),
-			rewrites...,
 		),
 	}
 }

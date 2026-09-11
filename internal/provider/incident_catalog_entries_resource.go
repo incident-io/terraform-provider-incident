@@ -20,8 +20,8 @@ import (
 	"github.com/samber/lo"
 	"golang.org/x/sync/errgroup"
 
-	"github.com/incident-io/terraform-provider-incident/v6/internal/apischema"
-	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
+	"github.com/incident-io/terraform-provider-incident/v7/internal/apischema"
+	"github.com/incident-io/terraform-provider-incident/v7/internal/client"
 )
 
 var (

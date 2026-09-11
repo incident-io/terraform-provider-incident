@@ -21,9 +21,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	"github.com/incident-io/terraform-provider-incident/v6/internal/apischema"
-	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
-	"github.com/incident-io/terraform-provider-incident/v6/internal/provider/models"
+	"github.com/incident-io/terraform-provider-incident/v7/internal/apischema"
+	"github.com/incident-io/terraform-provider-incident/v7/internal/client"
+	"github.com/incident-io/terraform-provider-incident/v7/internal/provider/models"
 )
 
 // secretNameMaxLengthBytes is the API's cap on a secret's name. The limit is on bytes

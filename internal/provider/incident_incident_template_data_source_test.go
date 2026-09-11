@@ -17,8 +17,8 @@ import (
 	"github.com/samber/lo"
 	"github.com/stretchr/testify/require"
 
-	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
-	"github.com/incident-io/terraform-provider-incident/v6/internal/provider/models"
+	"github.com/incident-io/terraform-provider-incident/v7/internal/client"
+	"github.com/incident-io/terraform-provider-incident/v7/internal/provider/models"
 )
 
 func incidentTemplateFixtures() []client.IncidentTemplateV1 {

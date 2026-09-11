@@ -13,7 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 
-	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
+	"github.com/incident-io/terraform-provider-incident/v7/internal/client"
 )
 
 // fakeHeartbeatPauseAPI creates alert sources happily and fails every update, which is the
@@ -22,7 +22,6 @@ type fakeHeartbeatPauseAPI struct {
 	updates int
 }
 
-// start serves both API versions, so each resource's test can point at the paths it uses.
 func (f *fakeHeartbeatPauseAPI) start(t *testing.T) *client.ClientWithResponses {
 	t.Helper()
 
@@ -40,28 +39,18 @@ func (f *fakeHeartbeatPauseAPI) start(t *testing.T) *client.ClientWithResponses 
 			SourceType: client.AlertSourceV3SourceType("heartbeat"),
 		})
 	})
-	mux.HandleFunc("POST /v2/alert_sources", func(w http.ResponseWriter, r *http.Request) {
-		writeSource(w, http.StatusOK, client.AlertSourceV2{
-			Id:         "01SOURCE",
-			Name:       "Cron",
-			SourceType: client.AlertSourceV2SourceType("heartbeat"),
-		})
-	})
 	mux.HandleFunc("POST /v2/managed_resources", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 	})
 
-	// The pause. Both versions update by ID, and both fail here. A 422 rather than a 500
-	// because the client retries a 500 ten times, which the count below would rather not
-	// wait for.
-	for _, pattern := range []string{"/v2/alert_sources/{id}", "/v3/alert_sources/{id}"} {
-		mux.HandleFunc(pattern, func(w http.ResponseWriter, r *http.Request) {
-			f.updates++
-			w.Header().Set("Content-Type", "application/json")
-			w.WriteHeader(http.StatusUnprocessableEntity)
-			_, _ = w.Write([]byte(`{"type":"validation_error","errors":[{"code":"invalid_value","message":"cannot pause"}]}`))
-		})
-	}
+	// The pause, which fails. A 422 rather than a 500 because the client retries a 500 ten
+	// times, which the count below would rather not wait for.
+	mux.HandleFunc("/v3/alert_sources/{id}", func(w http.ResponseWriter, r *http.Request) {
+		f.updates++
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusUnprocessableEntity)
+		_, _ = w.Write([]byte(`{"type":"validation_error","errors":[{"code":"invalid_value","message":"cannot pause"}]}`))
+	})
 
 	server := httptest.NewServer(mux)
 	t.Cleanup(server.Close)
@@ -77,55 +66,21 @@ func (f *fakeHeartbeatPauseAPI) start(t *testing.T) *client.ClientWithResponses 
 // A source that exists but isn't in state can't be adopted by the next apply: Terraform
 // creates a second one, and the first keeps monitoring with nobody to pause it. So a failed
 // pause must still store what was created.
-func TestAlertSourceBetaCreateStoresSourceWhenPauseFails(t *testing.T) {
+func TestAlertSourceCreateStoresSourceWhenPauseFails(t *testing.T) {
 	api := &fakeHeartbeatPauseAPI{}
-	config, objType := alertSourceBetaSchemaType(t)
+	config, objType := alertSourceSchemaType(t)
 
-	plan := tfsdk.Plan(alertSourceBetaConfig(t, map[string]tftypes.Value{
+	plan := tfsdk.Plan(alertSourceConfig(t, map[string]tftypes.Value{
 		"name":        stringValue("Cron"),
 		"source_type": stringValue("heartbeat"),
 		"disabled":    tftypes.NewValue(tftypes.Bool, true),
 	}))
 
-	r := &alertSourceBetaResource{resourceConfigurer: withClient(api.start(t))}
+	r := &alertSourceResource{resourceConfigurer: withClient(api.start(t))}
 	resp := resource.CreateResponse{
 		State: tfsdk.State{Schema: config.Schema, Raw: tftypes.NewValue(objType, nil)},
 	}
 	r.Create(context.Background(), resource.CreateRequest{Plan: plan}, &resp)
-
-	if !resp.Diagnostics.HasError() {
-		t.Fatalf("expected the failed pause to error, got %+v", resp.Diagnostics)
-	}
-	if api.updates != 1 {
-		t.Errorf("expected 1 pause attempt, got %d", api.updates)
-	}
-
-	assertAlertSourceStored(t, resp.State)
-}
-
-func TestAlertSourceCreateStoresSourceWhenPauseFails(t *testing.T) {
-	api := &fakeHeartbeatPauseAPI{}
-
-	var schemaResp resource.SchemaResponse
-	NewIncidentAlertSourceResource().Schema(t.Context(), resource.SchemaRequest{}, &schemaResp)
-	objType := alertSourceSchemaType(t)
-
-	attributes := map[string]tftypes.Value{}
-	for name, attrType := range objType.AttributeTypes {
-		attributes[name] = tftypes.NewValue(attrType, nil)
-	}
-	attributes["name"] = stringValue("Cron")
-	attributes["source_type"] = stringValue("heartbeat")
-	attributes["disabled"] = tftypes.NewValue(tftypes.Bool, true)
-	attributes["template"] = nullFilledObject(t, objType.AttributeTypes["template"])
-
-	r := &IncidentAlertSourceResource{resourceConfigurer: withClient(api.start(t))}
-	resp := resource.CreateResponse{
-		State: tfsdk.State{Schema: schemaResp.Schema, Raw: tftypes.NewValue(objType, nil)},
-	}
-	r.Create(t.Context(), resource.CreateRequest{
-		Plan: tfsdk.Plan{Schema: schemaResp.Schema, Raw: tftypes.NewValue(objType, attributes)},
-	}, &resp)
 
 	if !resp.Diagnostics.HasError() {
 		t.Fatalf("expected the failed pause to error, got %+v", resp.Diagnostics)

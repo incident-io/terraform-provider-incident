@@ -33,8 +33,8 @@ resource "incident_alert_attribute" "gcp_service" {
 
 # Staging and production each parse the same attribute out of their own source, so both
 # environments' alerts are labelled with one attribute that routes can match on.
-resource "incident_alert_source_attribute_beta" "gcp_service_staging" {
-  alert_source_id    = incident_alert_source_beta.gcp_staging.id
+resource "incident_alert_source_attribute" "gcp_service_staging" {
+  alert_source_id    = incident_alert_source.gcp_staging.id
   alert_attribute_id = incident_alert_attribute.gcp_service.id
 
   # The payload is opaque JSON, so `payload` as a whole is the only part of it in scope: a
@@ -53,8 +53,8 @@ resource "incident_alert_source_attribute_beta" "gcp_service_staging" {
   }
 }
 
-resource "incident_alert_source_attribute_beta" "gcp_service_production" {
-  alert_source_id    = incident_alert_source_beta.gcp_production.id
+resource "incident_alert_source_attribute" "gcp_service_production" {
+  alert_source_id    = incident_alert_source.gcp_production.id
   alert_attribute_id = incident_alert_attribute.gcp_service.id
 
   # The payload is opaque JSON, so `payload` as a whole is the only part of it in scope: a
@@ -80,8 +80,8 @@ data "incident_alert_attribute" "existing_gcp_service" {
   name = "GCP service"
 }
 
-resource "incident_alert_source_attribute_beta" "gcp_service_other_workspace" {
-  alert_source_id    = incident_alert_source_beta.gcp_other.id
+resource "incident_alert_source_attribute" "gcp_service_other_workspace" {
+  alert_source_id    = incident_alert_source.gcp_other.id
   alert_attribute_id = data.incident_alert_attribute.existing_gcp_service.id
 
   # The payload is opaque JSON, so `payload` as a whole is the only part of it in scope: a

@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
+	"github.com/incident-io/terraform-provider-incident/v7/internal/client"
 )
 
 func TestScheduleSyncTargetDataSourceModelFromAPI(t *testing.T) {

@@ -12,7 +12,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
+	"github.com/incident-io/terraform-provider-incident/v7/internal/client"
 )
 
 func TestIncidentAlertSourceDataSourceSchemaMatchesModel(t *testing.T) {
@@ -111,15 +111,11 @@ const testAccIncidentAlertSourceDataSourceTemplate = `
 resource "incident_alert_source" "test" {
   name        = {{ stableSuffix "Test HTTP Alert Source" | quote }}
   source_type = "http"
-  template = {
-    title = {
-      literal = "{\"content\":[{\"content\":[{\"text\":\"Test Alert Title\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"}"
-    }
-    description = {
-      literal = "{\"content\":[{\"content\":[{\"text\":\"Test Alert Description\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"}"
-    }
-    attributes = []
-    expressions = []
+  title = {
+    literal = "{\"content\":[{\"content\":[{\"text\":\"Test Alert Title\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"}"
+  }
+  description = {
+    literal = "{\"content\":[{\"content\":[{\"text\":\"Test Alert Description\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"}"
   }
 }
 

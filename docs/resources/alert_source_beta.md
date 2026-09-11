@@ -3,248 +3,44 @@
 page_title: "incident_alert_source_beta Resource - terraform-provider-incident"
 subcategory: ""
 description: |-
-  Configure your alert sources, separately from the attributes they populate.
-  An alert source, without the attributes it populates — each of those is an incident_alert_source_attribute_beta resource. Editing one attribute therefore doesn't mean rewriting the source, and two people editing different attributes don't race each other.
-  How this differs from incident_alert_source
-  incident_alert_source declares a source and every attribute it populates together, under
-  one template.attributes list. Filling in one more attribute means rewriting that whole
-  list, and two people editing different attributes are editing the same resource.
-  This resource splits the two apart: the source holds its own configuration — name, type,
-  title, description, priority — and each attribute binding is its own
-  incident_alert_source_attribute_beta resource with its own lifecycle.
-  Beta, and what happens next
-  This resource is in beta. Its schema may still change in ways that are not backwards
-  compatible, so pin the provider version if that matters to you.
-  incident_alert_source is not deprecated, and there is no need to move anything yet.
-  Migrating from incident_alert_source
-  One incident_alert_source becomes one incident_alert_source_beta plus one
-  incident_alert_source_attribute_beta per entry in its template.attributes. The
-  source moves, with a moved block:
+  incident_alert_source_beta was renamed to incident_alert_source in v7.0.
+  This name still works and still manages the same thing, so upgrading to v7 needs no change
+  to a configuration that uses it. It is deprecated: every plan naming it warns, and it will
+  be removed in v8.0.
+  To move onto the new name:
   
   moved {
-    from = incident_alert_source.http
-    to   = incident_alert_source_beta.http
+    from = incident_alert_source_beta.http
+    to   = incident_alert_source.http
   }
   
-  and each attribute binding is imported by the source's ID and the attribute's, because a
-  moved block has one target:
-  
-  import {
-    to = incident_alert_source_attribute_beta.environment
-    id = "01ABC123DEF456GHI789JKL:01MNO456PQR789STU012VWX"
-  }
-  
-  template.title and template.description become title and
-  description, carrying the same document across. template.expressions becomes
-  named_expression blocks and template.visible_to_teams becomes
-  visible_to_teams; those are read back from the API after the move rather than carried,
-  so a binding you have spelled differently from the API plans a change. Run
-  terraform plan after the move and before you apply.
+  Both names are the same resource, backed by the same schema and the same API, so the move
+  carries your state across and the plan after it is empty. See incident_alert_source for the
+  documentation.
 ---
 
 # incident_alert_source_beta (Resource)
 
-Configure your alert sources, separately from the attributes they populate.
+`incident_alert_source_beta` was renamed to `incident_alert_source` in v7.0.
 
-An alert source, without the attributes it populates — each of those is an `incident_alert_source_attribute_beta` resource. Editing one attribute therefore doesn't mean rewriting the source, and two people editing different attributes don't race each other.
+This name still works and still manages the same thing, so upgrading to v7 needs no change
+to a configuration that uses it. It is deprecated: every plan naming it warns, and it will
+be removed in v8.0.
 
-## How this differs from `incident_alert_source`
-
-`incident_alert_source` declares a source and every attribute it populates together, under
-one `template.attributes` list. Filling in one more attribute means rewriting that whole
-list, and two people editing different attributes are editing the same resource.
-
-This resource splits the two apart: the source holds its own configuration — name, type,
-title, description, priority — and each attribute binding is its own
-`incident_alert_source_attribute_beta` resource with its own lifecycle.
-
-## Beta, and what happens next
-
-This resource is in beta. Its schema may still change in ways that are not backwards
-compatible, so pin the provider version if that matters to you.
-
-`incident_alert_source` is not deprecated, and there is no need to move anything yet.
-
-## Migrating from `incident_alert_source`
-
-One `incident_alert_source` becomes one `incident_alert_source_beta` plus one
-`incident_alert_source_attribute_beta` per entry in its `template.attributes`. The
-source moves, with a `moved` block:
+To move onto the new name:
 
 ```terraform
 moved {
-  from = incident_alert_source.http
-  to   = incident_alert_source_beta.http
+  from = incident_alert_source_beta.http
+  to   = incident_alert_source.http
 }
 ```
 
-and each attribute binding is imported by the source's ID and the attribute's, because a
-`moved` block has one target:
+Both names are the same resource, backed by the same schema and the same API, so the move
+carries your state across and the plan after it is empty. See `incident_alert_source` for the
+documentation.
 
-```terraform
-import {
-  to = incident_alert_source_attribute_beta.environment
-  id = "01ABC123DEF456GHI789JKL:01MNO456PQR789STU012VWX"
-}
-```
 
-`template.title` and `template.description` become `title` and
-`description`, carrying the same document across. `template.expressions` becomes
-`named_expression` blocks and `template.visible_to_teams` becomes
-`visible_to_teams`; those are read back from the API after the move rather than carried,
-so a binding you have spelled differently from the API plans a change. Run
-`terraform plan` after the move and before you apply.
-
-## Example Usage
-
-```terraform
-# An alert source, without the attributes it populates. Each of those is its own
-# incident_alert_source_attribute_beta resource, so editing one attribute doesn't
-# mean rewriting the source.
-resource "incident_alert_source_beta" "prometheus" {
-  name        = "Prometheus"
-  source_type = "http"
-
-  # Optional: teams that own this alert source.
-  owning_team_ids = [data.incident_catalog_entry.platform_team.id]
-
-  # A literal interpolates the alert's scope with {{ }}, and takes the filters
-  # truncate and omit_if_unset.
-  title = {
-    literal = "{{payload.labels.alertname}} on {{payload.labels.service}}"
-  }
-
-  # For content a template can't express — formatting, links, lists — build the
-  # document from markdown instead. feature_set must match the field: a title is
-  # plain_single_line, a description is rich.
-  description = {
-    literal = data.incident_rich_text.prometheus_alert.json
-  }
-
-  # Expressions this source owns, addressed by name. Setting a priority from the payload
-  # takes two of them.
-  #
-  # The payload is opaque JSON, so a condition can't reach inside it: `payload` as a whole
-  # is all one can see, and a subject of "payload.labels.severity" resolves to nothing.
-  # Parse the value out first...
-  named_expression {
-    name       = "severity_string"
-    start_from = "payload"
-
-    operation {
-      parse = {
-        # JavaScript, evaluated with the payload bound to `$`.
-        function = "$.labels.severity"
-        as       = "String"
-      }
-    }
-  }
-
-  # ...then map that string onto a priority. Parsing straight into a priority would be
-  # shorter, but it resolves by matching the value against a priority's name, so a payload
-  # saying "critical" would match no priority called "Urgent" and every alert would land on
-  # the fallback. Branching on the value says what you mean.
-  named_expression {
-    name       = "severity_lookup"
-    start_from = "."
-
-    operation {
-      branches {
-        # A priority is a catalog entry, so the branches return its catalog type. Take the
-        # type from attribute_type rather than writing it out.
-        as = data.incident_catalog_type.alert_priority.attribute_type
-
-        if {
-          conditions = [{
-            subject   = "expressions[\"severity_string\"]"
-            operation = "one_of"
-            params    = [{ values = ["critical", "page"] }]
-          }]
-          result = { value_literal = data.incident_catalog_entry.urgent_priority.id }
-        }
-      }
-    }
-
-    # What the expression produces when no branch matched.
-    fallback {
-      result = { value_literal = data.incident_catalog_entry.in_hours_priority.id }
-    }
-  }
-
-  priority = {
-    expression_ref = "severity_lookup"
-  }
-}
-
-# An alert's priority is a catalog entry, so the priorities themselves are looked up rather
-# than declared. Urgent and In-hours are the ones a new account starts with; use whichever
-# your organisation has.
-data "incident_catalog_type" "alert_priority" {
-  type_name = "AlertPriority"
-}
-
-data "incident_catalog_entry" "urgent_priority" {
-  catalog_type_id = data.incident_catalog_type.alert_priority.id
-  identifier      = "Urgent"
-}
-
-data "incident_catalog_entry" "in_hours_priority" {
-  catalog_type_id = data.incident_catalog_type.alert_priority.id
-  identifier      = "In-hours"
-}
-
-data "incident_rich_text" "prometheus_alert" {
-  feature_set = "rich"
-  markdown    = <<-EOT
-    Fired by the **Prometheus alertmanager**.
-
-    Runbook: {{payload.annotations.runbook_url}}
-  EOT
-}
-
-# A heartbeat source writes its own title and description, and needs the interval a
-# ping is expected within.
-resource "incident_alert_source_beta" "nightly_backup" {
-  name        = "Nightly backup"
-  source_type = "heartbeat"
-
-  heartbeat_options = {
-    interval_seconds = 86400
-
-    # Optional: how many missed intervals before we alert, and how long to wait
-    # after each one.
-    failure_threshold    = 1
-    grace_period_seconds = 3600
-  }
-
-  # Pause monitoring without deleting the source, for example during maintenance.
-  # A heartbeat can only be paused once it has received its first ping, so this
-  # starts monitoring and is flipped to true on a later apply. Omit the attribute
-  # entirely to leave a pause made in the dashboard alone.
-  disabled = false
-}
-
-# A private source's alerts are visible to nobody until you say which teams can
-# see them.
-resource "incident_alert_source_beta" "security_scanner" {
-  name        = "Security scanner"
-  source_type = "http"
-
-  # Every source but a heartbeat needs both of these: leave one out and the API writes
-  # its own default, which this resource has nowhere to store.
-  title = {
-    literal = "{{payload.rule}} on {{payload.target}}"
-  }
-  description = {
-    literal = "{{payload.detail}}"
-  }
-
-  is_private = true
-  visible_to_teams = {
-    values = [data.incident_catalog_entry.security_team.id]
-  }
-}
-```
 
 <!-- schema generated by tfplugindocs -->
 ## Schema
@@ -264,7 +60,7 @@ resource "incident_alert_source_beta" "security_scanner" {
 Only heartbeat sources can be paused, and only once one has received its first ping: the API refuses to disable a source that has never reported, so a new one can't be created paused. Leave the attribute unset to keep whatever the source is currently doing, so a pause made in the dashboard survives an unrelated apply.
 - `email_options` (Attributes) (see [below for nested schema](#nestedatt--email_options))
 - `filter_condition_groups` (Attributes List) Conditions an incoming event must match to be ingested from this source, evaluated against the event's payload and this source's expressions. (see [below for nested schema](#nestedatt--filter_condition_groups))
-- `fixed_team_id` (String) When set, the team every alert from this source is attributed to. The team attribute is managed from this field: it is not returned by the attribute endpoints and cannot be bound directly. While set, an `incident_alert_source_attribute_beta` resource binding the organisation's team attribute is rejected at apply time: the binding is managed from this field.
+- `fixed_team_id` (String) When set, the team every alert from this source is attributed to. The team attribute is managed from this field: it is not returned by the attribute endpoints and cannot be bound directly. While set, an `incident_alert_source_attribute` resource binding the organisation's team attribute is rejected at apply time: the binding is managed from this field.
 - `heartbeat_options` (Attributes) (see [below for nested schema](#nestedatt--heartbeat_options))
 - `http_custom_options` (Attributes) (see [below for nested schema](#nestedatt--http_custom_options))
 - `is_private` (Boolean) Whether alerts from this source are private
@@ -1305,17 +1101,3 @@ Optional:
 
 - `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
 - `reference` (String) A reference into the scope, such as `payload.team`.
-
-## Import
-
-Import is supported using an [`import` block](https://developer.hashicorp.com/terraform/language/import) or the [`terraform import` command](https://developer.hashicorp.com/terraform/cli/commands/import):
-
-The [`terraform import` command](https://developer.hashicorp.com/terraform/cli/commands/import) can be used, for example:
-
-```shell
-#!/bin/bash
-
-# Import an alert source using its ID
-# Replace the ID with a real ID from your incident.io organization
-terraform import incident_alert_source_beta.example 01ABC123DEF456GHI789JKL
-```

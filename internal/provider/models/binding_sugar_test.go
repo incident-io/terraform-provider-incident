@@ -9,8 +9,8 @@ import (
 	"github.com/samber/lo"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
-	"github.com/incident-io/terraform-provider-incident/v6/internal/provider/jsontypes"
+	"github.com/incident-io/terraform-provider-incident/v7/internal/client"
+	"github.com/incident-io/terraform-provider-incident/v7/internal/provider/jsontypes"
 )
 
 func literal(s string) jsontypes.NormalizedJSONOrString {

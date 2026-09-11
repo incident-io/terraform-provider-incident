@@ -3,186 +3,44 @@
 page_title: "incident_alert_source_attribute_beta Resource - terraform-provider-incident"
 subcategory: ""
 description: |-
-  Configure your alert sources, separately from the attributes they populate.
-  What fills in one attribute of an alert source, and how values are merged when an alert is updated.
-  Each attribute is its own resource. Editing one doesn't mean rewriting the source, and two people editing different attributes don't race each other. The source is an incident_alert_source_beta resource.
-  A named_expression name only has to be unique within this resource: two attributes of one source can each have one called severity.
-  How this differs from incident_alert_source
-  incident_alert_source declares a source and every attribute it populates together, under
-  one template.attributes list. Filling in one more attribute means rewriting that whole
-  list, and two people editing different attributes are editing the same resource.
-  This resource splits an attribute binding out as its own resource, with its own lifecycle,
-  so filling in one more attribute is an add rather than an edit of something else.
-  Beta, and what happens next
-  This resource is in beta. Its schema may still change in ways that are not backwards
-  compatible, so pin the provider version if that matters to you.
-  incident_alert_source is not deprecated, and there is no need to move anything yet.
+  incident_alert_source_attribute_beta was renamed to incident_alert_source_attribute in v7.0.
+  This name still works and still manages the same thing, so upgrading to v7 needs no change
+  to a configuration that uses it. It is deprecated: every plan naming it warns, and it will
+  be removed in v8.0.
+  To move onto the new name:
+  
+  moved {
+    from = incident_alert_source_attribute_beta.team
+    to   = incident_alert_source_attribute.team
+  }
+  
+  Both names are the same resource, backed by the same schema and the same API, so the move
+  carries your state across and the plan after it is empty. See incident_alert_source_attribute for the
+  documentation.
 ---
 
 # incident_alert_source_attribute_beta (Resource)
 
-Configure your alert sources, separately from the attributes they populate.
+`incident_alert_source_attribute_beta` was renamed to `incident_alert_source_attribute` in v7.0.
 
-What fills in one attribute of an alert source, and how values are merged when an alert is updated.
+This name still works and still manages the same thing, so upgrading to v7 needs no change
+to a configuration that uses it. It is deprecated: every plan naming it warns, and it will
+be removed in v8.0.
 
-Each attribute is its own resource. Editing one doesn't mean rewriting the source, and two people editing different attributes don't race each other. The source is an `incident_alert_source_beta` resource.
-
-A `named_expression` name only has to be unique within this resource: two attributes of one source can each have one called `severity`.
-
-## How this differs from `incident_alert_source`
-
-`incident_alert_source` declares a source and every attribute it populates together, under
-one `template.attributes` list. Filling in one more attribute means rewriting that whole
-list, and two people editing different attributes are editing the same resource.
-
-This resource splits an attribute binding out as its own resource, with its own lifecycle,
-so filling in one more attribute is an add rather than an edit of something else.
-
-## Beta, and what happens next
-
-This resource is in beta. Its schema may still change in ways that are not backwards
-compatible, so pin the provider version if that matters to you.
-
-`incident_alert_source` is not deprecated, and there is no need to move anything yet.
-
-## Example Usage
+To move onto the new name:
 
 ```terraform
-# One attribute of an alert source. The source is an incident_alert_source_beta resource,
-# so editing an attribute doesn't mean rewriting the source.
-
-# The simplest form: a fixed value.
-resource "incident_alert_source_attribute_beta" "environment" {
-  alert_source_id    = incident_alert_source_beta.prometheus.id
-  alert_attribute_id = incident_alert_attribute.environment.id
-
-  value_literal = "production"
-}
-
-# Several fixed values, for an attribute that takes an array.
-resource "incident_alert_source_attribute_beta" "regions" {
-  alert_source_id    = incident_alert_source_beta.prometheus.id
-  alert_attribute_id = incident_alert_attribute.regions.id
-
-  # Later values are added to the ones already on the alert, rather than replacing them.
-  merge_strategy = "append"
-
-  values = ["eu-west-1", "eu-west-2"]
-}
-
-# A value taken off the incoming payload. This needs an expression rather than a
-# value_reference: the payload is opaque JSON, so `payload` as a whole is the only part of
-# it in scope, and a reference to "payload.labels.service" resolves to nothing. A parse
-# reaches inside it.
-resource "incident_alert_source_attribute_beta" "service_name" {
-  alert_source_id    = incident_alert_source_beta.prometheus.id
-  alert_attribute_id = incident_alert_attribute.service_name.id
-
-  expression {
-    start_from = "payload"
-
-    operation {
-      parse = {
-        # JavaScript, evaluated with the payload bound to `$`.
-        function = "$.labels.service"
-        as       = "String"
-      }
-    }
-  }
-}
-
-# Computed by an expression. Declaring the block is what binds its result, so there is no
-# value alongside it.
-resource "incident_alert_source_attribute_beta" "team" {
-  alert_source_id    = incident_alert_source_beta.prometheus.id
-  alert_attribute_id = incident_alert_attribute.team.id
-
-  # Only the first value survives an update, so a re-fired alert doesn't collect owners.
-  merge_strategy = "first_wins"
-
-  expression {
-    start_from = "payload"
-
-    # An ordered pipeline: each operation feeds the next.
-    operation {
-      parse = {
-        function = file("${path.module}/service_from_payload.js")
-        as       = incident_catalog_type.service.attribute_type
-      }
-    }
-    operation { navigate = { to = incident_catalog_type_attribute.service_owner.id } }
-    operation { first = {} }
-
-    # What the expression produces when the pipeline found nothing.
-    fallback {
-      result = { value_literal = incident_catalog_entry.platform_team.id }
-    }
-  }
-}
-
-# Expressions can also be named and referenced. That is how one falls back to another.
-#
-# A name only has to be unique within this resource: two attributes of one source can each have
-# a "severity_lookup".
-resource "incident_alert_source_attribute_beta" "severity" {
-  alert_source_id    = incident_alert_source_beta.prometheus.id
-  alert_attribute_id = incident_alert_attribute.severity.id
-
-  expression_ref = "severity_lookup"
-
-  # The payload is opaque JSON, so a condition can't reach inside it: `payload` as a whole is
-  # all one can see, and a subject of "payload.labels.severity" resolves to nothing. Parse the
-  # value out first, then branch on the result.
-  named_expression {
-    name       = "severity_string"
-    start_from = "payload"
-
-    operation {
-      parse = {
-        # JavaScript, evaluated with the payload bound to `$`.
-        function = "$.labels.severity"
-        as       = "String"
-      }
-    }
-  }
-
-  named_expression {
-    name = "severity_lookup"
-
-    # A branches-only expression starts from the whole scope, which is how it addresses the
-    # parse above.
-    start_from = "."
-
-    operation {
-      branches {
-        as = incident_alert_attribute.severity.type
-
-        if {
-          conditions = [{
-            subject   = "expressions[\"severity_string\"]"
-            operation = "one_of"
-            params    = [{ values = ["critical", "page"] }]
-          }]
-          result = { value_literal = "high" }
-        }
-
-        else_if {
-          conditions = [{
-            subject   = "expressions[\"severity_string\"]"
-            operation = "one_of"
-            params    = [{ values = ["warning"] }]
-          }]
-          result = { value_literal = "medium" }
-        }
-      }
-    }
-
-    fallback {
-      result = { value_literal = "low" }
-    }
-  }
+moved {
+  from = incident_alert_source_attribute_beta.team
+  to   = incident_alert_source_attribute.team
 }
 ```
+
+Both names are the same resource, backed by the same schema and the same API, so the move
+carries your state across and the plan after it is empty. See `incident_alert_source_attribute` for the
+documentation.
+
+
 
 <!-- schema generated by tfplugindocs -->
 ## Schema
@@ -1897,18 +1755,3 @@ Optional:
 
 - `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
 - `reference` (String) A reference into the scope, such as `payload.team`.
-
-## Import
-
-Import is supported using an [`import` block](https://developer.hashicorp.com/terraform/language/import) or the [`terraform import` command](https://developer.hashicorp.com/terraform/cli/commands/import):
-
-The [`terraform import` command](https://developer.hashicorp.com/terraform/cli/commands/import) can be used, for example:
-
-```shell
-#!/bin/bash
-
-# An attribute is bound at most once per alert source, so the pair of IDs identifies it.
-# The import ID is both IDs, separated by a colon.
-# Replace the IDs with real IDs from your incident.io organization.
-terraform import incident_alert_source_attribute_beta.example 01ABC123DEF456GHI789JKL:01XYZ987WVU654TSR321QPO
-```

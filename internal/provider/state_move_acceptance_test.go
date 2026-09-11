@@ -1,41 +1,94 @@
 package provider
 
 import (
+	"regexp"
+	"strings"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/compare"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/knownvalue"
 	"github.com/hashicorp/terraform-plugin-testing/plancheck"
 	"github.com/hashicorp/terraform-plugin-testing/statecheck"
 	"github.com/hashicorp/terraform-plugin-testing/tfjsonpath"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
-// These tests walk the migration onto the beta resources against a real account, using
-// the `moved` blocks the movers exist for. They only make sense on this line, where the
-// resource being moved off and the resource being moved to are both registered, and
-// that is also where somebody doing this work runs it.
+// These tests walk the v6-to-v7 rename against a real account, using the `moved` blocks
+// the movers exist for.
 //
 // Each one runs three steps:
 //
-//  1. Apply the configuration somebody is on before they migrate.
-//  2. Apply the migration: the new resources, a `moved` block per resource that has one,
-//     and an `import` block for each resource that split out of it.
-//  3. Plan the settled configuration, with the blocks that drove the migration taken
-//     out, and expect no changes.
+//  1. Apply the configuration somebody is on before they rename: the `_beta` names.
+//  2. Apply the rename: the same configuration under the new names, plus a `moved` block
+//     for each resource.
+//  3. Plan the settled configuration, with the `moved` blocks taken out, and expect no
+//     changes.
 //
 // Step 2 asserts the moved resource plans as a no-op, which is the promise the mover
-// makes: the object comes across rather than being created again, and the refresh that
-// follows the move fills in what the mover left null. Step 3 asserts it settles, which
-// is what somebody following the guide should see.
+// makes: the object comes across rather than being created again. Step 3 asserts it
+// settles, which is what somebody following the guide should see.
 //
 // The object's ID is compared across steps rather than checked for being set, because a
-// migration that created a second object would set an ID too - just not the same one.
+// rename that created a second object would set an ID too - just not the same one.
+//
+// The two configurations are one fixture with the names rewritten rather than two written
+// out, because being the same configuration under a different name is the entire claim
+// these tests exist to check.
 
-// TestAccMoveScheduleOntoBetaResources covers the case where one resource becomes
-// several: the schedule moves, and its two rotations are imported, because a `moved`
-// block has one target and there is nowhere to take a second from.
-func TestAccMoveScheduleOntoBetaResources(t *testing.T) {
+// Every `_beta` resource in a fixture needs a `moved` block of its own, because renamed()
+// rewrites all of them at once. Miss one and Terraform destroys and recreates it rather
+// than moving it, which reads as a plan check failing on whichever resource referenced it
+// rather than on the one actually missing its block - so this says so directly.
+//
+// It parses the fixtures rather than the rendered configuration so that it runs as a unit
+// test, without an API key.
+func TestEveryRenamedFixtureResourceHasAMovedBlock(t *testing.T) {
+	declaration := regexp.MustCompile(`resource "(incident_[a-z_]+_beta)" "([a-z_]+)"`)
+
+	for name, fixture := range map[string]struct{ config, moves string }{
+		"schedule":        {scheduleRenameFixture, scheduleRenameMovedBlocks},
+		"escalation path": {escalationPathRenameFixture, escalationPathRenameMovedBlocks},
+		"alert source":    {alertSourceRenameFixture, alertSourceRenameMovedBlocks},
+	} {
+		t.Run(name, func(t *testing.T) {
+			declared := declaration.FindAllStringSubmatch(fixture.config, -1)
+			require.NotEmpty(t, declared, "the fixture declares no beta resources")
+
+			for _, match := range declared {
+				address := match[1] + "." + match[2]
+				assert.Contains(t, fixture.moves, "from = "+address,
+					"%s is renamed by the fixture but has no `moved` block, so it would be "+
+						"destroyed and recreated rather than moved", address)
+			}
+		})
+	}
+}
+
+// betaNames are the `_beta` type names, longest first so that rewriting one doesn't leave
+// the tail of another behind.
+var betaNames = []string{
+	"incident_alert_source_attribute_beta",
+	"incident_alert_source_beta",
+	"incident_escalation_path_beta",
+	"incident_schedule_rotation_beta",
+	"incident_schedule_beta",
+}
+
+// renamed rewrites a configuration written against the `_beta` names to use the names
+// those resources answer to now.
+func renamed(config string) string {
+	for _, name := range betaNames {
+		config = strings.ReplaceAll(config, name, strings.TrimSuffix(name, "_beta"))
+	}
+
+	return config
+}
+
+// TestAccRenameScheduleAndRotations covers a schedule and the rotations on it, so the
+// rename of a resource that references another is exercised alongside the resources
+// themselves: the rotations' schedule_id has to keep pointing at the moved schedule.
+func TestAccRenameScheduleAndRotations(t *testing.T) {
 	scheduleID := statecheck.CompareValue(compare.ValuesSame())
 
 	resource.Test(t, resource.TestCase{
@@ -43,90 +96,47 @@ func TestAccMoveScheduleOntoBetaResources(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccMoveScheduleBefore(),
+				Config: testRunTemplate("rename_schedule_before", scheduleRenameFixture, nil),
+				ConfigStateChecks: []statecheck.StateCheck{
+					scheduleID.AddStateValue("incident_schedule_beta.moving", tfjsonpath.New("id")),
+				},
+			},
+			{
+				Config: testRunTemplate("rename_schedule_after",
+					renamed(scheduleRenameFixture)+scheduleRenameMovedBlocks, nil),
+				ConfigPlanChecks: resource.ConfigPlanChecks{
+					PreApply: []plancheck.PlanCheck{
+						// The move is the whole point: anything that plans as more than a
+						// no-op here is being created or updated rather than carried across.
+						plancheck.ExpectResourceAction("incident_schedule.moving", plancheck.ResourceActionNoop),
+						plancheck.ExpectResourceAction("incident_schedule_rotation.primary", plancheck.ResourceActionNoop),
+						plancheck.ExpectResourceAction("incident_schedule_rotation.secondary", plancheck.ResourceActionNoop),
+					},
+				},
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_schedule.moving", "rotations.#", "2"),
+					resource.TestCheckResourceAttr("incident_schedule_rotation.primary", "name", "Primary"),
+					resource.TestCheckResourceAttrPair(
+						"incident_schedule_rotation.primary", "schedule_id",
+						"incident_schedule.moving", "id",
+					),
 				),
 				ConfigStateChecks: []statecheck.StateCheck{
 					scheduleID.AddStateValue("incident_schedule.moving", tfjsonpath.New("id")),
 				},
 			},
 			{
-				Config: testAccMoveScheduleAfter(),
-				ConfigPlanChecks: resource.ConfigPlanChecks{
-					PreApply: []plancheck.PlanCheck{
-						// The move is the whole point: a schedule that plans as anything
-						// else here is one being created or updated rather than carried
-						// across.
-						plancheck.ExpectResourceAction("incident_schedule_beta.moving", plancheck.ResourceActionNoop),
-					},
-				},
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_schedule_rotation_beta.primary", "name", "Primary"),
-					resource.TestCheckResourceAttr("incident_schedule_rotation_beta.secondary", "name", "Secondary"),
-					resource.TestCheckResourceAttrPair(
-						"incident_schedule_rotation_beta.primary", "schedule_id",
-						"incident_schedule_beta.moving", "id",
-					),
-				),
-				ConfigStateChecks: []statecheck.StateCheck{
-					scheduleID.AddStateValue("incident_schedule_beta.moving", tfjsonpath.New("id")),
-				},
-			},
-			{
-				Config:   testAccMoveScheduleSettled(),
+				Config:   testRunTemplate("rename_schedule_settled", renamed(scheduleRenameFixture), nil),
 				PlanOnly: true,
 			},
 		},
 	})
 }
 
-// The schedule everyone has today: the rotation, its line-up and its handover cadence
-// all inside the schedule resource.
-//
 // The line-up is the NOBODY sentinel rather than real users, so the test needs no
-// account-specific IDs. What matters is that the old and new configurations agree on it,
-// since a difference between them is a plan the migration shouldn't produce.
-func testAccMoveScheduleBefore() string {
-	return testRunTemplate("move_schedule_before", `
-resource "incident_schedule" "moving" {
-  name     = {{ stableSuffix "Moving schedule" | quote }}
-  timezone = "Europe/London"
-
-  rotations = [
-    {
-      id   = "primary"
-      name = "Primary"
-
-      versions = [{
-        handover_start_at = "2024-01-08T09:00:00Z"
-        users             = ["NOBODY"]
-        layers            = [{ id = "primary", name = "Primary" }]
-        handovers         = [{ interval = 1, interval_type = "weekly" }]
-      }]
-    },
-    {
-      id   = "secondary"
-      name = "Secondary"
-
-      versions = [{
-        handover_start_at = "2024-01-08T09:00:00Z"
-        users             = ["NOBODY"]
-        layers            = [{ id = "secondary", name = "Secondary" }]
-        handovers         = [{ interval = 1, interval_type = "daily" }]
-      }]
-    },
-  ]
-}
-`, nil)
-}
-
-// scheduleMoveFixture is the configuration either side of the schedule's move, which is
-// everything except the blocks that drive it: writing it once is what makes step 3 the
-// same configuration as step 2 with those blocks deleted.
-const scheduleMoveFixture = `
+// account-specific IDs.
+const scheduleRenameFixture = `
 resource "incident_schedule_beta" "moving" {
-  name     = {{ stableSuffix "Moving schedule" | quote }}
+  name     = {{ stableSuffix "Renaming schedule" | quote }}
   timezone = "Europe/London"
 }
 
@@ -157,295 +167,115 @@ resource "incident_schedule_rotation_beta" "secondary" {
 }
 `
 
-// The migration: the schedule moves, and each rotation is imported.
-//
-// A rotation's import ID is the schedule's ID and the rotation's, joined by a colon. The
-// rotation IDs are the ones the old configuration chose, because the old resource sent
-// them, so they are "primary" and "secondary" here rather than something looked up. The
-// schedule's own ID is read from a data source: a test cannot know an ID that step 1
-// created, and whoever does this by hand has it in their state already.
-func testAccMoveScheduleAfter() string {
-	return testRunTemplate("move_schedule_after", scheduleMoveFixture+`
-data "incident_schedule_beta" "existing" {
-  name = {{ stableSuffix "Moving schedule" | quote }}
+const scheduleRenameMovedBlocks = `
+moved {
+  from = incident_schedule_beta.moving
+  to   = incident_schedule.moving
 }
 
 moved {
-  from = incident_schedule.moving
-  to   = incident_schedule_beta.moving
+  from = incident_schedule_rotation_beta.primary
+  to   = incident_schedule_rotation.primary
 }
 
-import {
-  to = incident_schedule_rotation_beta.primary
-  id = "${data.incident_schedule_beta.existing.id}:primary"
-}
-
-import {
-  to = incident_schedule_rotation_beta.secondary
-  id = "${data.incident_schedule_beta.existing.id}:secondary"
-}
-`, nil)
-}
-
-func testAccMoveScheduleSettled() string {
-	return testRunTemplate("move_schedule_settled", scheduleMoveFixture, nil)
-}
-
-// TestAccMoveEscalationPathOntoBetaResource covers the case a `moved` block handles on
-// its own: one resource becomes one, with no field left in place. Nothing is imported
-// here, so an empty plan at the end is the mover's work and the refresh's alone.
-//
-// It runs once per way of writing a level's `ack_mode`, because that is the one attribute
-// the two resources disagree about: `incident_escalation_path` defaults it to "all" and
-// `incident_escalation_path_beta` defaults it to "first". A framework default is applied
-// wherever the configuration is null, which means it beats the value the refresh read
-// back rather than deferring to it, so a level that never wrote `ack_mode` plans a change
-// the first time it is planned under the new resource. That change is a real one - with
-// "first", the first person to ack cancels the rest of the level's escalations - so the
-// cases below pin both halves of it: the path that plans the change, and the two
-// configurations that don't.
-func TestAccMoveEscalationPathOntoBetaResource(t *testing.T) {
-	// The planned ack_mode of the one level in the one sequence, which is what the case
-	// leaving both configurations silent is really about.
-	plannedAckMode := tfjsonpath.New("sequences").AtMapKey("main").
-		AtMapKey("nodes").AtSliceIndex(0).
-		AtMapKey("level").AtMapKey("ack_mode")
-
-	for _, testCase := range []escalationPathMoveCase{
-		// Nobody wrote ack_mode, so each resource applies its own default and the move
-		// plans the difference between them. This is what a migration looks like when
-		// it's done the obvious way, and the change is why the resource documents it.
-		{
-			name:   "each resource left to its own default",
-			suffix: "ack-default",
-			action: plancheck.ResourceActionUpdate,
-			extraPlanChecks: []plancheck.PlanCheck{
-				plancheck.ExpectKnownValue("incident_escalation_path_beta.moving",
-					plannedAckMode, knownvalue.StringExact("first")),
-			},
-		},
-		// The same path, with the old default written out in the new configuration: the
-		// migration that keeps the behaviour, and so the one the documentation asks for.
-		{
-			name:   "the old default written out",
-			suffix: "ack-all",
-			after:  "all",
-			action: plancheck.ResourceActionNoop,
-		},
-		// A path that always wanted "first" needs nothing doing, but it is worth proving
-		// rather than assuming: it is the same code path with the values swapped.
-		{
-			name:   "already what the new resource defaults to",
-			suffix: "ack-first",
-			before: "first",
-			after:  "first",
-			action: plancheck.ResourceActionNoop,
-		},
-	} {
-		t.Run(testCase.name, func(t *testing.T) {
-			pathID := statecheck.CompareValue(compare.ValuesSame())
-
-			resource.Test(t, resource.TestCase{
-				PreCheck:                 func() { testAccPreCheck(t) },
-				ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-				Steps: []resource.TestStep{
-					{
-						Config: testAccMoveEscalationPathBefore(testCase),
-						Check: resource.ComposeAggregateTestCheckFunc(
-							resource.TestCheckResourceAttr("incident_escalation_path.moving", "path.#", "1"),
-							// Whatever the old configuration said, or "all" where it said
-							// nothing, which is the default the case above is about.
-							resource.TestCheckResourceAttr("incident_escalation_path.moving",
-								"path.0.level.ack_mode", testCase.ackModeBefore()),
-						),
-						ConfigStateChecks: []statecheck.StateCheck{
-							pathID.AddStateValue("incident_escalation_path.moving", tfjsonpath.New("id")),
-						},
-					},
-					{
-						Config: testAccMoveEscalationPathAfter(testCase),
-						ConfigPlanChecks: resource.ConfigPlanChecks{
-							PreApply: append([]plancheck.PlanCheck{
-								plancheck.ExpectResourceAction(
-									"incident_escalation_path_beta.moving", testCase.action),
-							}, testCase.extraPlanChecks...),
-						},
-						Check: resource.ComposeAggregateTestCheckFunc(
-							resource.TestCheckResourceAttr("incident_escalation_path_beta.moving", "start", "main"),
-						),
-						ConfigStateChecks: []statecheck.StateCheck{
-							// The same path either way: a plan that updates ack_mode is
-							// still the object coming across rather than a second one.
-							pathID.AddStateValue("incident_escalation_path_beta.moving", tfjsonpath.New("id")),
-						},
-					},
-					{
-						Config:   testAccMoveEscalationPathSettled(testCase),
-						PlanOnly: true,
-					},
-				},
-			})
-		})
-	}
-}
-
-// escalationPathMoveCase is one way of writing a level's ack_mode across the move.
-type escalationPathMoveCase struct {
-	// name names the subtest, and suffix names the objects it creates: two cases sharing
-	// an account must not share a path name, and a name Terraform will accept is shorter
-	// than a name that reads well as a test.
-	name   string
-	suffix string
-
-	// before and after are the ack_mode each configuration writes, empty for one that
-	// leaves it to the resource's own default.
-	before, after string
-
-	// action is what the moved path is expected to plan, which is the point of the case.
-	action plancheck.ResourceActionType
-
-	// extraPlanChecks say more about that plan, where there is more worth saying.
-	extraPlanChecks []plancheck.PlanCheck
-}
-
-// ackModeBefore is what the old resource stores for the case: what it was told, or the
-// default it applies when it was told nothing.
-func (c escalationPathMoveCase) ackModeBefore() string {
-	if c.before == "" {
-		return "all"
-	}
-
-	return c.before
-}
-
-// args is what the templates below render from: names unique to the case, and the two
-// ack_mode spellings.
-func (c escalationPathMoveCase) args() escalationPathMoveArgs {
-	return escalationPathMoveArgs{
-		ScheduleName: StableSuffix("Move target " + c.suffix),
-		PathName:     StableSuffix("Moving path " + c.suffix),
-		Before:       c.before,
-		After:        c.after,
-	}
-}
-
-type escalationPathMoveArgs struct {
-	ScheduleName string
-	PathName     string
-	Before       string
-	After        string
-}
-
-// escalationPathMoveTarget is the schedule the path escalates to, which stays on the old
-// resource throughout: migrating one thing at a time is what the guide suggests, and it
-// keeps a failure here legible.
-const escalationPathMoveTarget = `
-resource "incident_schedule" "target" {
-  name     = {{ .ScheduleName | quote }}
-  timezone = "Europe/London"
-
-  rotations = [{
-    id   = "primary"
-    name = "Primary"
-
-    versions = [{
-      handover_start_at = "2024-01-08T09:00:00Z"
-      users             = ["NOBODY"]
-      layers            = [{ id = "primary", name = "Primary" }]
-      handovers         = [{ interval = 1, interval_type = "weekly" }]
-    }]
-  }]
+moved {
+  from = incident_schedule_rotation_beta.secondary
+  to   = incident_schedule_rotation.secondary
 }
 `
 
-func testAccMoveEscalationPathBefore(testCase escalationPathMoveCase) string {
-	return testRunTemplate("move_escalation_path_before", escalationPathMoveTarget+`
-resource "incident_escalation_path" "moving" {
-  name = {{ .PathName | quote }}
+// TestAccRenameEscalationPath covers the resource whose state holds the most structure:
+// a path's sequences are a map of nodes, and a mover that dropped them would show up here
+// as the settled plan asking to rebuild the path.
+func TestAccRenameEscalationPath(t *testing.T) {
+	pathID := statecheck.CompareValue(compare.ValuesSame())
 
-  # The test account has an escalation paths attribute on its Teams, which makes
-  # team_ids required: the API rejects a path that omits it, and an empty list is
-  # how a path says it belongs to no team. Both sides of the move set it, because
-  # team_ids is carried across rather than read back.
-  team_ids = []
-
-  path = [
-    {
-      id   = "start"
-      type = "level"
-      level = {
-        targets = [{
-          type    = "schedule"
-          id      = incident_schedule.target.id
-          urgency = "high"
-        }]
-        time_to_ack_seconds = 300{{ with .Before }}
-        ack_mode            = {{ . | quote }}{{ end }}
-      }
-    }
-  ]
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: testRunTemplate("rename_escalation_path_before", escalationPathRenameFixture, nil),
+				ConfigStateChecks: []statecheck.StateCheck{
+					pathID.AddStateValue("incident_escalation_path_beta.moving", tfjsonpath.New("id")),
+				},
+			},
+			{
+				// The schedule the path targets is renamed by the same rewrite, so it needs
+				// a `moved` block too. Without one Terraform destroys and recreates it,
+				// and the path plans an update against its new ID rather than a no-op -
+				// which is what the schedule's plan check below is here to catch.
+				Config: testRunTemplate("rename_escalation_path_after",
+					renamed(escalationPathRenameFixture)+escalationPathRenameMovedBlocks, nil),
+				ConfigPlanChecks: resource.ConfigPlanChecks{
+					PreApply: []plancheck.PlanCheck{
+						plancheck.ExpectResourceAction("incident_schedule.target", plancheck.ResourceActionNoop),
+						plancheck.ExpectResourceAction("incident_escalation_path.moving", plancheck.ResourceActionNoop),
+					},
+				},
+				ConfigStateChecks: []statecheck.StateCheck{
+					pathID.AddStateValue("incident_escalation_path.moving", tfjsonpath.New("id")),
+				},
+			},
+			{
+				Config:   testRunTemplate("rename_escalation_path_settled", renamed(escalationPathRenameFixture), nil),
+				PlanOnly: true,
+			},
+		},
+	})
 }
-`, testCase.args())
+
+const escalationPathRenameFixture = `
+resource "incident_schedule_beta" "target" {
+  name     = {{ stableSuffix "Renaming path schedule" | quote }}
+  timezone = "Europe/London"
 }
 
-// The same path as sequences.
-//
-// The sequence is named `main` and the node keeps the ID the old configuration gave it,
-// because those are what the move settles on: the API does not store sequence names, so
-// the refresh names the start sequence with the fallback, and it reports the node under
-// the ID the old resource sent. A configuration naming either of them differently plans
-// a change, which is what the settled step would catch.
-const escalationPathMoveFixture = escalationPathMoveTarget + `
 resource "incident_escalation_path_beta" "moving" {
-  name  = {{ .PathName | quote }}
+  name  = {{ stableSuffix "Renaming path" | quote }}
   start = "main"
 
-  # As above: required by the test account, and carried across by the move, so the
-  # configuration either side of it has to agree.
+  # team_ids is required: the API rejects a path that omits it, and an empty list is
+  # how you say the path is owned by nobody.
   team_ids = []
 
   sequences = {
     main = {
-      nodes = [
-        {
-          id = "start"
-          level = {
-            targets = [{
-              type    = "schedule"
-              id      = incident_schedule.target.id
-              urgency = "high"
-            }]
-            time_to_ack_seconds = 300{{ with .After }}
-            ack_mode            = {{ . | quote }}{{ end }}
-          }
+      nodes = [{
+        level = {
+          targets = [{
+            id            = incident_schedule_beta.target.id
+            type          = "schedule"
+            urgency       = "high"
+            schedule_mode = "currently_on_call"
+          }]
+          time_to_ack_seconds = 300
+          ack_mode            = "all"
         }
-      ]
+      }]
     }
   }
 }
 `
 
-func testAccMoveEscalationPathAfter(testCase escalationPathMoveCase) string {
-	return testRunTemplate("move_escalation_path_after", escalationPathMoveFixture+`
+// The schedule the path targets is renamed by the same rewrite, so it moves too.
+const escalationPathRenameMovedBlocks = `
 moved {
-  from = incident_escalation_path.moving
-  to   = incident_escalation_path_beta.moving
-}
-`, testCase.args())
+  from = incident_schedule_beta.target
+  to   = incident_schedule.target
 }
 
-func testAccMoveEscalationPathSettled(testCase escalationPathMoveCase) string {
-	return testRunTemplate("move_escalation_path_settled", escalationPathMoveFixture, testCase.args())
+moved {
+  from = incident_escalation_path_beta.moving
+  to   = incident_escalation_path.moving
 }
+`
 
-// TestAccMoveAlertSourceOntoBetaResources covers the other one-becomes-several case: the
-// source moves, and the binding it declared under template.attributes is imported.
-//
-// The title and description are the interesting part. They do not move - the v6 resource
-// holds them under `template` - so the refresh reads them back from the API, and a
-// template compares equal to the document it produces, which is what makes the settled
-// plan empty rather than a diff nobody can get rid of.
-func TestAccMoveAlertSourceOntoBetaResources(t *testing.T) {
+// TestAccRenameAlertSourceAndAttribute covers the source and one of its attribute
+// bindings, which is the binding's own rename as well as the source's. The binding is
+// the one resource here with no `id`: it is keyed by the source and the attribute, so a
+// mover that only carried an `id` would refuse the move outright.
+func TestAccRenameAlertSourceAndAttribute(t *testing.T) {
 	sourceID := statecheck.CompareValue(compare.ValuesSame())
 
 	resource.Test(t, resource.TestCase{
@@ -453,45 +283,42 @@ func TestAccMoveAlertSourceOntoBetaResources(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccMoveAlertSourceBefore(),
+				Config: testRunTemplate("rename_alert_source_before", alertSourceRenameFixture, nil),
+				ConfigStateChecks: []statecheck.StateCheck{
+					sourceID.AddStateValue("incident_alert_source_beta.moving", tfjsonpath.New("id")),
+				},
+			},
+			{
+				Config: testRunTemplate("rename_alert_source_after",
+					renamed(alertSourceRenameFixture)+alertSourceRenameMovedBlocks, nil),
+				ConfigPlanChecks: resource.ConfigPlanChecks{
+					PreApply: []plancheck.PlanCheck{
+						plancheck.ExpectResourceAction("incident_alert_source.moving", plancheck.ResourceActionNoop),
+						plancheck.ExpectResourceAction("incident_alert_source_attribute.environment", plancheck.ResourceActionNoop),
+					},
+				},
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.moving", "template.attributes.#", "1"),
+					resource.TestCheckResourceAttr("incident_alert_source_attribute.environment", "value_literal", "production"),
+					resource.TestCheckResourceAttrPair(
+						"incident_alert_source_attribute.environment", "alert_source_id",
+						"incident_alert_source.moving", "id",
+					),
 				),
 				ConfigStateChecks: []statecheck.StateCheck{
 					sourceID.AddStateValue("incident_alert_source.moving", tfjsonpath.New("id")),
 				},
 			},
 			{
-				Config: testAccMoveAlertSourceAfter(),
-				ConfigPlanChecks: resource.ConfigPlanChecks{
-					PreApply: []plancheck.PlanCheck{
-						plancheck.ExpectResourceAction("incident_alert_source_beta.moving", plancheck.ResourceActionNoop),
-					},
-				},
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source_attribute_beta.environment", "value_literal", "production"),
-					resource.TestCheckResourceAttrPair(
-						"incident_alert_source_attribute_beta.environment", "alert_source_id",
-						"incident_alert_source_beta.moving", "id",
-					),
-				),
-				ConfigStateChecks: []statecheck.StateCheck{
-					sourceID.AddStateValue("incident_alert_source_beta.moving", tfjsonpath.New("id")),
-				},
-			},
-			{
-				Config:   testAccMoveAlertSourceSettled(),
+				Config:   testRunTemplate("rename_alert_source_settled", renamed(alertSourceRenameFixture), nil),
 				PlanOnly: true,
 			},
 		},
 	})
 }
 
-// alertSourceMoveAttribute is the attribute being bound and the document the source
-// titles its alerts with: the part of the configuration the migration doesn't change.
-const alertSourceMoveAttribute = `
+const alertSourceRenameFixture = `
 resource "incident_alert_attribute" "environment" {
-  name  = {{ stableSuffix "Moving environment" | quote }}
+  name  = {{ stableSuffix "Renaming environment" | quote }}
   type  = "String"
   array = false
 }
@@ -501,41 +328,13 @@ locals {
     type = "doc"
     content = [{
       type    = "paragraph"
-      content = [{ type = "text", text = "Moving source alert" }]
+      content = [{ type = "text", text = "Renaming source alert" }]
     }]
   })
 }
-`
 
-func testAccMoveAlertSourceBefore() string {
-	return testRunTemplate("move_alert_source_before", alertSourceMoveAttribute+`
-resource "incident_alert_source" "moving" {
-  name        = {{ stableSuffix "Moving source" | quote }}
-  source_type = "http"
-
-  template = {
-    # Required on the v6 resource, which keeps a source's named expressions here
-    # rather than as blocks of their own.
-    expressions = []
-
-    title       = { literal = local.alert_title }
-    description = { literal = local.alert_title }
-
-    attributes = [{
-      alert_attribute_id = incident_alert_attribute.environment.id
-      binding = {
-        value          = { literal = "production" }
-        merge_strategy = "first_wins"
-      }
-    }]
-  }
-}
-`, nil)
-}
-
-const alertSourceMoveFixture = alertSourceMoveAttribute + `
 resource "incident_alert_source_beta" "moving" {
-  name        = {{ stableSuffix "Moving source" | quote }}
+  name        = {{ stableSuffix "Renaming source" | quote }}
   source_type = "http"
 
   title       = { literal = local.alert_title }
@@ -551,32 +350,14 @@ resource "incident_alert_source_attribute_beta" "environment" {
 }
 `
 
-// The binding's import ID is the source's ID and the attribute's, joined by a colon. The
-// source's has to be found by name, because the singular data source looks a source up
-// by ID and the plural one filters by type: hence the comprehension.
-func testAccMoveAlertSourceAfter() string {
-	return testRunTemplate("move_alert_source_after", alertSourceMoveFixture+`
-data "incident_alert_sources" "all" {}
-
-locals {
-  moving_source_id = one([
-    for source in data.incident_alert_sources.all.alert_sources :
-    source.id if source.name == {{ stableSuffix "Moving source" | quote }}
-  ])
+const alertSourceRenameMovedBlocks = `
+moved {
+  from = incident_alert_source_beta.moving
+  to   = incident_alert_source.moving
 }
 
 moved {
-  from = incident_alert_source.moving
-  to   = incident_alert_source_beta.moving
+  from = incident_alert_source_attribute_beta.environment
+  to   = incident_alert_source_attribute.environment
 }
-
-import {
-  to = incident_alert_source_attribute_beta.environment
-  id = "${local.moving_source_id}:${incident_alert_attribute.environment.id}"
-}
-`, nil)
-}
-
-func testAccMoveAlertSourceSettled() string {
-	return testRunTemplate("move_alert_source_settled", alertSourceMoveFixture, nil)
-}
+`

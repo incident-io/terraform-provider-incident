@@ -8,7 +8,7 @@ package shim
 import (
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 
-	incident "github.com/incident-io/terraform-provider-incident/v6/internal/provider"
+	incident "github.com/incident-io/terraform-provider-incident/v7/internal/provider"
 )
 
 // NewProvider returns the incident.io Terraform provider.

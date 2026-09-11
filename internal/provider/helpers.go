@@ -6,9 +6,22 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-go/tftypes"
 
-	"github.com/incident-io/terraform-provider-incident/v6/internal/apischema"
+	"github.com/incident-io/terraform-provider-incident/v7/internal/apischema"
 )
+
+// lastAttributeName returns the name of the attribute a path ends at, for the plan walks
+// that judge an unknown value by which leaf it sits on.
+func lastAttributeName(steps *tftypes.AttributePath) (string, bool) {
+	if steps == nil || len(steps.Steps()) == 0 {
+		return "", false
+	}
+
+	name, ok := steps.Steps()[len(steps.Steps())-1].(tftypes.AttributeName)
+
+	return string(name), ok
+}
 
 // EnumValuesDescription documents an attribute whose values are a fixed enum in the API
 // schema, by appending those values to the schema's own docstring. See

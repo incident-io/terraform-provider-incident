@@ -13,7 +13,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/hashicorp/terraform-plugin-framework/providerserver"
 	"github.com/hashicorp/terraform-plugin-go/tfprotov6"
-	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
+	"github.com/incident-io/terraform-provider-incident/v7/internal/client"
 )
 
 var testRunID = uuid.NewString()
@@ -29,6 +29,20 @@ var testRunShortID = testRunID[:4]
 // readable, only unique and short: see testRunShortID.
 func StableSuffix(thing string) string {
 	return fmt.Sprintf("%s-%s", thing, testRunShortID)
+}
+
+// teamTypeName is the catalog type acceptance tests attach an owning team through. Our
+// test workspace calls it "Team"; TF_TEAM_TYPE_NAME overrides it for a local run against
+// a workspace that calls it something else.
+func teamTypeName() string {
+	if os.Getenv("CI") == "true" {
+		return "Team"
+	}
+	if teamType := os.Getenv("TF_TEAM_TYPE_NAME"); teamType != "" {
+		return teamType
+	}
+
+	return "Team"
 }
 
 // testTemplateFuncs is sprig plus stableSuffix, which names a resource uniquely per

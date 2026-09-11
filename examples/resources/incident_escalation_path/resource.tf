@@ -1,90 +1,107 @@
-# This is the primary schedule that receives pages in working hours.
-resource "incident_schedule" "primary_on_call" {
-  name     = "Primary"
-  timezone = "Europe/London"
-  rotations = [{
-    id   = "primary"
-    name = "Primary"
-
-    versions = [
-      {
-        handover_start_at = "2024-05-01T12:00:00Z"
-        users             = []
-        layers = [
-          {
-            id   = "primary"
-            name = "Primary"
-          }
-        ]
-        handovers = [
-          {
-            interval_type = "daily"
-            interval      = 1
-          }
-        ]
-      },
-    ]
-  }]
+# Look up a user to page. Escalation path targets can also be schedules or
+# Slack/Teams channels; see the `type` attribute on each target.
+data "incident_user" "on_call" {
+  email = "on-call@example.com"
 }
 
-# If in working hours, send high-urgency alerts. Otherwise use low-urgency.
-resource "incident_escalation_path" "urgent_support" {
-  name = "Urgent support"
+# A last resort path, which the path below hands over to out of hours.
+resource "incident_escalation_path" "fallback" {
+  name = "Fallback"
 
   path = [
     {
-      id   = "start"
-      type = "if_else"
-      if_else = {
-        conditions = [
-          {
-            operation      = "is_active",
-            param_bindings = []
-            subject        = "escalation.working_hours[\"UK\"]"
-          }
-        ]
-        then_path = [
-          {
-            type = "level"
-            level = {
-              targets = [{
-                type    = "schedule"
-                id      = incident_schedule.primary_on_call.id
-                urgency = "high"
-              }]
-              time_to_ack_seconds = 300
-            }
-          },
-          {
-            type = "delay"
-            delay = {
-              delay_seconds = 120
-            }
-          },
-          {
-            type = "repeat"
-            repeat = {
-              repeat_times = 3
-              to_node      = "start"
-            }
-          }
-        ]
-        else_path = [
-          {
-            type = "level"
-            level = {
-              targets = [{
-                type    = "schedule"
-                id      = incident_schedule.primary_on_call.id
-                urgency = "low"
-              }]
-              time_to_ack_seconds = 300
-            }
-          }
-        ]
+      type = "level"
+      level = {
+        targets = [{
+          type    = "user"
+          id      = data.incident_user.on_call.id
+          urgency = "high"
+        }]
+        time_to_ack_seconds = 300
       }
     }
   ]
+}
+
+# The same escalation path as the incident_escalation_path example, written as a
+# flat map of sequences: if in working hours, page with high urgency; otherwise
+# page with low urgency.
+resource "incident_escalation_path" "urgent_support" {
+  name = "Urgent support"
+
+  # The sequence the escalation path begins with.
+  start = "main"
+
+  sequences = {
+    main = {
+      nodes = [
+        {
+          # Named so the loop below can point back here. A loop may only go back to
+          # the path's first node or a branch it sits under, so this is the one node
+          # in this path a loop is allowed to name.
+          id = "start"
+          branch = {
+            # A branch tests one thing: whether a set of this path's working hours is
+            # active, or which priorities the escalation came in at.
+            if = {
+              working_hours_active = "UK"
+            }
+            then = "in_hours"
+            else = "out_of_hours"
+          }
+        }
+      ]
+    }
+
+    in_hours = {
+      nodes = [
+        {
+          # Leave `id` out on nodes nothing loops back to.
+          level = {
+            targets = [{
+              type    = "user"
+              id      = data.incident_user.on_call.id
+              urgency = "high"
+            }]
+            time_to_ack_seconds = 300
+          }
+        },
+        {
+          delay = {
+            delay_seconds = 120
+          }
+        },
+        {
+          loop = {
+            back_to = "start"
+            times   = 3
+          }
+        }
+      ]
+    }
+
+    out_of_hours = {
+      nodes = [
+        {
+          level = {
+            targets = [{
+              type    = "user"
+              id      = data.incident_user.on_call.id
+              urgency = "low"
+            }]
+            time_to_ack_seconds = 300
+          }
+        },
+        # Nobody picked it up out of hours, so hand the escalation over to
+        # another path, continuing from that path's first node.
+        {
+          escalation_path = {
+            escalation_path_id = incident_escalation_path.fallback.id
+          }
+        }
+      ]
+    }
+  }
 
   working_hours = [
     {
@@ -98,54 +115,6 @@ resource "incident_escalation_path" "urgent_support" {
           end_time   = "17:00"
         }
       ]
-    }
-  ]
-
-  # Teams that use this escalation path
-  team_ids = ["01FCNDV6P870EA6S7TK1DSYD00", "01FCNDV6P870EA6S7TK1DSYD01"]
-}
-
-# A last resort path, which the path below hands over to.
-resource "incident_escalation_path" "fallback" {
-  name = "Fallback"
-
-  path = [
-    {
-      type = "level"
-      level = {
-        targets = [{
-          type    = "schedule"
-          id      = incident_schedule.primary_on_call.id
-          urgency = "high"
-        }]
-        time_to_ack_seconds = 300
-      }
-    }
-  ]
-}
-
-# If nobody acknowledges here, reassign the escalation to the fallback path. It
-# continues from that path's first node rather than ending unacknowledged.
-resource "incident_escalation_path" "with_reassignment" {
-  name = "Support, with a fallback"
-
-  path = [
-    {
-      type = "level"
-      level = {
-        targets = [{
-          type    = "schedule"
-          id      = incident_schedule.primary_on_call.id
-          urgency = "low"
-        }]
-        time_to_ack_seconds = 300
-      }
-    },
-    {
-      type = "escalation_path"
-      escalation_path = {
-        escalation_path_id = incident_escalation_path.fallback.id
-      }
     }
   ]
 }
