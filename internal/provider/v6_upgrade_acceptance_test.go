@@ -245,8 +245,8 @@ func TestAccUpgradeEscalationPathFromV6(t *testing.T) {
 			},
 			{
 				ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-				Config: releasedProviderRequirement() +
-					testRunTemplate("upgrade_escalation_path_v7", escalationPathUpgradeV7Fixture, nil),
+				Config: releasedProviderRequirement() + testRunTemplate("upgrade_escalation_path_v7",
+					escalationPathUpgradeV7Fixture+escalationPathUpgradeImports, nil),
 				ConfigPlanChecks: resource.ConfigPlanChecks{
 					PreApply: []plancheck.PlanCheck{
 						// A no-op is the guide's claim in full: name the sequences the way
@@ -255,6 +255,7 @@ func TestAccUpgradeEscalationPathFromV6(t *testing.T) {
 						// interesting kind - it means the advice is wrong, not the test.
 						plancheck.ExpectResourceAction("incident_escalation_path.upgrading", plancheck.ResourceActionNoop),
 						plancheck.ExpectResourceAction("incident_schedule.target", plancheck.ResourceActionNoop),
+						plancheck.ExpectResourceAction("incident_schedule_rotation.target_primary", plancheck.ResourceActionNoop),
 					},
 				},
 				ConfigStateChecks: []statecheck.StateCheck{
@@ -280,16 +281,37 @@ func TestAccUpgradeEscalationPathFromV6(t *testing.T) {
 	})
 }
 
-// The schedule the path targets has no rotations, so it needs nothing importing and the
-// test stays about the path. `rotations` is required in v6 even when there are none.
+// The schedule the path targets carries a rotation because it has to: `rotations` is
+// required by the v6 schema, and the v2 API behind it rejects a schedule that has none
+// with "Rotations are required". So this fixture upgrades a schedule as well as a path,
+// and the rotation is imported the way the schedule test imports its own.
 //
 // Neither level sets ack_mode, which is the case the guide is about: v6 defaults it to
 // `all`, and that is the behaviour the rewritten configuration has to keep.
 const escalationPathUpgradeV6Fixture = `
 resource "incident_schedule" "target" {
-  name      = {{ stableSuffix "Upgrading path schedule" | quote }}
-  timezone  = "Europe/London"
-  rotations = []
+  name     = {{ stableSuffix "Upgrading path schedule" | quote }}
+  timezone = "Europe/London"
+
+  rotations = [{
+    id   = "primary"
+    name = "Primary"
+
+    versions = [{
+      handover_start_at = "2024-01-08T09:00:00Z"
+      users             = ["NOBODY"]
+
+      layers = [{
+        id   = "primary"
+        name = "Primary"
+      }]
+
+      handovers = [{
+        interval      = 1
+        interval_type = "weekly"
+      }]
+    }]
+  }]
 }
 
 resource "incident_escalation_path" "upgrading" {
@@ -358,6 +380,20 @@ resource "incident_schedule" "target" {
   timezone = "Europe/London"
 }
 
+resource "incident_schedule_rotation" "target_primary" {
+  schedule_id = incident_schedule.target.id
+  name        = "Primary"
+
+  users = ["NOBODY"]
+
+  first_interval_starts_at = "2024-01-08T09:00:00Z"
+
+  handovers = [{
+    interval      = 1
+    interval_type = "weekly"
+  }]
+}
+
 resource "incident_escalation_path" "upgrading" {
   name     = {{ stableSuffix "Upgrading path" | quote }}
   team_ids = []
@@ -419,6 +455,17 @@ resource "incident_escalation_path" "upgrading" {
       end_time   = "17:00"
     }]
   }]
+}
+`
+
+// The schedule this path targets splits the same way any other does, so its rotation is
+// claimed rather than created. Nothing about the path itself is imported: it changes
+// shape without splitting, so its whole configuration is read back onto the state that
+// carried over.
+const escalationPathUpgradeImports = `
+import {
+  to = incident_schedule_rotation.target_primary
+  id = "${incident_schedule.target.id}:primary"
 }
 `
 
