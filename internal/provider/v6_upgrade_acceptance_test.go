@@ -221,13 +221,22 @@ import {
 `
 
 // TestAccUpgradeEscalationPathFromV6 covers the resource that changes shape rather than
-// splitting: nothing is imported, and the whole path is read back from the API in a
-// structure the old state never held.
+// splitting: the path itself imports nothing, and its whole structure is read back from
+// the API in a shape the old state never held.
 //
-// It is written to reproduce both of the surprises the guide warns about, so that the
-// advice it gives about them is what the test asserts. The sequence names are the ones
-// the refresh chooses, because the API does not store them, and every level writes out
-// the `ack_mode` the v6 default gave it.
+// It is written to reproduce every surprise the guide warns about, so the advice it gives
+// is what this asserts rather than something we only believe:
+//
+//   - The sequence names are the ones the refresh derives, because the API does not store
+//     them: `main`, and `main_then` and `main_else` for the sequences a branch leads to.
+//   - Every level writes out the `ack_mode` the v6 default gave it, against a default
+//     that is now `first`.
+//   - The plan is an update rather than a no-op, because of the node ids v6 minted. See
+//     the plan check for why, and the guide for what to tell people about it.
+//
+// The schedule the path targets is upgraded alongside it, because it has to be: the v2
+// API will not create a schedule with no rotations, so there is no way to write a
+// throwaway target for a v6 fixture.
 func TestAccUpgradeEscalationPathFromV6(t *testing.T) {
 	useReleasedProviderNamespace(t)
 
@@ -249,11 +258,24 @@ func TestAccUpgradeEscalationPathFromV6(t *testing.T) {
 					escalationPathUpgradeV7Fixture+escalationPathUpgradeImports, nil),
 				ConfigPlanChecks: resource.ConfigPlanChecks{
 					PreApply: []plancheck.PlanCheck{
-						// A no-op is the guide's claim in full: name the sequences the way
-						// the refresh does and write out ack_mode, and rewriting `path` as
-						// `sequences` asks the API for nothing. A failure here is the
-						// interesting kind - it means the advice is wrong, not the test.
-						plancheck.ExpectResourceAction("incident_escalation_path.upgrading", plancheck.ResourceActionNoop),
+						// An update, not a no-op, and the one resource here that cannot be
+						// one. v6 minted a ULID for every node its configuration did not
+						// name - `toPathPayload` filled an empty id with `ulid.Make()` -
+						// and those IDs are what the API holds. A node id is derived here
+						// instead, from the node's position, and the refresh only treats an
+						// id as derived when it contains the separator we derive with. A
+						// ULID doesn't, so it reads back as an id the author wrote, against
+						// a configuration that never wrote one.
+						//
+						// So the first plan rewrites those ids to derived ones. It changes
+						// no behaviour - the levels, targets and conditions are untouched -
+						// and step 3 is what proves it settles in a single apply rather than
+						// planning the same change forever.
+						//
+						// Pinned as an update rather than left unasserted because it is
+						// documented in the guide: if this becomes a no-op, the guide is
+						// telling people to expect a plan they will not get.
+						plancheck.ExpectResourceAction("incident_escalation_path.upgrading", plancheck.ResourceActionUpdate),
 						plancheck.ExpectResourceAction("incident_schedule.target", plancheck.ResourceActionNoop),
 						plancheck.ExpectResourceAction("incident_schedule_rotation.target_primary", plancheck.ResourceActionNoop),
 					},
@@ -266,9 +288,12 @@ func TestAccUpgradeEscalationPathFromV6(t *testing.T) {
 					// names, and a change to how the refresh derives them would otherwise
 					// only show up as somebody's plan never going quiet.
 					resource.TestCheckResourceAttr("incident_escalation_path.upgrading", "start", "main"),
-					resource.TestCheckResourceAttrSet("incident_escalation_path.upgrading", "sequences.main_then.nodes.0.level.ack_mode"),
 					resource.TestCheckResourceAttr("incident_escalation_path.upgrading", "sequences.main_then.nodes.0.level.ack_mode", "all"),
 					resource.TestCheckResourceAttr("incident_escalation_path.upgrading", "sequences.main_else.nodes.0.level.ack_mode", "all"),
+					// The one node the v6 configuration named keeps the name it was given,
+					// which is what a `loop` would have relied on. Only the ids v6 minted
+					// are rewritten.
+					resource.TestCheckResourceAttr("incident_escalation_path.upgrading", "sequences.main.nodes.0.id", "start"),
 				),
 			},
 			{
