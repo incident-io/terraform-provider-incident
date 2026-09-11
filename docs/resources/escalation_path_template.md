@@ -630,40 +630,8 @@ Required:
 Optional:
 
 - `array` (Boolean) Whether this parameter is an array
-- `default_value` (Attributes) The value a templated path gets when it doesn't bind this parameter. (see [below for nested schema](#nestedatt--params--default_value))
 - `description` (String) A string describing the param
 - `optional` (Boolean) Whether this parameter is optional
-
-<a id="nestedatt--params--default_value"></a>
-### Nested Schema for `params.default_value`
-
-Optional:
-
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--params--default_value--array_value))
-- `expression_ref` (String) The name of an expression on this resource, whose result becomes the value. Shorthand for referencing `expressions["name"]`.
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--params--default_value--value))
-- `value_literal` (String) A fixed value, shorthand for `value = { literal = ... }`. A catalog entry ID is a literal, not a reference.
-- `value_reference` (String) A reference into the scope, shorthand for `value = { reference = ... }`.
-- `values` (List of String) Several fixed values, shorthand for an `array_value` of literals. For a mix of literals and references, use `array_value`.
-
-<a id="nestedatt--params--default_value--array_value"></a>
-### Nested Schema for `params.default_value.array_value`
-
-Optional:
-
-- `literal` (String) If set, this is the literal value of the step parameter
-- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
-
-
-<a id="nestedatt--params--default_value--value"></a>
-### Nested Schema for `params.default_value.value`
-
-Optional:
-
-- `literal` (String) If set, this is the literal value of the step parameter
-- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
-
-
 
 
 <a id="nestedatt--repeat_config"></a>

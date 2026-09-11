@@ -55,24 +55,22 @@ type escalationPathTemplateModel struct {
 // escalationPathTemplateParam is one of the template's declared parameters: what a templated
 // path has to supply a value for.
 type escalationPathTemplateParam struct {
-	Name         types.String                       `tfsdk:"name"`
-	Label        types.String                       `tfsdk:"label"`
-	Type         types.String                       `tfsdk:"type"`
-	Array        types.Bool                         `tfsdk:"array"`
-	Optional     types.Bool                         `tfsdk:"optional"`
-	Description  types.String                       `tfsdk:"description"`
-	DefaultValue *models.IncidentEngineParamBinding `tfsdk:"default_value"`
+	Name        types.String `tfsdk:"name"`
+	Label       types.String `tfsdk:"label"`
+	Type        types.String `tfsdk:"type"`
+	Array       types.Bool   `tfsdk:"array"`
+	Optional    types.Bool   `tfsdk:"optional"`
+	Description types.String `tfsdk:"description"`
 }
 
 func escalationPathTemplateParamAttrTypes() map[string]attr.Type {
 	return map[string]attr.Type{
-		"name":          types.StringType,
-		"label":         types.StringType,
-		"type":          types.StringType,
-		"array":         types.BoolType,
-		"optional":      types.BoolType,
-		"description":   types.StringType,
-		"default_value": types.ObjectType{AttrTypes: models.ParamBindingAttrTypes()},
+		"name":        types.StringType,
+		"label":       types.StringType,
+		"type":        types.StringType,
+		"array":       types.BoolType,
+		"optional":    types.BoolType,
+		"description": types.StringType,
 	}
 }
 
@@ -151,11 +149,6 @@ This resource follows the ` + "`incident_escalation_path_beta`" + ` schema, whic
 							Optional:            true,
 							Computed:            true,
 							Default:             stringdefault.StaticString(""),
-						},
-						"default_value": schema.SingleNestedAttribute{
-							MarkdownDescription: "The value a templated path gets when it doesn't bind this parameter.",
-							Optional:            true,
-							Attributes:          models.ParamBindingAttributes(),
 						},
 					},
 				},
@@ -505,9 +498,6 @@ func (r *escalationPathTemplateResource) toPayload(ctx context.Context, data *es
 			Optional:    param.Optional.ValueBool(),
 			Description: param.Description.ValueString(),
 		}
-		if param.DefaultValue != nil && !param.DefaultValue.IsEmpty() {
-			out.DefaultValue = lo.ToPtr(engineParamBindingFromPayload(param.DefaultValue.ToPayload()))
-		}
 		return out
 	})
 	payload.Params = &params
@@ -516,26 +506,6 @@ func (r *escalationPathTemplateResource) toPayload(ctx context.Context, data *es
 	payload.Expressions = &expressions
 
 	return payload
-}
-
-// engineParamBindingFromPayload widens a binding payload into the response-shaped type a
-// param's default_value is declared as. The label the response type carries is display-only,
-// so it's left empty.
-func engineParamBindingFromPayload(payload client.EngineParamBindingPayloadV2) client.EngineParamBindingV2 {
-	out := client.EngineParamBindingV2{}
-	if payload.Value != nil {
-		out.Value = &client.EngineParamBindingValueV2{
-			Literal:   payload.Value.Literal,
-			Reference: payload.Value.Reference,
-		}
-	}
-	if payload.ArrayValue != nil {
-		values := lo.Map(*payload.ArrayValue, func(value client.EngineParamBindingValuePayloadV2, _ int) client.EngineParamBindingValueV2 {
-			return client.EngineParamBindingValueV2{Literal: value.Literal, Reference: value.Reference}
-		})
-		out.ArrayValue = &values
-	}
-	return out
 }
 
 func decodeTemplateParams(ctx context.Context, list types.List, diags *diag.Diagnostics) []escalationPathTemplateParam {
@@ -552,20 +522,19 @@ func decodeTemplateParams(ctx context.Context, list types.List, diags *diag.Diag
 // create or update, and the state on a read.
 func (r *escalationPathTemplateResource) buildModel(ctx context.Context, template client.EscalationPathTemplateV2, prior *escalationPathTemplateModel, diags *diag.Diagnostics) *escalationPathTemplateModel {
 	priorNames := escalationPathBetaPriorNames{}
-	var priorParams []escalationPathTemplateParam
 	var priorExpressions models.IncidentEngineExpressions
 	if prior != nil {
 		priorNames = escalationPathBetaPriorNamesFrom(ctx, &escalationPathBetaModel{Start: prior.Start, Sequences: prior.Sequences})
-		var ignored diag.Diagnostics
-		priorParams = decodeTemplateParams(ctx, prior.Params, &ignored)
 		priorExpressions = prior.Expressions
 	}
 
 	start, sequences := flattenSequencesWith(ctx, templateSequenceCodec{}, template.Path, priorNames, diags)
 	reconcileTemplateBindingSpelling(ctx, sequences, priorNames.sequences, diags)
 
-	params := lo.Map(template.Params, func(param client.EngineParamV2, index int) escalationPathTemplateParam {
-		out := escalationPathTemplateParam{
+	// A template param carries no default value: core treats them as pure holes each
+	// templated path binds, so anything sent for one is dropped.
+	params := lo.Map(template.Params, func(param client.EngineParamV2, _ int) escalationPathTemplateParam {
+		return escalationPathTemplateParam{
 			Name:        types.StringValue(param.Name),
 			Label:       types.StringValue(param.Label),
 			Type:        types.StringValue(param.Type),
@@ -573,13 +542,6 @@ func (r *escalationPathTemplateResource) buildModel(ctx context.Context, templat
 			Optional:    types.BoolValue(param.Optional),
 			Description: types.StringValue(param.Description),
 		}
-		if param.DefaultValue != nil {
-			out.DefaultValue = lo.ToPtr(models.IncidentEngineParamBinding{}.FromAPI(*param.DefaultValue))
-			if index < len(priorParams) {
-				out.DefaultValue = models.ReconcileBindingSpelling(out.DefaultValue, priorParams[index].DefaultValue)
-			}
-		}
-		return out
 	})
 	paramsList, d := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: escalationPathTemplateParamAttrTypes()}, params)
 	diags.Append(d...)
