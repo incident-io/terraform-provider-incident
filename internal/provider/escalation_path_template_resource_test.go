@@ -190,6 +190,15 @@ func TestValidateEscalationPathBetaKind(t *testing.T) {
 			model: escalationPathBetaModel{TemplateID: types.StringValue("tmpl"), ParamBindings: bindings,
 				Sequences: types.MapNull(sequenceMapType(escalationPathBetaNodeAttrTypes()).ElemType)},
 		},
+		// A config writing template_id as a reference or a variable reaches ValidateConfig
+		// unknown, where it could still settle either way, so neither kind's rules apply.
+		"unknown template_id with sequences": {
+			model: escalationPathBetaModel{TemplateID: types.StringUnknown(), Start: types.StringValue("main"), Sequences: sequences},
+		},
+		"unknown template_id with nothing else": {
+			model: escalationPathBetaModel{TemplateID: types.StringUnknown(),
+				Sequences: types.MapNull(sequenceMapType(escalationPathBetaNodeAttrTypes()).ElemType)},
+		},
 		"templated with unknown template_id": {
 			model: escalationPathBetaModel{TemplateID: types.StringUnknown(), ParamBindings: bindings,
 				Sequences: types.MapNull(sequenceMapType(escalationPathBetaNodeAttrTypes()).ElemType)},

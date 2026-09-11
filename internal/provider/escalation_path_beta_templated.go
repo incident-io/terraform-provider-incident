@@ -24,8 +24,11 @@ func escalationPathBetaParamBindingsType() types.MapType {
 	return types.MapType{ElemType: types.ObjectType{AttrTypes: models.ParamBindingAttrTypes()}}
 }
 
-// isTemplated reports whether the config describes a templated path. An unknown template_id
-// still counts: the value is another resource's to fill in, but the attribute is set.
+// isTemplated reports whether the path is built from a template.
+//
+// Only sound once template_id has settled. A config that writes it as a reference or a
+// variable reaches ValidateConfig unknown, where null and "another resource will fill this
+// in" are indistinguishable, so the caller has to rule that out first.
 func (m *escalationPathBetaModel) isTemplated() bool {
 	return !m.TemplateID.IsNull()
 }
@@ -48,6 +51,14 @@ func escalationPathBetaTemplateIDRequiresReplace() planmodifier.String {
 // none of the other kind's. The API rejects the same combinations; catching them here names
 // the attribute at plan time.
 func validateEscalationPathBetaKind(data *escalationPathBetaModel, diags *diag.Diagnostics) {
+	// A config that writes template_id as anything but a literal arrives unknown, and an
+	// unknown tells us nothing about which kind this is: `template_id = var.template_id`
+	// reads the same whether the variable holds an id or null. Every check below picks a
+	// kind first, so there is nothing to check until the value settles.
+	if data.TemplateID.IsUnknown() {
+		return
+	}
+
 	if data.isTemplated() {
 		for name, value := range map[string]interface{ IsNull() bool }{
 			"start":         data.Start,
@@ -102,7 +113,10 @@ func escalationPathBetaParamBindingsToPayload(ctx context.Context, bindings type
 // the author's spelling of each binding from prior: the API returns the long form, and a
 // config written as `value_literal` would otherwise plan a change forever.
 func escalationPathBetaParamBindingsFromAPI(ctx context.Context, bindings *map[string]client.EngineParamBindingV2, prior types.Map, diags *diag.Diagnostics) types.Map {
-	if bindings == nil {
+	// A path that binds nothing holds null, not an empty map, or state and config would
+	// disagree over which of the two an unbound path has. The API omits the field today
+	// rather than sending {}, so this guards a shape it could start sending.
+	if bindings == nil || len(*bindings) == 0 {
 		return types.MapNull(escalationPathBetaParamBindingsType().ElemType)
 	}
 
