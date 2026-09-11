@@ -2,7 +2,10 @@ package provider
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"net/http"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -26,6 +29,7 @@ var (
 	_ resource.Resource                   = &escalationPathTemplateResource{}
 	_ resource.ResourceWithImportState    = &escalationPathTemplateResource{}
 	_ resource.ResourceWithValidateConfig = &escalationPathTemplateResource{}
+	_ resource.ResourceWithModifyPlan     = &escalationPathTemplateResource{}
 )
 
 func NewEscalationPathTemplateResource() resource.Resource {
@@ -216,6 +220,110 @@ func (r *escalationPathTemplateResource) ValidateConfig(ctx context.Context, req
 	validateSequences(ctx, &escalationPathBetaModel{Start: data.Start, Sequences: data.Sequences}, &resp.Diagnostics)
 	validateSequenceConditions(ctx, &escalationPathBetaModel{Sequences: data.Sequences, WorkingHours: data.WorkingHours}, &resp.Diagnostics)
 	validateEscalationPathTemplateTargets(ctx, data.Sequences, &resp.Diagnostics)
+}
+
+// ModifyPlan asks the API what this edit would do to the escalation paths built from the
+// template, and reports anything that would stop one paging as a warning. A template is
+// edited in one place and read by many paths, so the blast radius of a change is the thing
+// a plan can't otherwise show.
+//
+// The check needs the template to exist, so a create has nothing to ask about.
+func (r *escalationPathTemplateResource) ModifyPlan(ctx context.Context, req resource.ModifyPlanRequest, resp *resource.ModifyPlanResponse) {
+	// A destroy plans no template, and an unconfigured provider has no client.
+	if r.client == nil || req.Plan.Raw.IsNull() {
+		return
+	}
+
+	// The framework runs this for every resource in the plan, changed or not.
+	if req.Plan.Raw.Equal(req.State.Raw) {
+		return
+	}
+
+	// A target pointing at something this same apply creates is unknown until it exists,
+	// and checking around the gaps reports problems the apply won't hit.
+	if !escalationPathBetaPlanSettled(req.Plan.Raw) {
+		return
+	}
+
+	var data escalationPathTemplateModel
+	if req.Plan.Get(ctx, &data).HasError() {
+		return
+	}
+
+	// Only an existing template has linked paths to check.
+	templateID := data.ID.ValueString()
+	if templateID == "" {
+		return
+	}
+
+	payload := r.toPayload(ctx, &data, &resp.Diagnostics)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	ctx, cancel := context.WithTimeout(ctx, escalationPathValidateTimeout)
+	defer cancel()
+
+	result, err := r.client.EscalationPathTemplatesV2ValidateWithResponse(ctx, client.EscalationPathTemplatesV2ValidateJSONRequestBody{
+		Id:           templateID,
+		Name:         data.Name.ValueString(),
+		Description:  data.Description.ValueStringPointer(),
+		Params:       payload.Params,
+		Expressions:  payload.Expressions,
+		Path:         payload.Path,
+		WorkingHours: payload.WorkingHours,
+		RepeatConfig: payload.RepeatConfig,
+	})
+	if err == nil {
+		addEscalationPathTemplateValidateWarnings(result, &resp.Diagnostics)
+		return
+	}
+
+	// 422 is the API rejecting this template, which is the whole point.
+	var httpErr client.HTTPError
+	if errors.As(err, &httpErr) && httpErr.StatusCode == http.StatusUnprocessableEntity {
+		resp.Diagnostics.AddError("Invalid escalation path template", httpErr.Error())
+		return
+	}
+
+	// Anything else means the check didn't run, not that the config is bad, so failing
+	// here would break plans that would have applied fine.
+	resp.Diagnostics.AddWarning(
+		"Could not check the escalation paths using this template",
+		fmt.Sprintf("The template was not checked, and the edit may still break paths built from it: %s", err),
+	)
+}
+
+// addEscalationPathTemplateValidateWarnings reports each escalation path the edit would
+// leave degraded or broken. A path that stays healthy is not worth a line.
+func addEscalationPathTemplateValidateWarnings(result *client.EscalationPathTemplatesV2ValidateResponse, diags *diag.Diagnostics) {
+	if result == nil || result.JSON200 == nil {
+		return
+	}
+
+	for _, check := range result.JSON200.Results {
+		if check.Verdict == client.Healthy {
+			continue
+		}
+
+		reasons := lo.Map(check.Reasons, func(reason client.EscalationPathBrokenReasonV2, _ int) string {
+			return fmt.Sprintf("%s: %s", reason.Summary, reason.Detail)
+		})
+		diags.AddWarning(
+			fmt.Sprintf("Escalation path %q would be %s", check.EscalationPath.Name, check.Verdict),
+			strings.Join(reasons, "\n"),
+		)
+	}
+
+	// A template with more paths than the API checked leaves the rest unreported, so say so
+	// rather than implying the checked ones are all of them.
+	if unchecked := result.JSON200.TotalCount - result.JSON200.CheckedCount; unchecked > 0 {
+		diags.AddWarning(
+			"Some escalation paths were not checked",
+			fmt.Sprintf("%d of the %d escalation paths using this template were not checked, and may also be affected.",
+				unchecked, result.JSON200.TotalCount),
+		)
+	}
 }
 
 func (r *escalationPathTemplateResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {

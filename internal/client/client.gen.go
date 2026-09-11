@@ -4995,6 +4995,27 @@ func (e EscalationPathTargetWithBindingV2Urgency) Valid() bool {
 	}
 }
 
+// Defines values for EscalationPathTemplateLinkedPathCheckV2Verdict.
+const (
+	Broken   EscalationPathTemplateLinkedPathCheckV2Verdict = "broken"
+	Degraded EscalationPathTemplateLinkedPathCheckV2Verdict = "degraded"
+	Healthy  EscalationPathTemplateLinkedPathCheckV2Verdict = "healthy"
+)
+
+// Valid indicates whether the value is a known member of the EscalationPathTemplateLinkedPathCheckV2Verdict enum.
+func (e EscalationPathTemplateLinkedPathCheckV2Verdict) Valid() bool {
+	switch e {
+	case Broken:
+		return true
+	case Degraded:
+		return true
+	case Healthy:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for EscalationPathTemplateNodePayloadV2Type.
 const (
 	EscalationPathTemplateNodePayloadV2TypeDelay          EscalationPathTemplateNodePayloadV2Type = "delay"
@@ -17004,6 +17025,44 @@ type EscalationEventV2Event string
 // Example: high
 type EscalationEventV2Urgency string
 
+// EscalationPathBrokenReasonV2 Example: {"detail":"This escalation path doesn't set a value for \"Primary schedule\", so the levels using it are skipped.","kind":"param_unbound","node_id":"level-1","param_name":"primary_schedule","summary":"Variable has no value","target_index":1,"value_index":1}
+type EscalationPathBrokenReasonV2 struct {
+	// Detail A longer user-facing description that can be used to fix the issue.
+	//
+	// Example: This escalation path doesn't set a value for "Primary schedule", so the levels using it are skipped.
+	Detail string `json:"detail"`
+
+	// Kind This identifies the category of issue affecting the escalation path
+	//
+	// Example: param_unbound
+	Kind string `json:"kind"`
+
+	// NodeId The path node to highlight, when the problem relates to a specific node.
+	//
+	// Example: level-1
+	NodeId *string `json:"node_id,omitempty"`
+
+	// ParamName If the problem relates to a specific variable, we show it here.
+	//
+	// Example: primary_schedule
+	ParamName *string `json:"param_name,omitempty"`
+
+	// Summary A user-facing summary of the issue
+	//
+	// Example: Variable has no value
+	Summary string `json:"summary"`
+
+	// TargetIndex A node may have multiple targets, so we highlight which of the targets has an issue.
+	//
+	// Example: 1
+	TargetIndex *int64 `json:"target_index,omitempty"`
+
+	// ValueIndex If the value holds an array, and the problem exists at a specific index, it's highlighted here.
+	//
+	// Example: 1
+	ValueIndex *int64 `json:"value_index,omitempty"`
+}
+
 // EscalationPathNodeDelayV2 Example: {"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
 type EscalationPathNodeDelayV2 struct {
 	// DelayIntervalCondition If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
@@ -17578,6 +17637,40 @@ type EscalationPathTargetWithBindingV2Type string
 // Example: high
 type EscalationPathTargetWithBindingV2Urgency string
 
+// EscalationPathTemplateLinkedPathCheckV2 Example: {"escalation_path":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Payments on-call"},"reasons":[{"detail":"This escalation path doesn't set a value for \"Primary schedule\", so the levels using it are skipped.","kind":"param_unbound","node_id":"level-1","param_name":"primary_schedule","summary":"Variable has no value","target_index":1,"value_index":1}],"verdict":"degraded"}
+type EscalationPathTemplateLinkedPathCheckV2 struct {
+	// EscalationPath Example: {"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Payments on-call"}
+	EscalationPath EscalationPathTemplateLinkedPathV2 `json:"escalation_path"`
+
+	// Reasons Problems the path would have if this template were saved. Empty when the path would stay healthy.
+	//
+	// Example: [{"detail":"This escalation path doesn't set a value for \"Primary schedule\", so the levels using it are skipped.","kind":"param_unbound","node_id":"level-1","param_name":"primary_schedule","summary":"Variable has no value","target_index":1,"value_index":1}]
+	Reasons []EscalationPathBrokenReasonV2 `json:"reasons"`
+
+	// Verdict How much of this path would still page if the edit were saved.
+	//
+	// Example: degraded
+	Verdict EscalationPathTemplateLinkedPathCheckV2Verdict `json:"verdict"`
+}
+
+// EscalationPathTemplateLinkedPathCheckV2Verdict How much of this path would still page if the edit were saved.
+//
+// Example: degraded
+type EscalationPathTemplateLinkedPathCheckV2Verdict string
+
+// EscalationPathTemplateLinkedPathV2 Example: {"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Payments on-call"}
+type EscalationPathTemplateLinkedPathV2 struct {
+	// Id Unique identifier for the escalation path.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	Id string `json:"id"`
+
+	// Name The name of the escalation path.
+	//
+	// Example: Payments on-call
+	Name string `json:"name"`
+}
+
 // EscalationPathTemplateNodeIfElsePayloadV2 Example: {"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"then_path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]}
 type EscalationPathTemplateNodeIfElsePayloadV2 struct {
 	// Conditions The condition that defines which branch to take
@@ -17861,6 +17954,65 @@ type EscalationPathTemplatesUpdatePayloadV2 struct {
 type EscalationPathTemplatesUpdateResultV2 struct {
 	// EscalationPathTemplate Example: {"description":"abc123","expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"has_historical_escalation_path_versions":false,"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Team on-call","params":[{"allowed_value_types":["literal"],"array":true,"default_value":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"description":"What slack channel should we send the message to?","label":"To date","name":"severity","optional":true,"type":"IncidentSeverity"}],"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"binding":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"binding":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
 	EscalationPathTemplate EscalationPathTemplateV2 `json:"escalation_path_template"`
+}
+
+// EscalationPathTemplatesValidatePayloadV2 Example: {"description":"Pages the team on-call, then a fallback user","expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Team on-call","params":[{"allowed_value_types":["literal"],"array":true,"default_value":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"description":"What slack channel should we send the message to?","label":"To date","name":"severity","optional":true,"type":"IncidentSeverity"}],"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
+type EscalationPathTemplatesValidatePayloadV2 struct {
+	// Description A description of what this template is for.
+	//
+	// Example: Pages the team on-call, then a fallback user
+	Description *string `json:"description,omitempty"`
+
+	// Expressions Expressions backing the template's binding targets.
+	//
+	// Example: [{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}]
+	Expressions *[]ExpressionPayloadV2 `json:"expressions,omitempty"`
+
+	// Id Unique identifier for the template being edited.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	Id string `json:"id"`
+
+	// Name The name of this template, for the user's reference.
+	//
+	// Example: Team on-call
+	Name string `json:"name"`
+
+	// Params The parameters declared by this template, bound per templated path.
+	//
+	// Example: [{"allowed_value_types":["literal"],"array":true,"default_value":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"description":"What slack channel should we send the message to?","label":"To date","name":"severity","optional":true,"type":"IncidentSeverity"}]
+	Params *[]EngineParamV2 `json:"params,omitempty"`
+
+	// Path The nodes that form the levels and branches of this template.
+	//
+	// Example: [{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]
+	Path []EscalationPathTemplateNodePayloadV2 `json:"path"`
+
+	// RepeatConfig Example: {"delay_repeat_on_activity":false,"repeat_after_seconds":1800}
+	RepeatConfig *EscalationPathRepeatConfigV2 `json:"repeat_config,omitempty"`
+
+	// WorkingHours The working hours for this template.
+	//
+	// Example: [{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]
+	WorkingHours *[]WeekdayIntervalConfigV2 `json:"working_hours,omitempty"`
+}
+
+// EscalationPathTemplatesValidateResultV2 Example: {"checked_count":1,"results":[{"escalation_path":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Payments on-call"},"reasons":[{"detail":"This escalation path doesn't set a value for \"Primary schedule\", so the levels using it are skipped.","kind":"param_unbound","node_id":"level-1","param_name":"primary_schedule","summary":"Variable has no value","target_index":1,"value_index":1}],"verdict":"degraded"}],"total_count":1}
+type EscalationPathTemplatesValidateResultV2 struct {
+	// CheckedCount How many escalation paths were checked.
+	//
+	// Example: 1
+	CheckedCount int64 `json:"checked_count"`
+
+	// Results One entry per escalation path checked against the proposed template.
+	//
+	// Example: [{"escalation_path":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Payments on-call"},"reasons":[{"detail":"This escalation path doesn't set a value for \"Primary schedule\", so the levels using it are skipped.","kind":"param_unbound","node_id":"level-1","param_name":"primary_schedule","summary":"Variable has no value","target_index":1,"value_index":1}],"verdict":"degraded"}]
+	Results []EscalationPathTemplateLinkedPathCheckV2 `json:"results"`
+
+	// TotalCount How many escalation paths use this template. Higher than checked_count when there were more than we check in one go.
+	//
+	// Example: 1
+	TotalCount int64 `json:"total_count"`
 }
 
 // EscalationPathV2 Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
@@ -29278,6 +29430,9 @@ type CustomFieldsV2UpdateJSONRequestBody = CustomFieldsUpdatePayloadV2
 // EscalationPathTemplatesV2CreateJSONRequestBody defines body for EscalationPathTemplatesV2Create for application/json ContentType.
 type EscalationPathTemplatesV2CreateJSONRequestBody = EscalationPathTemplatesCreatePayloadV2
 
+// EscalationPathTemplatesV2ValidateJSONRequestBody defines body for EscalationPathTemplatesV2Validate for application/json ContentType.
+type EscalationPathTemplatesV2ValidateJSONRequestBody = EscalationPathTemplatesValidatePayloadV2
+
 // EscalationPathTemplatesV2UpdateJSONRequestBody defines body for EscalationPathTemplatesV2Update for application/json ContentType.
 type EscalationPathTemplatesV2UpdateJSONRequestBody = EscalationPathTemplatesUpdatePayloadV2
 
@@ -31606,6 +31761,32 @@ type ClientInterface interface {
 	//
 	// Corresponds with POST /v2/escalation_path_templates (the `EscalationPathTemplatesV2Create` operationId).
 	EscalationPathTemplatesV2Create(ctx context.Context, body EscalationPathTemplatesV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// EscalationPathTemplatesV2ValidateWithBody Validate Escalation Path Templates V2
+	//
+	// Check whether a proposed escalation path template edit is valid, without writing, and report which existing paths it would break.
+	//
+	// This runs the same checks creating or updating a template would, so a config this accepts is one those endpoints will accept. It then checks each path built from the template against the proposed version.
+	//
+	// Saving the template itself still succeeds even when a dependent path would break: rejecting the edit would wedge a Terraform apply on a path that may not be in the caller's state. Use this endpoint at plan time to surface those paths instead.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v2/escalation_path_templates/actions/validate (the `EscalationPathTemplatesV2Validate` operationId).
+	EscalationPathTemplatesV2ValidateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// EscalationPathTemplatesV2Validate Validate Escalation Path Templates V2
+	//
+	// Check whether a proposed escalation path template edit is valid, without writing, and report which existing paths it would break.
+	//
+	// This runs the same checks creating or updating a template would, so a config this accepts is one those endpoints will accept. It then checks each path built from the template against the proposed version.
+	//
+	// Saving the template itself still succeeds even when a dependent path would break: rejecting the edit would wedge a Terraform apply on a path that may not be in the caller's state. Use this endpoint at plan time to surface those paths instead.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v2/escalation_path_templates/actions/validate (the `EscalationPathTemplatesV2Validate` operationId).
+	EscalationPathTemplatesV2Validate(ctx context.Context, body EscalationPathTemplatesV2ValidateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// EscalationPathTemplatesV2Destroy Destroy Escalation Path Templates V2
 	//
@@ -38675,6 +38856,52 @@ func (c *Client) EscalationPathTemplatesV2CreateWithBody(ctx context.Context, co
 // Corresponds with POST /v2/escalation_path_templates (the `EscalationPathTemplatesV2Create` operationId).
 func (c *Client) EscalationPathTemplatesV2Create(ctx context.Context, body EscalationPathTemplatesV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewEscalationPathTemplatesV2CreateRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// EscalationPathTemplatesV2ValidateWithBody Validate Escalation Path Templates V2
+//
+// Check whether a proposed escalation path template edit is valid, without writing, and report which existing paths it would break.
+//
+// This runs the same checks creating or updating a template would, so a config this accepts is one those endpoints will accept. It then checks each path built from the template against the proposed version.
+//
+// Saving the template itself still succeeds even when a dependent path would break: rejecting the edit would wedge a Terraform apply on a path that may not be in the caller's state. Use this endpoint at plan time to surface those paths instead.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v2/escalation_path_templates/actions/validate (the `EscalationPathTemplatesV2Validate` operationId).
+func (c *Client) EscalationPathTemplatesV2ValidateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationPathTemplatesV2ValidateRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// EscalationPathTemplatesV2Validate Validate Escalation Path Templates V2
+//
+// Check whether a proposed escalation path template edit is valid, without writing, and report which existing paths it would break.
+//
+// This runs the same checks creating or updating a template would, so a config this accepts is one those endpoints will accept. It then checks each path built from the template against the proposed version.
+//
+// Saving the template itself still succeeds even when a dependent path would break: rejecting the edit would wedge a Terraform apply on a path that may not be in the caller's state. Use this endpoint at plan time to surface those paths instead.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v2/escalation_path_templates/actions/validate (the `EscalationPathTemplatesV2Validate` operationId).
+func (c *Client) EscalationPathTemplatesV2Validate(ctx context.Context, body EscalationPathTemplatesV2ValidateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationPathTemplatesV2ValidateRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -50533,6 +50760,46 @@ func NewEscalationPathTemplatesV2CreateRequestWithBody(server string, contentTyp
 	return req, nil
 }
 
+// NewEscalationPathTemplatesV2ValidateRequest calls the generic EscalationPathTemplatesV2Validate builder with application/json body
+func NewEscalationPathTemplatesV2ValidateRequest(server string, body EscalationPathTemplatesV2ValidateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewEscalationPathTemplatesV2ValidateRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewEscalationPathTemplatesV2ValidateRequestWithBody constructs an http.Request for the EscalationPathTemplatesV2Validate method, with any body, and a specified content type
+func NewEscalationPathTemplatesV2ValidateRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/escalation_path_templates/actions/validate")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewEscalationPathTemplatesV2DestroyRequest constructs an http.Request for the EscalationPathTemplatesV2Destroy method
 func NewEscalationPathTemplatesV2DestroyRequest(server string, id string) (*http.Request, error) {
 	var err error
@@ -61508,6 +61775,32 @@ type ClientWithResponsesInterface interface {
 	//
 	// Corresponds with POST /v2/escalation_path_templates (the `EscalationPathTemplatesV2Create` operationId).
 	EscalationPathTemplatesV2CreateWithResponse(ctx context.Context, body EscalationPathTemplatesV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*EscalationPathTemplatesV2CreateResponse, error)
+
+	// EscalationPathTemplatesV2ValidateWithBodyWithResponse Validate Escalation Path Templates V2
+	//
+	// Check whether a proposed escalation path template edit is valid, without writing, and report which existing paths it would break.
+	//
+	// This runs the same checks creating or updating a template would, so a config this accepts is one those endpoints will accept. It then checks each path built from the template against the proposed version.
+	//
+	// Saving the template itself still succeeds even when a dependent path would break: rejecting the edit would wedge a Terraform apply on a path that may not be in the caller's state. Use this endpoint at plan time to surface those paths instead.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/escalation_path_templates/actions/validate (the `EscalationPathTemplatesV2Validate` operationId).
+	EscalationPathTemplatesV2ValidateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*EscalationPathTemplatesV2ValidateResponse, error)
+
+	// EscalationPathTemplatesV2ValidateWithResponse Validate Escalation Path Templates V2
+	//
+	// Check whether a proposed escalation path template edit is valid, without writing, and report which existing paths it would break.
+	//
+	// This runs the same checks creating or updating a template would, so a config this accepts is one those endpoints will accept. It then checks each path built from the template against the proposed version.
+	//
+	// Saving the template itself still succeeds even when a dependent path would break: rejecting the edit would wedge a Terraform apply on a path that may not be in the caller's state. Use this endpoint at plan time to surface those paths instead.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/escalation_path_templates/actions/validate (the `EscalationPathTemplatesV2Validate` operationId).
+	EscalationPathTemplatesV2ValidateWithResponse(ctx context.Context, body EscalationPathTemplatesV2ValidateJSONRequestBody, reqEditors ...RequestEditorFn) (*EscalationPathTemplatesV2ValidateResponse, error)
 
 	// EscalationPathTemplatesV2DestroyWithResponse Destroy Escalation Path Templates V2
 	//
@@ -82916,6 +83209,138 @@ func (r EscalationPathTemplatesV2CreateResponse) StatusCode() int {
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
 func (r EscalationPathTemplatesV2CreateResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type EscalationPathTemplatesV2ValidateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *EscalationPathTemplatesValidateResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r EscalationPathTemplatesV2ValidateResponse) GetJSON200() *EscalationPathTemplatesValidateResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r EscalationPathTemplatesV2ValidateResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r EscalationPathTemplatesV2ValidateResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r EscalationPathTemplatesV2ValidateResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r EscalationPathTemplatesV2ValidateResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r EscalationPathTemplatesV2ValidateResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r EscalationPathTemplatesV2ValidateResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r EscalationPathTemplatesV2ValidateResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r EscalationPathTemplatesV2ValidateResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r EscalationPathTemplatesV2ValidateResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r EscalationPathTemplatesV2ValidateResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r EscalationPathTemplatesV2ValidateResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r EscalationPathTemplatesV2ValidateResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r EscalationPathTemplatesV2ValidateResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r EscalationPathTemplatesV2ValidateResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r EscalationPathTemplatesV2ValidateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r EscalationPathTemplatesV2ValidateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r EscalationPathTemplatesV2ValidateResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
@@ -109542,6 +109967,44 @@ func (c *ClientWithResponses) EscalationPathTemplatesV2CreateWithResponse(ctx co
 	return ParseEscalationPathTemplatesV2CreateResponse(rsp)
 }
 
+// EscalationPathTemplatesV2ValidateWithBodyWithResponse Validate Escalation Path Templates V2
+//
+// Check whether a proposed escalation path template edit is valid, without writing, and report which existing paths it would break.
+//
+// This runs the same checks creating or updating a template would, so a config this accepts is one those endpoints will accept. It then checks each path built from the template against the proposed version.
+//
+// Saving the template itself still succeeds even when a dependent path would break: rejecting the edit would wedge a Terraform apply on a path that may not be in the caller's state. Use this endpoint at plan time to surface those paths instead.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/escalation_path_templates/actions/validate (the `EscalationPathTemplatesV2Validate` operationId).
+func (c *ClientWithResponses) EscalationPathTemplatesV2ValidateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*EscalationPathTemplatesV2ValidateResponse, error) {
+	rsp, err := c.EscalationPathTemplatesV2ValidateWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationPathTemplatesV2ValidateResponse(rsp)
+}
+
+// EscalationPathTemplatesV2ValidateWithResponse Validate Escalation Path Templates V2
+//
+// Check whether a proposed escalation path template edit is valid, without writing, and report which existing paths it would break.
+//
+// This runs the same checks creating or updating a template would, so a config this accepts is one those endpoints will accept. It then checks each path built from the template against the proposed version.
+//
+// Saving the template itself still succeeds even when a dependent path would break: rejecting the edit would wedge a Terraform apply on a path that may not be in the caller's state. Use this endpoint at plan time to surface those paths instead.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/escalation_path_templates/actions/validate (the `EscalationPathTemplatesV2Validate` operationId).
+func (c *ClientWithResponses) EscalationPathTemplatesV2ValidateWithResponse(ctx context.Context, body EscalationPathTemplatesV2ValidateJSONRequestBody, reqEditors ...RequestEditorFn) (*EscalationPathTemplatesV2ValidateResponse, error) {
+	rsp, err := c.EscalationPathTemplatesV2Validate(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationPathTemplatesV2ValidateResponse(rsp)
+}
+
 // EscalationPathTemplatesV2DestroyWithResponse Destroy Escalation Path Templates V2
 //
 // Archives a particular escalation path template.
@@ -130387,6 +130850,123 @@ func ParseEscalationPathTemplatesV2CreateResponse(rsp *http.Response) (*Escalati
 			return nil, err
 		}
 		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseEscalationPathTemplatesV2ValidateResponse parses an HTTP response from a EscalationPathTemplatesV2ValidateWithResponse call
+func ParseEscalationPathTemplatesV2ValidateResponse(rsp *http.Response) (*EscalationPathTemplatesV2ValidateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &EscalationPathTemplatesV2ValidateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest EscalationPathTemplatesValidateResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
 		var dest ErrorResponse
