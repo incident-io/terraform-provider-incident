@@ -140,9 +140,14 @@ func TestAccIncidentAlertSourceDataSource(t *testing.T) {
 						"data.incident_alert_source.by_id", "secret_token"),
 					// The point of the v3 data source: the title reads back at the same
 					// attribute path the resource writes it at, rather than under template.
-					resource.TestCheckResourceAttrPair(
-						"data.incident_alert_source.by_id", "title.literal",
-						"incident_alert_source.test", "title.literal"),
+					//
+					// Not the same bytes, though. The resource keeps the document the author
+					// wrote, because the rich text type compares the two semantically and a
+					// config with a prior value wins. A data source has no author and no
+					// prior, so it reports the API's own spelling: the `{{ }}` template the
+					// document renders to, which is what you would write to produce it.
+					resource.TestCheckResourceAttr(
+						"data.incident_alert_source.by_id", "title.literal", "Test Alert Title"),
 
 					// By name, which is what replaced the plural data source.
 					resource.TestCheckResourceAttrPair(

@@ -5,6 +5,7 @@ subcategory: ""
 description: |-
   Look up an alert source by id or name, in the same shape as the incident_alert_source resource. Exactly one lookup field should be set.
   The attributes a source populates are not returned here: each is its own object, read with the incident_alert_source_attribute data source.
+  title and description come back as the account holds them, which for a source you manage here need not be the document you wrote: a resource keeps your spelling of a rich text value, and this reports the {{ }} template it renders to. The two mean the same thing and either can be written back, but they are not the same string, so comparing one against the other will not match.
 ---
 
 # incident_alert_source (Data Source)
@@ -12,6 +13,8 @@ description: |-
 Look up an alert source by `id` or `name`, in the same shape as the `incident_alert_source` resource. Exactly one lookup field should be set.
 
 The attributes a source populates are not returned here: each is its own object, read with the `incident_alert_source_attribute` data source.
+
+`title` and `description` come back as the account holds them, which for a source you manage here need not be the document you wrote: a resource keeps your spelling of a rich text value, and this reports the `{{ }}` template it renders to. The two mean the same thing and either can be written back, but they are not the same string, so comparing one against the other will not match.
 
 ## Example Usage
 
