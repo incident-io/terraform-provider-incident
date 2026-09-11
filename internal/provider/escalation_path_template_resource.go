@@ -220,6 +220,23 @@ func (r *escalationPathTemplateResource) ValidateConfig(ctx context.Context, req
 	validateSequences(ctx, &escalationPathBetaModel{Start: data.Start, Sequences: data.Sequences}, &resp.Diagnostics)
 	validateSequenceConditions(ctx, &escalationPathBetaModel{Sequences: data.Sequences, WorkingHours: data.WorkingHours}, &resp.Diagnostics)
 	validateEscalationPathTemplateTargets(ctx, data.Sequences, &resp.Diagnostics)
+
+	// The API refuses a template with no parameters: a template that binds nothing is just
+	// an escalation path. Say so at plan time rather than part way through an apply.
+	if !data.Params.IsNull() && !data.Params.IsUnknown() && len(data.Params.Elements()) == 0 {
+		resp.Diagnostics.AddAttributeError(
+			path.Root("params"),
+			"Template has no parameters",
+			"An escalation path template needs at least one parameter for its paths to bind. Use incident_escalation_path_beta for a path that takes no parameters.",
+		)
+	}
+	if data.Params.IsNull() {
+		resp.Diagnostics.AddAttributeError(
+			path.Root("params"),
+			"Missing params",
+			"An escalation path template needs at least one parameter for its paths to bind.",
+		)
+	}
 }
 
 // ModifyPlan asks the API what this edit would do to the escalation paths built from the
@@ -359,6 +376,9 @@ func (r *escalationPathTemplateResource) Create(ctx context.Context, req resourc
 		return
 	}
 
+	claimResource(ctx, r.client, result.JSON201.EscalationPathTemplate.Id, &resp.Diagnostics,
+		client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPathTemplate, r.terraformVersion)
+
 	tflog.Trace(ctx, fmt.Sprintf("created an escalation path template resource with id=%s", result.JSON201.EscalationPathTemplate.Id))
 	model := r.buildModel(ctx, result.JSON201.EscalationPathTemplate, data, &resp.Diagnostics)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &model)...)
@@ -426,6 +446,9 @@ func (r *escalationPathTemplateResource) Update(ctx context.Context, req resourc
 		return
 	}
 
+	claimResource(ctx, r.client, result.JSON200.EscalationPathTemplate.Id, &resp.Diagnostics,
+		client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPathTemplate, r.terraformVersion)
+
 	model := r.buildModel(ctx, result.JSON200.EscalationPathTemplate, data, &resp.Diagnostics)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &model)...)
 }
@@ -445,6 +468,9 @@ func (r *escalationPathTemplateResource) Delete(ctx context.Context, req resourc
 }
 
 func (r *escalationPathTemplateResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	claimResourceOnImport(ctx, r.client, req.ID, &resp.Diagnostics,
+		client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPathTemplate,
+		r.terraformVersion, r.markImportedAsManaged)
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
