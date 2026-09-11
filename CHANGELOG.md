@@ -1,4 +1,4 @@
-## Unreleased
+## v7.0.0
 
 - **Breaking**: the beta resources lose their `_beta` suffix. `incident_alert_source`, `incident_alert_source_attribute`, `incident_escalation_path`, `incident_schedule` and `incident_schedule_rotation` are now what the `_beta` resources were, and the v6 resources of those names are removed.
 - The `_beta` names still work, so upgrading changes nothing if you were using them. They warn on every plan and go in v8; rename one with a `moved` block whenever you like.
