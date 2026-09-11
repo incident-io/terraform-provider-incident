@@ -678,14 +678,17 @@ func (r *escalationPathBetaResource) buildModel(ctx context.Context, ep client.E
 		Kind:          types.StringValue(string(ep.Kind)),
 		TemplateID:    types.StringPointerValue(ep.TemplateId),
 		ParamBindings: types.MapNull(escalationPathBetaParamBindingsType().ElemType),
-		Start:         types.StringNull(),
-		Sequences:     types.MapNull(sequenceMapType(escalationPathBetaNodeAttrTypes()).ElemType),
-		WorkingHours:  escalationPathWorkingHoursFromAPI(ctx, ep.WorkingHours, diags),
-		RepeatConfig:  escalationPathRepeatConfigFromAPI(ep.RepeatConfig),
+
+		// The four attributes a templated path doesn't have, null until the standalone
+		// branch below fills them in. toPayload sends none of them for a templated path,
+		// so reading any back would be state the configuration can never match.
+		Start:        types.StringNull(),
+		Sequences:    types.MapNull(sequenceMapType(escalationPathBetaNodeAttrTypes()).ElemType),
+		WorkingHours: escalationPathWorkingHoursFromAPI(ctx, nil, diags),
+		RepeatConfig: escalationPathRepeatConfigFromAPI(nil),
 	}
 
-	// A templated path's nodes, working hours and repeat config are its template's. The API
-	// returns an empty path and leaves the other two out, and the config holds none of them.
+	// A templated path's nodes, working hours and repeat config belong to its template.
 	if ep.Kind == client.EscalationPathV2KindTemplated {
 		var priorBindings types.Map
 		if prior != nil {
@@ -698,5 +701,7 @@ func (r *escalationPathBetaResource) buildModel(ctx context.Context, ep client.E
 	start, sequences := flattenSequences(ctx, ep.Path, escalationPathBetaPriorNamesFrom(ctx, prior), diags)
 	model.Start = types.StringValue(start)
 	model.Sequences = escalationPathBetaSequencesToMap(ctx, sequences, diags)
+	model.WorkingHours = escalationPathWorkingHoursFromAPI(ctx, ep.WorkingHours, diags)
+	model.RepeatConfig = escalationPathRepeatConfigFromAPI(ep.RepeatConfig)
 	return model
 }
