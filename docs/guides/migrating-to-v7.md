@@ -286,8 +286,9 @@ limit on branching is gone. A path too deep to write before can be written now.
 - A `repeat` node becomes a `loop`, which names the node to go `back_to`.
 - `working_hours`, `repeat_config` and `team_ids` are unchanged.
 
-Two things to expect in the first plan, both of which the example below is
-written to avoid.
+Three things to expect in the first plan. Two you can avoid, as the example below
+does; the third you cannot, and it is the one case in this guide where the first
+plan after an upgrade is not empty.
 
 The API does not store sequence names, so the refresh names them: the sequence
 the path starts with is `main`, and the sequences a branch leads to are
@@ -295,12 +296,23 @@ the path starts with is `main`, and the sequences a branch leads to are
 configuration that calls them something else plans a change - harmless, but
 noise you can do without on the plan you are reading carefully.
 
-And `ack_mode` on a level now defaults to `first` where the v6 resource defaulted
-it to `all`. A default applies wherever the configuration is silent, so a level
-that never set `ack_mode` plans a change from `all` to `first`, and applying it
+`ack_mode` on a level now defaults to `first` where the v6 resource defaulted it
+to `all`. A default applies wherever the configuration is silent, so a level that
+never set `ack_mode` plans a change from `all` to `first`, and applying it
 changes how the level pages: with `first`, the first person to acknowledge
 cancels everyone else's escalation on that level. Write `ack_mode = "all"` on
 every level whose behaviour you mean to keep.
+
+~> **Expect an update on the path itself, and read it before applying.** A node
+id is now derived from the node's position, and only ids in that form are treated
+as derived when the path is read back. v6 minted a random id for every node your
+configuration did not name, and those are what your escalation path holds, so
+they read back as ids you wrote against a configuration that never wrote one -
+and the plan proposes rewriting them. It changes nothing about how the path
+escalates: the levels, targets, conditions and working hours are untouched, and
+the nodes you *did* name keep their names, so a `loop` still finds what it loops
+back to. Apply it once and it settles. What to check before you do is that the
+plan touches ids and nothing else.
 
 ```terraform
 # Before: a branch holds the nodes that follow it, nested under then_path and
@@ -395,13 +407,20 @@ resource "incident_escalation_path" "urgent_support" {
   # are written to match, so the names are not something the first plan has to
   # reconcile. Rename them afterwards if you would rather they read better -
   # that is an update to your own state, not a change to the path.
+  #
+  # The first plan will still propose an update, for the node ids v6 minted for
+  # the nodes it wasn't told the names of. That one can't be written around: apply
+  # it once and it settles. See the guide.
   start = "main"
 
   sequences = {
     main = {
       nodes = [
         {
-          # Keep an id on the nodes something loops back to, and leave it off the rest.
+          # Keep an id on the nodes something loops back to, and leave it off the
+          # rest: an unnamed node gets one derived from its position, which is
+          # stable across applies. A node your v6 config named keeps its name, so
+          # this is the id a loop can still rely on after the upgrade.
           id = "start"
           branch = {
             # The raw engine condition becomes one attribute per thing an
@@ -720,6 +739,19 @@ happening at the same time.
 once, on an alert source: the API returns its own spelling of the document. Apply
 it and it settles. A plan that asks again after applying is a bug - please report
 it.
+
+**A plan asking to rewrite an escalation path's node ids.** Expected once, and
+covered above: v6 minted those ids, and they are not the form this resource
+derives. Applying it changes no behaviour.
+
+**`Failed to marshal state to json: unsupported attribute "path"`**, or the same
+for `rotations` or `template`. `terraform show -json` renders state against the
+provider's current schema, and until the first apply rewrites it your state still
+holds the attribute the old schema had. `terraform plan` and `terraform apply`
+are unaffected - it is only the JSON rendering that fails - so the fix is to
+apply the migration. It is worth knowing about if your pipeline reads plans as
+JSON, because that is the step that breaks between upgrading the provider and
+applying.
 
 ## Rolling back
 
