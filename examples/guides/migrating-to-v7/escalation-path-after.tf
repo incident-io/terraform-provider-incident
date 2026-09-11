@@ -17,13 +17,20 @@ resource "incident_escalation_path" "urgent_support" {
   # are written to match, so the names are not something the first plan has to
   # reconcile. Rename them afterwards if you would rather they read better -
   # that is an update to your own state, not a change to the path.
+  #
+  # The first plan will still propose an update, for the node ids v6 minted for
+  # the nodes it wasn't told the names of. That one can't be written around: apply
+  # it once and it settles. See the guide.
   start = "main"
 
   sequences = {
     main = {
       nodes = [
         {
-          # Keep an id on the nodes something loops back to, and leave it off the rest.
+          # Keep an id on the nodes something loops back to, and leave it off the
+          # rest: an unnamed node gets one derived from its position, which is
+          # stable across applies. A node your v6 config named keeps its name, so
+          # this is the id a loop can still rely on after the upgrade.
           id = "start"
           branch = {
             # The raw engine condition becomes one attribute per thing an
