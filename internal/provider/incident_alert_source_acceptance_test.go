@@ -243,7 +243,9 @@ resource "incident_alert_source" "priority" {
 func testAccAlertPriority(t *testing.T) string {
 	t.Helper()
 
-	types, err := testClient.CatalogV3ListTypesWithResponse(t.Context(), nil)
+	// No params argument here: everything after the context is a request editor, so a
+	// nil would be a nil editor that the client then calls.
+	types, err := testClient.CatalogV3ListTypesWithResponse(t.Context())
 	if err != nil {
 		t.Fatalf("listing catalog types: %s", err)
 	}
