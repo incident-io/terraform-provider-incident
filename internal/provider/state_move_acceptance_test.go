@@ -1,6 +1,7 @@
 package provider
 
 import (
+	"regexp"
 	"strings"
 	"testing"
 
@@ -9,6 +10,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/plancheck"
 	"github.com/hashicorp/terraform-plugin-testing/statecheck"
 	"github.com/hashicorp/terraform-plugin-testing/tfjsonpath"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 // These tests walk the v6-to-v7 rename against a real account, using the `moved` blocks
@@ -32,6 +35,35 @@ import (
 // The two configurations are one fixture with the names rewritten rather than two written
 // out, because being the same configuration under a different name is the entire claim
 // these tests exist to check.
+
+// Every `_beta` resource in a fixture needs a `moved` block of its own, because renamed()
+// rewrites all of them at once. Miss one and Terraform destroys and recreates it rather
+// than moving it, which reads as a plan check failing on whichever resource referenced it
+// rather than on the one actually missing its block - so this says so directly.
+//
+// It parses the fixtures rather than the rendered configuration so that it runs as a unit
+// test, without an API key.
+func TestEveryRenamedFixtureResourceHasAMovedBlock(t *testing.T) {
+	declaration := regexp.MustCompile(`resource "(incident_[a-z_]+_beta)" "([a-z_]+)"`)
+
+	for name, fixture := range map[string]struct{ config, moves string }{
+		"schedule":        {scheduleRenameFixture, scheduleRenameMovedBlocks},
+		"escalation path": {escalationPathRenameFixture, escalationPathRenameMovedBlocks},
+		"alert source":    {alertSourceRenameFixture, alertSourceRenameMovedBlocks},
+	} {
+		t.Run(name, func(t *testing.T) {
+			declared := declaration.FindAllStringSubmatch(fixture.config, -1)
+			require.NotEmpty(t, declared, "the fixture declares no beta resources")
+
+			for _, match := range declared {
+				address := match[1] + "." + match[2]
+				assert.Contains(t, fixture.moves, "from = "+address,
+					"%s is renamed by the fixture but has no `moved` block, so it would be "+
+						"destroyed and recreated rather than moved", address)
+			}
+		})
+	}
+}
 
 // betaNames are the `_beta` type names, longest first so that rewriting one doesn't leave
 // the tail of another behind.
@@ -169,15 +201,15 @@ func TestAccRenameEscalationPath(t *testing.T) {
 				},
 			},
 			{
+				// The schedule the path targets is renamed by the same rewrite, so it needs
+				// a `moved` block too. Without one Terraform destroys and recreates it,
+				// and the path plans an update against its new ID rather than a no-op -
+				// which is what the schedule's plan check below is here to catch.
 				Config: testRunTemplate("rename_escalation_path_after",
-					renamed(escalationPathRenameFixture)+`
-moved {
-  from = incident_escalation_path_beta.moving
-  to   = incident_escalation_path.moving
-}
-`, nil),
+					renamed(escalationPathRenameFixture)+escalationPathRenameMovedBlocks, nil),
 				ConfigPlanChecks: resource.ConfigPlanChecks{
 					PreApply: []plancheck.PlanCheck{
+						plancheck.ExpectResourceAction("incident_schedule.target", plancheck.ResourceActionNoop),
 						plancheck.ExpectResourceAction("incident_escalation_path.moving", plancheck.ResourceActionNoop),
 					},
 				},
@@ -226,6 +258,19 @@ resource "incident_escalation_path_beta" "moving" {
 }
 `
 
+// The schedule the path targets is renamed by the same rewrite, so it moves too.
+const escalationPathRenameMovedBlocks = `
+moved {
+  from = incident_schedule_beta.target
+  to   = incident_schedule.target
+}
+
+moved {
+  from = incident_escalation_path_beta.moving
+  to   = incident_escalation_path.moving
+}
+`
+
 // TestAccRenameAlertSourceAndAttribute covers the source and one of its attribute
 // bindings, which is the binding's own rename as well as the source's. The binding is
 // the one resource here with no `id`: it is keyed by the source and the attribute, so a
@@ -245,17 +290,7 @@ func TestAccRenameAlertSourceAndAttribute(t *testing.T) {
 			},
 			{
 				Config: testRunTemplate("rename_alert_source_after",
-					renamed(alertSourceRenameFixture)+`
-moved {
-  from = incident_alert_source_beta.moving
-  to   = incident_alert_source.moving
-}
-
-moved {
-  from = incident_alert_source_attribute_beta.environment
-  to   = incident_alert_source_attribute.environment
-}
-`, nil),
+					renamed(alertSourceRenameFixture)+alertSourceRenameMovedBlocks, nil),
 				ConfigPlanChecks: resource.ConfigPlanChecks{
 					PreApply: []plancheck.PlanCheck{
 						plancheck.ExpectResourceAction("incident_alert_source.moving", plancheck.ResourceActionNoop),
@@ -312,5 +347,17 @@ resource "incident_alert_source_attribute_beta" "environment" {
 
   value_literal  = "production"
   merge_strategy = "first_wins"
+}
+`
+
+const alertSourceRenameMovedBlocks = `
+moved {
+  from = incident_alert_source_beta.moving
+  to   = incident_alert_source.moving
+}
+
+moved {
+  from = incident_alert_source_attribute_beta.environment
+  to   = incident_alert_source_attribute.environment
 }
 `
