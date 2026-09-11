@@ -52,6 +52,17 @@ func BindingDataSourceAttributes() map[string]schema.Attribute {
 	}
 }
 
+// BindingDataSourceAttribute is one whole field taking a binding, the data source mirror of
+// BindingAttribute. BindingDataSourceAttributes spreads the same attributes across a
+// resource that is itself a binding, such as an alert source attribute.
+func BindingDataSourceAttribute(description string) schema.Attribute {
+	return schema.SingleNestedAttribute{
+		Computed:    true,
+		Description: description,
+		Attributes:  BindingDataSourceAttributes(),
+	}
+}
+
 func ExpressionBlockDataSource() schema.Block {
 	return schema.SingleNestedBlock{
 		Description: "The expression this field is bound to. Declaring it binds its result.",
