@@ -13,6 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
@@ -47,13 +48,16 @@ type escalationPathResource struct {
 }
 
 type escalationPathModel struct {
-	ID           types.String `tfsdk:"id"`
-	Name         types.String `tfsdk:"name"`
-	Start        types.String `tfsdk:"start"`
-	Sequences    types.Map    `tfsdk:"sequences"`
-	WorkingHours types.List   `tfsdk:"working_hours"`
-	RepeatConfig types.Object `tfsdk:"repeat_config"`
-	TeamIDs      types.Set    `tfsdk:"team_ids"`
+	ID            types.String `tfsdk:"id"`
+	Name          types.String `tfsdk:"name"`
+	Start         types.String `tfsdk:"start"`
+	Sequences     types.Map    `tfsdk:"sequences"`
+	WorkingHours  types.List   `tfsdk:"working_hours"`
+	RepeatConfig  types.Object `tfsdk:"repeat_config"`
+	TeamIDs       types.Set    `tfsdk:"team_ids"`
+	Kind          types.String `tfsdk:"kind"`
+	TemplateID    types.String `tfsdk:"template_id"`
+	ParamBindings types.Map    `tfsdk:"param_bindings"`
 }
 
 type escalationPathSequence struct {
@@ -169,13 +173,13 @@ it.`),
 			},
 
 			"start": schema.StringAttribute{
-				MarkdownDescription: "The key of the sequence this escalation path begins with.",
-				Required:            true,
+				MarkdownDescription: "The key of the sequence this escalation path begins with. Required unless `kind` is `templated`.",
+				Optional:            true,
 			},
 
 			"sequences": schema.MapNestedAttribute{
-				MarkdownDescription: "Named sequences of nodes, keyed by a name you choose. Each sequence either ends with a `branch` node or runs off the end of the escalation path. Branches reference other sequences by key.",
-				Required:            true,
+				MarkdownDescription: "Named sequences of nodes, keyed by a name you choose. Each sequence either ends with a `branch` node or runs off the end of the escalation path. Branches reference other sequences by key. Required unless `kind` is `templated`.",
+				Optional:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"nodes": schema.ListNestedAttribute{
@@ -214,6 +218,30 @@ it.`),
 				MarkdownDescription: apischema.Docstring("EscalationPathV2", "team_ids"),
 				Optional:            true,
 				ElementType:         types.StringType,
+			},
+
+			"kind": schema.StringAttribute{
+				MarkdownDescription: EnumValuesDescription("EscalationPathV2", "kind") +
+					" Leave it out for a standalone path. A path is one kind for life, so changing this replaces it.",
+				Optional: true,
+				Computed: true,
+				Default:  stringdefault.StaticString(string(client.EscalationPathV2KindStandalone)),
+				PlanModifiers: []planmodifier.String{
+					escalationPathKindRequiresReplace(),
+				},
+			},
+
+			"template_id": schema.StringAttribute{
+				MarkdownDescription: "The `incident_escalation_path_template` to build this path from, required when `kind` is `templated`. A templated path takes its nodes, working hours and repeat config from the template, so set `param_bindings` in place of `start` and `sequences`. Switching to a different template is an in-place update.",
+				Optional:            true,
+			},
+
+			"param_bindings": schema.MapNestedAttribute{
+				MarkdownDescription: "For a templated path, a value for each of the template's `params`, keyed by the param's `name`. Bindings are values, not references: a schedule param takes `value_literal = <schedule id>`.",
+				Optional:            true,
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: models.ParamBindingAttributes(),
+				},
 			},
 		},
 	}
@@ -278,6 +306,7 @@ func (r *escalationPathResource) ValidateConfig(ctx context.Context, req resourc
 		return
 	}
 
+	validateEscalationPathKind(data, &resp.Diagnostics)
 	validateSequences(ctx, data, &resp.Diagnostics)
 	validateSequenceConditions(ctx, data, &resp.Diagnostics)
 	validateEscalationPathTargets(ctx, data, &resp.Diagnostics)
@@ -357,10 +386,13 @@ func (r *escalationPathResource) ModifyPlan(ctx context.Context, req resource.Mo
 	defer cancel()
 
 	result, err := r.client.EscalationsV2ValidatePathWithResponse(ctx, client.EscalationsV2ValidatePathJSONRequestBody{
-		Path:         payload.Path,
-		TeamIds:      payload.TeamIds,
-		WorkingHours: payload.WorkingHours,
-		RepeatConfig: payload.RepeatConfig,
+		Path:          payload.Path,
+		TeamIds:       payload.TeamIds,
+		WorkingHours:  payload.WorkingHours,
+		RepeatConfig:  payload.RepeatConfig,
+		Kind:          (*client.EscalationsValidatePathPayloadV2Kind)(payload.Kind),
+		TemplateId:    payload.TemplateID,
+		ParamBindings: payload.ParamBindings,
 	})
 	if err == nil {
 		addEscalationPathValidateWarnings(result, &resp.Diagnostics)
@@ -438,11 +470,14 @@ func (r *escalationPathResource) Create(ctx context.Context, req resource.Create
 	}
 
 	result, err := r.client.EscalationsV2CreatePathWithResponse(ctx, client.EscalationsV2CreatePathJSONRequestBody{
-		Name:         data.Name.ValueString(),
-		Path:         payload.Path,
-		WorkingHours: payload.WorkingHours,
-		TeamIds:      payload.TeamIds,
-		RepeatConfig: payload.RepeatConfig,
+		Name:          data.Name.ValueString(),
+		Path:          payload.Path,
+		WorkingHours:  payload.WorkingHours,
+		TeamIds:       payload.TeamIds,
+		RepeatConfig:  payload.RepeatConfig,
+		Kind:          (*client.EscalationsCreatePathPayloadV2Kind)(payload.Kind),
+		TemplateId:    payload.TemplateID,
+		ParamBindings: payload.ParamBindings,
 	})
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create escalation path, got error: %s", err))
@@ -523,11 +558,14 @@ func (r *escalationPathResource) Update(ctx context.Context, req resource.Update
 	}
 
 	result, err := r.client.EscalationsV2UpdatePathWithResponse(ctx, data.ID.ValueString(), client.EscalationsV2UpdatePathJSONRequestBody{
-		Name:         data.Name.ValueString(),
-		Path:         payload.Path,
-		WorkingHours: payload.WorkingHours,
-		TeamIds:      payload.TeamIds,
-		RepeatConfig: payload.RepeatConfig,
+		Name:          data.Name.ValueString(),
+		Path:          payload.Path,
+		WorkingHours:  payload.WorkingHours,
+		TeamIds:       payload.TeamIds,
+		RepeatConfig:  payload.RepeatConfig,
+		Kind:          (*client.EscalationsUpdatePathPayloadV2Kind)(payload.Kind),
+		TemplateId:    payload.TemplateID,
+		ParamBindings: payload.ParamBindings,
 	})
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update escalation path, got error: %s", err))
@@ -574,35 +612,76 @@ type escalationPathPayload struct {
 	WorkingHours *[]client.WeekdayIntervalConfigV2
 	RepeatConfig *client.EscalationPathRepeatConfigV2
 	TeamIds      *[]string
+
+	// Kind is the string the three request bodies each declare their own enum type for.
+	Kind          *string
+	TemplateID    *string
+	ParamBindings *map[string]client.EngineParamBindingPayloadV2
 }
 
 func (r *escalationPathResource) toPayload(ctx context.Context, data *escalationPathModel, diags *diag.Diagnostics) escalationPathPayload {
+	payload := escalationPathPayload{
+		TeamIds: escalationPathTeamIDsToPayload(ctx, data.TeamIDs, diags),
+		// Always sent, so the API is the backstop for a kind change that reached apply
+		// without being planned as a replacement.
+		Kind: data.Kind.ValueStringPointer(),
+	}
+
+	// A templated path's nodes live on its template, and the API takes an empty path as
+	// "read the template".
+	if data.isTemplated() {
+		payload.Path = []client.EscalationPathNodePayloadV2{}
+		payload.TemplateID = data.TemplateID.ValueStringPointer()
+		payload.ParamBindings = escalationPathParamBindingsToPayload(ctx, data.ParamBindings, diags)
+		return payload
+	}
+
 	sequences := decodeSequences(ctx, data.Sequences, diags)
 	if diags.HasError() {
 		return escalationPathPayload{}
 	}
 
-	return escalationPathPayload{
-		Path:         unflattenSequences(ctx, data.Start.ValueString(), sequences, diags),
-		WorkingHours: escalationPathWorkingHoursToPayload(ctx, data.WorkingHours, diags),
-		RepeatConfig: escalationPathRepeatConfigToPayload(ctx, data.RepeatConfig, diags),
-		TeamIds:      escalationPathTeamIDsToPayload(ctx, data.TeamIDs, diags),
-	}
+	payload.Path = unflattenSequences(ctx, data.Start.ValueString(), sequences, diags)
+	payload.WorkingHours = escalationPathWorkingHoursToPayload(ctx, data.WorkingHours, diags)
+	payload.RepeatConfig = escalationPathRepeatConfigToPayload(ctx, data.RepeatConfig, diags)
+	return payload
 }
 
 // buildModel converts what the API returned into state. The API stores no sequence names,
 // so prior is where they come from: the plan on a create or update, and the state on a
 // read, which on an import holds nothing but the id and so names nothing.
 func (r *escalationPathResource) buildModel(ctx context.Context, ep client.EscalationPathV2, prior *escalationPathModel, diags *diag.Diagnostics) *escalationPathModel {
-	start, sequences := flattenSequences(ctx, ep.Path, escalationPathPriorNamesFrom(ctx, prior), diags)
+	model := &escalationPathModel{
+		ID:            types.StringValue(ep.Id),
+		Name:          types.StringValue(ep.Name),
+		TeamIDs:       escalationPathTeamIDsFromAPI(ep.TeamIds),
+		Kind:          types.StringValue(string(ep.Kind)),
+		TemplateID:    types.StringPointerValue(ep.TemplateId),
+		ParamBindings: types.MapNull(escalationPathParamBindingsType().ElemType),
 
-	return &escalationPathModel{
-		ID:           types.StringValue(ep.Id),
-		Name:         types.StringValue(ep.Name),
-		Start:        types.StringValue(start),
-		Sequences:    escalationPathSequencesToMap(ctx, sequences, diags),
-		WorkingHours: escalationPathWorkingHoursFromAPI(ctx, ep.WorkingHours, diags),
-		RepeatConfig: escalationPathRepeatConfigFromAPI(ep.RepeatConfig),
-		TeamIDs:      escalationPathTeamIDsFromAPI(ep.TeamIds),
+		// The four attributes a templated path doesn't have, null until the standalone
+		// branch below fills them in. toPayload sends none of them for a templated path,
+		// so reading any back would be state the configuration can never match.
+		Start:        types.StringNull(),
+		Sequences:    types.MapNull(sequenceMapType(escalationPathNodeAttrTypes()).ElemType),
+		WorkingHours: escalationPathWorkingHoursFromAPI(ctx, nil, diags),
+		RepeatConfig: escalationPathRepeatConfigFromAPI(nil),
 	}
+
+	// A templated path's nodes, working hours and repeat config belong to its template.
+	if ep.Kind == client.EscalationPathV2KindTemplated {
+		var priorBindings types.Map
+		if prior != nil {
+			priorBindings = prior.ParamBindings
+		}
+		model.ParamBindings = escalationPathParamBindingsFromAPI(ctx, ep.ParamBindings, priorBindings, diags)
+		return model
+	}
+
+	start, sequences := flattenSequences(ctx, ep.Path, escalationPathPriorNamesFrom(ctx, prior), diags)
+	model.Start = types.StringValue(start)
+	model.Sequences = escalationPathSequencesToMap(ctx, sequences, diags)
+	model.WorkingHours = escalationPathWorkingHoursFromAPI(ctx, ep.WorkingHours, diags)
+	model.RepeatConfig = escalationPathRepeatConfigFromAPI(ep.RepeatConfig)
+	return model
 }

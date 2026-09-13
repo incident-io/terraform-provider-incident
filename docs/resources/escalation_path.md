@@ -201,18 +201,61 @@ resource "incident_escalation_path" "urgent_support" {
 ### Required
 
 - `name` (String) The name of this escalation path, for the user's reference.
-- `sequences` (Attributes Map) Named sequences of nodes, keyed by a name you choose. Each sequence either ends with a `branch` node or runs off the end of the escalation path. Branches reference other sequences by key. (see [below for nested schema](#nestedatt--sequences))
-- `start` (String) The key of the sequence this escalation path begins with.
 
 ### Optional
 
+- `kind` (String) Whether this path carries its own nodes, or is built from an escalation path template. Possible values are: `standalone`, `templated`. Leave it out for a standalone path. A path is one kind for life, so changing this replaces it.
+- `param_bindings` (Attributes Map) For a templated path, a value for each of the template's `params`, keyed by the param's `name`. Bindings are values, not references: a schedule param takes `value_literal = <schedule id>`. (see [below for nested schema](#nestedatt--param_bindings))
 - `repeat_config` (Attributes) Controls if an escalation will repeat after acknowledgement, when the alert is unresolved. When configured, it will repeat after the specified delay. (see [below for nested schema](#nestedatt--repeat_config))
+- `sequences` (Attributes Map) Named sequences of nodes, keyed by a name you choose. Each sequence either ends with a `branch` node or runs off the end of the escalation path. Branches reference other sequences by key. Required unless `kind` is `templated`. (see [below for nested schema](#nestedatt--sequences))
+- `start` (String) The key of the sequence this escalation path begins with. Required unless `kind` is `templated`.
 - `team_ids` (Set of String) IDs of the teams that own this escalation path. This will automatically sync escalation paths with the right teams in Catalog. If you have an escalation paths attribute on your Teams, this attribute is required.
+- `template_id` (String) The `incident_escalation_path_template` to build this path from, required when `kind` is `templated`. A templated path takes its nodes, working hours and repeat config from the template, so set `param_bindings` in place of `start` and `sequences`. Switching to a different template is an in-place update.
 - `working_hours` (Attributes List) The working hours for this escalation path. Absent for a templated path, which takes them from its template. (see [below for nested schema](#nestedatt--working_hours))
 
 ### Read-Only
 
 - `id` (String) Unique identifier for this escalation path.
+
+<a id="nestedatt--param_bindings"></a>
+### Nested Schema for `param_bindings`
+
+Optional:
+
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--param_bindings--array_value))
+- `expression_ref` (String) The name of an expression on this resource, whose result becomes the value. Shorthand for referencing `expressions["name"]`.
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--param_bindings--value))
+- `value_literal` (String) A fixed value, shorthand for `value = { literal = ... }`. A catalog entry ID is a literal, not a reference.
+- `value_reference` (String) A reference into the scope, shorthand for `value = { reference = ... }`.
+- `values` (List of String) Several fixed values, shorthand for an `array_value` of literals. For a mix of literals and references, use `array_value`.
+
+<a id="nestedatt--param_bindings--array_value"></a>
+### Nested Schema for `param_bindings.array_value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+<a id="nestedatt--param_bindings--value"></a>
+### Nested Schema for `param_bindings.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+
+<a id="nestedatt--repeat_config"></a>
+### Nested Schema for `repeat_config`
+
+Required:
+
+- `delay_repeat_on_activity` (Boolean) When true, incident activity resets the repeat timer.
+- `repeat_after_seconds` (Number) Number of seconds we'll wait before repeating an escalation.
+
 
 <a id="nestedatt--sequences"></a>
 ### Nested Schema for `sequences`
@@ -365,15 +408,6 @@ Optional:
 
 
 
-
-
-<a id="nestedatt--repeat_config"></a>
-### Nested Schema for `repeat_config`
-
-Required:
-
-- `delay_repeat_on_activity` (Boolean) When true, incident activity resets the repeat timer.
-- `repeat_after_seconds` (Number) Number of seconds we'll wait before repeating an escalation.
 
 
 <a id="nestedatt--working_hours"></a>
