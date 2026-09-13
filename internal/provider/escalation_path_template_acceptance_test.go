@@ -1,6 +1,7 @@
 package provider
 
 import (
+	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -11,6 +12,13 @@ import (
 // then edits the template. Every step has to leave an empty plan, which is where a binding
 // or sequence that doesn't round-trip would show.
 func TestAccEscalationPathTemplate(t *testing.T) {
+	// Escalation path templates are not on every incident.io yet, and the shared test
+	// account runs whatever is released rather than what is merged. Without the gate this
+	// fails as a 404 on every CI run until the API ships.
+	if os.Getenv("TF_ACC_ESCALATION_PATH_TEMPLATES") == "" {
+		t.Skip("TF_ACC_ESCALATION_PATH_TEMPLATES is not set: skipping test that requires escalation path templates")
+	}
+
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
