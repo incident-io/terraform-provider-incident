@@ -85,6 +85,15 @@ To run the tests with GoLand & Mise:
 > on the test account, to minimise flakiness. To run these tests locally, add
 > extra environment variables (e.g. `TF_ACC_JIRA=1`).
 
+Some tests need an API the test account's incident.io does not serve yet, and are gated the
+same way. Escalation path templates are one:
+
+```
+export TF_ACC_ESCALATION_PATH_TEMPLATES=1
+```
+
+Drop the gate once the API is available everywhere.
+
 ### Note on running tests locally 
 
 Some tests require existing resources to be present in the test account, which we can't create from the test setup. 
