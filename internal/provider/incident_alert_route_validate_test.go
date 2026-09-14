@@ -529,9 +529,10 @@ func TestIncidentAlertRouteResource_ValidateConfig(t *testing.T) {
 			errRe:  "grace_period_seconds` can only be set when",
 		},
 		{
-			name:   "v3 when_alert_joins_group requires grouping enabled",
+			// A team preference can group the route's alerts, so the mode is accepted
+			// whether or not the route groups.
+			name:   "v3 when_alert_joins_group allowed with grouping disabled",
 			config: arValidateConfig(arGroupingDisabled + arMessageValid + arEscalationJoinsGroup + arIncidentEnabled()),
-			errRe:  "when_alert_joins_group` can only be set when",
 		},
 		{
 			name:   "v2 valid minimal",

@@ -592,7 +592,7 @@ Required:
 
 Optional:
 
-- `when_alert_joins_group` (Attributes) (see [below for nested schema](#nestedatt--escalation_config--when_alert_joins_group))
+- `when_alert_joins_group` (Attributes) How to escalate when an alert joins a group. Applies whether or not this route groups alerts, because a team's grouping preference can group its alerts on any route. (see [below for nested schema](#nestedatt--escalation_config--when_alert_joins_group))
 
 <a id="nestedatt--escalation_config--escalation_targets"></a>
 ### Nested Schema for `escalation_config.escalation_targets`

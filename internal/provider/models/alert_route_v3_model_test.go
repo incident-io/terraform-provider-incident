@@ -4,6 +4,7 @@ import (
 	"context"
 	"testing"
 
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/samber/lo"
@@ -255,6 +256,53 @@ func TestAlertRouteV3MessageConfigDestinationsNullVsEmpty(t *testing.T) {
 	}
 	if resultNil.MessageConfig.Destinations != nil {
 		t.Errorf("destinations should be nil when plan is nil, got %+v", resultNil.MessageConfig.Destinations)
+	}
+}
+
+// TestAlertRouteV3WhenAlertJoinsGroupKeepsPlanWhenOmitted: until team grouping is on for
+// the organisation the API returns no mode for a route that does not group, so the read
+// keeps the planned or prior value and only stays null when there was none to keep.
+func TestAlertRouteV3WhenAlertJoinsGroupKeepsPlanWhenOmitted(t *testing.T) {
+	api := client.AlertRouteV3{
+		Id:              "01ABC",
+		Name:            "route",
+		ConditionGroups: []client.ConditionGroupV3{},
+		Expressions:     []client.ExpressionV3{},
+		GroupingConfig: client.AlertGroupingConfigV3{
+			Default: client.GroupingSettingsV3{},
+		},
+		MessageConfig: client.AlertMessageConfigV3{
+			Destinations: []client.AlertMessageDestinationV3{},
+		},
+		EscalationConfig: client.AlertRouteEscalationConfigV3{
+			EscalationTargets: []client.AlertRouteEscalationTargetV3{},
+		},
+		IncidentConfig: client.AlertRouteIncidentConfigV3{},
+	}
+
+	planned := types.ObjectValueMust(WhenAlertJoinsGroupAttrTypes(), map[string]attr.Value{
+		"mode":                 types.StringValue("on_each_new_alert"),
+		"grace_period_seconds": types.Int64Value(60),
+	})
+	withPlan := AlertRouteResourceModel{}.FromAPIV3WithPlan(api, &AlertRouteResourceModel{
+		EscalationConfig: &AlertRouteEscalationConfigModel{WhenAlertJoinsGroup: planned},
+	})
+	if !withPlan.EscalationConfig.WhenAlertJoinsGroup.Equal(planned) {
+		t.Errorf("planned mode should be kept, got %v", withPlan.EscalationConfig.WhenAlertJoinsGroup)
+	}
+
+	withUnknown := AlertRouteResourceModel{}.FromAPIV3WithPlan(api, &AlertRouteResourceModel{
+		EscalationConfig: &AlertRouteEscalationConfigModel{
+			WhenAlertJoinsGroup: types.ObjectUnknown(WhenAlertJoinsGroupAttrTypes()),
+		},
+	})
+	if !withUnknown.EscalationConfig.WhenAlertJoinsGroup.IsNull() {
+		t.Errorf("an unknown plan has nothing to keep, got %v", withUnknown.EscalationConfig.WhenAlertJoinsGroup)
+	}
+
+	noPlan := AlertRouteResourceModel{}.FromAPIV3(api)
+	if !noPlan.EscalationConfig.WhenAlertJoinsGroup.IsNull() {
+		t.Errorf("no plan should read as null, got %v", noPlan.EscalationConfig.WhenAlertJoinsGroup)
 	}
 }
 

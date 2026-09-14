@@ -1,3 +1,7 @@
+## Unreleased
+
+- Accept `escalation_config.when_alert_joins_group` on an `incident_alert_route` whose `grouping_config.default.enabled` is false, and keep the value the API returns for it. A team can now set a grouping preference that groups its alerts on every route. A route that does not group itself therefore still needs to say how to escalate when an alert joins a group, and the API returns that setting for every route. The provider used to reject the block at plan time when grouping was off, and planned it back to null. Once an organisation has team grouping preferences, that shows a diff on every plan for such a route. Until team grouping is on for your organisation the API returns no mode for a route that does not group, so the provider keeps the value it planned or last read rather than clearing it.
+
 ## v7.0.0
 
 - **Breaking**: the beta resources lose their `_beta` suffix. `incident_alert_source`, `incident_alert_source_attribute`, `incident_escalation_path`, `incident_schedule` and `incident_schedule_rotation` are now what the `_beta` resources were, and the v6 resources of those names are removed.
