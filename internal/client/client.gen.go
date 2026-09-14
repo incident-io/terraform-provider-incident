@@ -34,11 +34,16 @@ const (
 	APIKeyRoleV1NameIncidentWorkloadPrivateViewer       APIKeyRoleV1Name = "incident_workload_private_viewer"
 	APIKeyRoleV1NameIncidentWorkloadViewer              APIKeyRoleV1Name = "incident_workload_viewer"
 	APIKeyRoleV1NameInvestigationDownload               APIKeyRoleV1Name = "investigation_download"
+	APIKeyRoleV1NameInvestigationsEditor                APIKeyRoleV1Name = "investigations_editor"
 	APIKeyRoleV1NameManageSettings                      APIKeyRoleV1Name = "manage_settings"
 	APIKeyRoleV1NameNotificationMethodsManage           APIKeyRoleV1Name = "notification_methods_manage"
 	APIKeyRoleV1NameNotificationMethodsUnredactedViewer APIKeyRoleV1Name = "notification_methods_unredacted_viewer"
 	APIKeyRoleV1NameOnCallEditor                        APIKeyRoleV1Name = "on_call_editor"
 	APIKeyRoleV1NameOnCallViewer                        APIKeyRoleV1Name = "on_call_viewer"
+	APIKeyRoleV1NamePayConfigsEditor                    APIKeyRoleV1Name = "pay_configs_editor"
+	APIKeyRoleV1NamePayConfigsViewer                    APIKeyRoleV1Name = "pay_configs_viewer"
+	APIKeyRoleV1NamePayReportsEditor                    APIKeyRoleV1Name = "pay_reports_editor"
+	APIKeyRoleV1NamePayReportsViewer                    APIKeyRoleV1Name = "pay_reports_viewer"
 	APIKeyRoleV1NamePoliciesViewer                      APIKeyRoleV1Name = "policies_viewer"
 	APIKeyRoleV1NamePolicyFindingsManage                APIKeyRoleV1Name = "policy_findings_manage"
 	APIKeyRoleV1NamePostIncidentFlowOptOut              APIKeyRoleV1Name = "post_incident_flow_opt_out"
@@ -91,6 +96,8 @@ func (e APIKeyRoleV1Name) Valid() bool {
 		return true
 	case APIKeyRoleV1NameInvestigationDownload:
 		return true
+	case APIKeyRoleV1NameInvestigationsEditor:
+		return true
 	case APIKeyRoleV1NameManageSettings:
 		return true
 	case APIKeyRoleV1NameNotificationMethodsManage:
@@ -100,6 +107,14 @@ func (e APIKeyRoleV1Name) Valid() bool {
 	case APIKeyRoleV1NameOnCallEditor:
 		return true
 	case APIKeyRoleV1NameOnCallViewer:
+		return true
+	case APIKeyRoleV1NamePayConfigsEditor:
+		return true
+	case APIKeyRoleV1NamePayConfigsViewer:
+		return true
+	case APIKeyRoleV1NamePayReportsEditor:
+		return true
+	case APIKeyRoleV1NamePayReportsViewer:
 		return true
 	case APIKeyRoleV1NamePoliciesViewer:
 		return true
@@ -214,11 +229,16 @@ const (
 	APIKeysCreatePayloadV1RoleNamesIncidentWorkloadPrivateViewer       APIKeysCreatePayloadV1RoleNames = "incident_workload_private_viewer"
 	APIKeysCreatePayloadV1RoleNamesIncidentWorkloadViewer              APIKeysCreatePayloadV1RoleNames = "incident_workload_viewer"
 	APIKeysCreatePayloadV1RoleNamesInvestigationDownload               APIKeysCreatePayloadV1RoleNames = "investigation_download"
+	APIKeysCreatePayloadV1RoleNamesInvestigationsEditor                APIKeysCreatePayloadV1RoleNames = "investigations_editor"
 	APIKeysCreatePayloadV1RoleNamesManageSettings                      APIKeysCreatePayloadV1RoleNames = "manage_settings"
 	APIKeysCreatePayloadV1RoleNamesNotificationMethodsManage           APIKeysCreatePayloadV1RoleNames = "notification_methods_manage"
 	APIKeysCreatePayloadV1RoleNamesNotificationMethodsUnredactedViewer APIKeysCreatePayloadV1RoleNames = "notification_methods_unredacted_viewer"
 	APIKeysCreatePayloadV1RoleNamesOnCallEditor                        APIKeysCreatePayloadV1RoleNames = "on_call_editor"
 	APIKeysCreatePayloadV1RoleNamesOnCallViewer                        APIKeysCreatePayloadV1RoleNames = "on_call_viewer"
+	APIKeysCreatePayloadV1RoleNamesPayConfigsEditor                    APIKeysCreatePayloadV1RoleNames = "pay_configs_editor"
+	APIKeysCreatePayloadV1RoleNamesPayConfigsViewer                    APIKeysCreatePayloadV1RoleNames = "pay_configs_viewer"
+	APIKeysCreatePayloadV1RoleNamesPayReportsEditor                    APIKeysCreatePayloadV1RoleNames = "pay_reports_editor"
+	APIKeysCreatePayloadV1RoleNamesPayReportsViewer                    APIKeysCreatePayloadV1RoleNames = "pay_reports_viewer"
 	APIKeysCreatePayloadV1RoleNamesPoliciesViewer                      APIKeysCreatePayloadV1RoleNames = "policies_viewer"
 	APIKeysCreatePayloadV1RoleNamesPolicyFindingsManage                APIKeysCreatePayloadV1RoleNames = "policy_findings_manage"
 	APIKeysCreatePayloadV1RoleNamesPostIncidentFlowOptOut              APIKeysCreatePayloadV1RoleNames = "post_incident_flow_opt_out"
@@ -271,6 +291,8 @@ func (e APIKeysCreatePayloadV1RoleNames) Valid() bool {
 		return true
 	case APIKeysCreatePayloadV1RoleNamesInvestigationDownload:
 		return true
+	case APIKeysCreatePayloadV1RoleNamesInvestigationsEditor:
+		return true
 	case APIKeysCreatePayloadV1RoleNamesManageSettings:
 		return true
 	case APIKeysCreatePayloadV1RoleNamesNotificationMethodsManage:
@@ -280,6 +302,14 @@ func (e APIKeysCreatePayloadV1RoleNames) Valid() bool {
 	case APIKeysCreatePayloadV1RoleNamesOnCallEditor:
 		return true
 	case APIKeysCreatePayloadV1RoleNamesOnCallViewer:
+		return true
+	case APIKeysCreatePayloadV1RoleNamesPayConfigsEditor:
+		return true
+	case APIKeysCreatePayloadV1RoleNamesPayConfigsViewer:
+		return true
+	case APIKeysCreatePayloadV1RoleNamesPayReportsEditor:
+		return true
+	case APIKeysCreatePayloadV1RoleNamesPayReportsViewer:
 		return true
 	case APIKeysCreatePayloadV1RoleNamesPoliciesViewer:
 		return true
@@ -394,11 +424,16 @@ const (
 	APIKeysUpdatePayloadV1RoleNamesIncidentWorkloadPrivateViewer       APIKeysUpdatePayloadV1RoleNames = "incident_workload_private_viewer"
 	APIKeysUpdatePayloadV1RoleNamesIncidentWorkloadViewer              APIKeysUpdatePayloadV1RoleNames = "incident_workload_viewer"
 	APIKeysUpdatePayloadV1RoleNamesInvestigationDownload               APIKeysUpdatePayloadV1RoleNames = "investigation_download"
+	APIKeysUpdatePayloadV1RoleNamesInvestigationsEditor                APIKeysUpdatePayloadV1RoleNames = "investigations_editor"
 	APIKeysUpdatePayloadV1RoleNamesManageSettings                      APIKeysUpdatePayloadV1RoleNames = "manage_settings"
 	APIKeysUpdatePayloadV1RoleNamesNotificationMethodsManage           APIKeysUpdatePayloadV1RoleNames = "notification_methods_manage"
 	APIKeysUpdatePayloadV1RoleNamesNotificationMethodsUnredactedViewer APIKeysUpdatePayloadV1RoleNames = "notification_methods_unredacted_viewer"
 	APIKeysUpdatePayloadV1RoleNamesOnCallEditor                        APIKeysUpdatePayloadV1RoleNames = "on_call_editor"
 	APIKeysUpdatePayloadV1RoleNamesOnCallViewer                        APIKeysUpdatePayloadV1RoleNames = "on_call_viewer"
+	APIKeysUpdatePayloadV1RoleNamesPayConfigsEditor                    APIKeysUpdatePayloadV1RoleNames = "pay_configs_editor"
+	APIKeysUpdatePayloadV1RoleNamesPayConfigsViewer                    APIKeysUpdatePayloadV1RoleNames = "pay_configs_viewer"
+	APIKeysUpdatePayloadV1RoleNamesPayReportsEditor                    APIKeysUpdatePayloadV1RoleNames = "pay_reports_editor"
+	APIKeysUpdatePayloadV1RoleNamesPayReportsViewer                    APIKeysUpdatePayloadV1RoleNames = "pay_reports_viewer"
 	APIKeysUpdatePayloadV1RoleNamesPoliciesViewer                      APIKeysUpdatePayloadV1RoleNames = "policies_viewer"
 	APIKeysUpdatePayloadV1RoleNamesPolicyFindingsManage                APIKeysUpdatePayloadV1RoleNames = "policy_findings_manage"
 	APIKeysUpdatePayloadV1RoleNamesPostIncidentFlowOptOut              APIKeysUpdatePayloadV1RoleNames = "post_incident_flow_opt_out"
@@ -451,6 +486,8 @@ func (e APIKeysUpdatePayloadV1RoleNames) Valid() bool {
 		return true
 	case APIKeysUpdatePayloadV1RoleNamesInvestigationDownload:
 		return true
+	case APIKeysUpdatePayloadV1RoleNamesInvestigationsEditor:
+		return true
 	case APIKeysUpdatePayloadV1RoleNamesManageSettings:
 		return true
 	case APIKeysUpdatePayloadV1RoleNamesNotificationMethodsManage:
@@ -460,6 +497,14 @@ func (e APIKeysUpdatePayloadV1RoleNames) Valid() bool {
 	case APIKeysUpdatePayloadV1RoleNamesOnCallEditor:
 		return true
 	case APIKeysUpdatePayloadV1RoleNamesOnCallViewer:
+		return true
+	case APIKeysUpdatePayloadV1RoleNamesPayConfigsEditor:
+		return true
+	case APIKeysUpdatePayloadV1RoleNamesPayConfigsViewer:
+		return true
+	case APIKeysUpdatePayloadV1RoleNamesPayReportsEditor:
+		return true
+	case APIKeysUpdatePayloadV1RoleNamesPayReportsViewer:
 		return true
 	case APIKeysUpdatePayloadV1RoleNamesPoliciesViewer:
 		return true
@@ -574,11 +619,16 @@ const (
 	APIKeysValidatePayloadV1RoleNamesIncidentWorkloadPrivateViewer       APIKeysValidatePayloadV1RoleNames = "incident_workload_private_viewer"
 	APIKeysValidatePayloadV1RoleNamesIncidentWorkloadViewer              APIKeysValidatePayloadV1RoleNames = "incident_workload_viewer"
 	APIKeysValidatePayloadV1RoleNamesInvestigationDownload               APIKeysValidatePayloadV1RoleNames = "investigation_download"
+	APIKeysValidatePayloadV1RoleNamesInvestigationsEditor                APIKeysValidatePayloadV1RoleNames = "investigations_editor"
 	APIKeysValidatePayloadV1RoleNamesManageSettings                      APIKeysValidatePayloadV1RoleNames = "manage_settings"
 	APIKeysValidatePayloadV1RoleNamesNotificationMethodsManage           APIKeysValidatePayloadV1RoleNames = "notification_methods_manage"
 	APIKeysValidatePayloadV1RoleNamesNotificationMethodsUnredactedViewer APIKeysValidatePayloadV1RoleNames = "notification_methods_unredacted_viewer"
 	APIKeysValidatePayloadV1RoleNamesOnCallEditor                        APIKeysValidatePayloadV1RoleNames = "on_call_editor"
 	APIKeysValidatePayloadV1RoleNamesOnCallViewer                        APIKeysValidatePayloadV1RoleNames = "on_call_viewer"
+	APIKeysValidatePayloadV1RoleNamesPayConfigsEditor                    APIKeysValidatePayloadV1RoleNames = "pay_configs_editor"
+	APIKeysValidatePayloadV1RoleNamesPayConfigsViewer                    APIKeysValidatePayloadV1RoleNames = "pay_configs_viewer"
+	APIKeysValidatePayloadV1RoleNamesPayReportsEditor                    APIKeysValidatePayloadV1RoleNames = "pay_reports_editor"
+	APIKeysValidatePayloadV1RoleNamesPayReportsViewer                    APIKeysValidatePayloadV1RoleNames = "pay_reports_viewer"
 	APIKeysValidatePayloadV1RoleNamesPoliciesViewer                      APIKeysValidatePayloadV1RoleNames = "policies_viewer"
 	APIKeysValidatePayloadV1RoleNamesPolicyFindingsManage                APIKeysValidatePayloadV1RoleNames = "policy_findings_manage"
 	APIKeysValidatePayloadV1RoleNamesPostIncidentFlowOptOut              APIKeysValidatePayloadV1RoleNames = "post_incident_flow_opt_out"
@@ -631,6 +681,8 @@ func (e APIKeysValidatePayloadV1RoleNames) Valid() bool {
 		return true
 	case APIKeysValidatePayloadV1RoleNamesInvestigationDownload:
 		return true
+	case APIKeysValidatePayloadV1RoleNamesInvestigationsEditor:
+		return true
 	case APIKeysValidatePayloadV1RoleNamesManageSettings:
 		return true
 	case APIKeysValidatePayloadV1RoleNamesNotificationMethodsManage:
@@ -640,6 +692,14 @@ func (e APIKeysValidatePayloadV1RoleNames) Valid() bool {
 	case APIKeysValidatePayloadV1RoleNamesOnCallEditor:
 		return true
 	case APIKeysValidatePayloadV1RoleNamesOnCallViewer:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesPayConfigsEditor:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesPayConfigsViewer:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesPayReportsEditor:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesPayReportsViewer:
 		return true
 	case APIKeysValidatePayloadV1RoleNamesPoliciesViewer:
 		return true
@@ -4995,6 +5055,27 @@ func (e EscalationPathTargetWithBindingV2Urgency) Valid() bool {
 	}
 }
 
+// Defines values for EscalationPathTemplateLinkedPathCheckV2Verdict.
+const (
+	Broken   EscalationPathTemplateLinkedPathCheckV2Verdict = "broken"
+	Degraded EscalationPathTemplateLinkedPathCheckV2Verdict = "degraded"
+	Healthy  EscalationPathTemplateLinkedPathCheckV2Verdict = "healthy"
+)
+
+// Valid indicates whether the value is a known member of the EscalationPathTemplateLinkedPathCheckV2Verdict enum.
+func (e EscalationPathTemplateLinkedPathCheckV2Verdict) Valid() bool {
+	switch e {
+	case Broken:
+		return true
+	case Degraded:
+		return true
+	case Healthy:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for EscalationPathTemplateNodePayloadV2Type.
 const (
 	EscalationPathTemplateNodePayloadV2TypeDelay          EscalationPathTemplateNodePayloadV2Type = "delay"
@@ -5061,6 +5142,24 @@ func (e EscalationPathTemplateNodeV2Type) Valid() bool {
 	}
 }
 
+// Defines values for EscalationPathV2Kind.
+const (
+	EscalationPathV2KindStandalone EscalationPathV2Kind = "standalone"
+	EscalationPathV2KindTemplated  EscalationPathV2Kind = "templated"
+)
+
+// Valid indicates whether the value is a known member of the EscalationPathV2Kind enum.
+func (e EscalationPathV2Kind) Valid() bool {
+	switch e {
+	case EscalationPathV2KindStandalone:
+		return true
+	case EscalationPathV2KindTemplated:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for EscalationUserResponseOptionsV2AvailableActions.
 const (
 	EscalationUserResponseOptionsV2AvailableActionsAck    EscalationUserResponseOptionsV2AvailableActions = "ack"
@@ -5121,6 +5220,24 @@ func (e EscalationV2Status) Valid() bool {
 	}
 }
 
+// Defines values for EscalationsCreatePathPayloadV2Kind.
+const (
+	EscalationsCreatePathPayloadV2KindStandalone EscalationsCreatePathPayloadV2Kind = "standalone"
+	EscalationsCreatePathPayloadV2KindTemplated  EscalationsCreatePathPayloadV2Kind = "templated"
+)
+
+// Valid indicates whether the value is a known member of the EscalationsCreatePathPayloadV2Kind enum.
+func (e EscalationsCreatePathPayloadV2Kind) Valid() bool {
+	switch e {
+	case EscalationsCreatePathPayloadV2KindStandalone:
+		return true
+	case EscalationsCreatePathPayloadV2KindTemplated:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for EscalationsRespondEscalationPayloadV2Response.
 const (
 	EscalationsRespondEscalationPayloadV2ResponseAck    EscalationsRespondEscalationPayloadV2Response = "ack"
@@ -5136,6 +5253,42 @@ func (e EscalationsRespondEscalationPayloadV2Response) Valid() bool {
 	case EscalationsRespondEscalationPayloadV2ResponseNack:
 		return true
 	case EscalationsRespondEscalationPayloadV2ResponseSnooze:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for EscalationsUpdatePathPayloadV2Kind.
+const (
+	EscalationsUpdatePathPayloadV2KindStandalone EscalationsUpdatePathPayloadV2Kind = "standalone"
+	EscalationsUpdatePathPayloadV2KindTemplated  EscalationsUpdatePathPayloadV2Kind = "templated"
+)
+
+// Valid indicates whether the value is a known member of the EscalationsUpdatePathPayloadV2Kind enum.
+func (e EscalationsUpdatePathPayloadV2Kind) Valid() bool {
+	switch e {
+	case EscalationsUpdatePathPayloadV2KindStandalone:
+		return true
+	case EscalationsUpdatePathPayloadV2KindTemplated:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for EscalationsValidatePathPayloadV2Kind.
+const (
+	EscalationsValidatePathPayloadV2KindStandalone EscalationsValidatePathPayloadV2Kind = "standalone"
+	EscalationsValidatePathPayloadV2KindTemplated  EscalationsValidatePathPayloadV2Kind = "templated"
+)
+
+// Valid indicates whether the value is a known member of the EscalationsValidatePathPayloadV2Kind enum.
+func (e EscalationsValidatePathPayloadV2Kind) Valid() bool {
+	switch e {
+	case EscalationsValidatePathPayloadV2KindStandalone:
+		return true
+	case EscalationsValidatePathPayloadV2KindTemplated:
 		return true
 	default:
 		return false
@@ -5756,16 +5909,16 @@ func (e FollowUpsUpdatePayloadV3Status) Valid() bool {
 
 // Defines values for GroupingSettingsV3WindowType.
 const (
-	Fixed   GroupingSettingsV3WindowType = "fixed"
-	Rolling GroupingSettingsV3WindowType = "rolling"
+	GroupingSettingsV3WindowTypeFixed   GroupingSettingsV3WindowType = "fixed"
+	GroupingSettingsV3WindowTypeRolling GroupingSettingsV3WindowType = "rolling"
 )
 
 // Valid indicates whether the value is a known member of the GroupingSettingsV3WindowType enum.
 func (e GroupingSettingsV3WindowType) Valid() bool {
 	switch e {
-	case Fixed:
+	case GroupingSettingsV3WindowTypeFixed:
 		return true
-	case Rolling:
+	case GroupingSettingsV3WindowTypeRolling:
 		return true
 	default:
 		return false
@@ -5788,11 +5941,16 @@ const (
 	IdentityV1RolesIncidentWorkloadPrivateViewer       IdentityV1Roles = "incident_workload_private_viewer"
 	IdentityV1RolesIncidentWorkloadViewer              IdentityV1Roles = "incident_workload_viewer"
 	IdentityV1RolesInvestigationDownload               IdentityV1Roles = "investigation_download"
+	IdentityV1RolesInvestigationsEditor                IdentityV1Roles = "investigations_editor"
 	IdentityV1RolesManageSettings                      IdentityV1Roles = "manage_settings"
 	IdentityV1RolesNotificationMethodsManage           IdentityV1Roles = "notification_methods_manage"
 	IdentityV1RolesNotificationMethodsUnredactedViewer IdentityV1Roles = "notification_methods_unredacted_viewer"
 	IdentityV1RolesOnCallEditor                        IdentityV1Roles = "on_call_editor"
 	IdentityV1RolesOnCallViewer                        IdentityV1Roles = "on_call_viewer"
+	IdentityV1RolesPayConfigsEditor                    IdentityV1Roles = "pay_configs_editor"
+	IdentityV1RolesPayConfigsViewer                    IdentityV1Roles = "pay_configs_viewer"
+	IdentityV1RolesPayReportsEditor                    IdentityV1Roles = "pay_reports_editor"
+	IdentityV1RolesPayReportsViewer                    IdentityV1Roles = "pay_reports_viewer"
 	IdentityV1RolesPoliciesViewer                      IdentityV1Roles = "policies_viewer"
 	IdentityV1RolesPolicyFindingsManage                IdentityV1Roles = "policy_findings_manage"
 	IdentityV1RolesPostIncidentFlowOptOut              IdentityV1Roles = "post_incident_flow_opt_out"
@@ -5845,6 +6003,8 @@ func (e IdentityV1Roles) Valid() bool {
 		return true
 	case IdentityV1RolesInvestigationDownload:
 		return true
+	case IdentityV1RolesInvestigationsEditor:
+		return true
 	case IdentityV1RolesManageSettings:
 		return true
 	case IdentityV1RolesNotificationMethodsManage:
@@ -5854,6 +6014,14 @@ func (e IdentityV1Roles) Valid() bool {
 	case IdentityV1RolesOnCallEditor:
 		return true
 	case IdentityV1RolesOnCallViewer:
+		return true
+	case IdentityV1RolesPayConfigsEditor:
+		return true
+	case IdentityV1RolesPayConfigsViewer:
+		return true
+	case IdentityV1RolesPayReportsEditor:
+		return true
+	case IdentityV1RolesPayReportsViewer:
 		return true
 	case IdentityV1RolesPoliciesViewer:
 		return true
@@ -6827,17 +6995,19 @@ func (e ManagedResourceV2ManagedBy) Valid() bool {
 
 // Defines values for ManagedResourceV2ResourceType.
 const (
-	ManagedResourceV2ResourceTypeAlertRoute         ManagedResourceV2ResourceType = "alert_route"
-	ManagedResourceV2ResourceTypeAlertSource        ManagedResourceV2ResourceType = "alert_source"
-	ManagedResourceV2ResourceTypeApiKey             ManagedResourceV2ResourceType = "api_key"
-	ManagedResourceV2ResourceTypeEscalationPath     ManagedResourceV2ResourceType = "escalation_path"
-	ManagedResourceV2ResourceTypeIncidentTemplate   ManagedResourceV2ResourceType = "incident_template"
-	ManagedResourceV2ResourceTypePolicy             ManagedResourceV2ResourceType = "policy"
-	ManagedResourceV2ResourceTypeSchedule           ManagedResourceV2ResourceType = "schedule"
-	ManagedResourceV2ResourceTypeScheduleSyncRule   ManagedResourceV2ResourceType = "schedule_sync_rule"
-	ManagedResourceV2ResourceTypeScheduleSyncTarget ManagedResourceV2ResourceType = "schedule_sync_target"
-	ManagedResourceV2ResourceTypeSecret             ManagedResourceV2ResourceType = "secret"
-	ManagedResourceV2ResourceTypeWorkflow           ManagedResourceV2ResourceType = "workflow"
+	ManagedResourceV2ResourceTypeAlertRoute             ManagedResourceV2ResourceType = "alert_route"
+	ManagedResourceV2ResourceTypeAlertSource            ManagedResourceV2ResourceType = "alert_source"
+	ManagedResourceV2ResourceTypeApiKey                 ManagedResourceV2ResourceType = "api_key"
+	ManagedResourceV2ResourceTypeEscalationPath         ManagedResourceV2ResourceType = "escalation_path"
+	ManagedResourceV2ResourceTypeEscalationPathTemplate ManagedResourceV2ResourceType = "escalation_path_template"
+	ManagedResourceV2ResourceTypeIncidentTemplate       ManagedResourceV2ResourceType = "incident_template"
+	ManagedResourceV2ResourceTypePolicy                 ManagedResourceV2ResourceType = "policy"
+	ManagedResourceV2ResourceTypeSchedule               ManagedResourceV2ResourceType = "schedule"
+	ManagedResourceV2ResourceTypeScheduleSyncRule       ManagedResourceV2ResourceType = "schedule_sync_rule"
+	ManagedResourceV2ResourceTypeScheduleSyncTarget     ManagedResourceV2ResourceType = "schedule_sync_target"
+	ManagedResourceV2ResourceTypeSecret                 ManagedResourceV2ResourceType = "secret"
+	ManagedResourceV2ResourceTypeTeamGroupingPreference ManagedResourceV2ResourceType = "team_grouping_preference"
+	ManagedResourceV2ResourceTypeWorkflow               ManagedResourceV2ResourceType = "workflow"
 )
 
 // Valid indicates whether the value is a known member of the ManagedResourceV2ResourceType enum.
@@ -6851,6 +7021,8 @@ func (e ManagedResourceV2ResourceType) Valid() bool {
 		return true
 	case ManagedResourceV2ResourceTypeEscalationPath:
 		return true
+	case ManagedResourceV2ResourceTypeEscalationPathTemplate:
+		return true
 	case ManagedResourceV2ResourceTypeIncidentTemplate:
 		return true
 	case ManagedResourceV2ResourceTypePolicy:
@@ -6863,6 +7035,8 @@ func (e ManagedResourceV2ResourceType) Valid() bool {
 		return true
 	case ManagedResourceV2ResourceTypeSecret:
 		return true
+	case ManagedResourceV2ResourceTypeTeamGroupingPreference:
+		return true
 	case ManagedResourceV2ResourceTypeWorkflow:
 		return true
 	default:
@@ -6872,17 +7046,19 @@ func (e ManagedResourceV2ResourceType) Valid() bool {
 
 // Defines values for ManagedResourcesCreateManagedResourcePayloadV2ResourceType.
 const (
-	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertRoute         ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "alert_route"
-	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertSource        ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "alert_source"
-	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeApiKey             ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "api_key"
-	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPath     ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "escalation_path"
-	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeIncidentTemplate   ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "incident_template"
-	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypePolicy             ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "policy"
-	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeSchedule           ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "schedule"
-	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeScheduleSyncRule   ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "schedule_sync_rule"
-	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeScheduleSyncTarget ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "schedule_sync_target"
-	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeSecret             ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "secret"
-	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeWorkflow           ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "workflow"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertRoute             ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "alert_route"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertSource            ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "alert_source"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeApiKey                 ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "api_key"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPath         ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "escalation_path"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPathTemplate ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "escalation_path_template"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeIncidentTemplate       ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "incident_template"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypePolicy                 ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "policy"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeSchedule               ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "schedule"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeScheduleSyncRule       ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "schedule_sync_rule"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeScheduleSyncTarget     ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "schedule_sync_target"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeSecret                 ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "secret"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeTeamGroupingPreference ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "team_grouping_preference"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeWorkflow               ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "workflow"
 )
 
 // Valid indicates whether the value is a known member of the ManagedResourcesCreateManagedResourcePayloadV2ResourceType enum.
@@ -6896,6 +7072,8 @@ func (e ManagedResourcesCreateManagedResourcePayloadV2ResourceType) Valid() bool
 		return true
 	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPath:
 		return true
+	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPathTemplate:
+		return true
 	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeIncidentTemplate:
 		return true
 	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypePolicy:
@@ -6907,6 +7085,8 @@ func (e ManagedResourcesCreateManagedResourcePayloadV2ResourceType) Valid() bool
 	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeScheduleSyncTarget:
 		return true
 	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeSecret:
+		return true
+	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeTeamGroupingPreference:
 		return true
 	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeWorkflow:
 		return true
@@ -7131,6 +7311,162 @@ func (e OnCallNotificationRulePublicV2RuleType) Valid() bool {
 	case OnCallNotificationRulePublicV2RuleTypeHighUrgency:
 		return true
 	case OnCallNotificationRulePublicV2RuleTypeLowUrgency:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PayConfigV2RateTimeUnit.
+const (
+	PayConfigV2RateTimeUnitDay  PayConfigV2RateTimeUnit = "day"
+	PayConfigV2RateTimeUnitHour PayConfigV2RateTimeUnit = "hour"
+)
+
+// Valid indicates whether the value is a known member of the PayConfigV2RateTimeUnit enum.
+func (e PayConfigV2RateTimeUnit) Valid() bool {
+	switch e {
+	case PayConfigV2RateTimeUnitDay:
+		return true
+	case PayConfigV2RateTimeUnitHour:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PayConfigWeeklyRulePayloadV2Weekdays.
+const (
+	PayConfigWeeklyRulePayloadV2WeekdaysFriday    PayConfigWeeklyRulePayloadV2Weekdays = "friday"
+	PayConfigWeeklyRulePayloadV2WeekdaysMonday    PayConfigWeeklyRulePayloadV2Weekdays = "monday"
+	PayConfigWeeklyRulePayloadV2WeekdaysSaturday  PayConfigWeeklyRulePayloadV2Weekdays = "saturday"
+	PayConfigWeeklyRulePayloadV2WeekdaysSunday    PayConfigWeeklyRulePayloadV2Weekdays = "sunday"
+	PayConfigWeeklyRulePayloadV2WeekdaysThursday  PayConfigWeeklyRulePayloadV2Weekdays = "thursday"
+	PayConfigWeeklyRulePayloadV2WeekdaysTuesday   PayConfigWeeklyRulePayloadV2Weekdays = "tuesday"
+	PayConfigWeeklyRulePayloadV2WeekdaysWednesday PayConfigWeeklyRulePayloadV2Weekdays = "wednesday"
+)
+
+// Valid indicates whether the value is a known member of the PayConfigWeeklyRulePayloadV2Weekdays enum.
+func (e PayConfigWeeklyRulePayloadV2Weekdays) Valid() bool {
+	switch e {
+	case PayConfigWeeklyRulePayloadV2WeekdaysFriday:
+		return true
+	case PayConfigWeeklyRulePayloadV2WeekdaysMonday:
+		return true
+	case PayConfigWeeklyRulePayloadV2WeekdaysSaturday:
+		return true
+	case PayConfigWeeklyRulePayloadV2WeekdaysSunday:
+		return true
+	case PayConfigWeeklyRulePayloadV2WeekdaysThursday:
+		return true
+	case PayConfigWeeklyRulePayloadV2WeekdaysTuesday:
+		return true
+	case PayConfigWeeklyRulePayloadV2WeekdaysWednesday:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PayConfigWeeklyRuleV2Weekdays.
+const (
+	PayConfigWeeklyRuleV2WeekdaysFriday    PayConfigWeeklyRuleV2Weekdays = "friday"
+	PayConfigWeeklyRuleV2WeekdaysMonday    PayConfigWeeklyRuleV2Weekdays = "monday"
+	PayConfigWeeklyRuleV2WeekdaysSaturday  PayConfigWeeklyRuleV2Weekdays = "saturday"
+	PayConfigWeeklyRuleV2WeekdaysSunday    PayConfigWeeklyRuleV2Weekdays = "sunday"
+	PayConfigWeeklyRuleV2WeekdaysThursday  PayConfigWeeklyRuleV2Weekdays = "thursday"
+	PayConfigWeeklyRuleV2WeekdaysTuesday   PayConfigWeeklyRuleV2Weekdays = "tuesday"
+	PayConfigWeeklyRuleV2WeekdaysWednesday PayConfigWeeklyRuleV2Weekdays = "wednesday"
+)
+
+// Valid indicates whether the value is a known member of the PayConfigWeeklyRuleV2Weekdays enum.
+func (e PayConfigWeeklyRuleV2Weekdays) Valid() bool {
+	switch e {
+	case PayConfigWeeklyRuleV2WeekdaysFriday:
+		return true
+	case PayConfigWeeklyRuleV2WeekdaysMonday:
+		return true
+	case PayConfigWeeklyRuleV2WeekdaysSaturday:
+		return true
+	case PayConfigWeeklyRuleV2WeekdaysSunday:
+		return true
+	case PayConfigWeeklyRuleV2WeekdaysThursday:
+		return true
+	case PayConfigWeeklyRuleV2WeekdaysTuesday:
+		return true
+	case PayConfigWeeklyRuleV2WeekdaysWednesday:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PayConfigsCreatePayloadV2RateTimeUnit.
+const (
+	PayConfigsCreatePayloadV2RateTimeUnitDay  PayConfigsCreatePayloadV2RateTimeUnit = "day"
+	PayConfigsCreatePayloadV2RateTimeUnitHour PayConfigsCreatePayloadV2RateTimeUnit = "hour"
+)
+
+// Valid indicates whether the value is a known member of the PayConfigsCreatePayloadV2RateTimeUnit enum.
+func (e PayConfigsCreatePayloadV2RateTimeUnit) Valid() bool {
+	switch e {
+	case PayConfigsCreatePayloadV2RateTimeUnitDay:
+		return true
+	case PayConfigsCreatePayloadV2RateTimeUnitHour:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PayConfigsUpdatePayloadV2RateTimeUnit.
+const (
+	PayConfigsUpdatePayloadV2RateTimeUnitDay  PayConfigsUpdatePayloadV2RateTimeUnit = "day"
+	PayConfigsUpdatePayloadV2RateTimeUnitHour PayConfigsUpdatePayloadV2RateTimeUnit = "hour"
+)
+
+// Valid indicates whether the value is a known member of the PayConfigsUpdatePayloadV2RateTimeUnit enum.
+func (e PayConfigsUpdatePayloadV2RateTimeUnit) Valid() bool {
+	switch e {
+	case PayConfigsUpdatePayloadV2RateTimeUnitDay:
+		return true
+	case PayConfigsUpdatePayloadV2RateTimeUnitHour:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PayReportV2OverlappingShifts.
+const (
+	PaidOnce        PayReportV2OverlappingShifts = "paid_once"
+	PaidPerSchedule PayReportV2OverlappingShifts = "paid_per_schedule"
+)
+
+// Valid indicates whether the value is a known member of the PayReportV2OverlappingShifts enum.
+func (e PayReportV2OverlappingShifts) Valid() bool {
+	switch e {
+	case PaidOnce:
+		return true
+	case PaidPerSchedule:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PayReportV2UnpaidShifts.
+const (
+	Excluded PayReportV2UnpaidShifts = "excluded"
+	Included PayReportV2UnpaidShifts = "included"
+)
+
+// Valid indicates whether the value is a known member of the PayReportV2UnpaidShifts enum.
+func (e PayReportV2UnpaidShifts) Valid() bool {
+	switch e {
+	case Excluded:
+		return true
+	case Included:
 		return true
 	default:
 		return false
@@ -8460,6 +8796,24 @@ func (e StepProgressV2WebhookDeliveryState) Valid() bool {
 	case StepProgressV2WebhookDeliveryStateExpired:
 		return true
 	case StepProgressV2WebhookDeliveryStateUnavailable:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for TeamGroupingSettingsV3WindowType.
+const (
+	TeamGroupingSettingsV3WindowTypeFixed   TeamGroupingSettingsV3WindowType = "fixed"
+	TeamGroupingSettingsV3WindowTypeRolling TeamGroupingSettingsV3WindowType = "rolling"
+)
+
+// Valid indicates whether the value is a known member of the TeamGroupingSettingsV3WindowType enum.
+func (e TeamGroupingSettingsV3WindowType) Valid() bool {
+	switch e {
+	case TeamGroupingSettingsV3WindowTypeFixed:
+		return true
+	case TeamGroupingSettingsV3WindowTypeRolling:
 		return true
 	default:
 		return false
@@ -13268,19 +13622,6 @@ type AlertSourcesValidateResultV3 struct {
 	Warnings []AlertSourceValidateWarningV3 `json:"warnings"`
 }
 
-// AlertTagInputV2 Example: {"id":"01GW2G3V0S59R238FAHPDS1R66","name":"noisy"}
-type AlertTagInputV2 struct {
-	// Id Unique identifier for an existing tag
-	//
-	// Example: 01GW2G3V0S59R238FAHPDS1R66
-	Id *string `json:"id,omitempty"`
-
-	// Name The name of a tag to look up or create
-	//
-	// Example: noisy
-	Name *string `json:"name,omitempty"`
-}
-
 // AlertTagV2 Example: {"id":"01GW2G3V0S59R238FAHPDS1R66","name":"noisy"}
 type AlertTagV2 struct {
 	// Id Unique identifier for the tag
@@ -13487,12 +13828,12 @@ type AlertV2 struct {
 // Example: firing
 type AlertV2Status string
 
-// AlertsAddTagsPayloadV2 Example: {"tags":[{"id":"01GW2G3V0S59R238FAHPDS1R66"},{"name":"known issue"}]}
+// AlertsAddTagsPayloadV2 Example: {"tags":["known issue","customer impacting"]}
 type AlertsAddTagsPayloadV2 struct {
-	// Tags Tags to add to this alert
+	// Tags Tag names to add to this alert
 	//
-	// Example: [{"id":"01GW2G3V0S59R238FAHPDS1R66"},{"name":"known issue"}]
-	Tags []AlertTagInputV2 `json:"tags"`
+	// Example: ["known issue","customer impacting"]
+	Tags []string `json:"tags"`
 }
 
 // AlertsAddTagsResultV2 Example: {"alert":{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","attributes":[{"array_value":[{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}],"attribute":{"array":false,"emoji":"fire","id":"01GW2G3V0S59R238FAHPDS1R66","name":"service","required":false,"type":"CatalogEntry[\"01GW2G3V0S59R238FAHPDS1R67\"]"},"value":{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}}],"created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","tags":[{"id":"01GW2G3V0S59R238FAHPDS1R66","name":"noisy"}],"title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}}
@@ -13552,12 +13893,12 @@ type AlertsListResultV2 struct {
 	PaginationMeta PaginationMetaResultV2 `json:"pagination_meta"`
 }
 
-// AlertsRemoveTagsPayloadV2 Example: {"tags":[{"id":"01GW2G3V0S59R238FAHPDS1R66"},{"name":"known issue"}]}
+// AlertsRemoveTagsPayloadV2 Example: {"tags":["known issue","customer impacting"]}
 type AlertsRemoveTagsPayloadV2 struct {
-	// Tags Tags to remove from this alert
+	// Tags Tag names to remove from this alert
 	//
-	// Example: [{"id":"01GW2G3V0S59R238FAHPDS1R66"},{"name":"known issue"}]
-	Tags []AlertTagInputV2 `json:"tags"`
+	// Example: ["known issue","customer impacting"]
+	Tags []string `json:"tags"`
 }
 
 // AlertsRemoveTagsResultV2 Example: {"alert":{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","attributes":[{"array_value":[{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}],"attribute":{"array":false,"emoji":"fire","id":"01GW2G3V0S59R238FAHPDS1R66","name":"service","required":false,"type":"CatalogEntry[\"01GW2G3V0S59R238FAHPDS1R67\"]"},"value":{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}}],"created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","tags":[{"id":"01GW2G3V0S59R238FAHPDS1R66","name":"noisy"}],"title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}}
@@ -13572,12 +13913,12 @@ type AlertsResolveResultV2 struct {
 	Alert AlertV2 `json:"alert"`
 }
 
-// AlertsSetTagsPayloadV2 Example: {"tags":[{"id":"01GW2G3V0S59R238FAHPDS1R66"},{"name":"known issue"}]}
+// AlertsSetTagsPayloadV2 Example: {"tags":["known issue","customer impacting"]}
 type AlertsSetTagsPayloadV2 struct {
-	// Tags The complete set of tags for this alert
+	// Tags The complete set of tag names for this alert
 	//
-	// Example: [{"id":"01GW2G3V0S59R238FAHPDS1R66"},{"name":"known issue"}]
-	Tags []AlertTagInputV2 `json:"tags"`
+	// Example: ["known issue","customer impacting"]
+	Tags []string `json:"tags"`
 }
 
 // AlertsSetTagsResultV2 Example: {"alert":{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","attributes":[{"array_value":[{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}],"attribute":{"array":false,"emoji":"fire","id":"01GW2G3V0S59R238FAHPDS1R66","name":"service","required":false,"type":"CatalogEntry[\"01GW2G3V0S59R238FAHPDS1R67\"]"},"value":{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}}],"created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","tags":[{"id":"01GW2G3V0S59R238FAHPDS1R66","name":"noisy"}],"title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}}
@@ -16945,6 +17286,44 @@ type EscalationEventV2Event string
 // Example: high
 type EscalationEventV2Urgency string
 
+// EscalationPathBrokenReasonV2 Example: {"detail":"This escalation path doesn't set a value for \"Primary schedule\", so the levels using it are skipped.","kind":"param_unbound","node_id":"level-1","param_name":"primary_schedule","summary":"Variable has no value","target_index":1,"value_index":1}
+type EscalationPathBrokenReasonV2 struct {
+	// Detail A longer user-facing description that can be used to fix the issue.
+	//
+	// Example: This escalation path doesn't set a value for "Primary schedule", so the levels using it are skipped.
+	Detail string `json:"detail"`
+
+	// Kind This identifies the category of issue affecting the escalation path
+	//
+	// Example: param_unbound
+	Kind string `json:"kind"`
+
+	// NodeId The path node to highlight, when the problem relates to a specific node.
+	//
+	// Example: level-1
+	NodeId *string `json:"node_id,omitempty"`
+
+	// ParamName If the problem relates to a specific variable, we show it here.
+	//
+	// Example: primary_schedule
+	ParamName *string `json:"param_name,omitempty"`
+
+	// Summary A user-facing summary of the issue
+	//
+	// Example: Variable has no value
+	Summary string `json:"summary"`
+
+	// TargetIndex A node may have multiple targets, so we highlight which of the targets has an issue.
+	//
+	// Example: 1
+	TargetIndex *int64 `json:"target_index,omitempty"`
+
+	// ValueIndex If the value holds an array, and the problem exists at a specific index, it's highlighted here.
+	//
+	// Example: 1
+	ValueIndex *int64 `json:"value_index,omitempty"`
+}
+
 // EscalationPathNodeDelayV2 Example: {"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
 type EscalationPathNodeDelayV2 struct {
 	// DelayIntervalCondition If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
@@ -17519,6 +17898,40 @@ type EscalationPathTargetWithBindingV2Type string
 // Example: high
 type EscalationPathTargetWithBindingV2Urgency string
 
+// EscalationPathTemplateLinkedPathCheckV2 Example: {"escalation_path":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Payments on-call"},"reasons":[{"detail":"This escalation path doesn't set a value for \"Primary schedule\", so the levels using it are skipped.","kind":"param_unbound","node_id":"level-1","param_name":"primary_schedule","summary":"Variable has no value","target_index":1,"value_index":1}],"verdict":"degraded"}
+type EscalationPathTemplateLinkedPathCheckV2 struct {
+	// EscalationPath Example: {"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Payments on-call"}
+	EscalationPath EscalationPathTemplateLinkedPathV2 `json:"escalation_path"`
+
+	// Reasons Problems the path would have if this template were saved. Empty when the path would stay healthy.
+	//
+	// Example: [{"detail":"This escalation path doesn't set a value for \"Primary schedule\", so the levels using it are skipped.","kind":"param_unbound","node_id":"level-1","param_name":"primary_schedule","summary":"Variable has no value","target_index":1,"value_index":1}]
+	Reasons []EscalationPathBrokenReasonV2 `json:"reasons"`
+
+	// Verdict How much of this path would still page if the edit were saved.
+	//
+	// Example: degraded
+	Verdict EscalationPathTemplateLinkedPathCheckV2Verdict `json:"verdict"`
+}
+
+// EscalationPathTemplateLinkedPathCheckV2Verdict How much of this path would still page if the edit were saved.
+//
+// Example: degraded
+type EscalationPathTemplateLinkedPathCheckV2Verdict string
+
+// EscalationPathTemplateLinkedPathV2 Example: {"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Payments on-call"}
+type EscalationPathTemplateLinkedPathV2 struct {
+	// Id Unique identifier for the escalation path.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	Id string `json:"id"`
+
+	// Name The name of the escalation path.
+	//
+	// Example: Payments on-call
+	Name string `json:"name"`
+}
+
 // EscalationPathTemplateNodeIfElsePayloadV2 Example: {"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"then_path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]}
 type EscalationPathTemplateNodeIfElsePayloadV2 struct {
 	// Conditions The condition that defines which branch to take
@@ -17804,7 +18217,66 @@ type EscalationPathTemplatesUpdateResultV2 struct {
 	EscalationPathTemplate EscalationPathTemplateV2 `json:"escalation_path_template"`
 }
 
-// EscalationPathV2 Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
+// EscalationPathTemplatesValidatePayloadV2 Example: {"description":"Pages the team on-call, then a fallback user","expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Team on-call","params":[{"allowed_value_types":["literal"],"array":true,"default_value":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"description":"What slack channel should we send the message to?","label":"To date","name":"severity","optional":true,"type":"IncidentSeverity"}],"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
+type EscalationPathTemplatesValidatePayloadV2 struct {
+	// Description A description of what this template is for.
+	//
+	// Example: Pages the team on-call, then a fallback user
+	Description *string `json:"description,omitempty"`
+
+	// Expressions Expressions backing the template's binding targets.
+	//
+	// Example: [{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}]
+	Expressions *[]ExpressionPayloadV2 `json:"expressions,omitempty"`
+
+	// Id Unique identifier for the template being edited.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	Id string `json:"id"`
+
+	// Name The name of this template, for the user's reference.
+	//
+	// Example: Team on-call
+	Name string `json:"name"`
+
+	// Params The parameters declared by this template, bound per templated path.
+	//
+	// Example: [{"allowed_value_types":["literal"],"array":true,"default_value":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"description":"What slack channel should we send the message to?","label":"To date","name":"severity","optional":true,"type":"IncidentSeverity"}]
+	Params *[]EngineParamV2 `json:"params,omitempty"`
+
+	// Path The nodes that form the levels and branches of this template.
+	//
+	// Example: [{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]
+	Path []EscalationPathTemplateNodePayloadV2 `json:"path"`
+
+	// RepeatConfig Example: {"delay_repeat_on_activity":false,"repeat_after_seconds":1800}
+	RepeatConfig *EscalationPathRepeatConfigV2 `json:"repeat_config,omitempty"`
+
+	// WorkingHours The working hours for this template.
+	//
+	// Example: [{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]
+	WorkingHours *[]WeekdayIntervalConfigV2 `json:"working_hours,omitempty"`
+}
+
+// EscalationPathTemplatesValidateResultV2 Example: {"checked_count":1,"results":[{"escalation_path":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Payments on-call"},"reasons":[{"detail":"This escalation path doesn't set a value for \"Primary schedule\", so the levels using it are skipped.","kind":"param_unbound","node_id":"level-1","param_name":"primary_schedule","summary":"Variable has no value","target_index":1,"value_index":1}],"verdict":"degraded"}],"total_count":1}
+type EscalationPathTemplatesValidateResultV2 struct {
+	// CheckedCount How many escalation paths were checked.
+	//
+	// Example: 1
+	CheckedCount int64 `json:"checked_count"`
+
+	// Results One entry per escalation path checked against the proposed template.
+	//
+	// Example: [{"escalation_path":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Payments on-call"},"reasons":[{"detail":"This escalation path doesn't set a value for \"Primary schedule\", so the levels using it are skipped.","kind":"param_unbound","node_id":"level-1","param_name":"primary_schedule","summary":"Variable has no value","target_index":1,"value_index":1}],"verdict":"degraded"}]
+	Results []EscalationPathTemplateLinkedPathCheckV2 `json:"results"`
+
+	// TotalCount How many escalation paths use this template. Higher than checked_count when there were more than we check in one go.
+	//
+	// Example: 1
+	TotalCount int64 `json:"total_count"`
+}
+
+// EscalationPathV2 Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
 type EscalationPathV2 struct {
 	// CurrentResponders Users who are currently on-call for this escalation path
 	//
@@ -17816,12 +18288,22 @@ type EscalationPathV2 struct {
 	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
 	Id string `json:"id"`
 
+	// Kind Whether this path carries its own nodes, or is built from an escalation path template.
+	//
+	// Example: templated
+	Kind EscalationPathV2Kind `json:"kind"`
+
 	// Name The name of this escalation path, for the user's reference.
 	//
 	// Example: Urgent Support
 	Name string `json:"name"`
 
-	// Path The nodes that form the levels and branches of this escalation path.
+	// ParamBindings For a templated path, the values bound to the template's declared parameters, keyed by parameter name.
+	//
+	// Example: {"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}
+	ParamBindings *map[string]EngineParamBindingV2 `json:"param_bindings,omitempty"`
+
+	// Path The nodes that form the levels and branches of this escalation path. Empty for a templated path, which takes them from its template.
 	//
 	// Example: [{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]
 	Path []EscalationPathNodeV2 `json:"path"`
@@ -17834,11 +18316,21 @@ type EscalationPathV2 struct {
 	// Example: ["01JPQA75EPNEES4479P16P4XAB"]
 	TeamIds []string `json:"team_ids"`
 
-	// WorkingHours The working hours for this escalation path.
+	// TemplateId For a templated path, the template it is built from.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	TemplateId *string `json:"template_id,omitempty"`
+
+	// WorkingHours The working hours for this escalation path. Absent for a templated path, which takes them from its template.
 	//
 	// Example: [{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]
 	WorkingHours *[]WeekdayIntervalConfigV2 `json:"working_hours,omitempty"`
 }
+
+// EscalationPathV2Kind Whether this path carries its own nodes, or is built from an escalation path template.
+//
+// Example: templated
+type EscalationPathV2Kind string
 
 // EscalationPathValidateWarningV2 Example: {"detail":"When the condition matches, escalation stops here instead of continuing.","path":"path.0.if_else.then_path","summary":"if_else has an empty \"then\" branch"}
 type EscalationPathValidateWarningV2 struct {
@@ -17991,18 +18483,28 @@ type EscalationsCreateExternalEscalationPathPayloadV2 struct {
 	ExternalEscalationPathId string `json:"external_escalation_path_id"`
 }
 
-// EscalationsCreateExternalEscalationPathResultV2 Example: {"escalation_path":{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}}
+// EscalationsCreateExternalEscalationPathResultV2 Example: {"escalation_path":{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}}
 type EscalationsCreateExternalEscalationPathResultV2 struct {
-	// EscalationPath Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
+	// EscalationPath Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
 	EscalationPath EscalationPathV2 `json:"escalation_path"`
 }
 
-// EscalationsCreatePathPayloadV2 Example: {"name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
+// EscalationsCreatePathPayloadV2 Example: {"kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
 type EscalationsCreatePathPayloadV2 struct {
+	// Kind Whether this path carries its own nodes, or is built from an escalation path template.
+	//
+	// Example: templated
+	Kind *EscalationsCreatePathPayloadV2Kind `json:"kind,omitempty"`
+
 	// Name The name of this escalation path, for the user's reference.
 	//
 	// Example: Urgent Support
 	Name string `json:"name"`
+
+	// ParamBindings For a templated path, the values to bind to the template's declared parameters, keyed by parameter name.
+	//
+	// Example: {"abc123":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
+	ParamBindings *map[string]EngineParamBindingPayloadV2 `json:"param_bindings,omitempty"`
 
 	// Path The nodes that form the levels and branches of this escalation path.
 	//
@@ -18017,15 +18519,25 @@ type EscalationsCreatePathPayloadV2 struct {
 	// Example: ["01JPQA75EPNEES4479P16P4XAB"]
 	TeamIds *[]string `json:"team_ids,omitempty"`
 
+	// TemplateId For a templated path, the template to build it from. Required when kind is templated.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	TemplateId *string `json:"template_id,omitempty"`
+
 	// WorkingHours The working hours for this escalation path.
 	//
 	// Example: [{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]
 	WorkingHours *[]WeekdayIntervalConfigV2 `json:"working_hours,omitempty"`
 }
 
-// EscalationsCreatePathResultV2 Example: {"escalation_path":{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}}
+// EscalationsCreatePathPayloadV2Kind Whether this path carries its own nodes, or is built from an escalation path template.
+//
+// Example: templated
+type EscalationsCreatePathPayloadV2Kind string
+
+// EscalationsCreatePathResultV2 Example: {"escalation_path":{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}}
 type EscalationsCreatePathResultV2 struct {
-	// EscalationPath Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
+	// EscalationPath Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
 	EscalationPath EscalationPathV2 `json:"escalation_path"`
 }
 
@@ -18077,9 +18589,9 @@ type EscalationsListExternalEscalationPathsResultV2 struct {
 	PaginationMeta PaginationMetaResultV2 `json:"pagination_meta"`
 }
 
-// EscalationsListPathsResultV2 Example: {"escalation_paths":[{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}],"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}}
+// EscalationsListPathsResultV2 Example: {"escalation_paths":[{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}],"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}}
 type EscalationsListPathsResultV2 struct {
-	// EscalationPaths Example: [{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}]
+	// EscalationPaths Example: [{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}]
 	EscalationPaths []EscalationPathV2 `json:"escalation_paths"`
 
 	// PaginationMeta Example: {"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}
@@ -18145,9 +18657,9 @@ type EscalationsRespondEscalationPayloadV2 struct {
 // Example: ack
 type EscalationsRespondEscalationPayloadV2Response string
 
-// EscalationsShowPathResultV2 Example: {"escalation_path":{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}}
+// EscalationsShowPathResultV2 Example: {"escalation_path":{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}}
 type EscalationsShowPathResultV2 struct {
-	// EscalationPath Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
+	// EscalationPath Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
 	EscalationPath EscalationPathV2 `json:"escalation_path"`
 }
 
@@ -18157,13 +18669,23 @@ type EscalationsShowResultV2 struct {
 	Escalation EscalationV2 `json:"escalation"`
 }
 
-// EscalationsUpdatePathPayloadV2 Example: {"name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
+// EscalationsUpdatePathPayloadV2 Example: {"kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
 type EscalationsUpdatePathPayloadV2 struct {
+	// Kind Whether this path carries its own nodes, or is built from an escalation path template.
+	//
+	// Example: templated
+	Kind *EscalationsUpdatePathPayloadV2Kind `json:"kind,omitempty"`
+
 	// Name The name of this escalation path, for the user's reference.
 	//
 	// Example: Urgent Support
 	Name string `json:"name"`
 
+	// ParamBindings For a templated path, the values to bind to the template's declared parameters, keyed by parameter name.
+	//
+	// Example: {"abc123":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
+	ParamBindings *map[string]EngineParamBindingPayloadV2 `json:"param_bindings,omitempty"`
+
 	// Path The nodes that form the levels and branches of this escalation path.
 	//
 	// Example: [{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]
@@ -18177,20 +18699,40 @@ type EscalationsUpdatePathPayloadV2 struct {
 	// Example: ["01JPQA75EPNEES4479P16P4XAB"]
 	TeamIds *[]string `json:"team_ids,omitempty"`
 
+	// TemplateId For a templated path, the template to build it from. Required when kind is templated.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	TemplateId *string `json:"template_id,omitempty"`
+
 	// WorkingHours The working hours for this escalation path.
 	//
 	// Example: [{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]
 	WorkingHours *[]WeekdayIntervalConfigV2 `json:"working_hours,omitempty"`
 }
 
-// EscalationsUpdatePathResultV2 Example: {"escalation_path":{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}}
+// EscalationsUpdatePathPayloadV2Kind Whether this path carries its own nodes, or is built from an escalation path template.
+//
+// Example: templated
+type EscalationsUpdatePathPayloadV2Kind string
+
+// EscalationsUpdatePathResultV2 Example: {"escalation_path":{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}}
 type EscalationsUpdatePathResultV2 struct {
-	// EscalationPath Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
+	// EscalationPath Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
 	EscalationPath EscalationPathV2 `json:"escalation_path"`
 }
 
-// EscalationsValidatePathPayloadV2 Example: {"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
+// EscalationsValidatePathPayloadV2 Example: {"kind":"templated","param_bindings":{"abc123":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
 type EscalationsValidatePathPayloadV2 struct {
+	// Kind Whether this path carries its own nodes, or is built from an escalation path template.
+	//
+	// Example: templated
+	Kind *EscalationsValidatePathPayloadV2Kind `json:"kind,omitempty"`
+
+	// ParamBindings For a templated path, the values to bind to the template's declared parameters, keyed by parameter name.
+	//
+	// Example: {"abc123":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
+	ParamBindings *map[string]EngineParamBindingPayloadV2 `json:"param_bindings,omitempty"`
+
 	// Path The nodes that form the levels and branches of this escalation path.
 	//
 	// Example: [{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]
@@ -18204,11 +18746,21 @@ type EscalationsValidatePathPayloadV2 struct {
 	// Example: ["01JPQA75EPNEES4479P16P4XAB"]
 	TeamIds *[]string `json:"team_ids,omitempty"`
 
+	// TemplateId For a templated path, the template to build it from. Required when kind is templated.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	TemplateId *string `json:"template_id,omitempty"`
+
 	// WorkingHours The working hours for this escalation path.
 	//
 	// Example: [{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]
 	WorkingHours *[]WeekdayIntervalConfigV2 `json:"working_hours,omitempty"`
 }
+
+// EscalationsValidatePathPayloadV2Kind Whether this path carries its own nodes, or is built from an escalation path template.
+//
+// Example: templated
+type EscalationsValidatePathPayloadV2Kind string
 
 // EscalationsValidatePathResultV2 Example: {"warnings":[{"detail":"When the condition matches, escalation stops here instead of continuing.","path":"path.0.if_else.then_path","summary":"if_else has an empty \"then\" branch"}]}
 type EscalationsValidatePathResultV2 struct {
@@ -22626,6 +23178,429 @@ type PartialEntryPayloadV3 struct {
 	Rank *int32 `json:"rank,omitempty"`
 }
 
+// PayConfigOneOffRulePayloadV2 A one-off rule to write. Send an existing rule's ID to keep it stable, and omit it for a rule you are adding.
+//
+// Example: {"end_at":"2021-08-17T13:28:57.801578Z","id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Christmas day","rate_cents":4800,"start_at":"2021-08-17T13:28:57.801578Z"}
+type PayConfigOneOffRulePayloadV2 struct {
+	// EndAt When this rule stops applying
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	EndAt time.Time `json:"end_at"`
+
+	// Id An existing rule's ID, to keep it stable. Omit for a new rule.
+	//
+	// Example: 01G0J1EXE7AXZ2C93K61WBPYEH
+	Id *string `json:"id,omitempty"`
+
+	// Name Human readable name for this rule
+	//
+	// Example: Christmas day
+	Name string `json:"name"`
+
+	// RateCents Rate paid while this rule applies, in the lowest denomination of the config's currency
+	//
+	// Example: 4800
+	RateCents int64 `json:"rate_cents"`
+
+	// StartAt When this rule starts applying
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	StartAt time.Time `json:"start_at"`
+}
+
+// PayConfigOneOffRuleV2 A rule that applies over a single window of time, such as a public holiday. One-off rules take precedence over weekly rules, and may not overlap each other.
+//
+// Example: {"end_at":"2021-08-17T13:28:57.801578Z","id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Christmas day","rate_cents":4800,"start_at":"2021-08-17T13:28:57.801578Z"}
+type PayConfigOneOffRuleV2 struct {
+	// EndAt When this rule stops applying
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	EndAt time.Time `json:"end_at"`
+
+	// Id Unique identifier for this rule, stable across edits to the config
+	//
+	// Example: 01G0J1EXE7AXZ2C93K61WBPYEH
+	Id string `json:"id"`
+
+	// Name Human readable name for this rule
+	//
+	// Example: Christmas day
+	Name string `json:"name"`
+
+	// RateCents Rate paid while this rule applies, in the lowest denomination of the config's currency
+	//
+	// Example: 4800
+	RateCents int64 `json:"rate_cents"`
+
+	// StartAt When this rule starts applying
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	StartAt time.Time `json:"start_at"`
+}
+
+// PayConfigV2 A pay config is the rate card an on-call pay report prices against: a base
+// rate, plus rules that override it at particular times.
+//
+// Rules are evaluated in the order they are returned, and the first one that
+// covers a shift wins. Any time no rule covers is paid at the base rate.
+//
+// Example: {"base_rate_cents":1200,"created_at":"2021-08-17T13:28:57.801578Z","currency":"GBP","id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Engineering on-call","one_off_rules":[{"end_at":"2021-08-17T13:28:57.801578Z","id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Christmas day","rate_cents":4800,"start_at":"2021-08-17T13:28:57.801578Z"}],"published_at":"2021-08-17T13:28:57.801578Z","rate_time_unit":"hour","timezone":"Europe/London","updated_at":"2021-08-17T13:28:57.801578Z","weekly_rules":[{"end_time":"17:00","id":"01G0J1EXE7AXZ2C93K61WBPYEH","rate_cents":2400,"start_time":"09:00","weekdays":["monday"]}]}
+type PayConfigV2 struct {
+	// BaseRateCents Rate paid for any time no rule covers, in the lowest denomination of the currency
+	//
+	// Example: 1200
+	BaseRateCents int64 `json:"base_rate_cents"`
+
+	// CreatedAt Example: 2021-08-17T13:28:57.801578Z
+	CreatedAt time.Time `json:"created_at"`
+
+	// Currency Currency this config pays in, in ISO 4217 format
+	//
+	// Example: GBP
+	Currency string `json:"currency"`
+
+	// Id Unique identifier for this pay config
+	//
+	// Example: 01G0J1EXE7AXZ2C93K61WBPYEH
+	Id string `json:"id"`
+
+	// Name Human readable name for this pay config
+	//
+	// Example: Engineering on-call
+	Name string `json:"name"`
+
+	// OneOffRules Rules that apply over a single window of time, such as a public holiday
+	//
+	// Example: [{"end_at":"2021-08-17T13:28:57.801578Z","id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Christmas day","rate_cents":4800,"start_at":"2021-08-17T13:28:57.801578Z"}]
+	OneOffRules []PayConfigOneOffRuleV2 `json:"one_off_rules"`
+
+	// PublishedAt When a published report first priced against this config. Once set, editing the config needs the schedule_pay_configs.update_published scope.
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	PublishedAt *time.Time `json:"published_at,omitempty"`
+
+	// RateTimeUnit The unit of time every rate on this config is quoted per. Pay is pro-rated by the second either way.
+	//
+	// Example: hour
+	RateTimeUnit PayConfigV2RateTimeUnit `json:"rate_time_unit"`
+
+	// Timezone IANA timezone this config's rules are interpreted in
+	//
+	// Example: Europe/London
+	Timezone string `json:"timezone"`
+
+	// UpdatedAt Example: 2021-08-17T13:28:57.801578Z
+	UpdatedAt time.Time `json:"updated_at"`
+
+	// WeeklyRules Rules that apply every week, by day of week and time of day, in evaluation order
+	//
+	// Example: [{"end_time":"17:00","id":"01G0J1EXE7AXZ2C93K61WBPYEH","rate_cents":2400,"start_time":"09:00","weekdays":["monday"]}]
+	WeeklyRules []PayConfigWeeklyRuleV2 `json:"weekly_rules"`
+}
+
+// PayConfigV2RateTimeUnit The unit of time every rate on this config is quoted per. Pay is pro-rated by the second either way.
+//
+// Example: hour
+type PayConfigV2RateTimeUnit string
+
+// PayConfigWeeklyRulePayloadV2 A weekly rule to write. Send an existing rule's ID to keep it stable, and omit it for a rule you are adding.
+//
+// Example: {"end_time":"17:00","id":"01G0J1EXE7AXZ2C93K61WBPYEH","rate_cents":2400,"start_time":"09:00","weekdays":["monday"]}
+type PayConfigWeeklyRulePayloadV2 struct {
+	// EndTime Time of day this rule ends, in 24 hour format. Equal to start_time means it runs for the whole day.
+	//
+	// Example: 17:00
+	EndTime string `json:"end_time"`
+
+	// Id An existing rule's ID, to keep it stable. Omit for a new rule.
+	//
+	// Example: 01G0J1EXE7AXZ2C93K61WBPYEH
+	Id *string `json:"id,omitempty"`
+
+	// RateCents Rate paid while this rule applies, in the lowest denomination of the config's currency
+	//
+	// Example: 2400
+	RateCents int64 `json:"rate_cents"`
+
+	// StartTime Time of day this rule starts, in 24 hour format
+	//
+	// Example: 09:00
+	StartTime string `json:"start_time"`
+
+	// Weekdays Days of the week this rule applies on
+	//
+	// Example: ["monday"]
+	Weekdays []PayConfigWeeklyRulePayloadV2Weekdays `json:"weekdays"`
+}
+
+// PayConfigWeeklyRulePayloadV2Weekdays Weekdays for use within a schedule or escalation path
+//
+// Example: monday
+type PayConfigWeeklyRulePayloadV2Weekdays string
+
+// PayConfigWeeklyRuleV2 A rule that applies every week, over the same days and hours.
+//
+// Example: {"end_time":"17:00","id":"01G0J1EXE7AXZ2C93K61WBPYEH","rate_cents":2400,"start_time":"09:00","weekdays":["monday"]}
+type PayConfigWeeklyRuleV2 struct {
+	// EndTime Time of day this rule ends, in 24 hour format. Equal to start_time means it runs for the whole day.
+	//
+	// Example: 17:00
+	EndTime string `json:"end_time"`
+
+	// Id Unique identifier for this rule, stable across edits to the config
+	//
+	// Example: 01G0J1EXE7AXZ2C93K61WBPYEH
+	Id string `json:"id"`
+
+	// RateCents Rate paid while this rule applies, in the lowest denomination of the config's currency
+	//
+	// Example: 2400
+	RateCents int64 `json:"rate_cents"`
+
+	// StartTime Time of day this rule starts, in 24 hour format
+	//
+	// Example: 09:00
+	StartTime string `json:"start_time"`
+
+	// Weekdays Days of the week this rule applies on
+	//
+	// Example: ["monday"]
+	Weekdays []PayConfigWeeklyRuleV2Weekdays `json:"weekdays"`
+}
+
+// PayConfigWeeklyRuleV2Weekdays Weekdays for use within a schedule or escalation path
+//
+// Example: monday
+type PayConfigWeeklyRuleV2Weekdays string
+
+// PayConfigsCreatePayloadV2 Example: {"base_rate_cents":1200,"currency":"GBP","name":"Engineering on-call","one_off_rules":[{"end_at":"2021-08-17T13:28:57.801578Z","id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Christmas day","rate_cents":4800,"start_at":"2021-08-17T13:28:57.801578Z"}],"rate_time_unit":"hour","timezone":"Europe/London","weekly_rules":[{"end_time":"17:00","id":"01G0J1EXE7AXZ2C93K61WBPYEH","rate_cents":2400,"start_time":"09:00","weekdays":["monday"]}]}
+type PayConfigsCreatePayloadV2 struct {
+	// BaseRateCents Rate paid for any time no rule covers, in the lowest denomination of the currency
+	//
+	// Example: 1200
+	BaseRateCents int64 `json:"base_rate_cents"`
+
+	// Currency Currency this config pays in, in ISO 4217 format
+	//
+	// Example: GBP
+	Currency string `json:"currency"`
+
+	// Name Human readable name for this pay config
+	//
+	// Example: Engineering on-call
+	Name string `json:"name"`
+
+	// OneOffRules Rules that apply over a single window of time
+	//
+	// Example: [{"end_at":"2021-08-17T13:28:57.801578Z","id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Christmas day","rate_cents":4800,"start_at":"2021-08-17T13:28:57.801578Z"}]
+	OneOffRules *[]PayConfigOneOffRulePayloadV2 `json:"one_off_rules,omitempty"`
+
+	// RateTimeUnit The unit of time every rate on this config is quoted per
+	//
+	// Example: hour
+	RateTimeUnit PayConfigsCreatePayloadV2RateTimeUnit `json:"rate_time_unit"`
+
+	// Timezone IANA timezone this config's rules are interpreted in
+	//
+	// Example: Europe/London
+	Timezone string `json:"timezone"`
+
+	// WeeklyRules Rules that apply every week, in the order they should be evaluated
+	//
+	// Example: [{"end_time":"17:00","id":"01G0J1EXE7AXZ2C93K61WBPYEH","rate_cents":2400,"start_time":"09:00","weekdays":["monday"]}]
+	WeeklyRules *[]PayConfigWeeklyRulePayloadV2 `json:"weekly_rules,omitempty"`
+}
+
+// PayConfigsCreatePayloadV2RateTimeUnit The unit of time every rate on this config is quoted per
+//
+// Example: hour
+type PayConfigsCreatePayloadV2RateTimeUnit string
+
+// PayConfigsCreateResultV2 Example: {"pay_config":{"base_rate_cents":1200,"created_at":"2021-08-17T13:28:57.801578Z","currency":"GBP","id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Engineering on-call","one_off_rules":[{"end_at":"2021-08-17T13:28:57.801578Z","id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Christmas day","rate_cents":4800,"start_at":"2021-08-17T13:28:57.801578Z"}],"published_at":"2021-08-17T13:28:57.801578Z","rate_time_unit":"hour","timezone":"Europe/London","updated_at":"2021-08-17T13:28:57.801578Z","weekly_rules":[{"end_time":"17:00","id":"01G0J1EXE7AXZ2C93K61WBPYEH","rate_cents":2400,"start_time":"09:00","weekdays":["monday"]}]}}
+type PayConfigsCreateResultV2 struct {
+	// PayConfig A pay config is the rate card an on-call pay report prices against: a base
+	// rate, plus rules that override it at particular times.
+	//
+	// Rules are evaluated in the order they are returned, and the first one that
+	// covers a shift wins. Any time no rule covers is paid at the base rate.
+	//
+	// Example: {"base_rate_cents":1200,"created_at":"2021-08-17T13:28:57.801578Z","currency":"GBP","id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Engineering on-call","one_off_rules":[{"end_at":"2021-08-17T13:28:57.801578Z","id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Christmas day","rate_cents":4800,"start_at":"2021-08-17T13:28:57.801578Z"}],"published_at":"2021-08-17T13:28:57.801578Z","rate_time_unit":"hour","timezone":"Europe/London","updated_at":"2021-08-17T13:28:57.801578Z","weekly_rules":[{"end_time":"17:00","id":"01G0J1EXE7AXZ2C93K61WBPYEH","rate_cents":2400,"start_time":"09:00","weekdays":["monday"]}]}
+	PayConfig PayConfigV2 `json:"pay_config"`
+}
+
+// PayConfigsListResultV2 Example: {"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25},"pay_configs":[{"base_rate_cents":1200,"created_at":"2021-08-17T13:28:57.801578Z","currency":"GBP","id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Engineering on-call","one_off_rules":[{"end_at":"2021-08-17T13:28:57.801578Z","id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Christmas day","rate_cents":4800,"start_at":"2021-08-17T13:28:57.801578Z"}],"published_at":"2021-08-17T13:28:57.801578Z","rate_time_unit":"hour","timezone":"Europe/London","updated_at":"2021-08-17T13:28:57.801578Z","weekly_rules":[{"end_time":"17:00","id":"01G0J1EXE7AXZ2C93K61WBPYEH","rate_cents":2400,"start_time":"09:00","weekdays":["monday"]}]}]}
+type PayConfigsListResultV2 struct {
+	// PaginationMeta Example: {"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}
+	PaginationMeta PaginationMetaResultV2 `json:"pagination_meta"`
+
+	// PayConfigs Example: [{"base_rate_cents":1200,"created_at":"2021-08-17T13:28:57.801578Z","currency":"GBP","id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Engineering on-call","one_off_rules":[{"end_at":"2021-08-17T13:28:57.801578Z","id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Christmas day","rate_cents":4800,"start_at":"2021-08-17T13:28:57.801578Z"}],"published_at":"2021-08-17T13:28:57.801578Z","rate_time_unit":"hour","timezone":"Europe/London","updated_at":"2021-08-17T13:28:57.801578Z","weekly_rules":[{"end_time":"17:00","id":"01G0J1EXE7AXZ2C93K61WBPYEH","rate_cents":2400,"start_time":"09:00","weekdays":["monday"]}]}]
+	PayConfigs []PayConfigV2 `json:"pay_configs"`
+}
+
+// PayConfigsShowResultV2 Example: {"pay_config":{"base_rate_cents":1200,"created_at":"2021-08-17T13:28:57.801578Z","currency":"GBP","id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Engineering on-call","one_off_rules":[{"end_at":"2021-08-17T13:28:57.801578Z","id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Christmas day","rate_cents":4800,"start_at":"2021-08-17T13:28:57.801578Z"}],"published_at":"2021-08-17T13:28:57.801578Z","rate_time_unit":"hour","timezone":"Europe/London","updated_at":"2021-08-17T13:28:57.801578Z","weekly_rules":[{"end_time":"17:00","id":"01G0J1EXE7AXZ2C93K61WBPYEH","rate_cents":2400,"start_time":"09:00","weekdays":["monday"]}]}}
+type PayConfigsShowResultV2 struct {
+	// PayConfig A pay config is the rate card an on-call pay report prices against: a base
+	// rate, plus rules that override it at particular times.
+	//
+	// Rules are evaluated in the order they are returned, and the first one that
+	// covers a shift wins. Any time no rule covers is paid at the base rate.
+	//
+	// Example: {"base_rate_cents":1200,"created_at":"2021-08-17T13:28:57.801578Z","currency":"GBP","id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Engineering on-call","one_off_rules":[{"end_at":"2021-08-17T13:28:57.801578Z","id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Christmas day","rate_cents":4800,"start_at":"2021-08-17T13:28:57.801578Z"}],"published_at":"2021-08-17T13:28:57.801578Z","rate_time_unit":"hour","timezone":"Europe/London","updated_at":"2021-08-17T13:28:57.801578Z","weekly_rules":[{"end_time":"17:00","id":"01G0J1EXE7AXZ2C93K61WBPYEH","rate_cents":2400,"start_time":"09:00","weekdays":["monday"]}]}
+	PayConfig PayConfigV2 `json:"pay_config"`
+}
+
+// PayConfigsUpdatePayloadV2 Example: {"base_rate_cents":1200,"currency":"GBP","name":"Engineering on-call","rate_time_unit":"hour","timezone":"Europe/London"}
+type PayConfigsUpdatePayloadV2 struct {
+	// BaseRateCents Rate paid for any time no rule covers, in the lowest denomination of the currency
+	//
+	// Example: 1200
+	BaseRateCents int64 `json:"base_rate_cents"`
+
+	// Currency Currency this config pays in, in ISO 4217 format
+	//
+	// Example: GBP
+	Currency string `json:"currency"`
+
+	// Name Human readable name for this pay config
+	//
+	// Example: Engineering on-call
+	Name string `json:"name"`
+
+	// RateTimeUnit The unit of time every rate on this config is quoted per. Pay is pro-rated by the second either way.
+	//
+	// Example: hour
+	RateTimeUnit PayConfigsUpdatePayloadV2RateTimeUnit `json:"rate_time_unit"`
+
+	// Timezone IANA timezone this config's rules are interpreted in
+	//
+	// Example: Europe/London
+	Timezone string `json:"timezone"`
+}
+
+// PayConfigsUpdatePayloadV2RateTimeUnit The unit of time every rate on this config is quoted per. Pay is pro-rated by the second either way.
+//
+// Example: hour
+type PayConfigsUpdatePayloadV2RateTimeUnit string
+
+// PayConfigsUpdateResultV2 Example: {"pay_config":{"base_rate_cents":1200,"created_at":"2021-08-17T13:28:57.801578Z","currency":"GBP","id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Engineering on-call","one_off_rules":[{"end_at":"2021-08-17T13:28:57.801578Z","id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Christmas day","rate_cents":4800,"start_at":"2021-08-17T13:28:57.801578Z"}],"published_at":"2021-08-17T13:28:57.801578Z","rate_time_unit":"hour","timezone":"Europe/London","updated_at":"2021-08-17T13:28:57.801578Z","weekly_rules":[{"end_time":"17:00","id":"01G0J1EXE7AXZ2C93K61WBPYEH","rate_cents":2400,"start_time":"09:00","weekdays":["monday"]}]}}
+type PayConfigsUpdateResultV2 struct {
+	// PayConfig A pay config is the rate card an on-call pay report prices against: a base
+	// rate, plus rules that override it at particular times.
+	//
+	// Rules are evaluated in the order they are returned, and the first one that
+	// covers a shift wins. Any time no rule covers is paid at the base rate.
+	//
+	// Example: {"base_rate_cents":1200,"created_at":"2021-08-17T13:28:57.801578Z","currency":"GBP","id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Engineering on-call","one_off_rules":[{"end_at":"2021-08-17T13:28:57.801578Z","id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Christmas day","rate_cents":4800,"start_at":"2021-08-17T13:28:57.801578Z"}],"published_at":"2021-08-17T13:28:57.801578Z","rate_time_unit":"hour","timezone":"Europe/London","updated_at":"2021-08-17T13:28:57.801578Z","weekly_rules":[{"end_time":"17:00","id":"01G0J1EXE7AXZ2C93K61WBPYEH","rate_cents":2400,"start_time":"09:00","weekdays":["monday"]}]}
+	PayConfig PayConfigV2 `json:"pay_config"`
+}
+
+// PayReportV2 A pay report values the time a set of users spent on-call over a date window, using the rates from a pay config.
+//
+// Reports are immutable snapshots: once generated, changing the pay config or the
+// schedules behind it will not change the report. Generate a new one instead.
+//
+// A report starts as a draft and becomes visible to everyone in your organisation when
+// you publish it.
+//
+// Example: {"created_at":"2026-04-01T09:00:00Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"end_date":"2026-03-31","id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"March 2026","overlapping_shifts":"paid_per_schedule","published_at":"2026-04-01T09:00:00Z","schedule_ids":["01FCNDV6P870EA6S7TK1DSYDG0"],"start_date":"2026-03-01","total_duration_seconds":3600,"total_pay_by_currency":{"GBP":2400},"unpaid_shifts":"included","updated_at":"2026-04-01T09:00:00Z"}
+type PayReportV2 struct {
+	// CreatedAt When this report was created
+	//
+	// Example: 2026-04-01T09:00:00Z
+	CreatedAt time.Time `json:"created_at"`
+
+	// Creator Example: {"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}
+	Creator *ActorV2 `json:"creator,omitempty"`
+
+	// EndDate Last date (YYYY-MM-DD) this report includes shifts from, inclusive
+	//
+	// Example: 2026-03-31
+	EndDate string `json:"end_date"`
+
+	// Id Unique identifier for this pay report
+	//
+	// Example: 01G0J1EXE7AXZ2C93K61WBPYEH
+	Id string `json:"id"`
+
+	// Name Human readable name for this report
+	//
+	// Example: March 2026
+	Name string `json:"name"`
+
+	// OverlappingShifts How time spent on more than one schedule at once was paid
+	//
+	// Example: paid_per_schedule
+	OverlappingShifts PayReportV2OverlappingShifts `json:"overlapping_shifts"`
+
+	// PublishedAt When this report was published. Unset while the report is still a draft.
+	//
+	// Example: 2026-04-01T09:00:00Z
+	PublishedAt *time.Time `json:"published_at,omitempty"`
+
+	// ScheduleIds The schedules this report covers
+	//
+	// Example: ["01FCNDV6P870EA6S7TK1DSYDG0"]
+	ScheduleIds []string `json:"schedule_ids"`
+
+	// StartDate First date (YYYY-MM-DD) this report includes shifts from, inclusive
+	//
+	// Example: 2026-03-01
+	StartDate string `json:"start_date"`
+
+	// TotalDurationSeconds Total time spent on-call across every shift in this report, in seconds. Unset for a legacy report, which we do not summarise.
+	//
+	// Example: 3600
+	TotalDurationSeconds *int64 `json:"total_duration_seconds,omitempty"`
+
+	// TotalPayByCurrency Total owed for this report, keyed by ISO 4217 currency code, in the lowest denomination of that currency. Reports spanning pay configs with different currencies have an entry per currency, and those totals must not be summed. Unset for a legacy report, which we do not summarise.
+	//
+	// Example: {"GBP":2400}
+	TotalPayByCurrency *map[string]int64 `json:"total_pay_by_currency,omitempty"`
+
+	// UnpaidShifts Whether shifts that priced to zero are part of the report
+	//
+	// Example: excluded
+	UnpaidShifts PayReportV2UnpaidShifts `json:"unpaid_shifts"`
+
+	// UpdatedAt When this report was last updated
+	//
+	// Example: 2026-04-01T09:00:00Z
+	UpdatedAt time.Time `json:"updated_at"`
+}
+
+// PayReportV2OverlappingShifts How time spent on more than one schedule at once was paid
+//
+// Example: paid_per_schedule
+type PayReportV2OverlappingShifts string
+
+// PayReportV2UnpaidShifts Whether shifts that priced to zero are part of the report
+//
+// Example: excluded
+type PayReportV2UnpaidShifts string
+
+// PayReportsListResultV2 Example: {"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25},"pay_reports":[{"created_at":"2026-04-01T09:00:00Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"end_date":"2026-03-31","id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"March 2026","overlapping_shifts":"paid_per_schedule","published_at":"2026-04-01T09:00:00Z","schedule_ids":["01FCNDV6P870EA6S7TK1DSYDG0"],"start_date":"2026-03-01","total_duration_seconds":3600,"total_pay_by_currency":{"GBP":2400},"unpaid_shifts":"excluded","updated_at":"2026-04-01T09:00:00Z"}]}
+type PayReportsListResultV2 struct {
+	// PaginationMeta Example: {"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}
+	PaginationMeta PaginationMetaResultV2 `json:"pagination_meta"`
+
+	// PayReports Example: [{"created_at":"2026-04-01T09:00:00Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"end_date":"2026-03-31","id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"March 2026","overlapping_shifts":"paid_per_schedule","published_at":"2026-04-01T09:00:00Z","schedule_ids":["01FCNDV6P870EA6S7TK1DSYDG0"],"start_date":"2026-03-01","total_duration_seconds":3600,"total_pay_by_currency":{"GBP":2400},"unpaid_shifts":"excluded","updated_at":"2026-04-01T09:00:00Z"}]
+	PayReports []PayReportV2 `json:"pay_reports"`
+}
+
+// PayReportsShowResultV2 Example: {"pay_report":{"created_at":"2026-04-01T09:00:00Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"end_date":"2026-03-31","id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"March 2026","overlapping_shifts":"paid_per_schedule","published_at":"2026-04-01T09:00:00Z","schedule_ids":["01FCNDV6P870EA6S7TK1DSYDG0"],"start_date":"2026-03-01","total_duration_seconds":3600,"total_pay_by_currency":{"GBP":2400},"unpaid_shifts":"excluded","updated_at":"2026-04-01T09:00:00Z"}}
+type PayReportsShowResultV2 struct {
+	// PayReport A pay report values the time a set of users spent on-call over a date window, using the rates from a pay config.
+	//
+	// Reports are immutable snapshots: once generated, changing the pay config or the
+	// schedules behind it will not change the report. Generate a new one instead.
+	//
+	// A report starts as a draft and becomes visible to everyone in your organisation when
+	// you publish it.
+	//
+	// Example: {"created_at":"2026-04-01T09:00:00Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"end_date":"2026-03-31","id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"March 2026","overlapping_shifts":"paid_per_schedule","published_at":"2026-04-01T09:00:00Z","schedule_ids":["01FCNDV6P870EA6S7TK1DSYDG0"],"start_date":"2026-03-01","total_duration_seconds":3600,"total_pay_by_currency":{"GBP":2400},"unpaid_shifts":"included","updated_at":"2026-04-01T09:00:00Z"}
+	PayReport PayReportV2 `json:"pay_report"`
+}
+
 // PoliciesCreatePayloadV2 Example: {"assignment_rules":{"bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"reminder_cadence_after":{"interval":"daily"},"reminder_cadence_before":{"interval":"daily"},"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]},"conditions":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"debrief":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"run_on_private_incidents":false},"description":"All critical incidents must export follow-ups to an external issue tracker before 7 days has passed since closure.","expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"follow_up":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"run_on_private_incidents":false},"name":"Critical incidents must export follow-ups","on_call_readiness":{"enforcement":"advisory","high_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}]},"policy_type":"follow_up","post_mortem":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"run_on_private_incidents":false},"schedule":{"evaluation_level":"schedule","requirement_type":"contiguous"},"status":"enabled"}
 type PoliciesCreatePayloadV2 struct {
 	// AssignmentRules Example: {"bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"reminder_cadence_after":{"interval":"daily"},"reminder_cadence_before":{"interval":"daily"},"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]}
@@ -26599,6 +27574,140 @@ type StepProgressV2Status string
 // Example: expired
 type StepProgressV2WebhookDeliveryState string
 
+// TeamGroupingBranchV3 One set of grouping settings.
+//
+// Example: {"settings":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
+type TeamGroupingBranchV3 struct {
+	// Settings How a team's alerts are grouped together, on every alert route
+	//
+	// Example: {"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}
+	Settings TeamGroupingSettingsV3 `json:"settings"`
+}
+
+// TeamGroupingPreferenceV3 A team's alert grouping preference, which takes priority over the default grouping of every alert route its alerts match
+//
+// Example: {"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
+type TeamGroupingPreferenceV3 struct {
+	// CreatedAt When this preference was created
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	CreatedAt time.Time `json:"created_at"`
+
+	// Default One set of grouping settings.
+	//
+	// Example: {"settings":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
+	Default TeamGroupingBranchV3 `json:"default"`
+
+	// Id Unique identifier for this preference
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	Id string `json:"id"`
+
+	// TeamId The catalog entry ID of the team this preference belongs to
+	//
+	// Example: 01G0J1EXE7AXZ2C93K61WBPYEH
+	TeamId string `json:"team_id"`
+
+	// UpdatedAt When this preference was last updated
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	UpdatedAt time.Time `json:"updated_at"`
+
+	// Version The current version number, incremented on each update
+	//
+	// Example: 3
+	Version int64 `json:"version"`
+}
+
+// TeamGroupingPreferencesCreatePayloadV3 Example: {"default":{"settings":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"team_id":"01G0J1EXE7AXZ2C93K61WBPYEH"}
+type TeamGroupingPreferencesCreatePayloadV3 struct {
+	// Default One set of grouping settings.
+	//
+	// Example: {"settings":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
+	Default TeamGroupingBranchV3 `json:"default"`
+
+	// TeamId The catalog entry ID of the team this preference belongs to
+	//
+	// Example: 01G0J1EXE7AXZ2C93K61WBPYEH
+	TeamId string `json:"team_id"`
+}
+
+// TeamGroupingPreferencesCreateResultV3 Example: {"team_grouping_preference":{"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}}
+type TeamGroupingPreferencesCreateResultV3 struct {
+	// TeamGroupingPreference A team's alert grouping preference, which takes priority over the default grouping of every alert route its alerts match
+	//
+	// Example: {"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
+	TeamGroupingPreference TeamGroupingPreferenceV3 `json:"team_grouping_preference"`
+}
+
+// TeamGroupingPreferencesListResultV3 Example: {"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25},"team_grouping_preferences":[{"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}]}
+type TeamGroupingPreferencesListResultV3 struct {
+	// PaginationMeta Example: {"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}
+	PaginationMeta PaginationMetaResultV3 `json:"pagination_meta"`
+
+	// TeamGroupingPreferences Example: [{"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}]
+	TeamGroupingPreferences []TeamGroupingPreferenceV3 `json:"team_grouping_preferences"`
+}
+
+// TeamGroupingPreferencesShowResultV3 Example: {"team_grouping_preference":{"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}}
+type TeamGroupingPreferencesShowResultV3 struct {
+	// TeamGroupingPreference A team's alert grouping preference, which takes priority over the default grouping of every alert route its alerts match
+	//
+	// Example: {"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
+	TeamGroupingPreference TeamGroupingPreferenceV3 `json:"team_grouping_preference"`
+}
+
+// TeamGroupingPreferencesUpdatePayloadV3 Example: {"default":{"settings":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"version":4}
+type TeamGroupingPreferencesUpdatePayloadV3 struct {
+	// Default One set of grouping settings.
+	//
+	// Example: {"settings":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
+	Default TeamGroupingBranchV3 `json:"default"`
+
+	// Version The version this update will create. It must be one more than the preference's latest version, otherwise the update is rejected - guarding against concurrent edits.
+	//
+	// Example: 4
+	Version int64 `json:"version"`
+}
+
+// TeamGroupingPreferencesUpdateResultV3 Example: {"team_grouping_preference":{"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}}
+type TeamGroupingPreferencesUpdateResultV3 struct {
+	// TeamGroupingPreference A team's alert grouping preference, which takes priority over the default grouping of every alert route its alerts match
+	//
+	// Example: {"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
+	TeamGroupingPreference TeamGroupingPreferenceV3 `json:"team_grouping_preference"`
+}
+
+// TeamGroupingSettingsV3 How a team's alerts are grouped together, on every alert route
+//
+// Example: {"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}
+type TeamGroupingSettingsV3 struct {
+	// Enabled Whether the team's alerts are grouped. When false, none of the team's alerts are grouped, regardless of any alert route grouping config.
+	//
+	// Example: true
+	Enabled bool `json:"enabled"`
+
+	// GroupingKeys Which alert attributes the team's alerts are grouped by. Only set when grouping is enabled.
+	//
+	// Example: [{"reference":"alert.title"}]
+	GroupingKeys *[]GroupingKeyV3 `json:"grouping_keys,omitempty"`
+
+	// WindowSeconds How long the grouping window is, in seconds. Must be between 60 (1 minute) and 172800 (48 hours). Only set when grouping is enabled.
+	//
+	// Example: 1800
+	WindowSeconds *int32 `json:"window_seconds,omitempty"`
+
+	// WindowType How the grouping window behaves. 'rolling' keeps the window open for window_seconds after the most recent alert, so the group stays open as long as alerts keep arriving. 'fixed' opens the window when the first alert arrives and always closes window_seconds later. Only set when grouping is enabled.
+	//
+	// Example: rolling
+	WindowType *TeamGroupingSettingsV3WindowType `json:"window_type,omitempty"`
+}
+
+// TeamGroupingSettingsV3WindowType How the grouping window behaves. 'rolling' keeps the window open for window_seconds after the most recent alert, so the group stays open as long as alerts keep arriving. 'fixed' opens the window when the first alert arrives and always closes window_seconds later. Only set when grouping is enabled.
+//
+// Example: rolling
+type TeamGroupingSettingsV3WindowType string
+
 // TeamSlimV2 Example: {"id":"abc123","name":"abc123"}
 type TeamSlimV2 struct {
 	// Id Unique ID of the team
@@ -28627,6 +29736,24 @@ type IncidentsV2ListParamsSortBy string
 // IncidentsV2ListParamsFilterMode defines parameters for IncidentsV2List.
 type IncidentsV2ListParamsFilterMode string
 
+// PayConfigsV2ListParams defines parameters for PayConfigsV2List.
+type PayConfigsV2ListParams struct {
+	// PageSize Integer number of records to return
+	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// After A pay config's ID. This endpoint will return a list of pay configs after this ID in relation to the API response order.
+	After *string `form:"after,omitempty" json:"after,omitempty"`
+}
+
+// PayReportsV2ListParams defines parameters for PayReportsV2List.
+type PayReportsV2ListParams struct {
+	// PageSize Integer number of records to return
+	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// After A pay report's ID. This endpoint will return a list of pay reports after this ID in relation to the API response order.
+	After *string `form:"after,omitempty" json:"after,omitempty"`
+}
+
 // PoliciesV2ListParams defines parameters for PoliciesV2List.
 type PoliciesV2ListParams struct {
 	// PageSize Number of policies to return per page
@@ -28935,6 +30062,18 @@ type SchedulesV3ListRotationsParams struct {
 	After *string `form:"after,omitempty" json:"after,omitempty"`
 }
 
+// TeamGroupingPreferencesV3ListParams defines parameters for TeamGroupingPreferencesV3List.
+type TeamGroupingPreferencesV3ListParams struct {
+	// PageSize Number of preferences to return per page
+	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// After The ID of the last preference on the previous page
+	After *string `form:"after,omitempty" json:"after,omitempty"`
+
+	// TeamId Return only this team's preference
+	TeamId *string `form:"team_id,omitempty" json:"team_id,omitempty"`
+}
+
 // TeamsV3ListParams defines parameters for TeamsV3List.
 type TeamsV3ListParams struct {
 	// PageSize Integer number of records to return
@@ -29139,6 +30278,9 @@ type CustomFieldsV2UpdateJSONRequestBody = CustomFieldsUpdatePayloadV2
 // EscalationPathTemplatesV2CreateJSONRequestBody defines body for EscalationPathTemplatesV2Create for application/json ContentType.
 type EscalationPathTemplatesV2CreateJSONRequestBody = EscalationPathTemplatesCreatePayloadV2
 
+// EscalationPathTemplatesV2ValidateJSONRequestBody defines body for EscalationPathTemplatesV2Validate for application/json ContentType.
+type EscalationPathTemplatesV2ValidateJSONRequestBody = EscalationPathTemplatesValidatePayloadV2
+
 // EscalationPathTemplatesV2UpdateJSONRequestBody defines body for EscalationPathTemplatesV2Update for application/json ContentType.
 type EscalationPathTemplatesV2UpdateJSONRequestBody = EscalationPathTemplatesUpdatePayloadV2
 
@@ -29213,6 +30355,12 @@ type IncidentsV2ImportPostmortemDocumentJSONRequestBody = IncidentsImportPostmor
 
 // ManagedResourcesV2CreateManagedResourceJSONRequestBody defines body for ManagedResourcesV2CreateManagedResource for application/json ContentType.
 type ManagedResourcesV2CreateManagedResourceJSONRequestBody = ManagedResourcesCreateManagedResourcePayloadV2
+
+// PayConfigsV2CreateJSONRequestBody defines body for PayConfigsV2Create for application/json ContentType.
+type PayConfigsV2CreateJSONRequestBody = PayConfigsCreatePayloadV2
+
+// PayConfigsV2UpdateJSONRequestBody defines body for PayConfigsV2Update for application/json ContentType.
+type PayConfigsV2UpdateJSONRequestBody = PayConfigsUpdatePayloadV2
 
 // PoliciesV2CreateJSONRequestBody defines body for PoliciesV2Create for application/json ContentType.
 type PoliciesV2CreateJSONRequestBody = PoliciesCreatePayloadV2
@@ -29378,6 +30526,12 @@ type SchedulesV3UpdateRotationJSONRequestBody = SchedulesUpdateRotationPayloadV3
 
 // SchedulesV3PreviewRotationRolloutJSONRequestBody defines body for SchedulesV3PreviewRotationRollout for application/json ContentType.
 type SchedulesV3PreviewRotationRolloutJSONRequestBody = SchedulesPreviewRotationRolloutPayloadV3
+
+// TeamGroupingPreferencesV3CreateJSONRequestBody defines body for TeamGroupingPreferencesV3Create for application/json ContentType.
+type TeamGroupingPreferencesV3CreateJSONRequestBody = TeamGroupingPreferencesCreatePayloadV3
+
+// TeamGroupingPreferencesV3UpdateJSONRequestBody defines body for TeamGroupingPreferencesV3Update for application/json ContentType.
+type TeamGroupingPreferencesV3UpdateJSONRequestBody = TeamGroupingPreferencesUpdatePayloadV3
 
 // RequestEditorFn is the function signature for the RequestEditor callback function
 type RequestEditorFn func(ctx context.Context, req *http.Request) error
@@ -30918,9 +32072,9 @@ type ClientInterface interface {
 	//
 	// Add tags to an alert without changing its existing tags.
 	//
-	// Each tag must specify exactly one of id or name. A name that does not exist is created,
-	// except on private alerts, where only names already in the organisation's tag vocabulary
-	// can be used. Tags that are already present are ignored.
+	// Each tag is a name. A name that does not exist is created, except on private alerts,
+	// where only names already in the organisation's tag vocabulary can be used. Tags that are
+	// already present are ignored.
 	//
 	// Takes any type of body and a specified content type.
 	//
@@ -30931,9 +32085,9 @@ type ClientInterface interface {
 	//
 	// Add tags to an alert without changing its existing tags.
 	//
-	// Each tag must specify exactly one of id or name. A name that does not exist is created,
-	// except on private alerts, where only names already in the organisation's tag vocabulary
-	// can be used. Tags that are already present are ignored.
+	// Each tag is a name. A name that does not exist is created, except on private alerts,
+	// where only names already in the organisation's tag vocabulary can be used. Tags that are
+	// already present are ignored.
 	//
 	// Takes a body of the `application/json` content type.
 	//
@@ -30944,8 +32098,7 @@ type ClientInterface interface {
 	//
 	// Remove tags from an alert without changing its other tags.
 	//
-	// Each tag must specify exactly one of id or name. Tags that are not present on the alert
-	// are ignored.
+	// Each tag is a name. Tags that are not present on the alert are ignored.
 	//
 	// Takes any type of body and a specified content type.
 	//
@@ -30956,8 +32109,7 @@ type ClientInterface interface {
 	//
 	// Remove tags from an alert without changing its other tags.
 	//
-	// Each tag must specify exactly one of id or name. Tags that are not present on the alert
-	// are ignored.
+	// Each tag is a name. Tags that are not present on the alert are ignored.
 	//
 	// Takes a body of the `application/json` content type.
 	//
@@ -30981,9 +32133,9 @@ type ClientInterface interface {
 	//
 	// Replace all tags on an alert.
 	//
-	// Each tag must specify exactly one of id or name. A name that does not exist is created,
-	// except on private alerts, where only names already in the organisation's tag vocabulary
-	// can be used. Passing an empty list removes every tag.
+	// Each tag is a name. A name that does not exist is created, except on private alerts,
+	// where only names already in the organisation's tag vocabulary can be used. Passing an
+	// empty list removes every tag.
 	//
 	// Takes any type of body and a specified content type.
 	//
@@ -30994,9 +32146,9 @@ type ClientInterface interface {
 	//
 	// Replace all tags on an alert.
 	//
-	// Each tag must specify exactly one of id or name. A name that does not exist is created,
-	// except on private alerts, where only names already in the organisation's tag vocabulary
-	// can be used. Passing an empty list removes every tag.
+	// Each tag is a name. A name that does not exist is created, except on private alerts,
+	// where only names already in the organisation's tag vocabulary can be used. Passing an
+	// empty list removes every tag.
 	//
 	// Takes a body of the `application/json` content type.
 	//
@@ -31469,6 +32621,32 @@ type ClientInterface interface {
 	//
 	// Corresponds with POST /v2/escalation_path_templates (the `EscalationPathTemplatesV2Create` operationId).
 	EscalationPathTemplatesV2Create(ctx context.Context, body EscalationPathTemplatesV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// EscalationPathTemplatesV2ValidateWithBody Validate Escalation Path Templates V2
+	//
+	// Check whether a proposed escalation path template edit is valid, without writing, and report which existing paths it would break.
+	//
+	// This runs the same checks creating or updating a template would, so a config this accepts is one those endpoints will accept. It then checks each path built from the template against the proposed version.
+	//
+	// Saving the template itself still succeeds even when a dependent path would break: rejecting the edit would wedge a Terraform apply on a path that may not be in the caller's state. Use this endpoint at plan time to surface those paths instead.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v2/escalation_path_templates/actions/validate (the `EscalationPathTemplatesV2Validate` operationId).
+	EscalationPathTemplatesV2ValidateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// EscalationPathTemplatesV2Validate Validate Escalation Path Templates V2
+	//
+	// Check whether a proposed escalation path template edit is valid, without writing, and report which existing paths it would break.
+	//
+	// This runs the same checks creating or updating a template would, so a config this accepts is one those endpoints will accept. It then checks each path built from the template against the proposed version.
+	//
+	// Saving the template itself still succeeds even when a dependent path would break: rejecting the edit would wedge a Terraform apply on a path that may not be in the caller's state. Use this endpoint at plan time to surface those paths instead.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v2/escalation_path_templates/actions/validate (the `EscalationPathTemplatesV2Validate` operationId).
+	EscalationPathTemplatesV2Validate(ctx context.Context, body EscalationPathTemplatesV2ValidateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// EscalationPathTemplatesV2Destroy Destroy Escalation Path Templates V2
 	//
@@ -32702,6 +33880,110 @@ type ClientInterface interface {
 	//
 	// Corresponds with POST /v2/managed_resources (the `ManagedResourcesV2CreateManagedResource` operationId).
 	ManagedResourcesV2CreateManagedResource(ctx context.Context, body ManagedResourcesV2CreateManagedResourceJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PayConfigsV2List List Pay Configs V2
+	//
+	// List pay configs for this organisation.
+	//
+	// Returns published configs, and drafts created through the API, which belong to
+	// nobody and so are visible to everyone. A draft a person created in the
+	// dashboard stays private to them. Archived configs are never returned.
+	//
+	// Corresponds with GET /v2/pay_configs (the `PayConfigsV2List` operationId).
+	PayConfigsV2List(ctx context.Context, params *PayConfigsV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PayConfigsV2CreateWithBody Create Pay Configs V2
+	//
+	// Create a pay config.
+	//
+	// The config is created as a draft, and becomes visible to everyone in the
+	// organisation once a report that prices against it is published.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v2/pay_configs (the `PayConfigsV2Create` operationId).
+	PayConfigsV2CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PayConfigsV2Create Create Pay Configs V2
+	//
+	// Create a pay config.
+	//
+	// The config is created as a draft, and becomes visible to everyone in the
+	// organisation once a report that prices against it is published.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v2/pay_configs (the `PayConfigsV2Create` operationId).
+	PayConfigsV2Create(ctx context.Context, body PayConfigsV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PayConfigsV2Destroy Destroy Pay Configs V2
+	//
+	// Delete a pay config.
+	//
+	// Reports already published against this config keep their own copy of it, so
+	// their figures do not change. Any schedule using it as a default loses that
+	// default.
+	//
+	// Corresponds with DELETE /v2/pay_configs/{id} (the `PayConfigsV2Destroy` operationId).
+	PayConfigsV2Destroy(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PayConfigsV2Show Show Pay Configs V2
+	//
+	// Show a single pay config.
+	//
+	// Corresponds with GET /v2/pay_configs/{id} (the `PayConfigsV2Show` operationId).
+	PayConfigsV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PayConfigsV2UpdateWithBody Update Pay Configs V2
+	//
+	// Update a pay config's attributes.
+	//
+	// This changes the config's name, timezone, currency and base rate. It does not
+	// touch the config's rules, which are set when the config is created.
+	//
+	// Updating a config that a published report priced against additionally requires
+	// the schedule_pay_configs.update_published scope, because it changes the
+	// explanation of pay someone has already been sent.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PUT /v2/pay_configs/{id} (the `PayConfigsV2Update` operationId).
+	PayConfigsV2UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PayConfigsV2Update Update Pay Configs V2
+	//
+	// Update a pay config's attributes.
+	//
+	// This changes the config's name, timezone, currency and base rate. It does not
+	// touch the config's rules, which are set when the config is created.
+	//
+	// Updating a config that a published report priced against additionally requires
+	// the schedule_pay_configs.update_published scope, because it changes the
+	// explanation of pay someone has already been sent.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PUT /v2/pay_configs/{id} (the `PayConfigsV2Update` operationId).
+	PayConfigsV2Update(ctx context.Context, id string, body PayConfigsV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PayReportsV2List List Pay Reports V2
+	//
+	// List pay reports, newest first.
+	//
+	// Drafts are returned alongside published reports. Check published_at to tell them apart.
+	//
+	// Only the headline totals are returned: the shifts behind them, and the per-user and
+	// per-schedule breakdowns, come from downloading the report.
+	//
+	// Corresponds with GET /v2/pay_reports (the `PayReportsV2List` operationId).
+	PayReportsV2List(ctx context.Context, params *PayReportsV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PayReportsV2Show Show Pay Reports V2
+	//
+	// Get a single pay report.
+	//
+	// Corresponds with GET /v2/pay_reports/{id} (the `PayReportsV2Show` operationId).
+	PayReportsV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// PoliciesV2List List Policies V2
 	//
@@ -34612,6 +35894,63 @@ type ClientInterface interface {
 	//
 	// Corresponds with POST /v3/schedules/{schedule_id}/rotations/{id}/actions/preview_rollout (the `SchedulesV3PreviewRotationRollout` operationId).
 	SchedulesV3PreviewRotationRollout(ctx context.Context, scheduleId string, id string, body SchedulesV3PreviewRotationRolloutJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// TeamGroupingPreferencesV3List List Team Grouping Preferences V3
+	//
+	// List the team grouping preferences in your account.
+	//
+	// Corresponds with GET /v3/team_grouping_preferences (the `TeamGroupingPreferencesV3List` operationId).
+	TeamGroupingPreferencesV3List(ctx context.Context, params *TeamGroupingPreferencesV3ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// TeamGroupingPreferencesV3CreateWithBody Create Team Grouping Preferences V3
+	//
+	// Create a team's grouping preference. A team can have only one.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v3/team_grouping_preferences (the `TeamGroupingPreferencesV3Create` operationId).
+	TeamGroupingPreferencesV3CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// TeamGroupingPreferencesV3Create Create Team Grouping Preferences V3
+	//
+	// Create a team's grouping preference. A team can have only one.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v3/team_grouping_preferences (the `TeamGroupingPreferencesV3Create` operationId).
+	TeamGroupingPreferencesV3Create(ctx context.Context, body TeamGroupingPreferencesV3CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// TeamGroupingPreferencesV3Delete Delete Team Grouping Preferences V3
+	//
+	// Delete a team's grouping preference, so its alerts group by each route's own settings again.
+	//
+	// Corresponds with DELETE /v3/team_grouping_preferences/{id} (the `TeamGroupingPreferencesV3Delete` operationId).
+	TeamGroupingPreferencesV3Delete(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// TeamGroupingPreferencesV3Show Show Team Grouping Preferences V3
+	//
+	// Load details about a specific team grouping preference in your account.
+	//
+	// Corresponds with GET /v3/team_grouping_preferences/{id} (the `TeamGroupingPreferencesV3Show` operationId).
+	TeamGroupingPreferencesV3Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// TeamGroupingPreferencesV3UpdateWithBody Update Team Grouping Preferences V3
+	//
+	// Update a team's grouping preference. The team cannot change: to move a preference, delete it and create another.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PUT /v3/team_grouping_preferences/{id} (the `TeamGroupingPreferencesV3Update` operationId).
+	TeamGroupingPreferencesV3UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// TeamGroupingPreferencesV3Update Update Team Grouping Preferences V3
+	//
+	// Update a team's grouping preference. The team cannot change: to move a preference, delete it and create another.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PUT /v3/team_grouping_preferences/{id} (the `TeamGroupingPreferencesV3Update` operationId).
+	TeamGroupingPreferencesV3Update(ctx context.Context, id string, body TeamGroupingPreferencesV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// TeamsV3List List Teams V3
 	//
@@ -37475,9 +38814,9 @@ func (c *Client) AlertsV2Show(ctx context.Context, id string, reqEditors ...Requ
 //
 // Add tags to an alert without changing its existing tags.
 //
-// Each tag must specify exactly one of id or name. A name that does not exist is created,
-// except on private alerts, where only names already in the organisation's tag vocabulary
-// can be used. Tags that are already present are ignored.
+// Each tag is a name. A name that does not exist is created, except on private alerts,
+// where only names already in the organisation's tag vocabulary can be used. Tags that are
+// already present are ignored.
 //
 // Takes any type of body and a specified content type.
 //
@@ -37498,9 +38837,9 @@ func (c *Client) AlertsV2AddTagsWithBody(ctx context.Context, id string, content
 //
 // Add tags to an alert without changing its existing tags.
 //
-// Each tag must specify exactly one of id or name. A name that does not exist is created,
-// except on private alerts, where only names already in the organisation's tag vocabulary
-// can be used. Tags that are already present are ignored.
+// Each tag is a name. A name that does not exist is created, except on private alerts,
+// where only names already in the organisation's tag vocabulary can be used. Tags that are
+// already present are ignored.
 //
 // Takes a body of the `application/json` content type.
 //
@@ -37521,8 +38860,7 @@ func (c *Client) AlertsV2AddTags(ctx context.Context, id string, body AlertsV2Ad
 //
 // Remove tags from an alert without changing its other tags.
 //
-// Each tag must specify exactly one of id or name. Tags that are not present on the alert
-// are ignored.
+// Each tag is a name. Tags that are not present on the alert are ignored.
 //
 // Takes any type of body and a specified content type.
 //
@@ -37543,8 +38881,7 @@ func (c *Client) AlertsV2RemoveTagsWithBody(ctx context.Context, id string, cont
 //
 // Remove tags from an alert without changing its other tags.
 //
-// Each tag must specify exactly one of id or name. Tags that are not present on the alert
-// are ignored.
+// Each tag is a name. Tags that are not present on the alert are ignored.
 //
 // Takes a body of the `application/json` content type.
 //
@@ -37588,9 +38925,9 @@ func (c *Client) AlertsV2Resolve(ctx context.Context, id string, reqEditors ...R
 //
 // Replace all tags on an alert.
 //
-// Each tag must specify exactly one of id or name. A name that does not exist is created,
-// except on private alerts, where only names already in the organisation's tag vocabulary
-// can be used. Passing an empty list removes every tag.
+// Each tag is a name. A name that does not exist is created, except on private alerts,
+// where only names already in the organisation's tag vocabulary can be used. Passing an
+// empty list removes every tag.
 //
 // Takes any type of body and a specified content type.
 //
@@ -37611,9 +38948,9 @@ func (c *Client) AlertsV2SetTagsWithBody(ctx context.Context, id string, content
 //
 // Replace all tags on an alert.
 //
-// Each tag must specify exactly one of id or name. A name that does not exist is created,
-// except on private alerts, where only names already in the organisation's tag vocabulary
-// can be used. Passing an empty list removes every tag.
+// Each tag is a name. A name that does not exist is created, except on private alerts,
+// where only names already in the organisation's tag vocabulary can be used. Passing an
+// empty list removes every tag.
 //
 // Takes a body of the `application/json` content type.
 //
@@ -38540,6 +39877,52 @@ func (c *Client) EscalationPathTemplatesV2CreateWithBody(ctx context.Context, co
 // Corresponds with POST /v2/escalation_path_templates (the `EscalationPathTemplatesV2Create` operationId).
 func (c *Client) EscalationPathTemplatesV2Create(ctx context.Context, body EscalationPathTemplatesV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewEscalationPathTemplatesV2CreateRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// EscalationPathTemplatesV2ValidateWithBody Validate Escalation Path Templates V2
+//
+// Check whether a proposed escalation path template edit is valid, without writing, and report which existing paths it would break.
+//
+// This runs the same checks creating or updating a template would, so a config this accepts is one those endpoints will accept. It then checks each path built from the template against the proposed version.
+//
+// Saving the template itself still succeeds even when a dependent path would break: rejecting the edit would wedge a Terraform apply on a path that may not be in the caller's state. Use this endpoint at plan time to surface those paths instead.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v2/escalation_path_templates/actions/validate (the `EscalationPathTemplatesV2Validate` operationId).
+func (c *Client) EscalationPathTemplatesV2ValidateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationPathTemplatesV2ValidateRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// EscalationPathTemplatesV2Validate Validate Escalation Path Templates V2
+//
+// Check whether a proposed escalation path template edit is valid, without writing, and report which existing paths it would break.
+//
+// This runs the same checks creating or updating a template would, so a config this accepts is one those endpoints will accept. It then checks each path built from the template against the proposed version.
+//
+// Saving the template itself still succeeds even when a dependent path would break: rejecting the edit would wedge a Terraform apply on a path that may not be in the caller's state. Use this endpoint at plan time to surface those paths instead.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v2/escalation_path_templates/actions/validate (the `EscalationPathTemplatesV2Validate` operationId).
+func (c *Client) EscalationPathTemplatesV2Validate(ctx context.Context, body EscalationPathTemplatesV2ValidateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationPathTemplatesV2ValidateRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -40492,6 +41875,200 @@ func (c *Client) ManagedResourcesV2CreateManagedResourceWithBody(ctx context.Con
 // Corresponds with POST /v2/managed_resources (the `ManagedResourcesV2CreateManagedResource` operationId).
 func (c *Client) ManagedResourcesV2CreateManagedResource(ctx context.Context, body ManagedResourcesV2CreateManagedResourceJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewManagedResourcesV2CreateManagedResourceRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PayConfigsV2List List Pay Configs V2
+//
+// List pay configs for this organisation.
+//
+// Returns published configs, and drafts created through the API, which belong to
+// nobody and so are visible to everyone. A draft a person created in the
+// dashboard stays private to them. Archived configs are never returned.
+//
+// Corresponds with GET /v2/pay_configs (the `PayConfigsV2List` operationId).
+func (c *Client) PayConfigsV2List(ctx context.Context, params *PayConfigsV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPayConfigsV2ListRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PayConfigsV2CreateWithBody Create Pay Configs V2
+//
+// Create a pay config.
+//
+// The config is created as a draft, and becomes visible to everyone in the
+// organisation once a report that prices against it is published.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v2/pay_configs (the `PayConfigsV2Create` operationId).
+func (c *Client) PayConfigsV2CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPayConfigsV2CreateRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PayConfigsV2Create Create Pay Configs V2
+//
+// Create a pay config.
+//
+// The config is created as a draft, and becomes visible to everyone in the
+// organisation once a report that prices against it is published.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v2/pay_configs (the `PayConfigsV2Create` operationId).
+func (c *Client) PayConfigsV2Create(ctx context.Context, body PayConfigsV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPayConfigsV2CreateRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PayConfigsV2Destroy Destroy Pay Configs V2
+//
+// Delete a pay config.
+//
+// Reports already published against this config keep their own copy of it, so
+// their figures do not change. Any schedule using it as a default loses that
+// default.
+//
+// Corresponds with DELETE /v2/pay_configs/{id} (the `PayConfigsV2Destroy` operationId).
+func (c *Client) PayConfigsV2Destroy(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPayConfigsV2DestroyRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PayConfigsV2Show Show Pay Configs V2
+//
+// Show a single pay config.
+//
+// Corresponds with GET /v2/pay_configs/{id} (the `PayConfigsV2Show` operationId).
+func (c *Client) PayConfigsV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPayConfigsV2ShowRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PayConfigsV2UpdateWithBody Update Pay Configs V2
+//
+// Update a pay config's attributes.
+//
+// This changes the config's name, timezone, currency and base rate. It does not
+// touch the config's rules, which are set when the config is created.
+//
+// Updating a config that a published report priced against additionally requires
+// the schedule_pay_configs.update_published scope, because it changes the
+// explanation of pay someone has already been sent.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PUT /v2/pay_configs/{id} (the `PayConfigsV2Update` operationId).
+func (c *Client) PayConfigsV2UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPayConfigsV2UpdateRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PayConfigsV2Update Update Pay Configs V2
+//
+// Update a pay config's attributes.
+//
+// This changes the config's name, timezone, currency and base rate. It does not
+// touch the config's rules, which are set when the config is created.
+//
+// Updating a config that a published report priced against additionally requires
+// the schedule_pay_configs.update_published scope, because it changes the
+// explanation of pay someone has already been sent.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PUT /v2/pay_configs/{id} (the `PayConfigsV2Update` operationId).
+func (c *Client) PayConfigsV2Update(ctx context.Context, id string, body PayConfigsV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPayConfigsV2UpdateRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PayReportsV2List List Pay Reports V2
+//
+// List pay reports, newest first.
+//
+// Drafts are returned alongside published reports. Check published_at to tell them apart.
+//
+// Only the headline totals are returned: the shifts behind them, and the per-user and
+// per-schedule breakdowns, come from downloading the report.
+//
+// Corresponds with GET /v2/pay_reports (the `PayReportsV2List` operationId).
+func (c *Client) PayReportsV2List(ctx context.Context, params *PayReportsV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPayReportsV2ListRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PayReportsV2Show Show Pay Reports V2
+//
+// Get a single pay report.
+//
+// Corresponds with GET /v2/pay_reports/{id} (the `PayReportsV2Show` operationId).
+func (c *Client) PayReportsV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPayReportsV2ShowRequest(c.Server, id)
 	if err != nil {
 		return nil, err
 	}
@@ -44212,6 +45789,133 @@ func (c *Client) SchedulesV3PreviewRotationRolloutWithBody(ctx context.Context, 
 // Corresponds with POST /v3/schedules/{schedule_id}/rotations/{id}/actions/preview_rollout (the `SchedulesV3PreviewRotationRollout` operationId).
 func (c *Client) SchedulesV3PreviewRotationRollout(ctx context.Context, scheduleId string, id string, body SchedulesV3PreviewRotationRolloutJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewSchedulesV3PreviewRotationRolloutRequest(c.Server, scheduleId, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// TeamGroupingPreferencesV3List List Team Grouping Preferences V3
+//
+// List the team grouping preferences in your account.
+//
+// Corresponds with GET /v3/team_grouping_preferences (the `TeamGroupingPreferencesV3List` operationId).
+func (c *Client) TeamGroupingPreferencesV3List(ctx context.Context, params *TeamGroupingPreferencesV3ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewTeamGroupingPreferencesV3ListRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// TeamGroupingPreferencesV3CreateWithBody Create Team Grouping Preferences V3
+//
+// Create a team's grouping preference. A team can have only one.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v3/team_grouping_preferences (the `TeamGroupingPreferencesV3Create` operationId).
+func (c *Client) TeamGroupingPreferencesV3CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewTeamGroupingPreferencesV3CreateRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// TeamGroupingPreferencesV3Create Create Team Grouping Preferences V3
+//
+// Create a team's grouping preference. A team can have only one.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v3/team_grouping_preferences (the `TeamGroupingPreferencesV3Create` operationId).
+func (c *Client) TeamGroupingPreferencesV3Create(ctx context.Context, body TeamGroupingPreferencesV3CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewTeamGroupingPreferencesV3CreateRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// TeamGroupingPreferencesV3Delete Delete Team Grouping Preferences V3
+//
+// Delete a team's grouping preference, so its alerts group by each route's own settings again.
+//
+// Corresponds with DELETE /v3/team_grouping_preferences/{id} (the `TeamGroupingPreferencesV3Delete` operationId).
+func (c *Client) TeamGroupingPreferencesV3Delete(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewTeamGroupingPreferencesV3DeleteRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// TeamGroupingPreferencesV3Show Show Team Grouping Preferences V3
+//
+// Load details about a specific team grouping preference in your account.
+//
+// Corresponds with GET /v3/team_grouping_preferences/{id} (the `TeamGroupingPreferencesV3Show` operationId).
+func (c *Client) TeamGroupingPreferencesV3Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewTeamGroupingPreferencesV3ShowRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// TeamGroupingPreferencesV3UpdateWithBody Update Team Grouping Preferences V3
+//
+// Update a team's grouping preference. The team cannot change: to move a preference, delete it and create another.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PUT /v3/team_grouping_preferences/{id} (the `TeamGroupingPreferencesV3Update` operationId).
+func (c *Client) TeamGroupingPreferencesV3UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewTeamGroupingPreferencesV3UpdateRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// TeamGroupingPreferencesV3Update Update Team Grouping Preferences V3
+//
+// Update a team's grouping preference. The team cannot change: to move a preference, delete it and create another.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PUT /v3/team_grouping_preferences/{id} (the `TeamGroupingPreferencesV3Update` operationId).
+func (c *Client) TeamGroupingPreferencesV3Update(ctx context.Context, id string, body TeamGroupingPreferencesV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewTeamGroupingPreferencesV3UpdateRequest(c.Server, id, body)
 	if err != nil {
 		return nil, err
 	}
@@ -50398,6 +52102,46 @@ func NewEscalationPathTemplatesV2CreateRequestWithBody(server string, contentTyp
 	return req, nil
 }
 
+// NewEscalationPathTemplatesV2ValidateRequest calls the generic EscalationPathTemplatesV2Validate builder with application/json body
+func NewEscalationPathTemplatesV2ValidateRequest(server string, body EscalationPathTemplatesV2ValidateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewEscalationPathTemplatesV2ValidateRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewEscalationPathTemplatesV2ValidateRequestWithBody constructs an http.Request for the EscalationPathTemplatesV2Validate method, with any body, and a specified content type
+func NewEscalationPathTemplatesV2ValidateRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/escalation_path_templates/actions/validate")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewEscalationPathTemplatesV2DestroyRequest constructs an http.Request for the EscalationPathTemplatesV2Destroy method
 func NewEscalationPathTemplatesV2DestroyRequest(server string, id string) (*http.Request, error) {
 	var err error
@@ -53030,6 +54774,327 @@ func NewManagedResourcesV2CreateManagedResourceRequestWithBody(server string, co
 	}
 
 	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewPayConfigsV2ListRequest constructs an http.Request for the PayConfigsV2List method
+func NewPayConfigsV2ListRequest(server string, params *PayConfigsV2ListParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/pay_configs")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.PageSize != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "page_size", *params.PageSize, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: "int64"}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.After != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "after", *params.After, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPayConfigsV2CreateRequest calls the generic PayConfigsV2Create builder with application/json body
+func NewPayConfigsV2CreateRequest(server string, body PayConfigsV2CreateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPayConfigsV2CreateRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewPayConfigsV2CreateRequestWithBody constructs an http.Request for the PayConfigsV2Create method, with any body, and a specified content type
+func NewPayConfigsV2CreateRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/pay_configs")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewPayConfigsV2DestroyRequest constructs an http.Request for the PayConfigsV2Destroy method
+func NewPayConfigsV2DestroyRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/pay_configs/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPayConfigsV2ShowRequest constructs an http.Request for the PayConfigsV2Show method
+func NewPayConfigsV2ShowRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/pay_configs/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPayConfigsV2UpdateRequest calls the generic PayConfigsV2Update builder with application/json body
+func NewPayConfigsV2UpdateRequest(server string, id string, body PayConfigsV2UpdateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPayConfigsV2UpdateRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewPayConfigsV2UpdateRequestWithBody constructs an http.Request for the PayConfigsV2Update method, with any body, and a specified content type
+func NewPayConfigsV2UpdateRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/pay_configs/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPut, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewPayReportsV2ListRequest constructs an http.Request for the PayReportsV2List method
+func NewPayReportsV2ListRequest(server string, params *PayReportsV2ListParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/pay_reports")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.PageSize != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "page_size", *params.PageSize, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: "int64"}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.After != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "after", *params.After, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPayReportsV2ShowRequest constructs an http.Request for the PayReportsV2Show method
+func NewPayReportsV2ShowRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/pay_reports/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
 
 	return req, nil
 }
@@ -59053,6 +61118,239 @@ func NewSchedulesV3PreviewRotationRolloutRequestWithBody(server string, schedule
 	return req, nil
 }
 
+// NewTeamGroupingPreferencesV3ListRequest constructs an http.Request for the TeamGroupingPreferencesV3List method
+func NewTeamGroupingPreferencesV3ListRequest(server string, params *TeamGroupingPreferencesV3ListParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/team_grouping_preferences")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.PageSize != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "page_size", *params.PageSize, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: "int64"}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.After != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "after", *params.After, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.TeamId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "team_id", *params.TeamId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewTeamGroupingPreferencesV3CreateRequest calls the generic TeamGroupingPreferencesV3Create builder with application/json body
+func NewTeamGroupingPreferencesV3CreateRequest(server string, body TeamGroupingPreferencesV3CreateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewTeamGroupingPreferencesV3CreateRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewTeamGroupingPreferencesV3CreateRequestWithBody constructs an http.Request for the TeamGroupingPreferencesV3Create method, with any body, and a specified content type
+func NewTeamGroupingPreferencesV3CreateRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/team_grouping_preferences")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewTeamGroupingPreferencesV3DeleteRequest constructs an http.Request for the TeamGroupingPreferencesV3Delete method
+func NewTeamGroupingPreferencesV3DeleteRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/team_grouping_preferences/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewTeamGroupingPreferencesV3ShowRequest constructs an http.Request for the TeamGroupingPreferencesV3Show method
+func NewTeamGroupingPreferencesV3ShowRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/team_grouping_preferences/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewTeamGroupingPreferencesV3UpdateRequest calls the generic TeamGroupingPreferencesV3Update builder with application/json body
+func NewTeamGroupingPreferencesV3UpdateRequest(server string, id string, body TeamGroupingPreferencesV3UpdateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewTeamGroupingPreferencesV3UpdateRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewTeamGroupingPreferencesV3UpdateRequestWithBody constructs an http.Request for the TeamGroupingPreferencesV3Update method, with any body, and a specified content type
+func NewTeamGroupingPreferencesV3UpdateRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/team_grouping_preferences/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPut, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewTeamsV3ListRequest constructs an http.Request for the TeamsV3List method
 func NewTeamsV3ListRequest(server string, params *TeamsV3ListParams) (*http.Request, error) {
 	var err error
@@ -60780,9 +63078,9 @@ type ClientWithResponsesInterface interface {
 	//
 	// Add tags to an alert without changing its existing tags.
 	//
-	// Each tag must specify exactly one of id or name. A name that does not exist is created,
-	// except on private alerts, where only names already in the organisation's tag vocabulary
-	// can be used. Tags that are already present are ignored.
+	// Each tag is a name. A name that does not exist is created, except on private alerts,
+	// where only names already in the organisation's tag vocabulary can be used. Tags that are
+	// already present are ignored.
 	//
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -60793,9 +63091,9 @@ type ClientWithResponsesInterface interface {
 	//
 	// Add tags to an alert without changing its existing tags.
 	//
-	// Each tag must specify exactly one of id or name. A name that does not exist is created,
-	// except on private alerts, where only names already in the organisation's tag vocabulary
-	// can be used. Tags that are already present are ignored.
+	// Each tag is a name. A name that does not exist is created, except on private alerts,
+	// where only names already in the organisation's tag vocabulary can be used. Tags that are
+	// already present are ignored.
 	//
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -60806,8 +63104,7 @@ type ClientWithResponsesInterface interface {
 	//
 	// Remove tags from an alert without changing its other tags.
 	//
-	// Each tag must specify exactly one of id or name. Tags that are not present on the alert
-	// are ignored.
+	// Each tag is a name. Tags that are not present on the alert are ignored.
 	//
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -60818,8 +63115,7 @@ type ClientWithResponsesInterface interface {
 	//
 	// Remove tags from an alert without changing its other tags.
 	//
-	// Each tag must specify exactly one of id or name. Tags that are not present on the alert
-	// are ignored.
+	// Each tag is a name. Tags that are not present on the alert are ignored.
 	//
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -60845,9 +63141,9 @@ type ClientWithResponsesInterface interface {
 	//
 	// Replace all tags on an alert.
 	//
-	// Each tag must specify exactly one of id or name. A name that does not exist is created,
-	// except on private alerts, where only names already in the organisation's tag vocabulary
-	// can be used. Passing an empty list removes every tag.
+	// Each tag is a name. A name that does not exist is created, except on private alerts,
+	// where only names already in the organisation's tag vocabulary can be used. Passing an
+	// empty list removes every tag.
 	//
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -60858,9 +63154,9 @@ type ClientWithResponsesInterface interface {
 	//
 	// Replace all tags on an alert.
 	//
-	// Each tag must specify exactly one of id or name. A name that does not exist is created,
-	// except on private alerts, where only names already in the organisation's tag vocabulary
-	// can be used. Passing an empty list removes every tag.
+	// Each tag is a name. A name that does not exist is created, except on private alerts,
+	// where only names already in the organisation's tag vocabulary can be used. Passing an
+	// empty list removes every tag.
 	//
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -61375,6 +63671,32 @@ type ClientWithResponsesInterface interface {
 	//
 	// Corresponds with POST /v2/escalation_path_templates (the `EscalationPathTemplatesV2Create` operationId).
 	EscalationPathTemplatesV2CreateWithResponse(ctx context.Context, body EscalationPathTemplatesV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*EscalationPathTemplatesV2CreateResponse, error)
+
+	// EscalationPathTemplatesV2ValidateWithBodyWithResponse Validate Escalation Path Templates V2
+	//
+	// Check whether a proposed escalation path template edit is valid, without writing, and report which existing paths it would break.
+	//
+	// This runs the same checks creating or updating a template would, so a config this accepts is one those endpoints will accept. It then checks each path built from the template against the proposed version.
+	//
+	// Saving the template itself still succeeds even when a dependent path would break: rejecting the edit would wedge a Terraform apply on a path that may not be in the caller's state. Use this endpoint at plan time to surface those paths instead.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/escalation_path_templates/actions/validate (the `EscalationPathTemplatesV2Validate` operationId).
+	EscalationPathTemplatesV2ValidateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*EscalationPathTemplatesV2ValidateResponse, error)
+
+	// EscalationPathTemplatesV2ValidateWithResponse Validate Escalation Path Templates V2
+	//
+	// Check whether a proposed escalation path template edit is valid, without writing, and report which existing paths it would break.
+	//
+	// This runs the same checks creating or updating a template would, so a config this accepts is one those endpoints will accept. It then checks each path built from the template against the proposed version.
+	//
+	// Saving the template itself still succeeds even when a dependent path would break: rejecting the edit would wedge a Terraform apply on a path that may not be in the caller's state. Use this endpoint at plan time to surface those paths instead.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/escalation_path_templates/actions/validate (the `EscalationPathTemplatesV2Validate` operationId).
+	EscalationPathTemplatesV2ValidateWithResponse(ctx context.Context, body EscalationPathTemplatesV2ValidateJSONRequestBody, reqEditors ...RequestEditorFn) (*EscalationPathTemplatesV2ValidateResponse, error)
 
 	// EscalationPathTemplatesV2DestroyWithResponse Destroy Escalation Path Templates V2
 	//
@@ -62662,6 +64984,120 @@ type ClientWithResponsesInterface interface {
 	//
 	// Corresponds with POST /v2/managed_resources (the `ManagedResourcesV2CreateManagedResource` operationId).
 	ManagedResourcesV2CreateManagedResourceWithResponse(ctx context.Context, body ManagedResourcesV2CreateManagedResourceJSONRequestBody, reqEditors ...RequestEditorFn) (*ManagedResourcesV2CreateManagedResourceResponse, error)
+
+	// PayConfigsV2ListWithResponse List Pay Configs V2
+	//
+	// List pay configs for this organisation.
+	//
+	// Returns published configs, and drafts created through the API, which belong to
+	// nobody and so are visible to everyone. A draft a person created in the
+	// dashboard stays private to them. Archived configs are never returned.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v2/pay_configs (the `PayConfigsV2List` operationId).
+	PayConfigsV2ListWithResponse(ctx context.Context, params *PayConfigsV2ListParams, reqEditors ...RequestEditorFn) (*PayConfigsV2ListResponse, error)
+
+	// PayConfigsV2CreateWithBodyWithResponse Create Pay Configs V2
+	//
+	// Create a pay config.
+	//
+	// The config is created as a draft, and becomes visible to everyone in the
+	// organisation once a report that prices against it is published.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/pay_configs (the `PayConfigsV2Create` operationId).
+	PayConfigsV2CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PayConfigsV2CreateResponse, error)
+
+	// PayConfigsV2CreateWithResponse Create Pay Configs V2
+	//
+	// Create a pay config.
+	//
+	// The config is created as a draft, and becomes visible to everyone in the
+	// organisation once a report that prices against it is published.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/pay_configs (the `PayConfigsV2Create` operationId).
+	PayConfigsV2CreateWithResponse(ctx context.Context, body PayConfigsV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*PayConfigsV2CreateResponse, error)
+
+	// PayConfigsV2DestroyWithResponse Destroy Pay Configs V2
+	//
+	// Delete a pay config.
+	//
+	// Reports already published against this config keep their own copy of it, so
+	// their figures do not change. Any schedule using it as a default loses that
+	// default.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v2/pay_configs/{id} (the `PayConfigsV2Destroy` operationId).
+	PayConfigsV2DestroyWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*PayConfigsV2DestroyResponse, error)
+
+	// PayConfigsV2ShowWithResponse Show Pay Configs V2
+	//
+	// Show a single pay config.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v2/pay_configs/{id} (the `PayConfigsV2Show` operationId).
+	PayConfigsV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*PayConfigsV2ShowResponse, error)
+
+	// PayConfigsV2UpdateWithBodyWithResponse Update Pay Configs V2
+	//
+	// Update a pay config's attributes.
+	//
+	// This changes the config's name, timezone, currency and base rate. It does not
+	// touch the config's rules, which are set when the config is created.
+	//
+	// Updating a config that a published report priced against additionally requires
+	// the schedule_pay_configs.update_published scope, because it changes the
+	// explanation of pay someone has already been sent.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v2/pay_configs/{id} (the `PayConfigsV2Update` operationId).
+	PayConfigsV2UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PayConfigsV2UpdateResponse, error)
+
+	// PayConfigsV2UpdateWithResponse Update Pay Configs V2
+	//
+	// Update a pay config's attributes.
+	//
+	// This changes the config's name, timezone, currency and base rate. It does not
+	// touch the config's rules, which are set when the config is created.
+	//
+	// Updating a config that a published report priced against additionally requires
+	// the schedule_pay_configs.update_published scope, because it changes the
+	// explanation of pay someone has already been sent.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v2/pay_configs/{id} (the `PayConfigsV2Update` operationId).
+	PayConfigsV2UpdateWithResponse(ctx context.Context, id string, body PayConfigsV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*PayConfigsV2UpdateResponse, error)
+
+	// PayReportsV2ListWithResponse List Pay Reports V2
+	//
+	// List pay reports, newest first.
+	//
+	// Drafts are returned alongside published reports. Check published_at to tell them apart.
+	//
+	// Only the headline totals are returned: the shifts behind them, and the per-user and
+	// per-schedule breakdowns, come from downloading the report.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v2/pay_reports (the `PayReportsV2List` operationId).
+	PayReportsV2ListWithResponse(ctx context.Context, params *PayReportsV2ListParams, reqEditors ...RequestEditorFn) (*PayReportsV2ListResponse, error)
+
+	// PayReportsV2ShowWithResponse Show Pay Reports V2
+	//
+	// Get a single pay report.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v2/pay_reports/{id} (the `PayReportsV2Show` operationId).
+	PayReportsV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*PayReportsV2ShowResponse, error)
 
 	// PoliciesV2ListWithResponse List Policies V2
 	//
@@ -64714,6 +67150,69 @@ type ClientWithResponsesInterface interface {
 	//
 	// Corresponds with POST /v3/schedules/{schedule_id}/rotations/{id}/actions/preview_rollout (the `SchedulesV3PreviewRotationRollout` operationId).
 	SchedulesV3PreviewRotationRolloutWithResponse(ctx context.Context, scheduleId string, id string, body SchedulesV3PreviewRotationRolloutJSONRequestBody, reqEditors ...RequestEditorFn) (*SchedulesV3PreviewRotationRolloutResponse, error)
+
+	// TeamGroupingPreferencesV3ListWithResponse List Team Grouping Preferences V3
+	//
+	// List the team grouping preferences in your account.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v3/team_grouping_preferences (the `TeamGroupingPreferencesV3List` operationId).
+	TeamGroupingPreferencesV3ListWithResponse(ctx context.Context, params *TeamGroupingPreferencesV3ListParams, reqEditors ...RequestEditorFn) (*TeamGroupingPreferencesV3ListResponse, error)
+
+	// TeamGroupingPreferencesV3CreateWithBodyWithResponse Create Team Grouping Preferences V3
+	//
+	// Create a team's grouping preference. A team can have only one.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/team_grouping_preferences (the `TeamGroupingPreferencesV3Create` operationId).
+	TeamGroupingPreferencesV3CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*TeamGroupingPreferencesV3CreateResponse, error)
+
+	// TeamGroupingPreferencesV3CreateWithResponse Create Team Grouping Preferences V3
+	//
+	// Create a team's grouping preference. A team can have only one.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/team_grouping_preferences (the `TeamGroupingPreferencesV3Create` operationId).
+	TeamGroupingPreferencesV3CreateWithResponse(ctx context.Context, body TeamGroupingPreferencesV3CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*TeamGroupingPreferencesV3CreateResponse, error)
+
+	// TeamGroupingPreferencesV3DeleteWithResponse Delete Team Grouping Preferences V3
+	//
+	// Delete a team's grouping preference, so its alerts group by each route's own settings again.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v3/team_grouping_preferences/{id} (the `TeamGroupingPreferencesV3Delete` operationId).
+	TeamGroupingPreferencesV3DeleteWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*TeamGroupingPreferencesV3DeleteResponse, error)
+
+	// TeamGroupingPreferencesV3ShowWithResponse Show Team Grouping Preferences V3
+	//
+	// Load details about a specific team grouping preference in your account.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v3/team_grouping_preferences/{id} (the `TeamGroupingPreferencesV3Show` operationId).
+	TeamGroupingPreferencesV3ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*TeamGroupingPreferencesV3ShowResponse, error)
+
+	// TeamGroupingPreferencesV3UpdateWithBodyWithResponse Update Team Grouping Preferences V3
+	//
+	// Update a team's grouping preference. The team cannot change: to move a preference, delete it and create another.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v3/team_grouping_preferences/{id} (the `TeamGroupingPreferencesV3Update` operationId).
+	TeamGroupingPreferencesV3UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*TeamGroupingPreferencesV3UpdateResponse, error)
+
+	// TeamGroupingPreferencesV3UpdateWithResponse Update Team Grouping Preferences V3
+	//
+	// Update a team's grouping preference. The team cannot change: to move a preference, delete it and create another.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v3/team_grouping_preferences/{id} (the `TeamGroupingPreferencesV3Update` operationId).
+	TeamGroupingPreferencesV3UpdateWithResponse(ctx context.Context, id string, body TeamGroupingPreferencesV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*TeamGroupingPreferencesV3UpdateResponse, error)
 
 	// TeamsV3ListWithResponse List Teams V3
 	//
@@ -82789,6 +85288,138 @@ func (r EscalationPathTemplatesV2CreateResponse) ContentType() string {
 	return ""
 }
 
+type EscalationPathTemplatesV2ValidateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *EscalationPathTemplatesValidateResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r EscalationPathTemplatesV2ValidateResponse) GetJSON200() *EscalationPathTemplatesValidateResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r EscalationPathTemplatesV2ValidateResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r EscalationPathTemplatesV2ValidateResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r EscalationPathTemplatesV2ValidateResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r EscalationPathTemplatesV2ValidateResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r EscalationPathTemplatesV2ValidateResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r EscalationPathTemplatesV2ValidateResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r EscalationPathTemplatesV2ValidateResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r EscalationPathTemplatesV2ValidateResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r EscalationPathTemplatesV2ValidateResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r EscalationPathTemplatesV2ValidateResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r EscalationPathTemplatesV2ValidateResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r EscalationPathTemplatesV2ValidateResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r EscalationPathTemplatesV2ValidateResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r EscalationPathTemplatesV2ValidateResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r EscalationPathTemplatesV2ValidateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r EscalationPathTemplatesV2ValidateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r EscalationPathTemplatesV2ValidateResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
 type EscalationPathTemplatesV2DestroyResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -89334,6 +91965,923 @@ func (r ManagedResourcesV2CreateManagedResourceResponse) StatusCode() int {
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
 func (r ManagedResourcesV2CreateManagedResourceResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PayConfigsV2ListResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *PayConfigsListResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r PayConfigsV2ListResponse) GetJSON200() *PayConfigsListResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r PayConfigsV2ListResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r PayConfigsV2ListResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r PayConfigsV2ListResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r PayConfigsV2ListResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r PayConfigsV2ListResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r PayConfigsV2ListResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r PayConfigsV2ListResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r PayConfigsV2ListResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r PayConfigsV2ListResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r PayConfigsV2ListResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r PayConfigsV2ListResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r PayConfigsV2ListResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r PayConfigsV2ListResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r PayConfigsV2ListResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PayConfigsV2ListResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PayConfigsV2ListResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PayConfigsV2ListResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PayConfigsV2CreateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON201 the response for an HTTP 201 `application/json` response
+	JSON201 *PayConfigsCreateResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON201 returns the response for an HTTP 201 `application/json` response
+func (r PayConfigsV2CreateResponse) GetJSON201() *PayConfigsCreateResultV2 {
+	return r.JSON201
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r PayConfigsV2CreateResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r PayConfigsV2CreateResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r PayConfigsV2CreateResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r PayConfigsV2CreateResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r PayConfigsV2CreateResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r PayConfigsV2CreateResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r PayConfigsV2CreateResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r PayConfigsV2CreateResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r PayConfigsV2CreateResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r PayConfigsV2CreateResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r PayConfigsV2CreateResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r PayConfigsV2CreateResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r PayConfigsV2CreateResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r PayConfigsV2CreateResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PayConfigsV2CreateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PayConfigsV2CreateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PayConfigsV2CreateResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PayConfigsV2DestroyResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r PayConfigsV2DestroyResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r PayConfigsV2DestroyResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r PayConfigsV2DestroyResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r PayConfigsV2DestroyResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r PayConfigsV2DestroyResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r PayConfigsV2DestroyResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r PayConfigsV2DestroyResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r PayConfigsV2DestroyResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r PayConfigsV2DestroyResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r PayConfigsV2DestroyResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r PayConfigsV2DestroyResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r PayConfigsV2DestroyResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r PayConfigsV2DestroyResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r PayConfigsV2DestroyResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PayConfigsV2DestroyResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PayConfigsV2DestroyResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PayConfigsV2DestroyResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PayConfigsV2ShowResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *PayConfigsShowResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r PayConfigsV2ShowResponse) GetJSON200() *PayConfigsShowResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r PayConfigsV2ShowResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r PayConfigsV2ShowResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r PayConfigsV2ShowResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r PayConfigsV2ShowResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r PayConfigsV2ShowResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r PayConfigsV2ShowResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r PayConfigsV2ShowResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r PayConfigsV2ShowResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r PayConfigsV2ShowResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r PayConfigsV2ShowResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r PayConfigsV2ShowResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r PayConfigsV2ShowResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r PayConfigsV2ShowResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r PayConfigsV2ShowResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PayConfigsV2ShowResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PayConfigsV2ShowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PayConfigsV2ShowResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PayConfigsV2UpdateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *PayConfigsUpdateResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r PayConfigsV2UpdateResponse) GetJSON200() *PayConfigsUpdateResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r PayConfigsV2UpdateResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r PayConfigsV2UpdateResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r PayConfigsV2UpdateResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r PayConfigsV2UpdateResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r PayConfigsV2UpdateResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r PayConfigsV2UpdateResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r PayConfigsV2UpdateResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r PayConfigsV2UpdateResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r PayConfigsV2UpdateResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r PayConfigsV2UpdateResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r PayConfigsV2UpdateResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r PayConfigsV2UpdateResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r PayConfigsV2UpdateResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r PayConfigsV2UpdateResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PayConfigsV2UpdateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PayConfigsV2UpdateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PayConfigsV2UpdateResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PayReportsV2ListResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *PayReportsListResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r PayReportsV2ListResponse) GetJSON200() *PayReportsListResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r PayReportsV2ListResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r PayReportsV2ListResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r PayReportsV2ListResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r PayReportsV2ListResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r PayReportsV2ListResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r PayReportsV2ListResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r PayReportsV2ListResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r PayReportsV2ListResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r PayReportsV2ListResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r PayReportsV2ListResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r PayReportsV2ListResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r PayReportsV2ListResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r PayReportsV2ListResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r PayReportsV2ListResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PayReportsV2ListResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PayReportsV2ListResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PayReportsV2ListResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PayReportsV2ShowResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *PayReportsShowResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r PayReportsV2ShowResponse) GetJSON200() *PayReportsShowResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r PayReportsV2ShowResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r PayReportsV2ShowResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r PayReportsV2ShowResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r PayReportsV2ShowResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r PayReportsV2ShowResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r PayReportsV2ShowResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r PayReportsV2ShowResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r PayReportsV2ShowResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r PayReportsV2ShowResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r PayReportsV2ShowResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r PayReportsV2ShowResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r PayReportsV2ShowResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r PayReportsV2ShowResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r PayReportsV2ShowResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PayReportsV2ShowResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PayReportsV2ShowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PayReportsV2ShowResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
@@ -105811,6 +109359,659 @@ func (r SchedulesV3PreviewRotationRolloutResponse) ContentType() string {
 	return ""
 }
 
+type TeamGroupingPreferencesV3ListResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *TeamGroupingPreferencesListResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r TeamGroupingPreferencesV3ListResponse) GetJSON200() *TeamGroupingPreferencesListResultV3 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r TeamGroupingPreferencesV3ListResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r TeamGroupingPreferencesV3ListResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r TeamGroupingPreferencesV3ListResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r TeamGroupingPreferencesV3ListResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r TeamGroupingPreferencesV3ListResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r TeamGroupingPreferencesV3ListResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r TeamGroupingPreferencesV3ListResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r TeamGroupingPreferencesV3ListResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r TeamGroupingPreferencesV3ListResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r TeamGroupingPreferencesV3ListResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r TeamGroupingPreferencesV3ListResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r TeamGroupingPreferencesV3ListResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r TeamGroupingPreferencesV3ListResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r TeamGroupingPreferencesV3ListResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r TeamGroupingPreferencesV3ListResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r TeamGroupingPreferencesV3ListResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r TeamGroupingPreferencesV3ListResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type TeamGroupingPreferencesV3CreateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON201 the response for an HTTP 201 `application/json` response
+	JSON201 *TeamGroupingPreferencesCreateResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON201 returns the response for an HTTP 201 `application/json` response
+func (r TeamGroupingPreferencesV3CreateResponse) GetJSON201() *TeamGroupingPreferencesCreateResultV3 {
+	return r.JSON201
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r TeamGroupingPreferencesV3CreateResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r TeamGroupingPreferencesV3CreateResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r TeamGroupingPreferencesV3CreateResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r TeamGroupingPreferencesV3CreateResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r TeamGroupingPreferencesV3CreateResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r TeamGroupingPreferencesV3CreateResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r TeamGroupingPreferencesV3CreateResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r TeamGroupingPreferencesV3CreateResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r TeamGroupingPreferencesV3CreateResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r TeamGroupingPreferencesV3CreateResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r TeamGroupingPreferencesV3CreateResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r TeamGroupingPreferencesV3CreateResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r TeamGroupingPreferencesV3CreateResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r TeamGroupingPreferencesV3CreateResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r TeamGroupingPreferencesV3CreateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r TeamGroupingPreferencesV3CreateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r TeamGroupingPreferencesV3CreateResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type TeamGroupingPreferencesV3DeleteResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r TeamGroupingPreferencesV3DeleteResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r TeamGroupingPreferencesV3DeleteResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r TeamGroupingPreferencesV3DeleteResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r TeamGroupingPreferencesV3DeleteResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r TeamGroupingPreferencesV3DeleteResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r TeamGroupingPreferencesV3DeleteResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r TeamGroupingPreferencesV3DeleteResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r TeamGroupingPreferencesV3DeleteResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r TeamGroupingPreferencesV3DeleteResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r TeamGroupingPreferencesV3DeleteResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r TeamGroupingPreferencesV3DeleteResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r TeamGroupingPreferencesV3DeleteResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r TeamGroupingPreferencesV3DeleteResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r TeamGroupingPreferencesV3DeleteResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r TeamGroupingPreferencesV3DeleteResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r TeamGroupingPreferencesV3DeleteResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r TeamGroupingPreferencesV3DeleteResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type TeamGroupingPreferencesV3ShowResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *TeamGroupingPreferencesShowResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r TeamGroupingPreferencesV3ShowResponse) GetJSON200() *TeamGroupingPreferencesShowResultV3 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r TeamGroupingPreferencesV3ShowResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r TeamGroupingPreferencesV3ShowResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r TeamGroupingPreferencesV3ShowResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r TeamGroupingPreferencesV3ShowResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r TeamGroupingPreferencesV3ShowResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r TeamGroupingPreferencesV3ShowResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r TeamGroupingPreferencesV3ShowResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r TeamGroupingPreferencesV3ShowResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r TeamGroupingPreferencesV3ShowResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r TeamGroupingPreferencesV3ShowResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r TeamGroupingPreferencesV3ShowResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r TeamGroupingPreferencesV3ShowResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r TeamGroupingPreferencesV3ShowResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r TeamGroupingPreferencesV3ShowResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r TeamGroupingPreferencesV3ShowResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r TeamGroupingPreferencesV3ShowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r TeamGroupingPreferencesV3ShowResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type TeamGroupingPreferencesV3UpdateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *TeamGroupingPreferencesUpdateResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r TeamGroupingPreferencesV3UpdateResponse) GetJSON200() *TeamGroupingPreferencesUpdateResultV3 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r TeamGroupingPreferencesV3UpdateResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r TeamGroupingPreferencesV3UpdateResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r TeamGroupingPreferencesV3UpdateResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r TeamGroupingPreferencesV3UpdateResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r TeamGroupingPreferencesV3UpdateResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r TeamGroupingPreferencesV3UpdateResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r TeamGroupingPreferencesV3UpdateResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r TeamGroupingPreferencesV3UpdateResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r TeamGroupingPreferencesV3UpdateResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r TeamGroupingPreferencesV3UpdateResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r TeamGroupingPreferencesV3UpdateResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r TeamGroupingPreferencesV3UpdateResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r TeamGroupingPreferencesV3UpdateResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r TeamGroupingPreferencesV3UpdateResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r TeamGroupingPreferencesV3UpdateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r TeamGroupingPreferencesV3UpdateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r TeamGroupingPreferencesV3UpdateResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
 type TeamsV3ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -108496,9 +112697,9 @@ func (c *ClientWithResponses) AlertsV2ShowWithResponse(ctx context.Context, id s
 //
 // Add tags to an alert without changing its existing tags.
 //
-// Each tag must specify exactly one of id or name. A name that does not exist is created,
-// except on private alerts, where only names already in the organisation's tag vocabulary
-// can be used. Tags that are already present are ignored.
+// Each tag is a name. A name that does not exist is created, except on private alerts,
+// where only names already in the organisation's tag vocabulary can be used. Tags that are
+// already present are ignored.
 //
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
@@ -108515,9 +112716,9 @@ func (c *ClientWithResponses) AlertsV2AddTagsWithBodyWithResponse(ctx context.Co
 //
 // Add tags to an alert without changing its existing tags.
 //
-// Each tag must specify exactly one of id or name. A name that does not exist is created,
-// except on private alerts, where only names already in the organisation's tag vocabulary
-// can be used. Tags that are already present are ignored.
+// Each tag is a name. A name that does not exist is created, except on private alerts,
+// where only names already in the organisation's tag vocabulary can be used. Tags that are
+// already present are ignored.
 //
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
@@ -108534,8 +112735,7 @@ func (c *ClientWithResponses) AlertsV2AddTagsWithResponse(ctx context.Context, i
 //
 // Remove tags from an alert without changing its other tags.
 //
-// Each tag must specify exactly one of id or name. Tags that are not present on the alert
-// are ignored.
+// Each tag is a name. Tags that are not present on the alert are ignored.
 //
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
@@ -108552,8 +112752,7 @@ func (c *ClientWithResponses) AlertsV2RemoveTagsWithBodyWithResponse(ctx context
 //
 // Remove tags from an alert without changing its other tags.
 //
-// Each tag must specify exactly one of id or name. Tags that are not present on the alert
-// are ignored.
+// Each tag is a name. Tags that are not present on the alert are ignored.
 //
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
@@ -108591,9 +112790,9 @@ func (c *ClientWithResponses) AlertsV2ResolveWithResponse(ctx context.Context, i
 //
 // Replace all tags on an alert.
 //
-// Each tag must specify exactly one of id or name. A name that does not exist is created,
-// except on private alerts, where only names already in the organisation's tag vocabulary
-// can be used. Passing an empty list removes every tag.
+// Each tag is a name. A name that does not exist is created, except on private alerts,
+// where only names already in the organisation's tag vocabulary can be used. Passing an
+// empty list removes every tag.
 //
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
@@ -108610,9 +112809,9 @@ func (c *ClientWithResponses) AlertsV2SetTagsWithBodyWithResponse(ctx context.Co
 //
 // Replace all tags on an alert.
 //
-// Each tag must specify exactly one of id or name. A name that does not exist is created,
-// except on private alerts, where only names already in the organisation's tag vocabulary
-// can be used. Passing an empty list removes every tag.
+// Each tag is a name. A name that does not exist is created, except on private alerts,
+// where only names already in the organisation's tag vocabulary can be used. Passing an
+// empty list removes every tag.
 //
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
@@ -109409,6 +113608,44 @@ func (c *ClientWithResponses) EscalationPathTemplatesV2CreateWithResponse(ctx co
 		return nil, err
 	}
 	return ParseEscalationPathTemplatesV2CreateResponse(rsp)
+}
+
+// EscalationPathTemplatesV2ValidateWithBodyWithResponse Validate Escalation Path Templates V2
+//
+// Check whether a proposed escalation path template edit is valid, without writing, and report which existing paths it would break.
+//
+// This runs the same checks creating or updating a template would, so a config this accepts is one those endpoints will accept. It then checks each path built from the template against the proposed version.
+//
+// Saving the template itself still succeeds even when a dependent path would break: rejecting the edit would wedge a Terraform apply on a path that may not be in the caller's state. Use this endpoint at plan time to surface those paths instead.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/escalation_path_templates/actions/validate (the `EscalationPathTemplatesV2Validate` operationId).
+func (c *ClientWithResponses) EscalationPathTemplatesV2ValidateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*EscalationPathTemplatesV2ValidateResponse, error) {
+	rsp, err := c.EscalationPathTemplatesV2ValidateWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationPathTemplatesV2ValidateResponse(rsp)
+}
+
+// EscalationPathTemplatesV2ValidateWithResponse Validate Escalation Path Templates V2
+//
+// Check whether a proposed escalation path template edit is valid, without writing, and report which existing paths it would break.
+//
+// This runs the same checks creating or updating a template would, so a config this accepts is one those endpoints will accept. It then checks each path built from the template against the proposed version.
+//
+// Saving the template itself still succeeds even when a dependent path would break: rejecting the edit would wedge a Terraform apply on a path that may not be in the caller's state. Use this endpoint at plan time to surface those paths instead.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/escalation_path_templates/actions/validate (the `EscalationPathTemplatesV2Validate` operationId).
+func (c *ClientWithResponses) EscalationPathTemplatesV2ValidateWithResponse(ctx context.Context, body EscalationPathTemplatesV2ValidateJSONRequestBody, reqEditors ...RequestEditorFn) (*EscalationPathTemplatesV2ValidateResponse, error) {
+	rsp, err := c.EscalationPathTemplatesV2Validate(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationPathTemplatesV2ValidateResponse(rsp)
 }
 
 // EscalationPathTemplatesV2DestroyWithResponse Destroy Escalation Path Templates V2
@@ -111129,6 +115366,174 @@ func (c *ClientWithResponses) ManagedResourcesV2CreateManagedResourceWithRespons
 		return nil, err
 	}
 	return ParseManagedResourcesV2CreateManagedResourceResponse(rsp)
+}
+
+// PayConfigsV2ListWithResponse List Pay Configs V2
+//
+// List pay configs for this organisation.
+//
+// Returns published configs, and drafts created through the API, which belong to
+// nobody and so are visible to everyone. A draft a person created in the
+// dashboard stays private to them. Archived configs are never returned.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v2/pay_configs (the `PayConfigsV2List` operationId).
+func (c *ClientWithResponses) PayConfigsV2ListWithResponse(ctx context.Context, params *PayConfigsV2ListParams, reqEditors ...RequestEditorFn) (*PayConfigsV2ListResponse, error) {
+	rsp, err := c.PayConfigsV2List(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePayConfigsV2ListResponse(rsp)
+}
+
+// PayConfigsV2CreateWithBodyWithResponse Create Pay Configs V2
+//
+// Create a pay config.
+//
+// The config is created as a draft, and becomes visible to everyone in the
+// organisation once a report that prices against it is published.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/pay_configs (the `PayConfigsV2Create` operationId).
+func (c *ClientWithResponses) PayConfigsV2CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PayConfigsV2CreateResponse, error) {
+	rsp, err := c.PayConfigsV2CreateWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePayConfigsV2CreateResponse(rsp)
+}
+
+// PayConfigsV2CreateWithResponse Create Pay Configs V2
+//
+// Create a pay config.
+//
+// The config is created as a draft, and becomes visible to everyone in the
+// organisation once a report that prices against it is published.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/pay_configs (the `PayConfigsV2Create` operationId).
+func (c *ClientWithResponses) PayConfigsV2CreateWithResponse(ctx context.Context, body PayConfigsV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*PayConfigsV2CreateResponse, error) {
+	rsp, err := c.PayConfigsV2Create(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePayConfigsV2CreateResponse(rsp)
+}
+
+// PayConfigsV2DestroyWithResponse Destroy Pay Configs V2
+//
+// Delete a pay config.
+//
+// Reports already published against this config keep their own copy of it, so
+// their figures do not change. Any schedule using it as a default loses that
+// default.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v2/pay_configs/{id} (the `PayConfigsV2Destroy` operationId).
+func (c *ClientWithResponses) PayConfigsV2DestroyWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*PayConfigsV2DestroyResponse, error) {
+	rsp, err := c.PayConfigsV2Destroy(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePayConfigsV2DestroyResponse(rsp)
+}
+
+// PayConfigsV2ShowWithResponse Show Pay Configs V2
+//
+// Show a single pay config.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v2/pay_configs/{id} (the `PayConfigsV2Show` operationId).
+func (c *ClientWithResponses) PayConfigsV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*PayConfigsV2ShowResponse, error) {
+	rsp, err := c.PayConfigsV2Show(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePayConfigsV2ShowResponse(rsp)
+}
+
+// PayConfigsV2UpdateWithBodyWithResponse Update Pay Configs V2
+//
+// Update a pay config's attributes.
+//
+// This changes the config's name, timezone, currency and base rate. It does not
+// touch the config's rules, which are set when the config is created.
+//
+// Updating a config that a published report priced against additionally requires
+// the schedule_pay_configs.update_published scope, because it changes the
+// explanation of pay someone has already been sent.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v2/pay_configs/{id} (the `PayConfigsV2Update` operationId).
+func (c *ClientWithResponses) PayConfigsV2UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PayConfigsV2UpdateResponse, error) {
+	rsp, err := c.PayConfigsV2UpdateWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePayConfigsV2UpdateResponse(rsp)
+}
+
+// PayConfigsV2UpdateWithResponse Update Pay Configs V2
+//
+// Update a pay config's attributes.
+//
+// This changes the config's name, timezone, currency and base rate. It does not
+// touch the config's rules, which are set when the config is created.
+//
+// Updating a config that a published report priced against additionally requires
+// the schedule_pay_configs.update_published scope, because it changes the
+// explanation of pay someone has already been sent.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v2/pay_configs/{id} (the `PayConfigsV2Update` operationId).
+func (c *ClientWithResponses) PayConfigsV2UpdateWithResponse(ctx context.Context, id string, body PayConfigsV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*PayConfigsV2UpdateResponse, error) {
+	rsp, err := c.PayConfigsV2Update(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePayConfigsV2UpdateResponse(rsp)
+}
+
+// PayReportsV2ListWithResponse List Pay Reports V2
+//
+// List pay reports, newest first.
+//
+// Drafts are returned alongside published reports. Check published_at to tell them apart.
+//
+// Only the headline totals are returned: the shifts behind them, and the per-user and
+// per-schedule breakdowns, come from downloading the report.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v2/pay_reports (the `PayReportsV2List` operationId).
+func (c *ClientWithResponses) PayReportsV2ListWithResponse(ctx context.Context, params *PayReportsV2ListParams, reqEditors ...RequestEditorFn) (*PayReportsV2ListResponse, error) {
+	rsp, err := c.PayReportsV2List(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePayReportsV2ListResponse(rsp)
+}
+
+// PayReportsV2ShowWithResponse Show Pay Reports V2
+//
+// Get a single pay report.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v2/pay_reports/{id} (the `PayReportsV2Show` operationId).
+func (c *ClientWithResponses) PayReportsV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*PayReportsV2ShowResponse, error) {
+	rsp, err := c.PayReportsV2Show(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePayReportsV2ShowResponse(rsp)
 }
 
 // PoliciesV2ListWithResponse List Policies V2
@@ -114267,6 +118672,111 @@ func (c *ClientWithResponses) SchedulesV3PreviewRotationRolloutWithResponse(ctx 
 		return nil, err
 	}
 	return ParseSchedulesV3PreviewRotationRolloutResponse(rsp)
+}
+
+// TeamGroupingPreferencesV3ListWithResponse List Team Grouping Preferences V3
+//
+// List the team grouping preferences in your account.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v3/team_grouping_preferences (the `TeamGroupingPreferencesV3List` operationId).
+func (c *ClientWithResponses) TeamGroupingPreferencesV3ListWithResponse(ctx context.Context, params *TeamGroupingPreferencesV3ListParams, reqEditors ...RequestEditorFn) (*TeamGroupingPreferencesV3ListResponse, error) {
+	rsp, err := c.TeamGroupingPreferencesV3List(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseTeamGroupingPreferencesV3ListResponse(rsp)
+}
+
+// TeamGroupingPreferencesV3CreateWithBodyWithResponse Create Team Grouping Preferences V3
+//
+// Create a team's grouping preference. A team can have only one.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/team_grouping_preferences (the `TeamGroupingPreferencesV3Create` operationId).
+func (c *ClientWithResponses) TeamGroupingPreferencesV3CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*TeamGroupingPreferencesV3CreateResponse, error) {
+	rsp, err := c.TeamGroupingPreferencesV3CreateWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseTeamGroupingPreferencesV3CreateResponse(rsp)
+}
+
+// TeamGroupingPreferencesV3CreateWithResponse Create Team Grouping Preferences V3
+//
+// Create a team's grouping preference. A team can have only one.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/team_grouping_preferences (the `TeamGroupingPreferencesV3Create` operationId).
+func (c *ClientWithResponses) TeamGroupingPreferencesV3CreateWithResponse(ctx context.Context, body TeamGroupingPreferencesV3CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*TeamGroupingPreferencesV3CreateResponse, error) {
+	rsp, err := c.TeamGroupingPreferencesV3Create(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseTeamGroupingPreferencesV3CreateResponse(rsp)
+}
+
+// TeamGroupingPreferencesV3DeleteWithResponse Delete Team Grouping Preferences V3
+//
+// Delete a team's grouping preference, so its alerts group by each route's own settings again.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v3/team_grouping_preferences/{id} (the `TeamGroupingPreferencesV3Delete` operationId).
+func (c *ClientWithResponses) TeamGroupingPreferencesV3DeleteWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*TeamGroupingPreferencesV3DeleteResponse, error) {
+	rsp, err := c.TeamGroupingPreferencesV3Delete(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseTeamGroupingPreferencesV3DeleteResponse(rsp)
+}
+
+// TeamGroupingPreferencesV3ShowWithResponse Show Team Grouping Preferences V3
+//
+// Load details about a specific team grouping preference in your account.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v3/team_grouping_preferences/{id} (the `TeamGroupingPreferencesV3Show` operationId).
+func (c *ClientWithResponses) TeamGroupingPreferencesV3ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*TeamGroupingPreferencesV3ShowResponse, error) {
+	rsp, err := c.TeamGroupingPreferencesV3Show(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseTeamGroupingPreferencesV3ShowResponse(rsp)
+}
+
+// TeamGroupingPreferencesV3UpdateWithBodyWithResponse Update Team Grouping Preferences V3
+//
+// Update a team's grouping preference. The team cannot change: to move a preference, delete it and create another.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v3/team_grouping_preferences/{id} (the `TeamGroupingPreferencesV3Update` operationId).
+func (c *ClientWithResponses) TeamGroupingPreferencesV3UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*TeamGroupingPreferencesV3UpdateResponse, error) {
+	rsp, err := c.TeamGroupingPreferencesV3UpdateWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseTeamGroupingPreferencesV3UpdateResponse(rsp)
+}
+
+// TeamGroupingPreferencesV3UpdateWithResponse Update Team Grouping Preferences V3
+//
+// Update a team's grouping preference. The team cannot change: to move a preference, delete it and create another.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v3/team_grouping_preferences/{id} (the `TeamGroupingPreferencesV3Update` operationId).
+func (c *ClientWithResponses) TeamGroupingPreferencesV3UpdateWithResponse(ctx context.Context, id string, body TeamGroupingPreferencesV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*TeamGroupingPreferencesV3UpdateResponse, error) {
+	rsp, err := c.TeamGroupingPreferencesV3Update(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseTeamGroupingPreferencesV3UpdateResponse(rsp)
 }
 
 // TeamsV3ListWithResponse List Teams V3
@@ -130353,6 +134863,123 @@ func ParseEscalationPathTemplatesV2CreateResponse(rsp *http.Response) (*Escalati
 	return response, nil
 }
 
+// ParseEscalationPathTemplatesV2ValidateResponse parses an HTTP response from a EscalationPathTemplatesV2ValidateWithResponse call
+func ParseEscalationPathTemplatesV2ValidateResponse(rsp *http.Response) (*EscalationPathTemplatesV2ValidateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &EscalationPathTemplatesV2ValidateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest EscalationPathTemplatesValidateResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseEscalationPathTemplatesV2DestroyResponse parses an HTTP response from a EscalationPathTemplatesV2DestroyWithResponse call
 func ParseEscalationPathTemplatesV2DestroyResponse(rsp *http.Response) (*EscalationPathTemplatesV2DestroyResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -136083,6 +140710,821 @@ func ParseManagedResourcesV2CreateManagedResourceResponse(rsp *http.Response) (*
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest ManagedResourcesCreateManagedResourceResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePayConfigsV2ListResponse parses an HTTP response from a PayConfigsV2ListWithResponse call
+func ParsePayConfigsV2ListResponse(rsp *http.Response) (*PayConfigsV2ListResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PayConfigsV2ListResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest PayConfigsListResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePayConfigsV2CreateResponse parses an HTTP response from a PayConfigsV2CreateWithResponse call
+func ParsePayConfigsV2CreateResponse(rsp *http.Response) (*PayConfigsV2CreateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PayConfigsV2CreateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest PayConfigsCreateResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePayConfigsV2DestroyResponse parses an HTTP response from a PayConfigsV2DestroyWithResponse call
+func ParsePayConfigsV2DestroyResponse(rsp *http.Response) (*PayConfigsV2DestroyResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PayConfigsV2DestroyResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case rsp.StatusCode == 204:
+		break // No content-type
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePayConfigsV2ShowResponse parses an HTTP response from a PayConfigsV2ShowWithResponse call
+func ParsePayConfigsV2ShowResponse(rsp *http.Response) (*PayConfigsV2ShowResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PayConfigsV2ShowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest PayConfigsShowResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePayConfigsV2UpdateResponse parses an HTTP response from a PayConfigsV2UpdateWithResponse call
+func ParsePayConfigsV2UpdateResponse(rsp *http.Response) (*PayConfigsV2UpdateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PayConfigsV2UpdateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest PayConfigsUpdateResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePayReportsV2ListResponse parses an HTTP response from a PayReportsV2ListWithResponse call
+func ParsePayReportsV2ListResponse(rsp *http.Response) (*PayReportsV2ListResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PayReportsV2ListResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest PayReportsListResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePayReportsV2ShowResponse parses an HTTP response from a PayReportsV2ShowWithResponse call
+func ParsePayReportsV2ShowResponse(rsp *http.Response) (*PayReportsV2ShowResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PayReportsV2ShowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest PayReportsShowResultV2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -150733,6 +156175,587 @@ func ParseSchedulesV3PreviewRotationRolloutResponse(rsp *http.Response) (*Schedu
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest SchedulesPreviewRotationRolloutResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseTeamGroupingPreferencesV3ListResponse parses an HTTP response from a TeamGroupingPreferencesV3ListWithResponse call
+func ParseTeamGroupingPreferencesV3ListResponse(rsp *http.Response) (*TeamGroupingPreferencesV3ListResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &TeamGroupingPreferencesV3ListResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest TeamGroupingPreferencesListResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseTeamGroupingPreferencesV3CreateResponse parses an HTTP response from a TeamGroupingPreferencesV3CreateWithResponse call
+func ParseTeamGroupingPreferencesV3CreateResponse(rsp *http.Response) (*TeamGroupingPreferencesV3CreateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &TeamGroupingPreferencesV3CreateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest TeamGroupingPreferencesCreateResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseTeamGroupingPreferencesV3DeleteResponse parses an HTTP response from a TeamGroupingPreferencesV3DeleteWithResponse call
+func ParseTeamGroupingPreferencesV3DeleteResponse(rsp *http.Response) (*TeamGroupingPreferencesV3DeleteResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &TeamGroupingPreferencesV3DeleteResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case rsp.StatusCode == 204:
+		break // No content-type
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseTeamGroupingPreferencesV3ShowResponse parses an HTTP response from a TeamGroupingPreferencesV3ShowWithResponse call
+func ParseTeamGroupingPreferencesV3ShowResponse(rsp *http.Response) (*TeamGroupingPreferencesV3ShowResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &TeamGroupingPreferencesV3ShowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest TeamGroupingPreferencesShowResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseTeamGroupingPreferencesV3UpdateResponse parses an HTTP response from a TeamGroupingPreferencesV3UpdateWithResponse call
+func ParseTeamGroupingPreferencesV3UpdateResponse(rsp *http.Response) (*TeamGroupingPreferencesV3UpdateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &TeamGroupingPreferencesV3UpdateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest TeamGroupingPreferencesUpdateResultV3
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
