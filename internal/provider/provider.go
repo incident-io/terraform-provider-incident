@@ -177,6 +177,7 @@ func (p *IncidentProvider) Resources(ctx context.Context) []func() resource.Reso
 		NewIncidentSecretResource,
 		NewIncidentSeverityResource,
 		NewIncidentStatusResource,
+		NewIncidentTeamGroupingPreferenceResource,
 		NewIncidentWorkflowResource,
 
 		// The `_beta` names these resources answered to in v6, kept so an upgrade needs no
