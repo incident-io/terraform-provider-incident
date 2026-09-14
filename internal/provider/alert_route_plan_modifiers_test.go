@@ -6,9 +6,9 @@ import "testing"
 // v3-only escalation_config.when_alert_joins_group attribute.
 func TestWhenAlertJoinsGroupAction(t *testing.T) {
 	cases := []struct {
-		name                                                                     string
-		configNull, planV3, planKnown, groupingEnabled, groupingKnown, stateNull bool
-		want                                                                     computedPlanAction
+		name                                     string
+		configNull, planV3, planKnown, stateNull bool
+		want                                     computedPlanAction
 	}{
 		{
 			// The reported bug: v2 route, computed field null in state, an
@@ -18,20 +18,17 @@ func TestWhenAlertJoinsGroupAction(t *testing.T) {
 			want: planActionSetNull,
 		},
 		{
-			name:       "v3 grouping disabled plans null",
-			configNull: true, planV3: true, planKnown: true, groupingEnabled: false, groupingKnown: true, stateNull: true,
-			want: planActionSetNull,
-		},
-		{
-			name:       "v3 grouping enabled steady state uses state",
-			configNull: true, planV3: true, planKnown: true, groupingEnabled: true, groupingKnown: true, stateNull: false,
+			// Grouping on or off makes no difference: a team preference can group the
+			// route's alerts, so the API returns the mode either way.
+			name:       "v3 steady state uses state",
+			configNull: true, planV3: true, planKnown: true, stateNull: false,
 			want: planActionUseState,
 		},
 		{
-			// Migrating v2 -> v3 with grouping enabled: prior state is null, so let
-			// the API compute the default rather than pinning it.
-			name:       "v3 grouping enabled entering leaves unknown",
-			configNull: true, planV3: true, planKnown: true, groupingEnabled: true, groupingKnown: true, stateNull: true,
+			// Migrating v2 -> v3: prior state is null, so let the API compute the
+			// default rather than pinning it.
+			name:       "v3 entering leaves unknown",
+			configNull: true, planV3: true, planKnown: true, stateNull: true,
 			want: planActionNone,
 		},
 		{
@@ -48,7 +45,7 @@ func TestWhenAlertJoinsGroupAction(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			got := whenAlertJoinsGroupAction(tc.configNull, tc.planV3, tc.planKnown, tc.groupingEnabled, tc.groupingKnown, tc.stateNull)
+			got := whenAlertJoinsGroupAction(tc.configNull, tc.planV3, tc.planKnown, tc.stateNull)
 			if got != tc.want {
 				t.Errorf("got %v, want %v", got, tc.want)
 			}
