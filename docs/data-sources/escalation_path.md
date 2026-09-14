@@ -39,7 +39,7 @@ output "urgent_support_start" {
 - `sequences` (Attributes Map) Named sequences of nodes, keyed by a name you choose. Each sequence either ends with a `branch` node or runs off the end of the escalation path. Branches reference other sequences by key. (see [below for nested schema](#nestedatt--sequences))
 - `start` (String) The key of the sequence this escalation path begins with.
 - `team_ids` (Set of String) IDs of the teams that own this escalation path. This will automatically sync escalation paths with the right teams in Catalog. If you have an escalation paths attribute on your Teams, this attribute is required.
-- `working_hours` (Attributes List) The working hours for this escalation path. (see [below for nested schema](#nestedatt--working_hours))
+- `working_hours` (Attributes List) The working hours for this escalation path. Absent for a templated path, which takes them from its template. (see [below for nested schema](#nestedatt--working_hours))
 
 <a id="nestedatt--repeat_config"></a>
 ### Nested Schema for `repeat_config`

@@ -1,3 +1,7 @@
+## Unreleased
+
+- Add the `incident_team_grouping_preference` resource. A team's grouping preference decides how that team's alerts are grouped on every alert route they match, ahead of each route's own `grouping_config`, so a team can group its alerts by service while the route groups by title, or switch grouping off for its alerts altogether. Write it as `team_id` plus a `default = { settings = { ... } }` block taking the same field names as the route's `grouping_config.default`: `enabled`, `window_type`, `window_seconds` and `grouping_keys`. A team has one preference at most, and it cannot move to another team, so changing `team_id` replaces it. Import one by its ID. Writes need team grouping preferences enabled for your organisation; until then the API refuses them and the apply fails with that message.
+
 ## v7.0.0
 
 - **Breaking**: the beta resources lose their `_beta` suffix. `incident_alert_source`, `incident_alert_source_attribute`, `incident_escalation_path`, `incident_schedule` and `incident_schedule_rotation` are now what the `_beta` resources were, and the v6 resources of those names are removed.
