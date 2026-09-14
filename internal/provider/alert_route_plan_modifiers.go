@@ -43,19 +43,6 @@ func alertRoutePlanIsV3(ctx context.Context, g attrGetter) (isV3 bool, known boo
 	return !groupingConfig.IsNull(), true
 }
 
-// alertRouteGroupingEnabled reports whether grouping_config.default.enabled is
-// true and whether that is known.
-func alertRouteGroupingEnabled(ctx context.Context, g attrGetter) (enabled bool, known bool) {
-	var v types.Bool
-	if d := g.GetAttribute(ctx, path.Root("grouping_config").AtName("default").AtName("enabled"), &v); d.HasError() {
-		return false, false
-	}
-	if v.IsNull() || v.IsUnknown() {
-		return false, false
-	}
-	return v.ValueBool(), true
-}
-
 // computedPlanAction is the decision made for a mode-specific Optional+Computed
 // attribute whose config value is absent.
 type computedPlanAction int
@@ -70,12 +57,12 @@ const (
 	planActionUseState
 )
 
-// whenAlertJoinsGroupAction decides how to plan when_alert_joins_group (a v3-only
-// attribute). It must be null in v2 mode and when grouping is disabled (the API
-// only defaults it when grouping is enabled); in v3 with grouping enabled it
-// follows UseStateForUnknown so a server-defaulted value doesn't churn, while a
-// migration into v3 (null prior state) is left unknown for the API to compute.
-func whenAlertJoinsGroupAction(configNull, planV3, planKnown, groupingEnabled, groupingKnown, stateNull bool) computedPlanAction {
+// whenAlertJoinsGroupAction decides how to plan when_alert_joins_group, a v3-only
+// attribute: null in v2 mode, prior state in v3, unknown when entering v3.
+//
+// Grouping being off does not null it: a team preference can group the route's alerts,
+// so the API returns the mode for every v3 route.
+func whenAlertJoinsGroupAction(configNull, planV3, planKnown, stateNull bool) computedPlanAction {
 	if !configNull {
 		return planActionNone // respect an explicit config value
 	}
@@ -85,13 +72,10 @@ func whenAlertJoinsGroupAction(configNull, planV3, planKnown, groupingEnabled, g
 	if !planV3 {
 		return planActionSetNull // v2 mode: always null
 	}
-	if groupingKnown && !groupingEnabled {
-		return planActionSetNull // v3 but grouping off: API returns null
-	}
 	if !stateNull {
 		return planActionUseState // steady state: don't churn the server default
 	}
-	return planActionNone // entering v3/grouping: let the API compute it
+	return planActionNone // entering v3: let the API compute it
 }
 
 // autoRelateGroupedAlertsAction decides how to plan auto_relate_grouped_alerts
@@ -117,7 +101,7 @@ func autoRelateGroupedAlertsAction(configNull, planV3, planKnown, stateNull bool
 type whenAlertJoinsGroupPlanModifier struct{}
 
 func (whenAlertJoinsGroupPlanModifier) Description(context.Context) string {
-	return "Plans when_alert_joins_group as null when it does not apply (grouping_config unset, or grouping disabled), otherwise uses prior state when known."
+	return "Plans when_alert_joins_group as null when grouping_config is unset, otherwise uses prior state when known."
 }
 
 func (m whenAlertJoinsGroupPlanModifier) MarkdownDescription(ctx context.Context) string {
@@ -126,9 +110,8 @@ func (m whenAlertJoinsGroupPlanModifier) MarkdownDescription(ctx context.Context
 
 func (whenAlertJoinsGroupPlanModifier) PlanModifyObject(ctx context.Context, req planmodifier.ObjectRequest, resp *planmodifier.ObjectResponse) {
 	planV3, planKnown := alertRoutePlanIsV3(ctx, req.Plan)
-	groupingEnabled, groupingKnown := alertRouteGroupingEnabled(ctx, req.Plan)
 
-	switch whenAlertJoinsGroupAction(req.ConfigValue.IsNull(), planV3, planKnown, groupingEnabled, groupingKnown, req.StateValue.IsNull()) {
+	switch whenAlertJoinsGroupAction(req.ConfigValue.IsNull(), planV3, planKnown, req.StateValue.IsNull()) {
 	case planActionSetNull:
 		resp.PlanValue = types.ObjectNull(models.WhenAlertJoinsGroupAttrTypes())
 	case planActionUseState:
