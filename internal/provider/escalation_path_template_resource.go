@@ -454,10 +454,21 @@ func (r *escalationPathTemplateResource) Delete(ctx context.Context, req resourc
 	}
 
 	_, err := r.client.EscalationPathTemplatesV2DestroyWithResponse(ctx, data.ID.ValueString())
-	if err != nil && !isNotFound(err) {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete escalation path template, got error: %s", err))
+	if err == nil || isNotFound(err) {
 		return
 	}
+
+	// incident.io refuses to archive a template that live escalation paths still build
+	// from, and says how many. That is a deliberate refusal rather than something that
+	// went wrong, so it gets a title saying so: the paths have to go first, and some of
+	// them may not be managed here.
+	var httpErr client.HTTPError
+	if errors.As(err, &httpErr) && httpErr.StatusCode == http.StatusUnprocessableEntity {
+		resp.Diagnostics.AddError("Escalation path template is still in use", httpErr.Error())
+		return
+	}
+
+	resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete escalation path template, got error: %s", err))
 }
 
 func (r *escalationPathTemplateResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
