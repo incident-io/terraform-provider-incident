@@ -1,4 +1,4 @@
-## Unreleased
+## v7.1.0
 
 - A destroy refused because escalation paths still build from the template now reports it as the refusal it is, naming how many paths hold it, rather than as a client error. The paths have to be archived first, and some of them may not be managed by Terraform, so the message is the only place that fact surfaces.
 - Add the `incident_escalation_path_template` resource, which manages an escalation path template: an escalation path with parameters, from which many escalation paths can be built. `params` is keyed by the parameter's name, matching `param_bindings` on a path, so adding or removing one shows only that parameter in the plan rather than renumbering the rest. A template is written the same way as `incident_escalation_path`, as a flat map of named node sequences, and declares `params`. A level or notify_channel target may carry a `binding` to one of them instead of an `id` - `binding = { value_reference = "primary_schedule" }` pages whatever schedule a path binds that param to - or to one of the template's `expressions` through `expression_ref`. Editing a template changes every path built from it.
