@@ -46,7 +46,7 @@ func TestAlertRouteV3RoundTrip(t *testing.T) {
 				Enabled:       true,
 				GroupingKeys:  &[]client.GroupingKeyV3{{Reference: "alert.title"}},
 				WindowSeconds: lo.ToPtr(int32(1800)),
-				WindowType:    lo.ToPtr(client.Fixed),
+				WindowType:    lo.ToPtr(client.GroupingSettingsV3WindowTypeFixed),
 			},
 		},
 		MessageConfig: client.AlertMessageConfigV3{
@@ -173,7 +173,7 @@ func TestAlertRouteV3RoundTrip(t *testing.T) {
 	// Now convert back to a payload and check the engine-bridged fields survive.
 	payload := model.ToCreatePayloadV3()
 
-	if got := payload.GroupingConfig.Default.WindowType; got == nil || *got != client.Fixed {
+	if got := payload.GroupingConfig.Default.WindowType; got == nil || *got != client.GroupingSettingsV3WindowTypeFixed {
 		t.Errorf("payload window_type: got %v", got)
 	}
 	if len(payload.MessageConfig.Destinations) != 1 {
