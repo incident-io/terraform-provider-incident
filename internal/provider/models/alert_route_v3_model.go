@@ -271,13 +271,18 @@ func (AlertRouteResourceModel) FromAPIV3WithPlan(apiModel client.AlertRouteV3, p
 		result.Expressions = expressionsFromV3(apiModel.Expressions)
 	}
 
-	// Escalation config. when_alert_joins_group is optional (the API only returns
-	// it when grouping is enabled); auto_cancel_escalations and escalation_targets
-	// are always present.
+	// Escalation config. auto_cancel_escalations and escalation_targets are always
+	// present; when_alert_joins_group is optional.
 	result.EscalationConfig = &AlertRouteEscalationConfigModel{
 		AutoCancelEscalations: types.BoolValue(apiModel.EscalationConfig.AutoCancelEscalations),
 		EscalationTargets:     []AlertRouteEscalationTargetModel{},
 		WhenAlertJoinsGroup:   whenAlertJoinsGroupFromAPI(apiModel.EscalationConfig.WhenAlertJoinsGroup),
+	}
+	// Until team grouping is on for the organisation the API returns no mode for a route that
+	// does not group, though it stores one, so keep what was planned or last read.
+	if apiModel.EscalationConfig.WhenAlertJoinsGroup == nil && plan != nil && plan.EscalationConfig != nil &&
+		!plan.EscalationConfig.WhenAlertJoinsGroup.IsNull() && !plan.EscalationConfig.WhenAlertJoinsGroup.IsUnknown() {
+		result.EscalationConfig.WhenAlertJoinsGroup = plan.EscalationConfig.WhenAlertJoinsGroup
 	}
 	for _, target := range apiModel.EscalationConfig.EscalationTargets {
 		model := AlertRouteEscalationTargetModel{}

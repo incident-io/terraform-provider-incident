@@ -171,9 +171,10 @@ func (r *IncidentAlertRouteResource) Schema(ctx context.Context, req resource.Sc
 						// Optional + Computed: v3 only. When grouping is enabled the API
 						// returns a default when_alert_joins_group even if the user
 						// didn't configure one, so we accept that computed value.
-						Optional:            true,
-						Computed:            true,
-						MarkdownDescription: apischema.Docstring("AlertRouteEscalationConfigV3", "when_alert_joins_group"),
+						Optional: true,
+						Computed: true,
+						MarkdownDescription: apischema.Docstring("AlertRouteEscalationConfigV3", "when_alert_joins_group") +
+							" How to escalate when an alert joins a group. Applies whether or not this route groups alerts, because a team's grouping preference can group its alerts on any route.",
 						PlanModifiers: []planmodifier.Object{
 							whenAlertJoinsGroupPlanModifier{},
 						},
