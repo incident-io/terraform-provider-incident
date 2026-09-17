@@ -10,6 +10,8 @@
 - Add the `incident_team_grouping_preference` resource, which sets how a team's alerts are grouped across the alert routes they match, ahead of each route's own `grouping_config`. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/team_grouping_preference). (#591)
 - Fix `incident_alert_route` showing a perpetual diff on `escalation_config.when_alert_joins_group` when the route's own grouping is disabled, so a route works alongside a team grouping preference. (#590)
 
+- An `incident_alert_route` that sets `escalation_config.when_alert_joins_group` with `mode = "on_each_new_alert"` and leaves `grace_period_seconds` out now applies. The attribute is optional and not computed, so a configuration that omits it plans null, while the API fills in its own 0 and returns that: writing it back over the plan failed every create and update with "Provider produced inconsistent result after apply". The provider now keeps the planned null when the only difference is that default. A grace period the API genuinely holds is still read back, and an import, which has no plan to honour, still takes the value as it comes.
+
 ## v7.0.0
 
 - **Breaking**: the `_beta` resources lose their suffix — `incident_alert_source`, `incident_alert_source_attribute`, `incident_escalation_path`, `incident_schedule` and `incident_schedule_rotation` are now what the `_beta` resources were, and the v6 resources of those names are removed. The `_beta` names still work but warn on every plan and go in v8; upgrading off the v6 schemas keeps your state but needs your configuration rewritten. See the [Migrating to v7](https://registry.terraform.io/providers/incident-io/incident/latest/docs/guides/migrating-to-v7) guide. (#583)
