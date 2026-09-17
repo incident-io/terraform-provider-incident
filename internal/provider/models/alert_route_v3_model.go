@@ -67,6 +67,33 @@ func whenAlertJoinsGroupFromAPI(in *client.AlertRouteWhenAlertJoinsGroupV3) type
 	return obj
 }
 
+// keepPlannedNullGracePeriod restores a planned null grace_period_seconds when the API has
+// echoed back its own 0 default. The attribute is Optional and not Computed, so a config
+// that omits it plans null, and writing the server's 0 over that fails the apply with
+// "Provider produced inconsistent result after apply". Only the default is absorbed: a
+// non-zero server value is a real value and is left alone.
+func keepPlannedNullGracePeriod(result, plan types.Object) types.Object {
+	if result.IsNull() || result.IsUnknown() || plan.IsNull() || plan.IsUnknown() {
+		return result
+	}
+
+	plannedGrace, ok := plan.Attributes()["grace_period_seconds"]
+	if !ok || !plannedGrace.IsNull() {
+		return result
+	}
+
+	resultGrace, ok := result.Attributes()["grace_period_seconds"].(basetypes.Int64Value)
+	if !ok || resultGrace.IsNull() || resultGrace.ValueInt64() != 0 {
+		return result
+	}
+
+	obj, _ := types.ObjectValue(WhenAlertJoinsGroupAttrTypes(), map[string]attr.Value{
+		"mode":                 result.Attributes()["mode"],
+		"grace_period_seconds": types.Int64Null(),
+	})
+	return obj
+}
+
 func whenAlertJoinsGroupToPayload(ctx context.Context, obj types.Object) *client.AlertRouteWhenAlertJoinsGroupPayloadV3 {
 	if obj.IsNull() || obj.IsUnknown() {
 		return nil
@@ -283,6 +310,10 @@ func (AlertRouteResourceModel) FromAPIV3WithPlan(apiModel client.AlertRouteV3, p
 	if apiModel.EscalationConfig.WhenAlertJoinsGroup == nil && plan != nil && plan.EscalationConfig != nil &&
 		!plan.EscalationConfig.WhenAlertJoinsGroup.IsNull() && !plan.EscalationConfig.WhenAlertJoinsGroup.IsUnknown() {
 		result.EscalationConfig.WhenAlertJoinsGroup = plan.EscalationConfig.WhenAlertJoinsGroup
+	}
+	if plan != nil && plan.EscalationConfig != nil {
+		result.EscalationConfig.WhenAlertJoinsGroup = keepPlannedNullGracePeriod(
+			result.EscalationConfig.WhenAlertJoinsGroup, plan.EscalationConfig.WhenAlertJoinsGroup)
 	}
 	for _, target := range apiModel.EscalationConfig.EscalationTargets {
 		model := AlertRouteEscalationTargetModel{}
