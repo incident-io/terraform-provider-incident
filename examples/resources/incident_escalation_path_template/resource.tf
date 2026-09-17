@@ -4,18 +4,17 @@ resource "incident_escalation_path_template" "team_oncall" {
   name        = "Team on-call"
   description = "Primary schedule, then a backup responder"
 
-  params = [
-    {
-      name  = "primary_schedule"
+  # Keyed by the parameter's name, which is what a path binds it under.
+  params = {
+    primary_schedule = {
       label = "Primary schedule"
       type  = "CatalogEntry[\"Schedule\"]"
-    },
-    {
-      name  = "backup"
+    }
+    backup = {
       label = "Backup responder"
       type  = "CatalogEntry[\"User\"]"
-    },
-  ]
+    }
+  }
 
   start = "main"
 

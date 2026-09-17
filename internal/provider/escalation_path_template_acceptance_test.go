@@ -30,8 +30,8 @@ func TestAccEscalationPathTemplate(t *testing.T) {
 				},
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr("incident_escalation_path_template.test", "name", StableSuffix("acc-template")),
-					resource.TestCheckResourceAttr("incident_escalation_path_template.test", "params.#", "1"),
-					resource.TestCheckResourceAttr("incident_escalation_path_template.test", "params.0.name", "primary_schedule"),
+					resource.TestCheckResourceAttr("incident_escalation_path_template.test", "params.%", "1"),
+					resource.TestCheckResourceAttr("incident_escalation_path_template.test", "params.primary_schedule.label", "Primary schedule"),
 					resource.TestCheckResourceAttr("incident_escalation_path_template.test", "sequences.main.nodes.0.level.targets.0.binding.value_reference", "primary_schedule"),
 					resource.TestCheckNoResourceAttr("incident_escalation_path_template.test", "sequences.main.nodes.0.level.targets.0.id"),
 					resource.TestCheckResourceAttrSet("incident_escalation_path_template.test", "id"),
@@ -88,11 +88,12 @@ resource "incident_escalation_path_template" "test" {
   name        = {{ stableSuffix "acc-template" | quote }}
   description = "Pages the primary schedule"
 
-  params = [{
-    name  = "primary_schedule"
-    label = "Primary schedule"
-    type  = "CatalogEntry[\"Schedule\"]"
-  }]
+  params = {
+    primary_schedule = {
+      label = "Primary schedule"
+      type  = "CatalogEntry[\"Schedule\"]"
+    }
+  }
 
   start = "main"
 

@@ -4,20 +4,20 @@ page_title: "incident_escalation_path_template Resource - terraform-provider-inc
 subcategory: ""
 description: |-
   Create and manage escalation path templates: an escalation path with parameters, from which many escalation paths can be built.
-  A template is written the same way as incident_escalation_path_beta, as a flat map of named node sequences, with two additions. It declares params, and a level or notify_channel target may carry a binding to one of them instead of naming an id. An incident_escalation_path_beta built from the template sets template_id and binds each parameter in param_bindings, and the template's nodes, working hours and repeat config apply to every path built from it.
+  A template is written the same way as incident_escalation_path, as a flat map of named node sequences, with two additions. It declares params, and a level or notify_channel target may carry a binding to one of them instead of naming an id. An incident_escalation_path built from the template sets kind = "templated" and template_id, and binds each parameter in param_bindings, and the template's nodes, working hours and repeat config apply to every path built from it.
   Beta, and what happens next
-  This resource follows the incident_escalation_path_beta schema, which is in beta and may still change in ways that are not backwards compatible, so pin the provider version if that matters to you.
+  This resource is new in this version, so its schema may still change in ways that are not backwards compatible. Pin the provider version if that matters to you.
 ---
 
 # incident_escalation_path_template (Resource)
 
 Create and manage escalation path templates: an escalation path with parameters, from which many escalation paths can be built.
 
-A template is written the same way as `incident_escalation_path_beta`, as a flat map of named node sequences, with two additions. It declares `params`, and a level or notify_channel target may carry a `binding` to one of them instead of naming an `id`. An `incident_escalation_path_beta` built from the template sets `template_id` and binds each parameter in `param_bindings`, and the template's nodes, working hours and repeat config apply to every path built from it.
+A template is written the same way as `incident_escalation_path`, as a flat map of named node sequences, with two additions. It declares `params`, and a level or notify_channel target may carry a `binding` to one of them instead of naming an `id`. An `incident_escalation_path` built from the template sets `kind = "templated"` and `template_id`, and binds each parameter in `param_bindings`, and the template's nodes, working hours and repeat config apply to every path built from it.
 
 ## Beta, and what happens next
 
-This resource follows the `incident_escalation_path_beta` schema, which is in beta and may still change in ways that are not backwards compatible, so pin the provider version if that matters to you.
+This resource is new in this version, so its schema may still change in ways that are not backwards compatible. Pin the provider version if that matters to you.
 
 ## Example Usage
 
@@ -28,18 +28,17 @@ resource "incident_escalation_path_template" "team_oncall" {
   name        = "Team on-call"
   description = "Primary schedule, then a backup responder"
 
-  params = [
-    {
-      name  = "primary_schedule"
+  # Keyed by the parameter's name, which is what a path binds it under.
+  params = {
+    primary_schedule = {
       label = "Primary schedule"
       type  = "CatalogEntry[\"Schedule\"]"
-    },
-    {
-      name  = "backup"
+    }
+    backup = {
       label = "Backup responder"
       type  = "CatalogEntry[\"User\"]"
-    },
-  ]
+    }
+  }
 
   start = "main"
 
@@ -108,7 +107,7 @@ resource "incident_escalation_path" "payments" {
 
 - `description` (String) A description of what this template is for.
 - `expressions` (Attributes Set) Expressions a target `binding` can name through `expression_ref`, each starting from one of the template's `params` (its `root_reference`). Use one to page something derived from a parameter, such as a team's lead. (see [below for nested schema](#nestedatt--expressions))
-- `params` (Attributes List) The parameters declared by this template. A templated path binds each one in `param_bindings`, keyed by `name`. (see [below for nested schema](#nestedatt--params))
+- `params` (Attributes Map) The parameters declared by this template. Keyed by the parameter's name, which is what a templated path binds it under in `param_bindings` and what a target's `value_reference` names. (see [below for nested schema](#nestedatt--params))
 - `repeat_config` (Attributes) Controls if an escalation will repeat after acknowledgement, when the alert is unresolved. When configured, it will repeat after the specified delay. (see [below for nested schema](#nestedatt--repeat_config))
 - `working_hours` (Attributes List) The working hours for this template. (see [below for nested schema](#nestedatt--working_hours))
 
@@ -625,7 +624,6 @@ Optional:
 Required:
 
 - `label` (String) Human readable label for this parameter
-- `name` (String) The unique identifier for the parameter This is the key a templated path binds it under, and what a target's `value_reference` names.
 - `type` (String) The type of the parameter A schedule is `CatalogEntry["Schedule"]`, a user `CatalogEntry["User"]`, and a catalog type is `CatalogEntry["<type id>"]`.
 
 Optional:

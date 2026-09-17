@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"sort"
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
@@ -46,16 +47,15 @@ type escalationPathTemplateModel struct {
 	Description  types.String                     `tfsdk:"description"`
 	Start        types.String                     `tfsdk:"start"`
 	Sequences    types.Map                        `tfsdk:"sequences"`
-	Params       types.List                       `tfsdk:"params"`
+	Params       types.Map                        `tfsdk:"params"`
 	Expressions  models.IncidentEngineExpressions `tfsdk:"expressions"`
 	WorkingHours types.List                       `tfsdk:"working_hours"`
 	RepeatConfig types.Object                     `tfsdk:"repeat_config"`
 }
 
 // escalationPathTemplateParam is one of the template's declared parameters: what a templated
-// path has to supply a value for.
+// path has to supply a value for. Its name is the key it sits under rather than a field.
 type escalationPathTemplateParam struct {
-	Name        types.String `tfsdk:"name"`
 	Label       types.String `tfsdk:"label"`
 	Type        types.String `tfsdk:"type"`
 	Array       types.Bool   `tfsdk:"array"`
@@ -65,7 +65,6 @@ type escalationPathTemplateParam struct {
 
 func escalationPathTemplateParamAttrTypes() map[string]attr.Type {
 	return map[string]attr.Type{
-		"name":        types.StringType,
 		"label":       types.StringType,
 		"type":        types.StringType,
 		"array":       types.BoolType,
@@ -87,11 +86,11 @@ func (r *escalationPathTemplateResource) Schema(_ context.Context, _ resource.Sc
 	resp.Schema = schema.Schema{
 		MarkdownDescription: `Create and manage escalation path templates: an escalation path with parameters, from which many escalation paths can be built.
 
-A template is written the same way as ` + "`incident_escalation_path_beta`" + `, as a flat map of named node sequences, with two additions. It declares ` + "`params`" + `, and a level or notify_channel target may carry a ` + "`binding`" + ` to one of them instead of naming an ` + "`id`" + `. An ` + "`incident_escalation_path_beta`" + ` built from the template sets ` + "`template_id`" + ` and binds each parameter in ` + "`param_bindings`" + `, and the template's nodes, working hours and repeat config apply to every path built from it.
+A template is written the same way as ` + "`incident_escalation_path`" + `, as a flat map of named node sequences, with two additions. It declares ` + "`params`" + `, and a level or notify_channel target may carry a ` + "`binding`" + ` to one of them instead of naming an ` + "`id`" + `. An ` + "`incident_escalation_path`" + ` built from the template sets ` + "`kind = \"templated\"`" + ` and ` + "`template_id`" + `, and binds each parameter in ` + "`param_bindings`" + `, and the template's nodes, working hours and repeat config apply to every path built from it.
 
 ## Beta, and what happens next
 
-This resource follows the ` + "`incident_escalation_path_beta`" + ` schema, which is in beta and may still change in ways that are not backwards compatible, so pin the provider version if that matters to you.`,
+This resource is new in this version, so its schema may still change in ways that are not backwards compatible. Pin the provider version if that matters to you.`,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -112,17 +111,12 @@ This resource follows the ` + "`incident_escalation_path_beta`" + ` schema, whic
 				Optional:            true,
 			},
 
-			"params": schema.ListNestedAttribute{
+			"params": schema.MapNestedAttribute{
 				MarkdownDescription: apischema.Docstring("EscalationPathTemplateV2", "params") +
-					" A templated path binds each one in `param_bindings`, keyed by `name`.",
+					" Keyed by the parameter's name, which is what a templated path binds it under in `param_bindings` and what a target's `value_reference` names.",
 				Optional: true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
-						"name": schema.StringAttribute{
-							MarkdownDescription: apischema.Docstring("EngineParamV2", "name") +
-								" This is the key a templated path binds it under, and what a target's `value_reference` names.",
-							Required: true,
-						},
 						"label": schema.StringAttribute{
 							MarkdownDescription: apischema.Docstring("EngineParamV2", "label"),
 							Required:            true,
@@ -220,7 +214,7 @@ func (r *escalationPathTemplateResource) ValidateConfig(ctx context.Context, req
 		resp.Diagnostics.AddAttributeError(
 			path.Root("params"),
 			"Template has no parameters",
-			"An escalation path template needs at least one parameter for its paths to bind. Use incident_escalation_path_beta for a path that takes no parameters.",
+			"An escalation path template needs at least one parameter for its paths to bind. Use incident_escalation_path for a path that takes no parameters.",
 		)
 	}
 	if data.Params.IsNull() {
@@ -500,9 +494,15 @@ func (r *escalationPathTemplateResource) toPayload(ctx context.Context, data *es
 
 	// The API treats an absent params or expressions the same as an empty list, so always
 	// sending one means a config that drops the last param clears it rather than keeping it.
-	params := lo.Map(decodeTemplateParams(ctx, data.Params, diags), func(param escalationPathTemplateParam, _ int) client.EngineParamV2 {
+	// The API takes an ordered list, and a map has no order, so send them by name. Anything
+	// else would send a different order each apply, since Go randomises map iteration.
+	declared := decodeTemplateParams(ctx, data.Params, diags)
+	names := lo.Keys(declared)
+	sort.Strings(names)
+	params := lo.Map(names, func(name string, _ int) client.EngineParamV2 {
+		param := declared[name]
 		out := client.EngineParamV2{
-			Name:        param.Name.ValueString(),
+			Name:        name,
 			Label:       param.Label.ValueString(),
 			Type:        param.Type.ValueString(),
 			Array:       param.Array.ValueBool(),
@@ -519,13 +519,13 @@ func (r *escalationPathTemplateResource) toPayload(ctx context.Context, data *es
 	return payload
 }
 
-func decodeTemplateParams(ctx context.Context, list types.List, diags *diag.Diagnostics) []escalationPathTemplateParam {
-	if list.IsNull() || list.IsUnknown() {
+func decodeTemplateParams(ctx context.Context, params types.Map, diags *diag.Diagnostics) map[string]escalationPathTemplateParam {
+	if params.IsNull() || params.IsUnknown() {
 		return nil
 	}
-	var params []escalationPathTemplateParam
-	diags.Append(list.ElementsAs(ctx, &params, false)...)
-	return params
+	var decoded map[string]escalationPathTemplateParam
+	diags.Append(params.ElementsAs(ctx, &decoded, false)...)
+	return decoded
 }
 
 // buildModel converts what the API returned into state. Sequence names and binding
@@ -544,9 +544,8 @@ func (r *escalationPathTemplateResource) buildModel(ctx context.Context, templat
 
 	// A template param carries no default value: core treats them as pure holes each
 	// templated path binds, so anything sent for one is dropped.
-	params := lo.Map(template.Params, func(param client.EngineParamV2, _ int) escalationPathTemplateParam {
-		return escalationPathTemplateParam{
-			Name:        types.StringValue(param.Name),
+	params := lo.Associate(template.Params, func(param client.EngineParamV2) (string, escalationPathTemplateParam) {
+		return param.Name, escalationPathTemplateParam{
 			Label:       types.StringValue(param.Label),
 			Type:        types.StringValue(param.Type),
 			Array:       types.BoolValue(param.Array),
@@ -554,7 +553,7 @@ func (r *escalationPathTemplateResource) buildModel(ctx context.Context, templat
 			Description: types.StringValue(param.Description),
 		}
 	})
-	paramsList, d := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: escalationPathTemplateParamAttrTypes()}, params)
+	paramsMap, d := types.MapValueFrom(ctx, types.ObjectType{AttrTypes: escalationPathTemplateParamAttrTypes()}, params)
 	diags.Append(d...)
 
 	// A template with no expressions reads back as an empty list; a config that never wrote
@@ -576,7 +575,7 @@ func (r *escalationPathTemplateResource) buildModel(ctx context.Context, templat
 		Description:  description,
 		Start:        types.StringValue(start),
 		Sequences:    sequencesToMap(ctx, escalationPathTemplateNodeAttrTypes(), sequences, diags),
-		Params:       paramsList,
+		Params:       paramsMap,
 		Expressions:  expressions,
 		WorkingHours: escalationPathWorkingHoursFromAPI(ctx, template.WorkingHours, diags),
 		RepeatConfig: escalationPathRepeatConfigFromAPI(template.RepeatConfig),
