@@ -10,6 +10,10 @@ See also CONTRIBUTING.md
 
 - **`lo` (samber/lo)** - Generic utility library for Go. Use for common helpers like `lo.Chunk`, `lo.Map`, `lo.ToPtr`, `lo.Filter`, etc. Prefer this over writing custom helpers.
 
+## Changelog
+
+Any change a provider consumer would notice needs an entry under `## Unreleased` in `CHANGELOG.md`. Use the `changelog-entry` skill (`skills/changelog-entry/`) whenever you add or edit one — it carries the house style: one entry per consumer-visible change, naming the resource, ending with the PR number, pointing at the docs for detail rather than reproducing it.
+
 ## Resources
 
 If you're developing a new resource:
