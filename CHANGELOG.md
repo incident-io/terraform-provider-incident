@@ -1,4 +1,4 @@
-## Unreleased
+## v7.1.0
 
 - Add `unlock_in_dashboard` to every claimable resource, which manages the resource without claiming it so it stays editable in the dashboard. Pair it with `ignore_changes`, or the next apply reverts those dashboard edits. (#601)
 - Add the `incident_escalation_path_template` resource, which manages a parameterised escalation path that many paths can be built from. Editing a template changes every path built from it. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/escalation_path_template). (#589)
