@@ -239,6 +239,8 @@ func TestShouldClaim(t *testing.T) {
 		want              bool
 	}{
 		{name: "unset", unlockInDashboard: types.BoolNull(), want: true},
+		// The zero value, which is what a conversion with no prior leaves behind.
+		{name: "zero value", unlockInDashboard: types.Bool{}, want: true},
 		{name: "unknown", unlockInDashboard: types.BoolUnknown(), want: true},
 		{name: "false", unlockInDashboard: types.BoolValue(false), want: true},
 		{name: "true", unlockInDashboard: types.BoolValue(true), want: false},
@@ -320,5 +322,19 @@ func TestClaimableResourcesDeclareTheOptOut(t *testing.T) {
 				t.Error("unlock_in_dashboard is computed")
 			}
 		})
+	}
+}
+
+// TestUnlockInDashboardZeroValueIsNull pins what a conversion with no prior leaves behind.
+// Several of them do: an import, and every data source that shares a resource's model. Null
+// is read back fine, where unknown would fail the read as an invalid result.
+func TestUnlockInDashboardZeroValueIsNull(t *testing.T) {
+	var zero types.Bool
+
+	if !zero.IsNull() {
+		t.Errorf("zero value is %s, want null", zero)
+	}
+	if zero.IsUnknown() {
+		t.Error("zero value is unknown")
 	}
 }
