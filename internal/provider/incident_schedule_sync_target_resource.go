@@ -41,6 +41,7 @@ func (r *IncidentScheduleSyncTargetResource) Schema(ctx context.Context, req res
 	resp.Schema = schema.Schema{
 		MarkdownDescription: apischema.TagDocstring("Schedule Sync Targets V2"),
 		Attributes: map[string]schema.Attribute{
+			"unlock_in_dashboard": unlockInDashboardAttribute(),
 			"id": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: apischema.Docstring("ScheduleSyncTargetResourceV2", "id"),
@@ -143,9 +144,7 @@ func (r *IncidentScheduleSyncTargetResource) Create(ctx context.Context, req res
 	}
 
 	payload := data.ToPayload()
-	payload.Annotations = &map[string]string{
-		"incident.io/terraform/version": r.terraformVersion,
-	}
+	payload.Annotations = syncAnnotations(data.UnlockInDashboard, r.terraformVersion)
 	result, err := r.client.ScheduleSyncTargetsV2CreateWithResponse(ctx, client.ScheduleSyncTargetsCreatePayloadV2{
 		ScheduleSyncTarget: payload,
 	})
@@ -159,8 +158,10 @@ func (r *IncidentScheduleSyncTargetResource) Create(ctx context.Context, req res
 	// Preserve new_slack_user_group from plan since it's not returned by API
 	newSlackUserGroup := data.NewSlackUserGroup
 
+	unlockInDashboard := data.UnlockInDashboard
 	data = models.ScheduleSyncTargetResourceModel{}.FromAPI(result.JSON201.ScheduleSyncTarget)
 	data.NewSlackUserGroup = newSlackUserGroup
+	data.UnlockInDashboard = unlockInDashboard
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -195,8 +196,10 @@ func (r *IncidentScheduleSyncTargetResource) Read(ctx context.Context, req resou
 	// Preserve new_slack_user_group from state since it's not returned by API
 	newSlackUserGroup := data.NewSlackUserGroup
 
+	unlockInDashboard := data.UnlockInDashboard
 	data = models.ScheduleSyncTargetResourceModel{}.FromAPI(result.JSON200.ScheduleSyncTarget)
 	data.NewSlackUserGroup = newSlackUserGroup
+	data.UnlockInDashboard = unlockInDashboard
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -210,20 +213,24 @@ func (r *IncidentScheduleSyncTargetResource) Update(ctx context.Context, req res
 
 	result, err := r.client.ScheduleSyncTargetsV2UpdateWithResponse(ctx, data.ID.ValueString(), client.ScheduleSyncTargetsUpdatePayloadV2{
 		AddBotToGroup: data.AddBotToGroup.ValueBool(),
-		Annotations: &map[string]string{
-			"incident.io/terraform/version": r.terraformVersion,
-		},
+		Annotations:   syncAnnotations(data.UnlockInDashboard, r.terraformVersion),
 	})
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update schedule sync target, got error: %s", err))
 		return
 	}
 
+	if !shouldClaim(data.UnlockInDashboard) {
+		unclaimResource(ctx, r.client, data.ID.ValueString(), &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeScheduleSyncTarget)
+	}
+
 	// Preserve new_slack_user_group from plan since it's not returned by API
 	newSlackUserGroup := data.NewSlackUserGroup
 
+	unlockInDashboard := data.UnlockInDashboard
 	data = models.ScheduleSyncTargetResourceModel{}.FromAPI(result.JSON200.ScheduleSyncTarget)
 	data.NewSlackUserGroup = newSlackUserGroup
+	data.UnlockInDashboard = unlockInDashboard
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }

@@ -331,6 +331,7 @@ resource "incident_policy" "vacation_conflicts" {
 - `post_mortem` (Attributes) Makes this a post_mortem policy, stating what a post_mortem must satisfy and when it falls due. (see [below for nested schema](#nestedatt--post_mortem))
 - `schedule` (Attributes) Makes this a schedule policy, which detects gaps in on-call coverage. (see [below for nested schema](#nestedatt--schedule))
 - `status` (String) Disabled policies stop evaluating but keep their config. Possible values are: `enabled`, `disabled`.
+- `unlock_in_dashboard` (Boolean) Whether to leave this resource unlocked in the incident.io dashboard, so people can edit it there. Defaults to `false`: Terraform claims what it manages, and a claimed resource cannot be edited in the dashboard. Set it to `true` to leave the resource unclaimed — pair that with `lifecycle { ignore_changes = [...] }` naming the attributes people edit, or the next apply reverts them. Setting it on a resource Terraform already claimed hands that resource back, and someone disconnecting one in the dashboard shows as no change.
 - `vacation_conflict` (Attributes) Makes this a vacation-conflict policy, which flags responders rota'd on while they are away. It takes no configuration, so set it to an empty object. The assignee is always the user the finding is about, so `assignment_rules` cannot be set alongside it. (see [below for nested schema](#nestedatt--vacation_conflict))
 
 ### Read-Only

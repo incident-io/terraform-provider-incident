@@ -95,6 +95,7 @@ func (r *IncidentAPIKeyResource) Schema(_ context.Context, _ resource.SchemaRequ
 				"rejection may still arrive at apply time.",
 		),
 		Attributes: map[string]schema.Attribute{
+			"unlock_in_dashboard": unlockInDashboardAttribute(),
 			"id": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: apischema.Docstring("APIKeyV1", "id"),
@@ -376,8 +377,10 @@ func (r *IncidentAPIKeyResource) Create(ctx context.Context, req resource.Create
 		return
 	}
 
-	claimResource(ctx, r.client, result.JSON201.ApiKey.Id, &resp.Diagnostics,
-		client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeApiKey, r.terraformVersion)
+	if shouldClaim(data.UnlockInDashboard) {
+		claimResource(ctx, r.client, result.JSON201.ApiKey.Id, &resp.Diagnostics,
+			client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeApiKey, r.terraformVersion)
+	}
 
 	tflog.Trace(ctx, fmt.Sprintf("created an API key with id=%s", result.JSON201.ApiKey.Id))
 
@@ -387,6 +390,7 @@ func (r *IncidentAPIKeyResource) Create(ctx context.Context, req resource.Create
 		TokenVersion:               data.TokenVersion,
 		RotationGracePeriodMinutes: data.RotationGracePeriodMinutes,
 	})
+	state.UnlockInDashboard = data.UnlockInDashboard
 	resp.Diagnostics.Append(resp.State.Set(ctx, &state)...)
 }
 
@@ -425,6 +429,7 @@ func (r *IncidentAPIKeyResource) Read(ctx context.Context, req resource.ReadRequ
 		TokenVersion:               data.TokenVersion,
 		RotationGracePeriodMinutes: data.RotationGracePeriodMinutes,
 	})
+	state.UnlockInDashboard = data.UnlockInDashboard
 	resp.Diagnostics.Append(resp.State.Set(ctx, &state)...)
 }
 
@@ -454,8 +459,13 @@ func (r *IncidentAPIKeyResource) Update(ctx context.Context, req resource.Update
 		return
 	}
 
-	claimResource(ctx, r.client, result.JSON200.ApiKey.Id, &resp.Diagnostics,
-		client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeApiKey, r.terraformVersion)
+	if shouldClaim(plan.UnlockInDashboard) {
+		claimResource(ctx, r.client, result.JSON200.ApiKey.Id, &resp.Diagnostics,
+			client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeApiKey, r.terraformVersion)
+	} else {
+		unclaimResource(ctx, r.client, result.JSON200.ApiKey.Id, &resp.Diagnostics,
+			client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeApiKey)
+	}
 
 	var (
 		key   = result.JSON200.ApiKey
@@ -483,6 +493,7 @@ func (r *IncidentAPIKeyResource) Update(ctx context.Context, req resource.Update
 		TokenVersion:               plan.TokenVersion,
 		RotationGracePeriodMinutes: plan.RotationGracePeriodMinutes,
 	})
+	newState.UnlockInDashboard = plan.UnlockInDashboard
 	resp.Diagnostics.Append(resp.State.Set(ctx, &newState)...)
 }
 

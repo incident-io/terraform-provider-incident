@@ -10,6 +10,7 @@ import (
 // ScheduleSyncRuleResourceModel is the Terraform model for schedule sync rules.
 type ScheduleSyncRuleResourceModel struct {
 	ID                     types.String `tfsdk:"id"`
+	UnlockInDashboard      types.Bool   `tfsdk:"unlock_in_dashboard"`
 	ScheduleID             types.String `tfsdk:"schedule_id"`
 	ScheduleSyncTargetID   types.String `tfsdk:"schedule_sync_target_id"`
 	SyncType               types.String `tfsdk:"sync_type"`

@@ -31,6 +31,7 @@ func scheduleV3ConfigFor(t *testing.T, holidays tftypes.Value) tfsdk.Config {
 	return tfsdk.Config{
 		Schema: schemaResp.Schema,
 		Raw: tftypes.NewValue(objType, map[string]tftypes.Value{
+			"unlock_in_dashboard":    tftypes.NewValue(tftypes.Bool, nil),
 			"id":                     tftypes.NewValue(tftypes.String, "01SCHED"),
 			"name":                   tftypes.NewValue(tftypes.String, "Platform on-call"),
 			"timezone":               tftypes.NewValue(tftypes.String, "Europe/London"),
@@ -167,6 +168,7 @@ func TestScheduleV3ValidateTimezone(t *testing.T) {
 		config := tfsdk.Config{
 			Schema: schemaResp.Schema,
 			Raw: tftypes.NewValue(objType, map[string]tftypes.Value{
+				"unlock_in_dashboard":    tftypes.NewValue(tftypes.Bool, nil),
 				"id":                     tftypes.NewValue(tftypes.String, "01SCHED"),
 				"name":                   tftypes.NewValue(tftypes.String, "Platform on-call"),
 				"timezone":               timezone,

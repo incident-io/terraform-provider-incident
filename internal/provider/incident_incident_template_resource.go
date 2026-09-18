@@ -44,6 +44,7 @@ func (r *IncidentIncidentTemplateResource) Schema(ctx context.Context, req resou
 	resp.Schema = schema.Schema{
 		MarkdownDescription: apischema.TagDocstring("Incident Templates V1"),
 		Attributes: map[string]schema.Attribute{
+			"unlock_in_dashboard": unlockInDashboardAttribute(),
 			"id": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: apischema.Docstring("IncidentTemplateV1", "id"),
@@ -300,7 +301,9 @@ func (r *IncidentIncidentTemplateResource) Create(ctx context.Context, req resou
 		return
 	}
 
-	claimResource(ctx, r.client, result.JSON201.IncidentTemplate.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeIncidentTemplate, r.terraformVersion)
+	if shouldClaim(data.UnlockInDashboard) {
+		claimResource(ctx, r.client, result.JSON201.IncidentTemplate.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeIncidentTemplate, r.terraformVersion)
+	}
 
 	tflog.Trace(ctx, fmt.Sprintf("created an incident template with id=%s", result.JSON201.IncidentTemplate.Id))
 
@@ -361,7 +364,11 @@ func (r *IncidentIncidentTemplateResource) Update(ctx context.Context, req resou
 		return
 	}
 
-	claimResource(ctx, r.client, result.JSON200.IncidentTemplate.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeIncidentTemplate, r.terraformVersion)
+	if shouldClaim(data.UnlockInDashboard) {
+		claimResource(ctx, r.client, result.JSON200.IncidentTemplate.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeIncidentTemplate, r.terraformVersion)
+	} else {
+		unclaimResource(ctx, r.client, result.JSON200.IncidentTemplate.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeIncidentTemplate)
+	}
 
 	data = models.IncidentTemplateV1Model{}.FromAPI(result.JSON200.IncidentTemplate, &data)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)

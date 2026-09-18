@@ -26,10 +26,11 @@ import (
 // IncidentTemplateV1Model is the Terraform plan/state shape for an
 // incident_incident_template resource.
 type IncidentTemplateV1Model struct {
-	ID          types.String                   `tfsdk:"id"`
-	Name        types.String                   `tfsdk:"name"`
-	Template    *IncidentTemplateConfigV1Model `tfsdk:"template"`
-	Expressions IncidentEngineExpressions      `tfsdk:"expressions"`
+	ID                types.String                   `tfsdk:"id"`
+	UnlockInDashboard types.Bool                     `tfsdk:"unlock_in_dashboard"`
+	Name              types.String                   `tfsdk:"name"`
+	Template          *IncidentTemplateConfigV1Model `tfsdk:"template"`
+	Expressions       IncidentEngineExpressions      `tfsdk:"expressions"`
 }
 
 // IncidentTemplateConfigV1Model mirrors client.IncidentTemplateConfigV1. Each
@@ -68,6 +69,8 @@ func (IncidentTemplateV1Model) FromAPI(apiModel client.IncidentTemplateV1, plan 
 	var planTemplate *IncidentTemplateConfigV1Model
 	if plan != nil {
 		planTemplate = plan.Template
+		// unlock_in_dashboard is config the API can't answer for, so it carries over.
+		result.UnlockInDashboard = plan.UnlockInDashboard
 	}
 	result.Template = incidentTemplateConfigFromAPIV1(apiModel.Template, planTemplate)
 

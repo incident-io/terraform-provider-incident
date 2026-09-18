@@ -92,7 +92,7 @@ reproduce there. Pin to v5.x if you need to stay on an older CLI.
 				Sensitive:           true,
 			},
 			"mark_imported_resources_as_managed": schema.BoolAttribute{
-				MarkdownDescription: "Whether importing a resource claims it as managed by Terraform, which is what stops people editing it in the incident.io dashboard. Defaults to `true`. Terraform runs imports during `plan` rather than apply, so this claim is a write to your account during an operation you may expect to be read-only: set this to `false` if plans must leave your account untouched. Creating or updating a resource claims it regardless of this setting, so a resource imported with this off is claimed by the first apply that changes it. It stays editable in the dashboard until then, and indefinitely if its configuration already matches the account and so never produces a change to apply.",
+				MarkdownDescription: "Whether importing a resource claims it as managed by Terraform, which is what stops people editing it in the incident.io dashboard. Defaults to `true`. Terraform runs imports during `plan` rather than apply, so this claim is a write to your account during an operation you may expect to be read-only: set this to `false` if plans must leave your account untouched. Creating or updating a resource claims it regardless of this setting, unless that resource sets `unlock_in_dashboard`, so a resource imported with this off is claimed by the first apply that changes it. It stays editable in the dashboard until then, and indefinitely if its configuration already matches the account and so never produces a change to apply.",
 				Optional:            true,
 			},
 		},

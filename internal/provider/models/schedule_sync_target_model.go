@@ -10,6 +10,7 @@ import (
 // ScheduleSyncTargetResourceModel is the Terraform model for schedule sync targets.
 type ScheduleSyncTargetResourceModel struct {
 	ID                types.String            `tfsdk:"id"`
+	UnlockInDashboard types.Bool              `tfsdk:"unlock_in_dashboard"`
 	AddBotToGroup     types.Bool              `tfsdk:"add_bot_to_group"`
 	SlackUserGroupID  types.String            `tfsdk:"slack_user_group_id"`
 	SlackTeamID       types.String            `tfsdk:"slack_team_id"`

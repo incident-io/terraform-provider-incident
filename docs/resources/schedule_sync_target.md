@@ -42,6 +42,7 @@ resource "incident_schedule_sync_target" "existing_group" {
 
 - `new_slack_user_group` (Attributes) Configuration for creating a new Slack user group. Mutually exclusive with `slack_user_group_id`. (see [below for nested schema](#nestedatt--new_slack_user_group))
 - `slack_user_group_id` (String) Slack ID of the user group whose membership is kept in sync. This is the Slack-assigned group ID (starting with 'S'), not the @-handle.
+- `unlock_in_dashboard` (Boolean) Whether to leave this resource unlocked in the incident.io dashboard, so people can edit it there. Defaults to `false`: Terraform claims what it manages, and a claimed resource cannot be edited in the dashboard. Set it to `true` to leave the resource unclaimed — pair that with `lifecycle { ignore_changes = [...] }` naming the attributes people edit, or the next apply reverts them. Setting it on a resource Terraform already claimed hands that resource back, and someone disconnecting one in the dashboard shows as no change.
 
 ### Read-Only
 

@@ -65,6 +65,7 @@ func (r *IncidentAlertRouteResource) Schema(ctx context.Context, req resource.Sc
 	resp.Schema = schema.Schema{
 		MarkdownDescription: fmt.Sprintf("%s\n\n%s", apischema.TagDocstring("Alert Routes V3"), `We'd generally recommend building alert routes in our [web dashboard](https://app.incident.io/~/alerts/configuration), and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing alert route and copy the resulting Terraform without persisting it.`),
 		Attributes: map[string]schema.Attribute{
+			"unlock_in_dashboard": unlockInDashboardAttribute(),
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -493,7 +494,9 @@ func (r *IncidentAlertRouteResource) Create(ctx context.Context, req resource.Cr
 			return
 		}
 
-		claimResource(ctx, r.client, result.JSON201.AlertRoute.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertRoute, r.terraformVersion)
+		if shouldClaim(data.UnlockInDashboard) {
+			claimResource(ctx, r.client, result.JSON201.AlertRoute.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertRoute, r.terraformVersion)
+		}
 		tflog.Trace(ctx, fmt.Sprintf("Created an alert route with id=%s", result.JSON201.AlertRoute.Id))
 
 		data = models.AlertRouteResourceModel{}.FromAPIV3WithPlan(result.JSON201.AlertRoute, &plan)
@@ -507,7 +510,9 @@ func (r *IncidentAlertRouteResource) Create(ctx context.Context, req resource.Cr
 		return
 	}
 
-	claimResource(ctx, r.client, result.JSON201.AlertRoute.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertRoute, r.terraformVersion)
+	if shouldClaim(data.UnlockInDashboard) {
+		claimResource(ctx, r.client, result.JSON201.AlertRoute.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertRoute, r.terraformVersion)
+	}
 	tflog.Trace(ctx, fmt.Sprintf("Created an alert route with id=%s", result.JSON201.AlertRoute.Id))
 
 	data = models.AlertRouteResourceModel{}.FromAPIV2WithPlan(result.JSON201.AlertRoute, &plan)
@@ -600,7 +605,11 @@ func (r *IncidentAlertRouteResource) Update(ctx context.Context, req resource.Up
 			return
 		}
 
-		claimResource(ctx, r.client, showResult.JSON200.AlertRoute.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertRoute, r.terraformVersion)
+		if shouldClaim(data.UnlockInDashboard) {
+			claimResource(ctx, r.client, showResult.JSON200.AlertRoute.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertRoute, r.terraformVersion)
+		} else {
+			unclaimResource(ctx, r.client, showResult.JSON200.AlertRoute.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertRoute)
+		}
 
 		data = models.AlertRouteResourceModel{}.FromAPIV3WithPlan(updateResult.JSON200.AlertRoute, &plan)
 		resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -627,7 +636,11 @@ func (r *IncidentAlertRouteResource) Update(ctx context.Context, req resource.Up
 		return
 	}
 
-	claimResource(ctx, r.client, showResult.JSON200.AlertRoute.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertRoute, r.terraformVersion)
+	if shouldClaim(data.UnlockInDashboard) {
+		claimResource(ctx, r.client, showResult.JSON200.AlertRoute.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertRoute, r.terraformVersion)
+	} else {
+		unclaimResource(ctx, r.client, showResult.JSON200.AlertRoute.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertRoute)
+	}
 
 	data = models.AlertRouteResourceModel{}.FromAPIV2WithPlan(updateResult.JSON200.AlertRoute, &plan)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)

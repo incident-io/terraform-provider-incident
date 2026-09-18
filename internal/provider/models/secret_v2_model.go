@@ -18,16 +18,17 @@ import (
 // changed. ValueWOVersion is an ordinary attribute and so is stored: a change to it is
 // what Terraform can see, and therefore what asks for a rotation.
 type SecretModel struct {
-	ID             types.String      `tfsdk:"id"`
-	Name           types.String      `tfsdk:"name"`
-	Description    types.String      `tfsdk:"description"`
-	OwningTeamIDs  types.Set         `tfsdk:"owning_team_ids"`
-	ValueWO        types.String      `tfsdk:"value_wo"`
-	ValueWOVersion types.Int64       `tfsdk:"value_wo_version"`
-	Version        types.Int64       `tfsdk:"version"`
-	LastFourChars  types.String      `tfsdk:"last_four_chars"`
-	CreatedAt      timetypes.RFC3339 `tfsdk:"created_at"`
-	UpdatedAt      timetypes.RFC3339 `tfsdk:"updated_at"`
+	ID                types.String      `tfsdk:"id"`
+	UnlockInDashboard types.Bool        `tfsdk:"unlock_in_dashboard"`
+	Name              types.String      `tfsdk:"name"`
+	Description       types.String      `tfsdk:"description"`
+	OwningTeamIDs     types.Set         `tfsdk:"owning_team_ids"`
+	ValueWO           types.String      `tfsdk:"value_wo"`
+	ValueWOVersion    types.Int64       `tfsdk:"value_wo_version"`
+	Version           types.Int64       `tfsdk:"version"`
+	LastFourChars     types.String      `tfsdk:"last_four_chars"`
+	CreatedAt         timetypes.RFC3339 `tfsdk:"created_at"`
+	UpdatedAt         timetypes.RFC3339 `tfsdk:"updated_at"`
 }
 
 // FromAPI converts an API secret into the Terraform model.

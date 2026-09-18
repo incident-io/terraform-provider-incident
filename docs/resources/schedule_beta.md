@@ -54,6 +54,7 @@ documentation.
 
 - `holidays_public_config` (Attributes) Public holidays to show on this schedule. Omit the block entirely to show none. (see [below for nested schema](#nestedatt--holidays_public_config))
 - `team_ids` (Set of String) IDs of teams that own this schedule
+- `unlock_in_dashboard` (Boolean) Whether to leave this resource unlocked in the incident.io dashboard, so people can edit it there. Defaults to `false`: Terraform claims what it manages, and a claimed resource cannot be edited in the dashboard. Set it to `true` to leave the resource unclaimed — pair that with `lifecycle { ignore_changes = [...] }` naming the attributes people edit, or the next apply reverts them. Setting it on a resource Terraform already claimed hands that resource back, and someone disconnecting one in the dashboard shows as no change.
 
 ### Read-Only
 

@@ -149,6 +149,7 @@ API key role name. Possible values are: `viewer`, `incident_creator`, `incident_
 
 API key role name that may be granted for team-scoped access. Possible values are: `catalog_editor`, `schedules_editor`, `schedules_reader`, `schedule_overrides_editor`, `on_call_editor`, `escalation_creator`, `api_keys_manage`, `workflows_editor`, `private_workflows_editor`, `secrets_manage`, `secrets_use`, `heartbeats_ping`, `telemetry_query_restricted`, `telemetry_data_source_update`.
 - `token_version` (Number) The version of the token this configuration holds. Terraform stores this number, so changing it - conventionally by incrementing it - is what asks incident.io to rotate the key. It is your own counter, and incident.io never sees it. Leave it unset to manage a key's name and roles without ever rotating it.
+- `unlock_in_dashboard` (Boolean) Whether to leave this resource unlocked in the incident.io dashboard, so people can edit it there. Defaults to `false`: Terraform claims what it manages, and a claimed resource cannot be edited in the dashboard. Set it to `true` to leave the resource unclaimed — pair that with `lifecycle { ignore_changes = [...] }` naming the attributes people edit, or the next apply reverts them. Setting it on a resource Terraform already claimed hands that resource back, and someone disconnecting one in the dashboard shows as no change.
 
 ### Read-Only
 

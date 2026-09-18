@@ -42,6 +42,7 @@ output "urgent_support_start" {
 - `start` (String) The key of the sequence this escalation path begins with.
 - `team_ids` (Set of String) IDs of the teams that own this escalation path. This will automatically sync escalation paths with the right teams in Catalog. If you have an escalation paths attribute on your Teams, this attribute is required.
 - `template_id` (String) For a templated path, the `incident_escalation_path_template` it is built from.
+- `unlock_in_dashboard` (Boolean) Not populated: whether Terraform claims a resource is configuration, and no read endpoint reports it.
 - `working_hours` (Attributes List) The working hours for this escalation path. Absent for a templated path, which takes them from its template. (see [below for nested schema](#nestedatt--working_hours))
 
 <a id="nestedatt--param_bindings"></a>

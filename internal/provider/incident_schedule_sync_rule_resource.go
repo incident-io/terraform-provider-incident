@@ -40,6 +40,7 @@ func (r *IncidentScheduleSyncRuleResource) Schema(ctx context.Context, req resou
 	resp.Schema = schema.Schema{
 		MarkdownDescription: "Manage schedule sync rules that link schedules to sync targets (Slack user groups).",
 		Attributes: map[string]schema.Attribute{
+			"unlock_in_dashboard": unlockInDashboardAttribute(),
 			"id": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: apischema.Docstring("ScheduleSyncRuleV2", "id"),
@@ -98,9 +99,7 @@ func (r *IncidentScheduleSyncRuleResource) Create(ctx context.Context, req resou
 			SyncType:               client.ScheduleSyncRuleCreatePayloadV2SyncType(data.SyncType.ValueString()),
 			RotationId:             data.RotationID.ValueStringPointer(),
 			PermanentMemberUserIds: data.PermanentMemberUserIDsPayload(),
-			Annotations: &map[string]string{
-				"incident.io/terraform/version": r.terraformVersion,
-			},
+			Annotations:            syncAnnotations(data.UnlockInDashboard, r.terraformVersion),
 		},
 	})
 	if err != nil {
@@ -110,7 +109,9 @@ func (r *IncidentScheduleSyncRuleResource) Create(ctx context.Context, req resou
 
 	tflog.Trace(ctx, fmt.Sprintf("created schedule sync rule with id=%s", result.JSON201.ScheduleSyncRule.Id))
 
+	unlockInDashboard := data.UnlockInDashboard
 	data = models.ScheduleSyncRuleResourceModel{}.FromAPI(result.JSON201.ScheduleSyncRule)
+	data.UnlockInDashboard = unlockInDashboard
 	data.PreserveEmptyPermanentMemberUserIDs(plannedPermanentMembers)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -145,7 +146,9 @@ func (r *IncidentScheduleSyncRuleResource) Read(ctx context.Context, req resourc
 		return
 	}
 
+	unlockInDashboard := data.UnlockInDashboard
 	data = models.ScheduleSyncRuleResourceModel{}.FromAPI(result.JSON200.ScheduleSyncRule)
+	data.UnlockInDashboard = unlockInDashboard
 	// When the attribute is unset in state, leave it null even if the API
 	// returns members set outside Terraform — omitting the field on update
 	// means "leave unchanged", so we must not invent a diff that would clear
@@ -171,16 +174,20 @@ func (r *IncidentScheduleSyncRuleResource) Update(ctx context.Context, req resou
 	result, err := r.client.SchedulesV2UpdateScheduleSyncRuleWithResponse(ctx, data.ScheduleID.ValueString(), data.ID.ValueString(), client.SchedulesUpdateScheduleSyncRulePayloadV2{
 		SyncType:               client.SchedulesUpdateScheduleSyncRulePayloadV2SyncType(data.SyncType.ValueString()),
 		PermanentMemberUserIds: data.PermanentMemberUserIDsPayload(),
-		Annotations: &map[string]string{
-			"incident.io/terraform/version": r.terraformVersion,
-		},
+		Annotations:            syncAnnotations(data.UnlockInDashboard, r.terraformVersion),
 	})
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update schedule sync rule, got error: %s", err))
 		return
 	}
 
+	if !shouldClaim(data.UnlockInDashboard) {
+		unclaimResource(ctx, r.client, data.ID.ValueString(), &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeScheduleSyncRule)
+	}
+
+	unlockInDashboard := data.UnlockInDashboard
 	data = models.ScheduleSyncRuleResourceModel{}.FromAPI(result.JSON200.ScheduleSyncRule)
+	data.UnlockInDashboard = unlockInDashboard
 	if plannedPermanentMembers.IsNull() {
 		// Omitted on the wire — members are unchanged and still unmanaged.
 		data.PermanentMemberUserIDs = types.SetNull(types.StringType)

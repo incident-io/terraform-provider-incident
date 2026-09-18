@@ -39,6 +39,7 @@ func NewIncidentWorkflowResource() resource.Resource {
 
 type IncidentWorkflowResourceModel struct {
 	ID                        types.String                         `tfsdk:"id"`
+	UnlockInDashboard         types.Bool                           `tfsdk:"unlock_in_dashboard"`
 	Name                      types.String                         `tfsdk:"name"`
 	Folder                    types.String                         `tfsdk:"folder"`
 	Shortform                 types.String                         `tfsdk:"shortform"`
@@ -94,6 +95,7 @@ func (r *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 
 We'd generally recommend building workflows in our [web dashboard](https://app.incident.io/~/workflows), and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing workflow and copy the resulting Terraform without persisting it.`,
 		Attributes: map[string]schema.Attribute{
+			"unlock_in_dashboard": unlockInDashboardAttribute(),
 			"id": schema.StringAttribute{
 				MarkdownDescription: apischema.Docstring("WorkflowV2", "id"),
 				Computed:            true,
@@ -278,9 +280,7 @@ func (r *IncidentWorkflowResource) Create(ctx context.Context, req resource.Crea
 		ContinueOnStepError: data.ContinueOnStepError.ValueBool(),
 		State:               lo.ToPtr(client.WorkflowsCreateWorkflowPayloadV2State(data.State.ValueString())),
 		FormFields:          toPayloadFormFields(data.FormFields),
-		Annotations: &map[string]string{
-			"incident.io/terraform/version": r.terraformVersion,
-		},
+		Annotations:         workflowAnnotations(data.UnlockInDashboard, r.terraformVersion),
 	}
 
 	// Forward whichever privacy fields the user set in config (ValidateConfig
@@ -317,6 +317,12 @@ func (r *IncidentWorkflowResource) Create(ctx context.Context, req resource.Crea
 	tflog.Trace(ctx, fmt.Sprintf("created a workflow resource with id=%s", result.JSON201.Workflow.Id))
 	// Unlike update and read, create has no skip_step_upgrades, so the response may
 	// carry param_bindings the plan never set.
+	// The API marks any write that isn't Terraform as managed externally, so an
+	// unclaimed workflow has to be handed back to the dashboard explicitly.
+	if !shouldClaim(data.UnlockInDashboard) {
+		unclaimResource(ctx, r.client, result.JSON201.Workflow.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeWorkflow)
+	}
+
 	data = r.buildModel(result.JSON201.Workflow, data)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -360,10 +366,8 @@ func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.Upda
 		ContinueOnStepError: data.ContinueOnStepError.ValueBool(),
 		State:               lo.ToPtr(client.WorkflowsUpdateWorkflowPayloadV2State(data.State.ValueString())),
 		FormFields:          toPayloadFormFields(data.FormFields),
-		Annotations: &map[string]string{
-			"incident.io/terraform/version": r.terraformVersion,
-		},
-		SkipStepUpgrades: lo.ToPtr(true),
+		Annotations:         workflowAnnotations(data.UnlockInDashboard, r.terraformVersion),
+		SkipStepUpgrades:    lo.ToPtr(true),
 	}
 
 	// Forward whichever privacy fields the user set in config (ValidateConfig
@@ -395,6 +399,10 @@ func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.Upda
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update workflow, got error: %s", err))
 		return
+	}
+
+	if !shouldClaim(data.UnlockInDashboard) {
+		unclaimResource(ctx, r.client, result.JSON200.Workflow.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeWorkflow)
 	}
 
 	data = r.buildModel(result.JSON200.Workflow, data)
@@ -588,4 +596,16 @@ func toPayloadSteps(steps []IncidentWorkflowStep) []client.StepConfigPayloadV2 {
 	}
 
 	return out
+}
+
+// workflowAnnotations is what claims the workflow: the API reads the managed-resource record
+// off the annotations this payload carries, so sending none claims nothing.
+func workflowAnnotations(unlockInDashboard types.Bool, terraformVersion string) *map[string]string {
+	if !shouldClaim(unlockInDashboard) {
+		return nil
+	}
+
+	return &map[string]string{
+		"incident.io/terraform/version": terraformVersion,
+	}
 }

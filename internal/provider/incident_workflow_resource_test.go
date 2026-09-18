@@ -92,12 +92,18 @@ type workflowTemplateOverrides struct {
 	ConditionParam   string
 	StepFollowUpName string
 	ExpressionLabel  string
+	// UnlockInDashboard writes the attribute when true, and leaves it out otherwise: the
+	// merge below skips a zero field, so false cannot be distinguished from unset. That
+	// suits the attribute, whose default is to leave it out.
+	UnlockInDashboard bool
 }
 
 var incidentWorkflowTemplate = template.Must(template.New("incident_workflow").Funcs(testTemplateFuncs()).Parse(`
 resource "incident_workflow" "example" {
 	name               = {{ quote .Name }}
 	trigger            = "incident.updated"
+{{ if .UnlockInDashboard }}	unlock_in_dashboard = true
+{{ end }}
 	condition_groups 	 = [
 		{
 			conditions = [

@@ -45,6 +45,7 @@ output "payments_template_id" {
 
 - `expressions` (Attributes Set) Expressions that make variables available in the scope (see [below for nested schema](#nestedatt--expressions))
 - `template` (Attributes) The values an incident template applies to the incidents it creates. (see [below for nested schema](#nestedatt--template))
+- `unlock_in_dashboard` (Boolean) Not populated: whether Terraform claims a resource is configuration, and no read endpoint reports it.
 
 <a id="nestedatt--expressions"></a>
 ### Nested Schema for `expressions`

@@ -647,6 +647,7 @@ The order of the list is the order the fields appear in the form. Either `form_f
 - `owning_team_ids` (Set of String) IDs of the teams that own this workflow
 - `private_incident_scope` (String) Which private incidents this workflow acts on: every private incident (all), those an owning team can see (owning_teams), or none. Possible values are: `all`, `owning_teams`, `none`.
 - `shortform` (String) The shortform used to trigger this workflow (only applicable for manual triggers)
+- `unlock_in_dashboard` (Boolean) Whether to leave this resource unlocked in the incident.io dashboard, so people can edit it there. Defaults to `false`: Terraform claims what it manages, and a claimed resource cannot be edited in the dashboard. Set it to `true` to leave the resource unclaimed — pair that with `lifecycle { ignore_changes = [...] }` naming the attributes people edit, or the next apply reverts them. Setting it on a resource Terraform already claimed hands that resource back, and someone disconnecting one in the dashboard shows as no change.
 
 ### Read-Only
 

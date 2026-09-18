@@ -7,9 +7,11 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 
 	"github.com/incident-io/terraform-provider-incident/v7/internal/client"
@@ -223,6 +225,99 @@ func TestImportStateClaimsCorrectResourceType(t *testing.T) {
 			}
 			if summary := errs[0].Summary(); !strings.Contains(summary, tc.wantErrSummary) {
 				t.Errorf("diagnostic summary = %q, want it to mention %q", summary, tc.wantErrSummary)
+			}
+		})
+	}
+}
+
+// TestShouldClaim pins the default: an unset attribute claims, which is how the provider
+// behaved before this was configurable, and only asking for dashboard changes opts out.
+func TestShouldClaim(t *testing.T) {
+	for _, tc := range []struct {
+		name              string
+		unlockInDashboard types.Bool
+		want              bool
+	}{
+		{name: "unset", unlockInDashboard: types.BoolNull(), want: true},
+		{name: "unknown", unlockInDashboard: types.BoolUnknown(), want: true},
+		{name: "false", unlockInDashboard: types.BoolValue(false), want: true},
+		{name: "true", unlockInDashboard: types.BoolValue(true), want: false},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			if got := shouldClaim(tc.unlockInDashboard); got != tc.want {
+				t.Errorf("shouldClaim(%v) = %v, want %v", tc.unlockInDashboard, got, tc.want)
+			}
+		})
+	}
+}
+
+// TestUnclaimResourceSendsEmptyAnnotations pins how a resource is handed back: there is no
+// unclaim endpoint, and the claim endpoint reads an empty annotation set as the dashboard.
+// Sending the version annotation here would re-claim rather than release.
+func TestUnclaimResourceSendsEmptyAnnotations(t *testing.T) {
+	ctx := t.Context()
+	api := &fakeManagedResourcesAPI{}
+
+	var diagnostics diag.Diagnostics
+	unclaimResource(ctx, api.start(t), "01WORKFLOW", &diagnostics,
+		client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeWorkflow)
+	if diagnostics.HasError() {
+		t.Fatalf("unclaiming: %v", diagnostics)
+	}
+
+	if api.requests != 1 {
+		t.Fatalf("managed resource requests = %d, want 1", api.requests)
+	}
+	if !strings.Contains(string(api.received), `"annotations":{}`) {
+		t.Errorf("payload = %s, want empty annotations", api.received)
+	}
+}
+
+// TestClaimableResourcesDeclareTheOptOut holds the rollout together: a resource whose
+// writes claim it has to offer the way out, or the attribute silently does nothing on
+// whichever one was missed.
+func TestClaimableResourcesDeclareTheOptOut(t *testing.T) {
+	ctx := t.Context()
+
+	for _, newResource := range []func() resource.Resource{
+		NewIncidentAlertRouteResource,
+		NewIncidentAlertSourceResource,
+		NewIncidentAPIKeyResource,
+		NewIncidentCatalogTypeResource,
+		NewIncidentEscalationPathResource,
+		NewEscalationPathTemplateResource,
+		NewIncidentIncidentTemplateResource,
+		NewIncidentPolicyResource,
+		NewIncidentScheduleResource,
+		NewIncidentScheduleSyncRuleResource,
+		NewIncidentScheduleSyncTargetResource,
+		NewIncidentSecretResource,
+		NewIncidentTeamGroupingPreferenceResource,
+		NewIncidentWorkflowResource,
+	} {
+		r := newResource()
+
+		metadataResp := &resource.MetadataResponse{}
+		r.Metadata(ctx, resource.MetadataRequest{ProviderTypeName: "incident"}, metadataResp)
+
+		t.Run(metadataResp.TypeName, func(t *testing.T) {
+			schemaResp := &resource.SchemaResponse{}
+			r.Schema(ctx, resource.SchemaRequest{}, schemaResp)
+			if schemaResp.Diagnostics.HasError() {
+				t.Fatalf("building schema: %v", schemaResp.Diagnostics)
+			}
+
+			attribute, ok := schemaResp.Schema.Attributes["unlock_in_dashboard"]
+			if !ok {
+				t.Fatal("no unlock_in_dashboard attribute")
+			}
+			if !attribute.IsOptional() {
+				t.Error("unlock_in_dashboard is not optional")
+			}
+			// Computed would default it, which reads as a change to every resource
+			// already in state.
+			if attribute.IsComputed() {
+				t.Error("unlock_in_dashboard is computed")
 			}
 		})
 	}

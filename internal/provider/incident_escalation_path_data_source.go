@@ -80,6 +80,7 @@ func (d *EscalationPathDataSource) Schema(_ context.Context, _ datasource.Schema
 		DeprecationMessage:  d.deprecationMessage(),
 		MarkdownDescription: d.description("Look up an escalation path by `id` or `name` and read it in the same flat `sequences` shape as `incident_escalation_path`. Exactly one lookup field should be set."),
 		Attributes: map[string]schema.Attribute{
+			"unlock_in_dashboard": unlockInDashboardDataSourceAttribute(),
 			"id": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,

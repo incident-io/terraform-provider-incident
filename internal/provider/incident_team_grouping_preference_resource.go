@@ -46,6 +46,7 @@ preference and creates one for the new team. The settings use the field names of
 Writing a preference needs team grouping preferences enabled for your organisation. Until then the
 API refuses to create, update or delete one, and this resource fails at apply with that message.`),
 		Attributes: map[string]schema.Attribute{
+			"unlock_in_dashboard": unlockInDashboardAttribute(),
 			"id": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: apischema.Docstring("TeamGroupingPreferenceV3", "id"),
@@ -175,11 +176,14 @@ func (r *IncidentTeamGroupingPreferenceResource) Create(ctx context.Context, req
 	}
 
 	preference := result.JSON201.TeamGroupingPreference
-	claimResource(ctx, r.client, preference.Id, &resp.Diagnostics,
-		client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeTeamGroupingPreference, r.terraformVersion)
+	if shouldClaim(plan.UnlockInDashboard) {
+		claimResource(ctx, r.client, preference.Id, &resp.Diagnostics,
+			client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeTeamGroupingPreference, r.terraformVersion)
+	}
 	tflog.Trace(ctx, fmt.Sprintf("created a team grouping preference with id=%s", preference.Id))
 
 	state := models.TeamGroupingPreferenceResourceModel{}.FromAPI(preference, &plan)
+	state.UnlockInDashboard = plan.UnlockInDashboard
 	resp.Diagnostics.Append(resp.State.Set(ctx, &state)...)
 }
 
@@ -201,6 +205,7 @@ func (r *IncidentTeamGroupingPreferenceResource) Read(ctx context.Context, req r
 	}
 
 	newState := models.TeamGroupingPreferenceResourceModel{}.FromAPI(*preference, &state)
+	newState.UnlockInDashboard = state.UnlockInDashboard
 	resp.Diagnostics.Append(resp.State.Set(ctx, &newState)...)
 }
 
@@ -239,10 +244,15 @@ func (r *IncidentTeamGroupingPreferenceResource) Update(ctx context.Context, req
 	}
 
 	preference := result.JSON200.TeamGroupingPreference
-	claimResource(ctx, r.client, preference.Id, &resp.Diagnostics,
-		client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeTeamGroupingPreference, r.terraformVersion)
+	if shouldClaim(plan.UnlockInDashboard) {
+		claimResource(ctx, r.client, preference.Id, &resp.Diagnostics,
+			client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeTeamGroupingPreference, r.terraformVersion)
+	} else {
+		unclaimResource(ctx, r.client, preference.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeTeamGroupingPreference)
+	}
 
 	state := models.TeamGroupingPreferenceResourceModel{}.FromAPI(preference, &plan)
+	state.UnlockInDashboard = plan.UnlockInDashboard
 	resp.Diagnostics.Append(resp.State.Set(ctx, &state)...)
 }
 
