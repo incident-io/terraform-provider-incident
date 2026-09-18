@@ -23,6 +23,7 @@ import (
 // TokenVersion is what asks for a rotation, mirroring value_wo_version on a secret.
 type APIKeyModel struct {
 	ID                         types.String      `tfsdk:"id"`
+	UnlockInDashboard          types.Bool        `tfsdk:"unlock_in_dashboard"`
 	Name                       types.String      `tfsdk:"name"`
 	Comments                   types.String      `tfsdk:"comments"`
 	RoleNames                  types.Set         `tfsdk:"role_names"`

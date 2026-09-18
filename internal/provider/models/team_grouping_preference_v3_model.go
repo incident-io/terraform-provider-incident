@@ -10,10 +10,11 @@ import (
 // TeamGroupingPreferenceResourceModel is a team's grouping preference: how that team's
 // alerts group on every alert route, ahead of each route's own default.
 type TeamGroupingPreferenceResourceModel struct {
-	ID      types.String                       `tfsdk:"id"`
-	TeamID  types.String                       `tfsdk:"team_id"`
-	Version types.Int64                        `tfsdk:"version"`
-	Default *TeamGroupingPreferenceBranchModel `tfsdk:"default"`
+	ID                types.String                       `tfsdk:"id"`
+	UnlockInDashboard types.Bool                         `tfsdk:"unlock_in_dashboard"`
+	TeamID            types.String                       `tfsdk:"team_id"`
+	Version           types.Int64                        `tfsdk:"version"`
+	Default           *TeamGroupingPreferenceBranchModel `tfsdk:"default"`
 }
 
 type TeamGroupingPreferenceBranchModel struct {

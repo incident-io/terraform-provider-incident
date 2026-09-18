@@ -50,6 +50,8 @@ func (r *IncidentWorkflowResource) buildModel(workflow client.WorkflowV2, prior 
 		model.ConditionGroups.ReconcileSpelling(prior.ConditionGroups)
 		model.Expressions.ReconcileSpelling(prior.Expressions)
 		model.FormFields = reconcileFormFields(prior.FormFields, model.FormFields)
+		// unlock_in_dashboard is config the API can't answer for, so it carries over.
+		model.UnlockInDashboard = prior.UnlockInDashboard
 	}
 
 	return model

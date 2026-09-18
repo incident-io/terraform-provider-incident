@@ -62,9 +62,10 @@ var alertSourceExpressions = models.ExpressionNamespace{}
 // title and description carry rich text: a literal interpolates the scope with "{{ variable }}",
 // or holds a raw AST document for anything a template can't express.
 type alertSourceModel struct {
-	ID         types.String `tfsdk:"id"`
-	Name       types.String `tfsdk:"name"`
-	SourceType types.String `tfsdk:"source_type"`
+	ID                types.String `tfsdk:"id"`
+	UnlockInDashboard types.Bool   `tfsdk:"unlock_in_dashboard"`
+	Name              types.String `tfsdk:"name"`
+	SourceType        types.String `tfsdk:"source_type"`
 
 	SecretToken    types.String `tfsdk:"secret_token"`
 	AlertEventsURL types.String `tfsdk:"alert_events_url"`
@@ -143,6 +144,7 @@ If you were already using `+"`incident_alert_source_beta`"+`, none of this appli
 still works in v7, and renaming it to this one is a `+"`moved`"+` block whenever you want to
 make it.`)),
 		Attributes: map[string]schema.Attribute{
+			"unlock_in_dashboard": unlockInDashboardAttribute(),
 			"id": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: apischema.Docstring("AlertSourceV3", "id"),
@@ -663,7 +665,7 @@ func (r *alertSourceResource) Create(ctx context.Context, req resource.CreateReq
 
 		FilterConditionGroups: filterConditionGroupsToPayload(data.FilterConditionGroups),
 
-		Annotations: r.annotations(),
+		Annotations: r.annotations(data.UnlockInDashboard),
 	}
 	r.applyAutoResolve(&data, &payload.AutoResolveTimeoutMinutes, &payload.AutoResolveIncidentAlerts)
 
@@ -703,6 +705,12 @@ func (r *alertSourceResource) Create(ctx context.Context, req resource.CreateReq
 			// what the source is actually doing, and the next plan pauses it.
 			data.Disabled = types.BoolNull()
 		}
+	}
+
+	// The API marks any write that isn't Terraform as managed externally, so an
+	// unclaimed source has to be handed back to the dashboard explicitly.
+	if !shouldClaim(data.UnlockInDashboard) {
+		unclaimResource(ctx, r.client, source.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertSource)
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, alertSourceFromAPI(source, &data, &resp.Diagnostics))...)
@@ -746,6 +754,10 @@ func (r *alertSourceResource) Update(ctx context.Context, req resource.UpdateReq
 	source := r.updateAlertSource(ctx, state.ID.ValueString(), &plan, &resp.Diagnostics)
 	if resp.Diagnostics.HasError() {
 		return
+	}
+
+	if !shouldClaim(plan.UnlockInDashboard) {
+		unclaimResource(ctx, r.client, source.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertSource)
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, alertSourceFromAPI(*source, &plan, &resp.Diagnostics))...)
@@ -804,7 +816,7 @@ func (r *alertSourceResource) updateAlertSource(ctx context.Context, id string, 
 
 		// Re-asserted on every write, so the source stays claimed even if something cleared
 		// the marker, and the recorded version tracks the Terraform in use.
-		Annotations: r.annotations(),
+		Annotations: r.annotations(plan.UnlockInDashboard),
 	}
 	r.applyAutoResolve(plan, &payload.AutoResolveTimeoutMinutes, &payload.AutoResolveIncidentAlerts)
 
@@ -865,7 +877,14 @@ func (r *alertSourceResource) MoveState(ctx context.Context) []resource.StateMov
 	return movedFrom(ctx, NewIncidentAlertSourceBetaResource(), r)
 }
 
-func (r *alertSourceResource) annotations() *map[string]string {
+// annotations is what claims the source: the API reads the managed-resource record off the
+// annotations this payload carries, so sending none leaves the source editable in the
+// dashboard.
+func (r *alertSourceResource) annotations(unlockInDashboard types.Bool) *map[string]string {
+	if !shouldClaim(unlockInDashboard) {
+		return nil
+	}
+
 	return &map[string]string{
 		"incident.io/terraform/version": r.terraformVersion,
 	}
@@ -996,10 +1015,11 @@ func alertSourceFromAPI(
 		source.Expressions, alertSourceExpressions, nil, config.NamedExpressions)
 
 	model := &alertSourceModel{
-		ID:         types.StringValue(source.Id),
-		Name:       types.StringValue(source.Name),
-		SourceType: types.StringValue(string(source.SourceType)),
-		Version:    types.Int64Value(source.Version),
+		ID:                types.StringValue(source.Id),
+		UnlockInDashboard: config.UnlockInDashboard,
+		Name:              types.StringValue(source.Name),
+		SourceType:        types.StringValue(string(source.SourceType)),
+		Version:           types.Int64Value(source.Version),
 
 		SecretToken:    types.StringPointerValue(source.SecretToken),
 		AlertEventsURL: types.StringPointerValue(source.AlertEventsUrl),

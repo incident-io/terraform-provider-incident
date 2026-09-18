@@ -42,6 +42,7 @@ func (d *IncidentAlertSourceDataSource) Metadata(_ context.Context, req datasour
 // would mean a call per source and a shape the resource doesn't have.
 func (d *IncidentAlertSourceDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	attributes := map[string]schema.Attribute{
+		"unlock_in_dashboard": unlockInDashboardDataSourceAttribute(),
 		"id": schema.StringAttribute{
 			Optional:            true,
 			Computed:            true,

@@ -58,6 +58,7 @@ documentation.
 - `start` (String) The key of the sequence this escalation path begins with. Required unless `kind` is `templated`.
 - `team_ids` (Set of String) IDs of the teams that own this escalation path. This will automatically sync escalation paths with the right teams in Catalog. If you have an escalation paths attribute on your Teams, this attribute is required.
 - `template_id` (String) The `incident_escalation_path_template` to build this path from, required when `kind` is `templated`. A templated path takes its nodes, working hours and repeat config from the template, so set `param_bindings` in place of `start` and `sequences`. Switching to a different template is an in-place update.
+- `unlock_in_dashboard` (Boolean) Whether to leave this resource unlocked in the incident.io dashboard, so people can edit it there. Defaults to `false`: Terraform claims what it manages, and a claimed resource cannot be edited in the dashboard. Set it to `true` to leave the resource unclaimed — pair that with `lifecycle { ignore_changes = [...] }` naming the attributes people edit, or the next apply reverts them. Setting it on a resource Terraform already claimed hands that resource back, and someone disconnecting one in the dashboard shows as no change.
 - `working_hours` (Attributes List) The working hours for this escalation path. Absent for a templated path, which takes them from its template. (see [below for nested schema](#nestedatt--working_hours))
 
 ### Read-Only

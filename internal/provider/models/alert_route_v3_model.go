@@ -241,6 +241,10 @@ func (AlertRouteResourceModel) FromAPIV3WithPlan(apiModel client.AlertRouteV3, p
 
 	result.ID = types.StringValue(apiModel.Id)
 	result.Name = types.StringValue(apiModel.Name)
+	// unlock_in_dashboard is config the API can't answer for, so it carries over.
+	if plan != nil {
+		result.UnlockInDashboard = plan.UnlockInDashboard
+	}
 	result.Enabled = types.BoolValue(apiModel.Enabled)
 	result.IsPrivate = types.BoolValue(apiModel.IsPrivate)
 

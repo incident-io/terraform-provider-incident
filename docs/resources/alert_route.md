@@ -470,6 +470,7 @@ Deprecated: configure Slack and Microsoft Teams notifications via `message_confi
 - `message_config` (Attributes) Only used with `grouping_config`. (see [below for nested schema](#nestedatt--message_config))
 - `message_template` (Attributes, Deprecated) Deprecated: set the alert message template via `message_config.template` instead. See v5.41.0 in the CHANGELOG for migration guidance: https://github.com/incident-io/terraform-provider-incident/blob/master/CHANGELOG.md (see [below for nested schema](#nestedatt--message_template))
 - `owning_team_ids` (Set of String) IDs of teams that own this alert route
+- `unlock_in_dashboard` (Boolean) Whether to leave this resource unlocked in the incident.io dashboard, so people can edit it there. Defaults to `false`: Terraform claims what it manages, and a claimed resource cannot be edited in the dashboard. Set it to `true` to leave the resource unclaimed — pair that with `lifecycle { ignore_changes = [...] }` naming the attributes people edit, or the next apply reverts them. Setting it on a resource Terraform already claimed hands that resource back, and someone disconnecting one in the dashboard shows as no change.
 
 ### Read-Only
 

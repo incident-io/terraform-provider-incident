@@ -48,16 +48,17 @@ type escalationPathResource struct {
 }
 
 type escalationPathModel struct {
-	ID            types.String `tfsdk:"id"`
-	Name          types.String `tfsdk:"name"`
-	Start         types.String `tfsdk:"start"`
-	Sequences     types.Map    `tfsdk:"sequences"`
-	WorkingHours  types.List   `tfsdk:"working_hours"`
-	RepeatConfig  types.Object `tfsdk:"repeat_config"`
-	TeamIDs       types.Set    `tfsdk:"team_ids"`
-	Kind          types.String `tfsdk:"kind"`
-	TemplateID    types.String `tfsdk:"template_id"`
-	ParamBindings types.Map    `tfsdk:"param_bindings"`
+	ID                types.String `tfsdk:"id"`
+	UnlockInDashboard types.Bool   `tfsdk:"unlock_in_dashboard"`
+	Name              types.String `tfsdk:"name"`
+	Start             types.String `tfsdk:"start"`
+	Sequences         types.Map    `tfsdk:"sequences"`
+	WorkingHours      types.List   `tfsdk:"working_hours"`
+	RepeatConfig      types.Object `tfsdk:"repeat_config"`
+	TeamIDs           types.Set    `tfsdk:"team_ids"`
+	Kind              types.String `tfsdk:"kind"`
+	TemplateID        types.String `tfsdk:"template_id"`
+	ParamBindings     types.Map    `tfsdk:"param_bindings"`
 }
 
 type escalationPathSequence struct {
@@ -159,6 +160,7 @@ still works in v7, and renaming it to this one is a ` + "`moved`" + ` block when
 it.`),
 
 		Attributes: map[string]schema.Attribute{
+			"unlock_in_dashboard": unlockInDashboardAttribute(),
 			"id": schema.StringAttribute{
 				MarkdownDescription: apischema.Docstring("EscalationPathV2", "id"),
 				Computed:            true,
@@ -492,7 +494,9 @@ func (r *escalationPathResource) Create(ctx context.Context, req resource.Create
 		return
 	}
 
-	claimResource(ctx, r.client, result.JSON201.EscalationPath.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPath, r.terraformVersion)
+	if shouldClaim(data.UnlockInDashboard) {
+		claimResource(ctx, r.client, result.JSON201.EscalationPath.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPath, r.terraformVersion)
+	}
 
 	tflog.Trace(ctx, fmt.Sprintf("created an escalation path resource with id=%s", result.JSON201.EscalationPath.Id))
 	model := r.buildModel(ctx, result.JSON201.EscalationPath, data, &resp.Diagnostics)
@@ -580,7 +584,11 @@ func (r *escalationPathResource) Update(ctx context.Context, req resource.Update
 		return
 	}
 
-	claimResource(ctx, r.client, result.JSON200.EscalationPath.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPath, r.terraformVersion)
+	if shouldClaim(data.UnlockInDashboard) {
+		claimResource(ctx, r.client, result.JSON200.EscalationPath.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPath, r.terraformVersion)
+	} else {
+		unclaimResource(ctx, r.client, result.JSON200.EscalationPath.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPath)
+	}
 
 	model := r.buildModel(ctx, result.JSON200.EscalationPath, data, &resp.Diagnostics)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &model)...)
@@ -666,6 +674,12 @@ func (r *escalationPathResource) buildModel(ctx context.Context, ep client.Escal
 		Sequences:    types.MapNull(sequenceMapType(escalationPathNodeAttrTypes()).ElemType),
 		WorkingHours: escalationPathWorkingHoursFromAPI(ctx, nil, diags),
 		RepeatConfig: escalationPathRepeatConfigFromAPI(nil),
+	}
+
+	// unlock_in_dashboard is config the API can't answer for, so it carries over. Nil
+	// prior is an import, which leaves it unset: the default.
+	if prior != nil {
+		model.UnlockInDashboard = prior.UnlockInDashboard
 	}
 
 	// A templated path's nodes, working hours and repeat config belong to its template.

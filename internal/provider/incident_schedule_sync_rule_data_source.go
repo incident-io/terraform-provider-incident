@@ -33,6 +33,7 @@ func (d *IncidentScheduleSyncRuleDataSource) Schema(_ context.Context, _ datasou
 	resp.Schema = schema.Schema{
 		MarkdownDescription: "Look up an existing schedule sync rule by schedule ID and rule ID.",
 		Attributes: map[string]schema.Attribute{
+			"unlock_in_dashboard": unlockInDashboardDataSourceAttribute(),
 			"id": schema.StringAttribute{
 				Required:            true,
 				MarkdownDescription: apischema.Docstring("ScheduleSyncRuleV2", "id"),

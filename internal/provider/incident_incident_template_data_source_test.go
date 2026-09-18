@@ -339,10 +339,11 @@ func incidentTemplateDataSourceConfig(t *testing.T, ctx context.Context, schemaR
 	}
 
 	return tftypes.NewValue(tfType, map[string]tftypes.Value{
-		"id":          attribute(id),
-		"name":        attribute(name),
-		"expressions": tftypes.NewValue(attrs["expressions"], nil),
-		"template":    tftypes.NewValue(attrs["template"], nil),
+		"unlock_in_dashboard": tftypes.NewValue(tftypes.Bool, nil),
+		"id":                  attribute(id),
+		"name":                attribute(name),
+		"expressions":         tftypes.NewValue(attrs["expressions"], nil),
+		"template":            tftypes.NewValue(attrs["template"], nil),
 	})
 }
 

@@ -30,6 +30,7 @@ func (i *IncidentCatalogTypeDataSource) Schema(ctx context.Context, req datasour
 	resp.Schema = schema.Schema{
 		MarkdownDescription: "This data source provides information about a catalog type.",
 		Attributes: map[string]schema.Attribute{
+			"unlock_in_dashboard": unlockInDashboardDataSourceAttribute(),
 			"id": schema.StringAttribute{
 				MarkdownDescription: apischema.Docstring("CatalogTypeV3", "id"),
 				Computed:            true,

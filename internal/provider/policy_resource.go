@@ -43,11 +43,12 @@ type incidentPolicyResource struct {
 // one determines the policy type: policy_type is computed from it rather than written, so
 // a config cannot contradict itself.
 type incidentPolicyResourceModel struct {
-	ID          types.String `tfsdk:"id"`
-	Name        types.String `tfsdk:"name"`
-	Description types.String `tfsdk:"description"`
-	Status      types.String `tfsdk:"status"`
-	PolicyType  types.String `tfsdk:"policy_type"`
+	ID                types.String `tfsdk:"id"`
+	Name              types.String `tfsdk:"name"`
+	Description       types.String `tfsdk:"description"`
+	Status            types.String `tfsdk:"status"`
+	PolicyType        types.String `tfsdk:"policy_type"`
+	UnlockInDashboard types.Bool   `tfsdk:"unlock_in_dashboard"`
 
 	ConditionGroups models.IncidentEngineConditionGroups `tfsdk:"condition_groups"`
 	AssignmentRules *incidentPolicyAssignmentRules       `tfsdk:"assignment_rules"`
@@ -174,6 +175,7 @@ so carries no block.
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
+			"unlock_in_dashboard": unlockInDashboardAttribute(),
 			"name": schema.StringAttribute{
 				MarkdownDescription: apischema.Docstring("PolicyV2", "name"),
 				Required:            true,
@@ -438,11 +440,15 @@ func (r *incidentPolicyResource) Create(ctx context.Context, req resource.Create
 		return
 	}
 
-	claimResource(ctx, r.client, result.JSON201.Policy.Id, &resp.Diagnostics,
-		client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypePolicy, r.terraformVersion)
+	if shouldClaim(data.UnlockInDashboard) {
+		claimResource(ctx, r.client, result.JSON201.Policy.Id, &resp.Diagnostics,
+			client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypePolicy, r.terraformVersion)
+	}
 
 	tflog.Trace(ctx, fmt.Sprintf("created a policy resource with id=%s", result.JSON201.Policy.Id))
-	resp.Diagnostics.Append(resp.State.Set(ctx, policyFromAPI(result.JSON201.Policy, data))...)
+	state := policyFromAPI(result.JSON201.Policy, data)
+	state.UnlockInDashboard = data.UnlockInDashboard
+	resp.Diagnostics.Append(resp.State.Set(ctx, state)...)
 }
 
 func (r *incidentPolicyResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
@@ -470,7 +476,9 @@ func (r *incidentPolicyResource) Read(ctx context.Context, req resource.ReadRequ
 		return
 	}
 
-	resp.Diagnostics.Append(resp.State.Set(ctx, policyFromAPI(result.JSON200.Policy, data))...)
+	state := policyFromAPI(result.JSON200.Policy, data)
+	state.UnlockInDashboard = data.UnlockInDashboard
+	resp.Diagnostics.Append(resp.State.Set(ctx, state)...)
 }
 
 func (r *incidentPolicyResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
@@ -506,10 +514,17 @@ func (r *incidentPolicyResource) Update(ctx context.Context, req resource.Update
 		return
 	}
 
-	claimResource(ctx, r.client, data.ID.ValueString(), &resp.Diagnostics,
-		client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypePolicy, r.terraformVersion)
+	if shouldClaim(data.UnlockInDashboard) {
+		claimResource(ctx, r.client, data.ID.ValueString(), &resp.Diagnostics,
+			client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypePolicy, r.terraformVersion)
+	} else {
+		unclaimResource(ctx, r.client, data.ID.ValueString(), &resp.Diagnostics,
+			client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypePolicy)
+	}
 
-	resp.Diagnostics.Append(resp.State.Set(ctx, policyFromAPI(result.JSON200.Policy, data))...)
+	state := policyFromAPI(result.JSON200.Policy, data)
+	state.UnlockInDashboard = data.UnlockInDashboard
+	resp.Diagnostics.Append(resp.State.Set(ctx, state)...)
 }
 
 func (r *incidentPolicyResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {

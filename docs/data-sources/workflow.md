@@ -54,6 +54,7 @@ The order of the list is the order the fields appear in the form. (see [below fo
 - `state` (String) What state this workflow is in. Possible values are: `active`, `disabled`, `draft`, `error`.
 - `steps` (Attributes List) Steps that are executed as part of the workflow (see [below for nested schema](#nestedatt--steps))
 - `trigger` (String) Unique name of the trigger
+- `unlock_in_dashboard` (Boolean) Not populated: whether Terraform claims a resource is configuration, and no read endpoint reports it.
 
 <a id="nestedatt--condition_groups"></a>
 ### Nested Schema for `condition_groups`

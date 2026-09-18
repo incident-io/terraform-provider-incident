@@ -42,15 +42,16 @@ type escalationPathTemplateResource struct {
 }
 
 type escalationPathTemplateModel struct {
-	ID           types.String                     `tfsdk:"id"`
-	Name         types.String                     `tfsdk:"name"`
-	Description  types.String                     `tfsdk:"description"`
-	Start        types.String                     `tfsdk:"start"`
-	Sequences    types.Map                        `tfsdk:"sequences"`
-	Params       types.Map                        `tfsdk:"params"`
-	Expressions  models.IncidentEngineExpressions `tfsdk:"expressions"`
-	WorkingHours types.List                       `tfsdk:"working_hours"`
-	RepeatConfig types.Object                     `tfsdk:"repeat_config"`
+	ID                types.String                     `tfsdk:"id"`
+	UnlockInDashboard types.Bool                       `tfsdk:"unlock_in_dashboard"`
+	Name              types.String                     `tfsdk:"name"`
+	Description       types.String                     `tfsdk:"description"`
+	Start             types.String                     `tfsdk:"start"`
+	Sequences         types.Map                        `tfsdk:"sequences"`
+	Params            types.Map                        `tfsdk:"params"`
+	Expressions       models.IncidentEngineExpressions `tfsdk:"expressions"`
+	WorkingHours      types.List                       `tfsdk:"working_hours"`
+	RepeatConfig      types.Object                     `tfsdk:"repeat_config"`
 }
 
 // escalationPathTemplateParam is one of the template's declared parameters: what a templated
@@ -93,6 +94,7 @@ A template is written the same way as ` + "`incident_escalation_path`" + `, as a
 This resource is new in this version, so its schema may still change in ways that are not backwards compatible. Pin the provider version if that matters to you.`,
 
 		Attributes: map[string]schema.Attribute{
+			"unlock_in_dashboard": unlockInDashboardAttribute(),
 			"id": schema.StringAttribute{
 				MarkdownDescription: apischema.Docstring("EscalationPathTemplateV2", "id"),
 				Computed:            true,
@@ -363,8 +365,10 @@ func (r *escalationPathTemplateResource) Create(ctx context.Context, req resourc
 		return
 	}
 
-	claimResource(ctx, r.client, result.JSON201.EscalationPathTemplate.Id, &resp.Diagnostics,
-		client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPathTemplate, r.terraformVersion)
+	if shouldClaim(data.UnlockInDashboard) {
+		claimResource(ctx, r.client, result.JSON201.EscalationPathTemplate.Id, &resp.Diagnostics,
+			client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPathTemplate, r.terraformVersion)
+	}
 
 	tflog.Trace(ctx, fmt.Sprintf("created an escalation path template resource with id=%s", result.JSON201.EscalationPathTemplate.Id))
 	model := r.buildModel(ctx, result.JSON201.EscalationPathTemplate, data, &resp.Diagnostics)
@@ -433,8 +437,12 @@ func (r *escalationPathTemplateResource) Update(ctx context.Context, req resourc
 		return
 	}
 
-	claimResource(ctx, r.client, result.JSON200.EscalationPathTemplate.Id, &resp.Diagnostics,
-		client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPathTemplate, r.terraformVersion)
+	if shouldClaim(data.UnlockInDashboard) {
+		claimResource(ctx, r.client, result.JSON200.EscalationPathTemplate.Id, &resp.Diagnostics,
+			client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPathTemplate, r.terraformVersion)
+	} else {
+		unclaimResource(ctx, r.client, result.JSON200.EscalationPathTemplate.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPathTemplate)
+	}
 
 	model := r.buildModel(ctx, result.JSON200.EscalationPathTemplate, data, &resp.Diagnostics)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &model)...)
@@ -534,9 +542,13 @@ func decodeTemplateParams(ctx context.Context, params types.Map, diags *diag.Dia
 func (r *escalationPathTemplateResource) buildModel(ctx context.Context, template client.EscalationPathTemplateV2, prior *escalationPathTemplateModel, diags *diag.Diagnostics) *escalationPathTemplateModel {
 	priorNames := escalationPathPriorNames{}
 	var priorExpressions models.IncidentEngineExpressions
+	// unlock_in_dashboard is config the API can't answer for, so it carries over. Nil
+	// prior is an import, which leaves it unset: the default.
+	unlockInDashboard := types.Bool{}
 	if prior != nil {
 		priorNames = escalationPathPriorNamesFrom(ctx, &escalationPathModel{Start: prior.Start, Sequences: prior.Sequences})
 		priorExpressions = prior.Expressions
+		unlockInDashboard = prior.UnlockInDashboard
 	}
 
 	start, sequences := flattenSequencesWith(ctx, templateSequenceCodec{}, template.Path, priorNames, diags)
@@ -570,14 +582,15 @@ func (r *escalationPathTemplateResource) buildModel(ctx context.Context, templat
 	}
 
 	return &escalationPathTemplateModel{
-		ID:           types.StringValue(template.Id),
-		Name:         types.StringValue(template.Name),
-		Description:  description,
-		Start:        types.StringValue(start),
-		Sequences:    sequencesToMap(ctx, escalationPathTemplateNodeAttrTypes(), sequences, diags),
-		Params:       paramsMap,
-		Expressions:  expressions,
-		WorkingHours: escalationPathWorkingHoursFromAPI(ctx, template.WorkingHours, diags),
-		RepeatConfig: escalationPathRepeatConfigFromAPI(template.RepeatConfig),
+		ID:                types.StringValue(template.Id),
+		UnlockInDashboard: unlockInDashboard,
+		Name:              types.StringValue(template.Name),
+		Description:       description,
+		Start:             types.StringValue(start),
+		Sequences:         sequencesToMap(ctx, escalationPathTemplateNodeAttrTypes(), sequences, diags),
+		Params:            paramsMap,
+		Expressions:       expressions,
+		WorkingHours:      escalationPathWorkingHoursFromAPI(ctx, template.WorkingHours, diags),
+		RepeatConfig:      escalationPathRepeatConfigFromAPI(template.RepeatConfig),
 	}
 }

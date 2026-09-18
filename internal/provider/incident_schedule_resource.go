@@ -49,6 +49,7 @@ type IncidentScheduleResource struct {
 // IncidentScheduleModel is the Terraform state/plan shape for the resource.
 type IncidentScheduleModel struct {
 	ID                   types.String                    `tfsdk:"id"`
+	UnlockInDashboard    types.Bool                      `tfsdk:"unlock_in_dashboard"`
 	Name                 types.String                    `tfsdk:"name"`
 	Timezone             types.String                    `tfsdk:"timezone"`
 	TeamIDs              types.Set                       `tfsdk:"team_ids"`
@@ -109,6 +110,7 @@ If you were already using ` + "`incident_schedule_beta`" + `, there is nothing t
 name still works in v7, and renaming it to this one is a ` + "`moved`" + ` block whenever
 you want to make it.`),
 		Attributes: map[string]schema.Attribute{
+			"unlock_in_dashboard": unlockInDashboardAttribute(),
 			"id": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: apischema.Docstring("ScheduleV3", "id"),
@@ -288,7 +290,7 @@ func (r *IncidentScheduleResource) Create(ctx context.Context, req resource.Crea
 			Timezone:             data.Timezone.ValueString(),
 			TeamIds:              teamIDs,
 			HolidaysPublicConfig: toHolidaysPayload(data.HolidaysPublicConfig),
-			Annotations:          r.annotations(),
+			Annotations:          r.annotations(data.UnlockInDashboard),
 		},
 	})
 	if err != nil {
@@ -300,7 +302,13 @@ func (r *IncidentScheduleResource) Create(ctx context.Context, req resource.Crea
 		return
 	}
 
-	resp.Diagnostics.Append(resp.State.Set(ctx, incidentScheduleFromAPI(result.JSON201.Schedule, data.TeamIDs))...)
+	// The API marks any write that isn't Terraform as managed externally, so an
+	// unclaimed schedule has to be handed back to the dashboard explicitly.
+	if !shouldClaim(data.UnlockInDashboard) {
+		unclaimResource(ctx, r.client, result.JSON201.Schedule.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeSchedule)
+	}
+
+	resp.Diagnostics.Append(resp.State.Set(ctx, incidentScheduleFromAPI(result.JSON201.Schedule, data.TeamIDs, data.UnlockInDashboard))...)
 }
 
 func (r *IncidentScheduleResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
@@ -327,7 +335,7 @@ func (r *IncidentScheduleResource) Read(ctx context.Context, req resource.ReadRe
 		return
 	}
 
-	resp.Diagnostics.Append(resp.State.Set(ctx, incidentScheduleFromAPI(result.JSON200.Schedule, data.TeamIDs))...)
+	resp.Diagnostics.Append(resp.State.Set(ctx, incidentScheduleFromAPI(result.JSON200.Schedule, data.TeamIDs, data.UnlockInDashboard))...)
 }
 
 func (r *IncidentScheduleResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
@@ -354,7 +362,7 @@ func (r *IncidentScheduleResource) Update(ctx context.Context, req resource.Upda
 			Name:                 plan.Name.ValueString(),
 			TeamIds:              teamIDs,
 			HolidaysPublicConfig: toHolidaysPayload(plan.HolidaysPublicConfig),
-			Annotations:          r.annotations(),
+			Annotations:          r.annotations(plan.UnlockInDashboard),
 		},
 	})
 	if err != nil {
@@ -366,7 +374,11 @@ func (r *IncidentScheduleResource) Update(ctx context.Context, req resource.Upda
 		return
 	}
 
-	resp.Diagnostics.Append(resp.State.Set(ctx, incidentScheduleFromAPI(result.JSON200.Schedule, plan.TeamIDs))...)
+	if !shouldClaim(plan.UnlockInDashboard) {
+		unclaimResource(ctx, r.client, result.JSON200.Schedule.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeSchedule)
+	}
+
+	resp.Diagnostics.Append(resp.State.Set(ctx, incidentScheduleFromAPI(result.JSON200.Schedule, plan.TeamIDs, plan.UnlockInDashboard))...)
 }
 
 func (r *IncidentScheduleResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
@@ -405,7 +417,14 @@ func (r *IncidentScheduleResource) MoveState(ctx context.Context) []resource.Sta
 	return movedFrom(ctx, NewIncidentScheduleBetaResource(), r)
 }
 
-func (r *IncidentScheduleResource) annotations() *map[string]string {
+// annotations is what claims the schedule: the API reads the managed-resource record off the
+// annotations this payload carries, so sending none leaves the schedule editable in the
+// dashboard.
+func (r *IncidentScheduleResource) annotations(unlockInDashboard types.Bool) *map[string]string {
+	if !shouldClaim(unlockInDashboard) {
+		return nil
+	}
+
 	return &map[string]string{
 		"incident.io/terraform/version": r.terraformVersion,
 	}
@@ -441,7 +460,7 @@ func toHolidaysPayload(config *IncidentScheduleHolidaysConfig) *client.ScheduleH
 // incidentScheduleFromAPI projects an API schedule into Terraform state. configTeamIDs
 // is whatever the plan or prior state held, which is needed to tell "owned by
 // nobody" apart from "attribute not set" — see teamIDsToState.
-func incidentScheduleFromAPI(schedule client.ScheduleV3, configTeamIDs types.Set) *IncidentScheduleModel {
+func incidentScheduleFromAPI(schedule client.ScheduleV3, configTeamIDs types.Set, unlockInDashboard types.Bool) *IncidentScheduleModel {
 	var holidays *IncidentScheduleHolidaysConfig
 	if schedule.HolidaysPublicConfig != nil {
 		codes := make([]types.String, len(schedule.HolidaysPublicConfig.CountryCodes))
@@ -453,6 +472,7 @@ func incidentScheduleFromAPI(schedule client.ScheduleV3, configTeamIDs types.Set
 
 	return &IncidentScheduleModel{
 		ID:                   types.StringValue(schedule.Id),
+		UnlockInDashboard:    unlockInDashboard,
 		Name:                 types.StringValue(schedule.Name),
 		Timezone:             types.StringValue(schedule.Timezone),
 		TeamIDs:              teamIDsToState(schedule.TeamIds, configTeamIDs),

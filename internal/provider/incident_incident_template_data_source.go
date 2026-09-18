@@ -169,6 +169,7 @@ func (d *IncidentIncidentTemplateDataSource) findByName(ctx context.Context, nam
 // as the lookup key.
 func incidentTemplateDataSourceAttributes() map[string]schema.Attribute {
 	return map[string]schema.Attribute{
+		"unlock_in_dashboard": unlockInDashboardDataSourceAttribute(),
 		"id": schema.StringAttribute{
 			MarkdownDescription: apischema.Docstring("IncidentTemplateV1", "id"),
 			Optional:            true,

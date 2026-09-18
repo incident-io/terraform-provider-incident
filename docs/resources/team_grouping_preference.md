@@ -86,6 +86,10 @@ resource "incident_team_grouping_preference" "payments" {
 - `default` (Attributes) The grouping settings applied to this team's alerts on every alert route they match. (see [below for nested schema](#nestedatt--default))
 - `team_id` (String) The catalog entry ID of the team this preference belongs to A preference cannot move to another team, so changing this replaces it.
 
+### Optional
+
+- `unlock_in_dashboard` (Boolean) Whether to leave this resource unlocked in the incident.io dashboard, so people can edit it there. Defaults to `false`: Terraform claims what it manages, and a claimed resource cannot be edited in the dashboard. Set it to `true` to leave the resource unclaimed — pair that with `lifecycle { ignore_changes = [...] }` naming the attributes people edit, or the next apply reverts them. Setting it on a resource Terraform already claimed hands that resource back, and someone disconnecting one in the dashboard shows as no change.
+
 ### Read-Only
 
 - `id` (String) Unique identifier for this preference

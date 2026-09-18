@@ -85,6 +85,7 @@ resource "incident_schedule_sync_rule" "platform_oncall_with_manager" {
 
 Omitting the attribute leaves existing permanent members unchanged on update. Set to `[]` to clear them.
 - `rotation_id` (String) If set, only members of this rotation sync to the user group. When unset, all rotations on the schedule are synced.
+- `unlock_in_dashboard` (Boolean) Whether to leave this resource unlocked in the incident.io dashboard, so people can edit it there. Defaults to `false`: Terraform claims what it manages, and a claimed resource cannot be edited in the dashboard. Set it to `true` to leave the resource unclaimed — pair that with `lifecycle { ignore_changes = [...] }` naming the attributes people edit, or the next apply reverts them. Setting it on a resource Terraform already claimed hands that resource back, and someone disconnecting one in the dashboard shows as no change.
 
 ### Read-Only
 

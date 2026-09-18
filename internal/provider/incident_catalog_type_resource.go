@@ -32,6 +32,7 @@ type IncidentCatalogTypeResource struct {
 
 type IncidentCatalogTypeResourceModel struct {
 	ID                  types.String `tfsdk:"id"`
+	UnlockInDashboard   types.Bool   `tfsdk:"unlock_in_dashboard"`
 	Name                types.String `tfsdk:"name"`
 	TypeName            types.String `tfsdk:"type_name"`
 	AttributeType       types.String `tfsdk:"attribute_type"`
@@ -75,6 +76,7 @@ func (r *IncidentCatalogTypeResource) Schema(ctx context.Context, req resource.S
 	resp.Schema = schema.Schema{
 		MarkdownDescription: apischema.TagDocstring("Catalog V3"),
 		Attributes: map[string]schema.Attribute{
+			"unlock_in_dashboard": unlockInDashboardAttribute(),
 			"id": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: apischema.Docstring("CatalogTypeV3", "id"),
@@ -152,9 +154,7 @@ func (r *IncidentCatalogTypeResource) Create(ctx context.Context, req resource.C
 	requestBody := client.CatalogCreateTypePayloadV3{
 		Name:        data.Name.ValueString(),
 		Description: data.Description.ValueString(),
-		Annotations: &map[string]string{
-			"incident.io/terraform/version": r.terraformVersion,
-		},
+		Annotations: catalogTypeAnnotations(data.UnlockInDashboard, r.terraformVersion),
 	}
 	if typeName := data.TypeName.ValueString(); typeName != "" {
 		requestBody.TypeName = &typeName
@@ -234,9 +234,7 @@ func (r *IncidentCatalogTypeResource) Update(ctx context.Context, req resource.U
 		Name: data.Name.ValueString(),
 		// TypeName cannot be changed once set
 		Description: data.Description.ValueString(),
-		Annotations: &map[string]string{
-			"incident.io/terraform/version": r.terraformVersion,
-		},
+		Annotations: catalogTypeAnnotations(data.UnlockInDashboard, r.terraformVersion),
 	}
 
 	if sourceRepoURL := data.SourceRepoURL.ValueString(); sourceRepoURL != "" {
@@ -324,7 +322,25 @@ func (r *IncidentCatalogTypeResource) buildModel(catalogType client.CatalogTypeV
 		model.OwningTeamIDs = types.SetNull(types.StringType)
 	}
 
+	// unlock_in_dashboard is config the API can't answer for, so it carries over.
+	if prior != nil {
+		model.UnlockInDashboard = prior.UnlockInDashboard
+	}
+
 	return model
+}
+
+// catalogTypeAnnotations is what claims the type: a catalog type has no managed-resource
+// record, and the dashboard reads the claim off these annotations instead. An empty set
+// clears the marker a previous apply wrote.
+func catalogTypeAnnotations(unlockInDashboard types.Bool, terraformVersion string) *map[string]string {
+	if !shouldClaim(unlockInDashboard) {
+		return &map[string]string{}
+	}
+
+	return &map[string]string{
+		"incident.io/terraform/version": terraformVersion,
+	}
 }
 
 // owningTeamIDsToSet converts the API's owning team IDs into a set. A nil slice

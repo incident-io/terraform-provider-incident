@@ -71,6 +71,7 @@ Both value attributes are optional after the secret exists, so Terraform can own
 description and owning teams while something else rotates it. Leave them unset and the value is
 never touched.`),
 		Attributes: map[string]schema.Attribute{
+			"unlock_in_dashboard": unlockInDashboardAttribute(),
 			"id": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: apischema.Docstring("SecretV2", "id"),
@@ -217,12 +218,15 @@ func (r *IncidentSecretResource) Create(ctx context.Context, req resource.Create
 		return
 	}
 
-	claimResource(ctx, r.client, result.JSON201.Secret.Id, &resp.Diagnostics,
-		client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeSecret, r.terraformVersion)
+	if shouldClaim(data.UnlockInDashboard) {
+		claimResource(ctx, r.client, result.JSON201.Secret.Id, &resp.Diagnostics,
+			client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeSecret, r.terraformVersion)
+	}
 
 	tflog.Trace(ctx, fmt.Sprintf("created a secret with id=%s", result.JSON201.Secret.Id))
 
 	state := models.SecretModel{}.FromAPI(result.JSON201.Secret, data.ValueWOVersion)
+	state.UnlockInDashboard = data.UnlockInDashboard
 	resp.Diagnostics.Append(resp.State.Set(ctx, &state)...)
 }
 
@@ -255,6 +259,7 @@ func (r *IncidentSecretResource) Read(ctx context.Context, req resource.ReadRequ
 	// value_wo_version is the practitioner's own counter, so it carries over from the prior
 	// state: a refresh has nothing to say about it.
 	state := models.SecretModel{}.FromAPI(result.JSON200.Secret, data.ValueWOVersion)
+	state.UnlockInDashboard = data.UnlockInDashboard
 	resp.Diagnostics.Append(resp.State.Set(ctx, &state)...)
 }
 
@@ -277,8 +282,13 @@ func (r *IncidentSecretResource) Update(ctx context.Context, req resource.Update
 		return
 	}
 
-	claimResource(ctx, r.client, secret.Id, &resp.Diagnostics,
-		client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeSecret, r.terraformVersion)
+	if shouldClaim(plan.UnlockInDashboard) {
+		claimResource(ctx, r.client, secret.Id, &resp.Diagnostics,
+			client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeSecret, r.terraformVersion)
+	} else {
+		unclaimResource(ctx, r.client, secret.Id, &resp.Diagnostics,
+			client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeSecret)
+	}
 
 	// The value itself is invisible to Terraform, so a change to value_wo_version is the
 	// only thing that can ask for a rotation. Dropping it is not such a change: a config
@@ -310,6 +320,7 @@ func (r *IncidentSecretResource) Update(ctx context.Context, req resource.Update
 	}
 
 	newState := models.SecretModel{}.FromAPI(*secret, plan.ValueWOVersion)
+	newState.UnlockInDashboard = plan.UnlockInDashboard
 	resp.Diagnostics.Append(resp.State.Set(ctx, &newState)...)
 }
 

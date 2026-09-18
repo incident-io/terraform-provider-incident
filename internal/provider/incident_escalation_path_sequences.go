@@ -366,7 +366,7 @@ func flattenSequence[P any, N any](ctx context.Context, codec sequenceCodec[P, N
 	ids := lo.Map(nodes, func(node N, _ int) string { return codec.NodeID(node) })
 	key := chooseSequenceKey(ids, priorKey, fallbackKey, sequences)
 
-	// Claim the key before recursing, or a child sequence could take it back.
+	// UnlockInDashboard the key before recursing, or a child sequence could take it back.
 	sequences[key] = nil
 
 	convertedNodes := make([]escalationPathNode, 0, len(nodes))

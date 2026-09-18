@@ -70,7 +70,7 @@ func TestScheduleV3FromAPI(t *testing.T) {
 		Timezone:             "Europe/London",
 		TeamIds:              []string{},
 		HolidaysPublicConfig: &client.ScheduleHolidaysPublicConfigV2{CountryCodes: []string{"GB", "FR"}},
-	}, types.SetNull(types.StringType))
+	}, types.SetNull(types.StringType), types.BoolNull())
 
 	if withHolidays.HolidaysPublicConfig == nil {
 		t.Fatal("expected holidays config to be set")
@@ -82,7 +82,7 @@ func TestScheduleV3FromAPI(t *testing.T) {
 		t.Errorf("unexpected model: %+v", withHolidays)
 	}
 
-	without := incidentScheduleFromAPI(client.ScheduleV3{Id: "01SCHED", TeamIds: []string{}}, types.SetNull(types.StringType))
+	without := incidentScheduleFromAPI(client.ScheduleV3{Id: "01SCHED", TeamIds: []string{}}, types.SetNull(types.StringType), types.BoolNull())
 	if without.HolidaysPublicConfig != nil {
 		t.Errorf("expected no holidays config, got %+v", without.HolidaysPublicConfig)
 	}

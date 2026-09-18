@@ -34,3 +34,4 @@ data "incident_schedule_sync_rule" "platform_oncall" {
 - `rotation_id` (String) If set, only members of this rotation sync to the user group. When unset, all rotations on the schedule are synced.
 - `schedule_sync_target_id` (String) The sync target ID this rule links to
 - `sync_type` (String) Which schedule members sync to the user group. Possible values are: `on_call`, `all_users`, `next_on_call`.
+- `unlock_in_dashboard` (Boolean) Not populated: whether Terraform claims a resource is configuration, and no read endpoint reports it.

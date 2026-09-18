@@ -40,6 +40,7 @@ func (d *IncidentWorkflowDataSource) Schema(ctx context.Context, req datasource.
 	resp.Schema = schema.Schema{
 		MarkdownDescription: "Use this data source to retrieve the full configuration of an existing workflow by ID.",
 		Attributes: map[string]schema.Attribute{
+			"unlock_in_dashboard": unlockInDashboardDataSourceAttribute(),
 			"id": schema.StringAttribute{
 				MarkdownDescription: apischema.Docstring("WorkflowV2", "id"),
 				Required:            true,

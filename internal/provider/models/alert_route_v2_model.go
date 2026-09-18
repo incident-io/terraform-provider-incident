@@ -18,10 +18,11 @@ import (
 // (FromAPIV2*/ToCreatePayloadV2/ToUpdatePayloadV2); the v3 mapping lives in
 // alert_route_v3_model.go.
 type AlertRouteResourceModel struct {
-	ID        types.String `tfsdk:"id"`
-	Name      types.String `tfsdk:"name"`
-	Enabled   types.Bool   `tfsdk:"enabled"`
-	IsPrivate types.Bool   `tfsdk:"is_private"`
+	ID                types.String `tfsdk:"id"`
+	UnlockInDashboard types.Bool   `tfsdk:"unlock_in_dashboard"`
+	Name              types.String `tfsdk:"name"`
+	Enabled           types.Bool   `tfsdk:"enabled"`
+	IsPrivate         types.Bool   `tfsdk:"is_private"`
 
 	AlertSources     []AlertRouteAlertSourceModel     `tfsdk:"alert_sources"`
 	ChannelConfig    []AlertRouteChannelConfigModel   `tfsdk:"channel_config"`
@@ -334,6 +335,10 @@ func (AlertRouteResourceModel) FromAPIV2WithPlan(apiModel client.AlertRouteV2, p
 
 	result.ID = types.StringValue(apiModel.Id)
 	result.Name = types.StringValue(apiModel.Name)
+	// unlock_in_dashboard is config the API can't answer for, so it carries over.
+	if plan != nil {
+		result.UnlockInDashboard = plan.UnlockInDashboard
+	}
 	result.Enabled = types.BoolValue(apiModel.Enabled)
 	result.IsPrivate = types.BoolValue(apiModel.IsPrivate)
 
