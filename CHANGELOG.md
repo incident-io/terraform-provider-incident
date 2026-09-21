@@ -1,3 +1,7 @@
+## Unreleased
+
+- Fix the `incident_user` data source leaving `id` null when mocked with `override_data` in `terraform test`: `id`, `email` and `slack_user_id` are now computed as well as optional, so the lookup attributes a configuration doesn't set are read back like any other attribute. (#604)
+
 ## v7.1.0
 
 - Add `unlock_in_dashboard` to every claimable resource, which manages the resource without claiming it so it stays editable in the dashboard. Pair it with `ignore_changes`, or the next apply reverts those dashboard edits. (#601)

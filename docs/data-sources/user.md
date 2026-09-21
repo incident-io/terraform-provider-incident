@@ -20,11 +20,11 @@ Users all have a single base role, and can be assigned multiple custom roles. Th
 
 ### Optional
 
-- `email` (String)
-- `slack_user_id` (String)
+- `email` (String) Look up the user by email address.
+- `id` (String) Look up the user by ID.
+- `slack_user_id` (String) Look up the user by Slack user ID.
 
 ### Read-Only
 
-- `id` (String) The ID of this resource.
 - `is_active` (Boolean) Whether the user is active. False if the user has been deactivated (e.g. offboarded) or is not yet active.
 - `name` (String)
