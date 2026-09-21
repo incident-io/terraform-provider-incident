@@ -696,6 +696,11 @@ func (r *alertSourceResource) Create(ctx context.Context, req resource.CreateReq
 	if wantsHeartbeatPaused(data.SourceType.ValueString(), data.Disabled) {
 		updated := r.updateAlertSource(ctx, source.Id, &data, &resp.Diagnostics)
 		if updated != nil {
+			// A create plans secret_token unknown, so there is no prior state to fall back
+			// on if the pause response omits the token the create returned.
+			if updated.SecretToken == nil {
+				updated.SecretToken = source.SecretToken
+			}
 			source = *updated
 		} else {
 			// No early return when the pause fails: the source exists and is monitoring, so
@@ -1087,6 +1092,18 @@ func alertSourceFromAPI(
 	// fail as an inconsistent result.
 	if model.Disabled.IsNull() && !config.Disabled.IsUnknown() {
 		model.Disabled = config.Disabled
+	}
+
+	// The API returns secret_token only to callers allowed to update the source, and leaves
+	// the field out of responses that don't carry one, so taking its answer literally writes
+	// null over a token that is still live. On an update that fails the apply outright: the
+	// plan modifier carried the prior token forward, so null is an inconsistent result.
+	//
+	// ValueString reads unknown and null alike as "", so a create — which plans this unknown
+	// and has no prior state — keeps whatever the API gave it. A token rotated outside
+	// Terraform is what this gets wrong, and the next response carrying one corrects it.
+	if model.SecretToken.ValueString() == "" && config.SecretToken.ValueString() != "" {
+		model.SecretToken = config.SecretToken
 	}
 
 	// Heartbeat sources generate their own title and description. ValidateConfig rejects

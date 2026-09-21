@@ -1,3 +1,7 @@
+## Unreleased
+
+- Fix `incident_alert_source` failing an apply with "inconsistent values for sensitive attribute" on `secret_token`, and losing the token from state on a later refresh, whenever the API's response doesn't repeat it. The token is now kept from state unless the API returns a new one. (#XXX)
+
 ## v7.1.0
 
 - Add `unlock_in_dashboard` to every claimable resource, which manages the resource without claiming it so it stays editable in the dashboard. Pair it with `ignore_changes`, or the next apply reverts those dashboard edits. (#601)
