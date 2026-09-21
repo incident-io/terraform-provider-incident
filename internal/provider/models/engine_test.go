@@ -355,3 +355,24 @@ func TestIncidentEngineExpressionOperation_FromAPINonCast(t *testing.T) {
 	require.Len(t, applied, 1)
 	assert.Nil(t, applied[0].Cast)
 }
+
+// The zero value is null whichever way objectOrNull goes, so assert on its type: that's
+// what the framework compares when writing to state.
+func TestObjectOrNullTypesTheZeroValue(t *testing.T) {
+	ctx := context.Background()
+	wanted := types.ObjectType{AttrTypes: ParamBindingValueAttrTypes()}
+
+	result := objectOrNull(types.Object{}, ParamBindingValueAttrTypes())
+
+	assert.True(t, result.IsNull(), "an untyped object means nothing is bound")
+	assert.True(t, wanted.Equal(result.Type(ctx)),
+		"expected %s, got %s", wanted, result.Type(ctx))
+}
+
+func TestObjectOrNullKeepsATypedObject(t *testing.T) {
+	bound := IncidentEngineParamBindingValue{
+		Literal: jsontypes.NewNormalizedJSONOrStringValue("landing/"),
+	}.ToObject()
+
+	assert.Equal(t, bound, objectOrNull(bound, ParamBindingValueAttrTypes()))
+}
