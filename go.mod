@@ -1,6 +1,6 @@
 module github.com/incident-io/terraform-provider-incident/v7
 
-go 1.26.7
+go 1.27.1
 
 require (
 	github.com/Masterminds/sprig/v3 v3.3.0

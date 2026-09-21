@@ -1,3 +1,7 @@
+## Unreleased
+
+- Internal: bump the Go toolchain to 1.27.1.
+
 ## v7.1.0
 
 - Add `unlock_in_dashboard` to every claimable resource, which manages the resource without claiming it so it stays editable in the dashboard. Pair it with `ignore_changes`, or the next apply reverts those dashboard edits. (#601)
