@@ -1,7 +1,6 @@
 ## Unreleased
 
 - Fix the `incident_user` data source leaving `id` null when mocked with `override_data` in `terraform test`: `id`, `email` and `slack_user_id` are now computed as well as optional, so the lookup attributes a configuration doesn't set are read back like any other attribute. (#604)
-- Fix `incident_alert_route` failing to apply with "Provider produced inconsistent result after apply" when `escalation_config.when_alert_joins_group` sets `mode = "on_each_new_alert"` and omits `grace_period_seconds`. If you set `grace_period_seconds = 0` to work around this, you can now remove it. (#599)
 
 ## v7.1.0
 
