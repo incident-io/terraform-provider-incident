@@ -134,8 +134,10 @@ func TestAccIncidentEscalationPathTeamIDs(t *testing.T) {
 				),
 				// When omitted, the API should error as we have team settings
 				// Annoyingly Terraform returns this with indent, so this is
-				// the subset we match on.
-				ExpectError: regexp.MustCompile("must set an empty slice or a list of Team"),
+				// the subset we match on. The wording is the API's, not ours, and
+				// it has been reworded once already ("empty slice" became "empty
+				// array"), so match either rather than pinning to today's text.
+				ExpectError: regexp.MustCompile("empty (array|slice) or a list of Team"),
 			},
 		},
 	})
