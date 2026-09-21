@@ -731,3 +731,68 @@ func TestWhenAlertJoinsGroupFromAPIGracePeriodByMode(t *testing.T) {
 		})
 	}
 }
+
+// TestAlertRouteV3WhenAlertJoinsGroupKeepsPlannedNullGracePeriod: grace_period_seconds is
+// Optional and not Computed, so a config that omits it plans null. The API fills in its own
+// 0 and echoes it back, and writing that over the planned null fails the apply with
+// "Provider produced inconsistent result after apply". Only the server's default is
+// absorbed: a real value, and a read with no plan behind it, both stand.
+func TestAlertRouteV3WhenAlertJoinsGroupKeepsPlannedNullGracePeriod(t *testing.T) {
+	api := client.AlertRouteV3{
+		Id:              "01ABC",
+		Name:            "route",
+		ConditionGroups: []client.ConditionGroupV3{},
+		Expressions:     []client.ExpressionV3{},
+		GroupingConfig: client.AlertGroupingConfigV3{
+			Default: client.GroupingSettingsV3{},
+		},
+		MessageConfig: client.AlertMessageConfigV3{
+			Destinations: []client.AlertMessageDestinationV3{},
+		},
+		EscalationConfig: client.AlertRouteEscalationConfigV3{
+			EscalationTargets: []client.AlertRouteEscalationTargetV3{},
+			WhenAlertJoinsGroup: &client.AlertRouteWhenAlertJoinsGroupV3{
+				Mode:               client.AlertRouteWhenAlertJoinsGroupV3ModeOnEachNewAlert,
+				GracePeriodSeconds: lo.ToPtr(int32(0)),
+			},
+		},
+		IncidentConfig: client.AlertRouteIncidentConfigV3{},
+	}
+
+	planned := types.ObjectValueMust(WhenAlertJoinsGroupAttrTypes(), map[string]attr.Value{
+		"mode":                 types.StringValue("on_each_new_alert"),
+		"grace_period_seconds": types.Int64Null(),
+	})
+	plan := func() *AlertRouteResourceModel {
+		return &AlertRouteResourceModel{
+			EscalationConfig: &AlertRouteEscalationConfigModel{WhenAlertJoinsGroup: planned},
+		}
+	}
+
+	read := func(model AlertRouteResourceModel) AlertRouteWhenAlertJoinsGroupModel {
+		var out AlertRouteWhenAlertJoinsGroupModel
+		model.EscalationConfig.WhenAlertJoinsGroup.As(context.Background(), &out, basetypes.ObjectAsOptions{})
+		return out
+	}
+
+	absorbed := read(AlertRouteResourceModel{}.FromAPIV3WithPlan(api, plan()))
+	if !absorbed.GracePeriodSeconds.IsNull() {
+		t.Errorf("a planned null should survive the server's 0, got %v", absorbed.GracePeriodSeconds)
+	}
+	if got := absorbed.Mode.ValueString(); got != "on_each_new_alert" {
+		t.Errorf("mode should be untouched, got %q", got)
+	}
+
+	nonZero := api
+	nonZero.EscalationConfig.WhenAlertJoinsGroup = &client.AlertRouteWhenAlertJoinsGroupV3{
+		Mode:               client.AlertRouteWhenAlertJoinsGroupV3ModeOnEachNewAlert,
+		GracePeriodSeconds: lo.ToPtr(int32(60)),
+	}
+	if got := read(AlertRouteResourceModel{}.FromAPIV3WithPlan(nonZero, plan())).GracePeriodSeconds.ValueInt64(); got != 60 {
+		t.Errorf("a real server value should be kept, got %d", got)
+	}
+
+	if got := read(AlertRouteResourceModel{}.FromAPIV3(api)).GracePeriodSeconds.ValueInt64(); got != 0 {
+		t.Errorf("an import has no plan to honour, so the server value stands, got %d", got)
+	}
+}
