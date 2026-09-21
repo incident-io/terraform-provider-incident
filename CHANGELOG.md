@@ -1,6 +1,6 @@
 ## Unreleased
 
-- Fix `incident_alert_route` failing to apply with "Provider produced inconsistent result after apply" when `owning_team_ids` is set to an empty list, on both the v2 and v3 schemas. Anyone who worked around this with `ignore_changes` or a placeholder team can drop it. Backported from v7. (#609)
+- Fix `incident_alert_route` failing to apply with "Provider produced inconsistent result after apply" when `owning_team_ids` is set to an empty list, on both the v2 and v3 schemas. Anyone who worked around this with `ignore_changes` or a placeholder team can drop it. Backported from v7. (#609, #610)
 
 ## v6.13.0
 
