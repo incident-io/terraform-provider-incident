@@ -187,16 +187,22 @@ func (i *IncidentUserDataSource) Schema(ctx context.Context, req datasource.Sche
 		MarkdownDescription: apischema.TagDocstring("Users V2"),
 		Attributes: map[string]schema.Attribute{
 			"email": schema.StringAttribute{
-				Optional: true,
+				Optional:            true,
+				Computed:            true,
+				MarkdownDescription: "Look up the user by email address.",
 			},
 			"id": schema.StringAttribute{
-				Optional: true,
+				Optional:            true,
+				Computed:            true,
+				MarkdownDescription: "Look up the user by ID.",
 			},
 			"name": schema.StringAttribute{
 				Computed: true,
 			},
 			"slack_user_id": schema.StringAttribute{
-				Optional: true,
+				Optional:            true,
+				Computed:            true,
+				MarkdownDescription: "Look up the user by Slack user ID.",
 			},
 			"is_active": schema.BoolAttribute{
 				Computed:            true,
