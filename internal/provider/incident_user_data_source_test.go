@@ -1,7 +1,15 @@
 package provider
 
 import (
+	"context"
 	"testing"
+
+	"github.com/hashicorp/terraform-plugin-framework/datasource"
+	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
+	"github.com/hashicorp/terraform-plugin-go/tftypes"
+	"github.com/samber/lo"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 
 	"github.com/incident-io/terraform-provider-incident/v7/internal/client"
 )
@@ -72,4 +80,50 @@ func TestSelectUserByEmail(t *testing.T) {
 			}
 		})
 	}
+}
+
+// Every lookup attribute is Optional *and* Computed, because a config only sets
+// the one it looks the user up by and reads the rest back. Optional-only leaves
+// the others null in a plan that defers the read (the email comes from another
+// resource), so the apply's real values read as an inconsistent result; and
+// `terraform test`'s override_data only synthesises values for Computed
+// attributes, so mocking a user's id silently left it null (issue #600).
+func TestUserDataSourceLookupAttributesAreComputed(t *testing.T) {
+	ctx := context.Background()
+
+	resp := &datasource.SchemaResponse{}
+	(&IncidentUserDataSource{}).Schema(ctx, datasource.SchemaRequest{}, resp)
+	require.False(t, resp.Diagnostics.HasError(), "schema: %s", resp.Diagnostics)
+
+	for _, name := range []string{"email", "id", "slack_user_id"} {
+		attribute, ok := resp.Schema.Attributes[name]
+		require.True(t, ok, "%s is missing from the schema", name)
+
+		assert.True(t, attribute.IsOptional(), "%s should be optional: it's one of the ways to look a user up", name)
+		assert.True(t, attribute.IsComputed(), "%s should be computed: it's read back when the lookup uses another attribute", name)
+	}
+}
+
+// The state the data source writes must fit the schema: every attribute the
+// model populates from the API needs somewhere to go.
+func TestUserDataSourceSchemaMatchesModel(t *testing.T) {
+	ctx := context.Background()
+
+	resp := &datasource.SchemaResponse{}
+	(&IncidentUserDataSource{}).Schema(ctx, datasource.SchemaRequest{}, resp)
+	require.False(t, resp.Diagnostics.HasError(), "schema: %s", resp.Diagnostics)
+
+	model := (&IncidentUserDataSource{}).buildModel(client.UserWithRolesV2{
+		Id:          "01FCNDV6P870EA6S7TK1DSYDG0",
+		Name:        "Alice Bobson",
+		Email:       lo.ToPtr("alice@example.com"),
+		SlackUserId: lo.ToPtr("U0123456789"),
+		IsActive:    true,
+	})
+
+	state := tfsdk.State{
+		Schema: resp.Schema,
+		Raw:    tftypes.NewValue(resp.Schema.Type().TerraformType(ctx), nil),
+	}
+	assert.False(t, state.Set(ctx, model).HasError(), "setting state from the API model")
 }

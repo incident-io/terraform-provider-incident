@@ -1,6 +1,6 @@
 ## Unreleased
 
-- Internal: bump the Go toolchain to 1.27.1. (#608)
+- Fix the `incident_user` data source leaving `id` null when mocked with `override_data` in `terraform test`: `id`, `email` and `slack_user_id` are now computed as well as optional, so the lookup attributes a configuration doesn't set are read back like any other attribute. (#604)
 
 ## v7.1.0
 
