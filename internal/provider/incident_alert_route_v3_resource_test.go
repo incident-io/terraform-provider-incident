@@ -7,6 +7,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/plancheck"
+	"github.com/samber/lo"
 )
 
 // TestAccIncidentAlertRouteV2ToV3Migration verifies the headline feature of the
@@ -654,4 +655,137 @@ resource "incident_alert_route" "test" {
   }
 }
 `, alertRouteV3IncidentTemplateBlock)
+}
+
+// TestAccIncidentAlertRouteV3ResourceEmptyOwningTeamIDs covers
+// https://github.com/incident-io/terraform-provider-incident/issues/595: a route
+// created with an explicitly empty owning_team_ids must read back as an empty set.
+// The API omits owning_team_ids for an unowned route, and mapping that absence to
+// null contradicts the planned empty set, which Terraform rejects on create with
+// "Provider produced inconsistent result after apply".
+//
+// The final step keeps the other half of the contract honest: an attribute that was
+// never set must stay absent, so a fix for the empty case can't simply always return
+// an empty set.
+func TestAccIncidentAlertRouteV3ResourceEmptyOwningTeamIDs(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Create with owning_team_ids = []: the repro from #595.
+			{
+				Config: testAccIncidentAlertRouteV3ResourceConfigOwningTeams(0, true),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_alert_route.test", "owning_team_ids.#", "0"),
+				),
+			},
+			// The empty set has to survive a read too, or it's a perpetual diff rather
+			// than an apply error.
+			{
+				RefreshState: true,
+				PlanOnly:     true,
+				RefreshPlanChecks: resource.RefreshPlanChecks{
+					PostRefresh: []plancheck.PlanCheck{
+						plancheck.ExpectEmptyPlan(),
+					},
+				},
+			},
+			// Take ownership of the route...
+			{
+				Config: testAccIncidentAlertRouteV3ResourceConfigOwningTeams(1, false),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_alert_route.test", "owning_team_ids.#", "1"),
+					resource.TestCheckResourceAttrPair(
+						"incident_alert_route.test", "owning_team_ids.0",
+						"incident_catalog_entry.owner_team_0", "id"),
+				),
+			},
+			// ...and give it up again: update reads the response back through the same
+			// mapping, so emptying an owned route has to land as an empty set.
+			{
+				Config: testAccIncidentAlertRouteV3ResourceConfigOwningTeams(0, true),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_alert_route.test", "owning_team_ids.#", "0"),
+				),
+			},
+			// Omitting the attribute entirely is a different thing from setting it to
+			// []: it stays absent.
+			{
+				Config: testAccIncidentAlertRouteV3ResourceConfigOwningTeams(0, false),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckNoResourceAttr("incident_alert_route.test", "owning_team_ids"),
+				),
+			},
+		},
+	})
+}
+
+// testAccIncidentAlertRouteV3ResourceConfigOwningTeams renders a minimal v3 alert route
+// owning teamCount self-provisioned Team catalog entries. Teams are a catalog type, so
+// the test provisions its own entries rather than depending on the workspace's. With no
+// teams, setEmpty chooses between an explicit `owning_team_ids = []` and omitting the
+// attribute altogether.
+func testAccIncidentAlertRouteV3ResourceConfigOwningTeams(teamCount int, setEmpty bool) string {
+	teamIDs := make([]string, teamCount)
+	for i := 0; i < teamCount; i++ {
+		teamIDs[i] = fmt.Sprintf("incident_catalog_entry.owner_team_%d.id", i)
+	}
+
+	return testRunTemplate("incident_alert_route_v3_owning_teams", `
+data "incident_catalog_type" "team" {
+  name = {{ quote .TeamTypeName }}
+}
+
+{{ range $i := .TeamIndices }}
+resource "incident_catalog_entry" "owner_team_{{ $i }}" {
+  catalog_type_id  = data.incident_catalog_type.team.id
+  external_id      = {{ stableSuffix (printf "tf-alert-route-v3-empty-owning-team-%d" $i) | quote }}
+  name             = {{ stableSuffix (printf "tmv3-%d" $i) | quote }}
+  attribute_values = []
+}
+{{ end }}
+
+resource "incident_alert_route" "test" {
+  name       = {{ stableSuffix "empty-owning-teams-v3" | quote }}
+  enabled    = true
+  is_private = false
+
+  alert_sources    = []
+  condition_groups = []
+  expressions      = []
+
+  grouping_config = {
+    default = {
+      enabled = false
+    }
+  }
+
+  message_config = {
+    destinations = []
+  }
+
+  escalation_config = {
+    auto_cancel_escalations = true
+    escalation_targets      = []
+  }
+
+  incident_config = {
+    enabled          = false
+    condition_groups = []
+  }
+{{ if .SetOwningTeamIDs }}
+  owning_team_ids = [{{ range $i, $ref := .TeamIDs }}{{ if $i }}, {{ end }}{{ $ref }}{{ end }}]
+{{ end }}
+}
+`, struct {
+		TeamTypeName     string
+		TeamIndices      []int
+		TeamIDs          []string
+		SetOwningTeamIDs bool
+	}{
+		TeamTypeName:     teamTypeName(),
+		TeamIndices:      lo.Range(teamCount),
+		TeamIDs:          teamIDs,
+		SetOwningTeamIDs: teamCount > 0 || setEmpty,
+	})
 }

@@ -244,15 +244,13 @@ func (AlertRouteResourceModel) FromAPIV3WithPlan(apiModel client.AlertRouteV3, p
 	result.Enabled = types.BoolValue(apiModel.Enabled)
 	result.IsPrivate = types.BoolValue(apiModel.IsPrivate)
 
-	result.OwningTeamIDs = types.SetNull(types.StringType)
-	if apiModel.OwningTeamIds != nil {
-		teamIDValues := []attr.Value{}
-		for _, teamID := range *apiModel.OwningTeamIds {
-			teamIDValues = append(teamIDValues, types.StringValue(teamID))
-		}
-
-		result.OwningTeamIDs, _ = types.SetValue(types.StringType, teamIDValues)
+	// An unowned route comes back without owning_team_ids, so what state gets depends
+	// on whether the practitioner asked for an empty set or never set the attribute.
+	plannedOwningTeamIDs := types.SetNull(types.StringType)
+	if plan != nil {
+		plannedOwningTeamIDs = plan.OwningTeamIDs
 	}
+	result.OwningTeamIDs = OwningTeamIDsToState(apiModel.OwningTeamIds, plannedOwningTeamIDs)
 
 	result.AlertSources = []AlertRouteAlertSourceModel{}
 	for _, alertSource := range apiModel.AlertSources {
