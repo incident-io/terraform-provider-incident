@@ -1,6 +1,6 @@
 ## Unreleased
 
-- Internal: bump the Go toolchain to 1.27.1.
+- Internal: bump the Go toolchain to 1.27.1. (#608)
 
 ## v7.1.0
 
