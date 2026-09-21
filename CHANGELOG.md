@@ -1,6 +1,7 @@
 ## Unreleased
 
 - Fix the `incident_user` data source leaving `id` null when mocked with `override_data` in `terraform test`: `id`, `email` and `slack_user_id` are now computed as well as optional, so the lookup attributes a configuration doesn't set are read back like any other attribute. (#604)
+- Fix `incident_alert_route` failing to apply with "Provider produced inconsistent result after apply" when `escalation_config.when_alert_joins_group` sets `mode = "on_each_new_alert"` and omits `grace_period_seconds`. If you set `grace_period_seconds = 0` to work around this, you can now remove it. (#599)
 
 ## v7.1.0
 
@@ -9,8 +10,6 @@
 - `incident_escalation_path` can now build a path from a template: set `kind = "templated"` and `template_id`, and bind the template's params in `param_bindings` instead of `start`/`sequences`. The data source reports these too. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/escalation_path). (#589)
 - Add the `incident_team_grouping_preference` resource, which sets how a team's alerts are grouped across the alert routes they match, ahead of each route's own `grouping_config`. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/team_grouping_preference). (#591)
 - Fix `incident_alert_route` showing a perpetual diff on `escalation_config.when_alert_joins_group` when the route's own grouping is disabled, so a route works alongside a team grouping preference. (#590)
-
-- An `incident_alert_route` that sets `escalation_config.when_alert_joins_group` with `mode = "on_each_new_alert"` and leaves `grace_period_seconds` out now applies. The attribute is optional and not computed, so a configuration that omits it plans null, while the API fills in its own 0 and returns that: writing it back over the plan failed every create and update with "Provider produced inconsistent result after apply". The provider now keeps the planned null when the only difference is that default. A grace period the API genuinely holds is still read back, and an import, which has no plan to honour, still takes the value as it comes.
 
 ## v7.0.0
 

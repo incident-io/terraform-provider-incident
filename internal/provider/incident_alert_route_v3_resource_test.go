@@ -651,3 +651,117 @@ resource "incident_alert_route" "test" {
 }
 `, alertRouteV3IncidentTemplateBlock)
 }
+
+const (
+	alertRouteV3GraceOmitted = `      mode = "on_each_new_alert"`
+	alertRouteV3GraceSet     = `      mode                 = "on_each_new_alert"
+      grace_period_seconds = 120`
+)
+
+// TestAccIncidentAlertRouteV3WhenAlertJoinsGroupOmittedGracePeriod applies a
+// route that omits grace_period_seconds under mode on_each_new_alert. The
+// attribute is Optional and not Computed, so omitting it plans null while the
+// API returns its own 0, and writing that back failed the apply with "Provider
+// produced inconsistent result after apply".
+//
+// It has to be an acceptance test: that check runs in Terraform core after
+// ApplyResourceChange returns, out of reach of the models unit tests.
+//
+// Grouping is on because the API only returns when_alert_joins_group for a
+// route that groups. With it off the nil takes a different path and the
+// server-sent 0 is never exercised.
+func TestAccIncidentAlertRouteV3WhenAlertJoinsGroupOmittedGracePeriod(t *testing.T) {
+	name := StableSuffix("grace-period-omitted")
+
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// The apply that failed.
+			{
+				Config: testAccIncidentAlertRouteV3ResourceConfigGracePeriod(name, alertRouteV3GraceOmitted),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_alert_route.grace", "escalation_config.when_alert_joins_group.mode", "on_each_new_alert"),
+					// The planned null survives the server's 0.
+					resource.TestCheckNoResourceAttr("incident_alert_route.grace", "escalation_config.when_alert_joins_group.grace_period_seconds"),
+				),
+			},
+			// The absorbed default must not resurface as a perpetual diff.
+			{
+				RefreshState: true,
+				PlanOnly:     true,
+				RefreshPlanChecks: resource.RefreshPlanChecks{
+					PostRefresh: []plancheck.PlanCheck{
+						plancheck.ExpectEmptyPlan(),
+					},
+				},
+			},
+			// A real grace period must still round-trip: only the 0 is absorbed.
+			{
+				Config: testAccIncidentAlertRouteV3ResourceConfigGracePeriod(name, alertRouteV3GraceSet),
+				Check: resource.TestCheckResourceAttr(
+					"incident_alert_route.grace", "escalation_config.when_alert_joins_group.grace_period_seconds", "120"),
+			},
+			// Removing it resets the API to 0, which must read back as null.
+			{
+				Config: testAccIncidentAlertRouteV3ResourceConfigGracePeriod(name, alertRouteV3GraceOmitted),
+				Check: resource.TestCheckNoResourceAttr(
+					"incident_alert_route.grace", "escalation_config.when_alert_joins_group.grace_period_seconds"),
+			},
+			{
+				RefreshState: true,
+				PlanOnly:     true,
+				RefreshPlanChecks: resource.RefreshPlanChecks{
+					PostRefresh: []plancheck.PlanCheck{
+						plancheck.ExpectEmptyPlan(),
+					},
+				},
+			},
+		},
+	})
+}
+
+// testAccIncidentAlertRouteV3ResourceConfigGracePeriod builds a grouping route
+// whose when_alert_joins_group body is injected verbatim, so a caller can omit
+// grace_period_seconds entirely.
+func testAccIncidentAlertRouteV3ResourceConfigGracePeriod(name, whenAlertJoinsGroup string) string {
+	return fmt.Sprintf(`
+resource "incident_alert_route" "grace" {
+  name       = %[1]q
+  enabled    = true
+  is_private = false
+
+  alert_sources    = []
+  condition_groups = []
+  expressions      = []
+
+  grouping_config = {
+    default = {
+      enabled        = true
+      grouping_keys  = []
+      window_seconds = 1800
+      window_type    = "fixed"
+    }
+  }
+
+  message_config = {
+    destinations = []
+  }
+
+  escalation_config = {
+    auto_cancel_escalations = true
+    escalation_targets      = []
+    when_alert_joins_group = {
+%[2]s
+    }
+  }
+
+  incident_config = {
+    auto_decline_enabled = true
+    enabled              = true
+    condition_groups     = []
+%[3]s
+  }
+}
+`, name, whenAlertJoinsGroup, alertRouteV3IncidentTemplateBlock)
+}
