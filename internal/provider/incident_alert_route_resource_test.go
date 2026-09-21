@@ -2217,7 +2217,7 @@ func TestAccIncidentAlertRouteResourceEmptyOwningTeamIDs(t *testing.T) {
 		Steps: []resource.TestStep{
 			// Create with owning_team_ids = []: the repro from #595.
 			{
-				Config: testAccIncidentAlertRouteResourceConfigOwningTeams("empty-owning-teams-v2", 0, true),
+				Config: testAccIncidentAlertRouteResourceConfigOwningTeams(0, true),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr("incident_alert_route.test", "owning_team_ids.#", "0"),
 				),
@@ -2235,7 +2235,7 @@ func TestAccIncidentAlertRouteResourceEmptyOwningTeamIDs(t *testing.T) {
 			},
 			// Take ownership of the route...
 			{
-				Config: testAccIncidentAlertRouteResourceConfigOwningTeams("empty-owning-teams-v2", 1, false),
+				Config: testAccIncidentAlertRouteResourceConfigOwningTeams(1, false),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr("incident_alert_route.test", "owning_team_ids.#", "1"),
 					resource.TestCheckResourceAttrPair(
@@ -2246,7 +2246,7 @@ func TestAccIncidentAlertRouteResourceEmptyOwningTeamIDs(t *testing.T) {
 			// ...and give it up again, which reads the response back through the same
 			// mapping on update.
 			{
-				Config: testAccIncidentAlertRouteResourceConfigOwningTeams("empty-owning-teams-v2", 0, true),
+				Config: testAccIncidentAlertRouteResourceConfigOwningTeams(0, true),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr("incident_alert_route.test", "owning_team_ids.#", "0"),
 				),
@@ -2254,7 +2254,7 @@ func TestAccIncidentAlertRouteResourceEmptyOwningTeamIDs(t *testing.T) {
 			// Omitting the attribute entirely is a different thing from setting it to
 			// []: it stays absent.
 			{
-				Config: testAccIncidentAlertRouteResourceConfigOwningTeams("empty-owning-teams-v2", 0, false),
+				Config: testAccIncidentAlertRouteResourceConfigOwningTeams(0, false),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckNoResourceAttr("incident_alert_route.test", "owning_team_ids"),
 				),
@@ -2266,7 +2266,7 @@ func TestAccIncidentAlertRouteResourceEmptyOwningTeamIDs(t *testing.T) {
 // testAccIncidentAlertRouteResourceConfigOwningTeams renders a minimal v2-schema alert
 // route owning teamCount self-provisioned Team catalog entries. With no teams, setEmpty
 // chooses between an explicit `owning_team_ids = []` and omitting the attribute.
-func testAccIncidentAlertRouteResourceConfigOwningTeams(name string, teamCount int, setEmpty bool) string {
+func testAccIncidentAlertRouteResourceConfigOwningTeams(teamCount int, setEmpty bool) string {
 	teamIDs := make([]string, teamCount)
 	for i := 0; i < teamCount; i++ {
 		teamIDs[i] = fmt.Sprintf("incident_catalog_entry.owner_team_%d.id", i)
@@ -2287,7 +2287,7 @@ resource "incident_catalog_entry" "owner_team_{{ $i }}" {
 {{ end }}
 
 resource "incident_alert_route" "test" {
-  name       = {{ stableSuffix .Name | quote }}
+  name       = {{ stableSuffix "empty-owning-teams-v2" | quote }}
   enabled    = true
   is_private = false
 
@@ -2368,13 +2368,11 @@ resource "incident_alert_route" "test" {
 {{ end }}
 }
 `, struct {
-		Name             string
 		TeamTypeName     string
 		TeamIndices      []int
 		TeamIDs          []string
 		SetOwningTeamIDs bool
 	}{
-		Name:             name,
 		TeamTypeName:     teamTypeName(),
 		TeamIndices:      lo.Range(teamCount),
 		TeamIDs:          teamIDs,
