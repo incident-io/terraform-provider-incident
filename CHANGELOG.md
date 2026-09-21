@@ -2,7 +2,7 @@
 
 - Fix `incident_alert_route` failing to apply with "Provider produced inconsistent result after apply" when `owning_team_ids` is set to an empty list, on both the current and the deprecated schema. Anyone who worked around this with `ignore_changes` or a placeholder team can drop it. (#609)
 - Fix the `incident_user` data source leaving `id` null when mocked with `override_data` in `terraform test`: `id`, `email` and `slack_user_id` are now computed as well as optional, so the lookup attributes a configuration doesn't set are read back like any other attribute. (#604)
-- Fix `incident_alert_route` failing to plan with "Value Conversion Error" on `incident_template.name.value` when the route sets `incident_config.enabled = false` and gives `incident_template.name` no binding. A regression in v6.12.0. (#605)
+- Fix `incident_alert_route` failing to plan with "Value Conversion Error" on `incident_template.name.value` when the route sets `incident_config.enabled = false` and gives `incident_template.name` no binding. A regression in v6.12.0. Fixed on the v6 line too. (#605, #612)
 
 ## v7.1.0
 
