@@ -146,9 +146,11 @@ func listOrNull(list types.List, elemType attr.Type) types.List {
 	return list
 }
 
-// objectOrNull is listOrNull for an object.
+// objectOrNull is listOrNull for an object. It tests the length rather than nil because
+// ObjectValue.AttributeTypes hands back a freshly allocated copy, so the zero value's nil
+// map arrives here empty.
 func objectOrNull(obj types.Object, attrTypes map[string]attr.Type) types.Object {
-	if obj.AttributeTypes(context.Background()) == nil {
+	if len(obj.AttributeTypes(context.Background())) == 0 {
 		return types.ObjectNull(attrTypes)
 	}
 
