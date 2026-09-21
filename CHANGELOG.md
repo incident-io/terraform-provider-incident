@@ -1,4 +1,4 @@
-## Unreleased
+## v6.13.1
 
 - Fix `incident_alert_route` failing to apply with "Provider produced inconsistent result after apply" when `owning_team_ids` is set to an empty list, on both the v2 and v3 schemas. Anyone who worked around this with `ignore_changes` or a placeholder team can drop it. Backported from v7. (#609, #610)
 - Fix `incident_alert_route` failing to plan with "Value Conversion Error" on `incident_template.name.value` when the route sets `incident_config.enabled = false` and gives `incident_template.name` no binding. A regression in v6.12.0. (#605)
