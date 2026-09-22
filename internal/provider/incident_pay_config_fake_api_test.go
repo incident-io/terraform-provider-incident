@@ -117,19 +117,6 @@ func (f *fakePayConfigsAPI) listCalls() int {
 	return count
 }
 
-// config returns a copy of a config by ID, for a test to inspect what was stored.
-func (f *fakePayConfigsAPI) config(id string) (client.PayConfigV2, bool) {
-	f.mu.Lock()
-	defer f.mu.Unlock()
-
-	idx := f.find(id)
-	if idx < 0 {
-		return client.PayConfigV2{}, false
-	}
-
-	return f.configs[idx], true
-}
-
 // id mints IDs that sort in creation order, as ULIDs do.
 func (f *fakePayConfigsAPI) id() string {
 	f.nextID++
