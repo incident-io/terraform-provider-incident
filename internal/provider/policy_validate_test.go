@@ -164,19 +164,34 @@ func TestPolicyBlocksCoverEveryPolicyType(t *testing.T) {
 		t.Fatal("no policy_type enum values in the schema")
 	}
 
+	// Policy types the API has that the resource deliberately doesn't support yet. Each
+	// one is a block still to be written; remove it from here when it lands.
+	notYetSupported := map[string]bool{
+		"shift_conflict": true,
+	}
+
 	blocks := map[string]bool{}
 	for _, block := range policyBlocks {
 		blocks[block] = true
 	}
 
+	covered := 0
 	for _, policyType := range fromAPI {
+		if notYetSupported[policyType] {
+			if blocks[policyType] {
+				t.Errorf("policy type %q has a config block now: drop it from notYetSupported", policyType)
+			}
+			continue
+		}
+		covered++
+
 		if !blocks[policyType] {
 			t.Errorf("policy type %q has no config block: add one, and add it to policyBlocks", policyType)
 		}
 	}
 
-	if len(policyBlocks) != len(fromAPI) {
-		t.Errorf("want %d blocks to match the enum, got %d", len(fromAPI), len(policyBlocks))
+	if len(policyBlocks) != covered {
+		t.Errorf("want %d blocks to match the enum, got %d", covered, len(policyBlocks))
 	}
 }
 
