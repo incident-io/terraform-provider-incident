@@ -58,7 +58,7 @@ func TestIncidentPayConfigResourceValidateConfig(t *testing.T) {
 			rules: `
   weekly_rules = [
     { weekdays = ["saturday", "sunday"], start_time = "00:00", end_time = "00:00", rate_cents = 1500 },
-    { weekdays = ["friday"], start_time = "18:00", end_time = "09:00", rate_cents = 1000 },
+    { weekdays = ["friday"], start_time = "18:00", end_time = "00:00", rate_cents = 1000 },
   ]
   one_off_rules = [
     { name = "Christmas Day", start_at = "2026-12-25T00:00:00Z", end_at = "2026-12-26T00:00:00Z", rate_cents = 3000 },
@@ -178,6 +178,39 @@ func TestIncidentPayConfigResourceValidateConfig(t *testing.T) {
 				ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 				Steps:                    []resource.TestStep{step},
 			})
+		})
+	}
+}
+
+// TestPayConfigWeeklyRuleCoversTime covers the window check behind the "never applies"
+// warning. The API reads a rule's two times within one day, so only 00:00 as an end time
+// reaches the end of it.
+func TestPayConfigWeeklyRuleCoversTime(t *testing.T) {
+	minutes := func(clock string) int {
+		value, ok := clockTimeMinutes(clock)
+		if !ok {
+			t.Fatalf("%q isn't a clock time", clock)
+		}
+
+		return value
+	}
+
+	for _, tc := range []struct {
+		start, end string
+		covers     bool
+	}{
+		{start: "09:00", end: "17:00", covers: true},
+		{start: "00:00", end: "00:00", covers: true},  // the whole day
+		{start: "18:00", end: "00:00", covers: true},  // the evening, up to midnight
+		{start: "18:00", end: "09:00", covers: false}, // needs to be two rules
+		{start: "09:00", end: "09:00", covers: false},
+		{start: "09:00", end: "08:59", covers: false},
+		{start: "00:00", end: "00:01", covers: true},
+	} {
+		t.Run(fmt.Sprintf("%s to %s", tc.start, tc.end), func(t *testing.T) {
+			if got := weeklyRuleCoversTime(minutes(tc.start), minutes(tc.end)); got != tc.covers {
+				t.Errorf("weeklyRuleCoversTime(%s, %s) = %v, want %v", tc.start, tc.end, got, tc.covers)
+			}
 		})
 	}
 }

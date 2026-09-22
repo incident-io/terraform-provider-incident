@@ -2,6 +2,7 @@ package provider
 
 import (
 	"fmt"
+	"os"
 	"regexp"
 	"slices"
 	"strings"
@@ -10,6 +11,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/samber/lo"
+
+	"github.com/incident-io/terraform-provider-incident/v7/internal/client"
 )
 
 // payConfigRule is one rule in a test config. Weekly rules set Weekdays, StartTime and
@@ -97,12 +100,19 @@ data "incident_pay_config" "by_name" {
 
 var (
 	weekendRule = payConfigRule{Weekdays: []string{"saturday", "sunday"}, StartTime: "00:00", EndTime: "00:00", RateCents: 1500}
-	nightRule   = payConfigRule{Weekdays: []string{"monday", "tuesday", "wednesday", "thursday", "friday"}, StartTime: "18:00", EndTime: "09:00", RateCents: 1000}
-	fridayRule  = payConfigRule{Weekdays: []string{"friday"}, StartTime: "12:00", EndTime: "18:00", RateCents: 800}
+	// A rule's window is within one day, so the evening rate stops at midnight: the
+	// morning after would be a rule of its own.
+	nightRule  = payConfigRule{Weekdays: []string{"monday", "tuesday", "wednesday", "thursday", "friday"}, StartTime: "18:00", EndTime: "00:00", RateCents: 1000}
+	fridayRule = payConfigRule{Weekdays: []string{"friday"}, StartTime: "12:00", EndTime: "18:00", RateCents: 800}
 
 	christmasRule = payConfigRule{Name: "Christmas Day", StartAt: "2026-12-25T00:00:00Z", EndAt: "2026-12-26T00:00:00Z", RateCents: 3000}
 	boxingRule    = payConfigRule{Name: "Boxing Day", StartAt: "2026-12-26T00:00:00Z", EndAt: "2026-12-27T00:00:00Z", RateCents: 2500}
 	festiveRule   = payConfigRule{Name: "Festive break", StartAt: "2026-12-25T00:00:00Z", EndAt: "2026-12-27T00:00:00Z", RateCents: 2800}
+
+	// The same two holidays with the boundary between them moved to midday, so Christmas
+	// Day grows into the window Boxing Day is giving up.
+	christmasLongRule = payConfigRule{Name: "Christmas Day", StartAt: "2026-12-25T00:00:00Z", EndAt: "2026-12-26T12:00:00Z", RateCents: 3000}
+	boxingLateRule    = payConfigRule{Name: "Boxing Day", StartAt: "2026-12-26T12:00:00Z", EndAt: "2026-12-27T00:00:00Z", RateCents: 2500}
 )
 
 // testPayConfigLifecycleSteps is the whole life of a pay config: created with rules,
@@ -172,7 +182,7 @@ func testPayConfigLifecycleSteps(wroteExactly func(...string) resource.TestCheck
 				resource.TestCheckResourceAttr("incident_pay_config.test", "weekly_rules.0.weekdays.#", "2"),
 				resource.TestCheckTypeSetElemAttr("incident_pay_config.test", "weekly_rules.0.weekdays.*", "saturday"),
 				resource.TestCheckResourceAttr("incident_pay_config.test", "weekly_rules.1.start_time", "18:00"),
-				resource.TestCheckResourceAttr("incident_pay_config.test", "weekly_rules.1.end_time", "09:00"),
+				resource.TestCheckResourceAttr("incident_pay_config.test", "weekly_rules.1.end_time", "00:00"),
 				resource.TestCheckResourceAttr("incident_pay_config.test", "one_off_rules.#", "2"),
 				resource.TestCheckResourceAttrSet("incident_pay_config.test", "one_off_rules.0.id"),
 				resource.TestCheckResourceAttr("incident_pay_config.test", "one_off_rules.0.name", "Christmas Day"),
@@ -252,6 +262,28 @@ func testPayConfigLifecycleSteps(wroteExactly func(...string) resource.TestCheck
 					"DELETE /v2/pay_configs/{id}/weekly_rules/{weekly_rules.2.id}",
 					"PUT /v2/pay_configs/{id}/weekly_rules/{weekly_rules.0.id}",
 					"PUT /v2/pay_configs/{id}/weekly_rules/{weekly_rules.1.id}",
+				),
+			),
+		},
+		{
+			// Both holidays keep their position, but Christmas Day takes the half-day that
+			// Boxing Day is giving up. Written in position order, Christmas Day would land
+			// on a window Boxing Day still holds and the API would reject it, so the rule
+			// that is getting out of the way goes first.
+			Config: testAccIncidentPayConfigResourceConfig(payConfigTestConfig{
+				BaseRateCents: 600,
+				RateTimeUnit:  "day",
+				WeeklyRules:   []payConfigRule{withRate(nightRule, 1100), fridayRule},
+				OneOffRules:   []payConfigRule{christmasLongRule, boxingLateRule},
+			}),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttr("incident_pay_config.test", "one_off_rules.0.end_at", "2026-12-26T12:00:00Z"),
+				resource.TestCheckResourceAttr("incident_pay_config.test", "one_off_rules.1.start_at", "2026-12-26T12:00:00Z"),
+				stillHas("one_off_rules.0.id"),
+				stillHas("one_off_rules.1.id"),
+				wroteExactly(
+					"PUT /v2/pay_configs/{id}/one_off_rules/{one_off_rules.1.id}",
+					"PUT /v2/pay_configs/{id}/one_off_rules/{one_off_rules.0.id}",
 				),
 			),
 		},
@@ -518,11 +550,38 @@ data "incident_pay_config" "oldest" {
 }
 
 // TestAccIncidentPayConfigResource runs the lifecycle against a real account. The API key
-// needs the pay_configs_editor role.
+// needs the pay_configs_editor role, which carries every scope a pay config takes,
+// including update_published. A key without it skips rather than fails: the role is not
+// one a key has by default, and CI's key is shared with every other acceptance test.
 func TestAccIncidentPayConfigResource(t *testing.T) {
+	// The role is read before resource.Test, so honour TF_ACC ourselves rather than
+	// calling the API during a unit test run, then initialise testClient.
+	if os.Getenv("TF_ACC") == "" {
+		t.Skip("TF_ACC not set, skipping acceptance test")
+	}
+	testAccPreCheck(t)
+	testAccRequirePayConfigsEditor(t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps:                    testPayConfigLifecycleSteps(nil),
 	})
+}
+
+// testAccRequirePayConfigsEditor skips unless the API key can manage pay configs. The
+// identity endpoint reports the key's roles, which is cheaper and less destructive than
+// finding out by writing a config the key isn't allowed to write.
+func testAccRequirePayConfigsEditor(t *testing.T) {
+	identity, err := testClient.UtilitiesV1IdentityWithResponse(t.Context())
+	if err != nil {
+		t.Fatalf("reading the API key's identity: %s", err)
+	}
+	if identity.JSON200 == nil {
+		t.Fatalf("reading the API key's identity: %s", string(identity.Body))
+	}
+
+	if !slices.Contains(identity.JSON200.Identity.Roles, client.IdentityV1RolesPayConfigsEditor) {
+		t.Skip("the API key does not have the pay_configs_editor role")
+	}
 }

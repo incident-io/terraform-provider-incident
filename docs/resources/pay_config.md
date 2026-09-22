@@ -12,10 +12,10 @@ description: |-
   at base_rate_cents.
   Terraform creates the config as a draft, which becomes visible to everyone in the organisation
   once a report that prices against it is published. Editing a config after that changes the
-  explanation of pay someone has already been sent, so it additionally needs the
-  schedule_pay_configs.update_published scope on the API key, which the pay_configs_editor
-  role does not carry. The provider only sends what changed, so a plan that touches nothing but
-  the rules never asks to update the config itself.
+  explanation of pay someone has already been sent, so every write to it — its own attributes or
+  any of its rules — additionally needs the schedule_pay_configs.update_published scope on
+  the API key. The pay_configs_editor role carries it, along with everything else this
+  resource needs.
 ---
 
 # incident_pay_config (Resource)
@@ -32,10 +32,10 @@ at `base_rate_cents`.
 
 Terraform creates the config as a draft, which becomes visible to everyone in the organisation
 once a report that prices against it is published. Editing a config after that changes the
-explanation of pay someone has already been sent, so it additionally needs the
-`schedule_pay_configs.update_published` scope on the API key, which the `pay_configs_editor`
-role does not carry. The provider only sends what changed, so a plan that touches nothing but
-the rules never asks to update the config itself.
+explanation of pay someone has already been sent, so every write to it — its own attributes or
+any of its rules — additionally needs the `schedule_pay_configs.update_published` scope on
+the API key. The `pay_configs_editor` role carries it, along with everything else this
+resource needs.
 
 ## Example Usage
 
@@ -53,17 +53,27 @@ resource "incident_pay_config" "platform" {
   # Weekly rules are evaluated in order, and the first one that covers a shift prices
   # it. Put the rule that should win first: here, weekend nights fall under the weekend
   # rule rather than the night rule.
+  #
+  # A rule runs from start_time to end_time within one day, so a weeknight is two rules:
+  # the evening, and the following morning. 00:00 as an end_time is midnight at the end
+  # of the day.
   weekly_rules = [
     {
       weekdays   = ["saturday", "sunday"]
       start_time = "00:00"
-      end_time   = "00:00" # equal to start_time means the whole day
+      end_time   = "00:00" # 00:00 to 00:00 is the whole day
       rate_cents = 1500
     },
     {
       weekdays   = ["monday", "tuesday", "wednesday", "thursday", "friday"]
       start_time = "18:00"
-      end_time   = "09:00" # runs past midnight into the next morning
+      end_time   = "00:00" # the evening, up to midnight
+      rate_cents = 1000
+    },
+    {
+      weekdays   = ["monday", "tuesday", "wednesday", "thursday", "friday"]
+      start_time = "00:00"
+      end_time   = "09:00" # the morning after, at the same rate
       rate_cents = 1000
     },
   ]
@@ -138,7 +148,7 @@ Read-Only:
 
 Required:
 
-- `end_time` (String) Time of day this rule ends, in 24 hour format. Equal to start_time means it runs for the whole day. Written as `HH:MM`.
+- `end_time` (String) Time of day this rule ends, in 24 hour format, as `HH:MM`. It is read on the same day as `start_time`, so it must be later in that day, or `00:00` for midnight at the end of it — `00:00` to `00:00` is the whole day. A rule that runs past midnight is written as two: one ending at `00:00`, and one starting there on the following days.
 - `rate_cents` (Number) Rate paid while this rule applies, in the lowest denomination of the config's currency
 - `start_time` (String) Time of day this rule starts, in 24 hour format, as `HH:MM`.
 - `weekdays` (Set of String) Days of the week this rule applies on. Possible values are: `monday`, `tuesday`, `wednesday`, `thursday`, `friday`, `saturday`, `sunday`.

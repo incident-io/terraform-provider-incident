@@ -72,10 +72,10 @@ at `+"`base_rate_cents`"+`.
 
 Terraform creates the config as a draft, which becomes visible to everyone in the organisation
 once a report that prices against it is published. Editing a config after that changes the
-explanation of pay someone has already been sent, so it additionally needs the
-`+"`schedule_pay_configs.update_published`"+` scope on the API key, which the `+"`pay_configs_editor`"+`
-role does not carry. The provider only sends what changed, so a plan that touches nothing but
-the rules never asks to update the config itself.`),
+explanation of pay someone has already been sent, so every write to it — its own attributes or
+any of its rules — additionally needs the `+"`schedule_pay_configs.update_published`"+` scope on
+the API key. The `+"`pay_configs_editor`"+` role carries it, along with everything else this
+resource needs.`),
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,
@@ -149,8 +149,16 @@ the rules never asks to update the config itself.`),
 							MarkdownDescription: apischema.Docstring("PayConfigWeeklyRuleV2", "start_time") + ", as `HH:MM`.",
 						},
 						"end_time": schema.StringAttribute{
-							Required:            true,
-							MarkdownDescription: apischema.Docstring("PayConfigWeeklyRuleV2", "end_time") + " Written as `HH:MM`.",
+							Required: true,
+							// The provider's own words rather than apischema.Docstring: the API's
+							// description says an end_time equal to start_time runs for the whole
+							// day, which is only true of 00:00. Any other pair reads as an empty
+							// window that no shift ever falls in.
+							MarkdownDescription: "Time of day this rule ends, in 24 hour format, as `HH:MM`. It is read" +
+								" on the same day as `start_time`, so it must be later in that day, or `00:00` for" +
+								" midnight at the end of it — `00:00` to `00:00` is the whole day. A rule that runs" +
+								" past midnight is written as two: one ending at `00:00`, and one starting there on" +
+								" the following days.",
 						},
 						"rate_cents": schema.Int64Attribute{
 							Required:            true,
@@ -262,25 +270,60 @@ func (r *IncidentPayConfigResource) validateTimezone(ctx context.Context, req re
 	}
 }
 
-// validateWeeklyRules checks each rule's times are a time of day. The API accepts any two
-// digits either side of a colon, so 25:99 would be stored and then never match a shift.
+// validateWeeklyRules checks each rule's times are a time of day, and that the window
+// between them is one a shift can fall in. The API accepts any two digits either side of
+// a colon, so 25:99 would be stored and then never match a shift.
 func (r *IncidentPayConfigResource) validateWeeklyRules(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
 	for _, rule := range knownListObjects(ctx, req, resp, path.Root("weekly_rules")) {
+		times := map[string]int{}
 		for _, name := range []string{"start_time", "end_time"} {
 			value, ok := knownString(rule.attributes[name])
 			if !ok {
 				continue
 			}
 
-			if _, ok := clockTimeMinutes(value); !ok {
+			minutes, ok := clockTimeMinutes(value)
+			if !ok {
 				resp.Diagnostics.AddAttributeError(
 					rule.path.AtName(name),
 					fmt.Sprintf("Invalid %s", name),
 					fmt.Sprintf("%q isn't a time of day. Use 24-hour HH:MM, like 09:00.", value),
 				)
+				continue
 			}
+
+			times[name] = minutes
+		}
+
+		start, haveStart := times["start_time"]
+		end, haveEnd := times["end_time"]
+		if !haveStart || !haveEnd {
+			continue
+		}
+
+		// A warning rather than an error, because a config written in the dashboard can
+		// hold one of these and importing it shouldn't be impossible.
+		if !weeklyRuleCoversTime(start, end) {
+			resp.Diagnostics.AddAttributeWarning(
+				rule.path.AtName("end_time"),
+				"Weekly rule never applies",
+				"A rule runs from start_time to end_time within one day, so this rule covers no time at "+
+					"all and no shift will be paid at its rate. To pay a rate over midnight, write two "+
+					"rules: one ending at 00:00, and one starting there on the following days.",
+			)
 		}
 	}
+}
+
+// payConfigMidnight is 00:00 in minutes. As an end_time it is the one value that means
+// midnight at the end of the day rather than the start of it.
+const payConfigMidnight = 0
+
+// weeklyRuleCoversTime reports whether a rule's window contains any time at all. The API
+// reads both times within a single day, so an end at or before the start is an empty
+// window that the API stores as written and no shift ever falls in.
+func weeklyRuleCoversTime(startMinutes, endMinutes int) bool {
+	return endMinutes == payConfigMidnight || endMinutes > startMinutes
 }
 
 // validateOneOffRules checks each rule starts before it ends, and that no two rules
@@ -288,44 +331,44 @@ func (r *IncidentPayConfigResource) validateWeeklyRules(ctx context.Context, req
 // saves an apply that would fail part-way through: a config's rules are reconciled one at
 // a time, and an overlap is only rejected when the second of the pair is written.
 func (r *IncidentPayConfigResource) validateOneOffRules(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
-	type window struct {
-		path       path.Path
-		name       string
-		start, end time.Time
+	type rule struct {
+		path path.Path
+		name string
+		span payConfigWindow
 	}
 
-	var windows []window
-	for _, rule := range knownListObjects(ctx, req, resp, path.Root("one_off_rules")) {
-		start, startKnown := knownInstant(rule.attributes["start_at"])
-		end, endKnown := knownInstant(rule.attributes["end_at"])
+	var rules []rule
+	for _, element := range knownListObjects(ctx, req, resp, path.Root("one_off_rules")) {
+		start, startKnown := knownInstant(element.attributes["start_at"])
+		end, endKnown := knownInstant(element.attributes["end_at"])
 		if !startKnown || !endKnown {
 			continue
 		}
 
 		if start.After(end) {
 			resp.Diagnostics.AddAttributeError(
-				rule.path.AtName("start_at"),
+				element.path.AtName("start_at"),
 				"Rule ends before it starts",
 				"start_at must be before end_at.",
 			)
 			continue
 		}
 
-		name, _ := knownString(rule.attributes["name"])
-		windows = append(windows, window{path: rule.path, name: name, start: start, end: end})
+		name, _ := knownString(element.attributes["name"])
+		rules = append(rules, rule{
+			path: element.path,
+			name: name,
+			span: payConfigWindow{start: start, end: end, known: true},
+		})
 	}
 
-	// The same test the API applies: a rule overlaps another when it strictly contains
-	// either end of it. Two rules over exactly the same window pass, as they do there.
-	for i, this := range windows {
-		for j, that := range windows {
+	for i, this := range rules {
+		for j, that := range rules {
 			if i == j {
 				continue
 			}
 
-			containsStart := this.start.Before(that.start) && this.end.After(that.start)
-			containsEnd := this.start.Before(that.end) && this.end.After(that.end)
-			if containsStart || containsEnd {
+			if payConfigWindowsOverlap(this.span, that.span) {
 				resp.Diagnostics.AddAttributeError(
 					this.path,
 					"One-off rules overlap",
@@ -431,10 +474,9 @@ func (r *IncidentPayConfigResource) Read(ctx context.Context, req resource.ReadR
 
 // Update reconciles the config in three parts, each through its own endpoint: the
 // config's attributes, then the weekly rules, then the one-off rules. Only what changed
-// is sent, so a config a published report priced against can have a rule added without
-// the scope that editing the config itself would need. State is read back whole at the
-// end, so a failure part-way through leaves state describing what was actually applied
-// and the next plan picks up the rest.
+// is sent, so a plan that touches one rule makes one write. State is read back whole at
+// the end, so a failure part-way through leaves state describing what was actually
+// applied and the next plan picks up the rest.
 func (r *IncidentPayConfigResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var plan, state models.PayConfigModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &plan)...)
@@ -527,9 +569,11 @@ func (r *IncidentPayConfigResource) reconcileWeeklyRules(
 // reconcileOneOffRules is reconcileWeeklyRules for the one-off rules, and matches by
 // position for the same reason: the plan has already promised each position its ID.
 //
-// Removals go first and additions last, so a config that swaps one holiday for another
-// at the same dates never holds both at once. The API rejects a rule that overlaps
-// another, and that check runs on every write.
+// One-off rules may not overlap, and the API checks that on every write rather than only
+// at the end, so the order of the writes matters. Removals go first and additions last,
+// so a config that swaps one holiday for another at the same dates never holds both at
+// once. The updates in between are ordered by oneOffUpdateOrder, because a rule moved
+// into a window a sibling has not yet left would be rejected on the way.
 func (r *IncidentPayConfigResource) reconcileOneOffRules(
 	ctx context.Context, configID string,
 	planned, current []models.PayConfigOneOffRuleModel,
@@ -545,11 +589,20 @@ func (r *IncidentPayConfigResource) reconcileOneOffRules(
 		}
 	}
 
-	for idx := range shared {
-		if planned[idx].Equivalent(current[idx]) {
-			continue
-		}
+	order, ok := oneOffUpdateOrder(planned[:shared], current[:shared])
+	if !ok {
+		diags.AddError(
+			"One-off rules cannot be changed in one apply",
+			"These rules exchange windows with each other, and the API rejects a rule that overlaps "+
+				"another on every write, so there is no order in which Terraform can apply them: whichever "+
+				"moves first lands on a window another rule still holds.\n\n"+
+				"Apply the change in two steps. Move the rules that are in the way somewhere that overlaps "+
+				"nothing, apply, then move them to where they belong.",
+		)
+		return
+	}
 
+	for _, idx := range order {
 		ruleID := current[idx].ID.ValueString()
 		result, err := r.client.PayConfigsV2UpdateOneOffRuleWithResponse(ctx, configID, ruleID, planned[idx].ToUpdatePayload())
 		if err == nil && result.JSON200 == nil {
@@ -571,6 +624,90 @@ func (r *IncidentPayConfigResource) reconcileOneOffRules(
 			return
 		}
 	}
+}
+
+// payConfigWindow is the span a one-off rule covers. A window that isn't known — a value
+// the plan leaves until apply — is never treated as in the way of another.
+type payConfigWindow struct {
+	start, end time.Time
+	known      bool
+}
+
+// payConfigWindowFor reads a rule's window.
+func payConfigWindowFor(rule models.PayConfigOneOffRuleModel) payConfigWindow {
+	start, startKnown := rule.StartAt.ValueTime()
+	end, endKnown := rule.EndAt.ValueTime()
+
+	return payConfigWindow{start: start, end: end, known: startKnown && endKnown}
+}
+
+// payConfigWindowsOverlap is the test the API applies to a pair of one-off rules: they
+// overlap when one strictly contains either end of the other. Two rules over exactly the
+// same window pass, as they do there, and so does one that starts where another ends.
+func payConfigWindowsOverlap(this, that payConfigWindow) bool {
+	if !this.known || !that.known {
+		return false
+	}
+
+	// Both directions, because containment only shows up from the outer rule's side.
+	contains := func(outer, inner payConfigWindow) bool {
+		containsStart := outer.start.Before(inner.start) && outer.end.After(inner.start)
+		containsEnd := outer.start.Before(inner.end) && outer.end.After(inner.end)
+
+		return containsStart || containsEnd
+	}
+
+	return contains(this, that) || contains(that, this)
+}
+
+// oneOffUpdateOrder returns the positions whose rule has changed, in an order the API
+// will accept: a rule is only moved once its new window is clear of every rule the config
+// still holds, since an overlap is rejected on every write rather than only at the end.
+//
+// The plan's own rules don't overlap and neither do the config's, so a rule is only ever
+// blocked by one that is itself about to move, and moving that one first unblocks it.
+// What has no order is an exchange — two rules that swap windows, where each is waiting
+// on the other. That returns false: it takes two applies, and there is no way for the
+// provider to take the second one without leaving a rule somewhere nobody asked for.
+func oneOffUpdateOrder(planned, current []models.PayConfigOneOffRuleModel) ([]int, bool) {
+	live := make([]payConfigWindow, len(current))
+	var pending []int
+	for idx := range current {
+		live[idx] = payConfigWindowFor(current[idx])
+		if !planned[idx].Equivalent(current[idx]) {
+			pending = append(pending, idx)
+		}
+	}
+
+	order := make([]int, 0, len(pending))
+	for len(pending) > 0 {
+		var blocked []int
+		for _, idx := range pending {
+			target := payConfigWindowFor(planned[idx])
+
+			inTheWay := false
+			for other, held := range live {
+				if other != idx && payConfigWindowsOverlap(target, held) {
+					inTheWay = true
+					break
+				}
+			}
+			if inTheWay {
+				blocked = append(blocked, idx)
+				continue
+			}
+
+			order = append(order, idx)
+			live[idx] = target
+		}
+
+		if len(blocked) == len(pending) {
+			return nil, false
+		}
+		pending = blocked
+	}
+
+	return order, true
 }
 
 func (r *IncidentPayConfigResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {

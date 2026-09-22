@@ -11,17 +11,27 @@ resource "incident_pay_config" "platform" {
   # Weekly rules are evaluated in order, and the first one that covers a shift prices
   # it. Put the rule that should win first: here, weekend nights fall under the weekend
   # rule rather than the night rule.
+  #
+  # A rule runs from start_time to end_time within one day, so a weeknight is two rules:
+  # the evening, and the following morning. 00:00 as an end_time is midnight at the end
+  # of the day.
   weekly_rules = [
     {
       weekdays   = ["saturday", "sunday"]
       start_time = "00:00"
-      end_time   = "00:00" # equal to start_time means the whole day
+      end_time   = "00:00" # 00:00 to 00:00 is the whole day
       rate_cents = 1500
     },
     {
       weekdays   = ["monday", "tuesday", "wednesday", "thursday", "friday"]
       start_time = "18:00"
-      end_time   = "09:00" # runs past midnight into the next morning
+      end_time   = "00:00" # the evening, up to midnight
+      rate_cents = 1000
+    },
+    {
+      weekdays   = ["monday", "tuesday", "wednesday", "thursday", "friday"]
+      start_time = "00:00"
+      end_time   = "09:00" # the morning after, at the same rate
       rate_cents = 1000
     },
   ]
