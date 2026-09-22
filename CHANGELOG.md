@@ -1,3 +1,8 @@
+## Unreleased
+
+- Add the `incident_pay_config` resource, which manages an on-call pay config: a base rate, plus the weekly and one-off rules that override it. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/pay_config). (#616)
+- Add the `incident_pay_config` data source, which looks up a pay config by `id` or `name`. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/data-sources/pay_config). (#616)
+
 ## v7.1.1
 
 - Fix `incident_alert_route` failing to apply with "Provider produced inconsistent result after apply" when `owning_team_ids` is set to an empty list, on both the current and the deprecated schema. Anyone who worked around this with `ignore_changes` or a placeholder team can drop it. (#609)
