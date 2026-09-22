@@ -337,7 +337,7 @@ resource "incident_policy" "vacation_conflicts" {
 ### Read-Only
 
 - `id` (String) Unique ID of the policy
-- `policy_type` (String) Type of the policy, specifying what this applies to. Possible values are: `debrief`, `follow_up`, `on_call_readiness`, `post_mortem`, `schedule`, `vacation_conflict`. Determined by which config block is set.
+- `policy_type` (String) Type of the policy, specifying what this applies to. Possible values are: `debrief`, `follow_up`, `on_call_readiness`, `post_mortem`, `schedule`, `shift_conflict`, `vacation_conflict`. Determined by which config block is set.
 
 <a id="nestedatt--condition_groups"></a>
 ### Nested Schema for `condition_groups`

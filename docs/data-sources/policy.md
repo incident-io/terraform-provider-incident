@@ -41,5 +41,5 @@ output "postmortem_policy_type" {
 ### Read-Only
 
 - `description` (String) Human readable description of the policy
-- `policy_type` (String) Type of the policy, specifying what this applies to. Possible values are: `debrief`, `follow_up`, `on_call_readiness`, `post_mortem`, `schedule`, `vacation_conflict`.
+- `policy_type` (String) Type of the policy, specifying what this applies to. Possible values are: `debrief`, `follow_up`, `on_call_readiness`, `post_mortem`, `schedule`, `shift_conflict`, `vacation_conflict`.
 - `status` (String) Disabled policies stop evaluating but keep their config. Possible values are: `enabled`, `disabled`.
