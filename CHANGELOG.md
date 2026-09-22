@@ -1,4 +1,4 @@
-## Unreleased
+## v7.2.0
 
 - Add the `incident_pay_config` resource, which manages an on-call pay config: a base rate, plus the weekly and one-off rules that override it. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/pay_config). (#616)
 - Add the `incident_pay_config` data source, which looks up a pay config by `id` or `name`. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/data-sources/pay_config). (#616)
