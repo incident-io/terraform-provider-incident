@@ -131,6 +131,11 @@ func testPayConfigLifecycleSteps(wroteExactly func(...string) resource.TestCheck
 		}
 	}
 
+	// The night rule after a pay rise, derived from the rule itself so that the only
+	// difference between the two is the one the steps below are about.
+	nightRuleRaised := nightRule
+	nightRuleRaised.RateCents = 1100
+
 	// The IDs each position had after the first apply. A change to a rule must keep its
 	// position's ID: that is what the plan promised, and what makes a change an update
 	// rather than a replacement.
@@ -225,7 +230,7 @@ func testPayConfigLifecycleSteps(wroteExactly func(...string) resource.TestCheck
 			Config: testAccIncidentPayConfigResourceConfig(payConfigTestConfig{
 				BaseRateCents: 600,
 				RateTimeUnit:  "day",
-				WeeklyRules:   []payConfigRule{weekendRule, withRate(nightRule, 1100), fridayRule},
+				WeeklyRules:   []payConfigRule{weekendRule, nightRuleRaised, fridayRule},
 				OneOffRules:   []payConfigRule{christmasRule, boxingRule},
 			}),
 			Check: resource.ComposeAggregateTestCheckFunc(
@@ -248,7 +253,7 @@ func testPayConfigLifecycleSteps(wroteExactly func(...string) resource.TestCheck
 			Config: testAccIncidentPayConfigResourceConfig(payConfigTestConfig{
 				BaseRateCents: 600,
 				RateTimeUnit:  "day",
-				WeeklyRules:   []payConfigRule{withRate(nightRule, 1100), fridayRule},
+				WeeklyRules:   []payConfigRule{nightRuleRaised, fridayRule},
 				OneOffRules:   []payConfigRule{christmasRule, boxingRule},
 			}),
 			Check: resource.ComposeAggregateTestCheckFunc(
@@ -273,7 +278,7 @@ func testPayConfigLifecycleSteps(wroteExactly func(...string) resource.TestCheck
 			Config: testAccIncidentPayConfigResourceConfig(payConfigTestConfig{
 				BaseRateCents: 600,
 				RateTimeUnit:  "day",
-				WeeklyRules:   []payConfigRule{withRate(nightRule, 1100), fridayRule},
+				WeeklyRules:   []payConfigRule{nightRuleRaised, fridayRule},
 				OneOffRules:   []payConfigRule{christmasLongRule, boxingLateRule},
 			}),
 			Check: resource.ComposeAggregateTestCheckFunc(
@@ -294,7 +299,7 @@ func testPayConfigLifecycleSteps(wroteExactly func(...string) resource.TestCheck
 			Config: testAccIncidentPayConfigResourceConfig(payConfigTestConfig{
 				BaseRateCents: 600,
 				RateTimeUnit:  "day",
-				WeeklyRules:   []payConfigRule{withRate(nightRule, 1100), fridayRule},
+				WeeklyRules:   []payConfigRule{nightRuleRaised, fridayRule},
 				OneOffRules:   []payConfigRule{festiveRule},
 			}),
 			Check: resource.ComposeAggregateTestCheckFunc(
@@ -338,12 +343,6 @@ func testPayConfigLifecycleSteps(wroteExactly func(...string) resource.TestCheck
 			PlanOnly: true,
 		},
 	}
-}
-
-func withRate(rule payConfigRule, rateCents int64) payConfigRule {
-	rule.RateCents = rateCents
-
-	return rule
 }
 
 // TestIncidentPayConfigResourceLifecycle drives the resource through Terraform against a
