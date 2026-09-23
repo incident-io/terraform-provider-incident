@@ -1,3 +1,7 @@
+## Unreleased
+
+- Fix `incident_escalation_path_template` rejecting a target with a rota-scoped `schedule_mode` and no `selected_rota_id`, even when it binds to an expression that picks the rotation. Templates that target a rotation, including ones exported from the dashboard, can now be applied. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/escalation_path_template). (#620)
+
 ## v7.2.0
 
 - Add the `incident_pay_config` resource, which manages an on-call pay config: a base rate, plus the weekly and one-off rules that override it. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/pay_config). (#616)
