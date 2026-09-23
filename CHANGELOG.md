@@ -1,3 +1,9 @@
+## Unreleased
+
+- Add the `incident_announcement_rule` resource, which manages an announcement rule: which incidents are announced, and the Slack or Microsoft Teams channels they're posted into. An API key can only manage a rule whose `private_incident_scope` is `none`. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/announcement_rule). (#619)
+- Add the `incident_announcement_template` resource, which manages the fields and actions an announcement post shows, with rich text written as markdown and incident variables as `{{name}}`. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/announcement_template). (#619)
+- Add the `incident_announcement_rule` and `incident_announcement_template` data sources, which look up a rule or template by `id` or `name`. See the docs for the [rule](https://registry.terraform.io/providers/incident-io/incident/latest/docs/data-sources/announcement_rule) and [template](https://registry.terraform.io/providers/incident-io/incident/latest/docs/data-sources/announcement_template). (#619)
+
 ## v7.2.1
 
 - Fix `incident_escalation_path_template` rejecting a target with a rota-scoped `schedule_mode` and no `selected_rota_id`, even when it binds to an expression that picks the rotation. Templates that target a rotation, including ones exported from the dashboard, can now be applied. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/escalation_path_template). (#620)
