@@ -68,3 +68,62 @@ resource "incident_escalation_path" "payments" {
     backup           = { value_literal = data.incident_user.payments_lead.id }
   }
 }
+
+# To page one rotation of a bound schedule, bind the target to an expression that
+# navigates the schedule's rotations and keeps the one with that name.
+resource "incident_escalation_path_template" "primary_rotation" {
+  name = "Primary rotation"
+
+  params = {
+    schedule = {
+      label = "Schedule"
+      type  = "CatalogEntry[\"Schedule\"]"
+    }
+  }
+
+  expressions = [
+    {
+      label          = "Primary rotation"
+      reference      = "primary_rotation"
+      root_reference = "schedule"
+      operations = [
+        {
+          operation_type = "navigate"
+          navigate       = { reference = "rotations" }
+        },
+        {
+          operation_type = "filter"
+          filter = {
+            condition_groups = [{
+              conditions = [{
+                subject        = "input.name"
+                operation      = "equals"
+                param_bindings = [{ value = { literal = "Primary" } }]
+              }]
+            }]
+          }
+        },
+      ]
+    },
+  ]
+
+  start = "main"
+
+  sequences = {
+    main = {
+      nodes = [
+        {
+          level = {
+            targets = [{
+              type          = "schedule"
+              urgency       = "high"
+              schedule_mode = "currently_on_call_for_rota"
+              binding       = { expression_ref = "primary_rotation" }
+            }]
+            time_to_ack_seconds = 300
+          }
+        },
+      ]
+    }
+  }
+}

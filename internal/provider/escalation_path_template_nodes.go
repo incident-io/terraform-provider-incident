@@ -91,7 +91,7 @@ func escalationPathTemplateTargetsAttribute(docType string) schema.ListNestedAtt
 					Computed:            true,
 				},
 				"selected_rota_id": schema.StringAttribute{
-					MarkdownDescription: apischema.Docstring("EscalationPathTargetWithBindingV2", "selected_rota_id"),
+					MarkdownDescription: "For a schedule target with a rota-scoped `schedule_mode`, the rota to page. A bound target can leave this unset and bind to an expression that navigates the schedule's `rotations` and filters them by name instead.",
 					Optional:            true,
 				},
 				"binding": schema.SingleNestedAttribute{
@@ -132,20 +132,25 @@ func decodeTemplateTargets(ctx context.Context, list types.List, diags *diag.Dia
 // validateEscalationPathTemplateTarget applies the escalation path's target checks, plus the
 // one the template adds: a target names an id or carries a binding, never both or neither.
 func validateEscalationPathTemplateTarget(target escalationPathTemplateTarget, diags *diag.Diagnostics) {
-	validateEscalationPathTarget(IncidentEscalationPathTarget{
-		ID:             target.ID,
-		Type:           target.Type,
-		Urgency:        target.Urgency,
-		ScheduleMode:   target.ScheduleMode,
-		SelectedRotaID: target.SelectedRotaID,
-	}, diags)
+	hasBinding := target.Binding != nil && !target.Binding.IsEmpty()
+
+	// A bound target can take its rota from an expression that filters the schedule's
+	// rotations, so a rota-scoped mode doesn't need selected_rota_id.
+	if !hasBinding || !rotaRequiredScheduleModes[target.ScheduleMode.ValueString()] {
+		validateEscalationPathTarget(IncidentEscalationPathTarget{
+			ID:             target.ID,
+			Type:           target.Type,
+			Urgency:        target.Urgency,
+			ScheduleMode:   target.ScheduleMode,
+			SelectedRotaID: target.SelectedRotaID,
+		}, diags)
+	}
 
 	if target.ID.IsUnknown() {
 		return
 	}
 
 	hasID := target.ID.ValueString() != ""
-	hasBinding := target.Binding != nil && !target.Binding.IsEmpty()
 	switch {
 	case hasID && hasBinding:
 		diags.AddError(
