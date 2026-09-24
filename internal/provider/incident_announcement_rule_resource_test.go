@@ -121,6 +121,9 @@ func testAnnouncementRuleLifecycleSteps(channelIDs []string, severityID string) 
 			ResourceName:      address,
 			ImportState:       true,
 			ImportStateVerify: true,
+			// Core touches a rule shortly after it's created, so its updated_at can move
+			// between the create and the import without Terraform changing anything.
+			ImportStateVerifyIgnore: []string{"updated_at"},
 		},
 		{
 			// Leaving template_id out of the config keeps the rule on the template it has,
