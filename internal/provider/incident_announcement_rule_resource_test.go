@@ -2,7 +2,6 @@ package provider
 
 import (
 	"fmt"
-	"os"
 	"regexp"
 	"testing"
 
@@ -291,16 +290,11 @@ data "incident_announcement_rule" "oldest" {
 
 // TestAccIncidentAnnouncementRuleResource runs the lifecycle against a real account. A rule
 // needs a Slack channel incident.io can post into, which the test can't create, so it
-// skips unless TF_ACC_CHANNEL_ID names one.
+// posts into the shared test channel that channelID picks for the workspace.
 func TestAccIncidentAnnouncementRuleResource(t *testing.T) {
-	channelID := os.Getenv("TF_ACC_CHANNEL_ID")
-	if os.Getenv("TF_ACC") != "" && channelID == "" {
-		t.Skip("TF_ACC_CHANNEL_ID not set, skipping announcement rule acceptance test")
-	}
-
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    testAnnouncementRuleLifecycleSteps([]string{channelID}, ""),
+		Steps:                    testAnnouncementRuleLifecycleSteps([]string{channelID(false)}, ""),
 	})
 }

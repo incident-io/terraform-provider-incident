@@ -29,6 +29,21 @@ data "incident_severity" "critical" {
   name = "Critical"
 }
 
+# The template the rule's announcements are rendered with: severity and status, then a
+# button to join the call.
+resource "incident_announcement_template" "major_incidents" {
+  name = "Major incidents"
+
+  fields = [
+    { field_type = "announcement_post_fields_severity" },
+    { field_type = "announcement_post_fields_status" },
+  ]
+
+  actions = [
+    { action_type = "announcement_post_actions_join_call" },
+  ]
+}
+
 # Announce every critical incident, triage included, in #major-incidents, rendered with
 # the major incidents template. Updates are shared in the announcement's thread.
 resource "incident_announcement_rule" "critical" {
