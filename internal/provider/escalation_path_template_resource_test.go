@@ -284,3 +284,54 @@ func TestEscalationPathKindChanged(t *testing.T) {
 }
 
 type attrValue = attr.Value
+
+func TestValidateEscalationPathTemplateTargetRota(t *testing.T) {
+	rotaTarget := func(id, rotaID string, binding *models.IncidentEngineParamBinding) escalationPathTemplateTarget {
+		target := escalationPathTemplateTarget{
+			ID:             types.StringNull(),
+			Type:           types.StringValue("schedule"),
+			Urgency:        types.StringValue("high"),
+			ScheduleMode:   types.StringValue("currently_on_call_for_rota"),
+			SelectedRotaID: types.StringNull(),
+			Binding:        binding,
+		}
+		if id != "" {
+			target.ID = types.StringValue(id)
+		}
+		if rotaID != "" {
+			target.SelectedRotaID = types.StringValue(rotaID)
+		}
+		return target
+	}
+	expressionBinding := func() *models.IncidentEngineParamBinding {
+		binding := models.NullParamBinding()
+		binding.ExpressionRef = types.StringValue("rotation_schedule_1_primary")
+		return &binding
+	}
+
+	cases := []struct {
+		name    string
+		target  escalationPathTemplateTarget
+		wantErr string
+	}{
+		{name: "bound target takes its rota from the binding", target: rotaTarget("", "", expressionBinding())},
+		{name: "bound target may still name a rota", target: rotaTarget("", "01ROTA", expressionBinding())},
+		{name: "concrete target needs a rota", target: rotaTarget("01SCHEDULE", "", nil), wantErr: "Missing selected_rota_id"},
+		{name: "concrete target with a rota", target: rotaTarget("01SCHEDULE", "01ROTA", nil)},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			var diags diag.Diagnostics
+			validateEscalationPathTemplateTarget(tc.target, &diags)
+			if tc.wantErr == "" {
+				if diags.HasError() {
+					t.Fatalf("unexpected errors: %+v", diags)
+				}
+				return
+			}
+			if !diags.HasError() || diags.Errors()[0].Summary() != tc.wantErr {
+				t.Fatalf("want %q, got %+v", tc.wantErr, diags)
+			}
+		})
+	}
+}
