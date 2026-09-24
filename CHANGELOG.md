@@ -1,4 +1,4 @@
-## Unreleased
+## v7.3.0
 
 - Add the `incident_announcement_rule` resource, which manages an announcement rule: which incidents are announced, and the Slack or Microsoft Teams channels they're posted into. An API key can only manage a rule whose `private_incident_scope` is `none`. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/announcement_rule). (#619)
 - Add the `incident_announcement_template` resource, which manages the fields and actions an announcement post shows, with rich text written as markdown and incident variables as `{{name}}`. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/announcement_template). (#619)
