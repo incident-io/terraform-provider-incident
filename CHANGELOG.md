@@ -1,6 +1,6 @@
 ## Unreleased
 
-- Fix `incident_escalation_path` and `incident_escalation_path_template` rejecting a `loop` followed by an `escalation_path` node, which the API accepts: once the loop runs out, the escalation hands over to the other path. (#TBD)
+- Fix `incident_escalation_path` and `incident_escalation_path_template` rejecting a `loop` followed by an `escalation_path` node, which the API accepts: once the loop runs out, the escalation hands over to the other path. (#623)
 
 ## v7.3.0
 
