@@ -1,3 +1,7 @@
+## Unreleased
+
+- Fix `incident_escalation_path` and `incident_escalation_path_template` rejecting a `loop` followed by an `escalation_path` node, which the API accepts: once the loop runs out, the escalation hands over to the other path. (#623)
+
 ## v7.3.0
 
 - Add the `incident_announcement_rule` resource, which manages an announcement rule: which incidents are announced, and the Slack or Microsoft Teams channels they're posted into. An API key can only manage a rule whose `private_incident_scope` is `none`. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/announcement_rule). (#619)
