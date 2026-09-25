@@ -46,6 +46,16 @@ func loopNode(backTo string, times int64) escalationPathNode {
 	}
 }
 
+// reassignmentNode hands the escalation over to another escalation path.
+func reassignmentNode(pathID string) escalationPathNode {
+	return escalationPathNode{
+		ID: types.StringNull(),
+		EscalationPath: &IncidentEscalationPathNodeEscalationPath{
+			EscalationPathID: types.StringValue(pathID),
+		},
+	}
+}
+
 // twoBlockNode is a node claiming to be both a level and a loop.
 func twoBlockNode(t *testing.T) escalationPathNode {
 	node := levelNode(t, "page-eng")
@@ -89,12 +99,13 @@ func TestValidateSequences(t *testing.T) {
 			},
 		},
 		{
-			name:  "a sequence continues after a loop",
+			// Once the loop runs out, the escalation carries on to the next node. The API
+			// decides what may follow, so this only checks we don't reject it first.
+			name:  "a loop followed by a reassignment",
 			start: "main",
 			sequences: map[string][]escalationPathNode{
-				"main": {levelNode(t, "page-eng"), loopNode("page-eng", 3), levelNode(t, "")},
+				"main": {levelNode(t, "page-eng"), loopNode("page-eng", 3), reassignmentNode("01OTHER")},
 			},
-			wantError: "continues after a loop node",
 		},
 		{
 			// then is required, so an empty one is a name the author wrote, not a side

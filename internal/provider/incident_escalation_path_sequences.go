@@ -685,16 +685,6 @@ func validateSequenceNodes(sequences map[string][]escalationPathNode, diags *dia
 					fmt.Sprintf("Sequence %q continues after a branch node. A branch must be the last node in its sequence; move what follows into the sequences it names.", key),
 				)
 			}
-
-			// Same for a loop, which goes back to an earlier node rather than on to the
-			// next one. The API rejects one that isn't last.
-			if node.Loop != nil && index != len(nodes)-1 {
-				diags.AddAttributeError(
-					nodePath,
-					"Nodes after a loop",
-					fmt.Sprintf("Sequence %q continues after a loop node. A loop must be the last node in its sequence; nothing after it would ever run.", key),
-				)
-			}
 		}
 	}
 
