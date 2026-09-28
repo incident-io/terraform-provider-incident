@@ -5,7 +5,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
-	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/incident-io/terraform-provider-incident/v7/internal/client"
 )
@@ -18,21 +17,12 @@ import (
 func TestEscalationPathReassignmentRoundTrip(t *testing.T) {
 	ctx := context.Background()
 
-	reassignment := func(targetPathID string) escalationPathNode {
-		return escalationPathNode{
-			ID: types.StringNull(),
-			EscalationPath: &IncidentEscalationPathNodeEscalationPath{
-				EscalationPathID: types.StringValue(targetPathID),
-			},
-		}
-	}
-
 	// A branch puts the reassignment in a sequence the branch names, which is how a
 	// nested reassignment reaches the API.
 	sequences := map[string][]escalationPathNode{
 		"main":   {branchNode("urgent", "quiet")},
-		"urgent": {reassignment("01URGENT")},
-		"quiet":  {levelNode(t, ""), reassignment("01QUIET")},
+		"urgent": {reassignmentNode("01URGENT")},
+		"quiet":  {levelNode(t, ""), reassignmentNode("01QUIET")},
 	}
 
 	var diags diag.Diagnostics
@@ -83,5 +73,60 @@ func TestEscalationPathReassignmentRoundTrip(t *testing.T) {
 		if id := node.EscalationPath.EscalationPathID.ValueString(); id != want {
 			t.Errorf("sequence %q: got escalation_path_id %q, want %s", key, id, want)
 		}
+	}
+}
+
+// TestEscalationPathLoopThenReassignmentRoundTrip covers a loop followed by a
+// reassignment: the reassignment runs once the loop has run out of repeats, so it must
+// reach the API after the repeat and read back into the same sequence.
+func TestEscalationPathLoopThenReassignmentRoundTrip(t *testing.T) {
+	ctx := context.Background()
+
+	sequences := map[string][]escalationPathNode{
+		"main": {levelNode(t, "page-eng"), loopNode("page-eng", 3), reassignmentNode("01FALLBACK")},
+	}
+
+	var diags diag.Diagnostics
+	payload := unflattenSequences(ctx, "main", sequences, &diags)
+	if diags.HasError() {
+		t.Fatalf("unflattenSequences produced errors: %+v", diags)
+	}
+
+	wantTypes := []client.EscalationPathNodePayloadV2Type{
+		client.EscalationPathNodePayloadV2TypeLevel,
+		client.EscalationPathNodePayloadV2TypeRepeat,
+		client.EscalationPathNodePayloadV2TypeEscalationPath,
+	}
+	if len(payload) != len(wantTypes) {
+		t.Fatalf("got %d payload nodes, want %d", len(payload), len(wantTypes))
+	}
+	for i, want := range wantTypes {
+		if got := payload[i].Type; got != want {
+			t.Errorf("payload node %d: got type %q, want %q", i, got, want)
+		}
+	}
+	if payload[2].EscalationPath == nil || payload[2].EscalationPath.EscalationPathId != "01FALLBACK" {
+		t.Fatalf("reassignment lost its escalation_path_id: %+v", payload[2].EscalationPath)
+	}
+
+	var readDiags diag.Diagnostics
+	_, got := flattenSequences(ctx, apiNodes(payload), priorNames("main", sequences), &readDiags)
+	if readDiags.HasError() {
+		t.Fatalf("flattenSequences produced errors: %+v", readDiags)
+	}
+	nodes := got["main"]
+	if len(nodes) != 3 {
+		t.Fatalf("got %d nodes in main, want 3", len(nodes))
+	}
+	if nodes[1].Loop == nil {
+		t.Error("main's second node lost its loop block")
+	} else if backTo := nodes[1].Loop.BackTo.ValueString(); backTo != "page-eng" {
+		t.Errorf("got loop back_to %q, want page-eng", backTo)
+	}
+	if nodes[2].EscalationPath == nil {
+		t.Fatal("main's last node lost its escalation_path block")
+	}
+	if id := nodes[2].EscalationPath.EscalationPathID.ValueString(); id != "01FALLBACK" {
+		t.Errorf("got escalation_path_id %q, want 01FALLBACK", id)
 	}
 }
