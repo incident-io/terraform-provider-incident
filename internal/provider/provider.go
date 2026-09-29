@@ -225,6 +225,7 @@ func (p *IncidentProvider) DataSources(ctx context.Context) []func() datasource.
 		NewIncidentSecretDataSource,
 		NewIncidentSeverityDataSource,
 		NewIncidentStatusDataSource,
+		NewIncidentStatusPageDataSource,
 		NewIncidentUserDataSource,
 		NewIncidentWorkflowDataSource,
 
