@@ -686,19 +686,33 @@ func validateSequenceNodes(sequences map[string][]escalationPathNode, diags *dia
 				)
 			}
 
-			// Same for a loop, which goes back to an earlier node rather than on to the
-			// next one. The API rejects one that isn't last.
-			if node.Loop != nil && index != len(nodes)-1 {
+			// A loop goes back to an earlier node rather than on to the next one. The only
+			// thing that runs after it is a single reassignment, once it has run out of
+			// repeats; the API rejects anything else.
+			if node.Loop != nil && !loopEndsSequence(nodes[index+1:]) {
 				diags.AddAttributeError(
 					nodePath,
 					"Nodes after a loop",
-					fmt.Sprintf("Sequence %q continues after a loop node. A loop must be the last node in its sequence; nothing after it would ever run.", key),
+					fmt.Sprintf("Sequence %q continues after a loop node. A loop must be the last node in its sequence, or be followed by a single escalation_path node.", key),
 				)
 			}
 		}
 	}
 
 	return nodeIDs
+}
+
+// loopEndsSequence reports whether the nodes after a loop are ones the API allows: none,
+// or a single escalation_path node to reassign to once the loop has run out of repeats.
+func loopEndsSequence(rest []escalationPathNode) bool {
+	switch len(rest) {
+	case 0:
+		return true
+	case 1:
+		return rest[0].EscalationPath != nil
+	default:
+		return false
+	}
 }
 
 // validateSequenceReferences checks that every branch names a sequence that exists and

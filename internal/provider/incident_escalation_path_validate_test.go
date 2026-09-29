@@ -46,6 +46,15 @@ func loopNode(backTo string, times int64) escalationPathNode {
 	}
 }
 
+func reassignmentNode(targetPathID string) escalationPathNode {
+	return escalationPathNode{
+		ID: types.StringNull(),
+		EscalationPath: &IncidentEscalationPathNodeEscalationPath{
+			EscalationPathID: types.StringValue(targetPathID),
+		},
+	}
+}
+
 // twoBlockNode is a node claiming to be both a level and a loop.
 func twoBlockNode(t *testing.T) escalationPathNode {
 	node := levelNode(t, "page-eng")
@@ -93,6 +102,38 @@ func TestValidateSequences(t *testing.T) {
 			start: "main",
 			sequences: map[string][]escalationPathNode{
 				"main": {levelNode(t, "page-eng"), loopNode("page-eng", 3), levelNode(t, "")},
+			},
+			wantError: "continues after a loop node",
+		},
+		{
+			name:  "a loop followed by a reassignment",
+			start: "main",
+			sequences: map[string][]escalationPathNode{
+				"main": {levelNode(t, "page-eng"), loopNode("page-eng", 3), reassignmentNode("01FALLBACK")},
+			},
+		},
+		{
+			name:  "a loop followed by a reassignment in a branched sequence",
+			start: "main",
+			sequences: map[string][]escalationPathNode{
+				"main":   {levelNode(t, "page-eng"), branchNode("urgent", "quiet")},
+				"urgent": {levelNode(t, ""), loopNode("page-eng", 3), reassignmentNode("01FALLBACK")},
+				"quiet":  {levelNode(t, "")},
+			},
+		},
+		{
+			name:  "a sequence continues after a loop's reassignment",
+			start: "main",
+			sequences: map[string][]escalationPathNode{
+				"main": {levelNode(t, "page-eng"), loopNode("page-eng", 3), reassignmentNode("01FALLBACK"), levelNode(t, "")},
+			},
+			wantError: "continues after a loop node",
+		},
+		{
+			name:  "a loop followed by two reassignments",
+			start: "main",
+			sequences: map[string][]escalationPathNode{
+				"main": {levelNode(t, "page-eng"), loopNode("page-eng", 3), reassignmentNode("01FALLBACK"), reassignmentNode("01OTHER")},
 			},
 			wantError: "continues after a loop node",
 		},

@@ -273,7 +273,7 @@ func escalationPathNodeDataSourceSchema() schema.NestedAttributeObject {
 			},
 			"loop": schema.SingleNestedAttribute{
 				Computed:            true,
-				MarkdownDescription: "Go back to an earlier node and run from there again.",
+				MarkdownDescription: "Go back to an earlier node and run from there again. A loop must be the last node in its sequence, or be followed by a single `escalation_path` node to reassign to once it has run out of repeats.",
 				Attributes: map[string]schema.Attribute{
 					"back_to": schema.StringAttribute{
 						Computed:            true,

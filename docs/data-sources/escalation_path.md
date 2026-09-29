@@ -102,7 +102,7 @@ Read-Only:
 - `escalation_path` (Attributes) Reassign the escalation to another escalation path, continuing from that path's first node. (see [below for nested schema](#nestedatt--sequences--nodes--escalation_path))
 - `id` (String) An id for this node, unique within the escalation path, so a `loop` can name it.
 - `level` (Attributes) (see [below for nested schema](#nestedatt--sequences--nodes--level))
-- `loop` (Attributes) Go back to an earlier node and run from there again. (see [below for nested schema](#nestedatt--sequences--nodes--loop))
+- `loop` (Attributes) Go back to an earlier node and run from there again. A loop must be the last node in its sequence, or be followed by a single `escalation_path` node to reassign to once it has run out of repeats. (see [below for nested schema](#nestedatt--sequences--nodes--loop))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--sequences--nodes--notify_channel))
 
 <a id="nestedatt--sequences--nodes--branch"></a>
