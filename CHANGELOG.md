@@ -1,3 +1,7 @@
+## Unreleased
+
+- Add the `incident_status_page` data source, which looks up a status page by `id` or `name` and reports its `description` and `public_url`. Status pages are created in the dashboard, so this is how configuration references one. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/data-sources/status_page). (#626)
+
 ## v7.3.0
 
 - Add the `incident_announcement_rule` resource, which manages an announcement rule: which incidents are announced, and the Slack or Microsoft Teams channels they're posted into. An API key can only manage a rule whose `private_incident_scope` is `none`. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/announcement_rule). (#619)
