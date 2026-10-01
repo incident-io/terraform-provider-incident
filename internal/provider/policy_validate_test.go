@@ -199,7 +199,7 @@ func TestPolicyBlocksCoverEveryPolicyType(t *testing.T) {
 // quietly take the enforcement with it.
 func TestPolicyConfigValidators(t *testing.T) {
 	validators := (&incidentPolicyResource{}).ConfigValidators(context.Background())
-	if want := 1 + len(policyTypesWithForcedAssignee); len(validators) != want {
+	if want := 2 + len(policyTypesWithForcedAssignee); len(validators) != want {
 		t.Fatalf("want %d config validators, got %d", want, len(validators))
 	}
 
@@ -214,12 +214,17 @@ func TestPolicyConfigValidators(t *testing.T) {
 		}
 	}
 
-	// Every type that picks its own assignee needs a Conflicting rule of its own.
+	// Every type that picks its own assignee needs a Conflicting rule of its own, against
+	// the bindings only: its reminders are still configurable.
 	for idx, block := range policyTypesWithForcedAssignee {
 		description := descriptions[idx+1]
-		if !strings.Contains(description, "assignment_rules") || !strings.Contains(description, block) {
-			t.Errorf("Conflicting does not cover %q with assignment_rules: %s", block, description)
+		if !strings.Contains(description, "assignment_rules.bindings") || !strings.Contains(description, block) {
+			t.Errorf("Conflicting does not cover %q with assignment_rules.bindings: %s", block, description)
 		}
+	}
+
+	if _, ok := validators[len(validators)-1].(policyBindingsRequiredValidator); !ok {
+		t.Error("the last validator does not require bindings for the other types")
 	}
 }
 
@@ -263,6 +268,7 @@ func TestPolicyReadDropsForcedAssignee(t *testing.T) {
 		Bindings: []client.EngineParamBindingV2{
 			{ArrayValue: &[]client.EngineParamBindingValueV2{{Reference: lo.ToPtr("on_call_user")}}},
 		},
+		ReminderDueDateOffsetHours: []int64{},
 	}
 
 	for _, policyType := range policyTypesWithForcedAssignee {
@@ -333,5 +339,70 @@ func TestPolicyDueDateConfigRequired(t *testing.T) {
 				t.Error("due_date_config should not exist on a type without a due date")
 			}
 		})
+	}
+}
+
+// TestPolicyReadKeepsForcedAssigneeReminders covers the reminders on a type that picks its
+// own assignee: they are the caller's to set, so a read keeps them and drops only the
+// assignee, on an import as much as on a refresh.
+func TestPolicyReadKeepsForcedAssigneeReminders(t *testing.T) {
+	rules := &client.PolicyAssignmentRulesV2{
+		Bindings: []client.EngineParamBindingV2{
+			{ArrayValue: &[]client.EngineParamBindingValueV2{{Reference: lo.ToPtr("on_call_user")}}},
+		},
+		ReminderDueDateOffsetHours: []int64{24},
+		ReminderCadenceAfter:       &client.PolicyReminderCadenceV2{Interval: "daily"},
+	}
+
+	configured := &incidentPolicyAssignmentRules{
+		ReminderDueDateOffsetHours: []types.Int64{types.Int64Value(24)},
+		ReminderCadenceAfter:       &incidentPolicyReminderCadence{Interval: types.StringValue("daily")},
+	}
+
+	for _, policyType := range policyTypesWithForcedAssignee {
+		policy := client.PolicyV2{
+			Id:              "01POLICY",
+			Name:            "Picks its own assignee",
+			Status:          client.PolicyV2StatusEnabled,
+			PolicyType:      client.PolicyV2PolicyType(policyType),
+			AssignmentRules: rules,
+		}
+
+		for name, prior := range map[string]*incidentPolicyResourceModel{
+			"import":  importPrior(),
+			"refresh": {PolicyType: types.StringValue(policyType), AssignmentRules: configured},
+		} {
+			t.Run(policyType+"/"+name, func(t *testing.T) {
+				model := policyFromAPI(policy, prior)
+				if model.AssignmentRules == nil {
+					t.Fatal("dropped the reminders along with the assignee")
+				}
+				if model.AssignmentRules.Bindings != nil {
+					t.Error("kept the assignee the API picked for itself")
+				}
+				if len(model.AssignmentRules.ReminderDueDateOffsetHours) != 1 ||
+					model.AssignmentRules.ReminderCadenceAfter == nil {
+					t.Errorf("lost reminders: %+v", model.AssignmentRules)
+				}
+			})
+		}
+	}
+
+	// A config that writes the block with no reminders in it reads back the same block,
+	// rather than the null an import with nothing to keep would get.
+	empty := &incidentPolicyAssignmentRules{ReminderDueDateOffsetHours: []types.Int64{}}
+	policy := client.PolicyV2{
+		Id:         "01POLICY",
+		Name:       "Picks its own assignee",
+		Status:     client.PolicyV2StatusEnabled,
+		PolicyType: client.PolicyV2PolicyTypeOnCallReadiness,
+		AssignmentRules: &client.PolicyAssignmentRulesV2{
+			Bindings:                   rules.Bindings,
+			ReminderDueDateOffsetHours: []int64{},
+		},
+	}
+	prior := &incidentPolicyResourceModel{PolicyType: types.StringUnknown(), AssignmentRules: empty}
+	if model := policyFromAPI(policy, prior); model.AssignmentRules == nil {
+		t.Error("dropped an empty assignment_rules block the config wrote")
 	}
 }

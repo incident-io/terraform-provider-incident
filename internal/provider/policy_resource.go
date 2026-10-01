@@ -143,8 +143,9 @@ var policyBlocks = []string{
 }
 
 // policyTypesWithForcedAssignee are the types that assign the user the finding is about. The API
-// picks their assignee itself and replaces whatever a request sends, so a config cannot set
-// one and a read must drop what comes back.
+// picks their assignee itself and replaces whatever bindings a request sends, so a config
+// cannot set them and a read must drop what comes back. Their reminders are still the
+// caller's to configure.
 var policyTypesWithForcedAssignee = []string{"on_call_readiness", "vacation_conflict"}
 
 func (r *incidentPolicyResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -205,12 +206,13 @@ so carries no block.
 			"expressions":      expressions,
 
 			"assignment_rules": schema.SingleNestedAttribute{
-				MarkdownDescription: "Who to assign a finding to, and when to remind them. Omit it for a policy type that assigns the user the finding is about.",
+				MarkdownDescription: "Who to assign a finding to, and when to remind them. On a policy type that assigns the user the finding is about (`on_call_readiness` and `vacation_conflict`), set only the reminders and leave out `bindings`.",
 				Optional:            true,
 				Attributes: map[string]schema.Attribute{
 					"bindings": schema.ListNestedAttribute{
-						MarkdownDescription: apischema.Docstring("PolicyAssignmentRulesV2", "bindings"),
-						Required:            true,
+						MarkdownDescription: apischema.Docstring("PolicyAssignmentRulesV2", "bindings") +
+							". Required, except on a policy type that assigns the user the finding is about, where it cannot be set.",
+						Optional: true,
 						NestedObject: schema.NestedAttributeObject{
 							Attributes: models.ParamBindingAttributes(),
 						},
@@ -254,7 +256,7 @@ so carries no block.
 			},
 
 			"on_call_readiness": schema.SingleNestedAttribute{
-				MarkdownDescription: "Makes this an on-call readiness policy, which checks that users have suitable notification methods. The assignee is always the user the finding is about, so `assignment_rules` cannot be set alongside it.",
+				MarkdownDescription: "Makes this an on-call readiness policy, which checks that users have suitable notification methods. The assignee is always the user the finding is about, so `assignment_rules` takes reminders but no `bindings`. A finding is due as soon as it is found, so only non-negative `reminder_due_date_offset_hours` and `reminder_cadence_after` apply.",
 				Optional:            true,
 				PlanModifiers:       []planmodifier.Object{policyBlockRequiresReplace()},
 				Attributes: map[string]schema.Attribute{
@@ -271,7 +273,7 @@ so carries no block.
 			// Empty because the type has nothing to configure. Set it to `{}` to make a
 			// vacation-conflict policy, which keeps "exactly one block" true for every type.
 			"vacation_conflict": schema.SingleNestedAttribute{
-				MarkdownDescription: "Makes this a vacation-conflict policy, which flags responders rota'd on while they are away. It takes no configuration, so set it to an empty object. The assignee is always the user the finding is about, so `assignment_rules` cannot be set alongside it.",
+				MarkdownDescription: "Makes this a vacation-conflict policy, which flags responders rota'd on while they are away. It takes no configuration, so set it to an empty object. The assignee is always the user the finding is about, so `assignment_rules` takes reminders but no `bindings`.",
 				Optional:            true,
 				PlanModifiers:       []planmodifier.Object{policyBlockRequiresReplace()},
 				Attributes:          map[string]schema.Attribute{},
@@ -281,7 +283,7 @@ so carries no block.
 }
 
 // ConfigValidators enforces that a policy sets exactly one config block, which is what
-// determines its type, and that a type picking its own assignee carries none.
+// determines its type, and that assignee bindings are set exactly when the type takes them.
 func (r *incidentPolicyResource) ConfigValidators(_ context.Context) []resource.ConfigValidator {
 	blocks := lo.Map(policyBlocks, func(block string, _ int) path.Expression {
 		return path.MatchRoot(block)
@@ -294,11 +296,54 @@ func (r *incidentPolicyResource) ConfigValidators(_ context.Context) []resource.
 	for _, block := range policyTypesWithForcedAssignee {
 		validators = append(validators, resourcevalidator.Conflicting(
 			path.MatchRoot(block),
-			path.MatchRoot("assignment_rules"),
+			path.MatchRoot("assignment_rules").AtName("bindings"),
 		))
 	}
 
-	return validators
+	return append(validators, policyBindingsRequiredValidator{})
+}
+
+// policyBindingsRequiredValidator requires assignee bindings whenever assignment_rules is
+// set on a type that doesn't pick its own assignee. The schema can't say this: bindings is
+// optional because those other types must leave it out.
+type policyBindingsRequiredValidator struct{}
+
+func (policyBindingsRequiredValidator) Description(context.Context) string {
+	return "assignment_rules.bindings is required unless the policy type assigns the user the finding is about"
+}
+
+func (v policyBindingsRequiredValidator) MarkdownDescription(ctx context.Context) string {
+	return v.Description(ctx)
+}
+
+func (v policyBindingsRequiredValidator) ValidateResource(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
+	var rules types.Object
+	resp.Diagnostics.Append(req.Config.GetAttribute(ctx, path.Root("assignment_rules"), &rules)...)
+	if resp.Diagnostics.HasError() || rules.IsNull() || rules.IsUnknown() {
+		return
+	}
+
+	bindingsPath := path.Root("assignment_rules").AtName("bindings")
+	var bindings types.List
+	resp.Diagnostics.Append(req.Config.GetAttribute(ctx, bindingsPath, &bindings)...)
+	if resp.Diagnostics.HasError() || !bindings.IsNull() {
+		return
+	}
+
+	// An unknown block can't be ruled out as one of the forced types, so leave it to the
+	// next validation, by which point it is known.
+	for _, block := range policyTypesWithForcedAssignee {
+		var config types.Object
+		resp.Diagnostics.Append(req.Config.GetAttribute(ctx, path.Root(block), &config)...)
+		if resp.Diagnostics.HasError() || !config.IsNull() {
+			return
+		}
+	}
+
+	resp.Diagnostics.AddAttributeError(bindingsPath, "Missing assignee bindings",
+		"assignment_rules.bindings is required for this policy type. Only on_call_readiness "+
+			"and vacation_conflict policies leave it out, because they always assign the user "+
+			"the finding is about.")
 }
 
 // policyBlockRequiresReplace replaces the policy when a block is added or removed, which
@@ -603,10 +648,15 @@ func policyFromAPI(policy client.PolicyV2, prior *incidentPolicyResourceModel) *
 		model.VacationConflict = &incidentPolicyVacationConflict{}
 	}
 
-	// Drop the assignee the API picked for itself. This keys off the type so that it holds
-	// on import too, where there is no prior to compare against.
-	if lo.Contains(policyTypesWithForcedAssignee, string(policy.PolicyType)) {
-		model.AssignmentRules = nil
+	// Drop the assignee the API picked for itself, keeping the reminders. This keys off the
+	// type so that it holds on import too, where there is no prior to compare against. The
+	// API always answers with rules for these types, so an import with no reminders drops
+	// the block as well: there is nothing in it a config would have written.
+	if lo.Contains(policyTypesWithForcedAssignee, string(policy.PolicyType)) && model.AssignmentRules != nil {
+		model.AssignmentRules.Bindings = nil
+		if (prior == nil || prior.isImport()) && !model.AssignmentRules.hasReminders() {
+			model.AssignmentRules = nil
+		}
 	}
 
 	// An import has no configuration to reconcile against, so the API's answer stands as
@@ -633,17 +683,16 @@ func (model *incidentPolicyResourceModel) reconcileWith(prior *incidentPolicyRes
 	model.Expressions.ReconcileSpelling(prior.Expressions)
 
 	switch {
-	// A safety net for any other rules the API adds of its own accord: keeping them would
-	// put rules in state the config never asked for and fail the apply as an inconsistent
-	// result. The forced assignees above are dropped before this, so that they go on an
-	// import too.
+	// The API answers with rules the config never asked for when it fills in an assignee
+	// itself, and keeping them would fail the apply as an inconsistent result. The forced
+	// assignees above are dropped before this, so that they go on an import too.
 	case prior.AssignmentRules == nil:
 		model.AssignmentRules = nil
 
 	// Assignee bindings go through the scalar variant: the API binds them against an
 	// array param, so it stores a scalar as a one-element array and answers with the
 	// array. The due-date days binding below is scalar on both sides, so it doesn't.
-	case model.AssignmentRules != nil:
+	case model.AssignmentRules != nil && model.AssignmentRules.Bindings != nil:
 		model.AssignmentRules.Bindings = model.AssignmentRules.Bindings.
 			ReconcileScalarSpelling(prior.AssignmentRules.Bindings)
 	}
@@ -679,6 +728,14 @@ func assignmentRulesFromAPI(rules client.PolicyAssignmentRulesV2) *incidentPolic
 	out.ReminderCadenceAfter = reminderCadenceFromAPI(rules.ReminderCadenceAfter)
 
 	return out
+}
+
+// hasReminders reports whether the rules remind anyone of anything.
+func (rules *incidentPolicyAssignmentRules) hasReminders() bool {
+	return len(rules.ReminderDueDateOffsetHours) > 0 ||
+		len(rules.ReminderDetectedDateOffsetHours) > 0 ||
+		rules.ReminderCadenceBefore != nil ||
+		rules.ReminderCadenceAfter != nil
 }
 
 func reminderCadenceFromAPI(cadence *client.PolicyReminderCadenceV2) *incidentPolicyReminderCadence {
@@ -764,6 +821,9 @@ func (rules *incidentPolicyAssignmentRules) toPayload() *client.PolicyAssignment
 		return nil
 	}
 
+	// The API requires bindings, even on a type that fills in its own assignee and replaces
+	// whatever is sent. ToPayload answers an unset list with an empty one, which satisfies
+	// it where null would not.
 	out := &client.PolicyAssignmentRulesPayloadV2{
 		Bindings: rules.Bindings.ToPayload(),
 		ReminderDueDateOffsetHours: lo.Map(rules.ReminderDueDateOffsetHours,
