@@ -90,13 +90,14 @@ func TestAccIncidentPolicyPostMortem(t *testing.T) {
 // TestAccIncidentPolicyOnCallReadiness covers the type whose assignee the API fills in
 // itself. A read that kept those rules would return assignment_rules the config never asked
 // for and fail the apply as an inconsistent result, which the empty plan is what catches.
+// Its reminders are still the config's to set, so it adds them and takes them away again.
 func TestAccIncidentPolicyOnCallReadiness(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccPolicyOnCallReadinessConfig(300),
+				Config: testAccPolicyOnCallReadinessConfig(300, false),
 				ConfigPlanChecks: resource.ConfigPlanChecks{
 					PostApplyPostRefresh: []plancheck.PlanCheck{plancheck.ExpectEmptyPlan()},
 				},
@@ -115,11 +116,31 @@ func TestAccIncidentPolicyOnCallReadiness(t *testing.T) {
 				ImportStateVerify: true,
 			},
 			{
-				Config: testAccPolicyOnCallReadinessConfig(600),
+				Config: testAccPolicyOnCallReadinessConfig(600, true),
+				ConfigPlanChecks: resource.ConfigPlanChecks{
+					PostApplyPostRefresh: []plancheck.PlanCheck{plancheck.ExpectEmptyPlan()},
+				},
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr("incident_policy.readiness",
 						"on_call_readiness.high_urgency.0.max_delay_seconds", "600"),
+					resource.TestCheckResourceAttr("incident_policy.readiness",
+						"assignment_rules.reminder_due_date_offset_hours.#", "1"),
+					resource.TestCheckResourceAttr("incident_policy.readiness",
+						"assignment_rules.reminder_cadence_after.interval", "daily"),
+					resource.TestCheckNoResourceAttr("incident_policy.readiness", "assignment_rules.bindings.#"),
 				),
+			},
+			{
+				ResourceName:      "incident_policy.readiness",
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+			{
+				Config: testAccPolicyOnCallReadinessConfig(600, false),
+				ConfigPlanChecks: resource.ConfigPlanChecks{
+					PostApplyPostRefresh: []plancheck.PlanCheck{plancheck.ExpectEmptyPlan()},
+				},
+				Check: resource.TestCheckNoResourceAttr("incident_policy.readiness", "assignment_rules.%"),
 			},
 		},
 	})
@@ -134,7 +155,7 @@ func TestAccIncidentPolicyTypeChangeReplaces(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccPolicyOnCallReadinessConfig(300),
+				Config: testAccPolicyOnCallReadinessConfig(300, false),
 				Check: resource.TestCheckResourceAttr(
 					"incident_policy.readiness", "policy_type", "on_call_readiness"),
 			},
@@ -215,7 +236,7 @@ resource "incident_policy" "post_mortems" {
 	})
 }
 
-func testAccPolicyOnCallReadinessConfig(maxDelaySeconds int) string {
+func testAccPolicyOnCallReadinessConfig(maxDelaySeconds int, reminders bool) string {
 	return testRunTemplate("incident_policy_on_call_readiness", `
 resource "incident_policy" "readiness" {
   name        = {{ quote .Name }}
@@ -226,8 +247,15 @@ resource "incident_policy" "readiness" {
   # Empty rather than absent: an empty list means the policy applies to everyone.
   condition_groups = []
 
-  # No assignment_rules: this type always assigns the user the finding is about, and
-  # the API fills the binding in itself. The Conflicting validator rejects one here.
+  {{ if .Reminders }}
+  # Reminders but no bindings: this type always assigns the user the finding is about,
+  # and the API fills the binding in itself.
+  assignment_rules = {
+    reminder_due_date_offset_hours = [24]
+    reminder_cadence_after         = { interval = "daily" }
+  }
+  {{ end }}
+
   on_call_readiness = {
     high_urgency = [
       {
@@ -240,9 +268,11 @@ resource "incident_policy" "readiness" {
 `, struct {
 		Name            string
 		MaxDelaySeconds int
+		Reminders       bool
 	}{
 		Name:            StableSuffix("Responders can be reached"),
 		MaxDelaySeconds: maxDelaySeconds,
+		Reminders:       reminders,
 	})
 }
 

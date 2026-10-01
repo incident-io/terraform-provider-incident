@@ -267,14 +267,21 @@ resource "incident_policy" "schedule_coverage" {
 # An on-call readiness policy, which checks that responders have a notification
 # method that reaches them quickly enough.
 #
-# It takes no assignment_rules: this type always assigns the user the finding is
-# about, and the API picks that assignee itself.
+# Its assignment_rules take reminders but no bindings: this type always assigns
+# the user the finding is about, and the API picks that assignee itself.
 resource "incident_policy" "responders_can_be_reached" {
   name        = "Responders carry a phone"
   description = "Anyone on call needs a notification method that reaches them quickly."
 
   # Empty, so the policy applies to everyone.
   condition_groups = []
+
+  assignment_rules = {
+    # A finding is due as soon as it's found, so reminders count from then: one
+    # a day later, then daily until it's fixed.
+    reminder_due_date_offset_hours = [24]
+    reminder_cadence_after         = { interval = "daily" }
+  }
 
   on_call_readiness = {
     high_urgency = [
@@ -300,8 +307,8 @@ resource "incident_policy" "responders_can_be_reached" {
 # away. The type has nothing to configure, so its block is empty: it is only
 # there to say which type this is.
 #
-# Like on-call readiness, it takes no assignment_rules: the API assigns the user
-# the finding is about.
+# Like on-call readiness, it needs no assignment_rules: the API assigns the user
+# the finding is about. Add the block without bindings to set reminders.
 resource "incident_policy" "vacation_conflicts" {
   name        = "No on-call during vacation"
   description = "Flag anyone scheduled on call while they are on leave."
@@ -323,16 +330,16 @@ resource "incident_policy" "vacation_conflicts" {
 
 ### Optional
 
-- `assignment_rules` (Attributes) Who to assign a finding to, and when to remind them. Omit it for a policy type that assigns the user the finding is about. (see [below for nested schema](#nestedatt--assignment_rules))
+- `assignment_rules` (Attributes) Who to assign a finding to, and when to remind them. On a policy type that assigns the user the finding is about (`on_call_readiness` and `vacation_conflict`), set only the reminders and leave out `bindings`. (see [below for nested schema](#nestedatt--assignment_rules))
 - `debrief` (Attributes) Makes this a debrief policy, stating what a debrief must satisfy and when it falls due. (see [below for nested schema](#nestedatt--debrief))
 - `expressions` (Attributes Set) The expressions to be prepared for use by steps and conditions (see [below for nested schema](#nestedatt--expressions))
 - `follow_up` (Attributes) Makes this a follow_up policy, stating what a follow_up must satisfy and when it falls due. (see [below for nested schema](#nestedatt--follow_up))
-- `on_call_readiness` (Attributes) Makes this an on-call readiness policy, which checks that users have suitable notification methods. The assignee is always the user the finding is about, so `assignment_rules` cannot be set alongside it. (see [below for nested schema](#nestedatt--on_call_readiness))
+- `on_call_readiness` (Attributes) Makes this an on-call readiness policy, which checks that users have suitable notification methods. The assignee is always the user the finding is about, so `assignment_rules` takes reminders but no `bindings`. A finding is due as soon as it is found, so only non-negative `reminder_due_date_offset_hours` and `reminder_cadence_after` apply. (see [below for nested schema](#nestedatt--on_call_readiness))
 - `post_mortem` (Attributes) Makes this a post_mortem policy, stating what a post_mortem must satisfy and when it falls due. (see [below for nested schema](#nestedatt--post_mortem))
 - `schedule` (Attributes) Makes this a schedule policy, which detects gaps in on-call coverage. (see [below for nested schema](#nestedatt--schedule))
 - `status` (String) Disabled policies stop evaluating but keep their config. Possible values are: `enabled`, `disabled`.
 - `unlock_in_dashboard` (Boolean) Whether to leave this resource unlocked in the incident.io dashboard, so people can edit it there. Defaults to `false`: Terraform claims what it manages, and a claimed resource cannot be edited in the dashboard. Set it to `true` to leave the resource unclaimed — pair that with `lifecycle { ignore_changes = [...] }` naming the attributes people edit, or the next apply reverts them. Setting it on a resource Terraform already claimed hands that resource back, and someone disconnecting one in the dashboard shows as no change.
-- `vacation_conflict` (Attributes) Makes this a vacation-conflict policy, which flags responders rota'd on while they are away. It takes no configuration, so set it to an empty object. The assignee is always the user the finding is about, so `assignment_rules` cannot be set alongside it. (see [below for nested schema](#nestedatt--vacation_conflict))
+- `vacation_conflict` (Attributes) Makes this a vacation-conflict policy, which flags responders rota'd on while they are away. It takes no configuration, so set it to an empty object. The assignee is always the user the finding is about, so `assignment_rules` takes reminders but no `bindings`. (see [below for nested schema](#nestedatt--vacation_conflict))
 
 ### Read-Only
 
@@ -393,11 +400,11 @@ Optional:
 
 Required:
 
-- `bindings` (Attributes List) Bindings which define the user to be assigned. We will assign the first user which evaluates; the rest are fallback values (see [below for nested schema](#nestedatt--assignment_rules--bindings))
 - `reminder_due_date_offset_hours` (List of Number) List of hours relative to the due date to remind the assignee. Negative values are before the due date, positive after.
 
 Optional:
 
+- `bindings` (Attributes List) Bindings which define the user to be assigned. We will assign the first user which evaluates; the rest are fallback values. Required, except on a policy type that assigns the user the finding is about, where it cannot be set. (see [below for nested schema](#nestedatt--assignment_rules--bindings))
 - `reminder_cadence_after` (Attributes) A recurring reminder, which repeats once per interval until the finding is resolved. (see [below for nested schema](#nestedatt--assignment_rules--reminder_cadence_after))
 - `reminder_cadence_before` (Attributes) A recurring reminder, which repeats once per interval until the finding is resolved. (see [below for nested schema](#nestedatt--assignment_rules--reminder_cadence_before))
 - `reminder_detected_date_offset_hours` (List of Number) List of hours relative to when the finding was detected to remind the assignee. Non-negative only; 0 means immediately on detection. Only valid for policy types that support detection reminders (e.g. schedule).
