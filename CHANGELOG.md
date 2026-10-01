@@ -1,6 +1,6 @@
 ## Unreleased
 
-- Add `ai_enabled` to `incident_alert_route`'s `grouping_config.default` and `incident_team_grouping_preference`'s `default.settings`, which groups similar looking alerts with AI. It defaults to `false`, and needs the team alert attribute as the only grouping key; see the docs for [alert routes](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/alert_route) and [team grouping preferences](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/team_grouping_preference). (#631)
+- Add `ai_enabled` to `incident_alert_route`'s `grouping_config.default` and `incident_team_grouping_preference`'s `default.settings`, which groups similar looking alerts with AI. AI alert grouping is in beta, so contact support for access; it defaults to `false`, and needs the team alert attribute as the only grouping key; see the docs for [alert routes](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/alert_route) and [team grouping preferences](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/team_grouping_preference). (#631)
 
 ## v7.4.0
 
