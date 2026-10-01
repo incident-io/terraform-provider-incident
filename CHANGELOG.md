@@ -1,7 +1,3 @@
-## Unreleased
-
-- Add the `shift_conflict` block to `incident_policy`, which makes a shift-conflict policy that flags anyone on call in two or more places at once. Like `vacation_conflict` it takes no configuration, so set it to `{}`, and its reminders go in `assignment_rules` without `bindings`. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/policy). (#629)
-
 ## v7.4.0
 
 - Add reminders to `on_call_readiness` and `vacation_conflict` policies on `incident_policy`. Set them in `assignment_rules` and leave out `bindings`, since these types always assign the user the finding is about. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/policy). (#628)
