@@ -146,9 +146,9 @@ func TestAccIncidentPolicyOnCallReadiness(t *testing.T) {
 	})
 }
 
-// TestAccIncidentPolicyShiftConflict covers the other type with an empty block. The API
-// sends no block back for it, so the empty plan after apply and the import are what show a
-// read puts the block back from policy_type.
+// TestAccIncidentPolicyShiftConflict checks that a read puts the empty block back from
+// policy_type, since the API sends none: otherwise the plan after apply and the import
+// would both see a change.
 func TestAccIncidentPolicyShiftConflict(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -161,8 +161,6 @@ func TestAccIncidentPolicyShiftConflict(t *testing.T) {
 				},
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr("incident_policy.shift_conflict", "policy_type", "shift_conflict"),
-					// The API assigns the user the finding is about, and the resource drops the
-					// rules it invents so they never reach state.
 					resource.TestCheckNoResourceAttr("incident_policy.shift_conflict", "assignment_rules.bindings.#"),
 				),
 			},
@@ -340,8 +338,6 @@ resource "incident_policy" "shift_conflict" {
 
   condition_groups = []
 
-  # Empty because the type has nothing to configure: the block is only here to say
-  # which type this is.
   shift_conflict = {}
 }
 `, struct{ Name, Status string }{Name: StableSuffix("Nobody on call twice"), Status: status})

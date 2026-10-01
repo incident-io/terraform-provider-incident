@@ -134,7 +134,6 @@ func TestPolicyVacationConflictModelMatchesSchema(t *testing.T) {
 	}
 }
 
-// TestPolicyShiftConflictModelMatchesSchema covers the other marker block.
 func TestPolicyShiftConflictModelMatchesSchema(t *testing.T) {
 	schemaResp := policySchema(t)
 
@@ -154,8 +153,8 @@ func TestPolicyShiftConflictModelMatchesSchema(t *testing.T) {
 	}
 }
 
-// TestPolicyReadSetsMarkerBlocks covers the types the API sends no block for, whose block
-// a read has to put back from policy_type alone.
+// TestPolicyReadSetsMarkerBlocks covers the empty blocks, which a read has to put back from
+// policy_type because the API sends none.
 func TestPolicyReadSetsMarkerBlocks(t *testing.T) {
 	for _, tc := range []struct {
 		policyType client.PolicyV2PolicyType

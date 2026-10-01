@@ -285,7 +285,6 @@ configuration of their own, so their blocks are empty objects.
 				Attributes:          map[string]schema.Attribute{},
 			},
 
-			// Empty for the same reason as vacation_conflict.
 			"shift_conflict": schema.SingleNestedAttribute{
 				MarkdownDescription: "Makes this a shift-conflict policy, which flags users who are on call in two or more places at once. It takes no configuration, so set it to an empty object. The assignee is always the user the finding is about, so `assignment_rules` takes reminders but no `bindings`. A finding is due when the conflict starts, so reminders can come before it.",
 				Optional:            true,
