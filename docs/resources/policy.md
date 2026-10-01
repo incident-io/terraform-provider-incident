@@ -327,13 +327,19 @@ resource "incident_policy" "vacation_conflicts" {
 # The type has nothing to configure, so its block is empty: it is only there to
 # say which type this is.
 #
-# Like vacation conflicts, it takes no assignment_rules: the API assigns the
-# user the finding is about.
+# The API assigns the user the finding is about, so assignment_rules takes
+# reminders but no bindings. A finding is due when the conflict starts, so this
+# reminds them when it's found and again the day before it starts.
 resource "incident_policy" "shift_conflicts" {
   name        = "Nobody on call twice"
   description = "Flag anyone scheduled on call in two places at once."
 
   condition_groups = []
+
+  assignment_rules = {
+    reminder_due_date_offset_hours      = [-24]
+    reminder_detected_date_offset_hours = [0]
+  }
 
   shift_conflict = {}
 }
@@ -357,7 +363,7 @@ resource "incident_policy" "shift_conflicts" {
 - `on_call_readiness` (Attributes) Makes this an on-call readiness policy, which checks that users have suitable notification methods. The assignee is always the user the finding is about, so `assignment_rules` takes reminders but no `bindings`. A finding is due as soon as it is found, so only non-negative `reminder_due_date_offset_hours` and `reminder_cadence_after` apply. (see [below for nested schema](#nestedatt--on_call_readiness))
 - `post_mortem` (Attributes) Makes this a post_mortem policy, stating what a post_mortem must satisfy and when it falls due. (see [below for nested schema](#nestedatt--post_mortem))
 - `schedule` (Attributes) Makes this a schedule policy, which detects gaps in on-call coverage. (see [below for nested schema](#nestedatt--schedule))
-- `shift_conflict` (Attributes) Makes this a shift-conflict policy, which flags users who are on call in two or more places at once. It takes no configuration, so set it to an empty object. The assignee is always the user the finding is about, so `assignment_rules` cannot be set alongside it. (see [below for nested schema](#nestedatt--shift_conflict))
+- `shift_conflict` (Attributes) Makes this a shift-conflict policy, which flags users who are on call in two or more places at once. It takes no configuration, so set it to an empty object. The assignee is always the user the finding is about, so `assignment_rules` takes reminders but no `bindings`. A finding is due when the conflict starts, so reminders can come before it. (see [below for nested schema](#nestedatt--shift_conflict))
 - `status` (String) Disabled policies stop evaluating but keep their config. Possible values are: `enabled`, `disabled`.
 - `unlock_in_dashboard` (Boolean) Whether to leave this resource unlocked in the incident.io dashboard, so people can edit it there. Defaults to `false`: Terraform claims what it manages, and a claimed resource cannot be edited in the dashboard. Set it to `true` to leave the resource unclaimed — pair that with `lifecycle { ignore_changes = [...] }` naming the attributes people edit, or the next apply reverts them. Setting it on a resource Terraform already claimed hands that resource back, and someone disconnecting one in the dashboard shows as no change.
 - `vacation_conflict` (Attributes) Makes this a vacation-conflict policy, which flags responders rota'd on while they are away. It takes no configuration, so set it to an empty object. The assignee is always the user the finding is about, so `assignment_rules` takes reminders but no `bindings`. (see [below for nested schema](#nestedatt--vacation_conflict))
