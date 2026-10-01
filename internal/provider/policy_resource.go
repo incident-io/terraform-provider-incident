@@ -63,13 +63,16 @@ type incidentPolicyResourceModel struct {
 	Schedule        *incidentPolicySchedule        `tfsdk:"schedule"`
 	OnCallReadiness *incidentPolicyOnCallReadiness `tfsdk:"on_call_readiness"`
 
-	// VacationConflict carries no fields: the type has nothing to configure. It
-	// exists so that "exactly one block" holds for all six types, which is what lets
-	// the type be derived rather than written.
+	// VacationConflict and ShiftConflict carry no fields: neither type has anything
+	// to configure. They exist so that "exactly one block" holds for every type, which
+	// is what lets the type be derived rather than written.
 	VacationConflict *incidentPolicyVacationConflict `tfsdk:"vacation_conflict"`
+	ShiftConflict    *incidentPolicyShiftConflict    `tfsdk:"shift_conflict"`
 }
 
 type incidentPolicyVacationConflict struct{}
+
+type incidentPolicyShiftConflict struct{}
 
 // policyType returns the type the config's block implies. Exactly one is set, which
 // ExactlyOneOf enforces before this runs.
@@ -87,6 +90,8 @@ func (model *incidentPolicyResourceModel) policyType() string {
 		return "on_call_readiness"
 	case model.VacationConflict != nil:
 		return "vacation_conflict"
+	case model.ShiftConflict != nil:
+		return "shift_conflict"
 	}
 
 	return ""
@@ -140,13 +145,14 @@ type incidentPolicyReadinessRule struct {
 // policyBlocks are the config blocks, exactly one of which every policy sets.
 var policyBlocks = []string{
 	"follow_up", "debrief", "post_mortem", "schedule", "on_call_readiness", "vacation_conflict",
+	"shift_conflict",
 }
 
 // policyTypesWithForcedAssignee are the types that assign the user the finding is about. The API
 // picks their assignee itself and replaces whatever bindings a request sends, so a config
 // cannot set them and a read must drop what comes back. Their reminders are still the
 // caller's to configure.
-var policyTypesWithForcedAssignee = []string{"on_call_readiness", "vacation_conflict"}
+var policyTypesWithForcedAssignee = []string{"on_call_readiness", "vacation_conflict", "shift_conflict"}
 
 func (r *incidentPolicyResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_policy"
@@ -165,8 +171,8 @@ requirements those resources must meet, and describes who to chase when they fal
 
 ` + "`policy_type`" + ` selects exactly one matching config block: a ` + "`follow_up`" + ` policy
 carries ` + "`follow_up`" + ` config, a ` + "`schedule`" + ` policy carries ` + "`schedule`" + `
-config, and so on. A ` + "`vacation_conflict`" + ` policy has no configuration of its own and
-so carries no block.
+config, and so on. ` + "`vacation_conflict`" + ` and ` + "`shift_conflict`" + ` policies have no
+configuration of their own, so their blocks are empty objects.
 `,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -274,6 +280,14 @@ so carries no block.
 			// vacation-conflict policy, which keeps "exactly one block" true for every type.
 			"vacation_conflict": schema.SingleNestedAttribute{
 				MarkdownDescription: "Makes this a vacation-conflict policy, which flags responders rota'd on while they are away. It takes no configuration, so set it to an empty object. The assignee is always the user the finding is about, so `assignment_rules` takes reminders but no `bindings`.",
+				Optional:            true,
+				PlanModifiers:       []planmodifier.Object{policyBlockRequiresReplace()},
+				Attributes:          map[string]schema.Attribute{},
+			},
+
+			// Empty for the same reason as vacation_conflict.
+			"shift_conflict": schema.SingleNestedAttribute{
+				MarkdownDescription: "Makes this a shift-conflict policy, which flags users who are on call in two or more places at once. It takes no configuration, so set it to an empty object. The assignee is always the user the finding is about, so `assignment_rules` takes reminders but no `bindings`. A finding is due when the conflict starts, so reminders can come before it.",
 				Optional:            true,
 				PlanModifiers:       []planmodifier.Object{policyBlockRequiresReplace()},
 				Attributes:          map[string]schema.Attribute{},
@@ -641,11 +655,14 @@ func policyFromAPI(policy client.PolicyV2, prior *incidentPolicyResourceModel) *
 		model.OnCallReadiness = onCallReadinessFromAPI(*policy.OnCallReadiness)
 	}
 
-	// The API sends no block for this type, having nothing to put in one, so the marker
-	// has to come from policy_type. Without it a read leaves every block null and the
-	// next plan sees a config that sets one.
-	if string(policy.PolicyType) == "vacation_conflict" {
+	// The API sends no block for these types, having nothing to put in one, so the
+	// marker has to come from policy_type. Without it a read leaves every block null and
+	// the next plan sees a config that sets one.
+	switch policy.PolicyType {
+	case client.PolicyV2PolicyTypeVacationConflict:
 		model.VacationConflict = &incidentPolicyVacationConflict{}
+	case client.PolicyV2PolicyTypeShiftConflict:
+		model.ShiftConflict = &incidentPolicyShiftConflict{}
 	}
 
 	// Drop the assignee the API picked for itself, keeping the reminders. This keys off the

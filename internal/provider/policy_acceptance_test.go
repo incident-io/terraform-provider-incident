@@ -146,6 +146,44 @@ func TestAccIncidentPolicyOnCallReadiness(t *testing.T) {
 	})
 }
 
+// TestAccIncidentPolicyShiftConflict covers the other type with an empty block. The API
+// sends no block back for it, so the empty plan after apply and the import are what show a
+// read puts the block back from policy_type.
+func TestAccIncidentPolicyShiftConflict(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccPolicyShiftConflictConfig("enabled"),
+				ConfigPlanChecks: resource.ConfigPlanChecks{
+					PostApplyPostRefresh: []plancheck.PlanCheck{plancheck.ExpectEmptyPlan()},
+				},
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_policy.shift_conflict", "policy_type", "shift_conflict"),
+					// The API assigns the user the finding is about, and the resource drops the
+					// rules it invents so they never reach state.
+					resource.TestCheckNoResourceAttr("incident_policy.shift_conflict", "assignment_rules.bindings.#"),
+				),
+			},
+			{
+				ResourceName:      "incident_policy.shift_conflict",
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+			{
+				Config: testAccPolicyShiftConflictConfig("disabled"),
+				ConfigPlanChecks: resource.ConfigPlanChecks{
+					PreApply: []plancheck.PlanCheck{
+						plancheck.ExpectResourceAction("incident_policy.shift_conflict", plancheck.ResourceActionUpdate),
+					},
+				},
+				Check: resource.TestCheckResourceAttr("incident_policy.shift_conflict", "status", "disabled"),
+			},
+		},
+	})
+}
+
 // TestAccIncidentPolicyTypeChangeReplaces asserts the replacement rule: swapping which
 // block is set is the only way a policy's type can change, and the API refuses to change
 // the type of an existing policy, so Terraform has to make a new one.
@@ -291,4 +329,20 @@ resource "incident_policy" "readiness" {
   vacation_conflict = {}
 }
 `, struct{ Name string }{Name: StableSuffix("Responders can be reached")})
+}
+
+func testAccPolicyShiftConflictConfig(status string) string {
+	return testRunTemplate("incident_policy_shift_conflict", `
+resource "incident_policy" "shift_conflict" {
+  name        = {{ quote .Name }}
+  description = "Flag anyone on call in two places at once."
+  status      = {{ quote .Status }}
+
+  condition_groups = []
+
+  # Empty because the type has nothing to configure: the block is only here to say
+  # which type this is.
+  shift_conflict = {}
+}
+`, struct{ Name, Status string }{Name: StableSuffix("Nobody on call twice"), Status: status})
 }

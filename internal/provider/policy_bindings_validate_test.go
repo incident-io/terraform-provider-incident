@@ -73,6 +73,41 @@ resource "incident_policy" "test" {
 			errRe: `cannot be configured together: \[vacation_conflict,assignment_rules.bindings\]`,
 		},
 		{
+			name: "shift conflict takes reminders without bindings",
+			config: `
+resource "incident_policy" "test" {
+  name             = "Nobody on call twice"
+  description      = "Test"
+  condition_groups = []
+
+  assignment_rules = {
+    reminder_due_date_offset_hours      = [-24, 0]
+    reminder_detected_date_offset_hours = [0]
+  }
+
+  shift_conflict = {}
+}
+`,
+		},
+		{
+			name: "shift conflict rejects bindings",
+			config: `
+resource "incident_policy" "test" {
+  name             = "Nobody on call twice"
+  description      = "Test"
+  condition_groups = []
+
+  assignment_rules = {
+    bindings                       = [{ value_literal = "01USER" }]
+    reminder_due_date_offset_hours = []
+  }
+
+  shift_conflict = {}
+}
+`,
+			errRe: `cannot be configured together: \[shift_conflict,assignment_rules.bindings\]`,
+		},
+		{
 			name: "schedule requires bindings",
 			config: `
 resource "incident_policy" "test" {

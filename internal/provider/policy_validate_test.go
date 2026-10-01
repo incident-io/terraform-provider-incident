@@ -134,6 +134,54 @@ func TestPolicyVacationConflictModelMatchesSchema(t *testing.T) {
 	}
 }
 
+// TestPolicyShiftConflictModelMatchesSchema covers the other marker block.
+func TestPolicyShiftConflictModelMatchesSchema(t *testing.T) {
+	schemaResp := policySchema(t)
+
+	model := &incidentPolicyResourceModel{
+		ID:              types.StringValue("01POLICY"),
+		Name:            types.StringValue("Nobody on call twice"),
+		Description:     types.StringValue("Flag users on call in two places at once"),
+		Status:          types.StringValue("enabled"),
+		PolicyType:      types.StringValue("shift_conflict"),
+		ConditionGroups: models.IncidentEngineConditionGroups{},
+		ShiftConflict:   &incidentPolicyShiftConflict{},
+	}
+
+	state := tfsdk.State{Schema: schemaResp.Schema}
+	if diags := state.Set(context.Background(), model); diags.HasError() {
+		t.Fatalf("model does not match schema: %+v", diags)
+	}
+}
+
+// TestPolicyReadSetsMarkerBlocks covers the types the API sends no block for, whose block
+// a read has to put back from policy_type alone.
+func TestPolicyReadSetsMarkerBlocks(t *testing.T) {
+	for _, tc := range []struct {
+		policyType client.PolicyV2PolicyType
+		isSet      func(*incidentPolicyResourceModel) bool
+	}{
+		{client.PolicyV2PolicyTypeVacationConflict, func(m *incidentPolicyResourceModel) bool { return m.VacationConflict != nil }},
+		{client.PolicyV2PolicyTypeShiftConflict, func(m *incidentPolicyResourceModel) bool { return m.ShiftConflict != nil }},
+	} {
+		t.Run(string(tc.policyType), func(t *testing.T) {
+			model := policyFromAPI(client.PolicyV2{
+				Id:         "01POLICY",
+				Name:       "Has no block",
+				Status:     client.PolicyV2StatusEnabled,
+				PolicyType: tc.policyType,
+			}, importPrior())
+
+			if !tc.isSet(model) {
+				t.Error("read left the marker block unset")
+			}
+			if got := model.policyType(); got != string(tc.policyType) {
+				t.Errorf("want the block to imply %q, got %q", tc.policyType, got)
+			}
+		})
+	}
+}
+
 func TestPolicyTypeDerivedFromBlock(t *testing.T) {
 	for _, tc := range []struct {
 		want  string
@@ -145,6 +193,7 @@ func TestPolicyTypeDerivedFromBlock(t *testing.T) {
 		{"schedule", &incidentPolicyResourceModel{Schedule: &incidentPolicySchedule{}}},
 		{"on_call_readiness", &incidentPolicyResourceModel{OnCallReadiness: &incidentPolicyOnCallReadiness{}}},
 		{"vacation_conflict", &incidentPolicyResourceModel{VacationConflict: &incidentPolicyVacationConflict{}}},
+		{"shift_conflict", &incidentPolicyResourceModel{ShiftConflict: &incidentPolicyShiftConflict{}}},
 		{"", &incidentPolicyResourceModel{}},
 	} {
 		t.Run(tc.want, func(t *testing.T) {
@@ -166,9 +215,7 @@ func TestPolicyBlocksCoverEveryPolicyType(t *testing.T) {
 
 	// Policy types the API has that the resource deliberately doesn't support yet. Each
 	// one is a block still to be written; remove it from here when it lands.
-	notYetSupported := map[string]bool{
-		"shift_conflict": true,
-	}
+	notYetSupported := map[string]bool{}
 
 	blocks := map[string]bool{}
 	for _, block := range policyBlocks {
@@ -326,9 +373,9 @@ func TestPolicyDueDateConfigRequired(t *testing.T) {
 		})
 	}
 
-	// The other three don't carry a due date at all, and the API rejects one. Their
-	// blocks have no due_date_config attribute to require.
-	for _, block := range []string{"schedule", "on_call_readiness", "vacation_conflict"} {
+	// The others don't carry a due date at all, and the API rejects one. Their blocks have
+	// no due_date_config attribute to require.
+	for _, block := range []string{"schedule", "on_call_readiness", "vacation_conflict", "shift_conflict"} {
 		t.Run(block, func(t *testing.T) {
 			nested, ok := attributes[block].(schema.SingleNestedAttribute)
 			if !ok {
