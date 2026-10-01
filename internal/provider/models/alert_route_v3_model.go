@@ -95,6 +95,7 @@ type AlertRouteV3GroupingConfigModel struct {
 
 type AlertRouteV3GroupingSettingsModel struct {
 	Enabled       types.Bool              `tfsdk:"enabled"`
+	AIEnabled     types.Bool              `tfsdk:"ai_enabled"`
 	GroupingKeys  []AlertRouteGroupingKey `tfsdk:"grouping_keys"`
 	WindowSeconds types.Int64             `tfsdk:"window_seconds"`
 	WindowType    types.String            `tfsdk:"window_type"`
@@ -321,6 +322,7 @@ func (AlertRouteResourceModel) FromAPIV3WithPlan(apiModel client.AlertRouteV3, p
 	}
 	groupingDefault := &AlertRouteV3GroupingSettingsModel{
 		Enabled:       types.BoolValue(apiModel.GroupingConfig.Default.Enabled),
+		AIEnabled:     types.BoolValue(lo.FromPtr(apiModel.GroupingConfig.Default.AiEnabled)),
 		WindowSeconds: types.Int64Null(),
 		WindowType:    types.StringNull(),
 	}
@@ -655,6 +657,7 @@ func (m AlertRouteResourceModel) ToCreatePayloadV3() client.AlertRoutesCreatePay
 				})
 			}
 			groupingDefault.GroupingKeys = &groupKeys
+			groupingDefault.AiEnabled = lo.ToPtr(m.GroupingConfig.Default.AIEnabled.ValueBool())
 			if !m.GroupingConfig.Default.WindowSeconds.IsNull() {
 				groupingDefault.WindowSeconds = lo32(m.GroupingConfig.Default.WindowSeconds.ValueInt64())
 			}

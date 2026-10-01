@@ -7,6 +7,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -77,6 +78,12 @@ API refuses to create, update or delete one, and this resource fails at apply wi
 								Required:            true,
 								MarkdownDescription: apischema.Docstring("TeamGroupingSettingsV3", "enabled"),
 							},
+							"ai_enabled": schema.BoolAttribute{
+								Optional:            true,
+								Computed:            true,
+								Default:             booldefault.StaticBool(false),
+								MarkdownDescription: apischema.Docstring("TeamGroupingSettingsV3", "ai_enabled"),
+							},
 							"grouping_keys": schema.SetNestedAttribute{
 								Optional:            true,
 								MarkdownDescription: apischema.Docstring("TeamGroupingSettingsV3", "grouping_keys"),
@@ -116,9 +123,11 @@ func (r *IncidentTeamGroupingPreferenceResource) ValidateConfig(ctx context.Cont
 		return
 	}
 
+	var aiEnabled types.Bool
 	var windowSeconds types.Int64
 	var windowType types.String
 	var groupingKeys types.Set
+	resp.Diagnostics.Append(req.Config.GetAttribute(ctx, settings.AtName("ai_enabled"), &aiEnabled)...)
 	resp.Diagnostics.Append(req.Config.GetAttribute(ctx, settings.AtName("window_seconds"), &windowSeconds)...)
 	resp.Diagnostics.Append(req.Config.GetAttribute(ctx, settings.AtName("window_type"), &windowType)...)
 	resp.Diagnostics.Append(req.Config.GetAttribute(ctx, settings.AtName("grouping_keys"), &groupingKeys)...)
@@ -150,6 +159,10 @@ func (r *IncidentTeamGroupingPreferenceResource) ValidateConfig(ctx context.Cont
 	if !groupingKeys.IsNull() && !groupingKeys.IsUnknown() {
 		resp.Diagnostics.AddAttributeError(settings.AtName("grouping_keys"), "Invalid attribute combination",
 			"`grouping_keys` must not be set when `default.settings.enabled` is false.")
+	}
+	if !aiEnabled.IsUnknown() && aiEnabled.ValueBool() {
+		resp.Diagnostics.AddAttributeError(settings.AtName("ai_enabled"), "Invalid attribute combination",
+			"`ai_enabled` can only be true when `default.settings.enabled` is true.")
 	}
 }
 
