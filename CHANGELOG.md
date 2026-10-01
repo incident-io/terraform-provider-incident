@@ -1,4 +1,4 @@
-## Unreleased
+## v7.4.0
 
 - Add reminders to `on_call_readiness` and `vacation_conflict` policies on `incident_policy`. Set them in `assignment_rules` and leave out `bindings`, since these types always assign the user the finding is about. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/policy). (#628)
 - Add the `incident_status_page` data source, which looks up a status page by `id` or `name` and reports its `description` and `public_url`. Status pages are created in the dashboard, so this is how configuration references one. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/data-sources/status_page). (#626)
