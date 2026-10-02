@@ -236,14 +236,7 @@ func (AlertRouteResourceModel) FromAPIV3(apiModel client.AlertRouteV3) AlertRout
 	return AlertRouteResourceModel{}.FromAPIV3WithPlan(apiModel, nil)
 }
 
-// FromAPIV3Refresh builds state from a Read. It differs from FromAPIV3WithPlan in one
-// respect: when the API returns no when_alert_joins_group, the result is null rather than
-// the prior state. Keeping the planned value is right after a Create or Update, where the
-// API has just accepted it. On a refresh it only preserves a mode the API has stopped
-// returning, and that stale mode is then sent on the next update, where the API rejects it
-// for a route whose own grouping is disabled ("When_alert_joins_group cannot be set when
-// grouping is disabled"). Reading null lets the plan modifier null it for a non-grouping
-// route and leave it unknown for the API to fill otherwise.
+// FromAPIV3Refresh is FromAPIV3WithPlan for a Read: an omitted when_alert_joins_group reads as null rather than the prior state.
 func (AlertRouteResourceModel) FromAPIV3Refresh(apiModel client.AlertRouteV3, state *AlertRouteResourceModel) AlertRouteResourceModel {
 	result := AlertRouteResourceModel{}.FromAPIV3WithPlan(apiModel, state)
 	if apiModel.EscalationConfig.WhenAlertJoinsGroup == nil && result.EscalationConfig != nil {

@@ -306,9 +306,7 @@ func TestAlertRouteV3WhenAlertJoinsGroupKeepsPlanWhenOmitted(t *testing.T) {
 	}
 }
 
-// TestAlertRouteV3RefreshDropsWhenAlertJoinsGroupTheAPIOmits covers the refresh path:
-// a mode carried in prior state must not survive a Read that returns none, or every later
-// update replays it and the API rejects it for a route whose own grouping is disabled.
+// TestAlertRouteV3RefreshDropsWhenAlertJoinsGroupTheAPIOmits: a refresh reads the API, not the prior state, for when_alert_joins_group.
 func TestAlertRouteV3RefreshDropsWhenAlertJoinsGroupTheAPIOmits(t *testing.T) {
 	api := client.AlertRouteV3{
 		Id:              "01ABC",
@@ -340,7 +338,6 @@ func TestAlertRouteV3RefreshDropsWhenAlertJoinsGroupTheAPIOmits(t *testing.T) {
 		t.Errorf("refresh should read the API's null, got %v", refreshed.EscalationConfig.WhenAlertJoinsGroup)
 	}
 
-	// A mode the API does return is kept as read.
 	api.EscalationConfig.WhenAlertJoinsGroup = &client.AlertRouteWhenAlertJoinsGroupV3{
 		Mode: client.AlertRouteWhenAlertJoinsGroupV3ModeOnPriorityIncrease,
 	}
