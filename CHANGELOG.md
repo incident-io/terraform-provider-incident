@@ -1,3 +1,7 @@
+## Unreleased
+
+- Fix `incident_alert_route` rejecting every update with `When_alert_joins_group cannot be set when grouping is disabled` on a route whose grouping is off, once an earlier apply had left a `when_alert_joins_group` mode in state. A refresh now clears it; no configuration change is needed. (#633)
+
 ## v7.4.0
 
 - Add reminders to `on_call_readiness` and `vacation_conflict` policies on `incident_policy`. Set them in `assignment_rules` and leave out `bindings`, since these types always assign the user the finding is about. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/policy). (#628)

@@ -543,7 +543,7 @@ func (r *IncidentAlertRouteResource) Read(ctx context.Context, req resource.Read
 			return
 		}
 
-		data = models.AlertRouteResourceModel{}.FromAPIV3WithPlan(result.JSON200.AlertRoute, &state)
+		data = models.AlertRouteResourceModel{}.FromAPIV3Refresh(result.JSON200.AlertRoute, &state)
 		resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 		return
 	}

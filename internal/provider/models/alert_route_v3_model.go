@@ -236,6 +236,15 @@ func (AlertRouteResourceModel) FromAPIV3(apiModel client.AlertRouteV3) AlertRout
 	return AlertRouteResourceModel{}.FromAPIV3WithPlan(apiModel, nil)
 }
 
+// FromAPIV3Refresh is FromAPIV3WithPlan for a Read: an omitted when_alert_joins_group reads as null rather than the prior state.
+func (AlertRouteResourceModel) FromAPIV3Refresh(apiModel client.AlertRouteV3, state *AlertRouteResourceModel) AlertRouteResourceModel {
+	result := AlertRouteResourceModel{}.FromAPIV3WithPlan(apiModel, state)
+	if apiModel.EscalationConfig.WhenAlertJoinsGroup == nil && result.EscalationConfig != nil {
+		result.EscalationConfig.WhenAlertJoinsGroup = types.ObjectNull(WhenAlertJoinsGroupAttrTypes())
+	}
+	return result
+}
+
 func (AlertRouteResourceModel) FromAPIV3WithPlan(apiModel client.AlertRouteV3, plan *AlertRouteResourceModel) AlertRouteResourceModel {
 	result := AlertRouteResourceModel{}
 
