@@ -1,3 +1,7 @@
+## Unreleased
+
+- Fix `incident_alert_route` failing every update with `When_alert_joins_group cannot be set when grouping is disabled` once state held a mode the API no longer returned. Refresh kept the prior value when the API omitted `escalation_config.when_alert_joins_group`, so a mode that entered state once (for example during the v6 to v7 migration) was replayed on each update and rejected for a route whose own grouping is off. Refresh now reads the API's null, and the plan nulls the attribute for a non-grouping route as it already did when state was null. A refresh after upgrading clears existing stale values; no configuration change is needed. (#632)
+
 ## v7.4.0
 
 - Add reminders to `on_call_readiness` and `vacation_conflict` policies on `incident_policy`. Set them in `assignment_rules` and leave out `bindings`, since these types always assign the user the finding is about. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/policy). (#628)

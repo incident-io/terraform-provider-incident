@@ -306,6 +306,52 @@ func TestAlertRouteV3WhenAlertJoinsGroupKeepsPlanWhenOmitted(t *testing.T) {
 	}
 }
 
+// TestAlertRouteV3RefreshDropsWhenAlertJoinsGroupTheAPIOmits covers the refresh path:
+// a mode carried in prior state must not survive a Read that returns none, or every later
+// update replays it and the API rejects it for a route whose own grouping is disabled.
+func TestAlertRouteV3RefreshDropsWhenAlertJoinsGroupTheAPIOmits(t *testing.T) {
+	api := client.AlertRouteV3{
+		Id:              "01ABC",
+		Name:            "route",
+		ConditionGroups: []client.ConditionGroupV3{},
+		Expressions:     []client.ExpressionV3{},
+		GroupingConfig: client.AlertGroupingConfigV3{
+			Default: client.GroupingSettingsV3{},
+		},
+		MessageConfig: client.AlertMessageConfigV3{
+			Destinations: []client.AlertMessageDestinationV3{},
+		},
+		EscalationConfig: client.AlertRouteEscalationConfigV3{
+			EscalationTargets: []client.AlertRouteEscalationTargetV3{},
+		},
+		IncidentConfig: client.AlertRouteIncidentConfigV3{},
+	}
+
+	stale := types.ObjectValueMust(WhenAlertJoinsGroupAttrTypes(), map[string]attr.Value{
+		"mode":                 types.StringValue("on_each_new_alert"),
+		"grace_period_seconds": types.Int64Value(0),
+	})
+	state := &AlertRouteResourceModel{
+		EscalationConfig: &AlertRouteEscalationConfigModel{WhenAlertJoinsGroup: stale},
+	}
+
+	refreshed := AlertRouteResourceModel{}.FromAPIV3Refresh(api, state)
+	if !refreshed.EscalationConfig.WhenAlertJoinsGroup.IsNull() {
+		t.Errorf("refresh should read the API's null, got %v", refreshed.EscalationConfig.WhenAlertJoinsGroup)
+	}
+
+	// A mode the API does return is kept as read.
+	api.EscalationConfig.WhenAlertJoinsGroup = &client.AlertRouteWhenAlertJoinsGroupV3{
+		Mode: client.AlertRouteWhenAlertJoinsGroupV3ModeOnPriorityIncrease,
+	}
+	refreshed = AlertRouteResourceModel{}.FromAPIV3Refresh(api, state)
+	var got AlertRouteWhenAlertJoinsGroupModel
+	refreshed.EscalationConfig.WhenAlertJoinsGroup.As(context.Background(), &got, basetypes.ObjectAsOptions{})
+	if got.Mode.ValueString() != "on_priority_increase" {
+		t.Errorf("refresh should take the API's mode, got %q", got.Mode.ValueString())
+	}
+}
+
 // TestAlertRouteV3EscalationPathTargetIgnoresDuplicateUsers covers ONC-12476 for
 // the v3 mapping: an escalation-path target has its binding echoed back in `users`
 // too (legacy compat, pending ONC-5335). escalation_targets is a set, so surfacing
