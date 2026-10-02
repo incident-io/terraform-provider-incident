@@ -1,6 +1,6 @@
 ## Unreleased
 
-- Fix `incident_alert_route` failing every update with `When_alert_joins_group cannot be set when grouping is disabled` once state held a mode the API no longer returned. Refresh kept the prior value when the API omitted `escalation_config.when_alert_joins_group`, so a mode that entered state once (for example during the v6 to v7 migration) was replayed on each update and rejected for a route whose own grouping is off. Refresh now reads the API's null, and the plan nulls the attribute for a non-grouping route as it already did when state was null. A refresh after upgrading clears existing stale values; no configuration change is needed. (#632)
+- Fix `incident_alert_route` rejecting every update with `When_alert_joins_group cannot be set when grouping is disabled` on a route whose grouping is off, once an earlier apply had left a `when_alert_joins_group` mode in state. A refresh now clears it; no configuration change is needed. (#633)
 
 ## v7.4.0
 
