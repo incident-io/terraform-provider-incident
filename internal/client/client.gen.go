@@ -29544,6 +29544,14 @@ type StatusPageRetrospectiveIncidentUpdateV2 struct {
 // Example: investigating
 type StatusPageRetrospectiveIncidentUpdateV2IncidentStatus string
 
+// StatusPageStructureComponentPayloadV2 Example: {"component_id":"01FCNDV6P870EA6S7TK1DSYDG1"}
+type StatusPageStructureComponentPayloadV2 struct {
+	// ComponentId ID of the component to place
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG1
+	ComponentId string `json:"component_id"`
+}
+
 // StatusPageStructureComponentV2 Example: {"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"}
 type StatusPageStructureComponentV2 struct {
 	// ComponentId The ID of the affected component. This may be found by calling the ShowStatusPageStructure endpoint.
@@ -29554,6 +29562,24 @@ type StatusPageStructureComponentV2 struct {
 	// Name The name of this component
 	//
 	// Example: App
+	Name string `json:"name"`
+}
+
+// StatusPageStructureGroupPayloadV2 Example: {"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1"}],"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}
+type StatusPageStructureGroupPayloadV2 struct {
+	// Components Components in this group, in display order
+	//
+	// Example: [{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1"}]
+	Components []StatusPageStructureComponentPayloadV2 `json:"components"`
+
+	// Id ID of a group already on this page, to keep it and its settings. Omit to create a new group.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG1
+	Id *string `json:"id,omitempty"`
+
+	// Name The name of this component group
+	//
+	// Example: EU Data center
 	Name string `json:"name"`
 }
 
@@ -29573,6 +29599,15 @@ type StatusPageStructureGroupV2 struct {
 	//
 	// Example: EU Data center
 	Name string `json:"name"`
+}
+
+// StatusPageStructureItemPayloadV2 Example: {"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1"}],"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}}
+type StatusPageStructureItemPayloadV2 struct {
+	// Component Example: {"component_id":"01FCNDV6P870EA6S7TK1DSYDG1"}
+	Component *StatusPageStructureComponentPayloadV2 `json:"component,omitempty"`
+
+	// Group Example: {"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1"}],"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}
+	Group *StatusPageStructureGroupPayloadV2 `json:"group,omitempty"`
 }
 
 // StatusPageStructureItemV2 Example: {"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"}],"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"},"sub_page":{"id":"01FCNDV6P870EA6S7TK1DSYDG1","items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"}],"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}}],"name":"United Kingdom"}}
@@ -29896,6 +29931,20 @@ type StatusPagesListStatusPagesResultV2 struct {
 
 	// StatusPages Example: [{"description":"This status page is our public status page.","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Our public status page","public_url":"https://statuspage.incident.io/our-public-status-page"}]
 	StatusPages []StatusPageV2 `json:"status_pages"`
+}
+
+// StatusPagesSetStatusPageStructurePayloadV2 Example: {"items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1"}],"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}}]}
+type StatusPagesSetStatusPageStructurePayloadV2 struct {
+	// Items Components and groups to display, in order
+	//
+	// Example: [{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1"}],"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}}]
+	Items []StatusPageStructureItemPayloadV2 `json:"items"`
+}
+
+// StatusPagesSetStatusPageStructureResultV2 Example: {"current_structure":{"items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"}],"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"},"sub_page":{"id":"01FCNDV6P870EA6S7TK1DSYDG1","items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"}],"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}}],"name":"United Kingdom"}}]}}
+type StatusPagesSetStatusPageStructureResultV2 struct {
+	// CurrentStructure Example: {"items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"}],"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"},"sub_page":{"id":"01FCNDV6P870EA6S7TK1DSYDG1","items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"}],"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}}],"name":"United Kingdom"}}]}
+	CurrentStructure StatusPageStructureV2 `json:"current_structure"`
 }
 
 // StatusPagesShowStatusPageComponentAvailabilityResultV2 Example: {"availability":{"availability_percent":"99.94","component_id":"01FCNDV6P870EA6S7TK1DSYDG1","data_available_since":"2025-06-01T00:00:00Z","end_at":"2026-02-01T00:00:00Z","start_at":"2026-01-01T00:00:00Z","status_page_id":"01FCNDV6P870EA6S7TK1DSYDG0"}}
@@ -33064,6 +33113,9 @@ type StatusPagesV2UpdateStatusPageMaintenanceJSONRequestBody = StatusPagesUpdate
 
 // StatusPagesV2CreateStatusPageRetrospectiveIncidentJSONRequestBody defines body for StatusPagesV2CreateStatusPageRetrospectiveIncident for application/json ContentType.
 type StatusPagesV2CreateStatusPageRetrospectiveIncidentJSONRequestBody = StatusPagesCreateStatusPageRetrospectiveIncidentPayloadV2
+
+// StatusPagesV2SetStatusPageStructureJSONRequestBody defines body for StatusPagesV2SetStatusPageStructure for application/json ContentType.
+type StatusPagesV2SetStatusPageStructureJSONRequestBody = StatusPagesSetStatusPageStructurePayloadV2
 
 // TelemetryV2UpdateDataSourceJSONRequestBody defines body for TelemetryV2UpdateDataSource for application/json ContentType.
 type TelemetryV2UpdateDataSourceJSONRequestBody = TelemetryUpdateDataSourcePayloadV2
@@ -37895,6 +37947,32 @@ type ClientInterface interface {
 	//
 	// Corresponds with GET /v2/status_page_structures/{status_page_id} (the `StatusPagesV2ShowStatusPageStructure` operationId).
 	StatusPagesV2ShowStatusPageStructure(ctx context.Context, statusPageId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// StatusPagesV2SetStatusPageStructureWithBody SetStatusPageStructure Status Pages V2
+	//
+	// Replace the structure of a standalone status page: which components it shows, in what order, and how they are grouped.
+	//
+	// Components must already exist; create them with the status page components endpoints. A group keeps its ID when the payload names one, so links to it stay valid; a group without an ID is created new. Display settings on a component or group that was already placed, such as whether it is hidden, are kept.
+	//
+	// Requires the "Configure status pages" permission. Parent and customer pages build their structure from the catalog, so it cannot be set here.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PUT /v2/status_page_structures/{status_page_id} (the `StatusPagesV2SetStatusPageStructure` operationId).
+	StatusPagesV2SetStatusPageStructureWithBody(ctx context.Context, statusPageId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// StatusPagesV2SetStatusPageStructure SetStatusPageStructure Status Pages V2
+	//
+	// Replace the structure of a standalone status page: which components it shows, in what order, and how they are grouped.
+	//
+	// Components must already exist; create them with the status page components endpoints. A group keeps its ID when the payload names one, so links to it stay valid; a group without an ID is created new. Display settings on a component or group that was already placed, such as whether it is hidden, are kept.
+	//
+	// Requires the "Configure status pages" permission. Parent and customer pages build their structure from the catalog, so it cannot be set here.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PUT /v2/status_page_structures/{status_page_id} (the `StatusPagesV2SetStatusPageStructure` operationId).
+	StatusPagesV2SetStatusPageStructure(ctx context.Context, statusPageId string, body StatusPagesV2SetStatusPageStructureJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// StatusPagesV2ListStatusPages ListStatusPages Status Pages V2
 	//
@@ -47769,6 +47847,52 @@ func (c *Client) StatusPagesV2CreateStatusPageRetrospectiveIncident(ctx context.
 // Corresponds with GET /v2/status_page_structures/{status_page_id} (the `StatusPagesV2ShowStatusPageStructure` operationId).
 func (c *Client) StatusPagesV2ShowStatusPageStructure(ctx context.Context, statusPageId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewStatusPagesV2ShowStatusPageStructureRequest(c.Server, statusPageId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// StatusPagesV2SetStatusPageStructureWithBody SetStatusPageStructure Status Pages V2
+//
+// Replace the structure of a standalone status page: which components it shows, in what order, and how they are grouped.
+//
+// Components must already exist; create them with the status page components endpoints. A group keeps its ID when the payload names one, so links to it stay valid; a group without an ID is created new. Display settings on a component or group that was already placed, such as whether it is hidden, are kept.
+//
+// Requires the "Configure status pages" permission. Parent and customer pages build their structure from the catalog, so it cannot be set here.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PUT /v2/status_page_structures/{status_page_id} (the `StatusPagesV2SetStatusPageStructure` operationId).
+func (c *Client) StatusPagesV2SetStatusPageStructureWithBody(ctx context.Context, statusPageId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewStatusPagesV2SetStatusPageStructureRequestWithBody(c.Server, statusPageId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// StatusPagesV2SetStatusPageStructure SetStatusPageStructure Status Pages V2
+//
+// Replace the structure of a standalone status page: which components it shows, in what order, and how they are grouped.
+//
+// Components must already exist; create them with the status page components endpoints. A group keeps its ID when the payload names one, so links to it stay valid; a group without an ID is created new. Display settings on a component or group that was already placed, such as whether it is hidden, are kept.
+//
+// Requires the "Configure status pages" permission. Parent and customer pages build their structure from the catalog, so it cannot be set here.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PUT /v2/status_page_structures/{status_page_id} (the `StatusPagesV2SetStatusPageStructure` operationId).
+func (c *Client) StatusPagesV2SetStatusPageStructure(ctx context.Context, statusPageId string, body StatusPagesV2SetStatusPageStructureJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewStatusPagesV2SetStatusPageStructureRequest(c.Server, statusPageId, body)
 	if err != nil {
 		return nil, err
 	}
@@ -63340,6 +63464,53 @@ func NewStatusPagesV2ShowStatusPageStructureRequest(server string, statusPageId 
 	return req, nil
 }
 
+// NewStatusPagesV2SetStatusPageStructureRequest calls the generic StatusPagesV2SetStatusPageStructure builder with application/json body
+func NewStatusPagesV2SetStatusPageStructureRequest(server string, statusPageId string, body StatusPagesV2SetStatusPageStructureJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewStatusPagesV2SetStatusPageStructureRequestWithBody(server, statusPageId, "application/json", bodyReader)
+}
+
+// NewStatusPagesV2SetStatusPageStructureRequestWithBody constructs an http.Request for the StatusPagesV2SetStatusPageStructure method, with any body, and a specified content type
+func NewStatusPagesV2SetStatusPageStructureRequestWithBody(server string, statusPageId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "status_page_id", statusPageId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/status_page_structures/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPut, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewStatusPagesV2ListStatusPagesRequest constructs an http.Request for the StatusPagesV2ListStatusPages method
 func NewStatusPagesV2ListStatusPagesRequest(server string, params *StatusPagesV2ListStatusPagesParams) (*http.Request, error) {
 	var err error
@@ -72431,6 +72602,32 @@ type ClientWithResponsesInterface interface {
 	//
 	// Corresponds with GET /v2/status_page_structures/{status_page_id} (the `StatusPagesV2ShowStatusPageStructure` operationId).
 	StatusPagesV2ShowStatusPageStructureWithResponse(ctx context.Context, statusPageId string, reqEditors ...RequestEditorFn) (*StatusPagesV2ShowStatusPageStructureResponse, error)
+
+	// StatusPagesV2SetStatusPageStructureWithBodyWithResponse SetStatusPageStructure Status Pages V2
+	//
+	// Replace the structure of a standalone status page: which components it shows, in what order, and how they are grouped.
+	//
+	// Components must already exist; create them with the status page components endpoints. A group keeps its ID when the payload names one, so links to it stay valid; a group without an ID is created new. Display settings on a component or group that was already placed, such as whether it is hidden, are kept.
+	//
+	// Requires the "Configure status pages" permission. Parent and customer pages build their structure from the catalog, so it cannot be set here.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v2/status_page_structures/{status_page_id} (the `StatusPagesV2SetStatusPageStructure` operationId).
+	StatusPagesV2SetStatusPageStructureWithBodyWithResponse(ctx context.Context, statusPageId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*StatusPagesV2SetStatusPageStructureResponse, error)
+
+	// StatusPagesV2SetStatusPageStructureWithResponse SetStatusPageStructure Status Pages V2
+	//
+	// Replace the structure of a standalone status page: which components it shows, in what order, and how they are grouped.
+	//
+	// Components must already exist; create them with the status page components endpoints. A group keeps its ID when the payload names one, so links to it stay valid; a group without an ID is created new. Display settings on a component or group that was already placed, such as whether it is hidden, are kept.
+	//
+	// Requires the "Configure status pages" permission. Parent and customer pages build their structure from the catalog, so it cannot be set here.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v2/status_page_structures/{status_page_id} (the `StatusPagesV2SetStatusPageStructure` operationId).
+	StatusPagesV2SetStatusPageStructureWithResponse(ctx context.Context, statusPageId string, body StatusPagesV2SetStatusPageStructureJSONRequestBody, reqEditors ...RequestEditorFn) (*StatusPagesV2SetStatusPageStructureResponse, error)
 
 	// StatusPagesV2ListStatusPagesWithResponse ListStatusPages Status Pages V2
 	//
@@ -110586,6 +110783,138 @@ func (r StatusPagesV2ShowStatusPageStructureResponse) ContentType() string {
 	return ""
 }
 
+type StatusPagesV2SetStatusPageStructureResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *StatusPagesSetStatusPageStructureResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r StatusPagesV2SetStatusPageStructureResponse) GetJSON200() *StatusPagesSetStatusPageStructureResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r StatusPagesV2SetStatusPageStructureResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r StatusPagesV2SetStatusPageStructureResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r StatusPagesV2SetStatusPageStructureResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r StatusPagesV2SetStatusPageStructureResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r StatusPagesV2SetStatusPageStructureResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r StatusPagesV2SetStatusPageStructureResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r StatusPagesV2SetStatusPageStructureResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r StatusPagesV2SetStatusPageStructureResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r StatusPagesV2SetStatusPageStructureResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r StatusPagesV2SetStatusPageStructureResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r StatusPagesV2SetStatusPageStructureResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r StatusPagesV2SetStatusPageStructureResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r StatusPagesV2SetStatusPageStructureResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r StatusPagesV2SetStatusPageStructureResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r StatusPagesV2SetStatusPageStructureResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r StatusPagesV2SetStatusPageStructureResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r StatusPagesV2SetStatusPageStructureResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
 type StatusPagesV2ListStatusPagesResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -129312,6 +129641,44 @@ func (c *ClientWithResponses) StatusPagesV2ShowStatusPageStructureWithResponse(c
 		return nil, err
 	}
 	return ParseStatusPagesV2ShowStatusPageStructureResponse(rsp)
+}
+
+// StatusPagesV2SetStatusPageStructureWithBodyWithResponse SetStatusPageStructure Status Pages V2
+//
+// Replace the structure of a standalone status page: which components it shows, in what order, and how they are grouped.
+//
+// Components must already exist; create them with the status page components endpoints. A group keeps its ID when the payload names one, so links to it stay valid; a group without an ID is created new. Display settings on a component or group that was already placed, such as whether it is hidden, are kept.
+//
+// Requires the "Configure status pages" permission. Parent and customer pages build their structure from the catalog, so it cannot be set here.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v2/status_page_structures/{status_page_id} (the `StatusPagesV2SetStatusPageStructure` operationId).
+func (c *ClientWithResponses) StatusPagesV2SetStatusPageStructureWithBodyWithResponse(ctx context.Context, statusPageId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*StatusPagesV2SetStatusPageStructureResponse, error) {
+	rsp, err := c.StatusPagesV2SetStatusPageStructureWithBody(ctx, statusPageId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseStatusPagesV2SetStatusPageStructureResponse(rsp)
+}
+
+// StatusPagesV2SetStatusPageStructureWithResponse SetStatusPageStructure Status Pages V2
+//
+// Replace the structure of a standalone status page: which components it shows, in what order, and how they are grouped.
+//
+// Components must already exist; create them with the status page components endpoints. A group keeps its ID when the payload names one, so links to it stay valid; a group without an ID is created new. Display settings on a component or group that was already placed, such as whether it is hidden, are kept.
+//
+// Requires the "Configure status pages" permission. Parent and customer pages build their structure from the catalog, so it cannot be set here.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v2/status_page_structures/{status_page_id} (the `StatusPagesV2SetStatusPageStructure` operationId).
+func (c *ClientWithResponses) StatusPagesV2SetStatusPageStructureWithResponse(ctx context.Context, statusPageId string, body StatusPagesV2SetStatusPageStructureJSONRequestBody, reqEditors ...RequestEditorFn) (*StatusPagesV2SetStatusPageStructureResponse, error) {
+	rsp, err := c.StatusPagesV2SetStatusPageStructure(ctx, statusPageId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseStatusPagesV2SetStatusPageStructureResponse(rsp)
 }
 
 // StatusPagesV2ListStatusPagesWithResponse ListStatusPages Status Pages V2
@@ -164054,6 +164421,123 @@ func ParseStatusPagesV2ShowStatusPageStructureResponse(rsp *http.Response) (*Sta
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest StatusPagesShowStatusPageStructureResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseStatusPagesV2SetStatusPageStructureResponse parses an HTTP response from a StatusPagesV2SetStatusPageStructureWithResponse call
+func ParseStatusPagesV2SetStatusPageStructureResponse(rsp *http.Response) (*StatusPagesV2SetStatusPageStructureResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &StatusPagesV2SetStatusPageStructureResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest StatusPagesSetStatusPageStructureResultV2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
