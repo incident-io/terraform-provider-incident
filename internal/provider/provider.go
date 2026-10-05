@@ -181,6 +181,7 @@ func (p *IncidentProvider) Resources(ctx context.Context) []func() resource.Reso
 		NewIncidentSecretResource,
 		NewIncidentSeverityResource,
 		NewIncidentStatusResource,
+		NewIncidentStatusPageComponentResource,
 		NewIncidentTeamGroupingPreferenceResource,
 		NewIncidentWorkflowResource,
 
@@ -226,6 +227,7 @@ func (p *IncidentProvider) DataSources(ctx context.Context) []func() datasource.
 		NewIncidentSeverityDataSource,
 		NewIncidentStatusDataSource,
 		NewIncidentStatusPageDataSource,
+		NewIncidentStatusPageComponentDataSource,
 		NewIncidentUserDataSource,
 		NewIncidentWorkflowDataSource,
 
