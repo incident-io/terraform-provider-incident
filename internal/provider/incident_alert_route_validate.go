@@ -279,6 +279,10 @@ func (r *IncidentAlertRouteResource) validateV3Gating(
 				addErr(groupingBase.AtName("grouping_keys"), "Invalid attribute combination",
 					"`grouping_keys` must not be set when `grouping_config.default.enabled` is false.")
 			}
+			if aiEnabled, known := boolValue(groupingBase.AtName("ai_enabled")); known && aiEnabled {
+				addErr(groupingBase.AtName("ai_enabled"), "Invalid attribute combination",
+					"`ai_enabled` can only be true when `grouping_config.default.enabled` is true.")
+			}
 		}
 	}
 

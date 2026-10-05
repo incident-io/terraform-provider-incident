@@ -111,6 +111,7 @@ Required:
 
 Optional:
 
+- `ai_enabled` (Boolean) Use AI to group similar looking alerts. AI alert grouping can only group alerts that are attributed to the same team, so grouping keys must be empty or only contain the team alert attribute. Private alerts are grouped by key alone unless AI incident access allows private incidents and alerts. Omit it on an update to keep the current value.
 - `grouping_keys` (Attributes Set) Which alert attributes the team's alerts are grouped by. Only set when grouping is enabled. (see [below for nested schema](#nestedatt--default--settings--grouping_keys))
 - `window_seconds` (Number) How long the grouping window is, in seconds. Must be between 60 (1 minute) and 172800 (48 hours). Only set when grouping is enabled.
 - `window_type` (String) How the grouping window behaves. 'rolling' keeps the window open for window_seconds after the most recent alert, so the group stays open as long as alerts keep arriving. 'fixed' opens the window when the first alert arrives and always closes window_seconds later. Only set when grouping is enabled. Possible values are: `rolling`, `fixed`.

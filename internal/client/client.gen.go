@@ -6975,6 +6975,306 @@ func (e IncidentDurationMetricWithValueV2Status) Valid() bool {
 	}
 }
 
+// Defines values for IncidentFormLifecycleElementPayloadV3ElementType.
+const (
+	IncidentFormLifecycleElementPayloadV3ElementTypeAnnounceRetroIncident IncidentFormLifecycleElementPayloadV3ElementType = "announce_retro_incident"
+	IncidentFormLifecycleElementPayloadV3ElementTypeCustomField           IncidentFormLifecycleElementPayloadV3ElementType = "custom_field"
+	IncidentFormLifecycleElementPayloadV3ElementTypeDivider               IncidentFormLifecycleElementPayloadV3ElementType = "divider"
+	IncidentFormLifecycleElementPayloadV3ElementTypeEnterPostIncidentFlow IncidentFormLifecycleElementPayloadV3ElementType = "enter_post_incident_flow"
+	IncidentFormLifecycleElementPayloadV3ElementTypeIncidentAttachments   IncidentFormLifecycleElementPayloadV3ElementType = "incident_attachments"
+	IncidentFormLifecycleElementPayloadV3ElementTypeIncidentRole          IncidentFormLifecycleElementPayloadV3ElementType = "incident_role"
+	IncidentFormLifecycleElementPayloadV3ElementTypeIncidentType          IncidentFormLifecycleElementPayloadV3ElementType = "incident_type"
+	IncidentFormLifecycleElementPayloadV3ElementTypeInvestigationFeedback IncidentFormLifecycleElementPayloadV3ElementType = "investigation_feedback"
+	IncidentFormLifecycleElementPayloadV3ElementTypeName                  IncidentFormLifecycleElementPayloadV3ElementType = "name"
+	IncidentFormLifecycleElementPayloadV3ElementTypeNextUpdateIn          IncidentFormLifecycleElementPayloadV3ElementType = "next_update_in"
+	IncidentFormLifecycleElementPayloadV3ElementTypeSeverity              IncidentFormLifecycleElementPayloadV3ElementType = "severity"
+	IncidentFormLifecycleElementPayloadV3ElementTypeSlackChannel          IncidentFormLifecycleElementPayloadV3ElementType = "slack_channel"
+	IncidentFormLifecycleElementPayloadV3ElementTypeStatus                IncidentFormLifecycleElementPayloadV3ElementType = "status"
+	IncidentFormLifecycleElementPayloadV3ElementTypeSummary               IncidentFormLifecycleElementPayloadV3ElementType = "summary"
+	IncidentFormLifecycleElementPayloadV3ElementTypeText                  IncidentFormLifecycleElementPayloadV3ElementType = "text"
+	IncidentFormLifecycleElementPayloadV3ElementTypeTimestamp             IncidentFormLifecycleElementPayloadV3ElementType = "timestamp"
+	IncidentFormLifecycleElementPayloadV3ElementTypeTriage                IncidentFormLifecycleElementPayloadV3ElementType = "triage"
+	IncidentFormLifecycleElementPayloadV3ElementTypeUpdateMessage         IncidentFormLifecycleElementPayloadV3ElementType = "update_message"
+	IncidentFormLifecycleElementPayloadV3ElementTypeVisibility            IncidentFormLifecycleElementPayloadV3ElementType = "visibility"
+)
+
+// Valid indicates whether the value is a known member of the IncidentFormLifecycleElementPayloadV3ElementType enum.
+func (e IncidentFormLifecycleElementPayloadV3ElementType) Valid() bool {
+	switch e {
+	case IncidentFormLifecycleElementPayloadV3ElementTypeAnnounceRetroIncident:
+		return true
+	case IncidentFormLifecycleElementPayloadV3ElementTypeCustomField:
+		return true
+	case IncidentFormLifecycleElementPayloadV3ElementTypeDivider:
+		return true
+	case IncidentFormLifecycleElementPayloadV3ElementTypeEnterPostIncidentFlow:
+		return true
+	case IncidentFormLifecycleElementPayloadV3ElementTypeIncidentAttachments:
+		return true
+	case IncidentFormLifecycleElementPayloadV3ElementTypeIncidentRole:
+		return true
+	case IncidentFormLifecycleElementPayloadV3ElementTypeIncidentType:
+		return true
+	case IncidentFormLifecycleElementPayloadV3ElementTypeInvestigationFeedback:
+		return true
+	case IncidentFormLifecycleElementPayloadV3ElementTypeName:
+		return true
+	case IncidentFormLifecycleElementPayloadV3ElementTypeNextUpdateIn:
+		return true
+	case IncidentFormLifecycleElementPayloadV3ElementTypeSeverity:
+		return true
+	case IncidentFormLifecycleElementPayloadV3ElementTypeSlackChannel:
+		return true
+	case IncidentFormLifecycleElementPayloadV3ElementTypeStatus:
+		return true
+	case IncidentFormLifecycleElementPayloadV3ElementTypeSummary:
+		return true
+	case IncidentFormLifecycleElementPayloadV3ElementTypeText:
+		return true
+	case IncidentFormLifecycleElementPayloadV3ElementTypeTimestamp:
+		return true
+	case IncidentFormLifecycleElementPayloadV3ElementTypeTriage:
+		return true
+	case IncidentFormLifecycleElementPayloadV3ElementTypeUpdateMessage:
+		return true
+	case IncidentFormLifecycleElementPayloadV3ElementTypeVisibility:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for IncidentFormLifecycleElementPayloadV3RequiredIf.
+const (
+	IncidentFormLifecycleElementPayloadV3RequiredIfAlwaysRequire     IncidentFormLifecycleElementPayloadV3RequiredIf = "always_require"
+	IncidentFormLifecycleElementPayloadV3RequiredIfCheckEngineConfig IncidentFormLifecycleElementPayloadV3RequiredIf = "check_engine_config"
+	IncidentFormLifecycleElementPayloadV3RequiredIfNeverRequire      IncidentFormLifecycleElementPayloadV3RequiredIf = "never_require"
+)
+
+// Valid indicates whether the value is a known member of the IncidentFormLifecycleElementPayloadV3RequiredIf enum.
+func (e IncidentFormLifecycleElementPayloadV3RequiredIf) Valid() bool {
+	switch e {
+	case IncidentFormLifecycleElementPayloadV3RequiredIfAlwaysRequire:
+		return true
+	case IncidentFormLifecycleElementPayloadV3RequiredIfCheckEngineConfig:
+		return true
+	case IncidentFormLifecycleElementPayloadV3RequiredIfNeverRequire:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for IncidentFormLifecycleElementV3ElementType.
+const (
+	IncidentFormLifecycleElementV3ElementTypeAnnounceRetroIncident IncidentFormLifecycleElementV3ElementType = "announce_retro_incident"
+	IncidentFormLifecycleElementV3ElementTypeCustomField           IncidentFormLifecycleElementV3ElementType = "custom_field"
+	IncidentFormLifecycleElementV3ElementTypeDivider               IncidentFormLifecycleElementV3ElementType = "divider"
+	IncidentFormLifecycleElementV3ElementTypeEnterPostIncidentFlow IncidentFormLifecycleElementV3ElementType = "enter_post_incident_flow"
+	IncidentFormLifecycleElementV3ElementTypeIncidentAttachments   IncidentFormLifecycleElementV3ElementType = "incident_attachments"
+	IncidentFormLifecycleElementV3ElementTypeIncidentRole          IncidentFormLifecycleElementV3ElementType = "incident_role"
+	IncidentFormLifecycleElementV3ElementTypeIncidentType          IncidentFormLifecycleElementV3ElementType = "incident_type"
+	IncidentFormLifecycleElementV3ElementTypeInvestigationFeedback IncidentFormLifecycleElementV3ElementType = "investigation_feedback"
+	IncidentFormLifecycleElementV3ElementTypeName                  IncidentFormLifecycleElementV3ElementType = "name"
+	IncidentFormLifecycleElementV3ElementTypeNextUpdateIn          IncidentFormLifecycleElementV3ElementType = "next_update_in"
+	IncidentFormLifecycleElementV3ElementTypeSeverity              IncidentFormLifecycleElementV3ElementType = "severity"
+	IncidentFormLifecycleElementV3ElementTypeSlackChannel          IncidentFormLifecycleElementV3ElementType = "slack_channel"
+	IncidentFormLifecycleElementV3ElementTypeStatus                IncidentFormLifecycleElementV3ElementType = "status"
+	IncidentFormLifecycleElementV3ElementTypeSummary               IncidentFormLifecycleElementV3ElementType = "summary"
+	IncidentFormLifecycleElementV3ElementTypeText                  IncidentFormLifecycleElementV3ElementType = "text"
+	IncidentFormLifecycleElementV3ElementTypeTimestamp             IncidentFormLifecycleElementV3ElementType = "timestamp"
+	IncidentFormLifecycleElementV3ElementTypeTriage                IncidentFormLifecycleElementV3ElementType = "triage"
+	IncidentFormLifecycleElementV3ElementTypeUpdateMessage         IncidentFormLifecycleElementV3ElementType = "update_message"
+	IncidentFormLifecycleElementV3ElementTypeVisibility            IncidentFormLifecycleElementV3ElementType = "visibility"
+)
+
+// Valid indicates whether the value is a known member of the IncidentFormLifecycleElementV3ElementType enum.
+func (e IncidentFormLifecycleElementV3ElementType) Valid() bool {
+	switch e {
+	case IncidentFormLifecycleElementV3ElementTypeAnnounceRetroIncident:
+		return true
+	case IncidentFormLifecycleElementV3ElementTypeCustomField:
+		return true
+	case IncidentFormLifecycleElementV3ElementTypeDivider:
+		return true
+	case IncidentFormLifecycleElementV3ElementTypeEnterPostIncidentFlow:
+		return true
+	case IncidentFormLifecycleElementV3ElementTypeIncidentAttachments:
+		return true
+	case IncidentFormLifecycleElementV3ElementTypeIncidentRole:
+		return true
+	case IncidentFormLifecycleElementV3ElementTypeIncidentType:
+		return true
+	case IncidentFormLifecycleElementV3ElementTypeInvestigationFeedback:
+		return true
+	case IncidentFormLifecycleElementV3ElementTypeName:
+		return true
+	case IncidentFormLifecycleElementV3ElementTypeNextUpdateIn:
+		return true
+	case IncidentFormLifecycleElementV3ElementTypeSeverity:
+		return true
+	case IncidentFormLifecycleElementV3ElementTypeSlackChannel:
+		return true
+	case IncidentFormLifecycleElementV3ElementTypeStatus:
+		return true
+	case IncidentFormLifecycleElementV3ElementTypeSummary:
+		return true
+	case IncidentFormLifecycleElementV3ElementTypeText:
+		return true
+	case IncidentFormLifecycleElementV3ElementTypeTimestamp:
+		return true
+	case IncidentFormLifecycleElementV3ElementTypeTriage:
+		return true
+	case IncidentFormLifecycleElementV3ElementTypeUpdateMessage:
+		return true
+	case IncidentFormLifecycleElementV3ElementTypeVisibility:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for IncidentFormLifecycleElementV3RequiredIf.
+const (
+	IncidentFormLifecycleElementV3RequiredIfAlwaysRequire     IncidentFormLifecycleElementV3RequiredIf = "always_require"
+	IncidentFormLifecycleElementV3RequiredIfCheckEngineConfig IncidentFormLifecycleElementV3RequiredIf = "check_engine_config"
+	IncidentFormLifecycleElementV3RequiredIfNeverRequire      IncidentFormLifecycleElementV3RequiredIf = "never_require"
+)
+
+// Valid indicates whether the value is a known member of the IncidentFormLifecycleElementV3RequiredIf enum.
+func (e IncidentFormLifecycleElementV3RequiredIf) Valid() bool {
+	switch e {
+	case IncidentFormLifecycleElementV3RequiredIfAlwaysRequire:
+		return true
+	case IncidentFormLifecycleElementV3RequiredIfCheckEngineConfig:
+		return true
+	case IncidentFormLifecycleElementV3RequiredIfNeverRequire:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for IncidentFormV3FormType.
+const (
+	IncidentFormV3FormTypeAccept        IncidentFormV3FormType = "accept"
+	IncidentFormV3FormTypeCustomFields  IncidentFormV3FormType = "custom-fields"
+	IncidentFormV3FormTypeDeclare       IncidentFormV3FormType = "declare"
+	IncidentFormV3FormTypeResolve       IncidentFormV3FormType = "resolve"
+	IncidentFormV3FormTypeRetrospective IncidentFormV3FormType = "retrospective"
+	IncidentFormV3FormTypeUpdate        IncidentFormV3FormType = "update"
+)
+
+// Valid indicates whether the value is a known member of the IncidentFormV3FormType enum.
+func (e IncidentFormV3FormType) Valid() bool {
+	switch e {
+	case IncidentFormV3FormTypeAccept:
+		return true
+	case IncidentFormV3FormTypeCustomFields:
+		return true
+	case IncidentFormV3FormTypeDeclare:
+		return true
+	case IncidentFormV3FormTypeResolve:
+		return true
+	case IncidentFormV3FormTypeRetrospective:
+		return true
+	case IncidentFormV3FormTypeUpdate:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for IncidentFormsCreatePayloadV3FormType.
+const (
+	IncidentFormsCreatePayloadV3FormTypeAccept        IncidentFormsCreatePayloadV3FormType = "accept"
+	IncidentFormsCreatePayloadV3FormTypeCustomFields  IncidentFormsCreatePayloadV3FormType = "custom-fields"
+	IncidentFormsCreatePayloadV3FormTypeDeclare       IncidentFormsCreatePayloadV3FormType = "declare"
+	IncidentFormsCreatePayloadV3FormTypeResolve       IncidentFormsCreatePayloadV3FormType = "resolve"
+	IncidentFormsCreatePayloadV3FormTypeRetrospective IncidentFormsCreatePayloadV3FormType = "retrospective"
+	IncidentFormsCreatePayloadV3FormTypeUpdate        IncidentFormsCreatePayloadV3FormType = "update"
+)
+
+// Valid indicates whether the value is a known member of the IncidentFormsCreatePayloadV3FormType enum.
+func (e IncidentFormsCreatePayloadV3FormType) Valid() bool {
+	switch e {
+	case IncidentFormsCreatePayloadV3FormTypeAccept:
+		return true
+	case IncidentFormsCreatePayloadV3FormTypeCustomFields:
+		return true
+	case IncidentFormsCreatePayloadV3FormTypeDeclare:
+		return true
+	case IncidentFormsCreatePayloadV3FormTypeResolve:
+		return true
+	case IncidentFormsCreatePayloadV3FormTypeRetrospective:
+		return true
+	case IncidentFormsCreatePayloadV3FormTypeUpdate:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for IncidentFormsUpdatePayloadV3FormType.
+const (
+	IncidentFormsUpdatePayloadV3FormTypeAccept        IncidentFormsUpdatePayloadV3FormType = "accept"
+	IncidentFormsUpdatePayloadV3FormTypeCustomFields  IncidentFormsUpdatePayloadV3FormType = "custom-fields"
+	IncidentFormsUpdatePayloadV3FormTypeDeclare       IncidentFormsUpdatePayloadV3FormType = "declare"
+	IncidentFormsUpdatePayloadV3FormTypeResolve       IncidentFormsUpdatePayloadV3FormType = "resolve"
+	IncidentFormsUpdatePayloadV3FormTypeRetrospective IncidentFormsUpdatePayloadV3FormType = "retrospective"
+	IncidentFormsUpdatePayloadV3FormTypeUpdate        IncidentFormsUpdatePayloadV3FormType = "update"
+)
+
+// Valid indicates whether the value is a known member of the IncidentFormsUpdatePayloadV3FormType enum.
+func (e IncidentFormsUpdatePayloadV3FormType) Valid() bool {
+	switch e {
+	case IncidentFormsUpdatePayloadV3FormTypeAccept:
+		return true
+	case IncidentFormsUpdatePayloadV3FormTypeCustomFields:
+		return true
+	case IncidentFormsUpdatePayloadV3FormTypeDeclare:
+		return true
+	case IncidentFormsUpdatePayloadV3FormTypeResolve:
+		return true
+	case IncidentFormsUpdatePayloadV3FormTypeRetrospective:
+		return true
+	case IncidentFormsUpdatePayloadV3FormTypeUpdate:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for IncidentFormsValidatePayloadV3FormType.
+const (
+	IncidentFormsValidatePayloadV3FormTypeAccept        IncidentFormsValidatePayloadV3FormType = "accept"
+	IncidentFormsValidatePayloadV3FormTypeCustomFields  IncidentFormsValidatePayloadV3FormType = "custom-fields"
+	IncidentFormsValidatePayloadV3FormTypeDeclare       IncidentFormsValidatePayloadV3FormType = "declare"
+	IncidentFormsValidatePayloadV3FormTypeResolve       IncidentFormsValidatePayloadV3FormType = "resolve"
+	IncidentFormsValidatePayloadV3FormTypeRetrospective IncidentFormsValidatePayloadV3FormType = "retrospective"
+	IncidentFormsValidatePayloadV3FormTypeUpdate        IncidentFormsValidatePayloadV3FormType = "update"
+)
+
+// Valid indicates whether the value is a known member of the IncidentFormsValidatePayloadV3FormType enum.
+func (e IncidentFormsValidatePayloadV3FormType) Valid() bool {
+	switch e {
+	case IncidentFormsValidatePayloadV3FormTypeAccept:
+		return true
+	case IncidentFormsValidatePayloadV3FormTypeCustomFields:
+		return true
+	case IncidentFormsValidatePayloadV3FormTypeDeclare:
+		return true
+	case IncidentFormsValidatePayloadV3FormTypeResolve:
+		return true
+	case IncidentFormsValidatePayloadV3FormTypeRetrospective:
+		return true
+	case IncidentFormsValidatePayloadV3FormTypeUpdate:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for IncidentParticipantV2ParticipantType.
 const (
 	IncidentParticipantV2ParticipantTypeCollaborator IncidentParticipantV2ParticipantType = "collaborator"
@@ -7567,6 +7867,7 @@ const (
 	ManagedResourceV2ResourceTypeApiKey                 ManagedResourceV2ResourceType = "api_key"
 	ManagedResourceV2ResourceTypeEscalationPath         ManagedResourceV2ResourceType = "escalation_path"
 	ManagedResourceV2ResourceTypeEscalationPathTemplate ManagedResourceV2ResourceType = "escalation_path_template"
+	ManagedResourceV2ResourceTypeIncidentForm           ManagedResourceV2ResourceType = "incident_form"
 	ManagedResourceV2ResourceTypeIncidentTemplate       ManagedResourceV2ResourceType = "incident_template"
 	ManagedResourceV2ResourceTypePolicy                 ManagedResourceV2ResourceType = "policy"
 	ManagedResourceV2ResourceTypeSchedule               ManagedResourceV2ResourceType = "schedule"
@@ -7589,6 +7890,8 @@ func (e ManagedResourceV2ResourceType) Valid() bool {
 	case ManagedResourceV2ResourceTypeEscalationPath:
 		return true
 	case ManagedResourceV2ResourceTypeEscalationPathTemplate:
+		return true
+	case ManagedResourceV2ResourceTypeIncidentForm:
 		return true
 	case ManagedResourceV2ResourceTypeIncidentTemplate:
 		return true
@@ -7618,6 +7921,7 @@ const (
 	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeApiKey                 ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "api_key"
 	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPath         ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "escalation_path"
 	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPathTemplate ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "escalation_path_template"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeIncidentForm           ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "incident_form"
 	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeIncidentTemplate       ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "incident_template"
 	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypePolicy                 ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "policy"
 	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeSchedule               ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "schedule"
@@ -7640,6 +7944,8 @@ func (e ManagedResourcesCreateManagedResourcePayloadV2ResourceType) Valid() bool
 	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPath:
 		return true
 	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPathTemplate:
+		return true
+	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeIncidentForm:
 		return true
 	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeIncidentTemplate:
 		return true
@@ -11790,9 +12096,9 @@ type AlertEventsCreateHTTPResultV2 struct {
 	Status string `json:"status"`
 }
 
-// AlertGroupingConfigV3 Example: {"default":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
+// AlertGroupingConfigV3 Example: {"default":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
 type AlertGroupingConfigV3 struct {
-	// Default Example: {"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}
+	// Default Example: {"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}
 	Default GroupingSettingsV3 `json:"default"`
 }
 
@@ -12777,7 +13083,7 @@ type AlertRouteV2 struct {
 	Version int64 `json:"version"`
 }
 
-// AlertRouteV3 Example: {"alert_sources":[{"alert_source_id":"01FCNDV6P870EA6S7TK1DSYDG0","condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]}],"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"created_at":"2021-08-17T13:28:57.801578Z","enabled":false,"escalation_config":{"auto_cancel_escalations":false,"escalation_targets":[{"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"when_alert_joins_group":{"grace_period_seconds":60,"mode":"on_each_new_alert"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"grouping_config":{"default":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_config":{"auto_decline_enabled":false,"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"enabled":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"template":{"custom_fields":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","merge_strategy":"first-wins"}],"incident_mode":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"incident_type":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"membership_teams":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"severity":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"merge_strategy":"first-wins"},"start_in_triage":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"summary":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}},"is_private":false,"message_config":{"destinations":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"ms_teams_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"abc123","group_alerts_summary":false},"slack_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"abc123","group_alerts_summary":false}}],"template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":"Production incidents","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"updated_at":"2021-08-17T13:28:57.801578Z","version":1}
+// AlertRouteV3 Example: {"alert_sources":[{"alert_source_id":"01FCNDV6P870EA6S7TK1DSYDG0","condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]}],"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"created_at":"2021-08-17T13:28:57.801578Z","enabled":false,"escalation_config":{"auto_cancel_escalations":false,"escalation_targets":[{"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"when_alert_joins_group":{"grace_period_seconds":60,"mode":"on_each_new_alert"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"grouping_config":{"default":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_config":{"auto_decline_enabled":false,"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"enabled":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"template":{"custom_fields":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","merge_strategy":"first-wins"}],"incident_mode":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"incident_type":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"membership_teams":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"severity":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"merge_strategy":"first-wins"},"start_in_triage":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"summary":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}},"is_private":false,"message_config":{"destinations":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"ms_teams_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"abc123","group_alerts_summary":false},"slack_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"abc123","group_alerts_summary":false}}],"template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":"Production incidents","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"updated_at":"2021-08-17T13:28:57.801578Z","version":1}
 type AlertRouteV3 struct {
 	// AlertSources Which alert sources this route matches
 	//
@@ -12807,7 +13113,7 @@ type AlertRouteV3 struct {
 	// Example: [{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}]
 	Expressions []ExpressionV3 `json:"expressions"`
 
-	// GroupingConfig Example: {"default":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
+	// GroupingConfig Example: {"default":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
 	GroupingConfig AlertGroupingConfigV3 `json:"grouping_config"`
 
 	// Id Unique identifier for this alert route
@@ -12948,7 +13254,7 @@ type AlertRoutesCreatePayloadV2 struct {
 	UpdatedAt *time.Time `json:"updated_at,omitempty"`
 }
 
-// AlertRoutesCreatePayloadV3 Example: {"alert_sources":[{"alert_source_id":"01FCNDV6P870EA6S7TK1DSYDG0","condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"enabled":false,"escalation_config":{"auto_cancel_escalations":false,"escalation_targets":[{"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"when_alert_joins_group":{"grace_period_seconds":60,"mode":"on_each_new_alert"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"grouping_config":{"default":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"incident_config":{"auto_decline_enabled":false,"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"enabled":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"template":{"custom_fields":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","merge_strategy":"first-wins"}],"incident_mode":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"incident_type":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"membership_teams":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"severity":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"merge_strategy":"first-wins"},"start_in_triage":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"summary":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}},"is_private":false,"message_config":{"destinations":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"ms_teams_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"public","group_alerts_summary":false},"slack_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"public","group_alerts_summary":false}}],"template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":"Production incidents","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"]}
+// AlertRoutesCreatePayloadV3 Example: {"alert_sources":[{"alert_source_id":"01FCNDV6P870EA6S7TK1DSYDG0","condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"enabled":false,"escalation_config":{"auto_cancel_escalations":false,"escalation_targets":[{"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"when_alert_joins_group":{"grace_period_seconds":60,"mode":"on_each_new_alert"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"grouping_config":{"default":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"incident_config":{"auto_decline_enabled":false,"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"enabled":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"template":{"custom_fields":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","merge_strategy":"first-wins"}],"incident_mode":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"incident_type":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"membership_teams":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"severity":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"merge_strategy":"first-wins"},"start_in_triage":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"summary":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}},"is_private":false,"message_config":{"destinations":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"ms_teams_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"public","group_alerts_summary":false},"slack_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"public","group_alerts_summary":false}}],"template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":"Production incidents","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"]}
 type AlertRoutesCreatePayloadV3 struct {
 	// AlertSources Which alert sources this route matches
 	//
@@ -12973,7 +13279,7 @@ type AlertRoutesCreatePayloadV3 struct {
 	// Example: [{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}]
 	Expressions []ExpressionPayloadV3 `json:"expressions"`
 
-	// GroupingConfig Example: {"default":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
+	// GroupingConfig Example: {"default":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
 	GroupingConfig AlertGroupingConfigV3 `json:"grouping_config"`
 
 	// IncidentConfig Example: {"auto_decline_enabled":false,"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"enabled":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"template":{"custom_fields":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","merge_strategy":"first-wins"}],"incident_mode":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"incident_type":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"membership_teams":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"severity":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"merge_strategy":"first-wins"},"start_in_triage":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"summary":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}}
@@ -13004,9 +13310,9 @@ type AlertRoutesCreateResultV2 struct {
 	AlertRoute AlertRouteV2 `json:"alert_route"`
 }
 
-// AlertRoutesCreateResultV3 Example: {"alert_route":{"alert_sources":[{"alert_source_id":"01FCNDV6P870EA6S7TK1DSYDG0","condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]}],"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"created_at":"2021-08-17T13:28:57.801578Z","enabled":false,"escalation_config":{"auto_cancel_escalations":false,"escalation_targets":[{"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"when_alert_joins_group":{"grace_period_seconds":60,"mode":"on_each_new_alert"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"grouping_config":{"default":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_config":{"auto_decline_enabled":false,"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"enabled":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"template":{"custom_fields":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","merge_strategy":"first-wins"}],"incident_mode":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"incident_type":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"membership_teams":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"severity":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"merge_strategy":"first-wins"},"start_in_triage":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"summary":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}},"is_private":false,"message_config":{"destinations":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"ms_teams_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"abc123","group_alerts_summary":false},"slack_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"abc123","group_alerts_summary":false}}],"template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":"Production incidents","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"updated_at":"2021-08-17T13:28:57.801578Z","version":1}}
+// AlertRoutesCreateResultV3 Example: {"alert_route":{"alert_sources":[{"alert_source_id":"01FCNDV6P870EA6S7TK1DSYDG0","condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]}],"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"created_at":"2021-08-17T13:28:57.801578Z","enabled":false,"escalation_config":{"auto_cancel_escalations":false,"escalation_targets":[{"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"when_alert_joins_group":{"grace_period_seconds":60,"mode":"on_each_new_alert"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"grouping_config":{"default":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_config":{"auto_decline_enabled":false,"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"enabled":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"template":{"custom_fields":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","merge_strategy":"first-wins"}],"incident_mode":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"incident_type":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"membership_teams":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"severity":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"merge_strategy":"first-wins"},"start_in_triage":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"summary":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}},"is_private":false,"message_config":{"destinations":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"ms_teams_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"abc123","group_alerts_summary":false},"slack_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"abc123","group_alerts_summary":false}}],"template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":"Production incidents","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"updated_at":"2021-08-17T13:28:57.801578Z","version":1}}
 type AlertRoutesCreateResultV3 struct {
-	// AlertRoute Example: {"alert_sources":[{"alert_source_id":"01FCNDV6P870EA6S7TK1DSYDG0","condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]}],"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"created_at":"2021-08-17T13:28:57.801578Z","enabled":false,"escalation_config":{"auto_cancel_escalations":false,"escalation_targets":[{"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"when_alert_joins_group":{"grace_period_seconds":60,"mode":"on_each_new_alert"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"grouping_config":{"default":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_config":{"auto_decline_enabled":false,"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"enabled":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"template":{"custom_fields":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","merge_strategy":"first-wins"}],"incident_mode":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"incident_type":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"membership_teams":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"severity":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"merge_strategy":"first-wins"},"start_in_triage":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"summary":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}},"is_private":false,"message_config":{"destinations":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"ms_teams_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"abc123","group_alerts_summary":false},"slack_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"abc123","group_alerts_summary":false}}],"template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":"Production incidents","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"updated_at":"2021-08-17T13:28:57.801578Z","version":1}
+	// AlertRoute Example: {"alert_sources":[{"alert_source_id":"01FCNDV6P870EA6S7TK1DSYDG0","condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]}],"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"created_at":"2021-08-17T13:28:57.801578Z","enabled":false,"escalation_config":{"auto_cancel_escalations":false,"escalation_targets":[{"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"when_alert_joins_group":{"grace_period_seconds":60,"mode":"on_each_new_alert"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"grouping_config":{"default":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_config":{"auto_decline_enabled":false,"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"enabled":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"template":{"custom_fields":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","merge_strategy":"first-wins"}],"incident_mode":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"incident_type":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"membership_teams":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"severity":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"merge_strategy":"first-wins"},"start_in_triage":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"summary":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}},"is_private":false,"message_config":{"destinations":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"ms_teams_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"abc123","group_alerts_summary":false},"slack_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"abc123","group_alerts_summary":false}}],"template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":"Production incidents","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"updated_at":"2021-08-17T13:28:57.801578Z","version":1}
 	AlertRoute AlertRouteV3 `json:"alert_route"`
 }
 
@@ -13034,9 +13340,9 @@ type AlertRoutesShowResultV2 struct {
 	AlertRoute AlertRouteV2 `json:"alert_route"`
 }
 
-// AlertRoutesShowResultV3 Example: {"alert_route":{"alert_sources":[{"alert_source_id":"01FCNDV6P870EA6S7TK1DSYDG0","condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]}],"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"created_at":"2021-08-17T13:28:57.801578Z","enabled":false,"escalation_config":{"auto_cancel_escalations":false,"escalation_targets":[{"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"when_alert_joins_group":{"grace_period_seconds":60,"mode":"on_each_new_alert"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"grouping_config":{"default":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_config":{"auto_decline_enabled":false,"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"enabled":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"template":{"custom_fields":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","merge_strategy":"first-wins"}],"incident_mode":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"incident_type":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"membership_teams":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"severity":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"merge_strategy":"first-wins"},"start_in_triage":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"summary":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}},"is_private":false,"message_config":{"destinations":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"ms_teams_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"abc123","group_alerts_summary":false},"slack_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"abc123","group_alerts_summary":false}}],"template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":"Production incidents","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"updated_at":"2021-08-17T13:28:57.801578Z","version":1}}
+// AlertRoutesShowResultV3 Example: {"alert_route":{"alert_sources":[{"alert_source_id":"01FCNDV6P870EA6S7TK1DSYDG0","condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]}],"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"created_at":"2021-08-17T13:28:57.801578Z","enabled":false,"escalation_config":{"auto_cancel_escalations":false,"escalation_targets":[{"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"when_alert_joins_group":{"grace_period_seconds":60,"mode":"on_each_new_alert"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"grouping_config":{"default":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_config":{"auto_decline_enabled":false,"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"enabled":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"template":{"custom_fields":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","merge_strategy":"first-wins"}],"incident_mode":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"incident_type":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"membership_teams":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"severity":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"merge_strategy":"first-wins"},"start_in_triage":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"summary":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}},"is_private":false,"message_config":{"destinations":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"ms_teams_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"abc123","group_alerts_summary":false},"slack_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"abc123","group_alerts_summary":false}}],"template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":"Production incidents","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"updated_at":"2021-08-17T13:28:57.801578Z","version":1}}
 type AlertRoutesShowResultV3 struct {
-	// AlertRoute Example: {"alert_sources":[{"alert_source_id":"01FCNDV6P870EA6S7TK1DSYDG0","condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]}],"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"created_at":"2021-08-17T13:28:57.801578Z","enabled":false,"escalation_config":{"auto_cancel_escalations":false,"escalation_targets":[{"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"when_alert_joins_group":{"grace_period_seconds":60,"mode":"on_each_new_alert"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"grouping_config":{"default":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_config":{"auto_decline_enabled":false,"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"enabled":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"template":{"custom_fields":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","merge_strategy":"first-wins"}],"incident_mode":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"incident_type":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"membership_teams":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"severity":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"merge_strategy":"first-wins"},"start_in_triage":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"summary":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}},"is_private":false,"message_config":{"destinations":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"ms_teams_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"abc123","group_alerts_summary":false},"slack_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"abc123","group_alerts_summary":false}}],"template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":"Production incidents","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"updated_at":"2021-08-17T13:28:57.801578Z","version":1}
+	// AlertRoute Example: {"alert_sources":[{"alert_source_id":"01FCNDV6P870EA6S7TK1DSYDG0","condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]}],"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"created_at":"2021-08-17T13:28:57.801578Z","enabled":false,"escalation_config":{"auto_cancel_escalations":false,"escalation_targets":[{"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"when_alert_joins_group":{"grace_period_seconds":60,"mode":"on_each_new_alert"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"grouping_config":{"default":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_config":{"auto_decline_enabled":false,"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"enabled":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"template":{"custom_fields":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","merge_strategy":"first-wins"}],"incident_mode":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"incident_type":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"membership_teams":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"severity":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"merge_strategy":"first-wins"},"start_in_triage":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"summary":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}},"is_private":false,"message_config":{"destinations":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"ms_teams_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"abc123","group_alerts_summary":false},"slack_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"abc123","group_alerts_summary":false}}],"template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":"Production incidents","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"updated_at":"2021-08-17T13:28:57.801578Z","version":1}
 	AlertRoute AlertRouteV3 `json:"alert_route"`
 }
 
@@ -13110,7 +13416,7 @@ type AlertRoutesUpdatePayloadV2 struct {
 	Version int64 `json:"version"`
 }
 
-// AlertRoutesUpdatePayloadV3 Example: {"alert_sources":[{"alert_source_id":"01FCNDV6P870EA6S7TK1DSYDG0","condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"enabled":false,"escalation_config":{"auto_cancel_escalations":false,"escalation_targets":[{"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"when_alert_joins_group":{"grace_period_seconds":60,"mode":"on_each_new_alert"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"grouping_config":{"default":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"incident_config":{"auto_decline_enabled":false,"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"enabled":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"template":{"custom_fields":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","merge_strategy":"first-wins"}],"incident_mode":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"incident_type":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"membership_teams":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"severity":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"merge_strategy":"first-wins"},"start_in_triage":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"summary":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}},"is_private":false,"message_config":{"destinations":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"ms_teams_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"public","group_alerts_summary":false},"slack_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"public","group_alerts_summary":false}}],"template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":"Production incidents","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"version":1}
+// AlertRoutesUpdatePayloadV3 Example: {"alert_sources":[{"alert_source_id":"01FCNDV6P870EA6S7TK1DSYDG0","condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"enabled":false,"escalation_config":{"auto_cancel_escalations":false,"escalation_targets":[{"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"when_alert_joins_group":{"grace_period_seconds":60,"mode":"on_each_new_alert"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"grouping_config":{"default":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"incident_config":{"auto_decline_enabled":false,"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"enabled":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"template":{"custom_fields":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","merge_strategy":"first-wins"}],"incident_mode":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"incident_type":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"membership_teams":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"severity":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"merge_strategy":"first-wins"},"start_in_triage":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"summary":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}},"is_private":false,"message_config":{"destinations":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"ms_teams_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"public","group_alerts_summary":false},"slack_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"public","group_alerts_summary":false}}],"template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":"Production incidents","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"version":1}
 type AlertRoutesUpdatePayloadV3 struct {
 	// AlertSources Which alert sources this route matches
 	//
@@ -13135,7 +13441,7 @@ type AlertRoutesUpdatePayloadV3 struct {
 	// Example: [{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}]
 	Expressions []ExpressionPayloadV3 `json:"expressions"`
 
-	// GroupingConfig Example: {"default":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
+	// GroupingConfig Example: {"default":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
 	GroupingConfig AlertGroupingConfigV3 `json:"grouping_config"`
 
 	// IncidentConfig Example: {"auto_decline_enabled":false,"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"enabled":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"template":{"custom_fields":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","merge_strategy":"first-wins"}],"incident_mode":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"incident_type":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"membership_teams":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"severity":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"merge_strategy":"first-wins"},"start_in_triage":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"summary":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}}
@@ -13171,9 +13477,9 @@ type AlertRoutesUpdateResultV2 struct {
 	AlertRoute AlertRouteV2 `json:"alert_route"`
 }
 
-// AlertRoutesUpdateResultV3 Example: {"alert_route":{"alert_sources":[{"alert_source_id":"01FCNDV6P870EA6S7TK1DSYDG0","condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]}],"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"created_at":"2021-08-17T13:28:57.801578Z","enabled":false,"escalation_config":{"auto_cancel_escalations":false,"escalation_targets":[{"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"when_alert_joins_group":{"grace_period_seconds":60,"mode":"on_each_new_alert"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"grouping_config":{"default":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_config":{"auto_decline_enabled":false,"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"enabled":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"template":{"custom_fields":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","merge_strategy":"first-wins"}],"incident_mode":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"incident_type":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"membership_teams":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"severity":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"merge_strategy":"first-wins"},"start_in_triage":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"summary":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}},"is_private":false,"message_config":{"destinations":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"ms_teams_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"abc123","group_alerts_summary":false},"slack_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"abc123","group_alerts_summary":false}}],"template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":"Production incidents","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"updated_at":"2021-08-17T13:28:57.801578Z","version":1}}
+// AlertRoutesUpdateResultV3 Example: {"alert_route":{"alert_sources":[{"alert_source_id":"01FCNDV6P870EA6S7TK1DSYDG0","condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]}],"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"created_at":"2021-08-17T13:28:57.801578Z","enabled":false,"escalation_config":{"auto_cancel_escalations":false,"escalation_targets":[{"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"when_alert_joins_group":{"grace_period_seconds":60,"mode":"on_each_new_alert"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"grouping_config":{"default":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_config":{"auto_decline_enabled":false,"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"enabled":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"template":{"custom_fields":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","merge_strategy":"first-wins"}],"incident_mode":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"incident_type":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"membership_teams":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"severity":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"merge_strategy":"first-wins"},"start_in_triage":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"summary":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}},"is_private":false,"message_config":{"destinations":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"ms_teams_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"abc123","group_alerts_summary":false},"slack_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"abc123","group_alerts_summary":false}}],"template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":"Production incidents","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"updated_at":"2021-08-17T13:28:57.801578Z","version":1}}
 type AlertRoutesUpdateResultV3 struct {
-	// AlertRoute Example: {"alert_sources":[{"alert_source_id":"01FCNDV6P870EA6S7TK1DSYDG0","condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]}],"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"created_at":"2021-08-17T13:28:57.801578Z","enabled":false,"escalation_config":{"auto_cancel_escalations":false,"escalation_targets":[{"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"when_alert_joins_group":{"grace_period_seconds":60,"mode":"on_each_new_alert"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"grouping_config":{"default":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_config":{"auto_decline_enabled":false,"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"enabled":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"template":{"custom_fields":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","merge_strategy":"first-wins"}],"incident_mode":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"incident_type":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"membership_teams":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"severity":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"merge_strategy":"first-wins"},"start_in_triage":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"summary":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}},"is_private":false,"message_config":{"destinations":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"ms_teams_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"abc123","group_alerts_summary":false},"slack_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"abc123","group_alerts_summary":false}}],"template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":"Production incidents","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"updated_at":"2021-08-17T13:28:57.801578Z","version":1}
+	// AlertRoute Example: {"alert_sources":[{"alert_source_id":"01FCNDV6P870EA6S7TK1DSYDG0","condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]}],"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"created_at":"2021-08-17T13:28:57.801578Z","enabled":false,"escalation_config":{"auto_cancel_escalations":false,"escalation_targets":[{"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"when_alert_joins_group":{"grace_period_seconds":60,"mode":"on_each_new_alert"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"grouping_config":{"default":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_config":{"auto_decline_enabled":false,"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"enabled":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"template":{"custom_fields":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","merge_strategy":"first-wins"}],"incident_mode":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"incident_type":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"membership_teams":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"severity":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"merge_strategy":"first-wins"},"start_in_triage":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"summary":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}},"is_private":false,"message_config":{"destinations":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"ms_teams_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"abc123","group_alerts_summary":false},"slack_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"abc123","group_alerts_summary":false}}],"template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":"Production incidents","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"updated_at":"2021-08-17T13:28:57.801578Z","version":1}
 	AlertRoute AlertRouteV3 `json:"alert_route"`
 }
 
@@ -21264,8 +21570,13 @@ type GroupingKeyV3 struct {
 	Reference string `json:"reference"`
 }
 
-// GroupingSettingsV3 Example: {"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}
+// GroupingSettingsV3 Example: {"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}
 type GroupingSettingsV3 struct {
+	// AiEnabled Use AI to group similar looking alerts. AI alert grouping can only group alerts that are attributed to the same team, so grouping keys must only contain the team alert attribute. Private alerts are grouped by key alone unless AI incident access allows private incidents and alerts. Omit it on an update to keep the current value.
+	//
+	// Example: false
+	AiEnabled *bool `json:"ai_enabled,omitempty"`
+
 	// Enabled Whether grouping is enabled
 	//
 	// Example: true
@@ -21649,6 +21960,24 @@ type IncidentAttachmentsListResultV1 struct {
 	IncidentAttachments []IncidentAttachmentV1 `json:"incident_attachments"`
 }
 
+// IncidentDebriefV2 Example: {"end_at":"2021-08-17T14:28:57.801578Z","id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z"}
+type IncidentDebriefV2 struct {
+	// EndAt When the debrief is scheduled to end
+	//
+	// Example: 2021-08-17T14:28:57.801578Z
+	EndAt time.Time `json:"end_at"`
+
+	// Id Unique ID of the incident debrief
+	//
+	// Example: 01G0J1EXE7AXZ2C93K61WBPYEH
+	Id string `json:"id"`
+
+	// StartAt When the debrief is scheduled to start
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	StartAt time.Time `json:"start_at"`
+}
+
 // IncidentDurationMetricV2 Example: {"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Lasted"}
 type IncidentDurationMetricV2 struct {
 	// Id Unique ID of this incident duration metric
@@ -21739,6 +22068,344 @@ type IncidentEditPayloadV2 struct {
 	//
 	// Example: Our database is really really sad, and we don't know why yet.
 	Summary *string `json:"summary,omitempty"`
+}
+
+// IncidentFormLifecycleElementConfigV3 Example: {"require_comment":false}
+type IncidentFormLifecycleElementConfigV3 struct {
+	// RequireComment Whether the free-text comment must be filled in, for anyone giving investigation feedback
+	//
+	// Example: false
+	RequireComment *bool `json:"require_comment,omitempty"`
+}
+
+// IncidentFormLifecycleElementPayloadV3 Example: {"can_select_no_value":false,"config":{"require_comment":false},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","default_value":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"description":"Shown when the incident is major or above.","element_type":"name","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_role_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0","placeholder":"What's happening?","required_if":"check_engine_config","required_if_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"show_if_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]}
+type IncidentFormLifecycleElementPayloadV3 struct {
+	// CanSelectNoValue Whether the user can explicitly choose no value. Only meaningful for custom field elements.
+	//
+	// Example: false
+	CanSelectNoValue *bool `json:"can_select_no_value,omitempty"`
+
+	// Config Example: {"require_comment":false}
+	Config *IncidentFormLifecycleElementConfigV3 `json:"config,omitempty"`
+
+	// CustomFieldId The custom field this element edits. Set only when element_type is custom_field.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	CustomFieldId *string `json:"custom_field_id,omitempty"`
+
+	// DefaultValue Example: {"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}
+	DefaultValue *EngineParamBindingPayloadV3 `json:"default_value,omitempty"`
+
+	// Description Description shown beside this element, as markdown
+	//
+	// Example: Shown when the incident is major or above.
+	Description *string `json:"description,omitempty"`
+
+	// ElementType What this element captures
+	//
+	// Example: name
+	ElementType IncidentFormLifecycleElementPayloadV3ElementType `json:"element_type"`
+
+	// Id Identifier of an existing divider or text element. Omit when adding an element.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	Id *string `json:"id,omitempty"`
+
+	// IncidentRoleId The incident role this element assigns. Set only when element_type is incident_role.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	IncidentRoleId *string `json:"incident_role_id,omitempty"`
+
+	// IncidentTimestampId The incident timestamp this element sets. Set only when element_type is timestamp.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	IncidentTimestampId *string `json:"incident_timestamp_id,omitempty"`
+
+	// Placeholder Placeholder text shown in the empty field
+	//
+	// Example: What's happening?
+	Placeholder *string `json:"placeholder,omitempty"`
+
+	// RequiredIf When this element must be filled in
+	//
+	// Example: check_engine_config
+	RequiredIf *IncidentFormLifecycleElementPayloadV3RequiredIf `json:"required_if,omitempty"`
+
+	// RequiredIfConditionGroups Condition groups that make this element required. Used when required_if is check_engine_config.
+	//
+	// Example: [{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]
+	RequiredIfConditionGroups *[]ConditionGroupPayloadV3 `json:"required_if_condition_groups,omitempty"`
+
+	// ShowIfConditionGroups The element is shown when any of these condition groups match. Unset means it is always shown.
+	//
+	// Example: [{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]
+	ShowIfConditionGroups *[]ConditionGroupPayloadV3 `json:"show_if_condition_groups,omitempty"`
+}
+
+// IncidentFormLifecycleElementPayloadV3ElementType What this element captures
+//
+// Example: name
+type IncidentFormLifecycleElementPayloadV3ElementType string
+
+// IncidentFormLifecycleElementPayloadV3RequiredIf When this element must be filled in
+//
+// Example: check_engine_config
+type IncidentFormLifecycleElementPayloadV3RequiredIf string
+
+// IncidentFormLifecycleElementV3 Example: {"can_select_no_value":false,"config":{"require_comment":false},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","default_value":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"description":"Shown when the incident is major or above.","element_type":"name","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_role_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0","placeholder":"What's happening?","required_if":"check_engine_config","required_if_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"show_if_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]}
+type IncidentFormLifecycleElementV3 struct {
+	// CanSelectNoValue Whether the user can explicitly choose no value. Only meaningful for custom field elements.
+	//
+	// Example: false
+	CanSelectNoValue *bool `json:"can_select_no_value,omitempty"`
+
+	// Config Example: {"require_comment":false}
+	Config *IncidentFormLifecycleElementConfigV3 `json:"config,omitempty"`
+
+	// CustomFieldId The custom field this element edits. Set only when element_type is custom_field.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	CustomFieldId *string `json:"custom_field_id,omitempty"`
+
+	// DefaultValue Example: {"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}
+	DefaultValue *EngineParamBindingV3 `json:"default_value,omitempty"`
+
+	// Description Description shown beside this element, as markdown
+	//
+	// Example: Shown when the incident is major or above.
+	Description *string `json:"description,omitempty"`
+
+	// ElementType What this element captures
+	//
+	// Example: name
+	ElementType IncidentFormLifecycleElementV3ElementType `json:"element_type"`
+
+	// Id Unique identifier for this element. divider and text elements are matched on this, because they have no natural key.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	Id *string `json:"id,omitempty"`
+
+	// IncidentRoleId The incident role this element assigns. Set only when element_type is incident_role.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	IncidentRoleId *string `json:"incident_role_id,omitempty"`
+
+	// IncidentTimestampId The incident timestamp this element sets. Set only when element_type is timestamp.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	IncidentTimestampId *string `json:"incident_timestamp_id,omitempty"`
+
+	// Placeholder Placeholder text shown in the empty field
+	//
+	// Example: What's happening?
+	Placeholder *string `json:"placeholder,omitempty"`
+
+	// RequiredIf When this element must be filled in
+	//
+	// Example: check_engine_config
+	RequiredIf *IncidentFormLifecycleElementV3RequiredIf `json:"required_if,omitempty"`
+
+	// RequiredIfConditionGroups Condition groups that make this element required. Used when required_if is check_engine_config.
+	//
+	// Example: [{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]
+	RequiredIfConditionGroups *[]ConditionGroupV3 `json:"required_if_condition_groups,omitempty"`
+
+	// ShowIfConditionGroups The element is shown when any of these condition groups match. Unset means it is always shown.
+	//
+	// Example: [{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]
+	ShowIfConditionGroups *[]ConditionGroupV3 `json:"show_if_condition_groups,omitempty"`
+}
+
+// IncidentFormLifecycleElementV3ElementType What this element captures
+//
+// Example: name
+type IncidentFormLifecycleElementV3ElementType string
+
+// IncidentFormLifecycleElementV3RequiredIf When this element must be filled in
+//
+// Example: check_engine_config
+type IncidentFormLifecycleElementV3RequiredIf string
+
+// IncidentFormV3 Example: {"created_at":"2021-08-17T13:28:57.801578Z","expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"form_type":"declare","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","lifecycle_elements":[{"can_select_no_value":false,"config":{"require_comment":false},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","default_value":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"description":"Shown when the incident is major or above.","element_type":"name","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_role_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0","placeholder":"What's happening?","required_if":"check_engine_config","required_if_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"show_if_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]}],"updated_at":"2021-08-17T13:28:57.801578Z"}
+type IncidentFormV3 struct {
+	// CreatedAt When this incident form was created
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	CreatedAt time.Time `json:"created_at"`
+
+	// Expressions Expressions available to every element's conditions and defaults. Referenced by reference, not by ID.
+	//
+	// Example: [{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}]
+	Expressions []ExpressionV3 `json:"expressions"`
+
+	// FormType Which form this is. Escalate forms are not part of this API.
+	//
+	// Example: declare
+	FormType IncidentFormV3FormType `json:"form_type"`
+
+	// Id Unique identifier for this incident form
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	Id string `json:"id"`
+
+	// IncidentTypeId The incident type this form belongs to. Unset for the organisation's default form of this type.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	IncidentTypeId *string `json:"incident_type_id,omitempty"`
+
+	// LifecycleElements Elements on this form, in display order. List position is the order: there is no separate rank.
+	//
+	// Example: [{"can_select_no_value":false,"config":{"require_comment":false},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","default_value":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"description":"Shown when the incident is major or above.","element_type":"name","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_role_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0","placeholder":"What's happening?","required_if":"check_engine_config","required_if_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"show_if_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]}]
+	LifecycleElements *[]IncidentFormLifecycleElementV3 `json:"lifecycle_elements,omitempty"`
+
+	// UpdatedAt When this incident form was last updated
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	UpdatedAt time.Time `json:"updated_at"`
+}
+
+// IncidentFormV3FormType Which form this is. Escalate forms are not part of this API.
+//
+// Example: declare
+type IncidentFormV3FormType string
+
+// IncidentFormValidateWarningV3 Something about a form config that will be accepted, but probably isn't what you meant.
+//
+// Example: {"detail":"The saved form always starts with name and status, in that order, wherever this config lists them. Move them to the start of lifecycle_elements in that order, or the form you read back won't match this config.","summary":"The saved form will list its elements in a different order"}
+type IncidentFormValidateWarningV3 struct {
+	// Detail More detail about the warning and what to do about it
+	//
+	// Example: The saved form always starts with name and status, in that order, wherever this config lists them. Move them to the start of lifecycle_elements in that order, or the form you read back won't match this config.
+	Detail string `json:"detail"`
+
+	// Summary A short description of the warning
+	//
+	// Example: The saved form will list its elements in a different order
+	Summary string `json:"summary"`
+}
+
+// IncidentFormsCreatePayloadV3 Example: {"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"form_type":"declare","incident_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","lifecycle_elements":[{"can_select_no_value":false,"config":{"require_comment":false},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","default_value":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"description":"Shown when the incident is major or above.","element_type":"name","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_role_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0","placeholder":"What's happening?","required_if":"check_engine_config","required_if_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"show_if_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]}]}
+type IncidentFormsCreatePayloadV3 struct {
+	// Expressions Expressions available to every element's conditions and defaults. Referenced by reference, not by ID.
+	//
+	// Example: [{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}]
+	Expressions []ExpressionPayloadV3 `json:"expressions"`
+
+	// FormType Which form this is. Escalate forms are not part of this API.
+	//
+	// Example: declare
+	FormType IncidentFormsCreatePayloadV3FormType `json:"form_type"`
+
+	// IncidentTypeId The incident type this form belongs to. Leave unset for the organisation's default form of this type.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	IncidentTypeId *string `json:"incident_type_id,omitempty"`
+
+	// LifecycleElements Elements on this form, in display order. List position is the order: there is no separate rank.
+	//
+	// Example: [{"can_select_no_value":false,"config":{"require_comment":false},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","default_value":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"description":"Shown when the incident is major or above.","element_type":"name","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_role_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0","placeholder":"What's happening?","required_if":"check_engine_config","required_if_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"show_if_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]}]
+	LifecycleElements *[]IncidentFormLifecycleElementPayloadV3 `json:"lifecycle_elements,omitempty"`
+}
+
+// IncidentFormsCreatePayloadV3FormType Which form this is. Escalate forms are not part of this API.
+//
+// Example: declare
+type IncidentFormsCreatePayloadV3FormType string
+
+// IncidentFormsCreateResultV3 Example: {"incident_form":{"created_at":"2021-08-17T13:28:57.801578Z","expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"form_type":"declare","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","lifecycle_elements":[{"can_select_no_value":false,"config":{"require_comment":false},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","default_value":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"description":"Shown when the incident is major or above.","element_type":"name","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_role_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0","placeholder":"What's happening?","required_if":"check_engine_config","required_if_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"show_if_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]}],"updated_at":"2021-08-17T13:28:57.801578Z"}}
+type IncidentFormsCreateResultV3 struct {
+	// IncidentForm Example: {"created_at":"2021-08-17T13:28:57.801578Z","expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"form_type":"declare","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","lifecycle_elements":[{"can_select_no_value":false,"config":{"require_comment":false},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","default_value":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"description":"Shown when the incident is major or above.","element_type":"name","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_role_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0","placeholder":"What's happening?","required_if":"check_engine_config","required_if_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"show_if_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]}],"updated_at":"2021-08-17T13:28:57.801578Z"}
+	IncidentForm IncidentFormV3 `json:"incident_form"`
+}
+
+// IncidentFormsListResultV3 Example: {"incident_forms":[{"created_at":"2021-08-17T13:28:57.801578Z","expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"form_type":"declare","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","lifecycle_elements":[{"can_select_no_value":false,"config":{"require_comment":false},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","default_value":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"description":"Shown when the incident is major or above.","element_type":"name","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_role_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0","placeholder":"What's happening?","required_if":"check_engine_config","required_if_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"show_if_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]}],"updated_at":"2021-08-17T13:28:57.801578Z"}],"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}}
+type IncidentFormsListResultV3 struct {
+	// IncidentForms Example: [{"created_at":"2021-08-17T13:28:57.801578Z","expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"form_type":"declare","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","lifecycle_elements":[{"can_select_no_value":false,"config":{"require_comment":false},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","default_value":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"description":"Shown when the incident is major or above.","element_type":"name","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_role_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0","placeholder":"What's happening?","required_if":"check_engine_config","required_if_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"show_if_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]}],"updated_at":"2021-08-17T13:28:57.801578Z"}]
+	IncidentForms []IncidentFormV3 `json:"incident_forms"`
+
+	// PaginationMeta Example: {"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}
+	PaginationMeta PaginationMetaResultV3 `json:"pagination_meta"`
+}
+
+// IncidentFormsShowResultV3 Example: {"incident_form":{"created_at":"2021-08-17T13:28:57.801578Z","expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"form_type":"declare","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","lifecycle_elements":[{"can_select_no_value":false,"config":{"require_comment":false},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","default_value":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"description":"Shown when the incident is major or above.","element_type":"name","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_role_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0","placeholder":"What's happening?","required_if":"check_engine_config","required_if_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"show_if_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]}],"updated_at":"2021-08-17T13:28:57.801578Z"}}
+type IncidentFormsShowResultV3 struct {
+	// IncidentForm Example: {"created_at":"2021-08-17T13:28:57.801578Z","expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"form_type":"declare","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","lifecycle_elements":[{"can_select_no_value":false,"config":{"require_comment":false},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","default_value":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"description":"Shown when the incident is major or above.","element_type":"name","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_role_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0","placeholder":"What's happening?","required_if":"check_engine_config","required_if_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"show_if_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]}],"updated_at":"2021-08-17T13:28:57.801578Z"}
+	IncidentForm IncidentFormV3 `json:"incident_form"`
+}
+
+// IncidentFormsUpdatePayloadV3 Example: {"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"form_type":"declare","incident_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","lifecycle_elements":[{"can_select_no_value":false,"config":{"require_comment":false},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","default_value":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"description":"Shown when the incident is major or above.","element_type":"name","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_role_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0","placeholder":"What's happening?","required_if":"check_engine_config","required_if_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"show_if_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]}]}
+type IncidentFormsUpdatePayloadV3 struct {
+	// Expressions Expressions available to every element's conditions and defaults. Referenced by reference, not by ID.
+	//
+	// Example: [{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}]
+	Expressions []ExpressionPayloadV3 `json:"expressions"`
+
+	// FormType Which form this is. Escalate forms are not part of this API.
+	//
+	// Example: declare
+	FormType IncidentFormsUpdatePayloadV3FormType `json:"form_type"`
+
+	// IncidentTypeId The incident type this form belongs to. Leave unset for the organisation's default form of this type.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	IncidentTypeId *string `json:"incident_type_id,omitempty"`
+
+	// LifecycleElements Elements on this form, in display order. List position is the order: there is no separate rank.
+	//
+	// Example: [{"can_select_no_value":false,"config":{"require_comment":false},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","default_value":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"description":"Shown when the incident is major or above.","element_type":"name","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_role_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0","placeholder":"What's happening?","required_if":"check_engine_config","required_if_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"show_if_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]}]
+	LifecycleElements *[]IncidentFormLifecycleElementPayloadV3 `json:"lifecycle_elements,omitempty"`
+}
+
+// IncidentFormsUpdatePayloadV3FormType Which form this is. Escalate forms are not part of this API.
+//
+// Example: declare
+type IncidentFormsUpdatePayloadV3FormType string
+
+// IncidentFormsUpdateResultV3 Example: {"incident_form":{"created_at":"2021-08-17T13:28:57.801578Z","expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"form_type":"declare","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","lifecycle_elements":[{"can_select_no_value":false,"config":{"require_comment":false},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","default_value":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"description":"Shown when the incident is major or above.","element_type":"name","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_role_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0","placeholder":"What's happening?","required_if":"check_engine_config","required_if_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"show_if_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]}],"updated_at":"2021-08-17T13:28:57.801578Z"}}
+type IncidentFormsUpdateResultV3 struct {
+	// IncidentForm Example: {"created_at":"2021-08-17T13:28:57.801578Z","expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"form_type":"declare","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","lifecycle_elements":[{"can_select_no_value":false,"config":{"require_comment":false},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","default_value":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"description":"Shown when the incident is major or above.","element_type":"name","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_role_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0","placeholder":"What's happening?","required_if":"check_engine_config","required_if_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"show_if_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]}],"updated_at":"2021-08-17T13:28:57.801578Z"}
+	IncidentForm IncidentFormV3 `json:"incident_form"`
+}
+
+// IncidentFormsValidatePayloadV3 Example: {"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"form_type":"declare","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","lifecycle_elements":[{"can_select_no_value":false,"config":{"require_comment":false},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","default_value":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"description":"Shown when the incident is major or above.","element_type":"name","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_role_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0","placeholder":"What's happening?","required_if":"check_engine_config","required_if_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"show_if_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]}]}
+type IncidentFormsValidatePayloadV3 struct {
+	// Expressions Expressions available to every element's conditions and defaults. Referenced by reference, not by ID.
+	//
+	// Example: [{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}]
+	Expressions []ExpressionPayloadV3 `json:"expressions"`
+
+	// FormType Which form this is. Escalate forms are not part of this API.
+	//
+	// Example: declare
+	FormType IncidentFormsValidatePayloadV3FormType `json:"form_type"`
+
+	// Id The form this config would replace. Leave unset to check a new form.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	Id *string `json:"id,omitempty"`
+
+	// IncidentTypeId The incident type this form belongs to. Leave unset for the organisation's default form of this type.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	IncidentTypeId *string `json:"incident_type_id,omitempty"`
+
+	// LifecycleElements Elements on this form, in display order. List position is the order: there is no separate rank.
+	//
+	// Example: [{"can_select_no_value":false,"config":{"require_comment":false},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","default_value":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"description":"Shown when the incident is major or above.","element_type":"name","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_role_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0","placeholder":"What's happening?","required_if":"check_engine_config","required_if_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"show_if_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]}]
+	LifecycleElements *[]IncidentFormLifecycleElementPayloadV3 `json:"lifecycle_elements,omitempty"`
+}
+
+// IncidentFormsValidatePayloadV3FormType Which form this is. Escalate forms are not part of this API.
+//
+// Example: declare
+type IncidentFormsValidatePayloadV3FormType string
+
+// IncidentFormsValidateResultV3 Example: {"warnings":[{"detail":"The saved form always starts with name and status, in that order, wherever this config lists them. Move them to the start of lifecycle_elements in that order, or the form you read back won't match this config.","summary":"The saved form will list its elements in a different order"}]}
+type IncidentFormsValidateResultV3 struct {
+	// Warnings Anything about this config that is valid but probably not what you meant. Empty when there's nothing to say.
+	//
+	// Example: [{"detail":"The saved form always starts with name and status, in that order, wherever this config lists them. Move them to the start of lifecycle_elements in that order, or the form you read back won't match this config.","summary":"The saved form will list its elements in a different order"}]
+	Warnings []IncidentFormValidateWarningV3 `json:"warnings"`
 }
 
 // IncidentMembershipV1 Example: {"created_at":"2021-08-17T13:28:57.801578Z","id":"01FCNDV6P870EA6S7TK1DSYD5H","incident_id":"01FCNDV6P870EA6S7TK1DSYD5H","updated_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}}
@@ -22431,17 +23098,12 @@ type IncidentTeamMembershipsCreateResultV1 struct {
 	IncidentTeamMembership IncidentTeamMembershipV1 `json:"incident_team_membership"`
 }
 
-// IncidentTeamMembershipsRevokePayloadV1 Example: {"incident_id":"01FCNDV6P870EA6S7TK1DSYD5H","revoke_team_inherited_access":true,"team_id":"01FCQSP07Z74QMMYPDDGQB9FTG"}
+// IncidentTeamMembershipsRevokePayloadV1 Example: {"incident_id":"01FCNDV6P870EA6S7TK1DSYD5H","team_id":"01FCQSP07Z74QMMYPDDGQB9FTG"}
 type IncidentTeamMembershipsRevokePayloadV1 struct {
 	// IncidentId Revoke team access to this incident
 	//
 	// Example: 01FCNDV6P870EA6S7TK1DSYD5H
 	IncidentId string `json:"incident_id"`
-
-	// RevokeTeamInheritedAccess Revoke the individual channel seats that members inherited via this team grant, except members still covered by another active team grant. Directly-added members are never affected.
-	//
-	// Example: true
-	RevokeTeamInheritedAccess *bool `json:"revoke_team_inherited_access,omitempty"`
 
 	// TeamId Example: 01FCQSP07Z74QMMYPDDGQB9FTG
 	TeamId string `json:"team_id"`
@@ -23295,7 +23957,7 @@ type IncidentV1Status string
 // Example: public
 type IncidentV1Visibility string
 
-// IncidentV2 Example: {"call_url":"https://zoom.us/foo","created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"custom_field_entries":[{"custom_field":{"description":"Which team is impacted by this issue","field_type":"single_select","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Affected Team","options":[{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"}]},"values":[{"value_catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"value_link":"https://google.com/","value_numeric":"123.456","value_option":{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"},"value_text":"This is my text field, I hope you like it"}]}],"duration_metrics":[{"duration_metric":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Lasted"},"status":"success","value_seconds":10800}],"external_issue_reference":{"issue_name":"INC-123","issue_permalink":"https://linear.app/incident-io/issue/INC-1609/find-copywriter-to-write-up","provider":"asana"},"has_debrief":false,"id":"01FDAG4SAP5TYPT98WGR2N7W91","incident_role_assignments":[{"assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"role":{"created_at":"2021-08-17T13:28:57.801578Z","description":"The person currently coordinating the incident","id":"01FCNDV6P870EA6S7TK1DSYDG0","instructions":"Take point on the incident; Make sure people are clear on responsibilities","name":"Incident Lead","required":false,"role_type":"lead","shortform":"lead","updated_at":"2021-08-17T13:28:57.801578Z"}}],"incident_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"incident_timestamp_values":[{"incident_timestamp":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Impact started","rank":1},"value":{"value":"2021-08-17T13:28:57.801578Z"}}],"incident_type":{"create_in_triage":"always","created_at":"2021-08-17T13:28:57.801578Z","description":"Customer facing production outages","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_default":false,"name":"Production Outage","private_incidents_only":false,"updated_at":"2021-08-17T13:28:57.801578Z"},"last_activity_at":"2021-08-17T13:28:57.801578Z","mode":"standard","ms_teams_channel_url":"https://teams.microsoft.com/l/channel/19%some-hex%40thread.tacv2/inc-123-title?groupId=some-uuid\u0026tenantId=another-uuid","name":"Our database is sad","permalink":"https://app.incident.io/incidents/123","postmortem_document_ids":["01FCNDV6P870EA6S7TK1DSYD5H"],"postmortem_document_url":"https://docs.google.com/my_doc_id","reference":"INC-123","severity":{"created_at":"2021-08-17T13:28:57.801578Z","description":"Issues with **low impact**.","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Minor","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"},"slack_channel_id":"C02AW36C1M5","slack_channel_name":"inc-165-green-parrot","slack_channel_url":"https://slack.com/app_redirect?team=T1234\u0026channel=C5678","slack_team_id":"T02A1FSLE8J","summary":"Our database is really really sad, and we don't know why yet.","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"updated_at":"2021-08-17T13:28:57.801578Z","visibility":"public","workload_minutes_late":40.7,"workload_minutes_sleeping":0,"workload_minutes_total":60.7,"workload_minutes_working":20}
+// IncidentV2 Example: {"call_url":"https://zoom.us/foo","created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"custom_field_entries":[{"custom_field":{"description":"Which team is impacted by this issue","field_type":"single_select","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Affected Team","options":[{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"}]},"values":[{"value_catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"value_link":"https://google.com/","value_numeric":"123.456","value_option":{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"},"value_text":"This is my text field, I hope you like it"}]}],"debriefs":[{"end_at":"2021-08-17T14:28:57.801578Z","id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z"}],"duration_metrics":[{"duration_metric":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Lasted"},"status":"success","value_seconds":10800}],"external_issue_reference":{"issue_name":"INC-123","issue_permalink":"https://linear.app/incident-io/issue/INC-1609/find-copywriter-to-write-up","provider":"asana"},"has_debrief":false,"id":"01FDAG4SAP5TYPT98WGR2N7W91","incident_role_assignments":[{"assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"role":{"created_at":"2021-08-17T13:28:57.801578Z","description":"The person currently coordinating the incident","id":"01FCNDV6P870EA6S7TK1DSYDG0","instructions":"Take point on the incident; Make sure people are clear on responsibilities","name":"Incident Lead","required":false,"role_type":"lead","shortform":"lead","updated_at":"2021-08-17T13:28:57.801578Z"}}],"incident_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"incident_timestamp_values":[{"incident_timestamp":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Impact started","rank":1},"value":{"value":"2021-08-17T13:28:57.801578Z"}}],"incident_type":{"create_in_triage":"always","created_at":"2021-08-17T13:28:57.801578Z","description":"Customer facing production outages","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_default":false,"name":"Production Outage","private_incidents_only":false,"updated_at":"2021-08-17T13:28:57.801578Z"},"last_activity_at":"2021-08-17T13:28:57.801578Z","mode":"standard","ms_teams_channel_url":"https://teams.microsoft.com/l/channel/19%some-hex%40thread.tacv2/inc-123-title?groupId=some-uuid\u0026tenantId=another-uuid","name":"Our database is sad","permalink":"https://app.incident.io/incidents/123","postmortem_document_ids":["01FCNDV6P870EA6S7TK1DSYD5H"],"postmortem_document_url":"https://docs.google.com/my_doc_id","reference":"INC-123","severity":{"created_at":"2021-08-17T13:28:57.801578Z","description":"Issues with **low impact**.","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Minor","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"},"slack_channel_id":"C02AW36C1M5","slack_channel_name":"inc-165-green-parrot","slack_channel_url":"https://slack.com/app_redirect?team=T1234\u0026channel=C5678","slack_team_id":"T02A1FSLE8J","summary":"Our database is really really sad, and we don't know why yet.","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"updated_at":"2021-08-17T13:28:57.801578Z","visibility":"public","workload_minutes_late":40.7,"workload_minutes_sleeping":0,"workload_minutes_total":60.7,"workload_minutes_working":20}
 type IncidentV2 struct {
 	// CallUrl The call URL attached to this incident
 	//
@@ -23314,6 +23976,11 @@ type IncidentV2 struct {
 	//
 	// Example: [{"custom_field":{"description":"Which team is impacted by this issue","field_type":"single_select","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Affected Team","options":[{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"}]},"values":[{"value_catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"value_link":"https://google.com/","value_numeric":"123.456","value_option":{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"},"value_text":"This is my text field, I hope you like it"}]}]
 	CustomFieldEntries []CustomFieldEntryV2 `json:"custom_field_entries"`
+
+	// Debriefs Debriefs scheduled for this incident, ordered by start time. Excludes cancelled calendar events.
+	//
+	// Example: [{"end_at":"2021-08-17T14:28:57.801578Z","id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z"}]
+	Debriefs *[]IncidentDebriefV2 `json:"debriefs,omitempty"`
 
 	// DurationMetrics Incident duration metrics and their measurements for this incident
 	//
@@ -23633,9 +24300,9 @@ type IncidentsCreateResultV1 struct {
 	Incident IncidentV1 `json:"incident"`
 }
 
-// IncidentsCreateResultV2 Example: {"incident":{"call_url":"https://zoom.us/foo","created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"custom_field_entries":[{"custom_field":{"description":"Which team is impacted by this issue","field_type":"single_select","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Affected Team","options":[{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"}]},"values":[{"value_catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"value_link":"https://google.com/","value_numeric":"123.456","value_option":{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"},"value_text":"This is my text field, I hope you like it"}]}],"duration_metrics":[{"duration_metric":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Lasted"},"status":"success","value_seconds":10800}],"external_issue_reference":{"issue_name":"INC-123","issue_permalink":"https://linear.app/incident-io/issue/INC-1609/find-copywriter-to-write-up","provider":"asana"},"has_debrief":false,"id":"01FDAG4SAP5TYPT98WGR2N7W91","incident_role_assignments":[{"assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"role":{"created_at":"2021-08-17T13:28:57.801578Z","description":"The person currently coordinating the incident","id":"01FCNDV6P870EA6S7TK1DSYDG0","instructions":"Take point on the incident; Make sure people are clear on responsibilities","name":"Incident Lead","required":false,"role_type":"lead","shortform":"lead","updated_at":"2021-08-17T13:28:57.801578Z"}}],"incident_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"incident_timestamp_values":[{"incident_timestamp":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Impact started","rank":1},"value":{"value":"2021-08-17T13:28:57.801578Z"}}],"incident_type":{"create_in_triage":"always","created_at":"2021-08-17T13:28:57.801578Z","description":"Customer facing production outages","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_default":false,"name":"Production Outage","private_incidents_only":false,"updated_at":"2021-08-17T13:28:57.801578Z"},"last_activity_at":"2021-08-17T13:28:57.801578Z","mode":"standard","ms_teams_channel_url":"https://teams.microsoft.com/l/channel/19%some-hex%40thread.tacv2/inc-123-title?groupId=some-uuid\u0026tenantId=another-uuid","name":"Our database is sad","permalink":"https://app.incident.io/incidents/123","postmortem_document_ids":["01FCNDV6P870EA6S7TK1DSYD5H"],"postmortem_document_url":"https://docs.google.com/my_doc_id","reference":"INC-123","severity":{"created_at":"2021-08-17T13:28:57.801578Z","description":"Issues with **low impact**.","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Minor","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"},"slack_channel_id":"C02AW36C1M5","slack_channel_name":"inc-165-green-parrot","slack_channel_url":"https://slack.com/app_redirect?team=T1234\u0026channel=C5678","slack_team_id":"T02A1FSLE8J","summary":"Our database is really really sad, and we don't know why yet.","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"updated_at":"2021-08-17T13:28:57.801578Z","visibility":"public","workload_minutes_late":40.7,"workload_minutes_sleeping":0,"workload_minutes_total":60.7,"workload_minutes_working":20}}
+// IncidentsCreateResultV2 Example: {"incident":{"call_url":"https://zoom.us/foo","created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"custom_field_entries":[{"custom_field":{"description":"Which team is impacted by this issue","field_type":"single_select","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Affected Team","options":[{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"}]},"values":[{"value_catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"value_link":"https://google.com/","value_numeric":"123.456","value_option":{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"},"value_text":"This is my text field, I hope you like it"}]}],"debriefs":[{"end_at":"2021-08-17T14:28:57.801578Z","id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z"}],"duration_metrics":[{"duration_metric":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Lasted"},"status":"success","value_seconds":10800}],"external_issue_reference":{"issue_name":"INC-123","issue_permalink":"https://linear.app/incident-io/issue/INC-1609/find-copywriter-to-write-up","provider":"asana"},"has_debrief":false,"id":"01FDAG4SAP5TYPT98WGR2N7W91","incident_role_assignments":[{"assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"role":{"created_at":"2021-08-17T13:28:57.801578Z","description":"The person currently coordinating the incident","id":"01FCNDV6P870EA6S7TK1DSYDG0","instructions":"Take point on the incident; Make sure people are clear on responsibilities","name":"Incident Lead","required":false,"role_type":"lead","shortform":"lead","updated_at":"2021-08-17T13:28:57.801578Z"}}],"incident_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"incident_timestamp_values":[{"incident_timestamp":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Impact started","rank":1},"value":{"value":"2021-08-17T13:28:57.801578Z"}}],"incident_type":{"create_in_triage":"always","created_at":"2021-08-17T13:28:57.801578Z","description":"Customer facing production outages","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_default":false,"name":"Production Outage","private_incidents_only":false,"updated_at":"2021-08-17T13:28:57.801578Z"},"last_activity_at":"2021-08-17T13:28:57.801578Z","mode":"standard","ms_teams_channel_url":"https://teams.microsoft.com/l/channel/19%some-hex%40thread.tacv2/inc-123-title?groupId=some-uuid\u0026tenantId=another-uuid","name":"Our database is sad","permalink":"https://app.incident.io/incidents/123","postmortem_document_ids":["01FCNDV6P870EA6S7TK1DSYD5H"],"postmortem_document_url":"https://docs.google.com/my_doc_id","reference":"INC-123","severity":{"created_at":"2021-08-17T13:28:57.801578Z","description":"Issues with **low impact**.","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Minor","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"},"slack_channel_id":"C02AW36C1M5","slack_channel_name":"inc-165-green-parrot","slack_channel_url":"https://slack.com/app_redirect?team=T1234\u0026channel=C5678","slack_team_id":"T02A1FSLE8J","summary":"Our database is really really sad, and we don't know why yet.","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"updated_at":"2021-08-17T13:28:57.801578Z","visibility":"public","workload_minutes_late":40.7,"workload_minutes_sleeping":0,"workload_minutes_total":60.7,"workload_minutes_working":20}}
 type IncidentsCreateResultV2 struct {
-	// Incident Example: {"call_url":"https://zoom.us/foo","created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"custom_field_entries":[{"custom_field":{"description":"Which team is impacted by this issue","field_type":"single_select","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Affected Team","options":[{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"}]},"values":[{"value_catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"value_link":"https://google.com/","value_numeric":"123.456","value_option":{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"},"value_text":"This is my text field, I hope you like it"}]}],"duration_metrics":[{"duration_metric":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Lasted"},"status":"success","value_seconds":10800}],"external_issue_reference":{"issue_name":"INC-123","issue_permalink":"https://linear.app/incident-io/issue/INC-1609/find-copywriter-to-write-up","provider":"asana"},"has_debrief":false,"id":"01FDAG4SAP5TYPT98WGR2N7W91","incident_role_assignments":[{"assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"role":{"created_at":"2021-08-17T13:28:57.801578Z","description":"The person currently coordinating the incident","id":"01FCNDV6P870EA6S7TK1DSYDG0","instructions":"Take point on the incident; Make sure people are clear on responsibilities","name":"Incident Lead","required":false,"role_type":"lead","shortform":"lead","updated_at":"2021-08-17T13:28:57.801578Z"}}],"incident_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"incident_timestamp_values":[{"incident_timestamp":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Impact started","rank":1},"value":{"value":"2021-08-17T13:28:57.801578Z"}}],"incident_type":{"create_in_triage":"always","created_at":"2021-08-17T13:28:57.801578Z","description":"Customer facing production outages","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_default":false,"name":"Production Outage","private_incidents_only":false,"updated_at":"2021-08-17T13:28:57.801578Z"},"last_activity_at":"2021-08-17T13:28:57.801578Z","mode":"standard","ms_teams_channel_url":"https://teams.microsoft.com/l/channel/19%some-hex%40thread.tacv2/inc-123-title?groupId=some-uuid\u0026tenantId=another-uuid","name":"Our database is sad","permalink":"https://app.incident.io/incidents/123","postmortem_document_ids":["01FCNDV6P870EA6S7TK1DSYD5H"],"postmortem_document_url":"https://docs.google.com/my_doc_id","reference":"INC-123","severity":{"created_at":"2021-08-17T13:28:57.801578Z","description":"Issues with **low impact**.","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Minor","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"},"slack_channel_id":"C02AW36C1M5","slack_channel_name":"inc-165-green-parrot","slack_channel_url":"https://slack.com/app_redirect?team=T1234\u0026channel=C5678","slack_team_id":"T02A1FSLE8J","summary":"Our database is really really sad, and we don't know why yet.","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"updated_at":"2021-08-17T13:28:57.801578Z","visibility":"public","workload_minutes_late":40.7,"workload_minutes_sleeping":0,"workload_minutes_total":60.7,"workload_minutes_working":20}
+	// Incident Example: {"call_url":"https://zoom.us/foo","created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"custom_field_entries":[{"custom_field":{"description":"Which team is impacted by this issue","field_type":"single_select","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Affected Team","options":[{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"}]},"values":[{"value_catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"value_link":"https://google.com/","value_numeric":"123.456","value_option":{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"},"value_text":"This is my text field, I hope you like it"}]}],"debriefs":[{"end_at":"2021-08-17T14:28:57.801578Z","id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z"}],"duration_metrics":[{"duration_metric":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Lasted"},"status":"success","value_seconds":10800}],"external_issue_reference":{"issue_name":"INC-123","issue_permalink":"https://linear.app/incident-io/issue/INC-1609/find-copywriter-to-write-up","provider":"asana"},"has_debrief":false,"id":"01FDAG4SAP5TYPT98WGR2N7W91","incident_role_assignments":[{"assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"role":{"created_at":"2021-08-17T13:28:57.801578Z","description":"The person currently coordinating the incident","id":"01FCNDV6P870EA6S7TK1DSYDG0","instructions":"Take point on the incident; Make sure people are clear on responsibilities","name":"Incident Lead","required":false,"role_type":"lead","shortform":"lead","updated_at":"2021-08-17T13:28:57.801578Z"}}],"incident_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"incident_timestamp_values":[{"incident_timestamp":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Impact started","rank":1},"value":{"value":"2021-08-17T13:28:57.801578Z"}}],"incident_type":{"create_in_triage":"always","created_at":"2021-08-17T13:28:57.801578Z","description":"Customer facing production outages","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_default":false,"name":"Production Outage","private_incidents_only":false,"updated_at":"2021-08-17T13:28:57.801578Z"},"last_activity_at":"2021-08-17T13:28:57.801578Z","mode":"standard","ms_teams_channel_url":"https://teams.microsoft.com/l/channel/19%some-hex%40thread.tacv2/inc-123-title?groupId=some-uuid\u0026tenantId=another-uuid","name":"Our database is sad","permalink":"https://app.incident.io/incidents/123","postmortem_document_ids":["01FCNDV6P870EA6S7TK1DSYD5H"],"postmortem_document_url":"https://docs.google.com/my_doc_id","reference":"INC-123","severity":{"created_at":"2021-08-17T13:28:57.801578Z","description":"Issues with **low impact**.","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Minor","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"},"slack_channel_id":"C02AW36C1M5","slack_channel_name":"inc-165-green-parrot","slack_channel_url":"https://slack.com/app_redirect?team=T1234\u0026channel=C5678","slack_team_id":"T02A1FSLE8J","summary":"Our database is really really sad, and we don't know why yet.","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"updated_at":"2021-08-17T13:28:57.801578Z","visibility":"public","workload_minutes_late":40.7,"workload_minutes_sleeping":0,"workload_minutes_total":60.7,"workload_minutes_working":20}
 	Incident IncidentV2 `json:"incident"`
 }
 
@@ -23650,9 +24317,9 @@ type IncidentsEditPayloadV2 struct {
 	NotifyIncidentChannel bool `json:"notify_incident_channel"`
 }
 
-// IncidentsEditResultV2 Example: {"incident":{"call_url":"https://zoom.us/foo","created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"custom_field_entries":[{"custom_field":{"description":"Which team is impacted by this issue","field_type":"single_select","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Affected Team","options":[{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"}]},"values":[{"value_catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"value_link":"https://google.com/","value_numeric":"123.456","value_option":{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"},"value_text":"This is my text field, I hope you like it"}]}],"duration_metrics":[{"duration_metric":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Lasted"},"status":"success","value_seconds":10800}],"external_issue_reference":{"issue_name":"INC-123","issue_permalink":"https://linear.app/incident-io/issue/INC-1609/find-copywriter-to-write-up","provider":"asana"},"has_debrief":false,"id":"01FDAG4SAP5TYPT98WGR2N7W91","incident_role_assignments":[{"assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"role":{"created_at":"2021-08-17T13:28:57.801578Z","description":"The person currently coordinating the incident","id":"01FCNDV6P870EA6S7TK1DSYDG0","instructions":"Take point on the incident; Make sure people are clear on responsibilities","name":"Incident Lead","required":false,"role_type":"lead","shortform":"lead","updated_at":"2021-08-17T13:28:57.801578Z"}}],"incident_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"incident_timestamp_values":[{"incident_timestamp":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Impact started","rank":1},"value":{"value":"2021-08-17T13:28:57.801578Z"}}],"incident_type":{"create_in_triage":"always","created_at":"2021-08-17T13:28:57.801578Z","description":"Customer facing production outages","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_default":false,"name":"Production Outage","private_incidents_only":false,"updated_at":"2021-08-17T13:28:57.801578Z"},"last_activity_at":"2021-08-17T13:28:57.801578Z","mode":"standard","ms_teams_channel_url":"https://teams.microsoft.com/l/channel/19%some-hex%40thread.tacv2/inc-123-title?groupId=some-uuid\u0026tenantId=another-uuid","name":"Our database is sad","permalink":"https://app.incident.io/incidents/123","postmortem_document_ids":["01FCNDV6P870EA6S7TK1DSYD5H"],"postmortem_document_url":"https://docs.google.com/my_doc_id","reference":"INC-123","severity":{"created_at":"2021-08-17T13:28:57.801578Z","description":"Issues with **low impact**.","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Minor","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"},"slack_channel_id":"C02AW36C1M5","slack_channel_name":"inc-165-green-parrot","slack_channel_url":"https://slack.com/app_redirect?team=T1234\u0026channel=C5678","slack_team_id":"T02A1FSLE8J","summary":"Our database is really really sad, and we don't know why yet.","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"updated_at":"2021-08-17T13:28:57.801578Z","visibility":"public","workload_minutes_late":40.7,"workload_minutes_sleeping":0,"workload_minutes_total":60.7,"workload_minutes_working":20}}
+// IncidentsEditResultV2 Example: {"incident":{"call_url":"https://zoom.us/foo","created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"custom_field_entries":[{"custom_field":{"description":"Which team is impacted by this issue","field_type":"single_select","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Affected Team","options":[{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"}]},"values":[{"value_catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"value_link":"https://google.com/","value_numeric":"123.456","value_option":{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"},"value_text":"This is my text field, I hope you like it"}]}],"debriefs":[{"end_at":"2021-08-17T14:28:57.801578Z","id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z"}],"duration_metrics":[{"duration_metric":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Lasted"},"status":"success","value_seconds":10800}],"external_issue_reference":{"issue_name":"INC-123","issue_permalink":"https://linear.app/incident-io/issue/INC-1609/find-copywriter-to-write-up","provider":"asana"},"has_debrief":false,"id":"01FDAG4SAP5TYPT98WGR2N7W91","incident_role_assignments":[{"assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"role":{"created_at":"2021-08-17T13:28:57.801578Z","description":"The person currently coordinating the incident","id":"01FCNDV6P870EA6S7TK1DSYDG0","instructions":"Take point on the incident; Make sure people are clear on responsibilities","name":"Incident Lead","required":false,"role_type":"lead","shortform":"lead","updated_at":"2021-08-17T13:28:57.801578Z"}}],"incident_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"incident_timestamp_values":[{"incident_timestamp":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Impact started","rank":1},"value":{"value":"2021-08-17T13:28:57.801578Z"}}],"incident_type":{"create_in_triage":"always","created_at":"2021-08-17T13:28:57.801578Z","description":"Customer facing production outages","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_default":false,"name":"Production Outage","private_incidents_only":false,"updated_at":"2021-08-17T13:28:57.801578Z"},"last_activity_at":"2021-08-17T13:28:57.801578Z","mode":"standard","ms_teams_channel_url":"https://teams.microsoft.com/l/channel/19%some-hex%40thread.tacv2/inc-123-title?groupId=some-uuid\u0026tenantId=another-uuid","name":"Our database is sad","permalink":"https://app.incident.io/incidents/123","postmortem_document_ids":["01FCNDV6P870EA6S7TK1DSYD5H"],"postmortem_document_url":"https://docs.google.com/my_doc_id","reference":"INC-123","severity":{"created_at":"2021-08-17T13:28:57.801578Z","description":"Issues with **low impact**.","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Minor","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"},"slack_channel_id":"C02AW36C1M5","slack_channel_name":"inc-165-green-parrot","slack_channel_url":"https://slack.com/app_redirect?team=T1234\u0026channel=C5678","slack_team_id":"T02A1FSLE8J","summary":"Our database is really really sad, and we don't know why yet.","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"updated_at":"2021-08-17T13:28:57.801578Z","visibility":"public","workload_minutes_late":40.7,"workload_minutes_sleeping":0,"workload_minutes_total":60.7,"workload_minutes_working":20}}
 type IncidentsEditResultV2 struct {
-	// Incident Example: {"call_url":"https://zoom.us/foo","created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"custom_field_entries":[{"custom_field":{"description":"Which team is impacted by this issue","field_type":"single_select","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Affected Team","options":[{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"}]},"values":[{"value_catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"value_link":"https://google.com/","value_numeric":"123.456","value_option":{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"},"value_text":"This is my text field, I hope you like it"}]}],"duration_metrics":[{"duration_metric":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Lasted"},"status":"success","value_seconds":10800}],"external_issue_reference":{"issue_name":"INC-123","issue_permalink":"https://linear.app/incident-io/issue/INC-1609/find-copywriter-to-write-up","provider":"asana"},"has_debrief":false,"id":"01FDAG4SAP5TYPT98WGR2N7W91","incident_role_assignments":[{"assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"role":{"created_at":"2021-08-17T13:28:57.801578Z","description":"The person currently coordinating the incident","id":"01FCNDV6P870EA6S7TK1DSYDG0","instructions":"Take point on the incident; Make sure people are clear on responsibilities","name":"Incident Lead","required":false,"role_type":"lead","shortform":"lead","updated_at":"2021-08-17T13:28:57.801578Z"}}],"incident_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"incident_timestamp_values":[{"incident_timestamp":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Impact started","rank":1},"value":{"value":"2021-08-17T13:28:57.801578Z"}}],"incident_type":{"create_in_triage":"always","created_at":"2021-08-17T13:28:57.801578Z","description":"Customer facing production outages","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_default":false,"name":"Production Outage","private_incidents_only":false,"updated_at":"2021-08-17T13:28:57.801578Z"},"last_activity_at":"2021-08-17T13:28:57.801578Z","mode":"standard","ms_teams_channel_url":"https://teams.microsoft.com/l/channel/19%some-hex%40thread.tacv2/inc-123-title?groupId=some-uuid\u0026tenantId=another-uuid","name":"Our database is sad","permalink":"https://app.incident.io/incidents/123","postmortem_document_ids":["01FCNDV6P870EA6S7TK1DSYD5H"],"postmortem_document_url":"https://docs.google.com/my_doc_id","reference":"INC-123","severity":{"created_at":"2021-08-17T13:28:57.801578Z","description":"Issues with **low impact**.","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Minor","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"},"slack_channel_id":"C02AW36C1M5","slack_channel_name":"inc-165-green-parrot","slack_channel_url":"https://slack.com/app_redirect?team=T1234\u0026channel=C5678","slack_team_id":"T02A1FSLE8J","summary":"Our database is really really sad, and we don't know why yet.","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"updated_at":"2021-08-17T13:28:57.801578Z","visibility":"public","workload_minutes_late":40.7,"workload_minutes_sleeping":0,"workload_minutes_total":60.7,"workload_minutes_working":20}
+	// Incident Example: {"call_url":"https://zoom.us/foo","created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"custom_field_entries":[{"custom_field":{"description":"Which team is impacted by this issue","field_type":"single_select","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Affected Team","options":[{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"}]},"values":[{"value_catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"value_link":"https://google.com/","value_numeric":"123.456","value_option":{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"},"value_text":"This is my text field, I hope you like it"}]}],"debriefs":[{"end_at":"2021-08-17T14:28:57.801578Z","id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z"}],"duration_metrics":[{"duration_metric":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Lasted"},"status":"success","value_seconds":10800}],"external_issue_reference":{"issue_name":"INC-123","issue_permalink":"https://linear.app/incident-io/issue/INC-1609/find-copywriter-to-write-up","provider":"asana"},"has_debrief":false,"id":"01FDAG4SAP5TYPT98WGR2N7W91","incident_role_assignments":[{"assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"role":{"created_at":"2021-08-17T13:28:57.801578Z","description":"The person currently coordinating the incident","id":"01FCNDV6P870EA6S7TK1DSYDG0","instructions":"Take point on the incident; Make sure people are clear on responsibilities","name":"Incident Lead","required":false,"role_type":"lead","shortform":"lead","updated_at":"2021-08-17T13:28:57.801578Z"}}],"incident_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"incident_timestamp_values":[{"incident_timestamp":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Impact started","rank":1},"value":{"value":"2021-08-17T13:28:57.801578Z"}}],"incident_type":{"create_in_triage":"always","created_at":"2021-08-17T13:28:57.801578Z","description":"Customer facing production outages","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_default":false,"name":"Production Outage","private_incidents_only":false,"updated_at":"2021-08-17T13:28:57.801578Z"},"last_activity_at":"2021-08-17T13:28:57.801578Z","mode":"standard","ms_teams_channel_url":"https://teams.microsoft.com/l/channel/19%some-hex%40thread.tacv2/inc-123-title?groupId=some-uuid\u0026tenantId=another-uuid","name":"Our database is sad","permalink":"https://app.incident.io/incidents/123","postmortem_document_ids":["01FCNDV6P870EA6S7TK1DSYD5H"],"postmortem_document_url":"https://docs.google.com/my_doc_id","reference":"INC-123","severity":{"created_at":"2021-08-17T13:28:57.801578Z","description":"Issues with **low impact**.","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Minor","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"},"slack_channel_id":"C02AW36C1M5","slack_channel_name":"inc-165-green-parrot","slack_channel_url":"https://slack.com/app_redirect?team=T1234\u0026channel=C5678","slack_team_id":"T02A1FSLE8J","summary":"Our database is really really sad, and we don't know why yet.","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"updated_at":"2021-08-17T13:28:57.801578Z","visibility":"public","workload_minutes_late":40.7,"workload_minutes_sleeping":0,"workload_minutes_total":60.7,"workload_minutes_working":20}
 	Incident IncidentV2 `json:"incident"`
 }
 
@@ -23686,9 +24353,9 @@ type IncidentsListResultV1 struct {
 	PaginationMeta *PaginationMetaResultWithTotalV1 `json:"pagination_meta,omitempty"`
 }
 
-// IncidentsListResultV2 Example: {"incidents":[{"call_url":"https://zoom.us/foo","created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"custom_field_entries":[{"custom_field":{"description":"Which team is impacted by this issue","field_type":"single_select","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Affected Team","options":[{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"}]},"values":[{"value_catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"value_link":"https://google.com/","value_numeric":"123.456","value_option":{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"},"value_text":"This is my text field, I hope you like it"}]}],"duration_metrics":[{"duration_metric":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Lasted"},"status":"success","value_seconds":10800}],"external_issue_reference":{"issue_name":"INC-123","issue_permalink":"https://linear.app/incident-io/issue/INC-1609/find-copywriter-to-write-up","provider":"asana"},"has_debrief":false,"id":"01FDAG4SAP5TYPT98WGR2N7W91","incident_role_assignments":[{"assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"role":{"created_at":"2021-08-17T13:28:57.801578Z","description":"The person currently coordinating the incident","id":"01FCNDV6P870EA6S7TK1DSYDG0","instructions":"Take point on the incident; Make sure people are clear on responsibilities","name":"Incident Lead","required":false,"role_type":"lead","shortform":"lead","updated_at":"2021-08-17T13:28:57.801578Z"}}],"incident_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"incident_timestamp_values":[{"incident_timestamp":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Impact started","rank":1},"value":{"value":"2021-08-17T13:28:57.801578Z"}}],"incident_type":{"create_in_triage":"always","created_at":"2021-08-17T13:28:57.801578Z","description":"Customer facing production outages","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_default":false,"name":"Production Outage","private_incidents_only":false,"updated_at":"2021-08-17T13:28:57.801578Z"},"last_activity_at":"2021-08-17T13:28:57.801578Z","mode":"standard","ms_teams_channel_url":"https://teams.microsoft.com/l/channel/19%some-hex%40thread.tacv2/inc-123-title?groupId=some-uuid\u0026tenantId=another-uuid","name":"Our database is sad","permalink":"https://app.incident.io/incidents/123","postmortem_document_ids":["01FCNDV6P870EA6S7TK1DSYD5H"],"postmortem_document_url":"https://docs.google.com/my_doc_id","reference":"INC-123","severity":{"created_at":"2021-08-17T13:28:57.801578Z","description":"Issues with **low impact**.","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Minor","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"},"slack_channel_id":"C02AW36C1M5","slack_channel_name":"inc-165-green-parrot","slack_channel_url":"https://slack.com/app_redirect?team=T1234\u0026channel=C5678","slack_team_id":"T02A1FSLE8J","summary":"Our database is really really sad, and we don't know why yet.","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"updated_at":"2021-08-17T13:28:57.801578Z","visibility":"public","workload_minutes_late":40.7,"workload_minutes_sleeping":0,"workload_minutes_total":60.7,"workload_minutes_working":20}],"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25,"total_record_count":238}}
+// IncidentsListResultV2 Example: {"incidents":[{"call_url":"https://zoom.us/foo","created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"custom_field_entries":[{"custom_field":{"description":"Which team is impacted by this issue","field_type":"single_select","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Affected Team","options":[{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"}]},"values":[{"value_catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"value_link":"https://google.com/","value_numeric":"123.456","value_option":{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"},"value_text":"This is my text field, I hope you like it"}]}],"debriefs":[{"end_at":"2021-08-17T14:28:57.801578Z","id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z"}],"duration_metrics":[{"duration_metric":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Lasted"},"status":"success","value_seconds":10800}],"external_issue_reference":{"issue_name":"INC-123","issue_permalink":"https://linear.app/incident-io/issue/INC-1609/find-copywriter-to-write-up","provider":"asana"},"has_debrief":false,"id":"01FDAG4SAP5TYPT98WGR2N7W91","incident_role_assignments":[{"assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"role":{"created_at":"2021-08-17T13:28:57.801578Z","description":"The person currently coordinating the incident","id":"01FCNDV6P870EA6S7TK1DSYDG0","instructions":"Take point on the incident; Make sure people are clear on responsibilities","name":"Incident Lead","required":false,"role_type":"lead","shortform":"lead","updated_at":"2021-08-17T13:28:57.801578Z"}}],"incident_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"incident_timestamp_values":[{"incident_timestamp":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Impact started","rank":1},"value":{"value":"2021-08-17T13:28:57.801578Z"}}],"incident_type":{"create_in_triage":"always","created_at":"2021-08-17T13:28:57.801578Z","description":"Customer facing production outages","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_default":false,"name":"Production Outage","private_incidents_only":false,"updated_at":"2021-08-17T13:28:57.801578Z"},"last_activity_at":"2021-08-17T13:28:57.801578Z","mode":"standard","ms_teams_channel_url":"https://teams.microsoft.com/l/channel/19%some-hex%40thread.tacv2/inc-123-title?groupId=some-uuid\u0026tenantId=another-uuid","name":"Our database is sad","permalink":"https://app.incident.io/incidents/123","postmortem_document_ids":["01FCNDV6P870EA6S7TK1DSYD5H"],"postmortem_document_url":"https://docs.google.com/my_doc_id","reference":"INC-123","severity":{"created_at":"2021-08-17T13:28:57.801578Z","description":"Issues with **low impact**.","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Minor","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"},"slack_channel_id":"C02AW36C1M5","slack_channel_name":"inc-165-green-parrot","slack_channel_url":"https://slack.com/app_redirect?team=T1234\u0026channel=C5678","slack_team_id":"T02A1FSLE8J","summary":"Our database is really really sad, and we don't know why yet.","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"updated_at":"2021-08-17T13:28:57.801578Z","visibility":"public","workload_minutes_late":40.7,"workload_minutes_sleeping":0,"workload_minutes_total":60.7,"workload_minutes_working":20}],"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25,"total_record_count":238}}
 type IncidentsListResultV2 struct {
-	// Incidents Example: [{"call_url":"https://zoom.us/foo","created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"custom_field_entries":[{"custom_field":{"description":"Which team is impacted by this issue","field_type":"single_select","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Affected Team","options":[{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"}]},"values":[{"value_catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"value_link":"https://google.com/","value_numeric":"123.456","value_option":{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"},"value_text":"This is my text field, I hope you like it"}]}],"duration_metrics":[{"duration_metric":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Lasted"},"status":"success","value_seconds":10800}],"external_issue_reference":{"issue_name":"INC-123","issue_permalink":"https://linear.app/incident-io/issue/INC-1609/find-copywriter-to-write-up","provider":"asana"},"has_debrief":false,"id":"01FDAG4SAP5TYPT98WGR2N7W91","incident_role_assignments":[{"assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"role":{"created_at":"2021-08-17T13:28:57.801578Z","description":"The person currently coordinating the incident","id":"01FCNDV6P870EA6S7TK1DSYDG0","instructions":"Take point on the incident; Make sure people are clear on responsibilities","name":"Incident Lead","required":false,"role_type":"lead","shortform":"lead","updated_at":"2021-08-17T13:28:57.801578Z"}}],"incident_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"incident_timestamp_values":[{"incident_timestamp":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Impact started","rank":1},"value":{"value":"2021-08-17T13:28:57.801578Z"}}],"incident_type":{"create_in_triage":"always","created_at":"2021-08-17T13:28:57.801578Z","description":"Customer facing production outages","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_default":false,"name":"Production Outage","private_incidents_only":false,"updated_at":"2021-08-17T13:28:57.801578Z"},"last_activity_at":"2021-08-17T13:28:57.801578Z","mode":"standard","ms_teams_channel_url":"https://teams.microsoft.com/l/channel/19%some-hex%40thread.tacv2/inc-123-title?groupId=some-uuid\u0026tenantId=another-uuid","name":"Our database is sad","permalink":"https://app.incident.io/incidents/123","postmortem_document_ids":["01FCNDV6P870EA6S7TK1DSYD5H"],"postmortem_document_url":"https://docs.google.com/my_doc_id","reference":"INC-123","severity":{"created_at":"2021-08-17T13:28:57.801578Z","description":"Issues with **low impact**.","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Minor","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"},"slack_channel_id":"C02AW36C1M5","slack_channel_name":"inc-165-green-parrot","slack_channel_url":"https://slack.com/app_redirect?team=T1234\u0026channel=C5678","slack_team_id":"T02A1FSLE8J","summary":"Our database is really really sad, and we don't know why yet.","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"updated_at":"2021-08-17T13:28:57.801578Z","visibility":"public","workload_minutes_late":40.7,"workload_minutes_sleeping":0,"workload_minutes_total":60.7,"workload_minutes_working":20}]
+	// Incidents Example: [{"call_url":"https://zoom.us/foo","created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"custom_field_entries":[{"custom_field":{"description":"Which team is impacted by this issue","field_type":"single_select","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Affected Team","options":[{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"}]},"values":[{"value_catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"value_link":"https://google.com/","value_numeric":"123.456","value_option":{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"},"value_text":"This is my text field, I hope you like it"}]}],"debriefs":[{"end_at":"2021-08-17T14:28:57.801578Z","id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z"}],"duration_metrics":[{"duration_metric":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Lasted"},"status":"success","value_seconds":10800}],"external_issue_reference":{"issue_name":"INC-123","issue_permalink":"https://linear.app/incident-io/issue/INC-1609/find-copywriter-to-write-up","provider":"asana"},"has_debrief":false,"id":"01FDAG4SAP5TYPT98WGR2N7W91","incident_role_assignments":[{"assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"role":{"created_at":"2021-08-17T13:28:57.801578Z","description":"The person currently coordinating the incident","id":"01FCNDV6P870EA6S7TK1DSYDG0","instructions":"Take point on the incident; Make sure people are clear on responsibilities","name":"Incident Lead","required":false,"role_type":"lead","shortform":"lead","updated_at":"2021-08-17T13:28:57.801578Z"}}],"incident_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"incident_timestamp_values":[{"incident_timestamp":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Impact started","rank":1},"value":{"value":"2021-08-17T13:28:57.801578Z"}}],"incident_type":{"create_in_triage":"always","created_at":"2021-08-17T13:28:57.801578Z","description":"Customer facing production outages","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_default":false,"name":"Production Outage","private_incidents_only":false,"updated_at":"2021-08-17T13:28:57.801578Z"},"last_activity_at":"2021-08-17T13:28:57.801578Z","mode":"standard","ms_teams_channel_url":"https://teams.microsoft.com/l/channel/19%some-hex%40thread.tacv2/inc-123-title?groupId=some-uuid\u0026tenantId=another-uuid","name":"Our database is sad","permalink":"https://app.incident.io/incidents/123","postmortem_document_ids":["01FCNDV6P870EA6S7TK1DSYD5H"],"postmortem_document_url":"https://docs.google.com/my_doc_id","reference":"INC-123","severity":{"created_at":"2021-08-17T13:28:57.801578Z","description":"Issues with **low impact**.","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Minor","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"},"slack_channel_id":"C02AW36C1M5","slack_channel_name":"inc-165-green-parrot","slack_channel_url":"https://slack.com/app_redirect?team=T1234\u0026channel=C5678","slack_team_id":"T02A1FSLE8J","summary":"Our database is really really sad, and we don't know why yet.","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"updated_at":"2021-08-17T13:28:57.801578Z","visibility":"public","workload_minutes_late":40.7,"workload_minutes_sleeping":0,"workload_minutes_total":60.7,"workload_minutes_working":20}]
 	Incidents []IncidentV2 `json:"incidents"`
 
 	// PaginationMeta Example: {"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25,"total_record_count":238}
@@ -23701,9 +24368,9 @@ type IncidentsShowResultV1 struct {
 	Incident IncidentV1 `json:"incident"`
 }
 
-// IncidentsShowResultV2 Example: {"incident":{"call_url":"https://zoom.us/foo","created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"custom_field_entries":[{"custom_field":{"description":"Which team is impacted by this issue","field_type":"single_select","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Affected Team","options":[{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"}]},"values":[{"value_catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"value_link":"https://google.com/","value_numeric":"123.456","value_option":{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"},"value_text":"This is my text field, I hope you like it"}]}],"duration_metrics":[{"duration_metric":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Lasted"},"status":"success","value_seconds":10800}],"external_issue_reference":{"issue_name":"INC-123","issue_permalink":"https://linear.app/incident-io/issue/INC-1609/find-copywriter-to-write-up","provider":"asana"},"has_debrief":false,"id":"01FDAG4SAP5TYPT98WGR2N7W91","incident_role_assignments":[{"assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"role":{"created_at":"2021-08-17T13:28:57.801578Z","description":"The person currently coordinating the incident","id":"01FCNDV6P870EA6S7TK1DSYDG0","instructions":"Take point on the incident; Make sure people are clear on responsibilities","name":"Incident Lead","required":false,"role_type":"lead","shortform":"lead","updated_at":"2021-08-17T13:28:57.801578Z"}}],"incident_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"incident_timestamp_values":[{"incident_timestamp":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Impact started","rank":1},"value":{"value":"2021-08-17T13:28:57.801578Z"}}],"incident_type":{"create_in_triage":"always","created_at":"2021-08-17T13:28:57.801578Z","description":"Customer facing production outages","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_default":false,"name":"Production Outage","private_incidents_only":false,"updated_at":"2021-08-17T13:28:57.801578Z"},"last_activity_at":"2021-08-17T13:28:57.801578Z","mode":"standard","ms_teams_channel_url":"https://teams.microsoft.com/l/channel/19%some-hex%40thread.tacv2/inc-123-title?groupId=some-uuid\u0026tenantId=another-uuid","name":"Our database is sad","permalink":"https://app.incident.io/incidents/123","postmortem_document_ids":["01FCNDV6P870EA6S7TK1DSYD5H"],"postmortem_document_url":"https://docs.google.com/my_doc_id","reference":"INC-123","severity":{"created_at":"2021-08-17T13:28:57.801578Z","description":"Issues with **low impact**.","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Minor","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"},"slack_channel_id":"C02AW36C1M5","slack_channel_name":"inc-165-green-parrot","slack_channel_url":"https://slack.com/app_redirect?team=T1234\u0026channel=C5678","slack_team_id":"T02A1FSLE8J","summary":"Our database is really really sad, and we don't know why yet.","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"updated_at":"2021-08-17T13:28:57.801578Z","visibility":"public","workload_minutes_late":40.7,"workload_minutes_sleeping":0,"workload_minutes_total":60.7,"workload_minutes_working":20}}
+// IncidentsShowResultV2 Example: {"incident":{"call_url":"https://zoom.us/foo","created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"custom_field_entries":[{"custom_field":{"description":"Which team is impacted by this issue","field_type":"single_select","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Affected Team","options":[{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"}]},"values":[{"value_catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"value_link":"https://google.com/","value_numeric":"123.456","value_option":{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"},"value_text":"This is my text field, I hope you like it"}]}],"debriefs":[{"end_at":"2021-08-17T14:28:57.801578Z","id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z"}],"duration_metrics":[{"duration_metric":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Lasted"},"status":"success","value_seconds":10800}],"external_issue_reference":{"issue_name":"INC-123","issue_permalink":"https://linear.app/incident-io/issue/INC-1609/find-copywriter-to-write-up","provider":"asana"},"has_debrief":false,"id":"01FDAG4SAP5TYPT98WGR2N7W91","incident_role_assignments":[{"assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"role":{"created_at":"2021-08-17T13:28:57.801578Z","description":"The person currently coordinating the incident","id":"01FCNDV6P870EA6S7TK1DSYDG0","instructions":"Take point on the incident; Make sure people are clear on responsibilities","name":"Incident Lead","required":false,"role_type":"lead","shortform":"lead","updated_at":"2021-08-17T13:28:57.801578Z"}}],"incident_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"incident_timestamp_values":[{"incident_timestamp":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Impact started","rank":1},"value":{"value":"2021-08-17T13:28:57.801578Z"}}],"incident_type":{"create_in_triage":"always","created_at":"2021-08-17T13:28:57.801578Z","description":"Customer facing production outages","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_default":false,"name":"Production Outage","private_incidents_only":false,"updated_at":"2021-08-17T13:28:57.801578Z"},"last_activity_at":"2021-08-17T13:28:57.801578Z","mode":"standard","ms_teams_channel_url":"https://teams.microsoft.com/l/channel/19%some-hex%40thread.tacv2/inc-123-title?groupId=some-uuid\u0026tenantId=another-uuid","name":"Our database is sad","permalink":"https://app.incident.io/incidents/123","postmortem_document_ids":["01FCNDV6P870EA6S7TK1DSYD5H"],"postmortem_document_url":"https://docs.google.com/my_doc_id","reference":"INC-123","severity":{"created_at":"2021-08-17T13:28:57.801578Z","description":"Issues with **low impact**.","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Minor","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"},"slack_channel_id":"C02AW36C1M5","slack_channel_name":"inc-165-green-parrot","slack_channel_url":"https://slack.com/app_redirect?team=T1234\u0026channel=C5678","slack_team_id":"T02A1FSLE8J","summary":"Our database is really really sad, and we don't know why yet.","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"updated_at":"2021-08-17T13:28:57.801578Z","visibility":"public","workload_minutes_late":40.7,"workload_minutes_sleeping":0,"workload_minutes_total":60.7,"workload_minutes_working":20}}
 type IncidentsShowResultV2 struct {
-	// Incident Example: {"call_url":"https://zoom.us/foo","created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"custom_field_entries":[{"custom_field":{"description":"Which team is impacted by this issue","field_type":"single_select","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Affected Team","options":[{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"}]},"values":[{"value_catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"value_link":"https://google.com/","value_numeric":"123.456","value_option":{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"},"value_text":"This is my text field, I hope you like it"}]}],"duration_metrics":[{"duration_metric":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Lasted"},"status":"success","value_seconds":10800}],"external_issue_reference":{"issue_name":"INC-123","issue_permalink":"https://linear.app/incident-io/issue/INC-1609/find-copywriter-to-write-up","provider":"asana"},"has_debrief":false,"id":"01FDAG4SAP5TYPT98WGR2N7W91","incident_role_assignments":[{"assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"role":{"created_at":"2021-08-17T13:28:57.801578Z","description":"The person currently coordinating the incident","id":"01FCNDV6P870EA6S7TK1DSYDG0","instructions":"Take point on the incident; Make sure people are clear on responsibilities","name":"Incident Lead","required":false,"role_type":"lead","shortform":"lead","updated_at":"2021-08-17T13:28:57.801578Z"}}],"incident_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"incident_timestamp_values":[{"incident_timestamp":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Impact started","rank":1},"value":{"value":"2021-08-17T13:28:57.801578Z"}}],"incident_type":{"create_in_triage":"always","created_at":"2021-08-17T13:28:57.801578Z","description":"Customer facing production outages","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_default":false,"name":"Production Outage","private_incidents_only":false,"updated_at":"2021-08-17T13:28:57.801578Z"},"last_activity_at":"2021-08-17T13:28:57.801578Z","mode":"standard","ms_teams_channel_url":"https://teams.microsoft.com/l/channel/19%some-hex%40thread.tacv2/inc-123-title?groupId=some-uuid\u0026tenantId=another-uuid","name":"Our database is sad","permalink":"https://app.incident.io/incidents/123","postmortem_document_ids":["01FCNDV6P870EA6S7TK1DSYD5H"],"postmortem_document_url":"https://docs.google.com/my_doc_id","reference":"INC-123","severity":{"created_at":"2021-08-17T13:28:57.801578Z","description":"Issues with **low impact**.","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Minor","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"},"slack_channel_id":"C02AW36C1M5","slack_channel_name":"inc-165-green-parrot","slack_channel_url":"https://slack.com/app_redirect?team=T1234\u0026channel=C5678","slack_team_id":"T02A1FSLE8J","summary":"Our database is really really sad, and we don't know why yet.","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"updated_at":"2021-08-17T13:28:57.801578Z","visibility":"public","workload_minutes_late":40.7,"workload_minutes_sleeping":0,"workload_minutes_total":60.7,"workload_minutes_working":20}
+	// Incident Example: {"call_url":"https://zoom.us/foo","created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"custom_field_entries":[{"custom_field":{"description":"Which team is impacted by this issue","field_type":"single_select","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Affected Team","options":[{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"}]},"values":[{"value_catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"value_link":"https://google.com/","value_numeric":"123.456","value_option":{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"},"value_text":"This is my text field, I hope you like it"}]}],"debriefs":[{"end_at":"2021-08-17T14:28:57.801578Z","id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z"}],"duration_metrics":[{"duration_metric":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Lasted"},"status":"success","value_seconds":10800}],"external_issue_reference":{"issue_name":"INC-123","issue_permalink":"https://linear.app/incident-io/issue/INC-1609/find-copywriter-to-write-up","provider":"asana"},"has_debrief":false,"id":"01FDAG4SAP5TYPT98WGR2N7W91","incident_role_assignments":[{"assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"role":{"created_at":"2021-08-17T13:28:57.801578Z","description":"The person currently coordinating the incident","id":"01FCNDV6P870EA6S7TK1DSYDG0","instructions":"Take point on the incident; Make sure people are clear on responsibilities","name":"Incident Lead","required":false,"role_type":"lead","shortform":"lead","updated_at":"2021-08-17T13:28:57.801578Z"}}],"incident_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"incident_timestamp_values":[{"incident_timestamp":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Impact started","rank":1},"value":{"value":"2021-08-17T13:28:57.801578Z"}}],"incident_type":{"create_in_triage":"always","created_at":"2021-08-17T13:28:57.801578Z","description":"Customer facing production outages","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_default":false,"name":"Production Outage","private_incidents_only":false,"updated_at":"2021-08-17T13:28:57.801578Z"},"last_activity_at":"2021-08-17T13:28:57.801578Z","mode":"standard","ms_teams_channel_url":"https://teams.microsoft.com/l/channel/19%some-hex%40thread.tacv2/inc-123-title?groupId=some-uuid\u0026tenantId=another-uuid","name":"Our database is sad","permalink":"https://app.incident.io/incidents/123","postmortem_document_ids":["01FCNDV6P870EA6S7TK1DSYD5H"],"postmortem_document_url":"https://docs.google.com/my_doc_id","reference":"INC-123","severity":{"created_at":"2021-08-17T13:28:57.801578Z","description":"Issues with **low impact**.","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Minor","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"},"slack_channel_id":"C02AW36C1M5","slack_channel_name":"inc-165-green-parrot","slack_channel_url":"https://slack.com/app_redirect?team=T1234\u0026channel=C5678","slack_team_id":"T02A1FSLE8J","summary":"Our database is really really sad, and we don't know why yet.","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"updated_at":"2021-08-17T13:28:57.801578Z","visibility":"public","workload_minutes_late":40.7,"workload_minutes_sleeping":0,"workload_minutes_total":60.7,"workload_minutes_working":20}
 	Incident IncidentV2 `json:"incident"`
 }
 
@@ -25847,7 +26514,60 @@ type PolicyFindingScheduleV2 struct {
 // Example: nobody_scheduled
 type PolicyFindingScheduleV2Cause string
 
-// PolicyFindingV2 Example: {"created_at":"2021-08-17T13:28:57.801578Z","days":3,"debrief":{"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"dismissal":{"dismissed_at":"2021-08-17T13:28:57.801578Z","dismissed_by":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"reason":"This incident is special."},"due_at":"2025-10-14T00:00:00.000000Z","follow_up":{"follow_up_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","last_checked_at":"2021-08-17T13:28:57.801578Z","on_call_readiness":{"high_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"user_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"policy_id":"01G0J1EXE7AXZ2C93K61WBPYEH","policy_type":"follow_up","post_mortem":{"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"responsible_users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"schedule":{"cause":"nobody_scheduled","end_at":"2021-08-17T13:28:57.801578Z","has_unscheduled_time":true,"impacted_users":[{"cause":"no_on_call_seat","name":"Alice Green","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}],"rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z"},"state":"active","updated_at":"2021-08-17T13:28:57.801578Z","vacation_conflict":{"end_at":"2021-08-17T13:28:57.801578Z","holiday_name":"Joe Bloggs - Holiday","rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}}
+// PolicyFindingShiftConflictShiftV2 Example: {"end_at":"2021-08-17T13:28:57.801578Z","layer_id":"01FCNDV6P870EA6S7TK1DSYDG0","rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z"}
+type PolicyFindingShiftConflictShiftV2 struct {
+	// EndAt When this shift ends, which can be after the conflict does
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	EndAt time.Time `json:"end_at"`
+
+	// LayerId The layer this shift belongs to
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	LayerId *string `json:"layer_id,omitempty"`
+
+	// RotationId The rotation this shift belongs to
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	RotationId *string `json:"rotation_id,omitempty"`
+
+	// ScheduleId The schedule this shift belongs to
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	ScheduleId string `json:"schedule_id"`
+
+	// StartAt When this shift starts, which can be before the conflict does
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	StartAt time.Time `json:"start_at"`
+}
+
+// PolicyFindingShiftConflictV2 Set when policy_type is shift_conflict. Someone is on call in two or more places at once.
+//
+// Example: {"end_at":"2021-08-17T13:28:57.801578Z","shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","layer_id":"01FCNDV6P870EA6S7TK1DSYDG0","rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z"}],"start_at":"2021-08-17T13:28:57.801578Z","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
+type PolicyFindingShiftConflictV2 struct {
+	// EndAt When the conflict ends
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	EndAt time.Time `json:"end_at"`
+
+	// Shifts Every shift that overlaps the conflict
+	//
+	// Example: [{"end_at":"2021-08-17T13:28:57.801578Z","layer_id":"01FCNDV6P870EA6S7TK1DSYDG0","rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z"}]
+	Shifts []PolicyFindingShiftConflictShiftV2 `json:"shifts"`
+
+	// StartAt When the conflict starts
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	StartAt time.Time `json:"start_at"`
+
+	// UserId The user with overlapping shifts
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	UserId string `json:"user_id"`
+}
+
+// PolicyFindingV2 Example: {"created_at":"2021-08-17T13:28:57.801578Z","days":3,"debrief":{"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"dismissal":{"dismissed_at":"2021-08-17T13:28:57.801578Z","dismissed_by":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"reason":"This incident is special."},"due_at":"2025-10-14T00:00:00.000000Z","follow_up":{"follow_up_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","last_checked_at":"2021-08-17T13:28:57.801578Z","on_call_readiness":{"high_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"user_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"policy_id":"01G0J1EXE7AXZ2C93K61WBPYEH","policy_type":"follow_up","post_mortem":{"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"responsible_users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"schedule":{"cause":"nobody_scheduled","end_at":"2021-08-17T13:28:57.801578Z","has_unscheduled_time":true,"impacted_users":[{"cause":"no_on_call_seat","name":"Alice Green","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}],"rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z"},"shift_conflict":{"end_at":"2021-08-17T13:28:57.801578Z","shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","layer_id":"01FCNDV6P870EA6S7TK1DSYDG0","rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z"}],"start_at":"2021-08-17T13:28:57.801578Z","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"state":"active","updated_at":"2021-08-17T13:28:57.801578Z","vacation_conflict":{"end_at":"2021-08-17T13:28:57.801578Z","holiday_name":"Joe Bloggs - Holiday","rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}}
 type PolicyFindingV2 struct {
 	// CreatedAt Example: 2021-08-17T13:28:57.801578Z
 	CreatedAt time.Time `json:"created_at"`
@@ -25914,6 +26634,11 @@ type PolicyFindingV2 struct {
 	//
 	// Example: {"cause":"nobody_scheduled","end_at":"2021-08-17T13:28:57.801578Z","has_unscheduled_time":true,"impacted_users":[{"cause":"no_on_call_seat","name":"Alice Green","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}],"rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z"}
 	Schedule *PolicyFindingScheduleV2 `json:"schedule,omitempty"`
+
+	// ShiftConflict Set when policy_type is shift_conflict. Someone is on call in two or more places at once.
+	//
+	// Example: {"end_at":"2021-08-17T13:28:57.801578Z","shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","layer_id":"01FCNDV6P870EA6S7TK1DSYDG0","rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z"}],"start_at":"2021-08-17T13:28:57.801578Z","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
+	ShiftConflict *PolicyFindingShiftConflictV2 `json:"shift_conflict,omitempty"`
 
 	// State Where this finding is in its lifecycle
 	//
@@ -25982,30 +26707,30 @@ type PolicyFindingsDismissPayloadV2 struct {
 	Reason string `json:"reason"`
 }
 
-// PolicyFindingsDismissResultV2 Example: {"policy_finding":{"created_at":"2021-08-17T13:28:57.801578Z","days":3,"debrief":{"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"dismissal":{"dismissed_at":"2021-08-17T13:28:57.801578Z","dismissed_by":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"reason":"This incident is special."},"due_at":"2025-10-14T00:00:00.000000Z","follow_up":{"follow_up_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","last_checked_at":"2021-08-17T13:28:57.801578Z","on_call_readiness":{"high_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"user_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"policy_id":"01G0J1EXE7AXZ2C93K61WBPYEH","policy_type":"follow_up","post_mortem":{"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"responsible_users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"schedule":{"cause":"nobody_scheduled","end_at":"2021-08-17T13:28:57.801578Z","has_unscheduled_time":true,"impacted_users":[{"cause":"no_on_call_seat","name":"Alice Green","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}],"rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z"},"state":"active","updated_at":"2021-08-17T13:28:57.801578Z","vacation_conflict":{"end_at":"2021-08-17T13:28:57.801578Z","holiday_name":"Joe Bloggs - Holiday","rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}}}
+// PolicyFindingsDismissResultV2 Example: {"policy_finding":{"created_at":"2021-08-17T13:28:57.801578Z","days":3,"debrief":{"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"dismissal":{"dismissed_at":"2021-08-17T13:28:57.801578Z","dismissed_by":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"reason":"This incident is special."},"due_at":"2025-10-14T00:00:00.000000Z","follow_up":{"follow_up_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","last_checked_at":"2021-08-17T13:28:57.801578Z","on_call_readiness":{"high_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"user_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"policy_id":"01G0J1EXE7AXZ2C93K61WBPYEH","policy_type":"follow_up","post_mortem":{"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"responsible_users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"schedule":{"cause":"nobody_scheduled","end_at":"2021-08-17T13:28:57.801578Z","has_unscheduled_time":true,"impacted_users":[{"cause":"no_on_call_seat","name":"Alice Green","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}],"rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z"},"shift_conflict":{"end_at":"2021-08-17T13:28:57.801578Z","shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","layer_id":"01FCNDV6P870EA6S7TK1DSYDG0","rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z"}],"start_at":"2021-08-17T13:28:57.801578Z","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"state":"active","updated_at":"2021-08-17T13:28:57.801578Z","vacation_conflict":{"end_at":"2021-08-17T13:28:57.801578Z","holiday_name":"Joe Bloggs - Holiday","rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}}}
 type PolicyFindingsDismissResultV2 struct {
-	// PolicyFinding Example: {"created_at":"2021-08-17T13:28:57.801578Z","days":3,"debrief":{"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"dismissal":{"dismissed_at":"2021-08-17T13:28:57.801578Z","dismissed_by":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"reason":"This incident is special."},"due_at":"2025-10-14T00:00:00.000000Z","follow_up":{"follow_up_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","last_checked_at":"2021-08-17T13:28:57.801578Z","on_call_readiness":{"high_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"user_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"policy_id":"01G0J1EXE7AXZ2C93K61WBPYEH","policy_type":"follow_up","post_mortem":{"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"responsible_users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"schedule":{"cause":"nobody_scheduled","end_at":"2021-08-17T13:28:57.801578Z","has_unscheduled_time":true,"impacted_users":[{"cause":"no_on_call_seat","name":"Alice Green","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}],"rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z"},"state":"active","updated_at":"2021-08-17T13:28:57.801578Z","vacation_conflict":{"end_at":"2021-08-17T13:28:57.801578Z","holiday_name":"Joe Bloggs - Holiday","rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}}
+	// PolicyFinding Example: {"created_at":"2021-08-17T13:28:57.801578Z","days":3,"debrief":{"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"dismissal":{"dismissed_at":"2021-08-17T13:28:57.801578Z","dismissed_by":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"reason":"This incident is special."},"due_at":"2025-10-14T00:00:00.000000Z","follow_up":{"follow_up_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","last_checked_at":"2021-08-17T13:28:57.801578Z","on_call_readiness":{"high_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"user_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"policy_id":"01G0J1EXE7AXZ2C93K61WBPYEH","policy_type":"follow_up","post_mortem":{"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"responsible_users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"schedule":{"cause":"nobody_scheduled","end_at":"2021-08-17T13:28:57.801578Z","has_unscheduled_time":true,"impacted_users":[{"cause":"no_on_call_seat","name":"Alice Green","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}],"rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z"},"shift_conflict":{"end_at":"2021-08-17T13:28:57.801578Z","shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","layer_id":"01FCNDV6P870EA6S7TK1DSYDG0","rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z"}],"start_at":"2021-08-17T13:28:57.801578Z","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"state":"active","updated_at":"2021-08-17T13:28:57.801578Z","vacation_conflict":{"end_at":"2021-08-17T13:28:57.801578Z","holiday_name":"Joe Bloggs - Holiday","rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}}
 	PolicyFinding PolicyFindingV2 `json:"policy_finding"`
 }
 
-// PolicyFindingsListResultV2 Example: {"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25},"policy_findings":[{"created_at":"2021-08-17T13:28:57.801578Z","days":3,"debrief":{"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"dismissal":{"dismissed_at":"2021-08-17T13:28:57.801578Z","dismissed_by":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"reason":"This incident is special."},"due_at":"2025-10-14T00:00:00.000000Z","follow_up":{"follow_up_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","last_checked_at":"2021-08-17T13:28:57.801578Z","on_call_readiness":{"high_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"user_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"policy_id":"01G0J1EXE7AXZ2C93K61WBPYEH","policy_type":"follow_up","post_mortem":{"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"responsible_users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"schedule":{"cause":"nobody_scheduled","end_at":"2021-08-17T13:28:57.801578Z","has_unscheduled_time":true,"impacted_users":[{"cause":"no_on_call_seat","name":"Alice Green","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}],"rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z"},"state":"active","updated_at":"2021-08-17T13:28:57.801578Z","vacation_conflict":{"end_at":"2021-08-17T13:28:57.801578Z","holiday_name":"Joe Bloggs - Holiday","rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}}]}
+// PolicyFindingsListResultV2 Example: {"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25},"policy_findings":[{"created_at":"2021-08-17T13:28:57.801578Z","days":3,"debrief":{"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"dismissal":{"dismissed_at":"2021-08-17T13:28:57.801578Z","dismissed_by":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"reason":"This incident is special."},"due_at":"2025-10-14T00:00:00.000000Z","follow_up":{"follow_up_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","last_checked_at":"2021-08-17T13:28:57.801578Z","on_call_readiness":{"high_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"user_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"policy_id":"01G0J1EXE7AXZ2C93K61WBPYEH","policy_type":"follow_up","post_mortem":{"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"responsible_users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"schedule":{"cause":"nobody_scheduled","end_at":"2021-08-17T13:28:57.801578Z","has_unscheduled_time":true,"impacted_users":[{"cause":"no_on_call_seat","name":"Alice Green","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}],"rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z"},"shift_conflict":{"end_at":"2021-08-17T13:28:57.801578Z","shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","layer_id":"01FCNDV6P870EA6S7TK1DSYDG0","rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z"}],"start_at":"2021-08-17T13:28:57.801578Z","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"state":"active","updated_at":"2021-08-17T13:28:57.801578Z","vacation_conflict":{"end_at":"2021-08-17T13:28:57.801578Z","holiday_name":"Joe Bloggs - Holiday","rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}}]}
 type PolicyFindingsListResultV2 struct {
 	// PaginationMeta Example: {"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}
 	PaginationMeta PaginationMetaResultV2 `json:"pagination_meta"`
 
-	// PolicyFindings Example: [{"created_at":"2021-08-17T13:28:57.801578Z","days":3,"debrief":{"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"dismissal":{"dismissed_at":"2021-08-17T13:28:57.801578Z","dismissed_by":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"reason":"This incident is special."},"due_at":"2025-10-14T00:00:00.000000Z","follow_up":{"follow_up_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","last_checked_at":"2021-08-17T13:28:57.801578Z","on_call_readiness":{"high_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"user_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"policy_id":"01G0J1EXE7AXZ2C93K61WBPYEH","policy_type":"follow_up","post_mortem":{"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"responsible_users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"schedule":{"cause":"nobody_scheduled","end_at":"2021-08-17T13:28:57.801578Z","has_unscheduled_time":true,"impacted_users":[{"cause":"no_on_call_seat","name":"Alice Green","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}],"rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z"},"state":"active","updated_at":"2021-08-17T13:28:57.801578Z","vacation_conflict":{"end_at":"2021-08-17T13:28:57.801578Z","holiday_name":"Joe Bloggs - Holiday","rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}}]
+	// PolicyFindings Example: [{"created_at":"2021-08-17T13:28:57.801578Z","days":3,"debrief":{"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"dismissal":{"dismissed_at":"2021-08-17T13:28:57.801578Z","dismissed_by":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"reason":"This incident is special."},"due_at":"2025-10-14T00:00:00.000000Z","follow_up":{"follow_up_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","last_checked_at":"2021-08-17T13:28:57.801578Z","on_call_readiness":{"high_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"user_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"policy_id":"01G0J1EXE7AXZ2C93K61WBPYEH","policy_type":"follow_up","post_mortem":{"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"responsible_users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"schedule":{"cause":"nobody_scheduled","end_at":"2021-08-17T13:28:57.801578Z","has_unscheduled_time":true,"impacted_users":[{"cause":"no_on_call_seat","name":"Alice Green","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}],"rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z"},"shift_conflict":{"end_at":"2021-08-17T13:28:57.801578Z","shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","layer_id":"01FCNDV6P870EA6S7TK1DSYDG0","rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z"}],"start_at":"2021-08-17T13:28:57.801578Z","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"state":"active","updated_at":"2021-08-17T13:28:57.801578Z","vacation_conflict":{"end_at":"2021-08-17T13:28:57.801578Z","holiday_name":"Joe Bloggs - Holiday","rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}}]
 	PolicyFindings []PolicyFindingV2 `json:"policy_findings"`
 }
 
-// PolicyFindingsRestoreResultV2 Example: {"policy_finding":{"created_at":"2021-08-17T13:28:57.801578Z","days":3,"debrief":{"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"dismissal":{"dismissed_at":"2021-08-17T13:28:57.801578Z","dismissed_by":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"reason":"This incident is special."},"due_at":"2025-10-14T00:00:00.000000Z","follow_up":{"follow_up_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","last_checked_at":"2021-08-17T13:28:57.801578Z","on_call_readiness":{"high_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"user_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"policy_id":"01G0J1EXE7AXZ2C93K61WBPYEH","policy_type":"follow_up","post_mortem":{"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"responsible_users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"schedule":{"cause":"nobody_scheduled","end_at":"2021-08-17T13:28:57.801578Z","has_unscheduled_time":true,"impacted_users":[{"cause":"no_on_call_seat","name":"Alice Green","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}],"rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z"},"state":"active","updated_at":"2021-08-17T13:28:57.801578Z","vacation_conflict":{"end_at":"2021-08-17T13:28:57.801578Z","holiday_name":"Joe Bloggs - Holiday","rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}}}
+// PolicyFindingsRestoreResultV2 Example: {"policy_finding":{"created_at":"2021-08-17T13:28:57.801578Z","days":3,"debrief":{"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"dismissal":{"dismissed_at":"2021-08-17T13:28:57.801578Z","dismissed_by":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"reason":"This incident is special."},"due_at":"2025-10-14T00:00:00.000000Z","follow_up":{"follow_up_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","last_checked_at":"2021-08-17T13:28:57.801578Z","on_call_readiness":{"high_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"user_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"policy_id":"01G0J1EXE7AXZ2C93K61WBPYEH","policy_type":"follow_up","post_mortem":{"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"responsible_users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"schedule":{"cause":"nobody_scheduled","end_at":"2021-08-17T13:28:57.801578Z","has_unscheduled_time":true,"impacted_users":[{"cause":"no_on_call_seat","name":"Alice Green","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}],"rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z"},"shift_conflict":{"end_at":"2021-08-17T13:28:57.801578Z","shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","layer_id":"01FCNDV6P870EA6S7TK1DSYDG0","rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z"}],"start_at":"2021-08-17T13:28:57.801578Z","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"state":"active","updated_at":"2021-08-17T13:28:57.801578Z","vacation_conflict":{"end_at":"2021-08-17T13:28:57.801578Z","holiday_name":"Joe Bloggs - Holiday","rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}}}
 type PolicyFindingsRestoreResultV2 struct {
-	// PolicyFinding Example: {"created_at":"2021-08-17T13:28:57.801578Z","days":3,"debrief":{"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"dismissal":{"dismissed_at":"2021-08-17T13:28:57.801578Z","dismissed_by":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"reason":"This incident is special."},"due_at":"2025-10-14T00:00:00.000000Z","follow_up":{"follow_up_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","last_checked_at":"2021-08-17T13:28:57.801578Z","on_call_readiness":{"high_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"user_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"policy_id":"01G0J1EXE7AXZ2C93K61WBPYEH","policy_type":"follow_up","post_mortem":{"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"responsible_users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"schedule":{"cause":"nobody_scheduled","end_at":"2021-08-17T13:28:57.801578Z","has_unscheduled_time":true,"impacted_users":[{"cause":"no_on_call_seat","name":"Alice Green","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}],"rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z"},"state":"active","updated_at":"2021-08-17T13:28:57.801578Z","vacation_conflict":{"end_at":"2021-08-17T13:28:57.801578Z","holiday_name":"Joe Bloggs - Holiday","rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}}
+	// PolicyFinding Example: {"created_at":"2021-08-17T13:28:57.801578Z","days":3,"debrief":{"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"dismissal":{"dismissed_at":"2021-08-17T13:28:57.801578Z","dismissed_by":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"reason":"This incident is special."},"due_at":"2025-10-14T00:00:00.000000Z","follow_up":{"follow_up_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","last_checked_at":"2021-08-17T13:28:57.801578Z","on_call_readiness":{"high_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"user_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"policy_id":"01G0J1EXE7AXZ2C93K61WBPYEH","policy_type":"follow_up","post_mortem":{"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"responsible_users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"schedule":{"cause":"nobody_scheduled","end_at":"2021-08-17T13:28:57.801578Z","has_unscheduled_time":true,"impacted_users":[{"cause":"no_on_call_seat","name":"Alice Green","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}],"rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z"},"shift_conflict":{"end_at":"2021-08-17T13:28:57.801578Z","shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","layer_id":"01FCNDV6P870EA6S7TK1DSYDG0","rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z"}],"start_at":"2021-08-17T13:28:57.801578Z","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"state":"active","updated_at":"2021-08-17T13:28:57.801578Z","vacation_conflict":{"end_at":"2021-08-17T13:28:57.801578Z","holiday_name":"Joe Bloggs - Holiday","rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}}
 	PolicyFinding PolicyFindingV2 `json:"policy_finding"`
 }
 
-// PolicyFindingsShowResultV2 Example: {"policy_finding":{"created_at":"2021-08-17T13:28:57.801578Z","days":3,"debrief":{"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"dismissal":{"dismissed_at":"2021-08-17T13:28:57.801578Z","dismissed_by":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"reason":"This incident is special."},"due_at":"2025-10-14T00:00:00.000000Z","follow_up":{"follow_up_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","last_checked_at":"2021-08-17T13:28:57.801578Z","on_call_readiness":{"high_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"user_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"policy_id":"01G0J1EXE7AXZ2C93K61WBPYEH","policy_type":"follow_up","post_mortem":{"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"responsible_users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"schedule":{"cause":"nobody_scheduled","end_at":"2021-08-17T13:28:57.801578Z","has_unscheduled_time":true,"impacted_users":[{"cause":"no_on_call_seat","name":"Alice Green","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}],"rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z"},"state":"active","updated_at":"2021-08-17T13:28:57.801578Z","vacation_conflict":{"end_at":"2021-08-17T13:28:57.801578Z","holiday_name":"Joe Bloggs - Holiday","rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}}}
+// PolicyFindingsShowResultV2 Example: {"policy_finding":{"created_at":"2021-08-17T13:28:57.801578Z","days":3,"debrief":{"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"dismissal":{"dismissed_at":"2021-08-17T13:28:57.801578Z","dismissed_by":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"reason":"This incident is special."},"due_at":"2025-10-14T00:00:00.000000Z","follow_up":{"follow_up_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","last_checked_at":"2021-08-17T13:28:57.801578Z","on_call_readiness":{"high_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"user_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"policy_id":"01G0J1EXE7AXZ2C93K61WBPYEH","policy_type":"follow_up","post_mortem":{"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"responsible_users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"schedule":{"cause":"nobody_scheduled","end_at":"2021-08-17T13:28:57.801578Z","has_unscheduled_time":true,"impacted_users":[{"cause":"no_on_call_seat","name":"Alice Green","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}],"rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z"},"shift_conflict":{"end_at":"2021-08-17T13:28:57.801578Z","shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","layer_id":"01FCNDV6P870EA6S7TK1DSYDG0","rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z"}],"start_at":"2021-08-17T13:28:57.801578Z","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"state":"active","updated_at":"2021-08-17T13:28:57.801578Z","vacation_conflict":{"end_at":"2021-08-17T13:28:57.801578Z","holiday_name":"Joe Bloggs - Holiday","rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}}}
 type PolicyFindingsShowResultV2 struct {
-	// PolicyFinding Example: {"created_at":"2021-08-17T13:28:57.801578Z","days":3,"debrief":{"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"dismissal":{"dismissed_at":"2021-08-17T13:28:57.801578Z","dismissed_by":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"reason":"This incident is special."},"due_at":"2025-10-14T00:00:00.000000Z","follow_up":{"follow_up_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","last_checked_at":"2021-08-17T13:28:57.801578Z","on_call_readiness":{"high_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"user_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"policy_id":"01G0J1EXE7AXZ2C93K61WBPYEH","policy_type":"follow_up","post_mortem":{"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"responsible_users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"schedule":{"cause":"nobody_scheduled","end_at":"2021-08-17T13:28:57.801578Z","has_unscheduled_time":true,"impacted_users":[{"cause":"no_on_call_seat","name":"Alice Green","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}],"rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z"},"state":"active","updated_at":"2021-08-17T13:28:57.801578Z","vacation_conflict":{"end_at":"2021-08-17T13:28:57.801578Z","holiday_name":"Joe Bloggs - Holiday","rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}}
+	// PolicyFinding Example: {"created_at":"2021-08-17T13:28:57.801578Z","days":3,"debrief":{"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"dismissal":{"dismissed_at":"2021-08-17T13:28:57.801578Z","dismissed_by":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"reason":"This incident is special."},"due_at":"2025-10-14T00:00:00.000000Z","follow_up":{"follow_up_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","last_checked_at":"2021-08-17T13:28:57.801578Z","on_call_readiness":{"high_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"user_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"policy_id":"01G0J1EXE7AXZ2C93K61WBPYEH","policy_type":"follow_up","post_mortem":{"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"responsible_users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"schedule":{"cause":"nobody_scheduled","end_at":"2021-08-17T13:28:57.801578Z","has_unscheduled_time":true,"impacted_users":[{"cause":"no_on_call_seat","name":"Alice Green","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}],"rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z"},"shift_conflict":{"end_at":"2021-08-17T13:28:57.801578Z","shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","layer_id":"01FCNDV6P870EA6S7TK1DSYDG0","rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z"}],"start_at":"2021-08-17T13:28:57.801578Z","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"state":"active","updated_at":"2021-08-17T13:28:57.801578Z","vacation_conflict":{"end_at":"2021-08-17T13:28:57.801578Z","holiday_name":"Joe Bloggs - Holiday","rotation_id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_id":"01FCNDV6P870EA6S7TK1DSYDG0","start_at":"2021-08-17T13:28:57.801578Z","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}}
 	PolicyFinding PolicyFindingV2 `json:"policy_finding"`
 }
 
@@ -26567,30 +27292,29 @@ type ScheduleCreatePayloadV3 struct {
 // have been merged in — this is normally the list to use when working out who
 // is on-call.
 //
-// Example: {"final":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"overrides":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"scheduled":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}]}
+// Example: {"final":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"overrides":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"scheduled":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}]}
 type ScheduleEntriesListPayloadV2 struct {
 	// Final The effective schedule after overrides have been merged in
 	//
-	// Example: [{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}]
+	// Example: [{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}]
 	Final []ScheduleEntryV2 `json:"final"`
 
 	// Overrides Overrides that apply within the requested window
 	//
-	// Example: [{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}]
+	// Example: [{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}]
 	Overrides []ScheduleEntryV2 `json:"overrides"`
 
 	// Scheduled Entries from the schedule's rotation rules, before overrides are applied
 	//
-	// Example: [{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}]
+	// Example: [{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}]
 	Scheduled []ScheduleEntryV2 `json:"scheduled"`
 }
 
 // ScheduleEntryV2 A single shift on a schedule, representing who is on-call between a start
-// and end time. When present, `rotation_id` and `layer_id` tell you which
-// rotation and which layer within that rotation the entry belongs to. A
-// schedule may have multiple rotations (for example, a primary and a secondary
-// rotation) and each rotation can be made up of several layers — entries are
-// returned for every rotation and layer on the schedule.
+// and end time. When present, `rotation_id` tells you which rotation the
+// entry belongs to. A schedule may have multiple rotations (for example, a
+// primary and a secondary rotation) and each rotation can be made up of several
+// layers — entries are returned for every rotation and layer on the schedule.
 //
 // Entries come from two places: they are either generated from a schedule's
 // rotation configuration (the regular pattern of who is on-call) or created by
@@ -26605,7 +27329,7 @@ type ScheduleEntriesListPayloadV2 struct {
 // those. Use `fingerprint` if you need a stable identifier to deduplicate or
 // diff a shift across requests.
 //
-// Example: {"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}
+// Example: {"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}
 type ScheduleEntryV2 struct {
 	// EndAt Example: 2021-08-17T13:28:57.801578Z
 	EndAt time.Time `json:"end_at"`
@@ -26619,11 +27343,6 @@ type ScheduleEntryV2 struct {
 	//
 	// Example: 01G0J1EXE7AXZ2C93K61WBPYEH
 	Fingerprint *string `json:"fingerprint,omitempty"`
-
-	// LayerId If present, the layer this entry applies to on the rotation
-	//
-	// Example: 01G0J1EXE7AXZ2C93K61WBPYNH
-	LayerId *string `json:"layer_id,omitempty"`
 
 	// RotationId If present, the rotation this entry applies to on the schedule
 	//
@@ -27567,7 +28286,7 @@ type ScheduleUpdatePayloadV3 struct {
 	TeamIds *[]string `json:"team_ids,omitempty"`
 }
 
-// ScheduleV2 Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"config":{"rotations":[{"effective_from":"2021-08-17T13:28:57.801578Z","handover_start_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","layers":[{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Layer 1"}],"name":"Primary On-Call Schedule","scheduling_mode":"fair","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"working_interval":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]},"created_at":"2021-08-17T13:28:57.801578Z","current_shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"holidays_public_config":{"country_codes":["GB","FR"]},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Primary On-Call Schedule","next_shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"permalink":"https://app.incident.io/acme/on-call/schedules/01G0J1EXE7AXZ2C93K61WBPYEH","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"timezone":"Europe/London","updated_at":"2021-08-17T13:28:57.801578Z"}
+// ScheduleV2 Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"config":{"rotations":[{"effective_from":"2021-08-17T13:28:57.801578Z","handover_start_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","layers":[{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Layer 1"}],"name":"Primary On-Call Schedule","scheduling_mode":"fair","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"working_interval":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]},"created_at":"2021-08-17T13:28:57.801578Z","current_shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"holidays_public_config":{"country_codes":["GB","FR"]},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Primary On-Call Schedule","next_shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"permalink":"https://app.incident.io/acme/on-call/schedules/01G0J1EXE7AXZ2C93K61WBPYEH","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"timezone":"Europe/London","updated_at":"2021-08-17T13:28:57.801578Z"}
 type ScheduleV2 struct {
 	// Annotations Annotations that track metadata about this resource
 	//
@@ -27582,7 +28301,7 @@ type ScheduleV2 struct {
 
 	// CurrentShifts Shifts that are ongoing for this schedule
 	//
-	// Example: [{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}]
+	// Example: [{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}]
 	CurrentShifts *[]ScheduleEntryV2 `json:"current_shifts,omitempty"`
 
 	// HolidaysPublicConfig Example: {"country_codes":["GB","FR"]}
@@ -27600,7 +28319,7 @@ type ScheduleV2 struct {
 
 	// NextShifts The shifts after the next changeover. Note that on the list schedules endpoint, this will always be empty if the page size requested is greater than 25.
 	//
-	// Example: [{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}]
+	// Example: [{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}]
 	NextShifts *[]ScheduleEntryV2 `json:"next_shifts,omitempty"`
 
 	// Permalink A permanent link to this schedule in the incident.io dashboard
@@ -27708,9 +28427,9 @@ type SchedulesCreatePayloadV3 struct {
 	Schedule ScheduleCreatePayloadV3 `json:"schedule"`
 }
 
-// SchedulesCreateResultV2 Example: {"schedule":{"annotations":{"incident.io/terraform/version":"3.0.0"},"config":{"rotations":[{"effective_from":"2021-08-17T13:28:57.801578Z","handover_start_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","layers":[{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Layer 1"}],"name":"Primary On-Call Schedule","scheduling_mode":"fair","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"working_interval":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]},"created_at":"2021-08-17T13:28:57.801578Z","current_shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"holidays_public_config":{"country_codes":["GB","FR"]},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Primary On-Call Schedule","next_shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"permalink":"https://app.incident.io/acme/on-call/schedules/01G0J1EXE7AXZ2C93K61WBPYEH","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"timezone":"Europe/London","updated_at":"2021-08-17T13:28:57.801578Z"}}
+// SchedulesCreateResultV2 Example: {"schedule":{"annotations":{"incident.io/terraform/version":"3.0.0"},"config":{"rotations":[{"effective_from":"2021-08-17T13:28:57.801578Z","handover_start_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","layers":[{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Layer 1"}],"name":"Primary On-Call Schedule","scheduling_mode":"fair","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"working_interval":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]},"created_at":"2021-08-17T13:28:57.801578Z","current_shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"holidays_public_config":{"country_codes":["GB","FR"]},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Primary On-Call Schedule","next_shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"permalink":"https://app.incident.io/acme/on-call/schedules/01G0J1EXE7AXZ2C93K61WBPYEH","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"timezone":"Europe/London","updated_at":"2021-08-17T13:28:57.801578Z"}}
 type SchedulesCreateResultV2 struct {
-	// Schedule Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"config":{"rotations":[{"effective_from":"2021-08-17T13:28:57.801578Z","handover_start_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","layers":[{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Layer 1"}],"name":"Primary On-Call Schedule","scheduling_mode":"fair","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"working_interval":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]},"created_at":"2021-08-17T13:28:57.801578Z","current_shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"holidays_public_config":{"country_codes":["GB","FR"]},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Primary On-Call Schedule","next_shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"permalink":"https://app.incident.io/acme/on-call/schedules/01G0J1EXE7AXZ2C93K61WBPYEH","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"timezone":"Europe/London","updated_at":"2021-08-17T13:28:57.801578Z"}
+	// Schedule Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"config":{"rotations":[{"effective_from":"2021-08-17T13:28:57.801578Z","handover_start_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","layers":[{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Layer 1"}],"name":"Primary On-Call Schedule","scheduling_mode":"fair","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"working_interval":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]},"created_at":"2021-08-17T13:28:57.801578Z","current_shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"holidays_public_config":{"country_codes":["GB","FR"]},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Primary On-Call Schedule","next_shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"permalink":"https://app.incident.io/acme/on-call/schedules/01G0J1EXE7AXZ2C93K61WBPYEH","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"timezone":"Europe/London","updated_at":"2021-08-17T13:28:57.801578Z"}
 	Schedule ScheduleV2 `json:"schedule"`
 }
 
@@ -27783,12 +28502,12 @@ type SchedulesListOverridesResultV2 struct {
 	PaginationMeta *PaginationMetaResultV2 `json:"pagination_meta,omitempty"`
 }
 
-// SchedulesListResultV2 Example: {"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25,"total_record_count":238},"schedules":[{"annotations":{"incident.io/terraform/version":"3.0.0"},"config":{"rotations":[{"effective_from":"2021-08-17T13:28:57.801578Z","handover_start_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","layers":[{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Layer 1"}],"name":"Primary On-Call Schedule","scheduling_mode":"fair","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"working_interval":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]},"created_at":"2021-08-17T13:28:57.801578Z","current_shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"holidays_public_config":{"country_codes":["GB","FR"]},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Primary On-Call Schedule","next_shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"permalink":"https://app.incident.io/acme/on-call/schedules/01G0J1EXE7AXZ2C93K61WBPYEH","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"timezone":"Europe/London","updated_at":"2021-08-17T13:28:57.801578Z"}]}
+// SchedulesListResultV2 Example: {"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25,"total_record_count":238},"schedules":[{"annotations":{"incident.io/terraform/version":"3.0.0"},"config":{"rotations":[{"effective_from":"2021-08-17T13:28:57.801578Z","handover_start_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","layers":[{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Layer 1"}],"name":"Primary On-Call Schedule","scheduling_mode":"fair","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"working_interval":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]},"created_at":"2021-08-17T13:28:57.801578Z","current_shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"holidays_public_config":{"country_codes":["GB","FR"]},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Primary On-Call Schedule","next_shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"permalink":"https://app.incident.io/acme/on-call/schedules/01G0J1EXE7AXZ2C93K61WBPYEH","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"timezone":"Europe/London","updated_at":"2021-08-17T13:28:57.801578Z"}]}
 type SchedulesListResultV2 struct {
 	// PaginationMeta Example: {"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25,"total_record_count":238}
 	PaginationMeta *PaginationMetaResultWithTotalV2 `json:"pagination_meta,omitempty"`
 
-	// Schedules Example: [{"annotations":{"incident.io/terraform/version":"3.0.0"},"config":{"rotations":[{"effective_from":"2021-08-17T13:28:57.801578Z","handover_start_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","layers":[{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Layer 1"}],"name":"Primary On-Call Schedule","scheduling_mode":"fair","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"working_interval":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]},"created_at":"2021-08-17T13:28:57.801578Z","current_shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"holidays_public_config":{"country_codes":["GB","FR"]},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Primary On-Call Schedule","next_shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"permalink":"https://app.incident.io/acme/on-call/schedules/01G0J1EXE7AXZ2C93K61WBPYEH","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"timezone":"Europe/London","updated_at":"2021-08-17T13:28:57.801578Z"}]
+	// Schedules Example: [{"annotations":{"incident.io/terraform/version":"3.0.0"},"config":{"rotations":[{"effective_from":"2021-08-17T13:28:57.801578Z","handover_start_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","layers":[{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Layer 1"}],"name":"Primary On-Call Schedule","scheduling_mode":"fair","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"working_interval":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]},"created_at":"2021-08-17T13:28:57.801578Z","current_shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"holidays_public_config":{"country_codes":["GB","FR"]},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Primary On-Call Schedule","next_shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"permalink":"https://app.incident.io/acme/on-call/schedules/01G0J1EXE7AXZ2C93K61WBPYEH","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"timezone":"Europe/London","updated_at":"2021-08-17T13:28:57.801578Z"}]
 	Schedules []ScheduleV2 `json:"schedules"`
 }
 
@@ -27810,7 +28529,7 @@ type SchedulesListRotationsResultV3 struct {
 	Rotations []ScheduleRotationV3 `json:"rotations"`
 }
 
-// SchedulesListScheduleEntriesResultV2 Example: {"pagination_meta":{"after":"abc123","after_url":"abc123"},"schedule_entries":{"final":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"overrides":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"scheduled":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}]}}
+// SchedulesListScheduleEntriesResultV2 Example: {"pagination_meta":{"after":"abc123","after_url":"abc123"},"schedule_entries":{"final":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"overrides":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"scheduled":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}]}}
 type SchedulesListScheduleEntriesResultV2 struct {
 	// PaginationMeta Example: {"after":"abc123","after_url":"abc123"}
 	PaginationMeta *AfterPaginationMetaResultV2 `json:"pagination_meta,omitempty"`
@@ -27823,7 +28542,7 @@ type SchedulesListScheduleEntriesResultV2 struct {
 	// have been merged in — this is normally the list to use when working out who
 	// is on-call.
 	//
-	// Example: {"final":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"overrides":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"scheduled":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}]}
+	// Example: {"final":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"overrides":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"scheduled":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}]}
 	ScheduleEntries ScheduleEntriesListPayloadV2 `json:"schedule_entries"`
 }
 
@@ -27885,7 +28604,7 @@ type SchedulesPreviewScheduleEntriesPayloadV2 struct {
 	Schedule ScheduleUpdatePayloadV2 `json:"schedule"`
 }
 
-// SchedulesPreviewScheduleEntriesResultV2 Example: {"schedule_entries":{"final":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"overrides":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"scheduled":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}]}}
+// SchedulesPreviewScheduleEntriesResultV2 Example: {"schedule_entries":{"final":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"overrides":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"scheduled":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}]}}
 type SchedulesPreviewScheduleEntriesResultV2 struct {
 	// ScheduleEntries The schedule entries for a window of time, grouped by where they come from.
 	//
@@ -27895,7 +28614,7 @@ type SchedulesPreviewScheduleEntriesResultV2 struct {
 	// have been merged in — this is normally the list to use when working out who
 	// is on-call.
 	//
-	// Example: {"final":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"overrides":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"scheduled":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}]}
+	// Example: {"final":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"overrides":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"scheduled":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}]}
 	ScheduleEntries ScheduleEntriesListPayloadV2 `json:"schedule_entries"`
 }
 
@@ -27905,9 +28624,9 @@ type SchedulesShowOverrideResultV2 struct {
 	Override ScheduleOverrideV2 `json:"override"`
 }
 
-// SchedulesShowResultV2 Example: {"schedule":{"annotations":{"incident.io/terraform/version":"3.0.0"},"config":{"rotations":[{"effective_from":"2021-08-17T13:28:57.801578Z","handover_start_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","layers":[{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Layer 1"}],"name":"Primary On-Call Schedule","scheduling_mode":"fair","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"working_interval":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]},"created_at":"2021-08-17T13:28:57.801578Z","current_shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"holidays_public_config":{"country_codes":["GB","FR"]},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Primary On-Call Schedule","next_shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"permalink":"https://app.incident.io/acme/on-call/schedules/01G0J1EXE7AXZ2C93K61WBPYEH","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"timezone":"Europe/London","updated_at":"2021-08-17T13:28:57.801578Z"}}
+// SchedulesShowResultV2 Example: {"schedule":{"annotations":{"incident.io/terraform/version":"3.0.0"},"config":{"rotations":[{"effective_from":"2021-08-17T13:28:57.801578Z","handover_start_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","layers":[{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Layer 1"}],"name":"Primary On-Call Schedule","scheduling_mode":"fair","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"working_interval":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]},"created_at":"2021-08-17T13:28:57.801578Z","current_shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"holidays_public_config":{"country_codes":["GB","FR"]},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Primary On-Call Schedule","next_shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"permalink":"https://app.incident.io/acme/on-call/schedules/01G0J1EXE7AXZ2C93K61WBPYEH","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"timezone":"Europe/London","updated_at":"2021-08-17T13:28:57.801578Z"}}
 type SchedulesShowResultV2 struct {
-	// Schedule Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"config":{"rotations":[{"effective_from":"2021-08-17T13:28:57.801578Z","handover_start_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","layers":[{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Layer 1"}],"name":"Primary On-Call Schedule","scheduling_mode":"fair","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"working_interval":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]},"created_at":"2021-08-17T13:28:57.801578Z","current_shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"holidays_public_config":{"country_codes":["GB","FR"]},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Primary On-Call Schedule","next_shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"permalink":"https://app.incident.io/acme/on-call/schedules/01G0J1EXE7AXZ2C93K61WBPYEH","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"timezone":"Europe/London","updated_at":"2021-08-17T13:28:57.801578Z"}
+	// Schedule Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"config":{"rotations":[{"effective_from":"2021-08-17T13:28:57.801578Z","handover_start_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","layers":[{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Layer 1"}],"name":"Primary On-Call Schedule","scheduling_mode":"fair","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"working_interval":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]},"created_at":"2021-08-17T13:28:57.801578Z","current_shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"holidays_public_config":{"country_codes":["GB","FR"]},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Primary On-Call Schedule","next_shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"permalink":"https://app.incident.io/acme/on-call/schedules/01G0J1EXE7AXZ2C93K61WBPYEH","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"timezone":"Europe/London","updated_at":"2021-08-17T13:28:57.801578Z"}
 	Schedule ScheduleV2 `json:"schedule"`
 }
 
@@ -27997,9 +28716,9 @@ type SchedulesUpdatePayloadV3 struct {
 	Schedule ScheduleUpdatePayloadV3 `json:"schedule"`
 }
 
-// SchedulesUpdateResultV2 Example: {"schedule":{"annotations":{"incident.io/terraform/version":"3.0.0"},"config":{"rotations":[{"effective_from":"2021-08-17T13:28:57.801578Z","handover_start_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","layers":[{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Layer 1"}],"name":"Primary On-Call Schedule","scheduling_mode":"fair","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"working_interval":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]},"created_at":"2021-08-17T13:28:57.801578Z","current_shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"holidays_public_config":{"country_codes":["GB","FR"]},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Primary On-Call Schedule","next_shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"permalink":"https://app.incident.io/acme/on-call/schedules/01G0J1EXE7AXZ2C93K61WBPYEH","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"timezone":"Europe/London","updated_at":"2021-08-17T13:28:57.801578Z"}}
+// SchedulesUpdateResultV2 Example: {"schedule":{"annotations":{"incident.io/terraform/version":"3.0.0"},"config":{"rotations":[{"effective_from":"2021-08-17T13:28:57.801578Z","handover_start_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","layers":[{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Layer 1"}],"name":"Primary On-Call Schedule","scheduling_mode":"fair","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"working_interval":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]},"created_at":"2021-08-17T13:28:57.801578Z","current_shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"holidays_public_config":{"country_codes":["GB","FR"]},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Primary On-Call Schedule","next_shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"permalink":"https://app.incident.io/acme/on-call/schedules/01G0J1EXE7AXZ2C93K61WBPYEH","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"timezone":"Europe/London","updated_at":"2021-08-17T13:28:57.801578Z"}}
 type SchedulesUpdateResultV2 struct {
-	// Schedule Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"config":{"rotations":[{"effective_from":"2021-08-17T13:28:57.801578Z","handover_start_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","layers":[{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Layer 1"}],"name":"Primary On-Call Schedule","scheduling_mode":"fair","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"working_interval":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]},"created_at":"2021-08-17T13:28:57.801578Z","current_shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"holidays_public_config":{"country_codes":["GB","FR"]},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Primary On-Call Schedule","next_shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"permalink":"https://app.incident.io/acme/on-call/schedules/01G0J1EXE7AXZ2C93K61WBPYEH","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"timezone":"Europe/London","updated_at":"2021-08-17T13:28:57.801578Z"}
+	// Schedule Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"config":{"rotations":[{"effective_from":"2021-08-17T13:28:57.801578Z","handover_start_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","layers":[{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Layer 1"}],"name":"Primary On-Call Schedule","scheduling_mode":"fair","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"working_interval":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]},"created_at":"2021-08-17T13:28:57.801578Z","current_shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"holidays_public_config":{"country_codes":["GB","FR"]},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Primary On-Call Schedule","next_shifts":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"permalink":"https://app.incident.io/acme/on-call/schedules/01G0J1EXE7AXZ2C93K61WBPYEH","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"timezone":"Europe/London","updated_at":"2021-08-17T13:28:57.801578Z"}
 	Schedule ScheduleV2 `json:"schedule"`
 }
 
@@ -29320,17 +30039,17 @@ type StepProgressV2WebhookDeliveryState string
 
 // TeamGroupingBranchV3 One set of grouping settings.
 //
-// Example: {"settings":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
+// Example: {"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
 type TeamGroupingBranchV3 struct {
 	// Settings How a team's alerts are grouped together, on every alert route
 	//
-	// Example: {"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}
+	// Example: {"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}
 	Settings TeamGroupingSettingsV3 `json:"settings"`
 }
 
 // TeamGroupingPreferenceV3 A team's alert grouping preference, which takes priority over the default grouping of every alert route its alerts match
 //
-// Example: {"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
+// Example: {"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
 type TeamGroupingPreferenceV3 struct {
 	// CreatedAt When this preference was created
 	//
@@ -29339,7 +30058,7 @@ type TeamGroupingPreferenceV3 struct {
 
 	// Default One set of grouping settings.
 	//
-	// Example: {"settings":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
+	// Example: {"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
 	Default TeamGroupingBranchV3 `json:"default"`
 
 	// Id Unique identifier for this preference
@@ -29363,11 +30082,11 @@ type TeamGroupingPreferenceV3 struct {
 	Version int64 `json:"version"`
 }
 
-// TeamGroupingPreferencesCreatePayloadV3 Example: {"default":{"settings":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"team_id":"01G0J1EXE7AXZ2C93K61WBPYEH"}
+// TeamGroupingPreferencesCreatePayloadV3 Example: {"default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"team_id":"01G0J1EXE7AXZ2C93K61WBPYEH"}
 type TeamGroupingPreferencesCreatePayloadV3 struct {
 	// Default One set of grouping settings.
 	//
-	// Example: {"settings":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
+	// Example: {"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
 	Default TeamGroupingBranchV3 `json:"default"`
 
 	// TeamId The catalog entry ID of the team this preference belongs to
@@ -29376,36 +30095,36 @@ type TeamGroupingPreferencesCreatePayloadV3 struct {
 	TeamId string `json:"team_id"`
 }
 
-// TeamGroupingPreferencesCreateResultV3 Example: {"team_grouping_preference":{"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}}
+// TeamGroupingPreferencesCreateResultV3 Example: {"team_grouping_preference":{"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}}
 type TeamGroupingPreferencesCreateResultV3 struct {
 	// TeamGroupingPreference A team's alert grouping preference, which takes priority over the default grouping of every alert route its alerts match
 	//
-	// Example: {"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
+	// Example: {"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
 	TeamGroupingPreference TeamGroupingPreferenceV3 `json:"team_grouping_preference"`
 }
 
-// TeamGroupingPreferencesListResultV3 Example: {"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25},"team_grouping_preferences":[{"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}]}
+// TeamGroupingPreferencesListResultV3 Example: {"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25},"team_grouping_preferences":[{"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}]}
 type TeamGroupingPreferencesListResultV3 struct {
 	// PaginationMeta Example: {"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}
 	PaginationMeta PaginationMetaResultV3 `json:"pagination_meta"`
 
-	// TeamGroupingPreferences Example: [{"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}]
+	// TeamGroupingPreferences Example: [{"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}]
 	TeamGroupingPreferences []TeamGroupingPreferenceV3 `json:"team_grouping_preferences"`
 }
 
-// TeamGroupingPreferencesShowResultV3 Example: {"team_grouping_preference":{"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}}
+// TeamGroupingPreferencesShowResultV3 Example: {"team_grouping_preference":{"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}}
 type TeamGroupingPreferencesShowResultV3 struct {
 	// TeamGroupingPreference A team's alert grouping preference, which takes priority over the default grouping of every alert route its alerts match
 	//
-	// Example: {"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
+	// Example: {"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
 	TeamGroupingPreference TeamGroupingPreferenceV3 `json:"team_grouping_preference"`
 }
 
-// TeamGroupingPreferencesUpdatePayloadV3 Example: {"default":{"settings":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"version":4}
+// TeamGroupingPreferencesUpdatePayloadV3 Example: {"default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"version":4}
 type TeamGroupingPreferencesUpdatePayloadV3 struct {
 	// Default One set of grouping settings.
 	//
-	// Example: {"settings":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
+	// Example: {"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
 	Default TeamGroupingBranchV3 `json:"default"`
 
 	// Version The version this update will create. It must be one more than the preference's latest version, otherwise the update is rejected - guarding against concurrent edits.
@@ -29414,18 +30133,23 @@ type TeamGroupingPreferencesUpdatePayloadV3 struct {
 	Version int64 `json:"version"`
 }
 
-// TeamGroupingPreferencesUpdateResultV3 Example: {"team_grouping_preference":{"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}}
+// TeamGroupingPreferencesUpdateResultV3 Example: {"team_grouping_preference":{"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}}
 type TeamGroupingPreferencesUpdateResultV3 struct {
 	// TeamGroupingPreference A team's alert grouping preference, which takes priority over the default grouping of every alert route its alerts match
 	//
-	// Example: {"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
+	// Example: {"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
 	TeamGroupingPreference TeamGroupingPreferenceV3 `json:"team_grouping_preference"`
 }
 
 // TeamGroupingSettingsV3 How a team's alerts are grouped together, on every alert route
 //
-// Example: {"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}
+// Example: {"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}
 type TeamGroupingSettingsV3 struct {
+	// AiEnabled Use AI to group similar looking alerts. AI alert grouping can only group alerts that are attributed to the same team, so grouping keys must be empty or only contain the team alert attribute. Private alerts are grouped by key alone unless AI incident access allows private incidents and alerts. Omit it on an update to keep the current value.
+	//
+	// Example: false
+	AiEnabled *bool `json:"ai_enabled,omitempty"`
+
 	// Enabled Whether the team's alerts are grouped. When false, none of the team's alerts are grouped, regardless of any alert route grouping config.
 	//
 	// Example: true
@@ -31806,6 +32530,15 @@ type FollowUpsV3ListParams struct {
 // FollowUpsV3ListParamsIncidentMode defines parameters for FollowUpsV3List.
 type FollowUpsV3ListParamsIncidentMode string
 
+// IncidentFormsV3ListParams defines parameters for IncidentFormsV3List.
+type IncidentFormsV3ListParams struct {
+	// PageSize Integer number of records to return
+	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// After An incident form's ID. This endpoint will return a list of forms after this ID in relation to the API response order.
+	After *string `form:"after,omitempty" json:"after,omitempty"`
+}
+
 // SchedulesV3ListParams defines parameters for SchedulesV3List.
 type SchedulesV3ListParams struct {
 	// PageSize Integer number of records to return
@@ -32309,6 +33042,15 @@ type FollowUpsV3UpdateJSONRequestBody = FollowUpsUpdatePayloadV3
 
 // FollowUpsV3ConnectExternalIssueJSONRequestBody defines body for FollowUpsV3ConnectExternalIssue for application/json ContentType.
 type FollowUpsV3ConnectExternalIssueJSONRequestBody = FollowUpsConnectExternalIssuePayloadV3
+
+// IncidentFormsV3CreateJSONRequestBody defines body for IncidentFormsV3Create for application/json ContentType.
+type IncidentFormsV3CreateJSONRequestBody = IncidentFormsCreatePayloadV3
+
+// IncidentFormsV3ValidateJSONRequestBody defines body for IncidentFormsV3Validate for application/json ContentType.
+type IncidentFormsV3ValidateJSONRequestBody = IncidentFormsValidatePayloadV3
+
+// IncidentFormsV3UpdateJSONRequestBody defines body for IncidentFormsV3Update for application/json ContentType.
+type IncidentFormsV3UpdateJSONRequestBody = IncidentFormsUpdatePayloadV3
 
 // SchedulesV3CreateJSONRequestBody defines body for SchedulesV3Create for application/json ContentType.
 type SchedulesV3CreateJSONRequestBody = SchedulesCreatePayloadV3
@@ -32969,7 +33711,7 @@ type ClientInterface interface {
 
 	// IncidentTeamMembershipsV1RevokeWithBody Revoke Incident Team Memberships V1
 	//
-	// Revoke a team's access to a private incident.
+	// Revoke a team's access to a private incident. Members who only had access through this team lose it too; directly-added members and members still covered by another team keep theirs.
 	//
 	// Takes any type of body and a specified content type.
 	//
@@ -32978,7 +33720,7 @@ type ClientInterface interface {
 
 	// IncidentTeamMembershipsV1Revoke Revoke Incident Team Memberships V1
 	//
-	// Revoke a team's access to a private incident.
+	// Revoke a team's access to a private incident. Members who only had access through this team lose it too; directly-added members and members still covered by another team keep theirs.
 	//
 	// Takes a body of the `application/json` content type.
 	//
@@ -36284,7 +37026,7 @@ type ClientInterface interface {
 	// overrides that apply in the window) and `final` (the effective schedule
 	// after overrides have been merged in — this is normally the list you want).
 	//
-	// Each entry includes the `rotation_id` and `layer_id` it belongs to.
+	// Each entry includes the `rotation_id` it belongs to.
 	// Schedules can be made up of multiple rotations (for example, a primary and
 	// a secondary rotation) and each rotation can have several layers, and we
 	// return entries for every rotation and layer on the schedule.
@@ -37946,6 +38688,91 @@ type ClientInterface interface {
 	// Corresponds with POST /v3/follow_ups/{id}/actions/connect_external_issue (the `FollowUpsV3ConnectExternalIssue` operationId).
 	FollowUpsV3ConnectExternalIssue(ctx context.Context, id string, body FollowUpsV3ConnectExternalIssueJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// IncidentFormsV3List List Incident Forms V3
+	//
+	// List incident forms for your account, including their elements and expressions.
+	//
+	// Corresponds with GET /v3/incident_forms (the `IncidentFormsV3List` operationId).
+	IncidentFormsV3List(ctx context.Context, params *IncidentFormsV3ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// IncidentFormsV3CreateWithBody Create Incident Forms V3
+	//
+	// Create an incident form for an incident type. A form that already exists for that form type and incident type is rejected.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v3/incident_forms (the `IncidentFormsV3Create` operationId).
+	IncidentFormsV3CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// IncidentFormsV3Create Create Incident Forms V3
+	//
+	// Create an incident form for an incident type. A form that already exists for that form type and incident type is rejected.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v3/incident_forms (the `IncidentFormsV3Create` operationId).
+	IncidentFormsV3Create(ctx context.Context, body IncidentFormsV3CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// IncidentFormsV3ValidateWithBody Validate Incident Forms V3
+	//
+	// Check whether an incident form config is valid, without creating or updating anything.
+	//
+	// Set id to check a replacement for that form, as Update would. Leave it out to check a new form,
+	// as Create would. An invalid config gets the same error that Create or Update would return. A
+	// config that is valid but probably not what you meant comes back as a warning on a successful
+	// response.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v3/incident_forms/actions/validate (the `IncidentFormsV3Validate` operationId).
+	IncidentFormsV3ValidateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// IncidentFormsV3Validate Validate Incident Forms V3
+	//
+	// Check whether an incident form config is valid, without creating or updating anything.
+	//
+	// Set id to check a replacement for that form, as Update would. Leave it out to check a new form,
+	// as Create would. An invalid config gets the same error that Create or Update would return. A
+	// config that is valid but probably not what you meant comes back as a warning on a successful
+	// response.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v3/incident_forms/actions/validate (the `IncidentFormsV3Validate` operationId).
+	IncidentFormsV3Validate(ctx context.Context, body IncidentFormsV3ValidateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// IncidentFormsV3Delete Delete Incident Forms V3
+	//
+	// Archive an incident form. The organisation's default form of a type cannot be archived.
+	//
+	// Corresponds with DELETE /v3/incident_forms/{id} (the `IncidentFormsV3Delete` operationId).
+	IncidentFormsV3Delete(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// IncidentFormsV3Show Show Incident Forms V3
+	//
+	// Get a single incident form, including its elements and expressions.
+	//
+	// Corresponds with GET /v3/incident_forms/{id} (the `IncidentFormsV3Show` operationId).
+	IncidentFormsV3Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// IncidentFormsV3UpdateWithBody Update Incident Forms V3
+	//
+	// Replace an incident form, including its elements and expressions.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PUT /v3/incident_forms/{id} (the `IncidentFormsV3Update` operationId).
+	IncidentFormsV3UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// IncidentFormsV3Update Update Incident Forms V3
+	//
+	// Replace an incident form, including its elements and expressions.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PUT /v3/incident_forms/{id} (the `IncidentFormsV3Update` operationId).
+	IncidentFormsV3Update(ctx context.Context, id string, body IncidentFormsV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// SchedulesV3List List Schedules V3
 	//
 	// List configured schedules, without their rotations.
@@ -39340,7 +40167,7 @@ func (c *Client) IncidentTeamMembershipsV1Create(ctx context.Context, body Incid
 
 // IncidentTeamMembershipsV1RevokeWithBody Revoke Incident Team Memberships V1
 //
-// Revoke a team's access to a private incident.
+// Revoke a team's access to a private incident. Members who only had access through this team lose it too; directly-added members and members still covered by another team keep theirs.
 //
 // Takes any type of body and a specified content type.
 //
@@ -39359,7 +40186,7 @@ func (c *Client) IncidentTeamMembershipsV1RevokeWithBody(ctx context.Context, co
 
 // IncidentTeamMembershipsV1Revoke Revoke Incident Team Memberships V1
 //
-// Revoke a team's access to a private incident.
+// Revoke a team's access to a private incident. Members who only had access through this team lose it too; directly-added members and members still covered by another team keep theirs.
 //
 // Takes a body of the `application/json` content type.
 //
@@ -45305,7 +46132,7 @@ func (c *Client) PolicyFindingsV2Restore(ctx context.Context, id string, reqEdit
 // overrides that apply in the window) and `final` (the effective schedule
 // after overrides have been merged in — this is normally the list you want).
 //
-// Each entry includes the `rotation_id` and `layer_id` it belongs to.
+// Each entry includes the `rotation_id` it belongs to.
 // Schedules can be made up of multiple rotations (for example, a primary and
 // a secondary rotation) and each rotation can have several layers, and we
 // return entries for every rotation and layer on the schedule.
@@ -48507,6 +49334,181 @@ func (c *Client) FollowUpsV3ConnectExternalIssueWithBody(ctx context.Context, id
 // Corresponds with POST /v3/follow_ups/{id}/actions/connect_external_issue (the `FollowUpsV3ConnectExternalIssue` operationId).
 func (c *Client) FollowUpsV3ConnectExternalIssue(ctx context.Context, id string, body FollowUpsV3ConnectExternalIssueJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewFollowUpsV3ConnectExternalIssueRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// IncidentFormsV3List List Incident Forms V3
+//
+// List incident forms for your account, including their elements and expressions.
+//
+// Corresponds with GET /v3/incident_forms (the `IncidentFormsV3List` operationId).
+func (c *Client) IncidentFormsV3List(ctx context.Context, params *IncidentFormsV3ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewIncidentFormsV3ListRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// IncidentFormsV3CreateWithBody Create Incident Forms V3
+//
+// Create an incident form for an incident type. A form that already exists for that form type and incident type is rejected.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v3/incident_forms (the `IncidentFormsV3Create` operationId).
+func (c *Client) IncidentFormsV3CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewIncidentFormsV3CreateRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// IncidentFormsV3Create Create Incident Forms V3
+//
+// Create an incident form for an incident type. A form that already exists for that form type and incident type is rejected.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v3/incident_forms (the `IncidentFormsV3Create` operationId).
+func (c *Client) IncidentFormsV3Create(ctx context.Context, body IncidentFormsV3CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewIncidentFormsV3CreateRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// IncidentFormsV3ValidateWithBody Validate Incident Forms V3
+//
+// Check whether an incident form config is valid, without creating or updating anything.
+//
+// Set id to check a replacement for that form, as Update would. Leave it out to check a new form,
+// as Create would. An invalid config gets the same error that Create or Update would return. A
+// config that is valid but probably not what you meant comes back as a warning on a successful
+// response.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v3/incident_forms/actions/validate (the `IncidentFormsV3Validate` operationId).
+func (c *Client) IncidentFormsV3ValidateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewIncidentFormsV3ValidateRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// IncidentFormsV3Validate Validate Incident Forms V3
+//
+// Check whether an incident form config is valid, without creating or updating anything.
+//
+// Set id to check a replacement for that form, as Update would. Leave it out to check a new form,
+// as Create would. An invalid config gets the same error that Create or Update would return. A
+// config that is valid but probably not what you meant comes back as a warning on a successful
+// response.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v3/incident_forms/actions/validate (the `IncidentFormsV3Validate` operationId).
+func (c *Client) IncidentFormsV3Validate(ctx context.Context, body IncidentFormsV3ValidateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewIncidentFormsV3ValidateRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// IncidentFormsV3Delete Delete Incident Forms V3
+//
+// Archive an incident form. The organisation's default form of a type cannot be archived.
+//
+// Corresponds with DELETE /v3/incident_forms/{id} (the `IncidentFormsV3Delete` operationId).
+func (c *Client) IncidentFormsV3Delete(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewIncidentFormsV3DeleteRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// IncidentFormsV3Show Show Incident Forms V3
+//
+// Get a single incident form, including its elements and expressions.
+//
+// Corresponds with GET /v3/incident_forms/{id} (the `IncidentFormsV3Show` operationId).
+func (c *Client) IncidentFormsV3Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewIncidentFormsV3ShowRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// IncidentFormsV3UpdateWithBody Update Incident Forms V3
+//
+// Replace an incident form, including its elements and expressions.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PUT /v3/incident_forms/{id} (the `IncidentFormsV3Update` operationId).
+func (c *Client) IncidentFormsV3UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewIncidentFormsV3UpdateRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// IncidentFormsV3Update Update Incident Forms V3
+//
+// Replace an incident form, including its elements and expressions.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PUT /v3/incident_forms/{id} (the `IncidentFormsV3Update` operationId).
+func (c *Client) IncidentFormsV3Update(ctx context.Context, id string, body IncidentFormsV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewIncidentFormsV3UpdateRequest(c.Server, id, body)
 	if err != nil {
 		return nil, err
 	}
@@ -64824,6 +65826,267 @@ func NewFollowUpsV3ConnectExternalIssueRequestWithBody(server string, id string,
 	return req, nil
 }
 
+// NewIncidentFormsV3ListRequest constructs an http.Request for the IncidentFormsV3List method
+func NewIncidentFormsV3ListRequest(server string, params *IncidentFormsV3ListParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/incident_forms")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.PageSize != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "page_size", *params.PageSize, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: "int64"}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.After != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "after", *params.After, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewIncidentFormsV3CreateRequest calls the generic IncidentFormsV3Create builder with application/json body
+func NewIncidentFormsV3CreateRequest(server string, body IncidentFormsV3CreateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewIncidentFormsV3CreateRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewIncidentFormsV3CreateRequestWithBody constructs an http.Request for the IncidentFormsV3Create method, with any body, and a specified content type
+func NewIncidentFormsV3CreateRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/incident_forms")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewIncidentFormsV3ValidateRequest calls the generic IncidentFormsV3Validate builder with application/json body
+func NewIncidentFormsV3ValidateRequest(server string, body IncidentFormsV3ValidateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewIncidentFormsV3ValidateRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewIncidentFormsV3ValidateRequestWithBody constructs an http.Request for the IncidentFormsV3Validate method, with any body, and a specified content type
+func NewIncidentFormsV3ValidateRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/incident_forms/actions/validate")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewIncidentFormsV3DeleteRequest constructs an http.Request for the IncidentFormsV3Delete method
+func NewIncidentFormsV3DeleteRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/incident_forms/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewIncidentFormsV3ShowRequest constructs an http.Request for the IncidentFormsV3Show method
+func NewIncidentFormsV3ShowRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/incident_forms/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewIncidentFormsV3UpdateRequest calls the generic IncidentFormsV3Update builder with application/json body
+func NewIncidentFormsV3UpdateRequest(server string, id string, body IncidentFormsV3UpdateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewIncidentFormsV3UpdateRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewIncidentFormsV3UpdateRequestWithBody constructs an http.Request for the IncidentFormsV3Update method, with any body, and a specified content type
+func NewIncidentFormsV3UpdateRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/incident_forms/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPut, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewSchedulesV3ListRequest constructs an http.Request for the SchedulesV3List method
 func NewSchedulesV3ListRequest(server string, params *SchedulesV3ListParams) (*http.Request, error) {
 	var err error
@@ -66344,7 +67607,7 @@ type ClientWithResponsesInterface interface {
 
 	// IncidentTeamMembershipsV1RevokeWithBodyWithResponse Revoke Incident Team Memberships V1
 	//
-	// Revoke a team's access to a private incident.
+	// Revoke a team's access to a private incident. Members who only had access through this team lose it too; directly-added members and members still covered by another team keep theirs.
 	//
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -66353,7 +67616,7 @@ type ClientWithResponsesInterface interface {
 
 	// IncidentTeamMembershipsV1RevokeWithResponse Revoke Incident Team Memberships V1
 	//
-	// Revoke a team's access to a private incident.
+	// Revoke a team's access to a private incident. Members who only had access through this team lose it too; directly-added members and members still covered by another team keep theirs.
 	//
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -69877,7 +71140,7 @@ type ClientWithResponsesInterface interface {
 	// overrides that apply in the window) and `final` (the effective schedule
 	// after overrides have been merged in — this is normally the list you want).
 	//
-	// Each entry includes the `rotation_id` and `layer_id` it belongs to.
+	// Each entry includes the `rotation_id` it belongs to.
 	// Schedules can be made up of multiple rotations (for example, a primary and
 	// a secondary rotation) and each rotation can have several layers, and we
 	// return entries for every rotation and layer on the schedule.
@@ -71660,6 +72923,97 @@ type ClientWithResponsesInterface interface {
 	//
 	// Corresponds with POST /v3/follow_ups/{id}/actions/connect_external_issue (the `FollowUpsV3ConnectExternalIssue` operationId).
 	FollowUpsV3ConnectExternalIssueWithResponse(ctx context.Context, id string, body FollowUpsV3ConnectExternalIssueJSONRequestBody, reqEditors ...RequestEditorFn) (*FollowUpsV3ConnectExternalIssueResponse, error)
+
+	// IncidentFormsV3ListWithResponse List Incident Forms V3
+	//
+	// List incident forms for your account, including their elements and expressions.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v3/incident_forms (the `IncidentFormsV3List` operationId).
+	IncidentFormsV3ListWithResponse(ctx context.Context, params *IncidentFormsV3ListParams, reqEditors ...RequestEditorFn) (*IncidentFormsV3ListResponse, error)
+
+	// IncidentFormsV3CreateWithBodyWithResponse Create Incident Forms V3
+	//
+	// Create an incident form for an incident type. A form that already exists for that form type and incident type is rejected.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/incident_forms (the `IncidentFormsV3Create` operationId).
+	IncidentFormsV3CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*IncidentFormsV3CreateResponse, error)
+
+	// IncidentFormsV3CreateWithResponse Create Incident Forms V3
+	//
+	// Create an incident form for an incident type. A form that already exists for that form type and incident type is rejected.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/incident_forms (the `IncidentFormsV3Create` operationId).
+	IncidentFormsV3CreateWithResponse(ctx context.Context, body IncidentFormsV3CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*IncidentFormsV3CreateResponse, error)
+
+	// IncidentFormsV3ValidateWithBodyWithResponse Validate Incident Forms V3
+	//
+	// Check whether an incident form config is valid, without creating or updating anything.
+	//
+	// Set id to check a replacement for that form, as Update would. Leave it out to check a new form,
+	// as Create would. An invalid config gets the same error that Create or Update would return. A
+	// config that is valid but probably not what you meant comes back as a warning on a successful
+	// response.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/incident_forms/actions/validate (the `IncidentFormsV3Validate` operationId).
+	IncidentFormsV3ValidateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*IncidentFormsV3ValidateResponse, error)
+
+	// IncidentFormsV3ValidateWithResponse Validate Incident Forms V3
+	//
+	// Check whether an incident form config is valid, without creating or updating anything.
+	//
+	// Set id to check a replacement for that form, as Update would. Leave it out to check a new form,
+	// as Create would. An invalid config gets the same error that Create or Update would return. A
+	// config that is valid but probably not what you meant comes back as a warning on a successful
+	// response.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/incident_forms/actions/validate (the `IncidentFormsV3Validate` operationId).
+	IncidentFormsV3ValidateWithResponse(ctx context.Context, body IncidentFormsV3ValidateJSONRequestBody, reqEditors ...RequestEditorFn) (*IncidentFormsV3ValidateResponse, error)
+
+	// IncidentFormsV3DeleteWithResponse Delete Incident Forms V3
+	//
+	// Archive an incident form. The organisation's default form of a type cannot be archived.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v3/incident_forms/{id} (the `IncidentFormsV3Delete` operationId).
+	IncidentFormsV3DeleteWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*IncidentFormsV3DeleteResponse, error)
+
+	// IncidentFormsV3ShowWithResponse Show Incident Forms V3
+	//
+	// Get a single incident form, including its elements and expressions.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v3/incident_forms/{id} (the `IncidentFormsV3Show` operationId).
+	IncidentFormsV3ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*IncidentFormsV3ShowResponse, error)
+
+	// IncidentFormsV3UpdateWithBodyWithResponse Update Incident Forms V3
+	//
+	// Replace an incident form, including its elements and expressions.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v3/incident_forms/{id} (the `IncidentFormsV3Update` operationId).
+	IncidentFormsV3UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*IncidentFormsV3UpdateResponse, error)
+
+	// IncidentFormsV3UpdateWithResponse Update Incident Forms V3
+	//
+	// Replace an incident form, including its elements and expressions.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v3/incident_forms/{id} (the `IncidentFormsV3Update` operationId).
+	IncidentFormsV3UpdateWithResponse(ctx context.Context, id string, body IncidentFormsV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*IncidentFormsV3UpdateResponse, error)
 
 	// SchedulesV3ListWithResponse List Schedules V3
 	//
@@ -116279,6 +117633,791 @@ func (r FollowUpsV3ConnectExternalIssueResponse) ContentType() string {
 	return ""
 }
 
+type IncidentFormsV3ListResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *IncidentFormsListResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r IncidentFormsV3ListResponse) GetJSON200() *IncidentFormsListResultV3 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r IncidentFormsV3ListResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r IncidentFormsV3ListResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r IncidentFormsV3ListResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r IncidentFormsV3ListResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r IncidentFormsV3ListResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r IncidentFormsV3ListResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r IncidentFormsV3ListResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r IncidentFormsV3ListResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r IncidentFormsV3ListResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r IncidentFormsV3ListResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r IncidentFormsV3ListResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r IncidentFormsV3ListResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r IncidentFormsV3ListResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r IncidentFormsV3ListResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r IncidentFormsV3ListResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r IncidentFormsV3ListResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r IncidentFormsV3ListResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type IncidentFormsV3CreateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON201 the response for an HTTP 201 `application/json` response
+	JSON201 *IncidentFormsCreateResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON201 returns the response for an HTTP 201 `application/json` response
+func (r IncidentFormsV3CreateResponse) GetJSON201() *IncidentFormsCreateResultV3 {
+	return r.JSON201
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r IncidentFormsV3CreateResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r IncidentFormsV3CreateResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r IncidentFormsV3CreateResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r IncidentFormsV3CreateResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r IncidentFormsV3CreateResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r IncidentFormsV3CreateResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r IncidentFormsV3CreateResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r IncidentFormsV3CreateResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r IncidentFormsV3CreateResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r IncidentFormsV3CreateResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r IncidentFormsV3CreateResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r IncidentFormsV3CreateResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r IncidentFormsV3CreateResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r IncidentFormsV3CreateResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r IncidentFormsV3CreateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r IncidentFormsV3CreateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r IncidentFormsV3CreateResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type IncidentFormsV3ValidateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *IncidentFormsValidateResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r IncidentFormsV3ValidateResponse) GetJSON200() *IncidentFormsValidateResultV3 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r IncidentFormsV3ValidateResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r IncidentFormsV3ValidateResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r IncidentFormsV3ValidateResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r IncidentFormsV3ValidateResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r IncidentFormsV3ValidateResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r IncidentFormsV3ValidateResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r IncidentFormsV3ValidateResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r IncidentFormsV3ValidateResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r IncidentFormsV3ValidateResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r IncidentFormsV3ValidateResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r IncidentFormsV3ValidateResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r IncidentFormsV3ValidateResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r IncidentFormsV3ValidateResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r IncidentFormsV3ValidateResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r IncidentFormsV3ValidateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r IncidentFormsV3ValidateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r IncidentFormsV3ValidateResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type IncidentFormsV3DeleteResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r IncidentFormsV3DeleteResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r IncidentFormsV3DeleteResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r IncidentFormsV3DeleteResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r IncidentFormsV3DeleteResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r IncidentFormsV3DeleteResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r IncidentFormsV3DeleteResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r IncidentFormsV3DeleteResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r IncidentFormsV3DeleteResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r IncidentFormsV3DeleteResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r IncidentFormsV3DeleteResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r IncidentFormsV3DeleteResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r IncidentFormsV3DeleteResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r IncidentFormsV3DeleteResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r IncidentFormsV3DeleteResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r IncidentFormsV3DeleteResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r IncidentFormsV3DeleteResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r IncidentFormsV3DeleteResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type IncidentFormsV3ShowResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *IncidentFormsShowResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r IncidentFormsV3ShowResponse) GetJSON200() *IncidentFormsShowResultV3 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r IncidentFormsV3ShowResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r IncidentFormsV3ShowResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r IncidentFormsV3ShowResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r IncidentFormsV3ShowResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r IncidentFormsV3ShowResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r IncidentFormsV3ShowResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r IncidentFormsV3ShowResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r IncidentFormsV3ShowResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r IncidentFormsV3ShowResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r IncidentFormsV3ShowResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r IncidentFormsV3ShowResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r IncidentFormsV3ShowResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r IncidentFormsV3ShowResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r IncidentFormsV3ShowResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r IncidentFormsV3ShowResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r IncidentFormsV3ShowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r IncidentFormsV3ShowResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type IncidentFormsV3UpdateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *IncidentFormsUpdateResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r IncidentFormsV3UpdateResponse) GetJSON200() *IncidentFormsUpdateResultV3 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r IncidentFormsV3UpdateResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r IncidentFormsV3UpdateResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r IncidentFormsV3UpdateResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r IncidentFormsV3UpdateResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r IncidentFormsV3UpdateResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r IncidentFormsV3UpdateResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r IncidentFormsV3UpdateResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r IncidentFormsV3UpdateResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r IncidentFormsV3UpdateResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r IncidentFormsV3UpdateResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r IncidentFormsV3UpdateResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r IncidentFormsV3UpdateResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r IncidentFormsV3UpdateResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r IncidentFormsV3UpdateResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r IncidentFormsV3UpdateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r IncidentFormsV3UpdateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r IncidentFormsV3UpdateResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
 type SchedulesV3ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -119602,7 +121741,7 @@ func (c *ClientWithResponses) IncidentTeamMembershipsV1CreateWithResponse(ctx co
 
 // IncidentTeamMembershipsV1RevokeWithBodyWithResponse Revoke Incident Team Memberships V1
 //
-// Revoke a team's access to a private incident.
+// Revoke a team's access to a private incident. Members who only had access through this team lose it too; directly-added members and members still covered by another team keep theirs.
 //
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
@@ -119617,7 +121756,7 @@ func (c *ClientWithResponses) IncidentTeamMembershipsV1RevokeWithBodyWithRespons
 
 // IncidentTeamMembershipsV1RevokeWithResponse Revoke Incident Team Memberships V1
 //
-// Revoke a team's access to a private incident.
+// Revoke a team's access to a private incident. Members who only had access through this team lose it too; directly-added members and members still covered by another team keep theirs.
 //
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
@@ -124735,7 +126874,7 @@ func (c *ClientWithResponses) PolicyFindingsV2RestoreWithResponse(ctx context.Co
 // overrides that apply in the window) and `final` (the effective schedule
 // after overrides have been merged in — this is normally the list you want).
 //
-// Each entry includes the `rotation_id` and `layer_id` it belongs to.
+// Each entry includes the `rotation_id` it belongs to.
 // Schedules can be made up of multiple rotations (for example, a primary and
 // a secondary rotation) and each rotation can have several layers, and we
 // return entries for every rotation and layer on the schedule.
@@ -127447,6 +129586,151 @@ func (c *ClientWithResponses) FollowUpsV3ConnectExternalIssueWithResponse(ctx co
 		return nil, err
 	}
 	return ParseFollowUpsV3ConnectExternalIssueResponse(rsp)
+}
+
+// IncidentFormsV3ListWithResponse List Incident Forms V3
+//
+// List incident forms for your account, including their elements and expressions.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v3/incident_forms (the `IncidentFormsV3List` operationId).
+func (c *ClientWithResponses) IncidentFormsV3ListWithResponse(ctx context.Context, params *IncidentFormsV3ListParams, reqEditors ...RequestEditorFn) (*IncidentFormsV3ListResponse, error) {
+	rsp, err := c.IncidentFormsV3List(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseIncidentFormsV3ListResponse(rsp)
+}
+
+// IncidentFormsV3CreateWithBodyWithResponse Create Incident Forms V3
+//
+// Create an incident form for an incident type. A form that already exists for that form type and incident type is rejected.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/incident_forms (the `IncidentFormsV3Create` operationId).
+func (c *ClientWithResponses) IncidentFormsV3CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*IncidentFormsV3CreateResponse, error) {
+	rsp, err := c.IncidentFormsV3CreateWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseIncidentFormsV3CreateResponse(rsp)
+}
+
+// IncidentFormsV3CreateWithResponse Create Incident Forms V3
+//
+// Create an incident form for an incident type. A form that already exists for that form type and incident type is rejected.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/incident_forms (the `IncidentFormsV3Create` operationId).
+func (c *ClientWithResponses) IncidentFormsV3CreateWithResponse(ctx context.Context, body IncidentFormsV3CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*IncidentFormsV3CreateResponse, error) {
+	rsp, err := c.IncidentFormsV3Create(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseIncidentFormsV3CreateResponse(rsp)
+}
+
+// IncidentFormsV3ValidateWithBodyWithResponse Validate Incident Forms V3
+//
+// Check whether an incident form config is valid, without creating or updating anything.
+//
+// Set id to check a replacement for that form, as Update would. Leave it out to check a new form,
+// as Create would. An invalid config gets the same error that Create or Update would return. A
+// config that is valid but probably not what you meant comes back as a warning on a successful
+// response.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/incident_forms/actions/validate (the `IncidentFormsV3Validate` operationId).
+func (c *ClientWithResponses) IncidentFormsV3ValidateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*IncidentFormsV3ValidateResponse, error) {
+	rsp, err := c.IncidentFormsV3ValidateWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseIncidentFormsV3ValidateResponse(rsp)
+}
+
+// IncidentFormsV3ValidateWithResponse Validate Incident Forms V3
+//
+// Check whether an incident form config is valid, without creating or updating anything.
+//
+// Set id to check a replacement for that form, as Update would. Leave it out to check a new form,
+// as Create would. An invalid config gets the same error that Create or Update would return. A
+// config that is valid but probably not what you meant comes back as a warning on a successful
+// response.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/incident_forms/actions/validate (the `IncidentFormsV3Validate` operationId).
+func (c *ClientWithResponses) IncidentFormsV3ValidateWithResponse(ctx context.Context, body IncidentFormsV3ValidateJSONRequestBody, reqEditors ...RequestEditorFn) (*IncidentFormsV3ValidateResponse, error) {
+	rsp, err := c.IncidentFormsV3Validate(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseIncidentFormsV3ValidateResponse(rsp)
+}
+
+// IncidentFormsV3DeleteWithResponse Delete Incident Forms V3
+//
+// Archive an incident form. The organisation's default form of a type cannot be archived.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v3/incident_forms/{id} (the `IncidentFormsV3Delete` operationId).
+func (c *ClientWithResponses) IncidentFormsV3DeleteWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*IncidentFormsV3DeleteResponse, error) {
+	rsp, err := c.IncidentFormsV3Delete(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseIncidentFormsV3DeleteResponse(rsp)
+}
+
+// IncidentFormsV3ShowWithResponse Show Incident Forms V3
+//
+// Get a single incident form, including its elements and expressions.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v3/incident_forms/{id} (the `IncidentFormsV3Show` operationId).
+func (c *ClientWithResponses) IncidentFormsV3ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*IncidentFormsV3ShowResponse, error) {
+	rsp, err := c.IncidentFormsV3Show(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseIncidentFormsV3ShowResponse(rsp)
+}
+
+// IncidentFormsV3UpdateWithBodyWithResponse Update Incident Forms V3
+//
+// Replace an incident form, including its elements and expressions.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v3/incident_forms/{id} (the `IncidentFormsV3Update` operationId).
+func (c *ClientWithResponses) IncidentFormsV3UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*IncidentFormsV3UpdateResponse, error) {
+	rsp, err := c.IncidentFormsV3UpdateWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseIncidentFormsV3UpdateResponse(rsp)
+}
+
+// IncidentFormsV3UpdateWithResponse Update Incident Forms V3
+//
+// Replace an incident form, including its elements and expressions.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v3/incident_forms/{id} (the `IncidentFormsV3Update` operationId).
+func (c *ClientWithResponses) IncidentFormsV3UpdateWithResponse(ctx context.Context, id string, body IncidentFormsV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*IncidentFormsV3UpdateResponse, error) {
+	rsp, err := c.IncidentFormsV3Update(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseIncidentFormsV3UpdateResponse(rsp)
 }
 
 // SchedulesV3ListWithResponse List Schedules V3
@@ -167222,6 +169506,704 @@ func ParseFollowUpsV3ConnectExternalIssueResponse(rsp *http.Response) (*FollowUp
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest FollowUpsConnectExternalIssueResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseIncidentFormsV3ListResponse parses an HTTP response from a IncidentFormsV3ListWithResponse call
+func ParseIncidentFormsV3ListResponse(rsp *http.Response) (*IncidentFormsV3ListResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &IncidentFormsV3ListResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest IncidentFormsListResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseIncidentFormsV3CreateResponse parses an HTTP response from a IncidentFormsV3CreateWithResponse call
+func ParseIncidentFormsV3CreateResponse(rsp *http.Response) (*IncidentFormsV3CreateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &IncidentFormsV3CreateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest IncidentFormsCreateResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseIncidentFormsV3ValidateResponse parses an HTTP response from a IncidentFormsV3ValidateWithResponse call
+func ParseIncidentFormsV3ValidateResponse(rsp *http.Response) (*IncidentFormsV3ValidateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &IncidentFormsV3ValidateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest IncidentFormsValidateResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseIncidentFormsV3DeleteResponse parses an HTTP response from a IncidentFormsV3DeleteWithResponse call
+func ParseIncidentFormsV3DeleteResponse(rsp *http.Response) (*IncidentFormsV3DeleteResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &IncidentFormsV3DeleteResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case rsp.StatusCode == 204:
+		break // No content-type
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseIncidentFormsV3ShowResponse parses an HTTP response from a IncidentFormsV3ShowWithResponse call
+func ParseIncidentFormsV3ShowResponse(rsp *http.Response) (*IncidentFormsV3ShowResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &IncidentFormsV3ShowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest IncidentFormsShowResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseIncidentFormsV3UpdateResponse parses an HTTP response from a IncidentFormsV3UpdateWithResponse call
+func ParseIncidentFormsV3UpdateResponse(rsp *http.Response) (*IncidentFormsV3UpdateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &IncidentFormsV3UpdateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest IncidentFormsUpdateResultV3
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
