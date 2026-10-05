@@ -205,6 +205,13 @@ func (r *IncidentAlertRouteResource) Schema(ctx context.Context, req resource.Sc
 								Required:            true,
 								MarkdownDescription: apischema.Docstring("GroupingSettingsV3", "enabled"),
 							},
+							"ai_enabled": schema.BoolAttribute{
+								Optional: true,
+								Computed: true,
+								Default:  booldefault.StaticBool(false),
+								MarkdownDescription: "**Beta:** AI alert grouping is in beta, so contact support to get access for your organisation before you set this to `true`. " +
+									apischema.Docstring("GroupingSettingsV3", "ai_enabled"),
+							},
 							"grouping_keys": schema.SetNestedAttribute{
 								// Optional: only valid when grouping is enabled. Enforced
 								// conditionally in ValidateConfig.

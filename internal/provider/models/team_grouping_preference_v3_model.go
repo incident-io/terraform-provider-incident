@@ -25,6 +25,7 @@ type TeamGroupingPreferenceBranchModel struct {
 // escalation fields, which stay the route's.
 type TeamGroupingPreferenceSettingsModel struct {
 	Enabled       types.Bool              `tfsdk:"enabled"`
+	AIEnabled     types.Bool              `tfsdk:"ai_enabled"`
 	GroupingKeys  []AlertRouteGroupingKey `tfsdk:"grouping_keys"`
 	WindowSeconds types.Int64             `tfsdk:"window_seconds"`
 	WindowType    types.String            `tfsdk:"window_type"`
@@ -37,6 +38,7 @@ func (TeamGroupingPreferenceResourceModel) FromAPI(preference client.TeamGroupin
 
 	settings := &TeamGroupingPreferenceSettingsModel{
 		Enabled:       types.BoolValue(api.Enabled),
+		AIEnabled:     types.BoolValue(lo.FromPtr(api.AiEnabled)),
 		WindowSeconds: types.Int64Null(),
 		WindowType:    types.StringNull(),
 	}
@@ -84,8 +86,8 @@ func (m TeamGroupingPreferenceResourceModel) ToUpdatePayload(version int64) clie
 	}
 }
 
-// toBranchPayload only sends the window and keys when grouping is enabled; the API rejects
-// them otherwise.
+// toBranchPayload only sends the window, keys and AI setting when grouping is enabled; the API
+// rejects them otherwise.
 func (m TeamGroupingPreferenceResourceModel) toBranchPayload() client.TeamGroupingBranchV3 {
 	settings := client.TeamGroupingSettingsV3{}
 	if m.Default == nil || m.Default.Settings == nil {
@@ -105,6 +107,7 @@ func (m TeamGroupingPreferenceResourceModel) toBranchPayload() client.TeamGroupi
 		keys = []client.GroupingKeyV3{}
 	}
 	settings.GroupingKeys = &keys
+	settings.AiEnabled = lo.ToPtr(config.AIEnabled.ValueBool())
 	if !config.WindowSeconds.IsNull() {
 		settings.WindowSeconds = lo32(config.WindowSeconds.ValueInt64())
 	}
