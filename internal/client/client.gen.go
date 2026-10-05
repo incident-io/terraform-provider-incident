@@ -7874,6 +7874,7 @@ const (
 	ManagedResourceV2ResourceTypeScheduleSyncRule       ManagedResourceV2ResourceType = "schedule_sync_rule"
 	ManagedResourceV2ResourceTypeScheduleSyncTarget     ManagedResourceV2ResourceType = "schedule_sync_target"
 	ManagedResourceV2ResourceTypeSecret                 ManagedResourceV2ResourceType = "secret"
+	ManagedResourceV2ResourceTypeStatusPageComponent    ManagedResourceV2ResourceType = "status_page_component"
 	ManagedResourceV2ResourceTypeTeamGroupingPreference ManagedResourceV2ResourceType = "team_grouping_preference"
 	ManagedResourceV2ResourceTypeWorkflow               ManagedResourceV2ResourceType = "workflow"
 )
@@ -7905,6 +7906,8 @@ func (e ManagedResourceV2ResourceType) Valid() bool {
 		return true
 	case ManagedResourceV2ResourceTypeSecret:
 		return true
+	case ManagedResourceV2ResourceTypeStatusPageComponent:
+		return true
 	case ManagedResourceV2ResourceTypeTeamGroupingPreference:
 		return true
 	case ManagedResourceV2ResourceTypeWorkflow:
@@ -7928,6 +7931,7 @@ const (
 	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeScheduleSyncRule       ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "schedule_sync_rule"
 	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeScheduleSyncTarget     ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "schedule_sync_target"
 	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeSecret                 ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "secret"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeStatusPageComponent    ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "status_page_component"
 	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeTeamGroupingPreference ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "team_grouping_preference"
 	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeWorkflow               ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "workflow"
 )
@@ -7958,6 +7962,8 @@ func (e ManagedResourcesCreateManagedResourcePayloadV2ResourceType) Valid() bool
 	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeScheduleSyncTarget:
 		return true
 	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeSecret:
+		return true
+	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeStatusPageComponent:
 		return true
 	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeTeamGroupingPreference:
 		return true
@@ -21572,7 +21578,7 @@ type GroupingKeyV3 struct {
 
 // GroupingSettingsV3 Example: {"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}
 type GroupingSettingsV3 struct {
-	// AiEnabled Use AI to group similar looking alerts. AI alert grouping can only group alerts that are attributed to the same team, so grouping keys must only contain the team alert attribute. Private alerts are grouped by key alone unless AI incident access allows private incidents and alerts. Omit it on an update to keep the current value.
+	// AiEnabled Use AI to group similar looking alerts. AI alert grouping can only group alerts that are attributed to the same team, so grouping keys must only contain the team alert attribute. Private alerts are not grouped unless AI incident access allows private incidents and alerts. Omit it on an update to keep the current value.
 	//
 	// Example: false
 	AiEnabled *bool `json:"ai_enabled,omitempty"`
@@ -29155,6 +29161,97 @@ type StatusPageComponentAvailabilityV2 struct {
 	StatusPageId string `json:"status_page_id"`
 }
 
+// StatusPageComponentV2 A status page component that can appear on one or more status pages.
+//
+// Components are organisation-scoped. Placement on a page is controlled by that
+// page's structure, not by ownership of the component.
+//
+// Example: {"description":"Our iOS app","id":"01FCNDV6P870EA6S7TK1DSYDG1","management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","source_url":"https://github.com/my-company/infrastructure"},"name":"App"}
+type StatusPageComponentV2 struct {
+	// Description Optional short description of this component
+	//
+	// Example: Our iOS app
+	Description *string `json:"description,omitempty"`
+
+	// Id Unique identifier for this component
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG1
+	Id string `json:"id"`
+
+	// ManagementMeta Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","source_url":"https://github.com/my-company/infrastructure"}
+	ManagementMeta ManagementMetaV2 `json:"management_meta"`
+
+	// Name Human-readable name for the component
+	//
+	// Example: App
+	Name string `json:"name"`
+}
+
+// StatusPageComponentsCreatePayloadV2 Example: {"description":"Our iOS app","name":"App"}
+type StatusPageComponentsCreatePayloadV2 struct {
+	// Description Optional short description of this component
+	//
+	// Example: Our iOS app
+	Description *string `json:"description,omitempty"`
+
+	// Name Human-readable name for the component
+	//
+	// Example: App
+	Name string `json:"name"`
+}
+
+// StatusPageComponentsCreateResultV2 Example: {"status_page_component":{"description":"Our iOS app","id":"01FCNDV6P870EA6S7TK1DSYDG1","management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","source_url":"https://github.com/my-company/infrastructure"},"name":"App"}}
+type StatusPageComponentsCreateResultV2 struct {
+	// StatusPageComponent A status page component that can appear on one or more status pages.
+	//
+	// Components are organisation-scoped. Placement on a page is controlled by that
+	// page's structure, not by ownership of the component.
+	//
+	// Example: {"description":"Our iOS app","id":"01FCNDV6P870EA6S7TK1DSYDG1","management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","source_url":"https://github.com/my-company/infrastructure"},"name":"App"}
+	StatusPageComponent StatusPageComponentV2 `json:"status_page_component"`
+}
+
+// StatusPageComponentsListResultV2 Example: {"status_page_components":[{"description":"Our iOS app","id":"01FCNDV6P870EA6S7TK1DSYDG1","management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","source_url":"https://github.com/my-company/infrastructure"},"name":"App"}]}
+type StatusPageComponentsListResultV2 struct {
+	// StatusPageComponents Example: [{"description":"Our iOS app","id":"01FCNDV6P870EA6S7TK1DSYDG1","management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","source_url":"https://github.com/my-company/infrastructure"},"name":"App"}]
+	StatusPageComponents []StatusPageComponentV2 `json:"status_page_components"`
+}
+
+// StatusPageComponentsShowResultV2 Example: {"status_page_component":{"description":"Our iOS app","id":"01FCNDV6P870EA6S7TK1DSYDG1","management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","source_url":"https://github.com/my-company/infrastructure"},"name":"App"}}
+type StatusPageComponentsShowResultV2 struct {
+	// StatusPageComponent A status page component that can appear on one or more status pages.
+	//
+	// Components are organisation-scoped. Placement on a page is controlled by that
+	// page's structure, not by ownership of the component.
+	//
+	// Example: {"description":"Our iOS app","id":"01FCNDV6P870EA6S7TK1DSYDG1","management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","source_url":"https://github.com/my-company/infrastructure"},"name":"App"}
+	StatusPageComponent StatusPageComponentV2 `json:"status_page_component"`
+}
+
+// StatusPageComponentsUpdatePayloadV2 Example: {"description":"Our iOS app","name":"App"}
+type StatusPageComponentsUpdatePayloadV2 struct {
+	// Description Optional short description of this component
+	//
+	// Example: Our iOS app
+	Description *string `json:"description,omitempty"`
+
+	// Name Human-readable name for the component
+	//
+	// Example: App
+	Name string `json:"name"`
+}
+
+// StatusPageComponentsUpdateResultV2 Example: {"status_page_component":{"description":"Our iOS app","id":"01FCNDV6P870EA6S7TK1DSYDG1","management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","source_url":"https://github.com/my-company/infrastructure"},"name":"App"}}
+type StatusPageComponentsUpdateResultV2 struct {
+	// StatusPageComponent A status page component that can appear on one or more status pages.
+	//
+	// Components are organisation-scoped. Placement on a page is controlled by that
+	// page's structure, not by ownership of the component.
+	//
+	// Example: {"description":"Our iOS app","id":"01FCNDV6P870EA6S7TK1DSYDG1","management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","source_url":"https://github.com/my-company/infrastructure"},"name":"App"}
+	StatusPageComponent StatusPageComponentV2 `json:"status_page_component"`
+}
+
 // StatusPageIncidentAffectedComponentV2 Example: {"component_id":"01FCNDV6P870EA6S7TK1DSYDG2","component_status":"operational"}
 type StatusPageIncidentAffectedComponentV2 struct {
 	// ComponentId The ID of the affected component. This may be found by calling the ShowStatusPageStructure endpoint.
@@ -30145,7 +30242,7 @@ type TeamGroupingPreferencesUpdateResultV3 struct {
 //
 // Example: {"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}
 type TeamGroupingSettingsV3 struct {
-	// AiEnabled Use AI to group similar looking alerts. AI alert grouping can only group alerts that are attributed to the same team, so grouping keys must be empty or only contain the team alert attribute. Private alerts are grouped by key alone unless AI incident access allows private incidents and alerts. Omit it on an update to keep the current value.
+	// AiEnabled Use AI to group similar looking alerts. AI alert grouping can only group alerts that are attributed to the same team, so grouping keys must be empty or only contain the team alert attribute. Private alerts are not grouped unless AI incident access allows private incidents and alerts. Omit it on an update to keep the current value.
 	//
 	// Example: false
 	AiEnabled *bool `json:"ai_enabled,omitempty"`
@@ -32940,6 +33037,12 @@ type SecretsV2UpdateJSONRequestBody = SecretsUpdatePayloadV2
 
 // SecretsV2RotateJSONRequestBody defines body for SecretsV2Rotate for application/json ContentType.
 type SecretsV2RotateJSONRequestBody = SecretsRotatePayloadV2
+
+// StatusPageComponentsV2CreateJSONRequestBody defines body for StatusPageComponentsV2Create for application/json ContentType.
+type StatusPageComponentsV2CreateJSONRequestBody = StatusPageComponentsCreatePayloadV2
+
+// StatusPageComponentsV2UpdateJSONRequestBody defines body for StatusPageComponentsV2Update for application/json ContentType.
+type StatusPageComponentsV2UpdateJSONRequestBody = StatusPageComponentsUpdatePayloadV2
 
 // StatusPagesV2CreateStatusPageIncidentUpdateJSONRequestBody defines body for StatusPagesV2CreateStatusPageIncidentUpdate for application/json ContentType.
 type StatusPagesV2CreateStatusPageIncidentUpdateJSONRequestBody = StatusPagesCreateStatusPageIncidentUpdatePayloadV2
@@ -37495,6 +37598,63 @@ type ClientInterface interface {
 	//
 	// Corresponds with POST /v2/secrets/{id}/actions/rotate (the `SecretsV2Rotate` operationId).
 	SecretsV2Rotate(ctx context.Context, id string, body SecretsV2RotateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// StatusPageComponentsV2List List Status Page Components V2
+	//
+	// List all status page components for an organisation.
+	//
+	// Corresponds with GET /v2/status_page_components (the `StatusPageComponentsV2List` operationId).
+	StatusPageComponentsV2List(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// StatusPageComponentsV2CreateWithBody Create Status Page Components V2
+	//
+	// Create a status page component. Placement on a page is controlled separately via status page structures.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v2/status_page_components (the `StatusPageComponentsV2Create` operationId).
+	StatusPageComponentsV2CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// StatusPageComponentsV2Create Create Status Page Components V2
+	//
+	// Create a status page component. Placement on a page is controlled separately via status page structures.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v2/status_page_components (the `StatusPageComponentsV2Create` operationId).
+	StatusPageComponentsV2Create(ctx context.Context, body StatusPageComponentsV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// StatusPageComponentsV2Destroy Destroy Status Page Components V2
+	//
+	// Archive a status page component.
+	//
+	// Corresponds with DELETE /v2/status_page_components/{id} (the `StatusPageComponentsV2Destroy` operationId).
+	StatusPageComponentsV2Destroy(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// StatusPageComponentsV2Show Show Status Page Components V2
+	//
+	// Show a single status page component.
+	//
+	// Corresponds with GET /v2/status_page_components/{id} (the `StatusPageComponentsV2Show` operationId).
+	StatusPageComponentsV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// StatusPageComponentsV2UpdateWithBody Update Status Page Components V2
+	//
+	// Update a status page component's name and description.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PUT /v2/status_page_components/{id} (the `StatusPageComponentsV2Update` operationId).
+	StatusPageComponentsV2UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// StatusPageComponentsV2Update Update Status Page Components V2
+	//
+	// Update a status page component's name and description.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PUT /v2/status_page_components/{id} (the `StatusPageComponentsV2Update` operationId).
+	StatusPageComponentsV2Update(ctx context.Context, id string, body StatusPageComponentsV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// StatusPagesV2CreateStatusPageIncidentUpdateWithBody CreateStatusPageIncidentUpdate Status Pages V2
 	//
@@ -47042,6 +47202,133 @@ func (c *Client) SecretsV2RotateWithBody(ctx context.Context, id string, content
 // Corresponds with POST /v2/secrets/{id}/actions/rotate (the `SecretsV2Rotate` operationId).
 func (c *Client) SecretsV2Rotate(ctx context.Context, id string, body SecretsV2RotateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewSecretsV2RotateRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// StatusPageComponentsV2List List Status Page Components V2
+//
+// List all status page components for an organisation.
+//
+// Corresponds with GET /v2/status_page_components (the `StatusPageComponentsV2List` operationId).
+func (c *Client) StatusPageComponentsV2List(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewStatusPageComponentsV2ListRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// StatusPageComponentsV2CreateWithBody Create Status Page Components V2
+//
+// Create a status page component. Placement on a page is controlled separately via status page structures.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v2/status_page_components (the `StatusPageComponentsV2Create` operationId).
+func (c *Client) StatusPageComponentsV2CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewStatusPageComponentsV2CreateRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// StatusPageComponentsV2Create Create Status Page Components V2
+//
+// Create a status page component. Placement on a page is controlled separately via status page structures.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v2/status_page_components (the `StatusPageComponentsV2Create` operationId).
+func (c *Client) StatusPageComponentsV2Create(ctx context.Context, body StatusPageComponentsV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewStatusPageComponentsV2CreateRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// StatusPageComponentsV2Destroy Destroy Status Page Components V2
+//
+// Archive a status page component.
+//
+// Corresponds with DELETE /v2/status_page_components/{id} (the `StatusPageComponentsV2Destroy` operationId).
+func (c *Client) StatusPageComponentsV2Destroy(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewStatusPageComponentsV2DestroyRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// StatusPageComponentsV2Show Show Status Page Components V2
+//
+// Show a single status page component.
+//
+// Corresponds with GET /v2/status_page_components/{id} (the `StatusPageComponentsV2Show` operationId).
+func (c *Client) StatusPageComponentsV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewStatusPageComponentsV2ShowRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// StatusPageComponentsV2UpdateWithBody Update Status Page Components V2
+//
+// Update a status page component's name and description.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PUT /v2/status_page_components/{id} (the `StatusPageComponentsV2Update` operationId).
+func (c *Client) StatusPageComponentsV2UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewStatusPageComponentsV2UpdateRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// StatusPageComponentsV2Update Update Status Page Components V2
+//
+// Update a status page component's name and description.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PUT /v2/status_page_components/{id} (the `StatusPageComponentsV2Update` operationId).
+func (c *Client) StatusPageComponentsV2Update(ctx context.Context, id string, body StatusPageComponentsV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewStatusPageComponentsV2UpdateRequest(c.Server, id, body)
 	if err != nil {
 		return nil, err
 	}
@@ -62173,6 +62460,188 @@ func NewSecretsV2RotateRequestWithBody(server string, id string, contentType str
 	return req, nil
 }
 
+// NewStatusPageComponentsV2ListRequest constructs an http.Request for the StatusPageComponentsV2List method
+func NewStatusPageComponentsV2ListRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/status_page_components")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewStatusPageComponentsV2CreateRequest calls the generic StatusPageComponentsV2Create builder with application/json body
+func NewStatusPageComponentsV2CreateRequest(server string, body StatusPageComponentsV2CreateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewStatusPageComponentsV2CreateRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewStatusPageComponentsV2CreateRequestWithBody constructs an http.Request for the StatusPageComponentsV2Create method, with any body, and a specified content type
+func NewStatusPageComponentsV2CreateRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/status_page_components")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewStatusPageComponentsV2DestroyRequest constructs an http.Request for the StatusPageComponentsV2Destroy method
+func NewStatusPageComponentsV2DestroyRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/status_page_components/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewStatusPageComponentsV2ShowRequest constructs an http.Request for the StatusPageComponentsV2Show method
+func NewStatusPageComponentsV2ShowRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/status_page_components/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewStatusPageComponentsV2UpdateRequest calls the generic StatusPageComponentsV2Update builder with application/json body
+func NewStatusPageComponentsV2UpdateRequest(server string, id string, body StatusPageComponentsV2UpdateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewStatusPageComponentsV2UpdateRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewStatusPageComponentsV2UpdateRequestWithBody constructs an http.Request for the StatusPageComponentsV2Update method, with any body, and a specified content type
+func NewStatusPageComponentsV2UpdateRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/status_page_components/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPut, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewStatusPagesV2CreateStatusPageIncidentUpdateRequest calls the generic StatusPagesV2CreateStatusPageIncidentUpdate builder with application/json body
 func NewStatusPagesV2CreateStatusPageIncidentUpdateRequest(server string, body StatusPagesV2CreateStatusPageIncidentUpdateJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
@@ -71647,6 +72116,69 @@ type ClientWithResponsesInterface interface {
 	//
 	// Corresponds with POST /v2/secrets/{id}/actions/rotate (the `SecretsV2Rotate` operationId).
 	SecretsV2RotateWithResponse(ctx context.Context, id string, body SecretsV2RotateJSONRequestBody, reqEditors ...RequestEditorFn) (*SecretsV2RotateResponse, error)
+
+	// StatusPageComponentsV2ListWithResponse List Status Page Components V2
+	//
+	// List all status page components for an organisation.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v2/status_page_components (the `StatusPageComponentsV2List` operationId).
+	StatusPageComponentsV2ListWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*StatusPageComponentsV2ListResponse, error)
+
+	// StatusPageComponentsV2CreateWithBodyWithResponse Create Status Page Components V2
+	//
+	// Create a status page component. Placement on a page is controlled separately via status page structures.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/status_page_components (the `StatusPageComponentsV2Create` operationId).
+	StatusPageComponentsV2CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*StatusPageComponentsV2CreateResponse, error)
+
+	// StatusPageComponentsV2CreateWithResponse Create Status Page Components V2
+	//
+	// Create a status page component. Placement on a page is controlled separately via status page structures.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/status_page_components (the `StatusPageComponentsV2Create` operationId).
+	StatusPageComponentsV2CreateWithResponse(ctx context.Context, body StatusPageComponentsV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*StatusPageComponentsV2CreateResponse, error)
+
+	// StatusPageComponentsV2DestroyWithResponse Destroy Status Page Components V2
+	//
+	// Archive a status page component.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v2/status_page_components/{id} (the `StatusPageComponentsV2Destroy` operationId).
+	StatusPageComponentsV2DestroyWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*StatusPageComponentsV2DestroyResponse, error)
+
+	// StatusPageComponentsV2ShowWithResponse Show Status Page Components V2
+	//
+	// Show a single status page component.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v2/status_page_components/{id} (the `StatusPageComponentsV2Show` operationId).
+	StatusPageComponentsV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*StatusPageComponentsV2ShowResponse, error)
+
+	// StatusPageComponentsV2UpdateWithBodyWithResponse Update Status Page Components V2
+	//
+	// Update a status page component's name and description.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v2/status_page_components/{id} (the `StatusPageComponentsV2Update` operationId).
+	StatusPageComponentsV2UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*StatusPageComponentsV2UpdateResponse, error)
+
+	// StatusPageComponentsV2UpdateWithResponse Update Status Page Components V2
+	//
+	// Update a status page component's name and description.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v2/status_page_components/{id} (the `StatusPageComponentsV2Update` operationId).
+	StatusPageComponentsV2UpdateWithResponse(ctx context.Context, id string, body StatusPageComponentsV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*StatusPageComponentsV2UpdateResponse, error)
 
 	// StatusPagesV2CreateStatusPageIncidentUpdateWithBodyWithResponse CreateStatusPageIncidentUpdate Status Pages V2
 	//
@@ -107692,6 +108224,659 @@ func (r SecretsV2RotateResponse) ContentType() string {
 	return ""
 }
 
+type StatusPageComponentsV2ListResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *StatusPageComponentsListResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r StatusPageComponentsV2ListResponse) GetJSON200() *StatusPageComponentsListResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r StatusPageComponentsV2ListResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r StatusPageComponentsV2ListResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r StatusPageComponentsV2ListResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r StatusPageComponentsV2ListResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r StatusPageComponentsV2ListResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r StatusPageComponentsV2ListResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r StatusPageComponentsV2ListResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r StatusPageComponentsV2ListResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r StatusPageComponentsV2ListResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r StatusPageComponentsV2ListResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r StatusPageComponentsV2ListResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r StatusPageComponentsV2ListResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r StatusPageComponentsV2ListResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r StatusPageComponentsV2ListResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r StatusPageComponentsV2ListResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r StatusPageComponentsV2ListResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r StatusPageComponentsV2ListResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type StatusPageComponentsV2CreateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON201 the response for an HTTP 201 `application/json` response
+	JSON201 *StatusPageComponentsCreateResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON201 returns the response for an HTTP 201 `application/json` response
+func (r StatusPageComponentsV2CreateResponse) GetJSON201() *StatusPageComponentsCreateResultV2 {
+	return r.JSON201
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r StatusPageComponentsV2CreateResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r StatusPageComponentsV2CreateResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r StatusPageComponentsV2CreateResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r StatusPageComponentsV2CreateResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r StatusPageComponentsV2CreateResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r StatusPageComponentsV2CreateResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r StatusPageComponentsV2CreateResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r StatusPageComponentsV2CreateResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r StatusPageComponentsV2CreateResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r StatusPageComponentsV2CreateResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r StatusPageComponentsV2CreateResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r StatusPageComponentsV2CreateResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r StatusPageComponentsV2CreateResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r StatusPageComponentsV2CreateResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r StatusPageComponentsV2CreateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r StatusPageComponentsV2CreateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r StatusPageComponentsV2CreateResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type StatusPageComponentsV2DestroyResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r StatusPageComponentsV2DestroyResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r StatusPageComponentsV2DestroyResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r StatusPageComponentsV2DestroyResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r StatusPageComponentsV2DestroyResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r StatusPageComponentsV2DestroyResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r StatusPageComponentsV2DestroyResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r StatusPageComponentsV2DestroyResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r StatusPageComponentsV2DestroyResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r StatusPageComponentsV2DestroyResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r StatusPageComponentsV2DestroyResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r StatusPageComponentsV2DestroyResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r StatusPageComponentsV2DestroyResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r StatusPageComponentsV2DestroyResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r StatusPageComponentsV2DestroyResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r StatusPageComponentsV2DestroyResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r StatusPageComponentsV2DestroyResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r StatusPageComponentsV2DestroyResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type StatusPageComponentsV2ShowResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *StatusPageComponentsShowResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r StatusPageComponentsV2ShowResponse) GetJSON200() *StatusPageComponentsShowResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r StatusPageComponentsV2ShowResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r StatusPageComponentsV2ShowResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r StatusPageComponentsV2ShowResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r StatusPageComponentsV2ShowResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r StatusPageComponentsV2ShowResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r StatusPageComponentsV2ShowResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r StatusPageComponentsV2ShowResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r StatusPageComponentsV2ShowResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r StatusPageComponentsV2ShowResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r StatusPageComponentsV2ShowResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r StatusPageComponentsV2ShowResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r StatusPageComponentsV2ShowResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r StatusPageComponentsV2ShowResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r StatusPageComponentsV2ShowResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r StatusPageComponentsV2ShowResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r StatusPageComponentsV2ShowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r StatusPageComponentsV2ShowResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type StatusPageComponentsV2UpdateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *StatusPageComponentsUpdateResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r StatusPageComponentsV2UpdateResponse) GetJSON200() *StatusPageComponentsUpdateResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r StatusPageComponentsV2UpdateResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r StatusPageComponentsV2UpdateResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r StatusPageComponentsV2UpdateResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r StatusPageComponentsV2UpdateResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r StatusPageComponentsV2UpdateResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r StatusPageComponentsV2UpdateResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r StatusPageComponentsV2UpdateResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r StatusPageComponentsV2UpdateResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r StatusPageComponentsV2UpdateResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r StatusPageComponentsV2UpdateResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r StatusPageComponentsV2UpdateResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r StatusPageComponentsV2UpdateResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r StatusPageComponentsV2UpdateResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r StatusPageComponentsV2UpdateResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r StatusPageComponentsV2UpdateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r StatusPageComponentsV2UpdateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r StatusPageComponentsV2UpdateResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
 type StatusPagesV2CreateStatusPageIncidentUpdateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -127650,6 +128835,111 @@ func (c *ClientWithResponses) SecretsV2RotateWithResponse(ctx context.Context, i
 		return nil, err
 	}
 	return ParseSecretsV2RotateResponse(rsp)
+}
+
+// StatusPageComponentsV2ListWithResponse List Status Page Components V2
+//
+// List all status page components for an organisation.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v2/status_page_components (the `StatusPageComponentsV2List` operationId).
+func (c *ClientWithResponses) StatusPageComponentsV2ListWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*StatusPageComponentsV2ListResponse, error) {
+	rsp, err := c.StatusPageComponentsV2List(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseStatusPageComponentsV2ListResponse(rsp)
+}
+
+// StatusPageComponentsV2CreateWithBodyWithResponse Create Status Page Components V2
+//
+// Create a status page component. Placement on a page is controlled separately via status page structures.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/status_page_components (the `StatusPageComponentsV2Create` operationId).
+func (c *ClientWithResponses) StatusPageComponentsV2CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*StatusPageComponentsV2CreateResponse, error) {
+	rsp, err := c.StatusPageComponentsV2CreateWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseStatusPageComponentsV2CreateResponse(rsp)
+}
+
+// StatusPageComponentsV2CreateWithResponse Create Status Page Components V2
+//
+// Create a status page component. Placement on a page is controlled separately via status page structures.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/status_page_components (the `StatusPageComponentsV2Create` operationId).
+func (c *ClientWithResponses) StatusPageComponentsV2CreateWithResponse(ctx context.Context, body StatusPageComponentsV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*StatusPageComponentsV2CreateResponse, error) {
+	rsp, err := c.StatusPageComponentsV2Create(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseStatusPageComponentsV2CreateResponse(rsp)
+}
+
+// StatusPageComponentsV2DestroyWithResponse Destroy Status Page Components V2
+//
+// Archive a status page component.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v2/status_page_components/{id} (the `StatusPageComponentsV2Destroy` operationId).
+func (c *ClientWithResponses) StatusPageComponentsV2DestroyWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*StatusPageComponentsV2DestroyResponse, error) {
+	rsp, err := c.StatusPageComponentsV2Destroy(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseStatusPageComponentsV2DestroyResponse(rsp)
+}
+
+// StatusPageComponentsV2ShowWithResponse Show Status Page Components V2
+//
+// Show a single status page component.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v2/status_page_components/{id} (the `StatusPageComponentsV2Show` operationId).
+func (c *ClientWithResponses) StatusPageComponentsV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*StatusPageComponentsV2ShowResponse, error) {
+	rsp, err := c.StatusPageComponentsV2Show(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseStatusPageComponentsV2ShowResponse(rsp)
+}
+
+// StatusPageComponentsV2UpdateWithBodyWithResponse Update Status Page Components V2
+//
+// Update a status page component's name and description.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v2/status_page_components/{id} (the `StatusPageComponentsV2Update` operationId).
+func (c *ClientWithResponses) StatusPageComponentsV2UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*StatusPageComponentsV2UpdateResponse, error) {
+	rsp, err := c.StatusPageComponentsV2UpdateWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseStatusPageComponentsV2UpdateResponse(rsp)
+}
+
+// StatusPageComponentsV2UpdateWithResponse Update Status Page Components V2
+//
+// Update a status page component's name and description.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v2/status_page_components/{id} (the `StatusPageComponentsV2Update` operationId).
+func (c *ClientWithResponses) StatusPageComponentsV2UpdateWithResponse(ctx context.Context, id string, body StatusPageComponentsV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*StatusPageComponentsV2UpdateResponse, error) {
+	rsp, err := c.StatusPageComponentsV2Update(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseStatusPageComponentsV2UpdateResponse(rsp)
 }
 
 // StatusPagesV2CreateStatusPageIncidentUpdateWithBodyWithResponse CreateStatusPageIncidentUpdate Status Pages V2
@@ -160666,6 +161956,587 @@ func ParseSecretsV2RotateResponse(rsp *http.Response) (*SecretsV2RotateResponse,
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest SecretsRotateResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseStatusPageComponentsV2ListResponse parses an HTTP response from a StatusPageComponentsV2ListWithResponse call
+func ParseStatusPageComponentsV2ListResponse(rsp *http.Response) (*StatusPageComponentsV2ListResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &StatusPageComponentsV2ListResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest StatusPageComponentsListResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseStatusPageComponentsV2CreateResponse parses an HTTP response from a StatusPageComponentsV2CreateWithResponse call
+func ParseStatusPageComponentsV2CreateResponse(rsp *http.Response) (*StatusPageComponentsV2CreateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &StatusPageComponentsV2CreateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest StatusPageComponentsCreateResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseStatusPageComponentsV2DestroyResponse parses an HTTP response from a StatusPageComponentsV2DestroyWithResponse call
+func ParseStatusPageComponentsV2DestroyResponse(rsp *http.Response) (*StatusPageComponentsV2DestroyResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &StatusPageComponentsV2DestroyResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case rsp.StatusCode == 204:
+		break // No content-type
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseStatusPageComponentsV2ShowResponse parses an HTTP response from a StatusPageComponentsV2ShowWithResponse call
+func ParseStatusPageComponentsV2ShowResponse(rsp *http.Response) (*StatusPageComponentsV2ShowResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &StatusPageComponentsV2ShowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest StatusPageComponentsShowResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseStatusPageComponentsV2UpdateResponse parses an HTTP response from a StatusPageComponentsV2UpdateWithResponse call
+func ParseStatusPageComponentsV2UpdateResponse(rsp *http.Response) (*StatusPageComponentsV2UpdateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &StatusPageComponentsV2UpdateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest StatusPageComponentsUpdateResultV2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
