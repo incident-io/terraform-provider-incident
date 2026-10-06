@@ -39,14 +39,12 @@ func (r *IncidentStatusPageComponentResource) Metadata(_ context.Context, req re
 
 func (r *IncidentStatusPageComponentResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		// The tag docstring points at structure endpoints the provider doesn't offer, so
-		// this is the provider's own description.
 		MarkdownDescription: "Manages a status page component: something a status page reports the status of, " +
 			"such as a service or a region.\n\n" +
 			"A component belongs to your organisation rather than to a page, and can appear on any number of " +
-			"status pages. Each page's structure in the incident.io dashboard decides which pages show it, and " +
-			"where. This resource creates and maintains the component; placing it on a page happens in the " +
-			"dashboard. Look a page up with the `incident_status_page` data source.\n\n" +
+			"status pages. Each page's structure decides which pages show it, and where. This resource creates " +
+			"and maintains the component; placing it on a page is `incident_status_page_structure`'s job. Look a " +
+			"page up with the `incident_status_page` data source.\n\n" +
 			"The API key needs the \"Configure status pages\" permission. Deleting a component archives it. " +
 			"incident.io refuses to archive a component while a page's structure still places it, or while an " +
 			"incident, maintenance window or subscription still refers to it. Remove it from those first.",
