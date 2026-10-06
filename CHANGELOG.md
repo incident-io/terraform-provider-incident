@@ -1,4 +1,4 @@
-## Unreleased
+## v7.6.0
 
 - Add the `incident_incident_form` resource, which manages an incident form as one resource: its elements in display order, with their conditions and defaults, and the expressions they reference. The organisation's default forms can't be created or deleted, so import one to manage it. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/incident_incident_form). (#637)
 - Add the `incident_incident_form` data source, which reads a form by `id`. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/data-sources/incident_incident_form). (#637)
