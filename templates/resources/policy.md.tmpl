@@ -44,6 +44,10 @@ description: |-
 
 {{ tffile "examples/resources/incident_policy/resource-vacation-conflicts.tf" }}
 
+## Example - Flag anyone on call in two places at once
+
+{{ tffile "examples/resources/incident_policy/resource-shift-conflicts.tf" }}
+
 {{ .SchemaMarkdown | trimspace }}
 {{- if or .HasImport .HasImportIDConfig .HasImportIdentityConfig }}
 

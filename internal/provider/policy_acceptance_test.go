@@ -146,6 +146,56 @@ func TestAccIncidentPolicyOnCallReadiness(t *testing.T) {
 	})
 }
 
+// TestAccIncidentPolicyShiftConflict checks that a read puts the empty block back from
+// policy_type, since the API sends none: otherwise the plan after apply and the import
+// would both see a change. Unlike the other forced-assignee types, its reminders can come
+// before the finding is due, so the last config sets one.
+func TestAccIncidentPolicyShiftConflict(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccPolicyShiftConflictConfig("enabled", false),
+				ConfigPlanChecks: resource.ConfigPlanChecks{
+					PostApplyPostRefresh: []plancheck.PlanCheck{plancheck.ExpectEmptyPlan()},
+				},
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_policy.shift_conflict", "policy_type", "shift_conflict"),
+					resource.TestCheckNoResourceAttr("incident_policy.shift_conflict", "assignment_rules.bindings.#"),
+				),
+			},
+			{
+				ResourceName:      "incident_policy.shift_conflict",
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+			{
+				Config: testAccPolicyShiftConflictConfig("disabled", true),
+				ConfigPlanChecks: resource.ConfigPlanChecks{
+					PreApply: []plancheck.PlanCheck{
+						plancheck.ExpectResourceAction("incident_policy.shift_conflict", plancheck.ResourceActionUpdate),
+					},
+					PostApplyPostRefresh: []plancheck.PlanCheck{plancheck.ExpectEmptyPlan()},
+				},
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_policy.shift_conflict", "status", "disabled"),
+					resource.TestCheckResourceAttr("incident_policy.shift_conflict",
+						"assignment_rules.reminder_due_date_offset_hours.0", "-24"),
+					resource.TestCheckResourceAttr("incident_policy.shift_conflict",
+						"assignment_rules.reminder_detected_date_offset_hours.0", "0"),
+					resource.TestCheckNoResourceAttr("incident_policy.shift_conflict", "assignment_rules.bindings.#"),
+				),
+			},
+			{
+				ResourceName:      "incident_policy.shift_conflict",
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+		},
+	})
+}
+
 // TestAccIncidentPolicyTypeChangeReplaces asserts the replacement rule: swapping which
 // block is set is the only way a policy's type can change, and the API refuses to change
 // the type of an existing policy, so Terraform has to make a new one.
@@ -291,4 +341,28 @@ resource "incident_policy" "readiness" {
   vacation_conflict = {}
 }
 `, struct{ Name string }{Name: StableSuffix("Responders can be reached")})
+}
+
+func testAccPolicyShiftConflictConfig(status string, reminders bool) string {
+	return testRunTemplate("incident_policy_shift_conflict", `
+resource "incident_policy" "shift_conflict" {
+  name        = {{ quote .Name }}
+  description = "Flag anyone on call in two places at once."
+  status      = {{ quote .Status }}
+
+  condition_groups = []
+
+  {{ if .Reminders }}
+  assignment_rules = {
+    reminder_due_date_offset_hours      = [-24]
+    reminder_detected_date_offset_hours = [0]
+  }
+  {{ end }}
+
+  shift_conflict = {}
+}
+`, struct {
+		Name, Status string
+		Reminders    bool
+	}{Name: StableSuffix("Nobody on call twice"), Status: status, Reminders: reminders})
 }

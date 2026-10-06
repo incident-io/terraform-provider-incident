@@ -21,6 +21,8 @@ type announcementRuleTestConfig struct {
 	// creates a severity to match, which only a real account can serve.
 	SeverityID  string
 	WithLookups bool
+	// Rank is set from stableRank, not by callers.
+	Rank int64
 }
 
 func testAccIncidentAnnouncementRuleResourceConfig(config announcementRuleTestConfig) string {
@@ -30,13 +32,14 @@ func testAccIncidentAnnouncementRuleResourceConfig(config announcementRuleTestCo
 	if config.Mode == "" {
 		config.Mode = "include_triage"
 	}
+	config.Rank = stableRank()
 
 	return testRunTemplate("incident_announcement_rule", `
 {{ if not .SeverityID }}
 resource "incident_severity" "announced" {
   name        = {{ printf "%s severity" .Name | quote }}
   description = "Incidents at this severity are announced."
-  rank        = 100
+  rank        = {{ .Rank }}
 }
 {{ end }}
 {{ if .WithTemplate }}
