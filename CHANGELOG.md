@@ -1,8 +1,9 @@
-## Unreleased
+## v7.5.0
 
 - Add the `incident_status_page_component` resource, which manages a status page component: something a page reports the status of, placed on pages with `incident_status_page_structure`. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/status_page_component). (#635)
 - Add the `incident_status_page_component` data source, which looks up a component by `id`. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/data-sources/status_page_component). (#635)
-- Add the `incident_status_page_structure` resource, which manages which components a standalone status page shows, in what order, how they are grouped, and how each is displayed. A group keeps its ID while it keeps its name. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/status_page_structure). (#639)
+- Add the `incident_status_page_structure` resource, which manages which components a standalone status page shows, in what order, how they are grouped, and how each is displayed. A group keeps its ID while it keeps its name. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/status_page_structure). (#639, #641)
+- Add the `shift_conflict` block to `incident_policy`, which makes a shift-conflict policy that flags anyone on call in two or more places at once. Like `vacation_conflict` it takes no configuration, so set it to `{}`, and its reminders go in `assignment_rules` without `bindings`. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/policy). (#629)
 - Add `ai_enabled` to `incident_alert_route`'s `grouping_config.default` and `incident_team_grouping_preference`'s `default.settings`, which groups similar looking alerts with AI. AI alert grouping is in beta, so contact support for access; it defaults to `false`, and needs the team alert attribute as the only grouping key; see the docs for [alert routes](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/alert_route) and [team grouping preferences](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/team_grouping_preference). (#631)
 
 ## v7.4.0
