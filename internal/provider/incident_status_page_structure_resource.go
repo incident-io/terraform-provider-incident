@@ -249,9 +249,14 @@ func (r *IncidentStatusPageStructureResource) Create(ctx context.Context, req re
 		return
 	}
 
+	// A create unclaims as well as claims: a destroy leaves the claim on the page, so a
+	// structure managed again with unlock_in_dashboard would otherwise stay locked.
 	if shouldClaim(plan.UnlockInDashboard) {
 		claimResource(ctx, r.client, state.StatusPageID.ValueString(), &resp.Diagnostics,
 			client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeStatusPageStructure, r.terraformVersion)
+	} else {
+		unclaimResource(ctx, r.client, state.StatusPageID.ValueString(), &resp.Diagnostics,
+			client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeStatusPageStructure)
 	}
 
 	tflog.Trace(ctx, fmt.Sprintf("set the structure of status page id=%s", state.StatusPageID.ValueString()))

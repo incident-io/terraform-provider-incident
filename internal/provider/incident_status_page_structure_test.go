@@ -27,6 +27,8 @@ import (
 //   - assigns an ID to a group the payload doesn't name
 //   - keeps the display settings of a placement the payload leaves out, defaults a new
 //     one's, and keeps the page's uptime mode when the payload has none
+//   - derives a group's flags from its members, and lets a kept group keep its own only
+//     as far as they allow: hidden stays hidden, and aggregated uptime stays off
 //   - keeps a kept group's description when omitted, and clears it on an empty string
 //   - returns each component with its name, as the read shape does
 //   - reports who manages a structure from the annotations its last claim carried
@@ -233,11 +235,14 @@ func (f *fakeStatusPageStructuresAPI) set(w http.ResponseWriter, r *http.Request
 			group.Components = append(group.Components, got)
 		}
 
-		// A new group's defaults follow its members; a kept group keeps its settings.
+		// A group's flags follow its members. A kept group keeps its own only as far as
+		// its new members allow, as core's structureItemsPayload does.
 		group.Hidden = lo.EveryBy(group.Components, func(c client.StatusPageStructureComponentV2) bool { return c.Hidden })
 		group.DisplayAggregatedUptime = lo.SomeBy(group.Components, func(c client.StatusPageStructureComponentV2) bool { return !c.Hidden && c.DisplayUptime })
 		if previous != nil {
-			group.Hidden, group.DisplayAggregatedUptime, group.Description = previous.Hidden, previous.DisplayAggregatedUptime, previous.Description
+			group.Hidden = previous.Hidden || group.Hidden
+			group.DisplayAggregatedUptime = previous.DisplayAggregatedUptime && group.DisplayAggregatedUptime
+			group.Description = previous.Description
 		}
 		if item.Group.Hidden != nil {
 			group.Hidden = *item.Group.Hidden
@@ -396,7 +401,7 @@ resource "incident_status_page_structure" "test" {
 // keeping its group's ID and the display settings the config doesn't mention; imports it;
 // takes over the display settings; hands the structure back to the dashboard and claims it
 // again; watches a rename make a new group; and sees a destroy leave the structure, and
-// its claim, in place.
+// its claim, in place, which a create with unlock_in_dashboard then clears.
 func TestIncidentStatusPageStructureResourceLifecycle(t *testing.T) {
 	fake, url := startFakeStatusPageStructuresAPI(t)
 	t.Setenv("INCIDENT_ENDPOINT", url)
@@ -563,10 +568,73 @@ func TestIncidentStatusPageStructureResourceLifecycle(t *testing.T) {
 						t.Errorf("after destroy, page %s has groups %v, want the one left in place", page, got)
 					}
 				},
-				Config: testIncidentStatusPageStructureConfig(structureTestConfig{PageID: page, Items: []structureTestItem{
+				// Managed again, unlocked: the create clears the claim the destroy left.
+				Config: testIncidentStatusPageStructureConfig(structureTestConfig{PageID: page, UnlockInDashboard: true, Items: []structureTestItem{
 					componentItem(web),
 					groupItem("Backend", db, api),
 				}}),
+				Check: checkManagedBy(client.ManagementMetaV2ManagedByDashboard),
+			},
+		},
+	})
+}
+
+// TestIncidentStatusPageStructureResourceKeptGroupFlags checks the plan agrees with the API
+// about a kept group's flags when the config leaves them out: the API derives them from the
+// members but never un-hides a group or turns its aggregated uptime back on by itself, so
+// the plan has to carry and correct them the same way or the apply is inconsistent.
+func TestIncidentStatusPageStructureResourceKeptGroupFlags(t *testing.T) {
+	fake, url := startFakeStatusPageStructuresAPI(t)
+	t.Setenv("INCIDENT_ENDPOINT", url)
+	t.Setenv("INCIDENT_API_KEY", "test-key")
+
+	api := fake.seedComponent("API")
+	db := fake.seedComponent("Database")
+	page := fake.seedPage(client.StatusPageStructureV2{Items: []client.StatusPageStructureItemV2{
+		{Component: &client.StatusPageStructureComponentV2{ComponentId: api, Name: "API", DisplayUptime: true}},
+	}}, client.StatusPagesShowStatusPageStructureResultV2DisplayUptimeModeChartAndPercentage)
+
+	const address = "incident_status_page_structure.test"
+	members := func(hidden string) []structureTestComponent {
+		return []structureTestComponent{{ID: api, Hidden: hidden}, {ID: db, Hidden: hidden}}
+	}
+
+	resource.Test(t, resource.TestCase{
+		IsUnitTest:               true,
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				// A new group of visible members is shown, with aggregated uptime.
+				Config: testIncidentStatusPageStructureConfig(structureTestConfig{PageID: page, Items: []structureTestItem{groupItem("Core", api, db)}}),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(address, "items.0.group.hidden", "false"),
+					resource.TestCheckResourceAttr(address, "items.0.group.display_aggregated_uptime", "true"),
+				),
+			},
+			{
+				// Every member hidden: the group follows, and its aggregated uptime goes.
+				Config: testIncidentStatusPageStructureConfig(structureTestConfig{PageID: page, Items: []structureTestItem{{Group: &structureTestGroup{Name: "Core", Components: members("true")}}}}),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(address, "items.0.group.hidden", "true"),
+					resource.TestCheckResourceAttr(address, "items.0.group.display_aggregated_uptime", "false"),
+				),
+			},
+			{
+				// Members shown again: the group stays as it was, since only the config
+				// un-hides a group or turns its aggregated uptime back on.
+				Config: testIncidentStatusPageStructureConfig(structureTestConfig{PageID: page, Items: []structureTestItem{{Group: &structureTestGroup{Name: "Core", Components: members("false")}}}}),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(address, "items.0.group.hidden", "true"),
+					resource.TestCheckResourceAttr(address, "items.0.group.display_aggregated_uptime", "false"),
+				),
+			},
+			{
+				// And the config does.
+				Config: testIncidentStatusPageStructureConfig(structureTestConfig{PageID: page, Items: []structureTestItem{{Group: &structureTestGroup{Name: "Core", Hidden: "false", DisplayAggregatedUptime: "true", Components: members("false")}}}}),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(address, "items.0.group.hidden", "false"),
+					resource.TestCheckResourceAttr(address, "items.0.group.display_aggregated_uptime", "true"),
+				),
 			},
 		},
 	})
