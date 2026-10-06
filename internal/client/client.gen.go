@@ -7875,6 +7875,7 @@ const (
 	ManagedResourceV2ResourceTypeScheduleSyncTarget     ManagedResourceV2ResourceType = "schedule_sync_target"
 	ManagedResourceV2ResourceTypeSecret                 ManagedResourceV2ResourceType = "secret"
 	ManagedResourceV2ResourceTypeStatusPageComponent    ManagedResourceV2ResourceType = "status_page_component"
+	ManagedResourceV2ResourceTypeStatusPageStructure    ManagedResourceV2ResourceType = "status_page_structure"
 	ManagedResourceV2ResourceTypeTeamGroupingPreference ManagedResourceV2ResourceType = "team_grouping_preference"
 	ManagedResourceV2ResourceTypeWorkflow               ManagedResourceV2ResourceType = "workflow"
 )
@@ -7908,6 +7909,8 @@ func (e ManagedResourceV2ResourceType) Valid() bool {
 		return true
 	case ManagedResourceV2ResourceTypeStatusPageComponent:
 		return true
+	case ManagedResourceV2ResourceTypeStatusPageStructure:
+		return true
 	case ManagedResourceV2ResourceTypeTeamGroupingPreference:
 		return true
 	case ManagedResourceV2ResourceTypeWorkflow:
@@ -7932,6 +7935,7 @@ const (
 	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeScheduleSyncTarget     ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "schedule_sync_target"
 	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeSecret                 ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "secret"
 	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeStatusPageComponent    ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "status_page_component"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeStatusPageStructure    ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "status_page_structure"
 	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeTeamGroupingPreference ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "team_grouping_preference"
 	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeWorkflow               ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "workflow"
 )
@@ -7964,6 +7968,8 @@ func (e ManagedResourcesCreateManagedResourcePayloadV2ResourceType) Valid() bool
 	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeSecret:
 		return true
 	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeStatusPageComponent:
+		return true
+	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeStatusPageStructure:
 		return true
 	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeTeamGroupingPreference:
 		return true
@@ -9774,6 +9780,69 @@ func (e StatusPagesCreateStatusPageMaintenanceUpdatePayloadV2MaintenanceStatus) 
 	case StatusPagesCreateStatusPageMaintenanceUpdatePayloadV2MaintenanceStatusMaintenanceInProgress:
 		return true
 	case StatusPagesCreateStatusPageMaintenanceUpdatePayloadV2MaintenanceStatusMaintenanceScheduled:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for StatusPagesSetStatusPageStructurePayloadV2DisplayUptimeMode.
+const (
+	StatusPagesSetStatusPageStructurePayloadV2DisplayUptimeModeChartAndPercentage StatusPagesSetStatusPageStructurePayloadV2DisplayUptimeMode = "chart_and_percentage"
+	StatusPagesSetStatusPageStructurePayloadV2DisplayUptimeModeChartOnly          StatusPagesSetStatusPageStructurePayloadV2DisplayUptimeMode = "chart_only"
+	StatusPagesSetStatusPageStructurePayloadV2DisplayUptimeModeNothing            StatusPagesSetStatusPageStructurePayloadV2DisplayUptimeMode = "nothing"
+)
+
+// Valid indicates whether the value is a known member of the StatusPagesSetStatusPageStructurePayloadV2DisplayUptimeMode enum.
+func (e StatusPagesSetStatusPageStructurePayloadV2DisplayUptimeMode) Valid() bool {
+	switch e {
+	case StatusPagesSetStatusPageStructurePayloadV2DisplayUptimeModeChartAndPercentage:
+		return true
+	case StatusPagesSetStatusPageStructurePayloadV2DisplayUptimeModeChartOnly:
+		return true
+	case StatusPagesSetStatusPageStructurePayloadV2DisplayUptimeModeNothing:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for StatusPagesSetStatusPageStructureResultV2DisplayUptimeMode.
+const (
+	StatusPagesSetStatusPageStructureResultV2DisplayUptimeModeChartAndPercentage StatusPagesSetStatusPageStructureResultV2DisplayUptimeMode = "chart_and_percentage"
+	StatusPagesSetStatusPageStructureResultV2DisplayUptimeModeChartOnly          StatusPagesSetStatusPageStructureResultV2DisplayUptimeMode = "chart_only"
+	StatusPagesSetStatusPageStructureResultV2DisplayUptimeModeNothing            StatusPagesSetStatusPageStructureResultV2DisplayUptimeMode = "nothing"
+)
+
+// Valid indicates whether the value is a known member of the StatusPagesSetStatusPageStructureResultV2DisplayUptimeMode enum.
+func (e StatusPagesSetStatusPageStructureResultV2DisplayUptimeMode) Valid() bool {
+	switch e {
+	case StatusPagesSetStatusPageStructureResultV2DisplayUptimeModeChartAndPercentage:
+		return true
+	case StatusPagesSetStatusPageStructureResultV2DisplayUptimeModeChartOnly:
+		return true
+	case StatusPagesSetStatusPageStructureResultV2DisplayUptimeModeNothing:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for StatusPagesShowStatusPageStructureResultV2DisplayUptimeMode.
+const (
+	StatusPagesShowStatusPageStructureResultV2DisplayUptimeModeChartAndPercentage StatusPagesShowStatusPageStructureResultV2DisplayUptimeMode = "chart_and_percentage"
+	StatusPagesShowStatusPageStructureResultV2DisplayUptimeModeChartOnly          StatusPagesShowStatusPageStructureResultV2DisplayUptimeMode = "chart_only"
+	StatusPagesShowStatusPageStructureResultV2DisplayUptimeModeNothing            StatusPagesShowStatusPageStructureResultV2DisplayUptimeMode = "nothing"
+)
+
+// Valid indicates whether the value is a known member of the StatusPagesShowStatusPageStructureResultV2DisplayUptimeMode enum.
+func (e StatusPagesShowStatusPageStructureResultV2DisplayUptimeMode) Valid() bool {
+	switch e {
+	case StatusPagesShowStatusPageStructureResultV2DisplayUptimeModeChartAndPercentage:
+		return true
+	case StatusPagesShowStatusPageStructureResultV2DisplayUptimeModeChartOnly:
+		return true
+	case StatusPagesShowStatusPageStructureResultV2DisplayUptimeModeNothing:
 		return true
 	default:
 		return false
@@ -29544,12 +29613,40 @@ type StatusPageRetrospectiveIncidentUpdateV2 struct {
 // Example: investigating
 type StatusPageRetrospectiveIncidentUpdateV2IncidentStatus string
 
-// StatusPageStructureComponentV2 Example: {"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"}
+// StatusPageStructureComponentPayloadV2 Example: {"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false}
+type StatusPageStructureComponentPayloadV2 struct {
+	// ComponentId ID of the component to place
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG1
+	ComponentId string `json:"component_id"`
+
+	// DisplayUptime Whether to show the component's uptime. Omit to keep the setting of a component already placed; a first placement shows it.
+	//
+	// Example: true
+	DisplayUptime *bool `json:"display_uptime,omitempty"`
+
+	// Hidden Whether the component is hidden from the page. Omit to keep the setting of a component already placed; a first placement is shown.
+	//
+	// Example: false
+	Hidden *bool `json:"hidden,omitempty"`
+}
+
+// StatusPageStructureComponentV2 Example: {"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}
 type StatusPageStructureComponentV2 struct {
 	// ComponentId The ID of the affected component. This may be found by calling the ShowStatusPageStructure endpoint.
 	//
 	// Example: 01FCNDV6P870EA6S7TK1DSYDG1
 	ComponentId string `json:"component_id"`
+
+	// DisplayUptime Whether the page shows this component's uptime
+	//
+	// Example: true
+	DisplayUptime bool `json:"display_uptime"`
+
+	// Hidden Whether the component is hidden from the page
+	//
+	// Example: false
+	Hidden bool `json:"hidden"`
 
 	// Name The name of this component
 	//
@@ -29557,12 +29654,60 @@ type StatusPageStructureComponentV2 struct {
 	Name string `json:"name"`
 }
 
-// StatusPageStructureGroupV2 Example: {"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"}],"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}
+// StatusPageStructureGroupPayloadV2 Example: {"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}
+type StatusPageStructureGroupPayloadV2 struct {
+	// Components Components in this group, in display order
+	//
+	// Example: [{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false}]
+	Components []StatusPageStructureComponentPayloadV2 `json:"components"`
+
+	// Description A description shown under the group's name. Omit to keep a kept group's description; send an empty string to clear it.
+	//
+	// Example: Services hosted in our EU data center
+	Description *string `json:"description,omitempty"`
+
+	// DisplayAggregatedUptime Whether to show uptime aggregated across the group's components. Needs a visible member that shows uptime. Omit to keep a kept group's setting; a new group shows it when a member allows.
+	//
+	// Example: true
+	DisplayAggregatedUptime *bool `json:"display_aggregated_uptime,omitempty"`
+
+	// Hidden Whether the group is hidden from the page. Omit to keep a kept group's setting; a new group is hidden only when every member is.
+	//
+	// Example: false
+	Hidden *bool `json:"hidden,omitempty"`
+
+	// Id ID of a group already on this page, to keep it and its settings. Omit to create a new group.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG1
+	Id *string `json:"id,omitempty"`
+
+	// Name The name of this component group
+	//
+	// Example: EU Data center
+	Name string `json:"name"`
+}
+
+// StatusPageStructureGroupV2 Example: {"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}
 type StatusPageStructureGroupV2 struct {
 	// Components Array of components belonging to this group
 	//
-	// Example: [{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"}]
+	// Example: [{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}]
 	Components []StatusPageStructureComponentV2 `json:"components"`
+
+	// Description A description shown under the group's name
+	//
+	// Example: Services hosted in our EU data center
+	Description *string `json:"description,omitempty"`
+
+	// DisplayAggregatedUptime Whether the page shows uptime aggregated across the group's components
+	//
+	// Example: true
+	DisplayAggregatedUptime bool `json:"display_aggregated_uptime"`
+
+	// Hidden Whether the group is hidden from the page
+	//
+	// Example: false
+	Hidden bool `json:"hidden"`
 
 	// Id Unique ID of this component group
 	//
@@ -29575,28 +29720,37 @@ type StatusPageStructureGroupV2 struct {
 	Name string `json:"name"`
 }
 
-// StatusPageStructureItemV2 Example: {"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"}],"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"},"sub_page":{"id":"01FCNDV6P870EA6S7TK1DSYDG1","items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"}],"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}}],"name":"United Kingdom"}}
+// StatusPageStructureItemPayloadV2 Example: {"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}}
+type StatusPageStructureItemPayloadV2 struct {
+	// Component Example: {"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false}
+	Component *StatusPageStructureComponentPayloadV2 `json:"component,omitempty"`
+
+	// Group Example: {"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}
+	Group *StatusPageStructureGroupPayloadV2 `json:"group,omitempty"`
+}
+
+// StatusPageStructureItemV2 Example: {"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"},"sub_page":{"id":"01FCNDV6P870EA6S7TK1DSYDG1","items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}}],"name":"United Kingdom"}}
 type StatusPageStructureItemV2 struct {
-	// Component Example: {"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"}
+	// Component Example: {"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}
 	Component *StatusPageStructureComponentV2 `json:"component,omitempty"`
 
-	// Group Example: {"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"}],"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}
+	// Group Example: {"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}
 	Group *StatusPageStructureGroupV2 `json:"group,omitempty"`
 
-	// SubPage Example: {"id":"01FCNDV6P870EA6S7TK1DSYDG1","items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"}],"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}}],"name":"United Kingdom"}
+	// SubPage Example: {"id":"01FCNDV6P870EA6S7TK1DSYDG1","items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}}],"name":"United Kingdom"}
 	SubPage *StatusPageStructureSubPageV2 `json:"sub_page,omitempty"`
 }
 
-// StatusPageStructureSubPageItemV2 Example: {"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"}],"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}}
+// StatusPageStructureSubPageItemV2 Example: {"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}}
 type StatusPageStructureSubPageItemV2 struct {
-	// Component Example: {"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"}
+	// Component Example: {"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}
 	Component *StatusPageStructureComponentV2 `json:"component,omitempty"`
 
-	// Group Example: {"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"}],"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}
+	// Group Example: {"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}
 	Group *StatusPageStructureGroupV2 `json:"group,omitempty"`
 }
 
-// StatusPageStructureSubPageV2 Example: {"id":"01FCNDV6P870EA6S7TK1DSYDG1","items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"}],"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}}],"name":"United Kingdom"}
+// StatusPageStructureSubPageV2 Example: {"id":"01FCNDV6P870EA6S7TK1DSYDG1","items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}}],"name":"United Kingdom"}
 type StatusPageStructureSubPageV2 struct {
 	// Id Unique ID of this subpage
 	//
@@ -29605,7 +29759,7 @@ type StatusPageStructureSubPageV2 struct {
 
 	// Items Array of components and groups belonging to this subpage
 	//
-	// Example: [{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"}],"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}}]
+	// Example: [{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}}]
 	Items []StatusPageStructureSubPageItemV2 `json:"items"`
 
 	// Name The name of this subpage
@@ -29614,11 +29768,11 @@ type StatusPageStructureSubPageV2 struct {
 	Name string `json:"name"`
 }
 
-// StatusPageStructureV2 Example: {"items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"}],"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"},"sub_page":{"id":"01FCNDV6P870EA6S7TK1DSYDG1","items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"}],"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}}],"name":"United Kingdom"}}]}
+// StatusPageStructureV2 Example: {"items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"},"sub_page":{"id":"01FCNDV6P870EA6S7TK1DSYDG1","items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}}],"name":"United Kingdom"}}]}
 type StatusPageStructureV2 struct {
 	// Items Array of components and groups to display in the status page
 	//
-	// Example: [{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"}],"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"},"sub_page":{"id":"01FCNDV6P870EA6S7TK1DSYDG1","items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"}],"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}}],"name":"United Kingdom"}}]
+	// Example: [{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"},"sub_page":{"id":"01FCNDV6P870EA6S7TK1DSYDG1","items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}}],"name":"United Kingdom"}}]
 	Items []StatusPageStructureItemV2 `json:"items"`
 }
 
@@ -29898,6 +30052,43 @@ type StatusPagesListStatusPagesResultV2 struct {
 	StatusPages []StatusPageV2 `json:"status_pages"`
 }
 
+// StatusPagesSetStatusPageStructurePayloadV2 Example: {"display_uptime_mode":"chart_and_percentage","items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}}]}
+type StatusPagesSetStatusPageStructurePayloadV2 struct {
+	// DisplayUptimeMode How the page shows uptime against its components. Omit to keep the page's current setting.
+	//
+	// Example: chart_and_percentage
+	DisplayUptimeMode *StatusPagesSetStatusPageStructurePayloadV2DisplayUptimeMode `json:"display_uptime_mode,omitempty"`
+
+	// Items Components and groups to display, in order
+	//
+	// Example: [{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}}]
+	Items []StatusPageStructureItemPayloadV2 `json:"items"`
+}
+
+// StatusPagesSetStatusPageStructurePayloadV2DisplayUptimeMode How the page shows uptime against its components. Omit to keep the page's current setting.
+//
+// Example: chart_and_percentage
+type StatusPagesSetStatusPageStructurePayloadV2DisplayUptimeMode string
+
+// StatusPagesSetStatusPageStructureResultV2 Example: {"current_structure":{"items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"},"sub_page":{"id":"01FCNDV6P870EA6S7TK1DSYDG1","items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}}],"name":"United Kingdom"}}]},"display_uptime_mode":"chart_and_percentage","management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","source_url":"https://github.com/my-company/infrastructure"}}
+type StatusPagesSetStatusPageStructureResultV2 struct {
+	// CurrentStructure Example: {"items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"},"sub_page":{"id":"01FCNDV6P870EA6S7TK1DSYDG1","items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}}],"name":"United Kingdom"}}]}
+	CurrentStructure StatusPageStructureV2 `json:"current_structure"`
+
+	// DisplayUptimeMode How the page shows uptime against its components
+	//
+	// Example: chart_and_percentage
+	DisplayUptimeMode StatusPagesSetStatusPageStructureResultV2DisplayUptimeMode `json:"display_uptime_mode"`
+
+	// ManagementMeta Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","source_url":"https://github.com/my-company/infrastructure"}
+	ManagementMeta ManagementMetaV2 `json:"management_meta"`
+}
+
+// StatusPagesSetStatusPageStructureResultV2DisplayUptimeMode How the page shows uptime against its components
+//
+// Example: chart_and_percentage
+type StatusPagesSetStatusPageStructureResultV2DisplayUptimeMode string
+
 // StatusPagesShowStatusPageComponentAvailabilityResultV2 Example: {"availability":{"availability_percent":"99.94","component_id":"01FCNDV6P870EA6S7TK1DSYDG1","data_available_since":"2025-06-01T00:00:00Z","end_at":"2026-02-01T00:00:00Z","start_at":"2026-01-01T00:00:00Z","status_page_id":"01FCNDV6P870EA6S7TK1DSYDG0"}}
 type StatusPagesShowStatusPageComponentAvailabilityResultV2 struct {
 	// Availability Availability of a status page component over a requested time window.
@@ -29924,11 +30115,24 @@ type StatusPagesShowStatusPageResultV2 struct {
 	StatusPage StatusPageV2 `json:"status_page"`
 }
 
-// StatusPagesShowStatusPageStructureResultV2 Example: {"current_structure":{"items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"}],"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"},"sub_page":{"id":"01FCNDV6P870EA6S7TK1DSYDG1","items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"}],"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}}],"name":"United Kingdom"}}]}}
+// StatusPagesShowStatusPageStructureResultV2 Example: {"current_structure":{"items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"},"sub_page":{"id":"01FCNDV6P870EA6S7TK1DSYDG1","items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}}],"name":"United Kingdom"}}]},"display_uptime_mode":"chart_and_percentage","management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","source_url":"https://github.com/my-company/infrastructure"}}
 type StatusPagesShowStatusPageStructureResultV2 struct {
-	// CurrentStructure Example: {"items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"}],"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"},"sub_page":{"id":"01FCNDV6P870EA6S7TK1DSYDG1","items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"App"}],"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}}],"name":"United Kingdom"}}]}
+	// CurrentStructure Example: {"items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"},"sub_page":{"id":"01FCNDV6P870EA6S7TK1DSYDG1","items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}}],"name":"United Kingdom"}}]}
 	CurrentStructure StatusPageStructureV2 `json:"current_structure"`
+
+	// DisplayUptimeMode How the page shows uptime against its components
+	//
+	// Example: chart_and_percentage
+	DisplayUptimeMode StatusPagesShowStatusPageStructureResultV2DisplayUptimeMode `json:"display_uptime_mode"`
+
+	// ManagementMeta Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","source_url":"https://github.com/my-company/infrastructure"}
+	ManagementMeta ManagementMetaV2 `json:"management_meta"`
 }
+
+// StatusPagesShowStatusPageStructureResultV2DisplayUptimeMode How the page shows uptime against its components
+//
+// Example: chart_and_percentage
+type StatusPagesShowStatusPageStructureResultV2DisplayUptimeMode string
 
 // StatusPagesUpdateStatusPageIncidentPayloadV2 Example: {"name":"Elevated API latency"}
 type StatusPagesUpdateStatusPageIncidentPayloadV2 struct {
@@ -33064,6 +33268,9 @@ type StatusPagesV2UpdateStatusPageMaintenanceJSONRequestBody = StatusPagesUpdate
 
 // StatusPagesV2CreateStatusPageRetrospectiveIncidentJSONRequestBody defines body for StatusPagesV2CreateStatusPageRetrospectiveIncident for application/json ContentType.
 type StatusPagesV2CreateStatusPageRetrospectiveIncidentJSONRequestBody = StatusPagesCreateStatusPageRetrospectiveIncidentPayloadV2
+
+// StatusPagesV2SetStatusPageStructureJSONRequestBody defines body for StatusPagesV2SetStatusPageStructure for application/json ContentType.
+type StatusPagesV2SetStatusPageStructureJSONRequestBody = StatusPagesSetStatusPageStructurePayloadV2
 
 // TelemetryV2UpdateDataSourceJSONRequestBody defines body for TelemetryV2UpdateDataSource for application/json ContentType.
 type TelemetryV2UpdateDataSourceJSONRequestBody = TelemetryUpdateDataSourcePayloadV2
@@ -37891,10 +38098,36 @@ type ClientInterface interface {
 	//
 	// Show the structure of a status page.
 	//
-	// This endpoint requires a valid API key but no specific scopes. Returns the components and component groups configured on a status page. Use this to find component IDs when specifying affected components for incidents or maintenance windows.
+	// This endpoint requires a valid API key but no specific scopes. Returns the components and component groups configured on a status page, with their display settings, and how the page shows uptime. Use this to find component IDs when specifying affected components for incidents or maintenance windows.
 	//
 	// Corresponds with GET /v2/status_page_structures/{status_page_id} (the `StatusPagesV2ShowStatusPageStructure` operationId).
 	StatusPagesV2ShowStatusPageStructure(ctx context.Context, statusPageId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// StatusPagesV2SetStatusPageStructureWithBody SetStatusPageStructure Status Pages V2
+	//
+	// Replace the structure of a standalone status page: which components it shows, in what order, and how they are grouped.
+	//
+	// Components must already exist; create them with the status page components endpoints. A group keeps its ID when the payload names one, so links to it stay valid; a group without an ID is created new. Display settings on a component or group are optional: omitted, a component or group that was already placed keeps its settings, and a first placement gets the dashboard's defaults.
+	//
+	// Requires the "Configure status pages" permission. Parent and customer pages build their structure from the catalog, so it cannot be set here.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PUT /v2/status_page_structures/{status_page_id} (the `StatusPagesV2SetStatusPageStructure` operationId).
+	StatusPagesV2SetStatusPageStructureWithBody(ctx context.Context, statusPageId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// StatusPagesV2SetStatusPageStructure SetStatusPageStructure Status Pages V2
+	//
+	// Replace the structure of a standalone status page: which components it shows, in what order, and how they are grouped.
+	//
+	// Components must already exist; create them with the status page components endpoints. A group keeps its ID when the payload names one, so links to it stay valid; a group without an ID is created new. Display settings on a component or group are optional: omitted, a component or group that was already placed keeps its settings, and a first placement gets the dashboard's defaults.
+	//
+	// Requires the "Configure status pages" permission. Parent and customer pages build their structure from the catalog, so it cannot be set here.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PUT /v2/status_page_structures/{status_page_id} (the `StatusPagesV2SetStatusPageStructure` operationId).
+	StatusPagesV2SetStatusPageStructure(ctx context.Context, statusPageId string, body StatusPagesV2SetStatusPageStructureJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// StatusPagesV2ListStatusPages ListStatusPages Status Pages V2
 	//
@@ -47764,11 +47997,57 @@ func (c *Client) StatusPagesV2CreateStatusPageRetrospectiveIncident(ctx context.
 //
 // Show the structure of a status page.
 //
-// This endpoint requires a valid API key but no specific scopes. Returns the components and component groups configured on a status page. Use this to find component IDs when specifying affected components for incidents or maintenance windows.
+// This endpoint requires a valid API key but no specific scopes. Returns the components and component groups configured on a status page, with their display settings, and how the page shows uptime. Use this to find component IDs when specifying affected components for incidents or maintenance windows.
 //
 // Corresponds with GET /v2/status_page_structures/{status_page_id} (the `StatusPagesV2ShowStatusPageStructure` operationId).
 func (c *Client) StatusPagesV2ShowStatusPageStructure(ctx context.Context, statusPageId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewStatusPagesV2ShowStatusPageStructureRequest(c.Server, statusPageId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// StatusPagesV2SetStatusPageStructureWithBody SetStatusPageStructure Status Pages V2
+//
+// Replace the structure of a standalone status page: which components it shows, in what order, and how they are grouped.
+//
+// Components must already exist; create them with the status page components endpoints. A group keeps its ID when the payload names one, so links to it stay valid; a group without an ID is created new. Display settings on a component or group are optional: omitted, a component or group that was already placed keeps its settings, and a first placement gets the dashboard's defaults.
+//
+// Requires the "Configure status pages" permission. Parent and customer pages build their structure from the catalog, so it cannot be set here.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PUT /v2/status_page_structures/{status_page_id} (the `StatusPagesV2SetStatusPageStructure` operationId).
+func (c *Client) StatusPagesV2SetStatusPageStructureWithBody(ctx context.Context, statusPageId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewStatusPagesV2SetStatusPageStructureRequestWithBody(c.Server, statusPageId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// StatusPagesV2SetStatusPageStructure SetStatusPageStructure Status Pages V2
+//
+// Replace the structure of a standalone status page: which components it shows, in what order, and how they are grouped.
+//
+// Components must already exist; create them with the status page components endpoints. A group keeps its ID when the payload names one, so links to it stay valid; a group without an ID is created new. Display settings on a component or group are optional: omitted, a component or group that was already placed keeps its settings, and a first placement gets the dashboard's defaults.
+//
+// Requires the "Configure status pages" permission. Parent and customer pages build their structure from the catalog, so it cannot be set here.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PUT /v2/status_page_structures/{status_page_id} (the `StatusPagesV2SetStatusPageStructure` operationId).
+func (c *Client) StatusPagesV2SetStatusPageStructure(ctx context.Context, statusPageId string, body StatusPagesV2SetStatusPageStructureJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewStatusPagesV2SetStatusPageStructureRequest(c.Server, statusPageId, body)
 	if err != nil {
 		return nil, err
 	}
@@ -63340,6 +63619,53 @@ func NewStatusPagesV2ShowStatusPageStructureRequest(server string, statusPageId 
 	return req, nil
 }
 
+// NewStatusPagesV2SetStatusPageStructureRequest calls the generic StatusPagesV2SetStatusPageStructure builder with application/json body
+func NewStatusPagesV2SetStatusPageStructureRequest(server string, statusPageId string, body StatusPagesV2SetStatusPageStructureJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewStatusPagesV2SetStatusPageStructureRequestWithBody(server, statusPageId, "application/json", bodyReader)
+}
+
+// NewStatusPagesV2SetStatusPageStructureRequestWithBody constructs an http.Request for the StatusPagesV2SetStatusPageStructure method, with any body, and a specified content type
+func NewStatusPagesV2SetStatusPageStructureRequestWithBody(server string, statusPageId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "status_page_id", statusPageId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/status_page_structures/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPut, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewStatusPagesV2ListStatusPagesRequest constructs an http.Request for the StatusPagesV2ListStatusPages method
 func NewStatusPagesV2ListStatusPagesRequest(server string, params *StatusPagesV2ListStatusPagesParams) (*http.Request, error) {
 	var err error
@@ -72425,12 +72751,38 @@ type ClientWithResponsesInterface interface {
 	//
 	// Show the structure of a status page.
 	//
-	// This endpoint requires a valid API key but no specific scopes. Returns the components and component groups configured on a status page. Use this to find component IDs when specifying affected components for incidents or maintenance windows.
+	// This endpoint requires a valid API key but no specific scopes. Returns the components and component groups configured on a status page, with their display settings, and how the page shows uptime. Use this to find component IDs when specifying affected components for incidents or maintenance windows.
 	//
 	// Returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with GET /v2/status_page_structures/{status_page_id} (the `StatusPagesV2ShowStatusPageStructure` operationId).
 	StatusPagesV2ShowStatusPageStructureWithResponse(ctx context.Context, statusPageId string, reqEditors ...RequestEditorFn) (*StatusPagesV2ShowStatusPageStructureResponse, error)
+
+	// StatusPagesV2SetStatusPageStructureWithBodyWithResponse SetStatusPageStructure Status Pages V2
+	//
+	// Replace the structure of a standalone status page: which components it shows, in what order, and how they are grouped.
+	//
+	// Components must already exist; create them with the status page components endpoints. A group keeps its ID when the payload names one, so links to it stay valid; a group without an ID is created new. Display settings on a component or group are optional: omitted, a component or group that was already placed keeps its settings, and a first placement gets the dashboard's defaults.
+	//
+	// Requires the "Configure status pages" permission. Parent and customer pages build their structure from the catalog, so it cannot be set here.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v2/status_page_structures/{status_page_id} (the `StatusPagesV2SetStatusPageStructure` operationId).
+	StatusPagesV2SetStatusPageStructureWithBodyWithResponse(ctx context.Context, statusPageId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*StatusPagesV2SetStatusPageStructureResponse, error)
+
+	// StatusPagesV2SetStatusPageStructureWithResponse SetStatusPageStructure Status Pages V2
+	//
+	// Replace the structure of a standalone status page: which components it shows, in what order, and how they are grouped.
+	//
+	// Components must already exist; create them with the status page components endpoints. A group keeps its ID when the payload names one, so links to it stay valid; a group without an ID is created new. Display settings on a component or group are optional: omitted, a component or group that was already placed keeps its settings, and a first placement gets the dashboard's defaults.
+	//
+	// Requires the "Configure status pages" permission. Parent and customer pages build their structure from the catalog, so it cannot be set here.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v2/status_page_structures/{status_page_id} (the `StatusPagesV2SetStatusPageStructure` operationId).
+	StatusPagesV2SetStatusPageStructureWithResponse(ctx context.Context, statusPageId string, body StatusPagesV2SetStatusPageStructureJSONRequestBody, reqEditors ...RequestEditorFn) (*StatusPagesV2SetStatusPageStructureResponse, error)
 
 	// StatusPagesV2ListStatusPagesWithResponse ListStatusPages Status Pages V2
 	//
@@ -110586,6 +110938,138 @@ func (r StatusPagesV2ShowStatusPageStructureResponse) ContentType() string {
 	return ""
 }
 
+type StatusPagesV2SetStatusPageStructureResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *StatusPagesSetStatusPageStructureResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r StatusPagesV2SetStatusPageStructureResponse) GetJSON200() *StatusPagesSetStatusPageStructureResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r StatusPagesV2SetStatusPageStructureResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r StatusPagesV2SetStatusPageStructureResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r StatusPagesV2SetStatusPageStructureResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r StatusPagesV2SetStatusPageStructureResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r StatusPagesV2SetStatusPageStructureResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r StatusPagesV2SetStatusPageStructureResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r StatusPagesV2SetStatusPageStructureResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r StatusPagesV2SetStatusPageStructureResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r StatusPagesV2SetStatusPageStructureResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r StatusPagesV2SetStatusPageStructureResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r StatusPagesV2SetStatusPageStructureResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r StatusPagesV2SetStatusPageStructureResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r StatusPagesV2SetStatusPageStructureResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r StatusPagesV2SetStatusPageStructureResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r StatusPagesV2SetStatusPageStructureResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r StatusPagesV2SetStatusPageStructureResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r StatusPagesV2SetStatusPageStructureResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
 type StatusPagesV2ListStatusPagesResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -129301,7 +129785,7 @@ func (c *ClientWithResponses) StatusPagesV2CreateStatusPageRetrospectiveIncident
 //
 // Show the structure of a status page.
 //
-// This endpoint requires a valid API key but no specific scopes. Returns the components and component groups configured on a status page. Use this to find component IDs when specifying affected components for incidents or maintenance windows.
+// This endpoint requires a valid API key but no specific scopes. Returns the components and component groups configured on a status page, with their display settings, and how the page shows uptime. Use this to find component IDs when specifying affected components for incidents or maintenance windows.
 //
 // Returns a wrapper object for the known response body format(s).
 //
@@ -129312,6 +129796,44 @@ func (c *ClientWithResponses) StatusPagesV2ShowStatusPageStructureWithResponse(c
 		return nil, err
 	}
 	return ParseStatusPagesV2ShowStatusPageStructureResponse(rsp)
+}
+
+// StatusPagesV2SetStatusPageStructureWithBodyWithResponse SetStatusPageStructure Status Pages V2
+//
+// Replace the structure of a standalone status page: which components it shows, in what order, and how they are grouped.
+//
+// Components must already exist; create them with the status page components endpoints. A group keeps its ID when the payload names one, so links to it stay valid; a group without an ID is created new. Display settings on a component or group are optional: omitted, a component or group that was already placed keeps its settings, and a first placement gets the dashboard's defaults.
+//
+// Requires the "Configure status pages" permission. Parent and customer pages build their structure from the catalog, so it cannot be set here.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v2/status_page_structures/{status_page_id} (the `StatusPagesV2SetStatusPageStructure` operationId).
+func (c *ClientWithResponses) StatusPagesV2SetStatusPageStructureWithBodyWithResponse(ctx context.Context, statusPageId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*StatusPagesV2SetStatusPageStructureResponse, error) {
+	rsp, err := c.StatusPagesV2SetStatusPageStructureWithBody(ctx, statusPageId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseStatusPagesV2SetStatusPageStructureResponse(rsp)
+}
+
+// StatusPagesV2SetStatusPageStructureWithResponse SetStatusPageStructure Status Pages V2
+//
+// Replace the structure of a standalone status page: which components it shows, in what order, and how they are grouped.
+//
+// Components must already exist; create them with the status page components endpoints. A group keeps its ID when the payload names one, so links to it stay valid; a group without an ID is created new. Display settings on a component or group are optional: omitted, a component or group that was already placed keeps its settings, and a first placement gets the dashboard's defaults.
+//
+// Requires the "Configure status pages" permission. Parent and customer pages build their structure from the catalog, so it cannot be set here.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v2/status_page_structures/{status_page_id} (the `StatusPagesV2SetStatusPageStructure` operationId).
+func (c *ClientWithResponses) StatusPagesV2SetStatusPageStructureWithResponse(ctx context.Context, statusPageId string, body StatusPagesV2SetStatusPageStructureJSONRequestBody, reqEditors ...RequestEditorFn) (*StatusPagesV2SetStatusPageStructureResponse, error) {
+	rsp, err := c.StatusPagesV2SetStatusPageStructure(ctx, statusPageId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseStatusPagesV2SetStatusPageStructureResponse(rsp)
 }
 
 // StatusPagesV2ListStatusPagesWithResponse ListStatusPages Status Pages V2
@@ -164054,6 +164576,123 @@ func ParseStatusPagesV2ShowStatusPageStructureResponse(rsp *http.Response) (*Sta
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest StatusPagesShowStatusPageStructureResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseStatusPagesV2SetStatusPageStructureResponse parses an HTTP response from a StatusPagesV2SetStatusPageStructureWithResponse call
+func ParseStatusPagesV2SetStatusPageStructureResponse(rsp *http.Response) (*StatusPagesV2SetStatusPageStructureResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &StatusPagesV2SetStatusPageStructureResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest StatusPagesSetStatusPageStructureResultV2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
