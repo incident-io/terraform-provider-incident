@@ -92,6 +92,10 @@ For example, a Slack channel ID or a Team catalog type. Set these up using these
 ```
 export TF_ACC_CHANNEL_ID=C07U7JMC29J
 export TF_TEAM_TYPE_NAME=Team
+# A standalone status page the structure test can take over. It puts the page's own
+# components back when it is done, but pick one nothing else depends on. CI gives each
+# matrix leg its own page: see .github/workflows/test.yml.
+export TF_ACC_STATUS_PAGE_ID=01M48NHQQ881GJN79WWXHX7Q9K
 ```
 
 ## Running the provider locally

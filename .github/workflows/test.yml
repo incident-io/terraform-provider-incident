@@ -91,17 +91,25 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          # Each leg also gets a standalone status page of its own in the test
+          # workspace, since a page has exactly one structure and the legs run at
+          # the same time. The structure acceptance test replaces it and puts the
+          # page's own components back when it is done.
+          #
           # The oldest Terraform we support. HashiCorp patch only the latest two
           # minors, so this tracks the oldest that is not end-of-life: bump it
           # when we're happy to drop the CLI below.
           - cli: terraform
             version: '1.14.*'
+            status_page_id: 01M48NHQQ881GJN79WWXHX7Q9K # number-01
           # The latest Terraform, so we find out about breakage early.
           - cli: terraform
             version: '1.15.*'
+            status_page_id: 01M48NS65W14P288V7P3RJBS53 # number-02
           # OpenTofu, tested directly rather than assumed compatible.
           - cli: opentofu
             version: '1.12.5'
+            status_page_id: 01M48NSHSEFWZ92QZTGQHG6Q14 # number-03
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: actions/setup-go@v7.0.0
@@ -129,5 +137,6 @@ jobs:
       - run: go mod download
       - env:
           INCIDENT_API_KEY: ${{ secrets.INCIDENT_API_KEY }}
+          TF_ACC_STATUS_PAGE_ID: ${{ matrix.status_page_id }}
         run: make testacc
         timeout-minutes: 20
