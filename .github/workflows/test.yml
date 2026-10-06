@@ -96,6 +96,11 @@ jobs:
           # the same time. The structure acceptance test replaces it and puts the
           # page's own components back when it is done.
           #
+          # The incident form acceptance tests want the same: an incident type per
+          # leg with no customised forms, named in incident_type_name. A type has one
+          # form of each kind, so legs sharing one would collide. They skip until a
+          # leg names one.
+          #
           # The oldest Terraform we support. HashiCorp patch only the latest two
           # minors, so this tracks the oldest that is not end-of-life: bump it
           # when we're happy to drop the CLI below.
@@ -138,5 +143,6 @@ jobs:
       - env:
           INCIDENT_API_KEY: ${{ secrets.INCIDENT_API_KEY }}
           TF_ACC_STATUS_PAGE_ID: ${{ matrix.status_page_id }}
+          TF_ACC_INCIDENT_TYPE_NAME: ${{ matrix.incident_type_name }}
         run: make testacc
         timeout-minutes: 20

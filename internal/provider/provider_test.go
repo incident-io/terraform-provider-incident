@@ -74,6 +74,33 @@ func testRunTemplate(tmplName, source string, args any) string {
 	return out
 }
 
+// testProviderRequirement names the provider under test the way the harness does, from
+// TF_ACC_PROVIDER_HOST and TF_ACC_PROVIDER_NAMESPACE. A test whose first step imports with
+// ImportStatePersist runs in the test case's working directory with no init of its own, so
+// its config has to name the provider the lock file there already records. Left
+// unqualified, the name resolves to the hashicorp namespace, and OpenTofu refuses the
+// mismatch where Terraform lets it pass.
+func testProviderRequirement() string {
+	host := os.Getenv("TF_ACC_PROVIDER_HOST")
+	if host == "" {
+		host = "registry.terraform.io"
+	}
+	namespace := os.Getenv("TF_ACC_PROVIDER_NAMESPACE")
+	if namespace == "" {
+		namespace = "hashicorp"
+	}
+
+	return fmt.Sprintf(`
+terraform {
+  required_providers {
+    incident = {
+      source = %q
+    }
+  }
+}
+`, strings.TrimSuffix(host, "/")+"/"+strings.TrimSuffix(namespace, "/")+"/incident")
+}
+
 var testAccProtoV6ProviderFactories = map[string]func() (tfprotov6.ProviderServer, error){
 	"incident": providerserver.NewProtocol6WithError(New("test")()),
 }
