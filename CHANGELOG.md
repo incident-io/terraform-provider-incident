@@ -1,6 +1,6 @@
 ## Unreleased
 
-- Add `auto_run_mode` to the `incident_workflow` resource and data source. Set it to `confirm_before_running` to make a workflow ask for confirmation in the incident channel before it runs. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/workflow). (#PR)
+- Add `auto_run_mode` to the `incident_workflow` resource and data source. Set it to `confirm_before_running` to make a workflow ask for confirmation in the incident channel before it runs. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/workflow). (#650)
 
 ## v7.6.0
 
