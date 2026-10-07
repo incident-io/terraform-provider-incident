@@ -95,6 +95,9 @@ resource "incident_workflow" "invite_security_responders" {
     "incident",
   ]
   private_incident_scope = "none"
+  # Ask in the incident channel before inviting anyone, so a responder can skip
+  # the invite for an incident that isn't really a security one.
+  auto_run_mode          = "confirm_before_running"
   continue_on_step_error = false
   runs_on_incidents      = "newly_created_and_active"
   runs_on_incident_modes = [

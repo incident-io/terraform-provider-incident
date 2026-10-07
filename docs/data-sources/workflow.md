@@ -34,12 +34,13 @@ output "autoassign_incident_lead_steps" {
 
 ### Read-Only
 
+- `auto_run_mode` (String) Whether the workflow is configured to run immediately or ask for confirmation in the incident channel. Possible values are: `run_automatically`, `confirm_before_running`.
 - `condition_groups` (Attributes List) The condition groups to apply in this filter. Only one group needs to be satisfied for the filter to pass. (see [below for nested schema](#nestedatt--condition_groups))
 - `continue_on_step_error` (Boolean) Whether to continue executing the workflow if a step fails
 - `delay` (Attributes) Configuration controlling workflow delay behaviour (see [below for nested schema](#nestedatt--delay))
 - `expressions` (Attributes Set) Expressions that make variables available in the scope (see [below for nested schema](#nestedatt--expressions))
 - `folder` (String) Folder to display the workflow in
-- `form_fields` (Attributes List) User-configured form fields available in the workflow scope (manual triggers only)
+- `form_fields` (Attributes List) User-configured form fields available in the workflow scope. Allowed on manually-triggered workflows, and on workflows with an `auto_run_mode` of `confirm_before_running`.
 
 The order of the list is the order the fields appear in the form. (see [below for nested schema](#nestedatt--form_fields))
 - `include_private_escalations` (Boolean) Whether to include private escalations

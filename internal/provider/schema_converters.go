@@ -31,6 +31,7 @@ func (r *IncidentWorkflowResource) buildModel(workflow client.WorkflowV2, prior 
 		ContinueOnStepError:       types.BoolValue(workflow.ContinueOnStepError),
 		RunsOnIncidents:           types.StringValue(string(workflow.RunsOnIncidents)),
 		State:                     types.StringValue(string(workflow.State)),
+		AutoRunMode:               types.StringValue(string(workflow.AutoRunMode)),
 		FormFields:                buildFormFields(workflow.FormFields),
 	}
 	if workflow.Folder != nil {
