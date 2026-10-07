@@ -203,7 +203,7 @@ We'd generally recommend building workflows in our [web dashboard](https://app.i
 				Required:            true,
 			},
 			"auto_run_mode": schema.StringAttribute{
-				MarkdownDescription: DescribeEnumValues(autoRunModeDescription, "WorkflowV2", "auto_run_mode"),
+				MarkdownDescription: EnumValuesDescription("WorkflowsCreateWorkflowPayloadV2", "auto_run_mode"),
 				Optional:            true,
 				Computed:            true,
 				Validators: []validator.String{
@@ -261,10 +261,6 @@ We'd generally recommend building workflows in our [web dashboard](https://app.i
 		},
 	}
 }
-
-const autoRunModeDescription = "Whether the workflow runs as soon as it's triggered, or first asks for confirmation in the incident channel (\"Ask first\" in the dashboard). " +
-	"A manually triggered workflow can't ask first. " +
-	"If you leave it unset, a new workflow runs automatically and an existing one keeps its current mode."
 
 func (r *IncidentWorkflowResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var data *IncidentWorkflowResourceModel
