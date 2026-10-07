@@ -1451,3 +1451,89 @@ resource "incident_workflow" "example" {
 }
 `, struct{ Email string }{Email: email})
 }
+
+// TestAccIncidentWorkflowResourceAutoRunMode checks that auto_run_mode round-trips, and
+// that removing it from config keeps the workflow's current mode rather than resetting
+// it: the provider doesn't send it, and the API keeps the previous version's mode.
+func TestAccIncidentWorkflowResourceAutoRunMode(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Unset on create: the workflow runs automatically.
+			{
+				Config: testAccIncidentWorkflowConfigAutoRunMode("Auto run mode workflow", ""),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_workflow.example", "auto_run_mode", "run_automatically"),
+				),
+			},
+			{
+				Config: testAccIncidentWorkflowConfigAutoRunMode("Auto run mode workflow", `auto_run_mode = "confirm_before_running"`),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_workflow.example", "auto_run_mode", "confirm_before_running"),
+				),
+			},
+			{
+				ResourceName:      "incident_workflow.example",
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+			// Removing the attribute keeps asking first. The name changes too, so this
+			// is a real update rather than an empty plan.
+			{
+				Config: testAccIncidentWorkflowConfigAutoRunMode("Auto run mode workflow (renamed)", ""),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_workflow.example", "auto_run_mode", "confirm_before_running"),
+				),
+			},
+			{
+				Config: testAccIncidentWorkflowConfigAutoRunMode("Auto run mode workflow", `auto_run_mode = "run_automatically"`),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_workflow.example", "auto_run_mode", "run_automatically"),
+				),
+			},
+		},
+	})
+}
+
+// testAccIncidentWorkflowConfigAutoRunMode renders an incident-triggered workflow (a
+// manual one can't ask first) with the given auto_run_mode line spliced in (empty
+// string omits it).
+func testAccIncidentWorkflowConfigAutoRunMode(name, autoRunMode string) string {
+	return testRunTemplate("incident_workflow_auto_run_mode", `
+resource "incident_workflow" "example" {
+  name    = {{ stableSuffix .Name | quote }}
+  trigger = "incident.updated"
+  condition_groups = [
+    {
+      conditions = [
+        {
+          subject        = "incident.status.category"
+          operation      = "one_of"
+          param_bindings = [{ array_value = [{ literal = "open" }] }]
+        }
+      ]
+    }
+  ]
+  steps = [
+    {
+      id   = "01HXVEA7Y0VWQBJB4F2X8WNRW6"
+      name = "incident.create_follow_ups"
+      param_bindings = [
+        { value = { reference = "incident" } },
+        { array_value = [{ literal = "Write postmortem" }] },
+        {}
+      ]
+    }
+  ]
+  expressions            = []
+  once_for               = ["incident"]
+  {{ .AutoRunMode }}
+  private_incident_scope = "none"
+  continue_on_step_error = false
+  runs_on_incidents      = "newly_created"
+  runs_on_incident_modes = ["standard"]
+  state                  = "draft"
+}
+`, struct{ Name, AutoRunMode string }{Name: name, AutoRunMode: autoRunMode})
+}

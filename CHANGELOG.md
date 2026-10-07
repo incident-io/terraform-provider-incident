@@ -1,3 +1,7 @@
+## Unreleased
+
+- Add `auto_run_mode` to the `incident_workflow` resource and data source. Set it to `confirm_before_running` to make a workflow ask for confirmation in the incident channel before it runs. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/workflow). (#PR)
+
 ## v7.6.0
 
 - Add the `incident_incident_form` resource, which manages an incident form as one resource: its elements in display order, with their conditions and defaults, and the expressions they reference. The organisation's default forms can't be created or deleted, so import one to manage it. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/incident_incident_form). (#637)

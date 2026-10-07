@@ -5,12 +5,14 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/samber/lo"
@@ -57,12 +59,13 @@ type IncidentWorkflowResourceModel struct {
 	RunsOnIncidents           types.String                         `tfsdk:"runs_on_incidents"`
 	RunsOnIncidentModes       types.Set                            `tfsdk:"runs_on_incident_modes"`
 	State                     types.String                         `tfsdk:"state"`
+	AutoRunMode               types.String                         `tfsdk:"auto_run_mode"`
 	FormFields                []IncidentWorkflowFormField          `tfsdk:"form_fields"`
 }
 
 // IncidentWorkflowFormField represents a form field presented to the user when
-// a workflow with a manual trigger is triggered by hand. The value they provide
-// is made available in the workflow scope under the field's key.
+// they run a manual workflow, or confirm one that asks first. The value they
+// provide is made available in the workflow scope under the field's key.
 type IncidentWorkflowFormField struct {
 	ID          types.String `tfsdk:"id"`
 	Key         types.String `tfsdk:"key"`
@@ -199,6 +202,19 @@ We'd generally recommend building workflows in our [web dashboard](https://app.i
 				MarkdownDescription: EnumValuesDescription("WorkflowV2", "state"),
 				Required:            true,
 			},
+			"auto_run_mode": schema.StringAttribute{
+				MarkdownDescription: DescribeEnumValues(autoRunModeDescription, "WorkflowV2", "auto_run_mode"),
+				Optional:            true,
+				Computed:            true,
+				Validators: []validator.String{
+					stringvalidator.OneOf(enumValues("WorkflowV2", "auto_run_mode")...),
+				},
+				PlanModifiers: []planmodifier.String{
+					// Leaving it out of config keeps the workflow's current mode,
+					// so the prior state is what the API will report.
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
 			"form_fields": schema.ListNestedAttribute{
 				MarkdownDescription: apischema.Docstring("WorkflowV2", "form_fields") +
 					"\n\nThe order of the list is the order the fields appear in the form. " +
@@ -246,6 +262,10 @@ We'd generally recommend building workflows in our [web dashboard](https://app.i
 	}
 }
 
+const autoRunModeDescription = "Whether the workflow runs as soon as it's triggered, or first asks for confirmation in the incident channel (\"Ask first\" in the dashboard). " +
+	"A manually triggered workflow can't ask first. " +
+	"If you leave it unset, a new workflow runs automatically and an existing one keeps its current mode."
+
 func (r *IncidentWorkflowResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var data *IncidentWorkflowResourceModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
@@ -283,9 +303,10 @@ func (r *IncidentWorkflowResource) Create(ctx context.Context, req resource.Crea
 		Annotations:         workflowAnnotations(data.UnlockInDashboard, r.terraformVersion),
 	}
 
-	// Forward whichever privacy fields the user set in config (ValidateConfig
-	// already ensures they agree). Read from config, not the plan: both are
-	// Computed, so the plan can carry a value from state the user never set.
+	// Forward whichever privacy fields and auto_run_mode the user set in config
+	// (ValidateConfig already ensures the privacy fields agree). Read from config,
+	// not the plan: they're Computed, so the plan can carry a value from state the
+	// user never set.
 	var cfgScope types.String
 	var cfgBool types.Bool
 	resp.Diagnostics.Append(req.Config.GetAttribute(ctx, path.Root("private_incident_scope"), &cfgScope)...)
@@ -295,6 +316,11 @@ func (r *IncidentWorkflowResource) Create(ctx context.Context, req resource.Crea
 	}
 	if !cfgBool.IsNull() {
 		payload.IncludePrivateIncidents = lo.ToPtr(cfgBool.ValueBool())
+	}
+	var cfgAutoRunMode types.String
+	resp.Diagnostics.Append(req.Config.GetAttribute(ctx, path.Root("auto_run_mode"), &cfgAutoRunMode)...)
+	if !cfgAutoRunMode.IsNull() && !cfgAutoRunMode.IsUnknown() {
+		payload.AutoRunMode = lo.ToPtr(client.WorkflowsCreateWorkflowPayloadV2AutoRunMode(cfgAutoRunMode.ValueString()))
 	}
 
 	if !data.IncludePrivateEscalations.IsNull() {
@@ -370,9 +396,10 @@ func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.Upda
 		SkipStepUpgrades:    lo.ToPtr(true),
 	}
 
-	// Forward whichever privacy fields the user set in config (ValidateConfig
-	// already ensures they agree). Read from config, not the plan: both are
-	// Computed, so the plan can carry a value from state the user never set.
+	// Forward whichever privacy fields and auto_run_mode the user set in config
+	// (ValidateConfig already ensures the privacy fields agree). Read from config,
+	// not the plan: they're Computed, so the plan can carry a value from state the
+	// user never set.
 	var cfgScope types.String
 	var cfgBool types.Bool
 	resp.Diagnostics.Append(req.Config.GetAttribute(ctx, path.Root("private_incident_scope"), &cfgScope)...)
@@ -382,6 +409,11 @@ func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.Upda
 	}
 	if !cfgBool.IsNull() {
 		payload.IncludePrivateIncidents = lo.ToPtr(cfgBool.ValueBool())
+	}
+	var cfgAutoRunMode types.String
+	resp.Diagnostics.Append(req.Config.GetAttribute(ctx, path.Root("auto_run_mode"), &cfgAutoRunMode)...)
+	if !cfgAutoRunMode.IsNull() && !cfgAutoRunMode.IsUnknown() {
+		payload.AutoRunMode = lo.ToPtr(client.WorkflowsUpdateWorkflowPayloadV2AutoRunMode(cfgAutoRunMode.ValueString()))
 	}
 
 	if !data.IncludePrivateEscalations.IsNull() {

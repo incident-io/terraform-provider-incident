@@ -389,6 +389,9 @@ resource "incident_workflow" "invite_security_responders" {
     "incident",
   ]
   private_incident_scope = "none"
+  # Ask in the incident channel before inviting anyone, so a responder can skip
+  # the invite for an incident that isn't really a security one.
+  auto_run_mode          = "confirm_before_running"
   continue_on_step_error = false
   runs_on_incidents      = "newly_created_and_active"
   runs_on_incident_modes = [
@@ -637,9 +640,10 @@ resource "incident_workflow" "subscribe_csms" {
 
 ### Optional
 
+- `auto_run_mode` (String) Whether the workflow runs as soon as it's triggered, or first asks for confirmation in the incident channel ("Ask first" in the dashboard). A manually triggered workflow can't ask first. If you leave it unset, a new workflow runs automatically and an existing one keeps its current mode. Possible values are: `run_automatically`, `confirm_before_running`.
 - `delay` (Attributes) Configuration controlling workflow delay behaviour (see [below for nested schema](#nestedatt--delay))
 - `folder` (String) Folder to display the workflow in
-- `form_fields` (Attributes List) User-configured form fields available in the workflow scope (manual triggers only)
+- `form_fields` (Attributes List) User-configured form fields available in the workflow scope. Allowed on manually-triggered workflows, and on workflows with an `auto_run_mode` of `confirm_before_running`.
 
 The order of the list is the order the fields appear in the form. Either `form_fields = []` or omitting the attribute clears any existing fields. (see [below for nested schema](#nestedatt--form_fields))
 - `include_private_escalations` (Boolean) Whether to include private escalations
