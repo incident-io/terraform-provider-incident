@@ -32,6 +32,7 @@ func (r *IncidentWorkflowResource) buildModel(workflow client.WorkflowV2, prior 
 		RunsOnIncidents:           types.StringValue(string(workflow.RunsOnIncidents)),
 		State:                     types.StringValue(string(workflow.State)),
 		AutoRunMode:               types.StringValue(string(workflow.AutoRunMode)),
+		AgentScopes:               buildAgentScopes(workflow.AgentScopes),
 		FormFields:                buildFormFields(workflow.FormFields),
 	}
 	if workflow.Folder != nil {
@@ -121,6 +122,19 @@ func buildOwningTeamIDs(teamIDs *[]string) types.Set {
 	elements := make([]attr.Value, len(*teamIDs))
 	for i, teamID := range *teamIDs {
 		elements[i] = types.StringValue(teamID)
+	}
+
+	return types.SetValueMust(types.StringType, elements)
+}
+
+func buildAgentScopes(scopes *[]string) types.Set {
+	if scopes == nil {
+		return types.SetNull(types.StringType)
+	}
+
+	elements := make([]attr.Value, len(*scopes))
+	for i, scope := range *scopes {
+		elements[i] = types.StringValue(scope)
 	}
 
 	return types.SetValueMust(types.StringType, elements)

@@ -60,6 +60,7 @@ type IncidentWorkflowResourceModel struct {
 	RunsOnIncidentModes       types.Set                            `tfsdk:"runs_on_incident_modes"`
 	State                     types.String                         `tfsdk:"state"`
 	AutoRunMode               types.String                         `tfsdk:"auto_run_mode"`
+	AgentScopes               types.Set                            `tfsdk:"agent_scopes"`
 	FormFields                []IncidentWorkflowFormField          `tfsdk:"form_fields"`
 }
 
@@ -215,6 +216,18 @@ We'd generally recommend building workflows in our [web dashboard](https://app.i
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
+			"agent_scopes": schema.SetAttribute{
+				MarkdownDescription: apischema.Docstring("WorkflowV2", "agent_scopes"),
+				ElementType:         types.StringType,
+				Optional:            true,
+				Computed:            true,
+				PlanModifiers: []planmodifier.Set{
+					// Leaving it out of config keeps the workflow's current scopes,
+					// so the prior state is what the API will report, including a
+					// null state when the API doesn't return the field.
+					useStateForUnknownIncludingNull{},
+				},
+			},
 			"form_fields": schema.ListNestedAttribute{
 				MarkdownDescription: apischema.Docstring("WorkflowV2", "form_fields") +
 					"\n\nThe order of the list is the order the fields appear in the form. " +
@@ -318,6 +331,11 @@ func (r *IncidentWorkflowResource) Create(ctx context.Context, req resource.Crea
 	if !cfgAutoRunMode.IsNull() && !cfgAutoRunMode.IsUnknown() {
 		payload.AutoRunMode = lo.ToPtr(client.WorkflowsCreateWorkflowPayloadV2AutoRunMode(cfgAutoRunMode.ValueString()))
 	}
+	var cfgAgentScopes types.Set
+	resp.Diagnostics.Append(req.Config.GetAttribute(ctx, path.Root("agent_scopes"), &cfgAgentScopes)...)
+	if !cfgAgentScopes.IsNull() && !cfgAgentScopes.IsUnknown() {
+		payload.AgentScopes = toStringSlice(cfgAgentScopes)
+	}
 
 	if !data.IncludePrivateEscalations.IsNull() {
 		payload.IncludePrivateEscalations = lo.ToPtr(data.IncludePrivateEscalations.ValueBool())
@@ -411,6 +429,11 @@ func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.Upda
 	if !cfgAutoRunMode.IsNull() && !cfgAutoRunMode.IsUnknown() {
 		payload.AutoRunMode = lo.ToPtr(client.WorkflowsUpdateWorkflowPayloadV2AutoRunMode(cfgAutoRunMode.ValueString()))
 	}
+	var cfgAgentScopes types.Set
+	resp.Diagnostics.Append(req.Config.GetAttribute(ctx, path.Root("agent_scopes"), &cfgAgentScopes)...)
+	if !cfgAgentScopes.IsNull() && !cfgAgentScopes.IsUnknown() {
+		payload.AgentScopes = toStringSlice(cfgAgentScopes)
+	}
 
 	if !data.IncludePrivateEscalations.IsNull() {
 		payload.IncludePrivateEscalations = lo.ToPtr(data.IncludePrivateEscalations.ValueBool())
@@ -480,6 +503,16 @@ func (r *IncidentWorkflowResource) Delete(ctx context.Context, req resource.Dele
 func (r *IncidentWorkflowResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	claimResourceOnImport(ctx, r.client, req.ID, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeWorkflow, r.terraformVersion, r.markImportedAsManaged)
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
+}
+
+func toStringSlice(set types.Set) *[]string {
+	values := []string{}
+	for _, elem := range set.Elements() {
+		if str, ok := elem.(types.String); ok {
+			values = append(values, str.ValueString())
+		}
+	}
+	return &values
 }
 
 func toOwningTeamIDs(set types.Set) *[]string {

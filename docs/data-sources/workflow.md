@@ -34,6 +34,7 @@ output "autoassign_incident_lead_steps" {
 
 ### Read-Only
 
+- `agent_scopes` (Set of String) Scope names granted to AI agents this workflow runs; applies to every agent step in the workflow
 - `auto_run_mode` (String) Whether the workflow is configured to run immediately or ask for confirmation in the incident channel. Possible values are: `run_automatically`, `confirm_before_running`.
 - `condition_groups` (Attributes List) The condition groups to apply in this filter. Only one group needs to be satisfied for the filter to pass. (see [below for nested schema](#nestedatt--condition_groups))
 - `continue_on_step_error` (Boolean) Whether to continue executing the workflow if a step fails

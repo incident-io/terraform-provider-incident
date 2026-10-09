@@ -54,6 +54,19 @@ func (m useStateForUnknownIncludingNull) PlanModifyBool(ctx context.Context, req
 	resp.PlanValue = req.StateValue
 }
 
+func (m useStateForUnknownIncludingNull) PlanModifySet(ctx context.Context, req planmodifier.SetRequest, resp *planmodifier.SetResponse) {
+	if !req.PlanValue.IsUnknown() {
+		return
+	}
+	if req.ConfigValue.IsUnknown() {
+		return
+	}
+	if req.State.Raw.IsNull() {
+		return
+	}
+	resp.PlanValue = req.StateValue
+}
+
 // useStateForUnknownIfSet copies the prior state value onto an unknown plan value, like the
 // built-in UseStateForUnknown, but only when state actually holds one.
 //

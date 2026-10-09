@@ -1537,3 +1537,88 @@ resource "incident_workflow" "example" {
 }
 `, struct{ Name, AutoRunMode string }{Name: name, AutoRunMode: autoRunMode})
 }
+
+// TestAccIncidentWorkflowResourceAgentScopes checks that agent_scopes round-trips, and
+// that removing it from config keeps the workflow's current scopes rather than resetting
+// them: the provider doesn't send it, and the API keeps the previous version's value.
+func TestAccIncidentWorkflowResourceAgentScopes(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Unset on create: the workflow's agents get the default scopes.
+			{
+				Config: testAccIncidentWorkflowConfigAgentScopes("Agent scopes workflow", ""),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet("incident_workflow.example", "agent_scopes.#"),
+				),
+			},
+			{
+				Config: testAccIncidentWorkflowConfigAgentScopes("Agent scopes workflow", `agent_scopes = ["incidents.view", "catalog_entries.view"]`),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_workflow.example", "agent_scopes.#", "2"),
+				),
+			},
+			{
+				ResourceName:      "incident_workflow.example",
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+			// Removing the attribute keeps the configured scopes. The name changes too,
+			// so this is a real update rather than an empty plan.
+			{
+				Config: testAccIncidentWorkflowConfigAgentScopes("Agent scopes workflow (renamed)", ""),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_workflow.example", "agent_scopes.#", "2"),
+				),
+			},
+			{
+				Config: testAccIncidentWorkflowConfigAgentScopes("Agent scopes workflow", `agent_scopes = ["incidents.view"]`),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_workflow.example", "agent_scopes.#", "1"),
+				),
+			},
+		},
+	})
+}
+
+// testAccIncidentWorkflowConfigAgentScopes renders a workflow with the given agent_scopes
+// line spliced in (empty string omits it).
+func testAccIncidentWorkflowConfigAgentScopes(name, agentScopes string) string {
+	return testRunTemplate("incident_workflow_agent_scopes", `
+resource "incident_workflow" "example" {
+  name    = {{ stableSuffix .Name | quote }}
+  trigger = "incident.updated"
+  condition_groups = [
+    {
+      conditions = [
+        {
+          subject        = "incident.status.category"
+          operation      = "one_of"
+          param_bindings = [{ array_value = [{ literal = "open" }] }]
+        }
+      ]
+    }
+  ]
+  steps = [
+    {
+      id   = "01HXVEA7Y0VWQBJB4F2X8WNRW6"
+      name = "incident.create_follow_ups"
+      param_bindings = [
+        { value = { reference = "incident" } },
+        { array_value = [{ literal = "Write postmortem" }] },
+        {}
+      ]
+    }
+  ]
+  expressions            = []
+  once_for               = ["incident"]
+  {{ .AgentScopes }}
+  private_incident_scope = "none"
+  continue_on_step_error = false
+  runs_on_incidents      = "newly_created"
+  runs_on_incident_modes = ["standard"]
+  state                  = "draft"
+}
+`, struct{ Name, AgentScopes string }{Name: name, AgentScopes: agentScopes})
+}

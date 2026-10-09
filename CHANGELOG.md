@@ -1,3 +1,7 @@
+## Unreleased
+
+- Add `agent_scopes` to the `incident_workflow` resource and data source: the scope names granted to AI agents this workflow runs, applying to every agent step in the workflow. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/workflow). (#652)
+
 ## v7.6.1
 
 - Add `auto_run_mode` to the `incident_workflow` resource and data source. Set it to `confirm_before_running` to make a workflow ask for confirmation in the incident channel before it runs. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/workflow). (#650)

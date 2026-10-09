@@ -640,6 +640,7 @@ resource "incident_workflow" "subscribe_csms" {
 
 ### Optional
 
+- `agent_scopes` (Set of String) Scope names granted to AI agents this workflow runs; applies to every agent step in the workflow
 - `auto_run_mode` (String) Whether the workflow runs immediately, or asks for confirmation in the incident channel first. Defaults to `run_automatically` on create. If omitted on update, the workflow keeps its current mode. Possible values are: `run_automatically`, `confirm_before_running`.
 - `delay` (Attributes) Configuration controlling workflow delay behaviour (see [below for nested schema](#nestedatt--delay))
 - `folder` (String) Folder to display the workflow in
