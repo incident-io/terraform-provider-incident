@@ -11,7 +11,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/setplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -224,8 +223,9 @@ We'd generally recommend building workflows in our [web dashboard](https://app.i
 				Computed:            true,
 				PlanModifiers: []planmodifier.Set{
 					// Leaving it out of config keeps the workflow's current scopes,
-					// so the prior state is what the API will report.
-					setplanmodifier.UseStateForUnknown(),
+					// so the prior state is what the API will report, including a
+					// null state when the API doesn't return the field.
+					useStateForUnknownIncludingNull{},
 				},
 			},
 			"form_fields": schema.ListNestedAttribute{
