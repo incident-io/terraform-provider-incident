@@ -96,6 +96,7 @@ func TestIncidentWorkflowDataSourceSchemaMatchesModel(t *testing.T) {
 		IncludePrivateIncidents:   true,
 		IncludePrivateEscalations: true,
 		PrivateIncidentScope:      client.WorkflowV2PrivateIncidentScope("owning_teams"),
+		AgentScopes:               &[]string{"incidents.view", "catalog_entries.view"},
 	}
 
 	model := (&IncidentWorkflowResource{}).buildModel(workflow, nil)

@@ -139,6 +139,11 @@ func (d *IncidentWorkflowDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: EnumValuesDescription("WorkflowV2", "auto_run_mode"),
 				Computed:            true,
 			},
+			"agent_scopes": schema.SetAttribute{
+				MarkdownDescription: apischema.Docstring("WorkflowV2", "agent_scopes"),
+				ElementType:         types.StringType,
+				Computed:            true,
+			},
 			"form_fields": schema.ListNestedAttribute{
 				MarkdownDescription: apischema.Docstring("WorkflowV2", "form_fields") +
 					"\n\nThe order of the list is the order the fields appear in the form.",
