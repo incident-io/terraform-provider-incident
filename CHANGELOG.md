@@ -1,6 +1,6 @@
 ## Unreleased
 
-- Add `agent_scopes` to the `incident_workflow` resource and data source: the scope names granted to AI agents this workflow runs, applying to every agent step in the workflow. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/workflow). (#PLACEHOLDER)
+- Add `agent_scopes` to the `incident_workflow` resource and data source: the scope names granted to AI agents this workflow runs, applying to every agent step in the workflow. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/workflow). (#652)
 
 ## v7.6.1
 
