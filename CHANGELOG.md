@@ -1,6 +1,6 @@
 ## Unreleased
 
-- Fix `incident_schedule_rotation` changing who is on call when an unrelated attribute (for example `name`) is edited after a phased rollout. Updates now leave `first_interval_starts_at` alone unless the config changes it. (#NNN)
+- Fix `incident_schedule_rotation` changing who is on call when an unrelated attribute (for example `name`) is edited after a phased rollout. Updates now leave `first_interval_starts_at` alone unless the config changes it. (#655)
 
 ## v7.6.1
 
