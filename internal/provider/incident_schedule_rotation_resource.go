@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -721,7 +722,9 @@ func (r *IncidentScheduleRotationResource) planEffectiveFrom(ctx context.Context
 		return
 	}
 
-	startsAt, diags := plan.FirstIntervalStartsAt.ValueRFC3339Time()
+	// Previewed with the same anchor Update sends, so the moment shown is the one the
+	// write lands on.
+	startsAt, diags := movedAnchor(plan, state)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -1080,7 +1083,7 @@ func (r *IncidentScheduleRotationResource) Update(ctx context.Context, req resou
 		return
 	}
 
-	startsAt, diags := plan.FirstIntervalStartsAt.ValueRFC3339Time()
+	startsAt, diags := movedAnchor(plan, state)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -1208,14 +1211,35 @@ func toWorkingIntervalsPayload(windows []IncidentScheduleRotationWorkingWindow) 
 	return &payload
 }
 
-func rotationUpdatePayload(data IncidentScheduleRotationModel, startsAt time.Time) client.ScheduleRotationUpdatePayloadV3 {
+// movedAnchor returns the anchor to send with a write, or nil when the config hasn't
+// changed it.
+//
+// Phasing in a change makes the API slide the anchor forward by whole cadences.
+// However, state keeps the configured anchor, which lands on the same handover. Sending
+// that anchor back on an unrelated edit (for example a rename) would undo the slide and
+// change who is on call, with nothing in the plan saying so. We omit it, and the API
+// keeps the current rotation.
+func movedAnchor(plan, state IncidentScheduleRotationModel) (*time.Time, diag.Diagnostics) {
+	if plan.FirstIntervalStartsAt.Equal(state.FirstIntervalStartsAt) {
+		return nil, nil
+	}
+
+	startsAt, diags := plan.FirstIntervalStartsAt.ValueRFC3339Time()
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	return &startsAt, diags
+}
+
+// rotationUpdatePayload builds the update body. A nil startsAt leaves the anchor out,
+// which the API takes as "keep handing over when it does today".
+func rotationUpdatePayload(data IncidentScheduleRotationModel, startsAt *time.Time) client.ScheduleRotationUpdatePayloadV3 {
 	payload := client.ScheduleRotationUpdatePayloadV3{
-		Name:      data.Name.ValueString(),
-		Users:     toUserReferences(data.Users),
-		Handovers: toHandoversPayload(data.Handovers),
-		// Sent even though the API keeps the current value when it's omitted, since
-		// the config is what this rotation should look like.
-		FirstIntervalStartsAt: &startsAt,
+		Name:                  data.Name.ValueString(),
+		Users:                 toUserReferences(data.Users),
+		Handovers:             toHandoversPayload(data.Handovers),
+		FirstIntervalStartsAt: startsAt,
 		ConcurrentShifts:      data.ConcurrentShifts.ValueInt64Pointer(),
 		WorkingIntervals:      toWorkingIntervalsPayload(data.WorkingIntervals),
 		Rank:                  data.Rank.ValueInt64Pointer(),
