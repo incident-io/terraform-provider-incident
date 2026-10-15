@@ -1,9 +1,12 @@
+## Unreleased
+
+- Fix `incident_catalog_entry` and `incident_catalog_entries` silently keeping an attribute's previous value when `value` was set to `""`, instead of clearing it, which caused "Provider produced inconsistent result after apply" errors. Set `value = ""` to clear an attribute; see the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/catalog_entry). (#656)
+
 ## v7.7.0
 
 - Add the `incident_alert_route` data source, which reads an alert route by `id` or `name`. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/data-sources/alert_route). (#645)
 - Add the `incident_escalation_path_template` data source, which reads an escalation path template by `id` or `name`. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/data-sources/escalation_path_template). (#646)
 - Add the `incident_maintenance_window` data source, which reads a maintenance window by `id` or `name`. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/data-sources/maintenance_window). (#647)
-
 ## v7.6.1
 
 - Add `auto_run_mode` to the `incident_workflow` resource and data source. Set it to `confirm_before_running` to make a workflow ask for confirmation in the incident channel before it runs. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/workflow). (#650)
