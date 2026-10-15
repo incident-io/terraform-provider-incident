@@ -18,11 +18,10 @@ require (
 	github.com/hashicorp/terraform-plugin-testing v1.16.0
 	github.com/oapi-codegen/oapi-codegen/v2 v2.8.0
 	github.com/oapi-codegen/runtime v1.7.0
-	github.com/oklog/ulid/v2 v2.1.2
 	github.com/pkg/errors v0.9.1
 	github.com/samber/lo v1.53.0
 	github.com/stretchr/testify v1.12.1
-	golang.org/x/sync v0.23.0
+	golang.org/x/sync v0.24.0
 )
 
 require (
