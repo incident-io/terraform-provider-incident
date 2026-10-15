@@ -109,6 +109,96 @@ func TestAccIncidentCatalogEntriesResource(t *testing.T) {
 	})
 }
 
+// TestAccIncidentCatalogEntriesResourceEmptyStringClearsAttribute is the regression test for
+// Pylon 52773 / PR-115: value = "" is documented as the way to clear a scalar attribute, but
+// the catalog API doesn't accept a literal empty-string write - it silently drops it and
+// keeps the previous value. Without the fix in buildPayloads/buildModel/reconcile, clearing
+// an attribute this way fails apply with "Provider produced inconsistent result after
+// apply". managed_attributes is deliberately left unset here, which exercises the fallback
+// that has to make update_attributes explicit for the whole batch once anything is cleared.
+func TestAccIncidentCatalogEntriesResourceEmptyStringClearsAttribute(t *testing.T) {
+	testCatalogID := uuid.NewString()
+
+	checkDescriptionCleared := func(s *terraform.State) error {
+		resources := s.RootModule().Resources
+
+		catalogTypeRes, ok := resources["incident_catalog_type.example"]
+		if !ok {
+			return fmt.Errorf("incident_catalog_type.example not found in state")
+		}
+		descriptionAttrRes, ok := resources["incident_catalog_type_attribute.example_description"]
+		if !ok {
+			return fmt.Errorf("incident_catalog_type_attribute.example_description not found in state")
+		}
+
+		entries, err := testClient.CatalogV3ListEntriesWithResponse(context.Background(), &client.CatalogV3ListEntriesParams{
+			CatalogTypeId: catalogTypeRes.Primary.ID,
+			PageSize:      250,
+		})
+		if err != nil {
+			return fmt.Errorf("error fetching catalog entries: %w", err)
+		}
+
+		entry, found := lo.Find(entries.JSON200.CatalogEntries, func(e client.CatalogEntryV3) bool {
+			return e.ExternalId != nil && *e.ExternalId == "one"
+		})
+		if !found {
+			return fmt.Errorf("entry with external_id 'one' not found in API response")
+		}
+
+		// An attribute cleared via value = "" either disappears from the response
+		// entirely, or comes back with a nil/empty literal - either is a pass. A
+		// non-empty literal means the clear never reached the API, and the Useful
+		// attribute (never cleared) should be untouched by the fallback that makes
+		// update_attributes explicit once something is cleared.
+		if binding, ok := entry.AttributeValues[descriptionAttrRes.Primary.ID]; ok {
+			if binding.Value != nil && binding.Value.Literal != nil && *binding.Value.Literal != "" {
+				return fmt.Errorf("expected Description attribute to be cleared by value = \"\", but the API still has %q", *binding.Value.Literal)
+			}
+		}
+
+		return nil
+	}
+
+	entryWithDescription := func(description string) []catalogEntryElement {
+		return []catalogEntryElement{
+			{
+				Name:        "One",
+				ExternalID:  "one",
+				Description: description,
+				ArrayValue:  "null",
+				UsefulValue: "true",
+			},
+		}
+	}
+
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Create with a real Description value.
+			{
+				Config: testAccIncidentCatalogEntriesResourceConfigWithID(testCatalogID, entryWithDescription("a real description"), false),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_catalog_entries.example", "entries.one.name", "One"),
+				),
+			},
+			// Clear it with value = "". This is the Pylon 52773 shape: without the fix the
+			// API silently keeps the old value and apply fails with "inconsistent result".
+			{
+				Config: testAccIncidentCatalogEntriesResourceConfigWithID(testCatalogID, entryWithDescription(""), false),
+				Check:  checkDescriptionCleared,
+			},
+			// Re-reading should be a no-op: Read's buildModel also has to round-trip the
+			// empty string we planned, or this would be a perpetual diff.
+			{
+				Config:   testAccIncidentCatalogEntriesResourceConfigWithID(testCatalogID, entryWithDescription(""), false),
+				PlanOnly: true,
+			},
+		},
+	})
+}
+
 func TestAccIncidentCatalogEntriesResourceWithManagedAttributes(t *testing.T) {
 	// Use a stable ID across steps
 	testCatalogID := uuid.NewString()
