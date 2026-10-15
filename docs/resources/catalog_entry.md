@@ -16,6 +16,10 @@ description: |-
   Add a custom attribute to the catalog type via the incident.io web UIUse data sources to look up the existing type, attribute, and entrySet managed_attributes to manage only your custom attribute
   When you run terraform destroy, Terraform will clear the managed attributes rather than
   attempting to delete the entry.
+  Clearing an attribute
+  Set an attribute's value to an empty string ("") to clear it, for example to
+  represent a team with no escalation path. Omitting value and array_value entirely
+  leaves the attribute unmanaged instead.
 ---
 
 # incident_catalog_entry (Resource)
@@ -40,6 +44,12 @@ To do this:
 
 When you run `terraform destroy`, Terraform will clear the managed attributes rather than
 attempting to delete the entry.
+
+## Clearing an attribute
+
+Set an attribute's `value` to an empty string (`""`) to clear it, for example to
+represent a team with no escalation path. Omitting `value` and `array_value` entirely
+leaves the attribute unmanaged instead.
 
 ## Example Usage
 
@@ -133,7 +143,7 @@ Required:
 Optional:
 
 - `array_value` (List of String) The value of this element of the array, in a format suitable for this attribute type.
-- `value` (String) The value of this attribute, in a format suitable for this attribute type.
+- `value` (String) The value of this attribute, in a format suitable for this attribute type. Set to an empty string ("") to clear a previously set value; omit value and array_value entirely to leave the attribute unmanaged.
 
 ## Import
 

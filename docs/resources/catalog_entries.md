@@ -17,6 +17,10 @@ description: |-
   The ID of the entry in a custom catalog, often the primary key of the entryAny stable human identifier (often called a slug) that uniquely reference the entry
   This external ID is what we use as a map key for the entries attribute, and how we map
   changes to one entry to an update to that same entry when the upstream changes.
+  Clearing an attribute
+  Set an attribute's value to an empty string ("") to clear it, for example to
+  represent a team with no escalation path. Omitting value and array_value entirely
+  leaves the attribute unmanaged instead.
 ---
 
 # incident_catalog_entries (Resource)
@@ -43,6 +47,12 @@ We call this the 'external ID' and it might be something like:
 
 This external ID is what we use as a map key for the entries attribute, and how we map
 changes to one entry to an update to that same entry when the upstream changes.
+
+## Clearing an attribute
+
+Set an attribute's `value` to an empty string (`""`) to clear it, for example to
+represent a team with no escalation path. Omitting `value` and `array_value` entirely
+leaves the attribute unmanaged instead.
 
 ## Example Usage
 
@@ -260,7 +270,7 @@ Read-Only:
 Optional:
 
 - `array_value` (List of String) The value of this element of the array, in a format suitable for this attribute type.
-- `value` (String) The value of this attribute, in a format suitable for this attribute type.
+- `value` (String) The value of this attribute, in a format suitable for this attribute type. Set to an empty string ("") to clear a previously set value; omit value and array_value entirely to leave the attribute unmanaged.
 
 ## Import
 
