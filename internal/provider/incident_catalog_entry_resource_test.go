@@ -287,12 +287,16 @@ func TestAccIncidentCatalogEntryResourceEmptyStringClearsAttribute(t *testing.T)
 // re-inject the empty string from the plan to avoid "does not correlate with any element in
 // actual".
 func TestAccIncidentCatalogEntryResourceCreateWithEmptyStringValue(t *testing.T) {
+	// The catalog type name includes this ID, so both steps must share it or the
+	// plan-only re-read plans a rename of the type.
+	testEntryID := uuid.NewString()
+
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIncidentCatalogEntryResourceConfig("CreatedEmpty", "", []string{}),
+				Config: testAccIncidentCatalogEntryResourceConfigWithID(testEntryID, "CreatedEmpty", "", []string{}, false),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr("incident_catalog_entry.example", "name", "CreatedEmpty"),
 				),
@@ -301,7 +305,7 @@ func TestAccIncidentCatalogEntryResourceCreateWithEmptyStringValue(t *testing.T)
 			// drift. ImportStateVerify can't apply here for the same reason as in
 			// TestAccIncidentCatalogEntryResourceEmptyStringClearsAttribute.
 			{
-				Config:   testAccIncidentCatalogEntryResourceConfig("CreatedEmpty", "", []string{}),
+				Config:   testAccIncidentCatalogEntryResourceConfigWithID(testEntryID, "CreatedEmpty", "", []string{}, false),
 				PlanOnly: true,
 			},
 		},
