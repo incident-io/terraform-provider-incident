@@ -6,6 +6,7 @@ import (
 	"reflect"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -88,6 +89,12 @@ We call this the 'external ID' and it might be something like:
 
 This external ID is what we use as a map key for the entries attribute, and how we map
 changes to one entry to an update to that same entry when the upstream changes.
+
+## Clearing an attribute
+
+Set an attribute's ` + "`value`" + ` to an empty string (` + "`\"\"`" + `) to clear it, for example to
+represent a team with no escalation path. Omitting ` + "`value`" + ` and ` + "`array_value`" + ` entirely
+leaves the attribute unmanaged instead.
 		`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -137,7 +144,7 @@ changes to one entry to an update to that same entry when the upstream changes.
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"value": schema.StringAttribute{
-										Description: `The value of this attribute, in a format suitable for this attribute type.`,
+										Description: `The value of this attribute, in a format suitable for this attribute type. Set to an empty string ("") to clear a previously set value; omit value and array_value entirely to leave the attribute unmanaged.`,
 										Optional:    true,
 									},
 									"array_value": schema.ListAttribute{
@@ -178,8 +185,9 @@ func (r *IncidentCatalogEntriesResource) Create(ctx context.Context, req resourc
 		return
 	}
 
-	data = r.buildModel(*catalogType, entries, data)
-	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+	model, buildDiags := r.buildModel(*catalogType, entries, data)
+	resp.Diagnostics.Append(buildDiags...)
+	resp.Diagnostics.Append(resp.State.Set(ctx, &model)...)
 }
 
 func (r *IncidentCatalogEntriesResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
@@ -195,8 +203,9 @@ func (r *IncidentCatalogEntriesResource) Read(ctx context.Context, req resource.
 		return
 	}
 
-	data = r.buildModel(*catalogType, entries, data)
-	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+	model, buildDiags := r.buildModel(*catalogType, entries, data)
+	resp.Diagnostics.Append(buildDiags...)
+	resp.Diagnostics.Append(resp.State.Set(ctx, &model)...)
 }
 
 func (r *IncidentCatalogEntriesResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
@@ -212,8 +221,9 @@ func (r *IncidentCatalogEntriesResource) Update(ctx context.Context, req resourc
 		return
 	}
 
-	data = r.buildModel(*catalogType, entries, data)
-	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+	model, buildDiags := r.buildModel(*catalogType, entries, data)
+	resp.Diagnostics.Append(buildDiags...)
+	resp.Diagnostics.Append(resp.State.Set(ctx, &model)...)
 }
 
 func (r *IncidentCatalogEntriesResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
@@ -242,14 +252,32 @@ func (r *IncidentCatalogEntriesResource) ImportState(ctx context.Context, req re
 }
 
 // buildModel generates a terraform model from a catalog type and current list of all
-// entries, as received from getEntries.
-func (r *IncidentCatalogEntriesResource) buildModel(catalogType client.CatalogTypeV3, entries []client.CatalogEntryV3, plan *IncidentCatalogEntriesResourceModel) *IncidentCatalogEntriesResourceModel {
+// entries, as received from getEntries. plan is the plan on Create/Update, or the prior
+// state on Read; buildModel uses it both to know which attributes are managed, and to tell
+// whether an attribute with no value is unset or was explicitly cleared.
+func (r *IncidentCatalogEntriesResource) buildModel(catalogType client.CatalogTypeV3, entries []client.CatalogEntryV3, plan *IncidentCatalogEntriesResourceModel) (*IncidentCatalogEntriesResourceModel, diag.Diagnostics) {
+	var diags diag.Diagnostics
 	modelEntries := map[string]CatalogEntryModel{}
 	for _, entry := range entries {
 		// Skip all entries that come with no external ID, as these can't have been created by
 		// terraform, and therefore should never be managed by us.
 		if entry.ExternalId == nil {
 			continue
+		}
+
+		planEntry := plan.Entries[*entry.ExternalId]
+
+		// Attributes the plan asked to clear via an explicit empty string. The catalog API
+		// doesn't accept a literal empty string as a clear - it silently keeps the previous
+		// value - so we clear these by omitting them from attribute_values and listing them
+		// in UpdateAttributes instead (see buildPayloads). We need to know which attributes
+		// that applies to here, to round-trip the empty string rather than whatever (or
+		// nothing) the API hands back for them.
+		plannedEmptyString := map[string]bool{}
+		for attributeID, binding := range planEntry.AttributeValues {
+			if !binding.Value.IsNull() && binding.Value.ValueString() == "" {
+				plannedEmptyString[attributeID] = true
+			}
 		}
 
 		values := map[string]CatalogEntryAttributeBindingModel{}
@@ -276,37 +304,69 @@ func (r *IncidentCatalogEntriesResource) buildModel(catalogType client.CatalogTy
 			// we patch our value to match what we provided in our state if we think it's likely
 			// been dropped from the API response.
 			if binding.Value == nil && binding.ArrayValue == nil {
-				// If our plan included an empty array then assume the API dropped it when
-				// responding, and allocate an empty array. Otherwise if the plan was null, patch
-				// over the API response to pretend like it is null also.
-				planBinding := plan.Entries[*entry.ExternalId].AttributeValues[attributeID]
-				if planBinding.ArrayValue.IsNull() {
-					value.ArrayValue = types.ListNull(types.StringType)
-				} else if len(planBinding.ArrayValue.Elements()) == 0 {
-					value.ArrayValue = planBinding.ArrayValue
-				}
+				if plannedEmptyString[attributeID] {
+					// We asked the API to clear this scalar attribute. A cleared attribute
+					// reads back with neither field set; round-trip the empty string we
+					// planned rather than guessing it was an empty array.
+					value.Value = types.StringValue("")
+				} else {
+					// If our plan included an empty array then assume the API dropped it when
+					// responding, and allocate an empty array. Otherwise if the plan was null,
+					// patch over the API response to pretend like it is null also.
+					planBinding := planEntry.AttributeValues[attributeID]
+					if planBinding.ArrayValue.IsNull() {
+						value.ArrayValue = types.ListNull(types.StringType)
+					} else if len(planBinding.ArrayValue.Elements()) == 0 {
+						value.ArrayValue = planBinding.ArrayValue
+					}
 
-				// If we hit neither of the above, then our plan had elements but the API response
-				// has lost them, that means we genuinely have a problem and will need to
-				// replan/apply to fix things.
+					// If we hit neither of the above, then our plan had elements but the API
+					// response has lost them, that means we genuinely have a problem and will
+					// need to replan/apply to fix things.
+				}
 
 				values[attributeID] = value
 				continue
 			}
 
 			if binding.Value != nil {
-				value.Value = types.StringValue(*binding.Value.Literal)
+				literal := lo.FromPtr(binding.Value.Literal)
+				if plannedEmptyString[attributeID] && literal != "" {
+					diags.AddError(
+						"Attribute Not Cleared",
+						fmt.Sprintf("entry %q: attribute %q was set to an empty string to clear it, but the "+
+							"catalog API kept its previous value %q. This attribute type may not support clearing "+
+							"via an empty string; clear it from the dashboard instead, or remove it from "+
+							"managed_attributes.", *entry.ExternalId, attributeID, literal),
+					)
+				}
+				value.Value = types.StringValue(literal)
 			}
 			if binding.ArrayValue != nil {
 				elements := []attr.Value{}
-				for _, value := range *binding.ArrayValue {
-					elements = append(elements, types.StringValue(*value.Literal))
+				for _, v := range *binding.ArrayValue {
+					elements = append(elements, types.StringValue(lo.FromPtr(v.Literal)))
 				}
 
 				value.ArrayValue = types.ListValueMust(types.StringType, elements)
 			}
 
 			values[attributeID] = value
+		}
+
+		// An attribute we asked the API to clear can come back with its key omitted from
+		// attribute_values entirely, rather than present with both fields nil. Re-inject it
+		// so the empty string we planned still has a matching element in state - otherwise
+		// the whole map fails to correlate with the plan.
+		for attributeID := range plannedEmptyString {
+			if _, ok := values[attributeID]; ok || !plan.isAttributeManaged(attributeID) {
+				continue
+			}
+
+			values[attributeID] = CatalogEntryAttributeBindingModel{
+				Value:      types.StringValue(""),
+				ArrayValue: types.ListNull(types.StringType),
+			}
 		}
 
 		aliases := []attr.Value{}
@@ -327,7 +387,7 @@ func (r *IncidentCatalogEntriesResource) buildModel(catalogType client.CatalogTy
 		ID:                types.StringValue(catalogType.Id),
 		Entries:           modelEntries,
 		ManagedAttributes: plan.ManagedAttributes,
-	}
+	}, diags
 }
 
 type catalogEntryModelPayload struct {
@@ -354,12 +414,29 @@ func (u updatePayload) toPartialEntryPayload() client.PartialEntryPayloadV3 {
 }
 
 // buildPayloads produces a list of payloads that are used to either create or update an
-// entry depending on whether we're already tracking it in our model.
-func (m IncidentCatalogEntriesResourceModel) buildPayloads(ctx context.Context) ([]*catalogEntryModelPayload, error) {
-	payloads := []*catalogEntryModelPayload{}
+// entry depending on whether we're already tracking it in our model. It also returns the
+// attribute IDs that are being cleared via an explicit empty string across all entries, and
+// the full set of attribute IDs any entry has a value for ("touched") - reconcile needs both
+// to build UpdateAttributes for the bulk update call when a clear forces it to be explicit.
+//
+// An empty string means "clear this attribute", but the catalog API silently drops a literal
+// empty string on write and keeps the previous value instead of clearing it. So we don't send
+// one: we omit the attribute from the payload here, and reconcile lists it in
+// UpdateAttributes. Null (or omitting the attribute from attribute_values entirely) still
+// means "don't manage this attribute" and is left untouched.
+func (m IncidentCatalogEntriesResourceModel) buildPayloads(ctx context.Context) (payloads []*catalogEntryModelPayload, clearedAttributeIDs []string, touchedAttributeIDs []string, err error) {
+	clearedAttrSet := map[string]bool{}
+	touchedAttrSet := map[string]bool{}
+
 	for externalID, entry := range m.Entries {
 		values := map[string]client.CatalogEngineParamBindingPayloadV3{}
 		for attributeID, attributeValue := range entry.AttributeValues {
+			if !attributeValue.Value.IsNull() && attributeValue.Value.ValueString() == "" {
+				clearedAttrSet[attributeID] = true
+				touchedAttrSet[attributeID] = true
+				continue
+			}
+
 			payload := client.CatalogEngineParamBindingPayloadV3{}
 			if !attributeValue.Value.IsNull() {
 				payload.Value = &client.CatalogEngineParamBindingValuePayloadV3{
@@ -371,7 +448,7 @@ func (m IncidentCatalogEntriesResourceModel) buildPayloads(ctx context.Context) 
 				for idx, element := range attributeValue.ArrayValue.Elements() {
 					elementString, ok := element.(types.String)
 					if !ok {
-						return nil, fmt.Errorf(
+						return nil, nil, nil, fmt.Errorf(
 							"entry %q: array_value[%d] of attribute %q should have been a string but was %T: please report this issue to the provider developers",
 							externalID, idx, attributeID, element)
 					}
@@ -384,12 +461,13 @@ func (m IncidentCatalogEntriesResourceModel) buildPayloads(ctx context.Context) 
 			}
 
 			values[attributeID] = payload
+			touchedAttrSet[attributeID] = true
 		}
 
 		aliases := []string{}
 		if !entry.Aliases.IsUnknown() {
 			if diags := entry.Aliases.ElementsAs(ctx, &aliases, false); diags.HasError() {
-				return nil, fmt.Errorf("entry %q: unable to read aliases: %s", externalID, diagnosticsError(diags))
+				return nil, nil, nil, fmt.Errorf("entry %q: unable to read aliases: %s", externalID, diagnosticsError(diags))
 			}
 		}
 		payload := &catalogEntryModelPayload{
@@ -412,7 +490,7 @@ func (m IncidentCatalogEntriesResourceModel) buildPayloads(ctx context.Context) 
 		payloads = append(payloads, payload)
 	}
 
-	return payloads, nil
+	return payloads, lo.Keys(clearedAttrSet), lo.Keys(touchedAttrSet), nil
 }
 
 func (r *IncidentCatalogEntriesResource) getEntries(ctx context.Context, catalogTypeID string) (catalogType *client.CatalogTypeV3, entries []client.CatalogEntryV3, err error) {
@@ -519,7 +597,7 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 		toCreate []*catalogEntryModelPayload
 	)
 
-	payloads, err := data.buildPayloads(ctx)
+	payloads, clearedAttributeIDs, touchedAttributeIDs, err := data.buildPayloads(ctx)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -575,16 +653,25 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 
 	// Bulk update entries in batches of 100
 	if len(toUpdate) > 0 {
+		updateAttributes, err := data.buildUpdateAttributes(ctx)
+		if err != nil {
+			return nil, nil, err
+		}
+		if updateAttributes == nil && len(clearedAttributeIDs) > 0 {
+			// managed_attributes isn't set, so update_attributes would otherwise stay nil
+			// ("update everything provided, leave everything else alone"). But the API only
+			// clears an attribute that's both omitted from attribute_values and listed in
+			// update_attributes, and once update_attributes is non-nil it restricts updates
+			// to just the keys it lists - so it has to include every attribute any entry in
+			// this plan touches, not just the ones being cleared.
+			updateAttributes = &touchedAttributeIDs
+		}
+
 		batches := lo.Chunk(toUpdate, 100)
 		for i, batch := range batches {
 			partialEntries := lo.Map(batch, func(u updatePayload, _ int) client.PartialEntryPayloadV3 {
 				return u.toPartialEntryPayload()
 			})
-
-			updateAttributes, err := data.buildUpdateAttributes(ctx)
-			if err != nil {
-				return nil, nil, err
-			}
 
 			_, err = r.client.CatalogV3BulkUpdateEntriesWithResponse(ctx, client.CatalogBulkUpdateEntriesPayloadV3{
 				CatalogTypeId:    data.ID.ValueString(),

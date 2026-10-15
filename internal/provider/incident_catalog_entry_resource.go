@@ -44,15 +44,31 @@ type IncidentCatalogEntryResourceModel struct {
 	ManagedAttributes types.Set                    `tfsdk:"managed_attributes"`
 }
 
-func (m IncidentCatalogEntryResourceModel) buildAttributeValues() (map[string]client.CatalogEngineParamBindingPayloadV3, diag.Diagnostics) {
+// buildAttributeValues converts the configured attribute_values into the payload the API
+// expects. It also returns the IDs of any attributes whose value was explicitly set to an
+// empty string ("").
+//
+// An empty string means "clear this attribute", but the catalog API silently drops a
+// literal empty string on write and keeps the previous value instead of clearing it. So we
+// don't send one: we omit the attribute from the payload here, and the caller lists it in
+// UpdateAttributes, which is the mechanism Delete already uses to clear managed attributes.
+// Null (or omitting the attribute from attribute_values entirely) still means "don't manage
+// this attribute" and is left untouched.
+func (m IncidentCatalogEntryResourceModel) buildAttributeValues() (map[string]client.CatalogEngineParamBindingPayloadV3, []string, diag.Diagnostics) {
 	var diags diag.Diagnostics
 	values := map[string]client.CatalogEngineParamBindingPayloadV3{}
+	var clearedAttributeIDs []string
 
 	for _, attributeValue := range m.AttributeValues {
 		attrID := attributeValue.Attribute.ValueString()
 
 		// Skip attributes that aren't managed
 		if !m.isAttributeManaged(attrID) {
+			continue
+		}
+
+		if !attributeValue.Value.IsNull() && attributeValue.Value.ValueString() == "" {
+			clearedAttributeIDs = append(clearedAttributeIDs, attrID)
 			continue
 		}
 
@@ -72,7 +88,7 @@ func (m IncidentCatalogEntryResourceModel) buildAttributeValues() (map[string]cl
 						"Unexpected attribute value type",
 						fmt.Sprintf("array_value[%d] of attribute %q should have been a string but was %T. Please report this issue to the provider developers.", idx, attrID, element),
 					)
-					return nil, diags
+					return nil, nil, diags
 				}
 				arrayValue = append(arrayValue, client.CatalogEngineParamBindingValuePayloadV3{
 					Literal: lo.ToPtr(elementString.ValueString()),
@@ -85,7 +101,7 @@ func (m IncidentCatalogEntryResourceModel) buildAttributeValues() (map[string]cl
 		values[attrID] = payload
 	}
 
-	return values, diags
+	return values, clearedAttributeIDs, diags
 }
 
 type CatalogEntryAttributeValue struct {
@@ -125,6 +141,12 @@ To do this:
 
 When you run ` + "`terraform destroy`" + `, Terraform will clear the managed attributes rather than
 attempting to delete the entry.
+
+## Clearing an attribute
+
+Set an attribute's ` + "`value`" + ` to an empty string (` + "`\"\"`" + `) to clear it, for example to
+represent a team with no escalation path. Omitting ` + "`value`" + ` and ` + "`array_value`" + ` entirely
+leaves the attribute unmanaged instead.
 		`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -176,7 +198,7 @@ attempting to delete the entry.
 							Required:    true,
 						},
 						"value": schema.StringAttribute{
-							Description: `The value of this attribute, in a format suitable for this attribute type.`,
+							Description: `The value of this attribute, in a format suitable for this attribute type. Set to an empty string ("") to clear a previously set value; omit value and array_value entirely to leave the attribute unmanaged.`,
 							Optional:    true,
 						},
 						"array_value": schema.ListAttribute{
@@ -227,7 +249,11 @@ func (r *IncidentCatalogEntryResource) Create(ctx context.Context, req resource.
 		externalID = nil
 	}
 
-	attributeValues, diags := data.buildAttributeValues()
+	// A new entry has no prior value for any attribute, so an attribute cleared via an
+	// empty string needs no special handling on create: omitting it from the payload is
+	// already enough to leave it unset. We only need clearedAttributeIDs on Update, where
+	// the API has to be told to actually clear an attribute that previously had a value.
+	attributeValues, _, diags := data.buildAttributeValues()
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -247,8 +273,9 @@ func (r *IncidentCatalogEntryResource) Create(ctx context.Context, req resource.
 	}
 
 	tflog.Trace(ctx, fmt.Sprintf("created a catalog entry resource with id=%s", result.JSON201.CatalogEntry.Id))
-	data = r.buildModel(result.JSON201.CatalogEntry, data)
-	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+	model, buildDiags := r.buildModel(result.JSON201.CatalogEntry, data)
+	resp.Diagnostics.Append(buildDiags...)
+	resp.Diagnostics.Append(resp.State.Set(ctx, &model)...)
 }
 
 func (r *IncidentCatalogEntryResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
@@ -271,8 +298,9 @@ func (r *IncidentCatalogEntryResource) Read(ctx context.Context, req resource.Re
 		return
 	}
 
-	data = r.buildModel(result.JSON200.CatalogEntry, data)
-	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+	model, buildDiags := r.buildModel(result.JSON200.CatalogEntry, data)
+	resp.Diagnostics.Append(buildDiags...)
+	resp.Diagnostics.Append(resp.State.Set(ctx, &model)...)
 }
 
 func (r *IncidentCatalogEntryResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
@@ -294,6 +322,17 @@ func (r *IncidentCatalogEntryResource) Update(ctx context.Context, req resource.
 		}
 	}
 
+	externalID := data.ExternalID.ValueStringPointer()
+	if externalID != nil && *externalID == "" {
+		externalID = nil
+	}
+
+	attributeValues, clearedAttributeIDs, diags := data.buildAttributeValues()
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
 	var updateAttributes *[]string
 	if !data.ManagedAttributes.IsUnknown() && !data.ManagedAttributes.IsNull() {
 		var attributeIDs []string
@@ -303,17 +342,19 @@ func (r *IncidentCatalogEntryResource) Update(ctx context.Context, req resource.
 			return
 		}
 		updateAttributes = &attributeIDs
-	}
-
-	externalID := data.ExternalID.ValueStringPointer()
-	if externalID != nil && *externalID == "" {
-		externalID = nil
-	}
-
-	attributeValues, diags := data.buildAttributeValues()
-	resp.Diagnostics.Append(diags...)
-	if resp.Diagnostics.HasError() {
-		return
+	} else if len(clearedAttributeIDs) > 0 {
+		// managed_attributes isn't set, so update_attributes would otherwise stay nil
+		// ("update everything provided, leave everything else alone"). But the API only
+		// clears an attribute that's both omitted from attribute_values and listed in
+		// update_attributes, and once update_attributes is non-nil it restricts updates
+		// to just the keys it lists - so it has to include every attribute we're sending
+		// a value for too, not just the ones being cleared.
+		allAttributeIDs := make([]string, 0, len(attributeValues)+len(clearedAttributeIDs))
+		for attrID := range attributeValues {
+			allAttributeIDs = append(allAttributeIDs, attrID)
+		}
+		allAttributeIDs = append(allAttributeIDs, clearedAttributeIDs...)
+		updateAttributes = &allAttributeIDs
 	}
 
 	result, err := r.client.CatalogV3UpdateEntryWithResponse(ctx, data.ID.ValueString(), client.CatalogUpdateEntryPayloadV3{
@@ -329,8 +370,9 @@ func (r *IncidentCatalogEntryResource) Update(ctx context.Context, req resource.
 		return
 	}
 
-	updatedModel := r.buildModel(result.JSON200.CatalogEntry, data)
-	resp.Diagnostics.Append(resp.State.Set(ctx, &updatedModel)...)
+	model, buildDiags := r.buildModel(result.JSON200.CatalogEntry, data)
+	resp.Diagnostics.Append(buildDiags...)
+	resp.Diagnostics.Append(resp.State.Set(ctx, &model)...)
 }
 
 func (r *IncidentCatalogEntryResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
@@ -476,40 +518,96 @@ func (m *IncidentCatalogEntryResourceModel) isAttributeManaged(attributeID strin
 	return false
 }
 
-func (r *IncidentCatalogEntryResource) buildModel(entry client.CatalogEntryV3, data *IncidentCatalogEntryResourceModel) *IncidentCatalogEntryResourceModel {
+// buildModel builds Terraform state from an API entry. data is the plan on Create/Update, or
+// the prior state on Read; buildModel uses it both to know which attributes are managed, and
+// to tell whether an attribute with no value is unset or was explicitly cleared.
+func (r *IncidentCatalogEntryResource) buildModel(entry client.CatalogEntryV3, data *IncidentCatalogEntryResourceModel) (*IncidentCatalogEntryResourceModel, diag.Diagnostics) {
+	var diags diag.Diagnostics
 	values := []CatalogEntryAttributeValue{}
+	seenAttributeIDs := map[string]bool{}
+
+	// Attributes data asked to clear via an explicit empty string. The catalog API doesn't
+	// accept a literal empty string as a clear - it silently keeps the previous value - so
+	// we clear these by omitting them from attribute_values and listing them in
+	// UpdateAttributes instead (see buildAttributeValues). We need to know which attributes
+	// that applies to here, to round-trip the empty string rather than whatever (or
+	// nothing) the API hands back for them.
+	plannedEmptyString := map[string]bool{}
+	for _, attributeValue := range data.AttributeValues {
+		if !attributeValue.Value.IsNull() && attributeValue.Value.ValueString() == "" {
+			plannedEmptyString[attributeValue.Attribute.ValueString()] = true
+		}
+	}
 
 	for attributeID, binding := range entry.AttributeValues {
 		// Skip attributes that aren't managed
 		if !data.isAttributeManaged(attributeID) {
 			continue
 		}
+		seenAttributeIDs[attributeID] = true
 
 		value := CatalogEntryAttributeValue{
 			Attribute:  types.StringValue(attributeID),
 			ArrayValue: types.ListNull(types.StringType),
 		}
-		// The API can behave weirdly in the case of empty arrays and omit the field entirely.
-		// This is painful for us as terraform will see the omission as a diff against the
-		// state, so we paper over the issue by instantiating an empty array value if we think
-		// we're seeing the weirdness.
-		if binding.Value == nil && binding.ArrayValue == nil {
-			binding.ArrayValue = lo.ToPtr([]client.CatalogEntryEngineParamBindingValueV3{})
-		}
 
-		if binding.Value != nil {
-			value.Value = types.StringValue(*binding.Value.Literal)
-		}
-		if binding.ArrayValue != nil {
-			elements := []attr.Value{}
-			for _, value := range *binding.ArrayValue {
-				elements = append(elements, types.StringValue(*value.Literal))
+		switch {
+		case binding.Value == nil && binding.ArrayValue == nil && plannedEmptyString[attributeID]:
+			// We asked the API to clear this scalar attribute. A cleared attribute reads
+			// back with neither field set; round-trip the empty string we planned rather
+			// than guessing it was an empty array.
+			value.Value = types.StringValue("")
+
+		case binding.Value == nil && binding.ArrayValue == nil:
+			// The API can behave weirdly in the case of empty arrays and omit the field
+			// entirely. This is painful for us as terraform will see the omission as a diff
+			// against the state, so we paper over the issue by instantiating an empty array
+			// value if we think we're seeing the weirdness.
+			value.ArrayValue = types.ListValueMust(types.StringType, []attr.Value{})
+
+		default:
+			if binding.Value != nil {
+				literal := lo.FromPtr(binding.Value.Literal)
+				if plannedEmptyString[attributeID] && literal != "" {
+					diags.AddAttributeError(
+						path.Root("attribute_values"),
+						"Attribute Not Cleared",
+						fmt.Sprintf("Attribute %q was set to an empty string to clear it, but the catalog API kept "+
+							"its previous value %q. This attribute type may not support clearing via an empty "+
+							"string; clear it from the dashboard instead, or remove it from managed_attributes.",
+							attributeID, literal),
+					)
+				}
+				value.Value = types.StringValue(literal)
 			}
+			if binding.ArrayValue != nil {
+				elements := []attr.Value{}
+				for _, v := range *binding.ArrayValue {
+					elements = append(elements, types.StringValue(lo.FromPtr(v.Literal)))
+				}
 
-			value.ArrayValue = types.ListValueMust(types.StringType, elements)
+				value.ArrayValue = types.ListValueMust(types.StringType, elements)
+			}
 		}
 
 		values = append(values, value)
+	}
+
+	// An attribute we asked the API to clear can come back with its key omitted from
+	// attribute_values entirely, rather than present with both fields nil. Re-inject it so
+	// the empty string we planned still has a matching element in state - otherwise the
+	// whole set fails to correlate with the plan ("does not correlate with any element in
+	// actual").
+	for attributeID := range plannedEmptyString {
+		if seenAttributeIDs[attributeID] || !data.isAttributeManaged(attributeID) {
+			continue
+		}
+
+		values = append(values, CatalogEntryAttributeValue{
+			Attribute:  types.StringValue(attributeID),
+			Value:      types.StringValue(""),
+			ArrayValue: types.ListNull(types.StringType),
+		})
 	}
 
 	// This ensures we get a stable read of the resource, rather than hitting
@@ -533,5 +631,5 @@ func (r *IncidentCatalogEntryResource) buildModel(entry client.CatalogEntryV3, d
 		AttributeValues: values,
 		// These are managed in config only
 		ManagedAttributes: data.ManagedAttributes,
-	}
+	}, diags
 }
