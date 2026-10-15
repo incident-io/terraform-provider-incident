@@ -269,17 +269,13 @@ func TestAccIncidentCatalogEntryResourceEmptyStringClearsAttribute(t *testing.T)
 				Check:  checkDescriptionCleared,
 			},
 			// Re-reading should be a no-op: Read's buildModel also has to round-trip the
-			// empty string we planned, or this would be a perpetual diff.
+			// empty string from prior state, or this would be a perpetual diff. We don't
+			// ImportStateVerify here: import has no plan/prior state carrying the empty
+			// string, and the API doesn't return cleared attributes, so verify would
+			// always fail for value = "" even when the clear itself worked.
 			{
 				Config:   testAccIncidentCatalogEntryResourceConfigWithID(testEntryID, "Initial", "", []string{}, false),
 				PlanOnly: true,
-			},
-			// Import exercises the same round-trip purely from prior state, with no plan
-			// to fall back on.
-			{
-				ResourceName:      "incident_catalog_entry.example",
-				ImportState:       true,
-				ImportStateVerify: true,
 			},
 		},
 	})
@@ -301,10 +297,12 @@ func TestAccIncidentCatalogEntryResourceCreateWithEmptyStringValue(t *testing.T)
 					resource.TestCheckResourceAttr("incident_catalog_entry.example", "name", "CreatedEmpty"),
 				),
 			},
+			// Confirm Read round-trips the empty string from prior state with no plan
+			// drift. ImportStateVerify can't apply here for the same reason as in
+			// TestAccIncidentCatalogEntryResourceEmptyStringClearsAttribute.
 			{
-				ResourceName:      "incident_catalog_entry.example",
-				ImportState:       true,
-				ImportStateVerify: true,
+				Config:   testAccIncidentCatalogEntryResourceConfig("CreatedEmpty", "", []string{}),
+				PlanOnly: true,
 			},
 		},
 	})

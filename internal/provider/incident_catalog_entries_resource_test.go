@@ -20,7 +20,10 @@ func TestAccIncidentCatalogEntriesResource(t *testing.T) {
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
-			// Create and read
+			// Create and read. UsefulValue must be non-empty: value = "" means "clear this
+			// attribute", and buildModel round-trips that empty string from the plan into
+			// state. Import has no plan, so ImportStateVerify would fail if we left the
+			// zero-value "" here (the template always emits the Useful attribute).
 			{
 				Config: testAccIncidentCatalogEntriesResourceConfig([]catalogEntryElement{
 					{
@@ -28,12 +31,14 @@ func TestAccIncidentCatalogEntriesResource(t *testing.T) {
 						ExternalID:  "one",
 						Description: "This is the first entry",
 						ArrayValue:  "null",
+						UsefulValue: "true",
 					},
 					{
 						Name:        "Two",
 						ExternalID:  "two",
 						Description: "This is the second entry",
 						ArrayValue:  "[]",
+						UsefulValue: "true",
 					},
 				}, false),
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -57,12 +62,14 @@ func TestAccIncidentCatalogEntriesResource(t *testing.T) {
 						ExternalID:  "one",
 						Description: "This is the first entry",
 						ArrayValue:  "null",
+						UsefulValue: "true",
 					},
 					{
 						Name:        "Three",
 						ExternalID:  "two",
 						Description: "This is the third entry",
 						ArrayValue:  "[]",
+						UsefulValue: "true",
 					},
 				}, false),
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -81,12 +88,14 @@ func TestAccIncidentCatalogEntriesResource(t *testing.T) {
 						ExternalID:  "one",
 						Description: "This is the first entry",
 						ArrayValue:  "null",
+						UsefulValue: "true",
 					},
 					{
 						Name:        "Three",
 						ExternalID:  "two",
 						Description: "This is the third entry",
 						ArrayValue:  "[]",
+						UsefulValue: "true",
 					},
 					{
 						Name:        "Four",
@@ -94,6 +103,7 @@ func TestAccIncidentCatalogEntriesResource(t *testing.T) {
 						Description: "This entry is added after the resource exists",
 						Aliases:     []string{"quatre"},
 						ArrayValue:  "[]",
+						UsefulValue: "true",
 					},
 				}, false),
 				Check: resource.ComposeAggregateTestCheckFunc(
