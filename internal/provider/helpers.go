@@ -53,6 +53,13 @@ func knownString(value attr.Value) (string, bool) {
 	return str.ValueString(), true
 }
 
+// isExplicitEmptyString reports whether a string attribute was deliberately set to "".
+// ValueString returns "" for unknown as well as for an empty string, so an unknown value
+// would otherwise look like one the config emptied on purpose.
+func isExplicitEmptyString(value types.String) bool {
+	return !value.IsNull() && !value.IsUnknown() && value.ValueString() == ""
+}
+
 // knownInt64 is knownString for a number attribute.
 func knownInt64(value attr.Value) (int64, bool) {
 	number, ok := value.(types.Int64)

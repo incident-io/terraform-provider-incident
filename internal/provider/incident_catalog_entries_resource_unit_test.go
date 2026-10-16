@@ -1,6 +1,7 @@
 package provider
 
 import (
+	"context"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -88,6 +89,52 @@ func TestBatchBulkUpdates(t *testing.T) {
 		require.Len(t, batches, 2)
 		assert.Equal(t, []string{"one", "two"}, batchEntryIDs(batches[0]))
 		assert.Equal(t, []string{"three"}, batchEntryIDs(batches[1]))
+	})
+}
+
+// An unknown value reads back as "" from ValueString, so it must not be mistaken for a
+// value the config deliberately emptied - that would clear the attribute instead of
+// leaving it alone until the value it references is known.
+func TestCatalogEntryUnknownValueIsNotAClear(t *testing.T) {
+	t.Run("incident_catalog_entry", func(t *testing.T) {
+		model := IncidentCatalogEntryResourceModel{
+			ManagedAttributes: types.SetNull(types.StringType),
+			AttributeValues: []CatalogEntryAttributeValue{
+				{
+					Attribute:  types.StringValue("description"),
+					Value:      types.StringUnknown(),
+					ArrayValue: types.ListNull(types.StringType),
+				},
+			},
+		}
+
+		_, clearedAttributeIDs, diags := model.buildAttributeValues()
+		require.False(t, diags.HasError(), "%v", diags)
+		assert.Empty(t, clearedAttributeIDs)
+	})
+
+	t.Run("incident_catalog_entries", func(t *testing.T) {
+		model := IncidentCatalogEntriesResourceModel{
+			ID:                types.StringValue("type"),
+			ManagedAttributes: types.SetNull(types.StringType),
+			Entries: map[string]CatalogEntryModel{
+				"one": {
+					Name:    types.StringValue("One"),
+					Aliases: types.ListNull(types.StringType),
+					Rank:    types.Int64Null(),
+					ID:      types.StringNull(),
+					AttributeValues: map[string]CatalogEntryAttributeBindingModel{
+						"description": {Value: types.StringUnknown(), ArrayValue: types.ListNull(types.StringType)},
+					},
+				},
+			},
+		}
+
+		payloads, err := model.buildPayloads(context.Background())
+		require.NoError(t, err)
+		require.Len(t, payloads, 1)
+		assert.Empty(t, payloads[0].ClearedAttributeIDs)
+		assert.Nil(t, payloads[0].updateAttributes())
 	})
 }
 

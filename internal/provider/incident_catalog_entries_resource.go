@@ -281,7 +281,7 @@ func (r *IncidentCatalogEntriesResource) buildModel(catalogType client.CatalogTy
 		// nothing) the API hands back for them.
 		plannedEmptyString := map[string]bool{}
 		for attributeID, binding := range planEntry.AttributeValues {
-			if !binding.Value.IsNull() && binding.Value.ValueString() == "" {
+			if isExplicitEmptyString(binding.Value) {
 				plannedEmptyString[attributeID] = true
 			}
 		}
@@ -454,7 +454,7 @@ func (m IncidentCatalogEntriesResourceModel) buildPayloads(ctx context.Context) 
 		values := map[string]client.CatalogEngineParamBindingPayloadV3{}
 		clearedAttributeIDs := []string{}
 		for attributeID, attributeValue := range entry.AttributeValues {
-			if !attributeValue.Value.IsNull() && attributeValue.Value.ValueString() == "" {
+			if isExplicitEmptyString(attributeValue.Value) {
 				clearedAttributeIDs = append(clearedAttributeIDs, attributeID)
 				continue
 			}

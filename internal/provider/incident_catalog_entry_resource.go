@@ -67,7 +67,7 @@ func (m IncidentCatalogEntryResourceModel) buildAttributeValues() (map[string]cl
 			continue
 		}
 
-		if !attributeValue.Value.IsNull() && attributeValue.Value.ValueString() == "" {
+		if isExplicitEmptyString(attributeValue.Value) {
 			clearedAttributeIDs = append(clearedAttributeIDs, attrID)
 			continue
 		}
@@ -538,7 +538,7 @@ func (r *IncidentCatalogEntryResource) buildModel(entry client.CatalogEntryV3, d
 	// nothing) the API hands back for them.
 	plannedEmptyString := map[string]bool{}
 	for _, attributeValue := range data.AttributeValues {
-		if !attributeValue.Value.IsNull() && attributeValue.Value.ValueString() == "" {
+		if isExplicitEmptyString(attributeValue.Value) {
 			plannedEmptyString[attributeValue.Attribute.ValueString()] = true
 		}
 	}
