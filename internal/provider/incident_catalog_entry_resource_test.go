@@ -202,6 +202,139 @@ func TestAccIncidentCatalogEntryResourceWithManagedAttributes(t *testing.T) {
 	})
 }
 
+// TestAccIncidentCatalogEntryResourceEmptyStringClearsAttribute is the regression test for
+// Pylon 52773 / PR-115: value = "" is documented as the way to clear a scalar attribute, but
+// the catalog API doesn't accept a literal empty-string write - it silently drops it and
+// keeps the previous value. Without the fix in buildAttributeValues/buildModel, clearing an
+// attribute this way fails apply with "Provider produced inconsistent result after apply".
+func TestAccIncidentCatalogEntryResourceEmptyStringClearsAttribute(t *testing.T) {
+	testEntryID := uuid.NewString()
+
+	var entryID string
+	var descriptionAttrID string
+
+	captureIDs := func(s *terraform.State) error {
+		resources := s.RootModule().Resources
+		if res, ok := resources["incident_catalog_entry.example"]; ok {
+			entryID = res.Primary.ID
+		}
+		if res, ok := resources["incident_catalog_type_attribute.example_description"]; ok {
+			descriptionAttrID = res.Primary.ID
+		}
+
+		return nil
+	}
+
+	checkDescriptionCleared := func(s *terraform.State) error {
+		if entryID == "" || descriptionAttrID == "" {
+			return fmt.Errorf("entry or attribute ID not captured during test")
+		}
+
+		entry, err := testClient.CatalogV3ShowEntryWithResponse(context.Background(), entryID, nil)
+		if err != nil {
+			return fmt.Errorf("error fetching catalog entry: %w", err)
+		}
+		if entry.JSON200 == nil {
+			return fmt.Errorf("expected entry to still exist, but it was not found")
+		}
+
+		// An attribute cleared via value = "" either disappears from the response
+		// entirely, or comes back with a nil/empty literal - either is a pass. A
+		// non-empty literal means the clear never reached the API.
+		if binding, ok := entry.JSON200.CatalogEntry.AttributeValues[descriptionAttrID]; ok {
+			if binding.Value != nil && binding.Value.Literal != nil && *binding.Value.Literal != "" {
+				return fmt.Errorf("expected Description attribute to be cleared by value = \"\", but the API still has %q", *binding.Value.Literal)
+			}
+		}
+
+		return nil
+	}
+
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Create with a real Description value.
+			{
+				Config: testAccIncidentCatalogEntryResourceConfigWithID(testEntryID, "Initial", "a real description", []string{}, false),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_catalog_entry.example", "name", "Initial"),
+					captureIDs,
+				),
+			},
+			// Clear it with value = "". This is the Pylon 52773 shape: without the fix the
+			// API silently keeps the old value and apply fails with "inconsistent result".
+			{
+				Config: testAccIncidentCatalogEntryResourceConfigWithID(testEntryID, "Initial", "", []string{}, false),
+				Check:  checkDescriptionCleared,
+			},
+			// Re-reading should be a no-op: Read's buildModel also has to round-trip the
+			// empty string from prior state, or this would be a perpetual diff. We don't
+			// ImportStateVerify here: import has no plan/prior state carrying the empty
+			// string, and the API doesn't return cleared attributes, so verify would
+			// always fail for value = "" even when the clear itself worked.
+			{
+				Config:   testAccIncidentCatalogEntryResourceConfigWithID(testEntryID, "Initial", "", []string{}, false),
+				PlanOnly: true,
+			},
+			// A value set out of band after the clear (say in the dashboard) is drift for
+			// the next apply to fix, not a refresh error.
+			{
+				PreConfig: func() {
+					_, err := testClient.CatalogV3UpdateEntryWithResponse(context.Background(), entryID, client.CatalogUpdateEntryPayloadV3{
+						Name: "Initial",
+						AttributeValues: map[string]client.CatalogEngineParamBindingPayloadV3{
+							descriptionAttrID: {Value: &client.CatalogEngineParamBindingValuePayloadV3{Literal: lo.ToPtr("set in the dashboard")}},
+						},
+						UpdateAttributes: &[]string{descriptionAttrID},
+					})
+					if err != nil {
+						t.Fatalf("setting Description out of band: %s", err)
+					}
+				},
+				Config:             testAccIncidentCatalogEntryResourceConfigWithID(testEntryID, "Initial", "", []string{}, false),
+				PlanOnly:           true,
+				ExpectNonEmptyPlan: true,
+			},
+			{
+				Config: testAccIncidentCatalogEntryResourceConfigWithID(testEntryID, "Initial", "", []string{}, false),
+				Check:  checkDescriptionCleared,
+			},
+		},
+	})
+}
+
+// TestAccIncidentCatalogEntryResourceCreateWithEmptyStringValue covers creating an entry
+// with value = "" from the start, rather than clearing a previously set value. The create
+// response won't contain anything for an attribute we never sent, so buildModel has to
+// re-inject the empty string from the plan to avoid "does not correlate with any element in
+// actual".
+func TestAccIncidentCatalogEntryResourceCreateWithEmptyStringValue(t *testing.T) {
+	// The catalog type name includes this ID, so both steps must share it or the
+	// plan-only re-read plans a rename of the type.
+	testEntryID := uuid.NewString()
+
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccIncidentCatalogEntryResourceConfigWithID(testEntryID, "CreatedEmpty", "", []string{}, false),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_catalog_entry.example", "name", "CreatedEmpty"),
+				),
+			},
+			// Confirm Read round-trips the empty string from prior state with no plan
+			// drift. ImportStateVerify can't apply here for the same reason as in
+			// TestAccIncidentCatalogEntryResourceEmptyStringClearsAttribute.
+			{
+				Config:   testAccIncidentCatalogEntryResourceConfigWithID(testEntryID, "CreatedEmpty", "", []string{}, false),
+				PlanOnly: true,
+			},
+		},
+	})
+}
+
 func TestIncidentCatalogEntryResource_ValidateConfig(t *testing.T) {
 	description := "desc-123"
 	priority := "priority-456"

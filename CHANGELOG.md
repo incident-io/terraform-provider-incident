@@ -1,3 +1,7 @@
+## Unreleased
+
+- Fix `incident_catalog_entry` and `incident_catalog_entries` silently keeping an attribute's previous value when `value` was set to `""`, instead of clearing it, which caused "Provider produced inconsistent result after apply" errors. Set `value = ""` to clear an attribute; see the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/catalog_entry). (#656)
+
 ## v7.7.0
 
 - Add the `incident_alert_route` data source, which reads an alert route by `id` or `name`. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/data-sources/alert_route). (#645)
