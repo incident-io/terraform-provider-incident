@@ -273,7 +273,7 @@ func (r *IncidentCatalogEntryResource) Create(ctx context.Context, req resource.
 	}
 
 	tflog.Trace(ctx, fmt.Sprintf("created a catalog entry resource with id=%s", result.JSON201.CatalogEntry.Id))
-	model, buildDiags := r.buildModel(result.JSON201.CatalogEntry, data)
+	model, buildDiags := r.buildModel(result.JSON201.CatalogEntry, data, true)
 	resp.Diagnostics.Append(buildDiags...)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &model)...)
 }
@@ -298,7 +298,7 @@ func (r *IncidentCatalogEntryResource) Read(ctx context.Context, req resource.Re
 		return
 	}
 
-	model, buildDiags := r.buildModel(result.JSON200.CatalogEntry, data)
+	model, buildDiags := r.buildModel(result.JSON200.CatalogEntry, data, false)
 	resp.Diagnostics.Append(buildDiags...)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &model)...)
 }
@@ -370,7 +370,7 @@ func (r *IncidentCatalogEntryResource) Update(ctx context.Context, req resource.
 		return
 	}
 
-	model, buildDiags := r.buildModel(result.JSON200.CatalogEntry, data)
+	model, buildDiags := r.buildModel(result.JSON200.CatalogEntry, data, true)
 	resp.Diagnostics.Append(buildDiags...)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &model)...)
 }
@@ -521,7 +521,11 @@ func (m *IncidentCatalogEntryResourceModel) isAttributeManaged(attributeID strin
 // buildModel builds Terraform state from an API entry. data is the plan on Create/Update, or
 // the prior state on Read; buildModel uses it both to know which attributes are managed, and
 // to tell whether an attribute with no value is unset or was explicitly cleared.
-func (r *IncidentCatalogEntryResource) buildModel(entry client.CatalogEntryV3, data *IncidentCatalogEntryResourceModel) (*IncidentCatalogEntryResourceModel, diag.Diagnostics) {
+//
+// afterApply is true on Create/Update, where a value the API kept despite our clear request
+// is an error. On Read it's false: the value was set out of band since the clear, so we
+// report it as drift for the next apply to clear again.
+func (r *IncidentCatalogEntryResource) buildModel(entry client.CatalogEntryV3, data *IncidentCatalogEntryResourceModel, afterApply bool) (*IncidentCatalogEntryResourceModel, diag.Diagnostics) {
 	var diags diag.Diagnostics
 	values := []CatalogEntryAttributeValue{}
 	seenAttributeIDs := map[string]bool{}
@@ -568,7 +572,7 @@ func (r *IncidentCatalogEntryResource) buildModel(entry client.CatalogEntryV3, d
 		default:
 			if binding.Value != nil {
 				literal := lo.FromPtr(binding.Value.Literal)
-				if plannedEmptyString[attributeID] && literal != "" {
+				if afterApply && plannedEmptyString[attributeID] && literal != "" {
 					diags.AddAttributeError(
 						path.Root("attribute_values"),
 						"Attribute Not Cleared",

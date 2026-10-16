@@ -277,6 +277,29 @@ func TestAccIncidentCatalogEntryResourceEmptyStringClearsAttribute(t *testing.T)
 				Config:   testAccIncidentCatalogEntryResourceConfigWithID(testEntryID, "Initial", "", []string{}, false),
 				PlanOnly: true,
 			},
+			// A value set out of band after the clear (say in the dashboard) is drift for
+			// the next apply to fix, not a refresh error.
+			{
+				PreConfig: func() {
+					_, err := testClient.CatalogV3UpdateEntryWithResponse(context.Background(), entryID, client.CatalogUpdateEntryPayloadV3{
+						Name: "Initial",
+						AttributeValues: map[string]client.CatalogEngineParamBindingPayloadV3{
+							descriptionAttrID: {Value: &client.CatalogEngineParamBindingValuePayloadV3{Literal: lo.ToPtr("set in the dashboard")}},
+						},
+						UpdateAttributes: &[]string{descriptionAttrID},
+					})
+					if err != nil {
+						t.Fatalf("setting Description out of band: %s", err)
+					}
+				},
+				Config:             testAccIncidentCatalogEntryResourceConfigWithID(testEntryID, "Initial", "", []string{}, false),
+				PlanOnly:           true,
+				ExpectNonEmptyPlan: true,
+			},
+			{
+				Config: testAccIncidentCatalogEntryResourceConfigWithID(testEntryID, "Initial", "", []string{}, false),
+				Check:  checkDescriptionCleared,
+			},
 		},
 	})
 }

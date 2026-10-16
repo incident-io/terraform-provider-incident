@@ -125,9 +125,39 @@ func TestAccIncidentCatalogEntriesResource(t *testing.T) {
 // keeps the previous value. Without the fix in buildPayloads/buildModel/reconcile, clearing
 // an attribute this way fails apply with "Provider produced inconsistent result after
 // apply". managed_attributes is deliberately left unset here, which exercises the fallback
-// that has to make update_attributes explicit for the whole batch once anything is cleared.
+// that has to make update_attributes explicit for an entry once it clears anything.
 func TestAccIncidentCatalogEntriesResourceEmptyStringClearsAttribute(t *testing.T) {
 	testCatalogID := uuid.NewString()
+
+	var entryID, descriptionAttrID string
+	captureIDs := func(s *terraform.State) error {
+		resources := s.RootModule().Resources
+		if res, ok := resources["incident_catalog_entries.example"]; ok {
+			entryID = res.Primary.Attributes["entries.one.id"]
+		}
+		if res, ok := resources["incident_catalog_type_attribute.example_description"]; ok {
+			descriptionAttrID = res.Primary.ID
+		}
+		if entryID == "" || descriptionAttrID == "" {
+			return fmt.Errorf("entry or attribute ID not found in state")
+		}
+
+		return nil
+	}
+
+	// Sets Description behind Terraform's back, as someone editing in the dashboard would.
+	setDescriptionOutOfBand := func() {
+		_, err := testClient.CatalogV3UpdateEntryWithResponse(context.Background(), entryID, client.CatalogUpdateEntryPayloadV3{
+			Name: "One",
+			AttributeValues: map[string]client.CatalogEngineParamBindingPayloadV3{
+				descriptionAttrID: {Value: &client.CatalogEngineParamBindingValuePayloadV3{Literal: lo.ToPtr("set in the dashboard")}},
+			},
+			UpdateAttributes: &[]string{descriptionAttrID},
+		})
+		if err != nil {
+			t.Fatalf("setting Description out of band: %s", err)
+		}
+	}
 
 	checkDescriptionCleared := func(s *terraform.State) error {
 		resources := s.RootModule().Resources
@@ -197,13 +227,34 @@ func TestAccIncidentCatalogEntriesResourceEmptyStringClearsAttribute(t *testing.
 			// API silently keeps the old value and apply fails with "inconsistent result".
 			{
 				Config: testAccIncidentCatalogEntriesResourceConfigWithID(testCatalogID, entryWithDescription(""), false),
-				Check:  checkDescriptionCleared,
+				Check:  resource.ComposeAggregateTestCheckFunc(checkDescriptionCleared, captureIDs),
 			},
 			// Re-reading should be a no-op: Read's buildModel also has to round-trip the
 			// empty string we planned, or this would be a perpetual diff.
 			{
 				Config:   testAccIncidentCatalogEntriesResourceConfigWithID(testCatalogID, entryWithDescription(""), false),
 				PlanOnly: true,
+			},
+			// A value set out of band after the clear is drift for the next apply to fix,
+			// not a refresh error.
+			{
+				PreConfig:          setDescriptionOutOfBand,
+				Config:             testAccIncidentCatalogEntriesResourceConfigWithID(testCatalogID, entryWithDescription(""), false),
+				PlanOnly:           true,
+				ExpectNonEmptyPlan: true,
+			},
+			{
+				Config: testAccIncidentCatalogEntriesResourceConfigWithID(testCatalogID, entryWithDescription(""), false),
+				Check:  checkDescriptionCleared,
+			},
+			// Setting a value again after a clear: the API response no longer has the key,
+			// so reconcile has to notice the payload adds it rather than skip the entry.
+			{
+				Config: testAccIncidentCatalogEntriesResourceConfigWithID(testCatalogID, entryWithDescription("set again"), false),
+				Check: func(s *terraform.State) error {
+					return resource.TestCheckResourceAttr("incident_catalog_entries.example",
+						fmt.Sprintf("entries.one.attribute_values.%s.value", descriptionAttrID), "set again")(s)
+				},
 			},
 		},
 	})
