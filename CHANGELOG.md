@@ -1,3 +1,7 @@
+## v7.7.1
+
+- Build with Go 1.27.3, which fixes CVE-2026-111943 in `crypto/x509`.
+
 ## v7.7.0
 
 - Add the `incident_alert_route` data source, which reads an alert route by `id` or `name`. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/data-sources/alert_route). (#645)
