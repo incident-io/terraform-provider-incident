@@ -1,6 +1,6 @@
 ## v6.13.2
 
-- Build with Go 1.26.10, which fixes CVE-2026-111943 in `crypto/x509`. The v6 schemas are unchanged, so upgrading from v6.13.1 needs no configuration changes.
+- Build with Go 1.26.10, which fixes CVE-2026-111943 in `crypto/x509`. The v6 schemas are unchanged, so upgrading from v6.13.1 needs no configuration changes. (#662)
 
 ## v6.13.1
 
