@@ -1,3 +1,7 @@
+## v6.13.2
+
+- Build with Go 1.26.10, which fixes CVE-2026-111943 in `crypto/x509`. The v6 schemas are unchanged, so upgrading from v6.13.1 needs no configuration changes. (#662)
+
 ## v6.13.1
 
 - Fix `incident_alert_route` failing to apply with "Provider produced inconsistent result after apply" when `owning_team_ids` is set to an empty list, on both the v2 and v3 schemas. Anyone who worked around this with `ignore_changes` or a placeholder team can drop it. Backported from v7. (#609, #610)
