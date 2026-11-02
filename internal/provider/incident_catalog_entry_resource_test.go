@@ -7,11 +7,21 @@ import (
 	"regexp"
 	"testing"
 	"text/template"
+	"time"
 
 	"github.com/davecgh/go-spew/spew"
 	"github.com/google/uuid"
+	"github.com/hashicorp/terraform-plugin-framework/path"
+	frameworkresource "github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
+	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/knownvalue"
+	"github.com/hashicorp/terraform-plugin-testing/plancheck"
+	"github.com/hashicorp/terraform-plugin-testing/statecheck"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/tfjsonpath"
 	"github.com/samber/lo"
 
 	"github.com/incident-io/terraform-provider-incident/v7/internal/client"
@@ -511,4 +521,367 @@ func testAccIncidentCatalogEntryResourceConfigTypeOnly(id string) string {
 
 func testAccIncidentCatalogEntryResourceConfig(name, description string, aliases []string) string {
 	return testAccIncidentCatalogEntryResourceConfigWithID(uuid.NewString(), name, description, aliases, false)
+}
+
+// TestIncidentCatalogEntryResource_ValidateAdoptConfig covers the split between creating an
+// entry and adopting one: an adopted entry's sync owns its name, aliases, external ID and
+// rank, and only adopted entries take custom aliases.
+func TestIncidentCatalogEntryResource_ValidateAdoptConfig(t *testing.T) {
+	cases := []struct {
+		name   string
+		config string
+		error  string
+	}{
+		{
+			name: "adopting with a name",
+			config: `
+resource "incident_catalog_entry" "test" {
+  catalog_type_id           = "catalog-type-id-123"
+  existing_entry_identifier = "primary"
+  name                      = "Primary"
+}`,
+			error: `name can't be set with existing_entry_identifier`,
+		},
+		{
+			name: "adopting with aliases",
+			config: `
+resource "incident_catalog_entry" "test" {
+  catalog_type_id           = "catalog-type-id-123"
+  existing_entry_identifier = "primary"
+  aliases                   = ["primary"]
+}`,
+			error: `aliases can't be set with existing_entry_identifier`,
+		},
+		{
+			name: "adopting with an unmanaged attribute",
+			config: `
+resource "incident_catalog_entry" "test" {
+  catalog_type_id           = "catalog-type-id-123"
+  existing_entry_identifier = "primary"
+  attribute_values = [{
+    attribute = "attribute-id-123"
+    value     = "A value"
+  }]
+}`,
+			error: `only manages the attributes listed in managed_attributes`,
+		},
+		{
+			name: "custom aliases without adopting",
+			config: `
+resource "incident_catalog_entry" "test" {
+  catalog_type_id  = "catalog-type-id-123"
+  name             = "Test Entry"
+  custom_aliases   = ["test"]
+  attribute_values = []
+}`,
+			error: `custom_aliases can only be set with existing_entry_identifier`,
+		},
+		{
+			name: "creating without a name",
+			config: `
+resource "incident_catalog_entry" "test" {
+  catalog_type_id  = "catalog-type-id-123"
+  attribute_values = []
+}`,
+			error: `name is required, unless existing_entry_identifier is set`,
+		},
+		{
+			name: "creating without attribute values",
+			config: `
+resource "incident_catalog_entry" "test" {
+  catalog_type_id = "catalog-type-id-123"
+  name            = "Test Entry"
+}`,
+			error: `attribute_values is required, unless existing_entry_identifier is set`,
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			resource.UnitTest(t, resource.TestCase{
+				ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+				Steps: []resource.TestStep{{
+					Config:      tc.config,
+					PlanOnly:    true,
+					ExpectError: regexp.MustCompile(tc.error),
+				}},
+			})
+		})
+	}
+
+	t.Run("adopting with custom aliases and managed attributes", func(t *testing.T) {
+		resource.UnitTest(t, resource.TestCase{
+			ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+			Steps: []resource.TestStep{{
+				Config: `
+resource "incident_catalog_entry" "test" {
+  catalog_type_id           = "catalog-type-id-123"
+  existing_entry_identifier = "primary"
+  custom_aliases            = ["primary-on-call"]
+  managed_attributes        = ["attribute-id-123"]
+  attribute_values = [{
+    attribute = "attribute-id-123"
+    value     = "A value"
+  }]
+}`,
+				PlanOnly:           true,
+				ExpectNonEmptyPlan: true,
+			}},
+		})
+	})
+}
+
+// TestIncidentCatalogEntryResource_ModifyPlanAdoptedAliases checks that aliases, which list
+// an adopted entry's custom aliases too, are only planned as unknown when Terraform is about
+// to change those custom aliases. Otherwise they keep the value in state.
+func TestIncidentCatalogEntryResource_ModifyPlanAdoptedAliases(t *testing.T) {
+	var schemaResp frameworkresource.SchemaResponse
+	NewIncidentCatalogEntryResource().Schema(context.Background(), frameworkresource.SchemaRequest{}, &schemaResp)
+	if schemaResp.Diagnostics.HasError() {
+		t.Fatalf("schema build failed: %+v", schemaResp.Diagnostics)
+	}
+	objType, ok := schemaResp.Schema.Type().TerraformType(context.Background()).(tftypes.Object)
+	if !ok {
+		t.Fatal("schema type is not an object")
+	}
+
+	stringSet := func(values ...string) tftypes.Value {
+		if values == nil {
+			return tftypes.NewValue(tftypes.Set{ElementType: tftypes.String}, nil)
+		}
+		elements := lo.Map(values, func(value string, _ int) tftypes.Value {
+			return tftypes.NewValue(tftypes.String, value)
+		})
+		return tftypes.NewValue(tftypes.Set{ElementType: tftypes.String}, elements)
+	}
+	entry := func(identifier *string, customAliases tftypes.Value) tftypes.Value {
+		values := map[string]tftypes.Value{}
+		for name, attrType := range objType.AttributeTypes {
+			values[name] = tftypes.NewValue(attrType, nil)
+		}
+		values["id"] = tftypes.NewValue(tftypes.String, "01ENTRY")
+		values["catalog_type_id"] = tftypes.NewValue(tftypes.String, "01TYPE")
+		values["name"] = tftypes.NewValue(tftypes.String, "Primary")
+		values["aliases"] = tftypes.NewValue(tftypes.List{ElementType: tftypes.String}, []tftypes.Value{
+			tftypes.NewValue(tftypes.String, "synced"),
+		})
+		if identifier != nil {
+			values["existing_entry_identifier"] = tftypes.NewValue(tftypes.String, *identifier)
+		}
+		values["custom_aliases"] = customAliases
+
+		return tftypes.NewValue(objType, values)
+	}
+
+	cases := []struct {
+		name           string
+		identifier     *string
+		prior, planned tftypes.Value
+		wantUnknown    bool
+	}{
+		{
+			name:        "adopted, custom aliases change",
+			identifier:  lo.ToPtr("primary"),
+			prior:       stringSet("one"),
+			planned:     stringSet("two"),
+			wantUnknown: true,
+		},
+		{
+			name:       "adopted, custom aliases unchanged",
+			identifier: lo.ToPtr("primary"),
+			prior:      stringSet("one"),
+			planned:    stringSet("one"),
+		},
+		{
+			name:       "adopted, custom aliases left out",
+			identifier: lo.ToPtr("primary"),
+			prior:      stringSet(),
+			planned:    stringSet(),
+		},
+		{
+			name:    "not adopted",
+			prior:   stringSet(),
+			planned: stringSet(),
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			state := tfsdk.State{Schema: schemaResp.Schema, Raw: entry(tc.identifier, tc.prior)}
+			plan := tfsdk.Plan{Schema: schemaResp.Schema, Raw: entry(tc.identifier, tc.planned)}
+			resp := frameworkresource.ModifyPlanResponse{Plan: plan}
+
+			r := &IncidentCatalogEntryResource{}
+			r.ModifyPlan(context.Background(), frameworkresource.ModifyPlanRequest{State: state, Plan: plan}, &resp)
+			if resp.Diagnostics.HasError() {
+				t.Fatalf("unexpected diagnostics: %+v", resp.Diagnostics)
+			}
+
+			var aliases types.List
+			resp.Plan.GetAttribute(context.Background(), path.Root("aliases"), &aliases)
+			if aliases.IsUnknown() != tc.wantUnknown {
+				t.Fatalf("expected aliases unknown=%v, got %s", tc.wantUnknown, aliases)
+			}
+		})
+	}
+}
+
+// TestAccIncidentCatalogEntryResourceAdoptSchedule adopts the catalog entry incident.io syncs
+// for a schedule, owns its custom aliases, then lets go of it. The entry has to outlive the
+// resource, with only the custom aliases cleared.
+func TestAccIncidentCatalogEntryResourceAdoptSchedule(t *testing.T) {
+	suffix := uuid.NewString()[:8]
+	var scheduleID string
+
+	captureScheduleID := func(s *terraform.State) error {
+		res, ok := s.RootModule().Resources["incident_schedule.test"]
+		if !ok {
+			return fmt.Errorf("incident_schedule.test is not in state")
+		}
+		scheduleID = res.Primary.ID
+		return nil
+	}
+
+	// The sync creates a schedule's catalog entry after the schedule, so wait for it rather
+	// than racing it: adopting a missing entry is meant to fail.
+	waitForScheduleEntry := func() {
+		deadline := time.Now().Add(2 * time.Minute)
+		for {
+			entry, err := findScheduleCatalogEntry(scheduleID)
+			if err == nil && entry != nil {
+				return
+			}
+			if time.Now().After(deadline) {
+				t.Fatalf("catalog entry for schedule %s never appeared: %v", scheduleID, err)
+			}
+			time.Sleep(5 * time.Second)
+		}
+	}
+
+	checkEntryReleased := func(s *terraform.State) error {
+		entry, err := findScheduleCatalogEntry(scheduleID)
+		if err != nil {
+			return err
+		}
+		if entry == nil {
+			return fmt.Errorf("expected the schedule's catalog entry to outlive the resource, but it is gone")
+		}
+		if len(entry.CustomAliases) > 0 {
+			return fmt.Errorf("expected custom aliases to be cleared, got %v", entry.CustomAliases)
+		}
+		return nil
+	}
+
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccIncidentCatalogEntryAdoptConfig(nil),
+				Check:  captureScheduleID,
+			},
+			{
+				PreConfig: waitForScheduleEntry,
+				Config:    testAccIncidentCatalogEntryAdoptConfig([]string{"tf-acc-one-" + suffix, "tf-acc-two-" + suffix}),
+				ConfigPlanChecks: resource.ConfigPlanChecks{
+					PostApplyPostRefresh: []plancheck.PlanCheck{plancheck.ExpectEmptyPlan()},
+				},
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrPair("incident_catalog_entry.test", "external_id", "incident_schedule.test", "id"),
+					resource.TestCheckResourceAttrPair("incident_catalog_entry.test", "name", "incident_schedule.test", "name"),
+					resource.TestCheckResourceAttr("incident_catalog_entry.test", "custom_aliases.#", "2"),
+					resource.TestCheckTypeSetElemAttr("incident_catalog_entry.test", "aliases.*", "tf-acc-one-"+suffix),
+					resource.TestCheckTypeSetElemAttr("incident_catalog_entry.test", "aliases.*", "tf-acc-two-"+suffix),
+				),
+			},
+			{
+				Config: testAccIncidentCatalogEntryAdoptConfig([]string{"tf-acc-three-" + suffix}),
+				ConfigPlanChecks: resource.ConfigPlanChecks{
+					PreApply:             []plancheck.PlanCheck{plancheck.ExpectResourceAction("incident_catalog_entry.test", plancheck.ResourceActionUpdate)},
+					PostApplyPostRefresh: []plancheck.PlanCheck{plancheck.ExpectEmptyPlan()},
+				},
+				ConfigStateChecks: []statecheck.StateCheck{
+					statecheck.ExpectKnownValue("incident_catalog_entry.test", tfjsonpath.New("custom_aliases"),
+						knownvalue.SetExact([]knownvalue.Check{knownvalue.StringExact("tf-acc-three-" + suffix)})),
+				},
+			},
+			// Removing the resource keeps the schedule, so we can check its entry survived.
+			{
+				Config: testAccIncidentCatalogEntryAdoptConfig(nil),
+				Check:  checkEntryReleased,
+			},
+		},
+	})
+}
+
+func TestAccIncidentCatalogEntryResourceAdoptMissingEntry(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{{
+			Config: `
+data "incident_catalog_type" "schedule" {
+  type_name = "Schedule"
+}
+
+resource "incident_catalog_entry" "test" {
+  catalog_type_id           = data.incident_catalog_type.schedule.id
+  existing_entry_identifier = "` + uuid.NewString() + `"
+  custom_aliases            = ["never-written"]
+}
+`,
+			ExpectError: regexp.MustCompile(`Catalog entry not found`),
+		}},
+	})
+}
+
+// findScheduleCatalogEntry returns the Schedule catalog entry synced for a schedule, or nil
+// if it hasn't synced yet. The entry's external ID is the schedule's ID.
+func findScheduleCatalogEntry(scheduleID string) (*client.CatalogEntryV3, error) {
+	ctx := context.Background()
+	catalogTypes, err := testClient.CatalogV3ListTypesWithResponse(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("listing catalog types: %w", err)
+	}
+	scheduleType, ok := lo.Find(catalogTypes.JSON200.CatalogTypes, func(catalogType client.CatalogTypeV3) bool {
+		return catalogType.TypeName == "Schedule"
+	})
+	if !ok {
+		return nil, fmt.Errorf("no Schedule catalog type")
+	}
+
+	entries, err := testClient.CatalogV3ListEntriesWithResponse(ctx, &client.CatalogV3ListEntriesParams{
+		CatalogTypeId: scheduleType.Id,
+		Identifier:    &scheduleID,
+		PageSize:      1,
+	})
+	if err != nil {
+		return nil, fmt.Errorf("listing schedule catalog entries: %w", err)
+	}
+	if len(entries.JSON200.CatalogEntries) == 0 {
+		return nil, nil
+	}
+
+	return &entries.JSON200.CatalogEntries[0], nil
+}
+
+// testAccIncidentCatalogEntryAdoptConfig adopts the test schedule's catalog entry with the
+// given custom aliases, or leaves the entry alone when there are none.
+func testAccIncidentCatalogEntryAdoptConfig(customAliases []string) string {
+	return testRunTemplate("incident_catalog_entry_adopt", `
+data "incident_catalog_type" "schedule" {
+  type_name = "Schedule"
+}
+
+resource "incident_schedule" "test" {
+  name     = {{ stableSuffix "acc-catalog-entry-adopt" | quote }}
+  timezone = "Europe/London"
+}
+{{ if .CustomAliases }}
+resource "incident_catalog_entry" "test" {
+  catalog_type_id           = data.incident_catalog_type.schedule.id
+  existing_entry_identifier = incident_schedule.test.id
+  custom_aliases            = {{ toJson .CustomAliases }}
+}
+{{ end }}`, map[string]any{"CustomAliases": customAliases})
 }

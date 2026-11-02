@@ -28,6 +28,7 @@ const (
 	APIKeyRoleV1NameDocumentsViewer                     APIKeyRoleV1Name = "documents_viewer"
 	APIKeyRoleV1NameEscalationCreator                   APIKeyRoleV1Name = "escalation_creator"
 	APIKeyRoleV1NameGlobalAccess                        APIKeyRoleV1Name = "global_access"
+	APIKeyRoleV1NameGlossaryEntriesManage               APIKeyRoleV1Name = "glossary_entries_manage"
 	APIKeyRoleV1NameHeartbeatsPing                      APIKeyRoleV1Name = "heartbeats_ping"
 	APIKeyRoleV1NameIncidentCreator                     APIKeyRoleV1Name = "incident_creator"
 	APIKeyRoleV1NameIncidentEditor                      APIKeyRoleV1Name = "incident_editor"
@@ -86,6 +87,8 @@ func (e APIKeyRoleV1Name) Valid() bool {
 	case APIKeyRoleV1NameEscalationCreator:
 		return true
 	case APIKeyRoleV1NameGlobalAccess:
+		return true
+	case APIKeyRoleV1NameGlossaryEntriesManage:
 		return true
 	case APIKeyRoleV1NameHeartbeatsPing:
 		return true
@@ -232,6 +235,7 @@ const (
 	APIKeysCreatePayloadV1RoleNamesDocumentsViewer                     APIKeysCreatePayloadV1RoleNames = "documents_viewer"
 	APIKeysCreatePayloadV1RoleNamesEscalationCreator                   APIKeysCreatePayloadV1RoleNames = "escalation_creator"
 	APIKeysCreatePayloadV1RoleNamesGlobalAccess                        APIKeysCreatePayloadV1RoleNames = "global_access"
+	APIKeysCreatePayloadV1RoleNamesGlossaryEntriesManage               APIKeysCreatePayloadV1RoleNames = "glossary_entries_manage"
 	APIKeysCreatePayloadV1RoleNamesHeartbeatsPing                      APIKeysCreatePayloadV1RoleNames = "heartbeats_ping"
 	APIKeysCreatePayloadV1RoleNamesIncidentCreator                     APIKeysCreatePayloadV1RoleNames = "incident_creator"
 	APIKeysCreatePayloadV1RoleNamesIncidentEditor                      APIKeysCreatePayloadV1RoleNames = "incident_editor"
@@ -290,6 +294,8 @@ func (e APIKeysCreatePayloadV1RoleNames) Valid() bool {
 	case APIKeysCreatePayloadV1RoleNamesEscalationCreator:
 		return true
 	case APIKeysCreatePayloadV1RoleNamesGlobalAccess:
+		return true
+	case APIKeysCreatePayloadV1RoleNamesGlossaryEntriesManage:
 		return true
 	case APIKeysCreatePayloadV1RoleNamesHeartbeatsPing:
 		return true
@@ -436,6 +442,7 @@ const (
 	APIKeysUpdatePayloadV1RoleNamesDocumentsViewer                     APIKeysUpdatePayloadV1RoleNames = "documents_viewer"
 	APIKeysUpdatePayloadV1RoleNamesEscalationCreator                   APIKeysUpdatePayloadV1RoleNames = "escalation_creator"
 	APIKeysUpdatePayloadV1RoleNamesGlobalAccess                        APIKeysUpdatePayloadV1RoleNames = "global_access"
+	APIKeysUpdatePayloadV1RoleNamesGlossaryEntriesManage               APIKeysUpdatePayloadV1RoleNames = "glossary_entries_manage"
 	APIKeysUpdatePayloadV1RoleNamesHeartbeatsPing                      APIKeysUpdatePayloadV1RoleNames = "heartbeats_ping"
 	APIKeysUpdatePayloadV1RoleNamesIncidentCreator                     APIKeysUpdatePayloadV1RoleNames = "incident_creator"
 	APIKeysUpdatePayloadV1RoleNamesIncidentEditor                      APIKeysUpdatePayloadV1RoleNames = "incident_editor"
@@ -494,6 +501,8 @@ func (e APIKeysUpdatePayloadV1RoleNames) Valid() bool {
 	case APIKeysUpdatePayloadV1RoleNamesEscalationCreator:
 		return true
 	case APIKeysUpdatePayloadV1RoleNamesGlobalAccess:
+		return true
+	case APIKeysUpdatePayloadV1RoleNamesGlossaryEntriesManage:
 		return true
 	case APIKeysUpdatePayloadV1RoleNamesHeartbeatsPing:
 		return true
@@ -640,6 +649,7 @@ const (
 	APIKeysValidatePayloadV1RoleNamesDocumentsViewer                     APIKeysValidatePayloadV1RoleNames = "documents_viewer"
 	APIKeysValidatePayloadV1RoleNamesEscalationCreator                   APIKeysValidatePayloadV1RoleNames = "escalation_creator"
 	APIKeysValidatePayloadV1RoleNamesGlobalAccess                        APIKeysValidatePayloadV1RoleNames = "global_access"
+	APIKeysValidatePayloadV1RoleNamesGlossaryEntriesManage               APIKeysValidatePayloadV1RoleNames = "glossary_entries_manage"
 	APIKeysValidatePayloadV1RoleNamesHeartbeatsPing                      APIKeysValidatePayloadV1RoleNames = "heartbeats_ping"
 	APIKeysValidatePayloadV1RoleNamesIncidentCreator                     APIKeysValidatePayloadV1RoleNames = "incident_creator"
 	APIKeysValidatePayloadV1RoleNamesIncidentEditor                      APIKeysValidatePayloadV1RoleNames = "incident_editor"
@@ -698,6 +708,8 @@ func (e APIKeysValidatePayloadV1RoleNames) Valid() bool {
 	case APIKeysValidatePayloadV1RoleNamesEscalationCreator:
 		return true
 	case APIKeysValidatePayloadV1RoleNamesGlobalAccess:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesGlossaryEntriesManage:
 		return true
 	case APIKeysValidatePayloadV1RoleNamesHeartbeatsPing:
 		return true
@@ -1470,6 +1482,7 @@ const (
 	AlertSourceCreatePayloadV3SourceTypeElasticsearch     AlertSourceCreatePayloadV3SourceType = "elasticsearch"
 	AlertSourceCreatePayloadV3SourceTypeEmail             AlertSourceCreatePayloadV3SourceType = "email"
 	AlertSourceCreatePayloadV3SourceTypeExpel             AlertSourceCreatePayloadV3SourceType = "expel"
+	AlertSourceCreatePayloadV3SourceTypeGitGuardian       AlertSourceCreatePayloadV3SourceType = "git_guardian"
 	AlertSourceCreatePayloadV3SourceTypeGithubIssue       AlertSourceCreatePayloadV3SourceType = "github_issue"
 	AlertSourceCreatePayloadV3SourceTypeGoogleCloud       AlertSourceCreatePayloadV3SourceType = "google_cloud"
 	AlertSourceCreatePayloadV3SourceTypeGoogleSecops      AlertSourceCreatePayloadV3SourceType = "google_secops"
@@ -1503,6 +1516,7 @@ const (
 	AlertSourceCreatePayloadV3SourceTypeStatusPageViews   AlertSourceCreatePayloadV3SourceType = "status_page_views"
 	AlertSourceCreatePayloadV3SourceTypeSumoLogic         AlertSourceCreatePayloadV3SourceType = "sumo_logic"
 	AlertSourceCreatePayloadV3SourceTypeUptime            AlertSourceCreatePayloadV3SourceType = "uptime"
+	AlertSourceCreatePayloadV3SourceTypeUpwind            AlertSourceCreatePayloadV3SourceType = "upwind"
 	AlertSourceCreatePayloadV3SourceTypeVercel            AlertSourceCreatePayloadV3SourceType = "vercel"
 	AlertSourceCreatePayloadV3SourceTypeWiz               AlertSourceCreatePayloadV3SourceType = "wiz"
 	AlertSourceCreatePayloadV3SourceTypeZendesk           AlertSourceCreatePayloadV3SourceType = "zendesk"
@@ -1548,6 +1562,8 @@ func (e AlertSourceCreatePayloadV3SourceType) Valid() bool {
 	case AlertSourceCreatePayloadV3SourceTypeEmail:
 		return true
 	case AlertSourceCreatePayloadV3SourceTypeExpel:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeGitGuardian:
 		return true
 	case AlertSourceCreatePayloadV3SourceTypeGithubIssue:
 		return true
@@ -1614,6 +1630,8 @@ func (e AlertSourceCreatePayloadV3SourceType) Valid() bool {
 	case AlertSourceCreatePayloadV3SourceTypeSumoLogic:
 		return true
 	case AlertSourceCreatePayloadV3SourceTypeUptime:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeUpwind:
 		return true
 	case AlertSourceCreatePayloadV3SourceTypeVercel:
 		return true
@@ -1731,6 +1749,7 @@ const (
 	AlertSourceV2SourceTypeElasticsearch     AlertSourceV2SourceType = "elasticsearch"
 	AlertSourceV2SourceTypeEmail             AlertSourceV2SourceType = "email"
 	AlertSourceV2SourceTypeExpel             AlertSourceV2SourceType = "expel"
+	AlertSourceV2SourceTypeGitGuardian       AlertSourceV2SourceType = "git_guardian"
 	AlertSourceV2SourceTypeGithubIssue       AlertSourceV2SourceType = "github_issue"
 	AlertSourceV2SourceTypeGoogleCloud       AlertSourceV2SourceType = "google_cloud"
 	AlertSourceV2SourceTypeGoogleSecops      AlertSourceV2SourceType = "google_secops"
@@ -1764,6 +1783,7 @@ const (
 	AlertSourceV2SourceTypeStatusPageViews   AlertSourceV2SourceType = "status_page_views"
 	AlertSourceV2SourceTypeSumoLogic         AlertSourceV2SourceType = "sumo_logic"
 	AlertSourceV2SourceTypeUptime            AlertSourceV2SourceType = "uptime"
+	AlertSourceV2SourceTypeUpwind            AlertSourceV2SourceType = "upwind"
 	AlertSourceV2SourceTypeVercel            AlertSourceV2SourceType = "vercel"
 	AlertSourceV2SourceTypeWiz               AlertSourceV2SourceType = "wiz"
 	AlertSourceV2SourceTypeZendesk           AlertSourceV2SourceType = "zendesk"
@@ -1809,6 +1829,8 @@ func (e AlertSourceV2SourceType) Valid() bool {
 	case AlertSourceV2SourceTypeEmail:
 		return true
 	case AlertSourceV2SourceTypeExpel:
+		return true
+	case AlertSourceV2SourceTypeGitGuardian:
 		return true
 	case AlertSourceV2SourceTypeGithubIssue:
 		return true
@@ -1876,6 +1898,8 @@ func (e AlertSourceV2SourceType) Valid() bool {
 		return true
 	case AlertSourceV2SourceTypeUptime:
 		return true
+	case AlertSourceV2SourceTypeUpwind:
+		return true
 	case AlertSourceV2SourceTypeVercel:
 		return true
 	case AlertSourceV2SourceTypeWiz:
@@ -1908,6 +1932,7 @@ const (
 	AlertSourceV3SourceTypeElasticsearch     AlertSourceV3SourceType = "elasticsearch"
 	AlertSourceV3SourceTypeEmail             AlertSourceV3SourceType = "email"
 	AlertSourceV3SourceTypeExpel             AlertSourceV3SourceType = "expel"
+	AlertSourceV3SourceTypeGitGuardian       AlertSourceV3SourceType = "git_guardian"
 	AlertSourceV3SourceTypeGithubIssue       AlertSourceV3SourceType = "github_issue"
 	AlertSourceV3SourceTypeGoogleCloud       AlertSourceV3SourceType = "google_cloud"
 	AlertSourceV3SourceTypeGoogleSecops      AlertSourceV3SourceType = "google_secops"
@@ -1941,6 +1966,7 @@ const (
 	AlertSourceV3SourceTypeStatusPageViews   AlertSourceV3SourceType = "status_page_views"
 	AlertSourceV3SourceTypeSumoLogic         AlertSourceV3SourceType = "sumo_logic"
 	AlertSourceV3SourceTypeUptime            AlertSourceV3SourceType = "uptime"
+	AlertSourceV3SourceTypeUpwind            AlertSourceV3SourceType = "upwind"
 	AlertSourceV3SourceTypeVercel            AlertSourceV3SourceType = "vercel"
 	AlertSourceV3SourceTypeWiz               AlertSourceV3SourceType = "wiz"
 	AlertSourceV3SourceTypeZendesk           AlertSourceV3SourceType = "zendesk"
@@ -1986,6 +2012,8 @@ func (e AlertSourceV3SourceType) Valid() bool {
 	case AlertSourceV3SourceTypeEmail:
 		return true
 	case AlertSourceV3SourceTypeExpel:
+		return true
+	case AlertSourceV3SourceTypeGitGuardian:
 		return true
 	case AlertSourceV3SourceTypeGithubIssue:
 		return true
@@ -2053,6 +2081,8 @@ func (e AlertSourceV3SourceType) Valid() bool {
 		return true
 	case AlertSourceV3SourceTypeUptime:
 		return true
+	case AlertSourceV3SourceTypeUpwind:
+		return true
 	case AlertSourceV3SourceTypeVercel:
 		return true
 	case AlertSourceV3SourceTypeWiz:
@@ -2085,6 +2115,7 @@ const (
 	AlertSourceValidatePayloadV3SourceTypeElasticsearch     AlertSourceValidatePayloadV3SourceType = "elasticsearch"
 	AlertSourceValidatePayloadV3SourceTypeEmail             AlertSourceValidatePayloadV3SourceType = "email"
 	AlertSourceValidatePayloadV3SourceTypeExpel             AlertSourceValidatePayloadV3SourceType = "expel"
+	AlertSourceValidatePayloadV3SourceTypeGitGuardian       AlertSourceValidatePayloadV3SourceType = "git_guardian"
 	AlertSourceValidatePayloadV3SourceTypeGithubIssue       AlertSourceValidatePayloadV3SourceType = "github_issue"
 	AlertSourceValidatePayloadV3SourceTypeGoogleCloud       AlertSourceValidatePayloadV3SourceType = "google_cloud"
 	AlertSourceValidatePayloadV3SourceTypeGoogleSecops      AlertSourceValidatePayloadV3SourceType = "google_secops"
@@ -2118,6 +2149,7 @@ const (
 	AlertSourceValidatePayloadV3SourceTypeStatusPageViews   AlertSourceValidatePayloadV3SourceType = "status_page_views"
 	AlertSourceValidatePayloadV3SourceTypeSumoLogic         AlertSourceValidatePayloadV3SourceType = "sumo_logic"
 	AlertSourceValidatePayloadV3SourceTypeUptime            AlertSourceValidatePayloadV3SourceType = "uptime"
+	AlertSourceValidatePayloadV3SourceTypeUpwind            AlertSourceValidatePayloadV3SourceType = "upwind"
 	AlertSourceValidatePayloadV3SourceTypeVercel            AlertSourceValidatePayloadV3SourceType = "vercel"
 	AlertSourceValidatePayloadV3SourceTypeWiz               AlertSourceValidatePayloadV3SourceType = "wiz"
 	AlertSourceValidatePayloadV3SourceTypeZendesk           AlertSourceValidatePayloadV3SourceType = "zendesk"
@@ -2163,6 +2195,8 @@ func (e AlertSourceValidatePayloadV3SourceType) Valid() bool {
 	case AlertSourceValidatePayloadV3SourceTypeEmail:
 		return true
 	case AlertSourceValidatePayloadV3SourceTypeExpel:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeGitGuardian:
 		return true
 	case AlertSourceValidatePayloadV3SourceTypeGithubIssue:
 		return true
@@ -2230,6 +2264,8 @@ func (e AlertSourceValidatePayloadV3SourceType) Valid() bool {
 		return true
 	case AlertSourceValidatePayloadV3SourceTypeUptime:
 		return true
+	case AlertSourceValidatePayloadV3SourceTypeUpwind:
+		return true
 	case AlertSourceValidatePayloadV3SourceTypeVercel:
 		return true
 	case AlertSourceValidatePayloadV3SourceTypeWiz:
@@ -2262,6 +2298,7 @@ const (
 	AlertSourcesCreatePayloadV2SourceTypeElasticsearch     AlertSourcesCreatePayloadV2SourceType = "elasticsearch"
 	AlertSourcesCreatePayloadV2SourceTypeEmail             AlertSourcesCreatePayloadV2SourceType = "email"
 	AlertSourcesCreatePayloadV2SourceTypeExpel             AlertSourcesCreatePayloadV2SourceType = "expel"
+	AlertSourcesCreatePayloadV2SourceTypeGitGuardian       AlertSourcesCreatePayloadV2SourceType = "git_guardian"
 	AlertSourcesCreatePayloadV2SourceTypeGithubIssue       AlertSourcesCreatePayloadV2SourceType = "github_issue"
 	AlertSourcesCreatePayloadV2SourceTypeGoogleCloud       AlertSourcesCreatePayloadV2SourceType = "google_cloud"
 	AlertSourcesCreatePayloadV2SourceTypeGoogleSecops      AlertSourcesCreatePayloadV2SourceType = "google_secops"
@@ -2295,6 +2332,7 @@ const (
 	AlertSourcesCreatePayloadV2SourceTypeStatusPageViews   AlertSourcesCreatePayloadV2SourceType = "status_page_views"
 	AlertSourcesCreatePayloadV2SourceTypeSumoLogic         AlertSourcesCreatePayloadV2SourceType = "sumo_logic"
 	AlertSourcesCreatePayloadV2SourceTypeUptime            AlertSourcesCreatePayloadV2SourceType = "uptime"
+	AlertSourcesCreatePayloadV2SourceTypeUpwind            AlertSourcesCreatePayloadV2SourceType = "upwind"
 	AlertSourcesCreatePayloadV2SourceTypeVercel            AlertSourcesCreatePayloadV2SourceType = "vercel"
 	AlertSourcesCreatePayloadV2SourceTypeWiz               AlertSourcesCreatePayloadV2SourceType = "wiz"
 	AlertSourcesCreatePayloadV2SourceTypeZendesk           AlertSourcesCreatePayloadV2SourceType = "zendesk"
@@ -2340,6 +2378,8 @@ func (e AlertSourcesCreatePayloadV2SourceType) Valid() bool {
 	case AlertSourcesCreatePayloadV2SourceTypeEmail:
 		return true
 	case AlertSourcesCreatePayloadV2SourceTypeExpel:
+		return true
+	case AlertSourcesCreatePayloadV2SourceTypeGitGuardian:
 		return true
 	case AlertSourcesCreatePayloadV2SourceTypeGithubIssue:
 		return true
@@ -2407,6 +2447,8 @@ func (e AlertSourcesCreatePayloadV2SourceType) Valid() bool {
 		return true
 	case AlertSourcesCreatePayloadV2SourceTypeUptime:
 		return true
+	case AlertSourcesCreatePayloadV2SourceTypeUpwind:
+		return true
 	case AlertSourcesCreatePayloadV2SourceTypeVercel:
 		return true
 	case AlertSourcesCreatePayloadV2SourceTypeWiz:
@@ -2439,6 +2481,7 @@ const (
 	AlertSourcesValidatePayloadV2SourceTypeElasticsearch     AlertSourcesValidatePayloadV2SourceType = "elasticsearch"
 	AlertSourcesValidatePayloadV2SourceTypeEmail             AlertSourcesValidatePayloadV2SourceType = "email"
 	AlertSourcesValidatePayloadV2SourceTypeExpel             AlertSourcesValidatePayloadV2SourceType = "expel"
+	AlertSourcesValidatePayloadV2SourceTypeGitGuardian       AlertSourcesValidatePayloadV2SourceType = "git_guardian"
 	AlertSourcesValidatePayloadV2SourceTypeGithubIssue       AlertSourcesValidatePayloadV2SourceType = "github_issue"
 	AlertSourcesValidatePayloadV2SourceTypeGoogleCloud       AlertSourcesValidatePayloadV2SourceType = "google_cloud"
 	AlertSourcesValidatePayloadV2SourceTypeGoogleSecops      AlertSourcesValidatePayloadV2SourceType = "google_secops"
@@ -2472,6 +2515,7 @@ const (
 	AlertSourcesValidatePayloadV2SourceTypeStatusPageViews   AlertSourcesValidatePayloadV2SourceType = "status_page_views"
 	AlertSourcesValidatePayloadV2SourceTypeSumoLogic         AlertSourcesValidatePayloadV2SourceType = "sumo_logic"
 	AlertSourcesValidatePayloadV2SourceTypeUptime            AlertSourcesValidatePayloadV2SourceType = "uptime"
+	AlertSourcesValidatePayloadV2SourceTypeUpwind            AlertSourcesValidatePayloadV2SourceType = "upwind"
 	AlertSourcesValidatePayloadV2SourceTypeVercel            AlertSourcesValidatePayloadV2SourceType = "vercel"
 	AlertSourcesValidatePayloadV2SourceTypeWiz               AlertSourcesValidatePayloadV2SourceType = "wiz"
 	AlertSourcesValidatePayloadV2SourceTypeZendesk           AlertSourcesValidatePayloadV2SourceType = "zendesk"
@@ -2517,6 +2561,8 @@ func (e AlertSourcesValidatePayloadV2SourceType) Valid() bool {
 	case AlertSourcesValidatePayloadV2SourceTypeEmail:
 		return true
 	case AlertSourcesValidatePayloadV2SourceTypeExpel:
+		return true
+	case AlertSourcesValidatePayloadV2SourceTypeGitGuardian:
 		return true
 	case AlertSourcesValidatePayloadV2SourceTypeGithubIssue:
 		return true
@@ -2583,6 +2629,8 @@ func (e AlertSourcesValidatePayloadV2SourceType) Valid() bool {
 	case AlertSourcesValidatePayloadV2SourceTypeSumoLogic:
 		return true
 	case AlertSourcesValidatePayloadV2SourceTypeUptime:
+		return true
+	case AlertSourcesValidatePayloadV2SourceTypeUpwind:
 		return true
 	case AlertSourcesValidatePayloadV2SourceTypeVercel:
 		return true
@@ -6217,6 +6265,7 @@ const (
 	ExternalResourceV1ResourceTypeOpsgenieAlert               ExternalResourceV1ResourceType = "opsgenie_alert"
 	ExternalResourceV1ResourceTypeOutlookCalendarEvent        ExternalResourceV1ResourceType = "outlook_calendar_event"
 	ExternalResourceV1ResourceTypePagerDutyIncident           ExternalResourceV1ResourceType = "pager_duty_incident"
+	ExternalResourceV1ResourceTypePylonIssue                  ExternalResourceV1ResourceType = "pylon_issue"
 	ExternalResourceV1ResourceTypeSalesforceCase              ExternalResourceV1ResourceType = "salesforce_case"
 	ExternalResourceV1ResourceTypeScrubbed                    ExternalResourceV1ResourceType = "scrubbed"
 	ExternalResourceV1ResourceTypeSentryIssue                 ExternalResourceV1ResourceType = "sentry_issue"
@@ -6249,6 +6298,8 @@ func (e ExternalResourceV1ResourceType) Valid() bool {
 	case ExternalResourceV1ResourceTypeOutlookCalendarEvent:
 		return true
 	case ExternalResourceV1ResourceTypePagerDutyIncident:
+		return true
+	case ExternalResourceV1ResourceTypePylonIssue:
 		return true
 	case ExternalResourceV1ResourceTypeSalesforceCase:
 		return true
@@ -6493,6 +6544,7 @@ const (
 	IdentityV1RolesDocumentsViewer                     IdentityV1Roles = "documents_viewer"
 	IdentityV1RolesEscalationCreator                   IdentityV1Roles = "escalation_creator"
 	IdentityV1RolesGlobalAccess                        IdentityV1Roles = "global_access"
+	IdentityV1RolesGlossaryEntriesManage               IdentityV1Roles = "glossary_entries_manage"
 	IdentityV1RolesHeartbeatsPing                      IdentityV1Roles = "heartbeats_ping"
 	IdentityV1RolesIncidentCreator                     IdentityV1Roles = "incident_creator"
 	IdentityV1RolesIncidentEditor                      IdentityV1Roles = "incident_editor"
@@ -6551,6 +6603,8 @@ func (e IdentityV1Roles) Valid() bool {
 	case IdentityV1RolesEscalationCreator:
 		return true
 	case IdentityV1RolesGlobalAccess:
+		return true
+	case IdentityV1RolesGlossaryEntriesManage:
 		return true
 	case IdentityV1RolesHeartbeatsPing:
 		return true
@@ -6728,6 +6782,7 @@ const (
 	IncidentTypeChanged                         IncidentActivityLogEntryV2Type = "incident_type_changed"
 	IncidentUpdate                              IncidentActivityLogEntryV2Type = "incident_update"
 	IncidentVisibilityChanged                   IncidentActivityLogEntryV2Type = "incident_visibility_changed"
+	InvestigationHeadsUp                        IncidentActivityLogEntryV2Type = "investigation_heads_up"
 	InvestigationHypothesisUpdate               IncidentActivityLogEntryV2Type = "investigation_hypothesis_update"
 	MicrosoftTeamsAnnouncementReply             IncidentActivityLogEntryV2Type = "microsoft_teams_announcement_reply"
 	MicrosoftTeamsImage                         IncidentActivityLogEntryV2Type = "microsoft_teams_image"
@@ -6835,6 +6890,8 @@ func (e IncidentActivityLogEntryV2Type) Valid() bool {
 		return true
 	case IncidentVisibilityChanged:
 		return true
+	case InvestigationHeadsUp:
+		return true
 	case InvestigationHypothesisUpdate:
 		return true
 	case MicrosoftTeamsAnnouncementReply:
@@ -6901,6 +6958,7 @@ const (
 	IncidentAttachmentsCreatePayloadV1ResourceResourceTypeOpsgenieAlert               IncidentAttachmentsCreatePayloadV1ResourceResourceType = "opsgenie_alert"
 	IncidentAttachmentsCreatePayloadV1ResourceResourceTypeOutlookCalendarEvent        IncidentAttachmentsCreatePayloadV1ResourceResourceType = "outlook_calendar_event"
 	IncidentAttachmentsCreatePayloadV1ResourceResourceTypePagerDutyIncident           IncidentAttachmentsCreatePayloadV1ResourceResourceType = "pager_duty_incident"
+	IncidentAttachmentsCreatePayloadV1ResourceResourceTypePylonIssue                  IncidentAttachmentsCreatePayloadV1ResourceResourceType = "pylon_issue"
 	IncidentAttachmentsCreatePayloadV1ResourceResourceTypeSalesforceCase              IncidentAttachmentsCreatePayloadV1ResourceResourceType = "salesforce_case"
 	IncidentAttachmentsCreatePayloadV1ResourceResourceTypeScrubbed                    IncidentAttachmentsCreatePayloadV1ResourceResourceType = "scrubbed"
 	IncidentAttachmentsCreatePayloadV1ResourceResourceTypeSentryIssue                 IncidentAttachmentsCreatePayloadV1ResourceResourceType = "sentry_issue"
@@ -6933,6 +6991,8 @@ func (e IncidentAttachmentsCreatePayloadV1ResourceResourceType) Valid() bool {
 	case IncidentAttachmentsCreatePayloadV1ResourceResourceTypeOutlookCalendarEvent:
 		return true
 	case IncidentAttachmentsCreatePayloadV1ResourceResourceTypePagerDutyIncident:
+		return true
+	case IncidentAttachmentsCreatePayloadV1ResourceResourceTypePylonIssue:
 		return true
 	case IncidentAttachmentsCreatePayloadV1ResourceResourceTypeSalesforceCase:
 		return true
@@ -7725,6 +7785,57 @@ func (e IncidentV2Visibility) Valid() bool {
 	case IncidentV2VisibilityPrivate:
 		return true
 	case IncidentV2VisibilityPublic:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for IncidentsConnectExternalIssuePayloadV2Provider.
+const (
+	IncidentsConnectExternalIssuePayloadV2ProviderAsana        IncidentsConnectExternalIssuePayloadV2Provider = "asana"
+	IncidentsConnectExternalIssuePayloadV2ProviderAzureDevops  IncidentsConnectExternalIssuePayloadV2Provider = "azure_devops"
+	IncidentsConnectExternalIssuePayloadV2ProviderClickUp      IncidentsConnectExternalIssuePayloadV2Provider = "click_up"
+	IncidentsConnectExternalIssuePayloadV2ProviderFreshservice IncidentsConnectExternalIssuePayloadV2Provider = "freshservice"
+	IncidentsConnectExternalIssuePayloadV2ProviderGithub       IncidentsConnectExternalIssuePayloadV2Provider = "github"
+	IncidentsConnectExternalIssuePayloadV2ProviderGitlab       IncidentsConnectExternalIssuePayloadV2Provider = "gitlab"
+	IncidentsConnectExternalIssuePayloadV2ProviderJira         IncidentsConnectExternalIssuePayloadV2Provider = "jira"
+	IncidentsConnectExternalIssuePayloadV2ProviderJiraServer   IncidentsConnectExternalIssuePayloadV2Provider = "jira_server"
+	IncidentsConnectExternalIssuePayloadV2ProviderLinear       IncidentsConnectExternalIssuePayloadV2Provider = "linear"
+	IncidentsConnectExternalIssuePayloadV2ProviderNotion       IncidentsConnectExternalIssuePayloadV2Provider = "notion"
+	IncidentsConnectExternalIssuePayloadV2ProviderSalesforce   IncidentsConnectExternalIssuePayloadV2Provider = "salesforce"
+	IncidentsConnectExternalIssuePayloadV2ProviderServiceNow   IncidentsConnectExternalIssuePayloadV2Provider = "service_now"
+	IncidentsConnectExternalIssuePayloadV2ProviderShortcut     IncidentsConnectExternalIssuePayloadV2Provider = "shortcut"
+)
+
+// Valid indicates whether the value is a known member of the IncidentsConnectExternalIssuePayloadV2Provider enum.
+func (e IncidentsConnectExternalIssuePayloadV2Provider) Valid() bool {
+	switch e {
+	case IncidentsConnectExternalIssuePayloadV2ProviderAsana:
+		return true
+	case IncidentsConnectExternalIssuePayloadV2ProviderAzureDevops:
+		return true
+	case IncidentsConnectExternalIssuePayloadV2ProviderClickUp:
+		return true
+	case IncidentsConnectExternalIssuePayloadV2ProviderFreshservice:
+		return true
+	case IncidentsConnectExternalIssuePayloadV2ProviderGithub:
+		return true
+	case IncidentsConnectExternalIssuePayloadV2ProviderGitlab:
+		return true
+	case IncidentsConnectExternalIssuePayloadV2ProviderJira:
+		return true
+	case IncidentsConnectExternalIssuePayloadV2ProviderJiraServer:
+		return true
+	case IncidentsConnectExternalIssuePayloadV2ProviderLinear:
+		return true
+	case IncidentsConnectExternalIssuePayloadV2ProviderNotion:
+		return true
+	case IncidentsConnectExternalIssuePayloadV2ProviderSalesforce:
+		return true
+	case IncidentsConnectExternalIssuePayloadV2ProviderServiceNow:
+		return true
+	case IncidentsConnectExternalIssuePayloadV2ProviderShortcut:
 		return true
 	default:
 		return false
@@ -9130,6 +9241,7 @@ func (e PostmortemDocumentsUpdateStatusPayloadV1Status) Valid() bool {
 const (
 	RichTextParseMarkdownPayloadV1FeatureSetBasic                      RichTextParseMarkdownPayloadV1FeatureSet = "basic"
 	RichTextParseMarkdownPayloadV1FeatureSetBasicNoLinks               RichTextParseMarkdownPayloadV1FeatureSet = "basic_no_links"
+	RichTextParseMarkdownPayloadV1FeatureSetComment                    RichTextParseMarkdownPayloadV1FeatureSet = "comment"
 	RichTextParseMarkdownPayloadV1FeatureSetJira                       RichTextParseMarkdownPayloadV1FeatureSet = "jira"
 	RichTextParseMarkdownPayloadV1FeatureSetMrkdwn                     RichTextParseMarkdownPayloadV1FeatureSet = "mrkdwn"
 	RichTextParseMarkdownPayloadV1FeatureSetPlainMultiLine             RichTextParseMarkdownPayloadV1FeatureSet = "plain_multi_line"
@@ -9147,6 +9259,8 @@ func (e RichTextParseMarkdownPayloadV1FeatureSet) Valid() bool {
 	case RichTextParseMarkdownPayloadV1FeatureSetBasic:
 		return true
 	case RichTextParseMarkdownPayloadV1FeatureSetBasicNoLinks:
+		return true
+	case RichTextParseMarkdownPayloadV1FeatureSetComment:
 		return true
 	case RichTextParseMarkdownPayloadV1FeatureSetJira:
 		return true
@@ -9851,9 +9965,11 @@ func (e StatusPagesShowStatusPageStructureResultV2DisplayUptimeMode) Valid() boo
 
 // Defines values for StepProgressSlimV2Status.
 const (
-	StepProgressSlimV2StatusComplete StepProgressSlimV2Status = "complete"
-	StepProgressSlimV2StatusError    StepProgressSlimV2Status = "error"
-	StepProgressSlimV2StatusPending  StepProgressSlimV2Status = "pending"
+	StepProgressSlimV2StatusComplete  StepProgressSlimV2Status = "complete"
+	StepProgressSlimV2StatusError     StepProgressSlimV2Status = "error"
+	StepProgressSlimV2StatusPending   StepProgressSlimV2Status = "pending"
+	StepProgressSlimV2StatusSkipped   StepProgressSlimV2Status = "skipped"
+	StepProgressSlimV2StatusSuspended StepProgressSlimV2Status = "suspended"
 )
 
 // Valid indicates whether the value is a known member of the StepProgressSlimV2Status enum.
@@ -9864,6 +9980,10 @@ func (e StepProgressSlimV2Status) Valid() bool {
 	case StepProgressSlimV2StatusError:
 		return true
 	case StepProgressSlimV2StatusPending:
+		return true
+	case StepProgressSlimV2StatusSkipped:
+		return true
+	case StepProgressSlimV2StatusSuspended:
 		return true
 	default:
 		return false
@@ -9893,9 +10013,11 @@ func (e StepProgressSlimV2WebhookDeliveryState) Valid() bool {
 
 // Defines values for StepProgressV2Status.
 const (
-	StepProgressV2StatusComplete StepProgressV2Status = "complete"
-	StepProgressV2StatusError    StepProgressV2Status = "error"
-	StepProgressV2StatusPending  StepProgressV2Status = "pending"
+	StepProgressV2StatusComplete  StepProgressV2Status = "complete"
+	StepProgressV2StatusError     StepProgressV2Status = "error"
+	StepProgressV2StatusPending   StepProgressV2Status = "pending"
+	StepProgressV2StatusSkipped   StepProgressV2Status = "skipped"
+	StepProgressV2StatusSuspended StepProgressV2Status = "suspended"
 )
 
 // Valid indicates whether the value is a known member of the StepProgressV2Status enum.
@@ -9906,6 +10028,10 @@ func (e StepProgressV2Status) Valid() bool {
 	case StepProgressV2StatusError:
 		return true
 	case StepProgressV2StatusPending:
+		return true
+	case StepProgressV2StatusSkipped:
+		return true
+	case StepProgressV2StatusSuspended:
 		return true
 	default:
 		return false
@@ -9955,6 +10081,7 @@ func (e TeamGroupingSettingsV3WindowType) Valid() bool {
 const (
 	TextDocumentV1FeatureSetBasic                      TextDocumentV1FeatureSet = "basic"
 	TextDocumentV1FeatureSetBasicNoLinks               TextDocumentV1FeatureSet = "basic_no_links"
+	TextDocumentV1FeatureSetComment                    TextDocumentV1FeatureSet = "comment"
 	TextDocumentV1FeatureSetJira                       TextDocumentV1FeatureSet = "jira"
 	TextDocumentV1FeatureSetMrkdwn                     TextDocumentV1FeatureSet = "mrkdwn"
 	TextDocumentV1FeatureSetPlainMultiLine             TextDocumentV1FeatureSet = "plain_multi_line"
@@ -9972,6 +10099,8 @@ func (e TextDocumentV1FeatureSet) Valid() bool {
 	case TextDocumentV1FeatureSetBasic:
 		return true
 	case TextDocumentV1FeatureSetBasicNoLinks:
+		return true
+	case TextDocumentV1FeatureSetComment:
 		return true
 	case TextDocumentV1FeatureSetJira:
 		return true
@@ -10804,6 +10933,7 @@ const (
 	IncidentAttachmentsV1ListParamsResourceTypeOpsgenieAlert               IncidentAttachmentsV1ListParamsResourceType = "opsgenie_alert"
 	IncidentAttachmentsV1ListParamsResourceTypeOutlookCalendarEvent        IncidentAttachmentsV1ListParamsResourceType = "outlook_calendar_event"
 	IncidentAttachmentsV1ListParamsResourceTypePagerDutyIncident           IncidentAttachmentsV1ListParamsResourceType = "pager_duty_incident"
+	IncidentAttachmentsV1ListParamsResourceTypePylonIssue                  IncidentAttachmentsV1ListParamsResourceType = "pylon_issue"
 	IncidentAttachmentsV1ListParamsResourceTypeSalesforceCase              IncidentAttachmentsV1ListParamsResourceType = "salesforce_case"
 	IncidentAttachmentsV1ListParamsResourceTypeScrubbed                    IncidentAttachmentsV1ListParamsResourceType = "scrubbed"
 	IncidentAttachmentsV1ListParamsResourceTypeSentryIssue                 IncidentAttachmentsV1ListParamsResourceType = "sentry_issue"
@@ -10836,6 +10966,8 @@ func (e IncidentAttachmentsV1ListParamsResourceType) Valid() bool {
 	case IncidentAttachmentsV1ListParamsResourceTypeOutlookCalendarEvent:
 		return true
 	case IncidentAttachmentsV1ListParamsResourceTypePagerDutyIncident:
+		return true
+	case IncidentAttachmentsV1ListParamsResourceTypePylonIssue:
 		return true
 	case IncidentAttachmentsV1ListParamsResourceTypeSalesforceCase:
 		return true
@@ -12040,6 +12172,83 @@ type AlertActorV2 struct {
 	//
 	// Example: *errors.withMessage: PG::Error failed to connect
 	Title string `json:"title"`
+}
+
+// AlertAttachmentV2 Something attached to an alert or alert group, such as a ticket, a pull request or
+// a link.
+//
+// Example: {"alert_group_id":"01HB9Z8WANK6P870EA6S7TK1DS","alert_id":"01FCNDV6P870EA6S7TK1DSYDG0","created_at":"2026-10-23T15:30:00Z","id":"01J1X9J85C7Y12G8P8W8K55Q5Y","title":"Tune the disk usage alert","url":"https://linear.app/acme/issue/ENG-123"}
+type AlertAttachmentV2 struct {
+	// AlertGroupId ID of the alert group this is attached to. Exactly one of alert_id or alert_group_id is set.
+	//
+	// Example: 01HB9Z8WANK6P870EA6S7TK1DS
+	AlertGroupId *string `json:"alert_group_id,omitempty"`
+
+	// AlertId ID of the alert this is attached to. Exactly one of alert_id or alert_group_id is set.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	AlertId *string `json:"alert_id,omitempty"`
+
+	// CreatedAt When it was attached
+	//
+	// Example: 2026-10-23T15:30:00Z
+	CreatedAt time.Time `json:"created_at"`
+
+	// Id Unique identifier for the alert attachment
+	//
+	// Example: 01J1X9J85C7Y12G8P8W8K55Q5Y
+	Id string `json:"id"`
+
+	// Title The ticket or pull request's title, or the link's title
+	//
+	// Example: Tune the disk usage alert
+	Title string `json:"title"`
+
+	// Url URL of the attached ticket, pull request or link
+	//
+	// Example: https://linear.app/acme/issue/ENG-123
+	Url string `json:"url"`
+}
+
+// AlertAttachmentsCreatePayloadV2 Example: {"alert_group_id":"01HB9Z8WANK6P870EA6S7TK1DS","alert_id":"01FCNDV6P870EA6S7TK1DSYDG0","title":"Disk usage dashboard","url":"https://linear.app/acme/issue/ENG-123"}
+type AlertAttachmentsCreatePayloadV2 struct {
+	// AlertGroupId ID of the alert group to attach to. Provide exactly one of alert_id or alert_group_id.
+	//
+	// Example: 01HB9Z8WANK6P870EA6S7TK1DS
+	AlertGroupId *string `json:"alert_group_id,omitempty"`
+
+	// AlertId ID of the alert to attach to. Provide exactly one of alert_id or alert_group_id.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	AlertId *string `json:"alert_id,omitempty"`
+
+	// Title Title for a link. Tickets and pull requests use their own title, so we ignore this for them.
+	//
+	// Example: Disk usage dashboard
+	Title *string `json:"title,omitempty"`
+
+	// Url The URL to attach
+	//
+	// Example: https://linear.app/acme/issue/ENG-123
+	Url string `json:"url"`
+}
+
+// AlertAttachmentsCreateResultV2 Example: {"alert_attachment":{"alert_group_id":"01HB9Z8WANK6P870EA6S7TK1DS","alert_id":"01FCNDV6P870EA6S7TK1DSYDG0","created_at":"2026-10-23T15:30:00Z","id":"01J1X9J85C7Y12G8P8W8K55Q5Y","title":"Tune the disk usage alert","url":"https://linear.app/acme/issue/ENG-123"}}
+type AlertAttachmentsCreateResultV2 struct {
+	// AlertAttachment Something attached to an alert or alert group, such as a ticket, a pull request or
+	// a link.
+	//
+	// Example: {"alert_group_id":"01HB9Z8WANK6P870EA6S7TK1DS","alert_id":"01FCNDV6P870EA6S7TK1DSYDG0","created_at":"2026-10-23T15:30:00Z","id":"01J1X9J85C7Y12G8P8W8K55Q5Y","title":"Tune the disk usage alert","url":"https://linear.app/acme/issue/ENG-123"}
+	AlertAttachment AlertAttachmentV2 `json:"alert_attachment"`
+}
+
+// AlertAttachmentsListResultV2 Example: {"alert_attachments":[{"alert_group_id":"01HB9Z8WANK6P870EA6S7TK1DS","alert_id":"01FCNDV6P870EA6S7TK1DSYDG0","created_at":"2026-10-23T15:30:00Z","id":"01J1X9J85C7Y12G8P8W8K55Q5Y","title":"Tune the disk usage alert","url":"https://linear.app/acme/issue/ENG-123"}],"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}}
+type AlertAttachmentsListResultV2 struct {
+	// AlertAttachments Example: [{"alert_group_id":"01HB9Z8WANK6P870EA6S7TK1DS","alert_id":"01FCNDV6P870EA6S7TK1DSYDG0","created_at":"2026-10-23T15:30:00Z","id":"01J1X9J85C7Y12G8P8W8K55Q5Y","title":"Tune the disk usage alert","url":"https://linear.app/acme/issue/ENG-123"}]
+	AlertAttachments []AlertAttachmentV2 `json:"alert_attachments"`
+
+	// PaginationMeta Example: {"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}
+	PaginationMeta *PaginationMetaResultV2 `json:"pagination_meta,omitempty"`
 }
 
 // AlertAttributeCatalogEntryV2 Example: {"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"}
@@ -16329,7 +16538,7 @@ type CallTranscriptEntryV2 struct {
 // Example: spoken
 type CallTranscriptEntryV2Medium string
 
-// CatalogBulkUpdateEntriesPayloadV3 Example: {"catalog_type_id":"01GW2G3V0S59R238FAHPDS1R66","entries":[{"aliases":["abc123"],"attribute_values":{"abc123":{"array_value":[{"literal":"SEV123"}],"value":{"literal":"SEV123"}}},"entry_id":"abc123","external_id":"abc123","name":"abc123","rank":1},{"aliases":["abc123"],"attribute_values":{"abc123":{"array_value":[{"literal":"SEV123"}],"value":{"literal":"SEV123"}}},"entry_id":"abc123","external_id":"abc123","name":"abc123","rank":1}],"update_attributes":["01GW2G3V0S59R238FAHPDS1R66","01GW2G3V0S59R238FAHPDS1R67"]}
+// CatalogBulkUpdateEntriesPayloadV3 Example: {"catalog_type_id":"01GW2G3V0S59R238FAHPDS1R66","entries":[{"aliases":["abc123"],"attribute_values":{"abc123":{"array_value":[{"literal":"SEV123"}],"value":{"literal":"SEV123"}}},"custom_aliases":["primary-on-call"],"entry_id":"abc123","external_id":"abc123","name":"abc123","rank":1},{"aliases":["abc123"],"attribute_values":{"abc123":{"array_value":[{"literal":"SEV123"}],"value":{"literal":"SEV123"}}},"custom_aliases":["primary-on-call"],"entry_id":"abc123","external_id":"abc123","name":"abc123","rank":1}],"update_attributes":["01GW2G3V0S59R238FAHPDS1R66","01GW2G3V0S59R238FAHPDS1R67"]}
 type CatalogBulkUpdateEntriesPayloadV3 struct {
 	// CatalogTypeId The unique identifier of the catalog type containing the entries
 	//
@@ -16338,7 +16547,7 @@ type CatalogBulkUpdateEntriesPayloadV3 struct {
 
 	// Entries A list of entries to update with their new values. Maximum 250 entries per request.
 	//
-	// Example: [{"aliases":["abc123"],"attribute_values":{"abc123":{"array_value":[{"literal":"SEV123"}],"value":{"literal":"SEV123"}}},"entry_id":"abc123","external_id":"abc123","name":"abc123","rank":1},{"aliases":["abc123"],"attribute_values":{"abc123":{"array_value":[{"literal":"SEV123"}],"value":{"literal":"SEV123"}}},"entry_id":"abc123","external_id":"abc123","name":"abc123","rank":1}]
+	// Example: [{"aliases":["abc123"],"attribute_values":{"abc123":{"array_value":[{"literal":"SEV123"}],"value":{"literal":"SEV123"}}},"custom_aliases":["primary-on-call"],"entry_id":"abc123","external_id":"abc123","name":"abc123","rank":1},{"aliases":["abc123"],"attribute_values":{"abc123":{"array_value":[{"literal":"SEV123"}],"value":{"literal":"SEV123"}}},"custom_aliases":["primary-on-call"],"entry_id":"abc123","external_id":"abc123","name":"abc123","rank":1}]
 	Entries []PartialEntryPayloadV3 `json:"entries"`
 
 	// UpdateAttributes Optional list of specific attribute IDs to update across all entries. When provided, only these attributes in attribute_values will be updated and all other attributes will be preserved. This parameter only affects attribute_values - it does not affect core entry fields like name, rank, aliases, or external_id, which follow their individual omission rules.
@@ -16419,9 +16628,9 @@ type CatalogCreateEntryResultV2 struct {
 	CatalogEntry CatalogEntryV2 `json:"catalog_entry"`
 }
 
-// CatalogCreateEntryResultV3 Example: {"catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"archived_at":"2021-08-17T14:28:57.801578Z","attribute_values":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123"}],"value":{"label":"Lawrence Jones","literal":"SEV123"}}},"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","created_at":"2021-08-17T13:28:57.801578Z","external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call","rank":3,"updated_at":"2021-08-17T13:28:57.801578Z"}}
+// CatalogCreateEntryResultV3 Example: {"catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"archived_at":"2021-08-17T14:28:57.801578Z","attribute_values":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123"}],"value":{"label":"Lawrence Jones","literal":"SEV123"}}},"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","created_at":"2021-08-17T13:28:57.801578Z","custom_aliases":["primary-on-call"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call","rank":3,"updated_at":"2021-08-17T13:28:57.801578Z"}}
 type CatalogCreateEntryResultV3 struct {
-	// CatalogEntry Example: {"aliases":["lawrence@incident.io","lawrence"],"archived_at":"2021-08-17T14:28:57.801578Z","attribute_values":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123"}],"value":{"label":"Lawrence Jones","literal":"SEV123"}}},"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","created_at":"2021-08-17T13:28:57.801578Z","external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call","rank":3,"updated_at":"2021-08-17T13:28:57.801578Z"}
+	// CatalogEntry Example: {"aliases":["lawrence@incident.io","lawrence"],"archived_at":"2021-08-17T14:28:57.801578Z","attribute_values":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123"}],"value":{"label":"Lawrence Jones","literal":"SEV123"}}},"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","created_at":"2021-08-17T13:28:57.801578Z","custom_aliases":["primary-on-call"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call","rank":3,"updated_at":"2021-08-17T13:28:57.801578Z"}
 	CatalogEntry CatalogEntryV3 `json:"catalog_entry"`
 }
 
@@ -16563,9 +16772,9 @@ type CatalogCreateTypeResultV2 struct {
 	CatalogType CatalogTypeV2 `json:"catalog_type"`
 }
 
-// CatalogCreateTypeResultV3 Example: {"catalog_type":{"annotations":{"incident.io/catalog-importer/id":"id-of-config"},"categories":["customer"],"color":"yellow","created_at":"2021-08-17T13:28:57.801578Z","description":"Represents Kubernetes clusters that we run inside of GKE.","dynamic_resource_parameter":"abc123","engine_resource_type":"CatalogEntry[\"PagerDutyService\"]","estimated_count":7,"icon":"alert","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_editable":false,"is_team_type":false,"last_synced_at":"2021-08-17T13:28:57.801578Z","name":"Kubernetes Cluster","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"ranked":true,"registry_type":"PagerDutyService","required_integrations":["pager_duty"],"schema":{"attributes":[{"array":false,"backlink_attribute":"abc123","id":"01GW2G3V0S59R238FAHPDS1R66","mode":"","name":"tier","path":[{"attribute_id":"abc123","attribute_name":"abc123"}],"type":"Custom[\"Service\"]"}],"version":1},"source_repo_url":"https://github.com/my-company/incident-io-catalog","type_name":"Custom[\"BackstageGroup\"]","updated_at":"2021-08-17T13:28:57.801578Z","use_name_as_identifier":true}}
+// CatalogCreateTypeResultV3 Example: {"catalog_type":{"annotations":{"incident.io/catalog-importer/id":"id-of-config"},"categories":["customer"],"color":"yellow","created_at":"2021-08-17T13:28:57.801578Z","description":"Represents Kubernetes clusters that we run inside of GKE.","dynamic_resource_parameter":"abc123","engine_resource_type":"CatalogEntry[\"PagerDutyService\"]","estimated_count":7,"icon":"alert","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_editable":false,"is_team_type":false,"last_synced_at":"2021-08-17T13:28:57.801578Z","name":"Kubernetes Cluster","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"ranked":true,"registry_type":"PagerDutyService","required_integrations":["pager_duty"],"schema":{"attributes":[{"array":false,"backlink_attribute":"abc123","id":"01GW2G3V0S59R238FAHPDS1R66","mode":"","name":"tier","path":[{"attribute_id":"abc123","attribute_name":"abc123"}],"type":"Custom[\"Service\"]"}],"version":1},"source_repo_url":"https://github.com/my-company/incident-io-catalog","supports_custom_aliases":true,"type_name":"Custom[\"BackstageGroup\"]","updated_at":"2021-08-17T13:28:57.801578Z","use_name_as_identifier":true}}
 type CatalogCreateTypeResultV3 struct {
-	// CatalogType Example: {"annotations":{"incident.io/catalog-importer/id":"id-of-config"},"categories":["customer"],"color":"yellow","created_at":"2021-08-17T13:28:57.801578Z","description":"Represents Kubernetes clusters that we run inside of GKE.","dynamic_resource_parameter":"abc123","engine_resource_type":"CatalogEntry[\"PagerDutyService\"]","estimated_count":7,"icon":"alert","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_editable":false,"is_team_type":false,"last_synced_at":"2021-08-17T13:28:57.801578Z","name":"Kubernetes Cluster","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"ranked":true,"registry_type":"PagerDutyService","required_integrations":["pager_duty"],"schema":{"attributes":[{"array":false,"backlink_attribute":"abc123","id":"01GW2G3V0S59R238FAHPDS1R66","mode":"","name":"tier","path":[{"attribute_id":"abc123","attribute_name":"abc123"}],"type":"Custom[\"Service\"]"}],"version":1},"source_repo_url":"https://github.com/my-company/incident-io-catalog","type_name":"Custom[\"BackstageGroup\"]","updated_at":"2021-08-17T13:28:57.801578Z","use_name_as_identifier":true}
+	// CatalogType Example: {"annotations":{"incident.io/catalog-importer/id":"id-of-config"},"categories":["customer"],"color":"yellow","created_at":"2021-08-17T13:28:57.801578Z","description":"Represents Kubernetes clusters that we run inside of GKE.","dynamic_resource_parameter":"abc123","engine_resource_type":"CatalogEntry[\"PagerDutyService\"]","estimated_count":7,"icon":"alert","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_editable":false,"is_team_type":false,"last_synced_at":"2021-08-17T13:28:57.801578Z","name":"Kubernetes Cluster","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"ranked":true,"registry_type":"PagerDutyService","required_integrations":["pager_duty"],"schema":{"attributes":[{"array":false,"backlink_attribute":"abc123","id":"01GW2G3V0S59R238FAHPDS1R66","mode":"","name":"tier","path":[{"attribute_id":"abc123","attribute_name":"abc123"}],"type":"Custom[\"Service\"]"}],"version":1},"source_repo_url":"https://github.com/my-company/incident-io-catalog","supports_custom_aliases":true,"type_name":"Custom[\"BackstageGroup\"]","updated_at":"2021-08-17T13:28:57.801578Z","use_name_as_identifier":true}
 	CatalogType CatalogTypeV3 `json:"catalog_type"`
 }
 
@@ -16770,7 +16979,7 @@ type CatalogEntryV2 struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
-// CatalogEntryV3 Example: {"aliases":["lawrence@incident.io","lawrence"],"archived_at":"2021-08-17T14:28:57.801578Z","attribute_values":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123"}],"value":{"label":"Lawrence Jones","literal":"SEV123"}}},"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","created_at":"2021-08-17T13:28:57.801578Z","external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call","rank":3,"updated_at":"2021-08-17T13:28:57.801578Z"}
+// CatalogEntryV3 Example: {"aliases":["lawrence@incident.io","lawrence"],"archived_at":"2021-08-17T14:28:57.801578Z","attribute_values":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123"}],"value":{"label":"Lawrence Jones","literal":"SEV123"}}},"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","created_at":"2021-08-17T13:28:57.801578Z","custom_aliases":["primary-on-call"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call","rank":3,"updated_at":"2021-08-17T13:28:57.801578Z"}
 type CatalogEntryV3 struct {
 	// Aliases Optional aliases that can be used to reference this entry
 	//
@@ -16796,6 +17005,11 @@ type CatalogEntryV3 struct {
 	//
 	// Example: 2021-08-17T13:28:57.801578Z
 	CreatedAt time.Time `json:"created_at"`
+
+	// CustomAliases Aliases your organisation has added to an entry of a catalog type that incident.io syncs, such as a schedule or escalation path, which you can't change aliases on directly. Syncs keep them, and they are also listed in aliases. When you update an entry, omit this or send null to keep its current custom aliases, send an empty list to clear them, or send a list to replace them.
+	//
+	// Example: ["primary-on-call"]
+	CustomAliases []string `json:"custom_aliases"`
 
 	// ExternalId An optional alternative ID for this entry, which is ensured to be unique for the type
 	//
@@ -16835,12 +17049,12 @@ type CatalogListEntriesResultV2 struct {
 	PaginationMeta PaginationMetaResultV2 `json:"pagination_meta"`
 }
 
-// CatalogListEntriesResultV3 Example: {"catalog_entries":[{"aliases":["lawrence@incident.io","lawrence"],"archived_at":"2021-08-17T14:28:57.801578Z","attribute_values":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123"}],"value":{"label":"Lawrence Jones","literal":"SEV123"}}},"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","created_at":"2021-08-17T13:28:57.801578Z","external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call","rank":3,"updated_at":"2021-08-17T13:28:57.801578Z"}],"catalog_type":{"annotations":{"incident.io/catalog-importer/id":"id-of-config"},"categories":["customer"],"color":"yellow","created_at":"2021-08-17T13:28:57.801578Z","description":"Represents Kubernetes clusters that we run inside of GKE.","dynamic_resource_parameter":"abc123","engine_resource_type":"CatalogEntry[\"PagerDutyService\"]","estimated_count":7,"icon":"alert","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_editable":false,"is_team_type":false,"last_synced_at":"2021-08-17T13:28:57.801578Z","name":"Kubernetes Cluster","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"ranked":true,"registry_type":"PagerDutyService","required_integrations":["pager_duty"],"schema":{"attributes":[{"array":false,"backlink_attribute":"abc123","id":"01GW2G3V0S59R238FAHPDS1R66","mode":"","name":"tier","path":[{"attribute_id":"abc123","attribute_name":"abc123"}],"type":"Custom[\"Service\"]"}],"version":1},"source_repo_url":"https://github.com/my-company/incident-io-catalog","type_name":"Custom[\"BackstageGroup\"]","updated_at":"2021-08-17T13:28:57.801578Z","use_name_as_identifier":true},"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25,"total_record_count":238}}
+// CatalogListEntriesResultV3 Example: {"catalog_entries":[{"aliases":["lawrence@incident.io","lawrence"],"archived_at":"2021-08-17T14:28:57.801578Z","attribute_values":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123"}],"value":{"label":"Lawrence Jones","literal":"SEV123"}}},"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","created_at":"2021-08-17T13:28:57.801578Z","custom_aliases":["primary-on-call"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call","rank":3,"updated_at":"2021-08-17T13:28:57.801578Z"}],"catalog_type":{"annotations":{"incident.io/catalog-importer/id":"id-of-config"},"categories":["customer"],"color":"yellow","created_at":"2021-08-17T13:28:57.801578Z","description":"Represents Kubernetes clusters that we run inside of GKE.","dynamic_resource_parameter":"abc123","engine_resource_type":"CatalogEntry[\"PagerDutyService\"]","estimated_count":7,"icon":"alert","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_editable":false,"is_team_type":false,"last_synced_at":"2021-08-17T13:28:57.801578Z","name":"Kubernetes Cluster","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"ranked":true,"registry_type":"PagerDutyService","required_integrations":["pager_duty"],"schema":{"attributes":[{"array":false,"backlink_attribute":"abc123","id":"01GW2G3V0S59R238FAHPDS1R66","mode":"","name":"tier","path":[{"attribute_id":"abc123","attribute_name":"abc123"}],"type":"Custom[\"Service\"]"}],"version":1},"source_repo_url":"https://github.com/my-company/incident-io-catalog","supports_custom_aliases":true,"type_name":"Custom[\"BackstageGroup\"]","updated_at":"2021-08-17T13:28:57.801578Z","use_name_as_identifier":true},"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25,"total_record_count":238}}
 type CatalogListEntriesResultV3 struct {
-	// CatalogEntries Example: [{"aliases":["lawrence@incident.io","lawrence"],"archived_at":"2021-08-17T14:28:57.801578Z","attribute_values":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123"}],"value":{"label":"Lawrence Jones","literal":"SEV123"}}},"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","created_at":"2021-08-17T13:28:57.801578Z","external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call","rank":3,"updated_at":"2021-08-17T13:28:57.801578Z"}]
+	// CatalogEntries Example: [{"aliases":["lawrence@incident.io","lawrence"],"archived_at":"2021-08-17T14:28:57.801578Z","attribute_values":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123"}],"value":{"label":"Lawrence Jones","literal":"SEV123"}}},"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","created_at":"2021-08-17T13:28:57.801578Z","custom_aliases":["primary-on-call"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call","rank":3,"updated_at":"2021-08-17T13:28:57.801578Z"}]
 	CatalogEntries []CatalogEntryV3 `json:"catalog_entries"`
 
-	// CatalogType Example: {"annotations":{"incident.io/catalog-importer/id":"id-of-config"},"categories":["customer"],"color":"yellow","created_at":"2021-08-17T13:28:57.801578Z","description":"Represents Kubernetes clusters that we run inside of GKE.","dynamic_resource_parameter":"abc123","engine_resource_type":"CatalogEntry[\"PagerDutyService\"]","estimated_count":7,"icon":"alert","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_editable":false,"is_team_type":false,"last_synced_at":"2021-08-17T13:28:57.801578Z","name":"Kubernetes Cluster","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"ranked":true,"registry_type":"PagerDutyService","required_integrations":["pager_duty"],"schema":{"attributes":[{"array":false,"backlink_attribute":"abc123","id":"01GW2G3V0S59R238FAHPDS1R66","mode":"","name":"tier","path":[{"attribute_id":"abc123","attribute_name":"abc123"}],"type":"Custom[\"Service\"]"}],"version":1},"source_repo_url":"https://github.com/my-company/incident-io-catalog","type_name":"Custom[\"BackstageGroup\"]","updated_at":"2021-08-17T13:28:57.801578Z","use_name_as_identifier":true}
+	// CatalogType Example: {"annotations":{"incident.io/catalog-importer/id":"id-of-config"},"categories":["customer"],"color":"yellow","created_at":"2021-08-17T13:28:57.801578Z","description":"Represents Kubernetes clusters that we run inside of GKE.","dynamic_resource_parameter":"abc123","engine_resource_type":"CatalogEntry[\"PagerDutyService\"]","estimated_count":7,"icon":"alert","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_editable":false,"is_team_type":false,"last_synced_at":"2021-08-17T13:28:57.801578Z","name":"Kubernetes Cluster","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"ranked":true,"registry_type":"PagerDutyService","required_integrations":["pager_duty"],"schema":{"attributes":[{"array":false,"backlink_attribute":"abc123","id":"01GW2G3V0S59R238FAHPDS1R66","mode":"","name":"tier","path":[{"attribute_id":"abc123","attribute_name":"abc123"}],"type":"Custom[\"Service\"]"}],"version":1},"source_repo_url":"https://github.com/my-company/incident-io-catalog","supports_custom_aliases":true,"type_name":"Custom[\"BackstageGroup\"]","updated_at":"2021-08-17T13:28:57.801578Z","use_name_as_identifier":true}
 	CatalogType CatalogTypeV3 `json:"catalog_type"`
 
 	// PaginationMeta Example: {"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25,"total_record_count":238}
@@ -16865,9 +17079,9 @@ type CatalogListTypesResultV2 struct {
 	CatalogTypes []CatalogTypeV2 `json:"catalog_types"`
 }
 
-// CatalogListTypesResultV3 Example: {"catalog_types":[{"annotations":{"incident.io/catalog-importer/id":"id-of-config"},"categories":["customer"],"color":"yellow","created_at":"2021-08-17T13:28:57.801578Z","description":"Represents Kubernetes clusters that we run inside of GKE.","dynamic_resource_parameter":"abc123","engine_resource_type":"CatalogEntry[\"PagerDutyService\"]","estimated_count":7,"icon":"alert","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_editable":false,"is_team_type":false,"last_synced_at":"2021-08-17T13:28:57.801578Z","name":"Kubernetes Cluster","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"ranked":true,"registry_type":"PagerDutyService","required_integrations":["pager_duty"],"schema":{"attributes":[{"array":false,"backlink_attribute":"abc123","id":"01GW2G3V0S59R238FAHPDS1R66","mode":"","name":"tier","path":[{"attribute_id":"abc123","attribute_name":"abc123"}],"type":"Custom[\"Service\"]"}],"version":1},"source_repo_url":"https://github.com/my-company/incident-io-catalog","type_name":"Custom[\"BackstageGroup\"]","updated_at":"2021-08-17T13:28:57.801578Z","use_name_as_identifier":true}]}
+// CatalogListTypesResultV3 Example: {"catalog_types":[{"annotations":{"incident.io/catalog-importer/id":"id-of-config"},"categories":["customer"],"color":"yellow","created_at":"2021-08-17T13:28:57.801578Z","description":"Represents Kubernetes clusters that we run inside of GKE.","dynamic_resource_parameter":"abc123","engine_resource_type":"CatalogEntry[\"PagerDutyService\"]","estimated_count":7,"icon":"alert","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_editable":false,"is_team_type":false,"last_synced_at":"2021-08-17T13:28:57.801578Z","name":"Kubernetes Cluster","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"ranked":true,"registry_type":"PagerDutyService","required_integrations":["pager_duty"],"schema":{"attributes":[{"array":false,"backlink_attribute":"abc123","id":"01GW2G3V0S59R238FAHPDS1R66","mode":"","name":"tier","path":[{"attribute_id":"abc123","attribute_name":"abc123"}],"type":"Custom[\"Service\"]"}],"version":1},"source_repo_url":"https://github.com/my-company/incident-io-catalog","supports_custom_aliases":true,"type_name":"Custom[\"BackstageGroup\"]","updated_at":"2021-08-17T13:28:57.801578Z","use_name_as_identifier":true}]}
 type CatalogListTypesResultV3 struct {
-	// CatalogTypes Example: [{"annotations":{"incident.io/catalog-importer/id":"id-of-config"},"categories":["customer"],"color":"yellow","created_at":"2021-08-17T13:28:57.801578Z","description":"Represents Kubernetes clusters that we run inside of GKE.","dynamic_resource_parameter":"abc123","engine_resource_type":"CatalogEntry[\"PagerDutyService\"]","estimated_count":7,"icon":"alert","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_editable":false,"is_team_type":false,"last_synced_at":"2021-08-17T13:28:57.801578Z","name":"Kubernetes Cluster","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"ranked":true,"registry_type":"PagerDutyService","required_integrations":["pager_duty"],"schema":{"attributes":[{"array":false,"backlink_attribute":"abc123","id":"01GW2G3V0S59R238FAHPDS1R66","mode":"","name":"tier","path":[{"attribute_id":"abc123","attribute_name":"abc123"}],"type":"Custom[\"Service\"]"}],"version":1},"source_repo_url":"https://github.com/my-company/incident-io-catalog","type_name":"Custom[\"BackstageGroup\"]","updated_at":"2021-08-17T13:28:57.801578Z","use_name_as_identifier":true}]
+	// CatalogTypes Example: [{"annotations":{"incident.io/catalog-importer/id":"id-of-config"},"categories":["customer"],"color":"yellow","created_at":"2021-08-17T13:28:57.801578Z","description":"Represents Kubernetes clusters that we run inside of GKE.","dynamic_resource_parameter":"abc123","engine_resource_type":"CatalogEntry[\"PagerDutyService\"]","estimated_count":7,"icon":"alert","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_editable":false,"is_team_type":false,"last_synced_at":"2021-08-17T13:28:57.801578Z","name":"Kubernetes Cluster","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"ranked":true,"registry_type":"PagerDutyService","required_integrations":["pager_duty"],"schema":{"attributes":[{"array":false,"backlink_attribute":"abc123","id":"01GW2G3V0S59R238FAHPDS1R66","mode":"","name":"tier","path":[{"attribute_id":"abc123","attribute_name":"abc123"}],"type":"Custom[\"Service\"]"}],"version":1},"source_repo_url":"https://github.com/my-company/incident-io-catalog","supports_custom_aliases":true,"type_name":"Custom[\"BackstageGroup\"]","updated_at":"2021-08-17T13:28:57.801578Z","use_name_as_identifier":true}]
 	CatalogTypes []CatalogTypeV3 `json:"catalog_types"`
 }
 
@@ -16951,12 +17165,12 @@ type CatalogShowEntryResultV2 struct {
 	CatalogType CatalogTypeV2 `json:"catalog_type"`
 }
 
-// CatalogShowEntryResultV3 Example: {"catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"archived_at":"2021-08-17T14:28:57.801578Z","attribute_values":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123"}],"value":{"label":"Lawrence Jones","literal":"SEV123"}}},"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","created_at":"2021-08-17T13:28:57.801578Z","external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call","rank":3,"updated_at":"2021-08-17T13:28:57.801578Z"},"catalog_type":{"annotations":{"incident.io/catalog-importer/id":"id-of-config"},"categories":["customer"],"color":"yellow","created_at":"2021-08-17T13:28:57.801578Z","description":"Represents Kubernetes clusters that we run inside of GKE.","dynamic_resource_parameter":"abc123","engine_resource_type":"CatalogEntry[\"PagerDutyService\"]","estimated_count":7,"icon":"alert","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_editable":false,"is_team_type":false,"last_synced_at":"2021-08-17T13:28:57.801578Z","name":"Kubernetes Cluster","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"ranked":true,"registry_type":"PagerDutyService","required_integrations":["pager_duty"],"schema":{"attributes":[{"array":false,"backlink_attribute":"abc123","id":"01GW2G3V0S59R238FAHPDS1R66","mode":"","name":"tier","path":[{"attribute_id":"abc123","attribute_name":"abc123"}],"type":"Custom[\"Service\"]"}],"version":1},"source_repo_url":"https://github.com/my-company/incident-io-catalog","type_name":"Custom[\"BackstageGroup\"]","updated_at":"2021-08-17T13:28:57.801578Z","use_name_as_identifier":true}}
+// CatalogShowEntryResultV3 Example: {"catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"archived_at":"2021-08-17T14:28:57.801578Z","attribute_values":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123"}],"value":{"label":"Lawrence Jones","literal":"SEV123"}}},"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","created_at":"2021-08-17T13:28:57.801578Z","custom_aliases":["primary-on-call"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call","rank":3,"updated_at":"2021-08-17T13:28:57.801578Z"},"catalog_type":{"annotations":{"incident.io/catalog-importer/id":"id-of-config"},"categories":["customer"],"color":"yellow","created_at":"2021-08-17T13:28:57.801578Z","description":"Represents Kubernetes clusters that we run inside of GKE.","dynamic_resource_parameter":"abc123","engine_resource_type":"CatalogEntry[\"PagerDutyService\"]","estimated_count":7,"icon":"alert","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_editable":false,"is_team_type":false,"last_synced_at":"2021-08-17T13:28:57.801578Z","name":"Kubernetes Cluster","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"ranked":true,"registry_type":"PagerDutyService","required_integrations":["pager_duty"],"schema":{"attributes":[{"array":false,"backlink_attribute":"abc123","id":"01GW2G3V0S59R238FAHPDS1R66","mode":"","name":"tier","path":[{"attribute_id":"abc123","attribute_name":"abc123"}],"type":"Custom[\"Service\"]"}],"version":1},"source_repo_url":"https://github.com/my-company/incident-io-catalog","supports_custom_aliases":true,"type_name":"Custom[\"BackstageGroup\"]","updated_at":"2021-08-17T13:28:57.801578Z","use_name_as_identifier":true}}
 type CatalogShowEntryResultV3 struct {
-	// CatalogEntry Example: {"aliases":["lawrence@incident.io","lawrence"],"archived_at":"2021-08-17T14:28:57.801578Z","attribute_values":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123"}],"value":{"label":"Lawrence Jones","literal":"SEV123"}}},"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","created_at":"2021-08-17T13:28:57.801578Z","external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call","rank":3,"updated_at":"2021-08-17T13:28:57.801578Z"}
+	// CatalogEntry Example: {"aliases":["lawrence@incident.io","lawrence"],"archived_at":"2021-08-17T14:28:57.801578Z","attribute_values":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123"}],"value":{"label":"Lawrence Jones","literal":"SEV123"}}},"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","created_at":"2021-08-17T13:28:57.801578Z","custom_aliases":["primary-on-call"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call","rank":3,"updated_at":"2021-08-17T13:28:57.801578Z"}
 	CatalogEntry CatalogEntryV3 `json:"catalog_entry"`
 
-	// CatalogType Example: {"annotations":{"incident.io/catalog-importer/id":"id-of-config"},"categories":["customer"],"color":"yellow","created_at":"2021-08-17T13:28:57.801578Z","description":"Represents Kubernetes clusters that we run inside of GKE.","dynamic_resource_parameter":"abc123","engine_resource_type":"CatalogEntry[\"PagerDutyService\"]","estimated_count":7,"icon":"alert","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_editable":false,"is_team_type":false,"last_synced_at":"2021-08-17T13:28:57.801578Z","name":"Kubernetes Cluster","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"ranked":true,"registry_type":"PagerDutyService","required_integrations":["pager_duty"],"schema":{"attributes":[{"array":false,"backlink_attribute":"abc123","id":"01GW2G3V0S59R238FAHPDS1R66","mode":"","name":"tier","path":[{"attribute_id":"abc123","attribute_name":"abc123"}],"type":"Custom[\"Service\"]"}],"version":1},"source_repo_url":"https://github.com/my-company/incident-io-catalog","type_name":"Custom[\"BackstageGroup\"]","updated_at":"2021-08-17T13:28:57.801578Z","use_name_as_identifier":true}
+	// CatalogType Example: {"annotations":{"incident.io/catalog-importer/id":"id-of-config"},"categories":["customer"],"color":"yellow","created_at":"2021-08-17T13:28:57.801578Z","description":"Represents Kubernetes clusters that we run inside of GKE.","dynamic_resource_parameter":"abc123","engine_resource_type":"CatalogEntry[\"PagerDutyService\"]","estimated_count":7,"icon":"alert","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_editable":false,"is_team_type":false,"last_synced_at":"2021-08-17T13:28:57.801578Z","name":"Kubernetes Cluster","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"ranked":true,"registry_type":"PagerDutyService","required_integrations":["pager_duty"],"schema":{"attributes":[{"array":false,"backlink_attribute":"abc123","id":"01GW2G3V0S59R238FAHPDS1R66","mode":"","name":"tier","path":[{"attribute_id":"abc123","attribute_name":"abc123"}],"type":"Custom[\"Service\"]"}],"version":1},"source_repo_url":"https://github.com/my-company/incident-io-catalog","supports_custom_aliases":true,"type_name":"Custom[\"BackstageGroup\"]","updated_at":"2021-08-17T13:28:57.801578Z","use_name_as_identifier":true}
 	CatalogType CatalogTypeV3 `json:"catalog_type"`
 }
 
@@ -16966,9 +17180,9 @@ type CatalogShowTypeResultV2 struct {
 	CatalogType CatalogTypeV2 `json:"catalog_type"`
 }
 
-// CatalogShowTypeResultV3 Example: {"catalog_type":{"annotations":{"incident.io/catalog-importer/id":"id-of-config"},"categories":["customer"],"color":"yellow","created_at":"2021-08-17T13:28:57.801578Z","description":"Represents Kubernetes clusters that we run inside of GKE.","dynamic_resource_parameter":"abc123","engine_resource_type":"CatalogEntry[\"PagerDutyService\"]","estimated_count":7,"icon":"alert","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_editable":false,"is_team_type":false,"last_synced_at":"2021-08-17T13:28:57.801578Z","name":"Kubernetes Cluster","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"ranked":true,"registry_type":"PagerDutyService","required_integrations":["pager_duty"],"schema":{"attributes":[{"array":false,"backlink_attribute":"abc123","id":"01GW2G3V0S59R238FAHPDS1R66","mode":"","name":"tier","path":[{"attribute_id":"abc123","attribute_name":"abc123"}],"type":"Custom[\"Service\"]"}],"version":1},"source_repo_url":"https://github.com/my-company/incident-io-catalog","type_name":"Custom[\"BackstageGroup\"]","updated_at":"2021-08-17T13:28:57.801578Z","use_name_as_identifier":true}}
+// CatalogShowTypeResultV3 Example: {"catalog_type":{"annotations":{"incident.io/catalog-importer/id":"id-of-config"},"categories":["customer"],"color":"yellow","created_at":"2021-08-17T13:28:57.801578Z","description":"Represents Kubernetes clusters that we run inside of GKE.","dynamic_resource_parameter":"abc123","engine_resource_type":"CatalogEntry[\"PagerDutyService\"]","estimated_count":7,"icon":"alert","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_editable":false,"is_team_type":false,"last_synced_at":"2021-08-17T13:28:57.801578Z","name":"Kubernetes Cluster","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"ranked":true,"registry_type":"PagerDutyService","required_integrations":["pager_duty"],"schema":{"attributes":[{"array":false,"backlink_attribute":"abc123","id":"01GW2G3V0S59R238FAHPDS1R66","mode":"","name":"tier","path":[{"attribute_id":"abc123","attribute_name":"abc123"}],"type":"Custom[\"Service\"]"}],"version":1},"source_repo_url":"https://github.com/my-company/incident-io-catalog","supports_custom_aliases":true,"type_name":"Custom[\"BackstageGroup\"]","updated_at":"2021-08-17T13:28:57.801578Z","use_name_as_identifier":true}}
 type CatalogShowTypeResultV3 struct {
-	// CatalogType Example: {"annotations":{"incident.io/catalog-importer/id":"id-of-config"},"categories":["customer"],"color":"yellow","created_at":"2021-08-17T13:28:57.801578Z","description":"Represents Kubernetes clusters that we run inside of GKE.","dynamic_resource_parameter":"abc123","engine_resource_type":"CatalogEntry[\"PagerDutyService\"]","estimated_count":7,"icon":"alert","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_editable":false,"is_team_type":false,"last_synced_at":"2021-08-17T13:28:57.801578Z","name":"Kubernetes Cluster","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"ranked":true,"registry_type":"PagerDutyService","required_integrations":["pager_duty"],"schema":{"attributes":[{"array":false,"backlink_attribute":"abc123","id":"01GW2G3V0S59R238FAHPDS1R66","mode":"","name":"tier","path":[{"attribute_id":"abc123","attribute_name":"abc123"}],"type":"Custom[\"Service\"]"}],"version":1},"source_repo_url":"https://github.com/my-company/incident-io-catalog","type_name":"Custom[\"BackstageGroup\"]","updated_at":"2021-08-17T13:28:57.801578Z","use_name_as_identifier":true}
+	// CatalogType Example: {"annotations":{"incident.io/catalog-importer/id":"id-of-config"},"categories":["customer"],"color":"yellow","created_at":"2021-08-17T13:28:57.801578Z","description":"Represents Kubernetes clusters that we run inside of GKE.","dynamic_resource_parameter":"abc123","engine_resource_type":"CatalogEntry[\"PagerDutyService\"]","estimated_count":7,"icon":"alert","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_editable":false,"is_team_type":false,"last_synced_at":"2021-08-17T13:28:57.801578Z","name":"Kubernetes Cluster","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"ranked":true,"registry_type":"PagerDutyService","required_integrations":["pager_duty"],"schema":{"attributes":[{"array":false,"backlink_attribute":"abc123","id":"01GW2G3V0S59R238FAHPDS1R66","mode":"","name":"tier","path":[{"attribute_id":"abc123","attribute_name":"abc123"}],"type":"Custom[\"Service\"]"}],"version":1},"source_repo_url":"https://github.com/my-company/incident-io-catalog","supports_custom_aliases":true,"type_name":"Custom[\"BackstageGroup\"]","updated_at":"2021-08-17T13:28:57.801578Z","use_name_as_identifier":true}
 	CatalogType CatalogTypeV3 `json:"catalog_type"`
 }
 
@@ -17326,7 +17540,7 @@ type CatalogTypeV2Color string
 // Example: alert
 type CatalogTypeV2Icon string
 
-// CatalogTypeV3 Example: {"annotations":{"incident.io/catalog-importer/id":"id-of-config"},"categories":["customer"],"color":"yellow","created_at":"2021-08-17T13:28:57.801578Z","description":"Represents Kubernetes clusters that we run inside of GKE.","dynamic_resource_parameter":"abc123","engine_resource_type":"CatalogEntry[\"PagerDutyService\"]","estimated_count":7,"icon":"alert","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_editable":false,"is_team_type":false,"last_synced_at":"2021-08-17T13:28:57.801578Z","name":"Kubernetes Cluster","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"ranked":true,"registry_type":"PagerDutyService","required_integrations":["pager_duty"],"schema":{"attributes":[{"array":false,"backlink_attribute":"abc123","id":"01GW2G3V0S59R238FAHPDS1R66","mode":"","name":"tier","path":[{"attribute_id":"abc123","attribute_name":"abc123"}],"type":"Custom[\"Service\"]"}],"version":1},"source_repo_url":"https://github.com/my-company/incident-io-catalog","type_name":"Custom[\"BackstageGroup\"]","updated_at":"2021-08-17T13:28:57.801578Z","use_name_as_identifier":true}
+// CatalogTypeV3 Example: {"annotations":{"incident.io/catalog-importer/id":"id-of-config"},"categories":["customer"],"color":"yellow","created_at":"2021-08-17T13:28:57.801578Z","description":"Represents Kubernetes clusters that we run inside of GKE.","dynamic_resource_parameter":"abc123","engine_resource_type":"CatalogEntry[\"PagerDutyService\"]","estimated_count":7,"icon":"alert","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_editable":false,"is_team_type":false,"last_synced_at":"2021-08-17T13:28:57.801578Z","name":"Kubernetes Cluster","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"ranked":true,"registry_type":"PagerDutyService","required_integrations":["pager_duty"],"schema":{"attributes":[{"array":false,"backlink_attribute":"abc123","id":"01GW2G3V0S59R238FAHPDS1R66","mode":"","name":"tier","path":[{"attribute_id":"abc123","attribute_name":"abc123"}],"type":"Custom[\"Service\"]"}],"version":1},"source_repo_url":"https://github.com/my-company/incident-io-catalog","supports_custom_aliases":true,"type_name":"Custom[\"BackstageGroup\"]","updated_at":"2021-08-17T13:28:57.801578Z","use_name_as_identifier":true}
 type CatalogTypeV3 struct {
 	// Annotations Annotations that can track metadata about this type
 	//
@@ -17426,6 +17640,11 @@ type CatalogTypeV3 struct {
 	// Example: https://github.com/my-company/incident-io-catalog
 	SourceRepoUrl *string `json:"source_repo_url,omitempty"`
 
+	// SupportsCustomAliases Whether entries of this type take custom_aliases. Only catalog types that incident.io syncs do, as you can't change their aliases directly, and not those whose aliases you edit elsewhere, such as alert priorities.
+	//
+	// Example: true
+	SupportsCustomAliases bool `json:"supports_custom_aliases"`
+
 	// TypeName The type name of this catalog type, to be used when defining attributes. This is immutable once a CatalogType has been created. For non-externally sync types, it must follow the pattern Custom["SomeName"]
 	//
 	// Example: Custom["BackstageGroup"]
@@ -17483,7 +17702,7 @@ type CatalogUpdateEntryPayloadV2 struct {
 	Rank *int32 `json:"rank,omitempty"`
 }
 
-// CatalogUpdateEntryPayloadV3 Example: {"aliases":["lawrence@incident.io","lawrence"],"attribute_values":{"abc123":{"array_value":[{"literal":"SEV123"}],"value":{"literal":"SEV123"}}},"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","name":"Primary On-call","rank":3,"update_attributes":["abc123"]}
+// CatalogUpdateEntryPayloadV3 Example: {"aliases":["lawrence@incident.io","lawrence"],"attribute_values":{"abc123":{"array_value":[{"literal":"SEV123"}],"value":{"literal":"SEV123"}}},"custom_aliases":["primary-on-call"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","name":"Primary On-call","rank":3,"update_attributes":["abc123"]}
 type CatalogUpdateEntryPayloadV3 struct {
 	// Aliases Optional aliases that can be used to reference this entry
 	//
@@ -17494,6 +17713,11 @@ type CatalogUpdateEntryPayloadV3 struct {
 	//
 	// Example: {"abc123":{"array_value":[{"literal":"SEV123"}],"value":{"literal":"SEV123"}}}
 	AttributeValues map[string]CatalogEngineParamBindingPayloadV3 `json:"attribute_values"`
+
+	// CustomAliases Aliases your organisation has added to an entry of a catalog type that incident.io syncs, such as a schedule or escalation path, which you can't change aliases on directly. Syncs keep them, and they are also listed in aliases. When you update an entry, omit this or send null to keep its current custom aliases, send an empty list to clear them, or send a list to replace them.
+	//
+	// Example: ["primary-on-call"]
+	CustomAliases *[]string `json:"custom_aliases,omitempty"`
 
 	// ExternalId An optional alternative ID for this entry, which is ensured to be unique for the type
 	//
@@ -17526,12 +17750,12 @@ type CatalogUpdateEntryResultV2 struct {
 	CatalogType CatalogTypeV2 `json:"catalog_type"`
 }
 
-// CatalogUpdateEntryResultV3 Example: {"catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"archived_at":"2021-08-17T14:28:57.801578Z","attribute_values":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123"}],"value":{"label":"Lawrence Jones","literal":"SEV123"}}},"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","created_at":"2021-08-17T13:28:57.801578Z","external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call","rank":3,"updated_at":"2021-08-17T13:28:57.801578Z"},"catalog_type":{"annotations":{"incident.io/catalog-importer/id":"id-of-config"},"categories":["customer"],"color":"yellow","created_at":"2021-08-17T13:28:57.801578Z","description":"Represents Kubernetes clusters that we run inside of GKE.","dynamic_resource_parameter":"abc123","engine_resource_type":"CatalogEntry[\"PagerDutyService\"]","estimated_count":7,"icon":"alert","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_editable":false,"is_team_type":false,"last_synced_at":"2021-08-17T13:28:57.801578Z","name":"Kubernetes Cluster","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"ranked":true,"registry_type":"PagerDutyService","required_integrations":["pager_duty"],"schema":{"attributes":[{"array":false,"backlink_attribute":"abc123","id":"01GW2G3V0S59R238FAHPDS1R66","mode":"","name":"tier","path":[{"attribute_id":"abc123","attribute_name":"abc123"}],"type":"Custom[\"Service\"]"}],"version":1},"source_repo_url":"https://github.com/my-company/incident-io-catalog","type_name":"Custom[\"BackstageGroup\"]","updated_at":"2021-08-17T13:28:57.801578Z","use_name_as_identifier":true}}
+// CatalogUpdateEntryResultV3 Example: {"catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"archived_at":"2021-08-17T14:28:57.801578Z","attribute_values":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123"}],"value":{"label":"Lawrence Jones","literal":"SEV123"}}},"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","created_at":"2021-08-17T13:28:57.801578Z","custom_aliases":["primary-on-call"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call","rank":3,"updated_at":"2021-08-17T13:28:57.801578Z"},"catalog_type":{"annotations":{"incident.io/catalog-importer/id":"id-of-config"},"categories":["customer"],"color":"yellow","created_at":"2021-08-17T13:28:57.801578Z","description":"Represents Kubernetes clusters that we run inside of GKE.","dynamic_resource_parameter":"abc123","engine_resource_type":"CatalogEntry[\"PagerDutyService\"]","estimated_count":7,"icon":"alert","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_editable":false,"is_team_type":false,"last_synced_at":"2021-08-17T13:28:57.801578Z","name":"Kubernetes Cluster","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"ranked":true,"registry_type":"PagerDutyService","required_integrations":["pager_duty"],"schema":{"attributes":[{"array":false,"backlink_attribute":"abc123","id":"01GW2G3V0S59R238FAHPDS1R66","mode":"","name":"tier","path":[{"attribute_id":"abc123","attribute_name":"abc123"}],"type":"Custom[\"Service\"]"}],"version":1},"source_repo_url":"https://github.com/my-company/incident-io-catalog","supports_custom_aliases":true,"type_name":"Custom[\"BackstageGroup\"]","updated_at":"2021-08-17T13:28:57.801578Z","use_name_as_identifier":true}}
 type CatalogUpdateEntryResultV3 struct {
-	// CatalogEntry Example: {"aliases":["lawrence@incident.io","lawrence"],"archived_at":"2021-08-17T14:28:57.801578Z","attribute_values":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123"}],"value":{"label":"Lawrence Jones","literal":"SEV123"}}},"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","created_at":"2021-08-17T13:28:57.801578Z","external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call","rank":3,"updated_at":"2021-08-17T13:28:57.801578Z"}
+	// CatalogEntry Example: {"aliases":["lawrence@incident.io","lawrence"],"archived_at":"2021-08-17T14:28:57.801578Z","attribute_values":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123"}],"value":{"label":"Lawrence Jones","literal":"SEV123"}}},"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","created_at":"2021-08-17T13:28:57.801578Z","custom_aliases":["primary-on-call"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call","rank":3,"updated_at":"2021-08-17T13:28:57.801578Z"}
 	CatalogEntry CatalogEntryV3 `json:"catalog_entry"`
 
-	// CatalogType Example: {"annotations":{"incident.io/catalog-importer/id":"id-of-config"},"categories":["customer"],"color":"yellow","created_at":"2021-08-17T13:28:57.801578Z","description":"Represents Kubernetes clusters that we run inside of GKE.","dynamic_resource_parameter":"abc123","engine_resource_type":"CatalogEntry[\"PagerDutyService\"]","estimated_count":7,"icon":"alert","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_editable":false,"is_team_type":false,"last_synced_at":"2021-08-17T13:28:57.801578Z","name":"Kubernetes Cluster","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"ranked":true,"registry_type":"PagerDutyService","required_integrations":["pager_duty"],"schema":{"attributes":[{"array":false,"backlink_attribute":"abc123","id":"01GW2G3V0S59R238FAHPDS1R66","mode":"","name":"tier","path":[{"attribute_id":"abc123","attribute_name":"abc123"}],"type":"Custom[\"Service\"]"}],"version":1},"source_repo_url":"https://github.com/my-company/incident-io-catalog","type_name":"Custom[\"BackstageGroup\"]","updated_at":"2021-08-17T13:28:57.801578Z","use_name_as_identifier":true}
+	// CatalogType Example: {"annotations":{"incident.io/catalog-importer/id":"id-of-config"},"categories":["customer"],"color":"yellow","created_at":"2021-08-17T13:28:57.801578Z","description":"Represents Kubernetes clusters that we run inside of GKE.","dynamic_resource_parameter":"abc123","engine_resource_type":"CatalogEntry[\"PagerDutyService\"]","estimated_count":7,"icon":"alert","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_editable":false,"is_team_type":false,"last_synced_at":"2021-08-17T13:28:57.801578Z","name":"Kubernetes Cluster","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"ranked":true,"registry_type":"PagerDutyService","required_integrations":["pager_duty"],"schema":{"attributes":[{"array":false,"backlink_attribute":"abc123","id":"01GW2G3V0S59R238FAHPDS1R66","mode":"","name":"tier","path":[{"attribute_id":"abc123","attribute_name":"abc123"}],"type":"Custom[\"Service\"]"}],"version":1},"source_repo_url":"https://github.com/my-company/incident-io-catalog","supports_custom_aliases":true,"type_name":"Custom[\"BackstageGroup\"]","updated_at":"2021-08-17T13:28:57.801578Z","use_name_as_identifier":true}
 	CatalogType CatalogTypeV3 `json:"catalog_type"`
 }
 
@@ -17663,9 +17887,9 @@ type CatalogUpdateTypeResultV2 struct {
 	CatalogType CatalogTypeV2 `json:"catalog_type"`
 }
 
-// CatalogUpdateTypeResultV3 Example: {"catalog_type":{"annotations":{"incident.io/catalog-importer/id":"id-of-config"},"categories":["customer"],"color":"yellow","created_at":"2021-08-17T13:28:57.801578Z","description":"Represents Kubernetes clusters that we run inside of GKE.","dynamic_resource_parameter":"abc123","engine_resource_type":"CatalogEntry[\"PagerDutyService\"]","estimated_count":7,"icon":"alert","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_editable":false,"is_team_type":false,"last_synced_at":"2021-08-17T13:28:57.801578Z","name":"Kubernetes Cluster","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"ranked":true,"registry_type":"PagerDutyService","required_integrations":["pager_duty"],"schema":{"attributes":[{"array":false,"backlink_attribute":"abc123","id":"01GW2G3V0S59R238FAHPDS1R66","mode":"","name":"tier","path":[{"attribute_id":"abc123","attribute_name":"abc123"}],"type":"Custom[\"Service\"]"}],"version":1},"source_repo_url":"https://github.com/my-company/incident-io-catalog","type_name":"Custom[\"BackstageGroup\"]","updated_at":"2021-08-17T13:28:57.801578Z","use_name_as_identifier":true}}
+// CatalogUpdateTypeResultV3 Example: {"catalog_type":{"annotations":{"incident.io/catalog-importer/id":"id-of-config"},"categories":["customer"],"color":"yellow","created_at":"2021-08-17T13:28:57.801578Z","description":"Represents Kubernetes clusters that we run inside of GKE.","dynamic_resource_parameter":"abc123","engine_resource_type":"CatalogEntry[\"PagerDutyService\"]","estimated_count":7,"icon":"alert","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_editable":false,"is_team_type":false,"last_synced_at":"2021-08-17T13:28:57.801578Z","name":"Kubernetes Cluster","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"ranked":true,"registry_type":"PagerDutyService","required_integrations":["pager_duty"],"schema":{"attributes":[{"array":false,"backlink_attribute":"abc123","id":"01GW2G3V0S59R238FAHPDS1R66","mode":"","name":"tier","path":[{"attribute_id":"abc123","attribute_name":"abc123"}],"type":"Custom[\"Service\"]"}],"version":1},"source_repo_url":"https://github.com/my-company/incident-io-catalog","supports_custom_aliases":true,"type_name":"Custom[\"BackstageGroup\"]","updated_at":"2021-08-17T13:28:57.801578Z","use_name_as_identifier":true}}
 type CatalogUpdateTypeResultV3 struct {
-	// CatalogType Example: {"annotations":{"incident.io/catalog-importer/id":"id-of-config"},"categories":["customer"],"color":"yellow","created_at":"2021-08-17T13:28:57.801578Z","description":"Represents Kubernetes clusters that we run inside of GKE.","dynamic_resource_parameter":"abc123","engine_resource_type":"CatalogEntry[\"PagerDutyService\"]","estimated_count":7,"icon":"alert","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_editable":false,"is_team_type":false,"last_synced_at":"2021-08-17T13:28:57.801578Z","name":"Kubernetes Cluster","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"ranked":true,"registry_type":"PagerDutyService","required_integrations":["pager_duty"],"schema":{"attributes":[{"array":false,"backlink_attribute":"abc123","id":"01GW2G3V0S59R238FAHPDS1R66","mode":"","name":"tier","path":[{"attribute_id":"abc123","attribute_name":"abc123"}],"type":"Custom[\"Service\"]"}],"version":1},"source_repo_url":"https://github.com/my-company/incident-io-catalog","type_name":"Custom[\"BackstageGroup\"]","updated_at":"2021-08-17T13:28:57.801578Z","use_name_as_identifier":true}
+	// CatalogType Example: {"annotations":{"incident.io/catalog-importer/id":"id-of-config"},"categories":["customer"],"color":"yellow","created_at":"2021-08-17T13:28:57.801578Z","description":"Represents Kubernetes clusters that we run inside of GKE.","dynamic_resource_parameter":"abc123","engine_resource_type":"CatalogEntry[\"PagerDutyService\"]","estimated_count":7,"icon":"alert","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_editable":false,"is_team_type":false,"last_synced_at":"2021-08-17T13:28:57.801578Z","name":"Kubernetes Cluster","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"ranked":true,"registry_type":"PagerDutyService","required_integrations":["pager_duty"],"schema":{"attributes":[{"array":false,"backlink_attribute":"abc123","id":"01GW2G3V0S59R238FAHPDS1R66","mode":"","name":"tier","path":[{"attribute_id":"abc123","attribute_name":"abc123"}],"type":"Custom[\"Service\"]"}],"version":1},"source_repo_url":"https://github.com/my-company/incident-io-catalog","supports_custom_aliases":true,"type_name":"Custom[\"BackstageGroup\"]","updated_at":"2021-08-17T13:28:57.801578Z","use_name_as_identifier":true}
 	CatalogType CatalogTypeV3 `json:"catalog_type"`
 }
 
@@ -17693,9 +17917,9 @@ type CatalogUpdateTypeSchemaResultV2 struct {
 	CatalogType CatalogTypeV2 `json:"catalog_type"`
 }
 
-// CatalogUpdateTypeSchemaResultV3 Example: {"catalog_type":{"annotations":{"incident.io/catalog-importer/id":"id-of-config"},"categories":["customer"],"color":"yellow","created_at":"2021-08-17T13:28:57.801578Z","description":"Represents Kubernetes clusters that we run inside of GKE.","dynamic_resource_parameter":"abc123","engine_resource_type":"CatalogEntry[\"PagerDutyService\"]","estimated_count":7,"icon":"alert","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_editable":false,"is_team_type":false,"last_synced_at":"2021-08-17T13:28:57.801578Z","name":"Kubernetes Cluster","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"ranked":true,"registry_type":"PagerDutyService","required_integrations":["pager_duty"],"schema":{"attributes":[{"array":false,"backlink_attribute":"abc123","id":"01GW2G3V0S59R238FAHPDS1R66","mode":"","name":"tier","path":[{"attribute_id":"abc123","attribute_name":"abc123"}],"type":"Custom[\"Service\"]"}],"version":1},"source_repo_url":"https://github.com/my-company/incident-io-catalog","type_name":"Custom[\"BackstageGroup\"]","updated_at":"2021-08-17T13:28:57.801578Z","use_name_as_identifier":true}}
+// CatalogUpdateTypeSchemaResultV3 Example: {"catalog_type":{"annotations":{"incident.io/catalog-importer/id":"id-of-config"},"categories":["customer"],"color":"yellow","created_at":"2021-08-17T13:28:57.801578Z","description":"Represents Kubernetes clusters that we run inside of GKE.","dynamic_resource_parameter":"abc123","engine_resource_type":"CatalogEntry[\"PagerDutyService\"]","estimated_count":7,"icon":"alert","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_editable":false,"is_team_type":false,"last_synced_at":"2021-08-17T13:28:57.801578Z","name":"Kubernetes Cluster","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"ranked":true,"registry_type":"PagerDutyService","required_integrations":["pager_duty"],"schema":{"attributes":[{"array":false,"backlink_attribute":"abc123","id":"01GW2G3V0S59R238FAHPDS1R66","mode":"","name":"tier","path":[{"attribute_id":"abc123","attribute_name":"abc123"}],"type":"Custom[\"Service\"]"}],"version":1},"source_repo_url":"https://github.com/my-company/incident-io-catalog","supports_custom_aliases":true,"type_name":"Custom[\"BackstageGroup\"]","updated_at":"2021-08-17T13:28:57.801578Z","use_name_as_identifier":true}}
 type CatalogUpdateTypeSchemaResultV3 struct {
-	// CatalogType Example: {"annotations":{"incident.io/catalog-importer/id":"id-of-config"},"categories":["customer"],"color":"yellow","created_at":"2021-08-17T13:28:57.801578Z","description":"Represents Kubernetes clusters that we run inside of GKE.","dynamic_resource_parameter":"abc123","engine_resource_type":"CatalogEntry[\"PagerDutyService\"]","estimated_count":7,"icon":"alert","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_editable":false,"is_team_type":false,"last_synced_at":"2021-08-17T13:28:57.801578Z","name":"Kubernetes Cluster","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"ranked":true,"registry_type":"PagerDutyService","required_integrations":["pager_duty"],"schema":{"attributes":[{"array":false,"backlink_attribute":"abc123","id":"01GW2G3V0S59R238FAHPDS1R66","mode":"","name":"tier","path":[{"attribute_id":"abc123","attribute_name":"abc123"}],"type":"Custom[\"Service\"]"}],"version":1},"source_repo_url":"https://github.com/my-company/incident-io-catalog","type_name":"Custom[\"BackstageGroup\"]","updated_at":"2021-08-17T13:28:57.801578Z","use_name_as_identifier":true}
+	// CatalogType Example: {"annotations":{"incident.io/catalog-importer/id":"id-of-config"},"categories":["customer"],"color":"yellow","created_at":"2021-08-17T13:28:57.801578Z","description":"Represents Kubernetes clusters that we run inside of GKE.","dynamic_resource_parameter":"abc123","engine_resource_type":"CatalogEntry[\"PagerDutyService\"]","estimated_count":7,"icon":"alert","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_editable":false,"is_team_type":false,"last_synced_at":"2021-08-17T13:28:57.801578Z","name":"Kubernetes Cluster","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"ranked":true,"registry_type":"PagerDutyService","required_integrations":["pager_duty"],"schema":{"attributes":[{"array":false,"backlink_attribute":"abc123","id":"01GW2G3V0S59R238FAHPDS1R66","mode":"","name":"tier","path":[{"attribute_id":"abc123","attribute_name":"abc123"}],"type":"Custom[\"Service\"]"}],"version":1},"source_repo_url":"https://github.com/my-company/incident-io-catalog","supports_custom_aliases":true,"type_name":"Custom[\"BackstageGroup\"]","updated_at":"2021-08-17T13:28:57.801578Z","use_name_as_identifier":true}
 	CatalogType CatalogTypeV3 `json:"catalog_type"`
 }
 
@@ -21719,6 +21943,154 @@ type FollowUpsUpdateResultV3 struct {
 	FollowUp FollowUpV3 `json:"follow_up"`
 }
 
+// GlossaryEntriesCreatePayloadV2 Example: {"after":"01G0J1EXE7AXZ2C93K61WBPYEH","description":"Payment service provider that handles card authorisations","item":"PSP"}
+type GlossaryEntriesCreatePayloadV2 struct {
+	// After ID of a live glossary entry. The new entry is inserted immediately after it. Omit to append the entry to the end.
+	//
+	// Example: 01G0J1EXE7AXZ2C93K61WBPYEH
+	After *string `json:"after,omitempty"`
+
+	// Description What the term means
+	//
+	// Example: Payment service provider that handles card authorisations
+	Description string `json:"description"`
+
+	// Item The term, for example an acronym or service name. Unique among live entries, ignoring case.
+	//
+	// Example: PSP
+	Item string `json:"item"`
+}
+
+// GlossaryEntriesCreateResultV2 Example: {"glossary_entry":{"created_at":"2021-08-17T13:28:57.801578Z","description":"Payment service provider that handles card authorisations","id":"01G0J1EXE7AXZ2C93K61WBPYEH","item":"PSP","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"}}
+type GlossaryEntriesCreateResultV2 struct {
+	// GlossaryEntry A glossary entry is one term an organisation has coined — an acronym, a
+	// service name, or a piece of internal jargon — and the description of what it means.
+	//
+	// AI features use the glossary, in rank order, so they understand those terms. Lower
+	// ranks come first. Deleting an entry archives it, which frees the term so it can be
+	// coined again as a new entry.
+	//
+	// Example: {"created_at":"2021-08-17T13:28:57.801578Z","description":"Payment service provider that handles card authorisations","id":"01G0J1EXE7AXZ2C93K61WBPYEH","item":"PSP","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"}
+	GlossaryEntry GlossaryEntryV2 `json:"glossary_entry"`
+}
+
+// GlossaryEntriesListResultV2 Example: {"glossary_entries":[{"created_at":"2021-08-17T13:28:57.801578Z","description":"Payment service provider that handles card authorisations","id":"01G0J1EXE7AXZ2C93K61WBPYEH","item":"PSP","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"}],"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}}
+type GlossaryEntriesListResultV2 struct {
+	// GlossaryEntries Example: [{"created_at":"2021-08-17T13:28:57.801578Z","description":"Payment service provider that handles card authorisations","id":"01G0J1EXE7AXZ2C93K61WBPYEH","item":"PSP","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"}]
+	GlossaryEntries []GlossaryEntryV2 `json:"glossary_entries"`
+
+	// PaginationMeta Example: {"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}
+	PaginationMeta *PaginationMetaResultV2 `json:"pagination_meta,omitempty"`
+}
+
+// GlossaryEntriesShowResultV2 Example: {"glossary_entry":{"created_at":"2021-08-17T13:28:57.801578Z","description":"Payment service provider that handles card authorisations","id":"01G0J1EXE7AXZ2C93K61WBPYEH","item":"PSP","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"}}
+type GlossaryEntriesShowResultV2 struct {
+	// GlossaryEntry A glossary entry is one term an organisation has coined — an acronym, a
+	// service name, or a piece of internal jargon — and the description of what it means.
+	//
+	// AI features use the glossary, in rank order, so they understand those terms. Lower
+	// ranks come first. Deleting an entry archives it, which frees the term so it can be
+	// coined again as a new entry.
+	//
+	// Example: {"created_at":"2021-08-17T13:28:57.801578Z","description":"Payment service provider that handles card authorisations","id":"01G0J1EXE7AXZ2C93K61WBPYEH","item":"PSP","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"}
+	GlossaryEntry GlossaryEntryV2 `json:"glossary_entry"`
+}
+
+// GlossaryEntriesUpdatePayloadV2 Example: {"description":"Payment service provider that handles card authorisations","item":"PSP"}
+type GlossaryEntriesUpdatePayloadV2 struct {
+	// Description What the term means
+	//
+	// Example: Payment service provider that handles card authorisations
+	Description string `json:"description"`
+
+	// Item The term, e.g. an acronym or service name
+	//
+	// Example: PSP
+	Item string `json:"item"`
+}
+
+// GlossaryEntriesUpdateRanksPayloadV2 Example: {"rank_updates":[{"rank":3,"resource_id":"01FCNDV6P870EA6S7TK1DSYDG0"}]}
+type GlossaryEntriesUpdateRanksPayloadV2 struct {
+	// RankUpdates The new rank of every live glossary entry
+	//
+	// Example: [{"rank":3,"resource_id":"01FCNDV6P870EA6S7TK1DSYDG0"}]
+	RankUpdates []GlossaryEntryRankUpdateV2 `json:"rank_updates"`
+}
+
+// GlossaryEntriesUpdateRanksResultV2 Example: {"glossary_entries":[{"created_at":"2021-08-17T13:28:57.801578Z","description":"Payment service provider that handles card authorisations","id":"01G0J1EXE7AXZ2C93K61WBPYEH","item":"PSP","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"}]}
+type GlossaryEntriesUpdateRanksResultV2 struct {
+	// GlossaryEntries Example: [{"created_at":"2021-08-17T13:28:57.801578Z","description":"Payment service provider that handles card authorisations","id":"01G0J1EXE7AXZ2C93K61WBPYEH","item":"PSP","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"}]
+	GlossaryEntries []GlossaryEntryV2 `json:"glossary_entries"`
+}
+
+// GlossaryEntriesUpdateResultV2 Example: {"glossary_entry":{"created_at":"2021-08-17T13:28:57.801578Z","description":"Payment service provider that handles card authorisations","id":"01G0J1EXE7AXZ2C93K61WBPYEH","item":"PSP","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"}}
+type GlossaryEntriesUpdateResultV2 struct {
+	// GlossaryEntry A glossary entry is one term an organisation has coined — an acronym, a
+	// service name, or a piece of internal jargon — and the description of what it means.
+	//
+	// AI features use the glossary, in rank order, so they understand those terms. Lower
+	// ranks come first. Deleting an entry archives it, which frees the term so it can be
+	// coined again as a new entry.
+	//
+	// Example: {"created_at":"2021-08-17T13:28:57.801578Z","description":"Payment service provider that handles card authorisations","id":"01G0J1EXE7AXZ2C93K61WBPYEH","item":"PSP","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"}
+	GlossaryEntry GlossaryEntryV2 `json:"glossary_entry"`
+}
+
+// GlossaryEntryRankUpdateV2 The new rank for one live glossary entry.
+//
+// Example: {"rank":3,"resource_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
+type GlossaryEntryRankUpdateV2 struct {
+	// Rank Desired rank for this resource
+	//
+	// Example: 3
+	Rank int64 `json:"rank"`
+
+	// ResourceId ID of the resource
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	ResourceId string `json:"resource_id"`
+}
+
+// GlossaryEntryV2 A glossary entry is one term an organisation has coined — an acronym, a
+// service name, or a piece of internal jargon — and the description of what it means.
+//
+// AI features use the glossary, in rank order, so they understand those terms. Lower
+// ranks come first. Deleting an entry archives it, which frees the term so it can be
+// coined again as a new entry.
+//
+// Example: {"created_at":"2021-08-17T13:28:57.801578Z","description":"Payment service provider that handles card authorisations","id":"01G0J1EXE7AXZ2C93K61WBPYEH","item":"PSP","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"}
+type GlossaryEntryV2 struct {
+	// CreatedAt When the entry was created
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	CreatedAt time.Time `json:"created_at"`
+
+	// Description What the term means
+	//
+	// Example: Payment service provider that handles card authorisations
+	Description string `json:"description"`
+
+	// Id Unique identifier for this glossary entry
+	//
+	// Example: 01G0J1EXE7AXZ2C93K61WBPYEH
+	Id string `json:"id"`
+
+	// Item The term, e.g. an acronym or service name
+	//
+	// Example: PSP
+	Item string `json:"item"`
+
+	// Rank The entry's position in the glossary
+	//
+	// Example: 1
+	Rank int64 `json:"rank"`
+
+	// UpdatedAt When the entry was last updated
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	UpdatedAt time.Time `json:"updated_at"`
+}
+
 // GroupingKeyV2 Example: {"reference":"alert.title"}
 type GroupingKeyV2 struct {
 	// Reference A reference to a property of the alert to group on
@@ -24295,6 +24667,34 @@ type IncidentV2Mode string
 // Example: public
 type IncidentV2Visibility string
 
+// IncidentsConnectExternalIssuePayloadV2 Example: {"issue_template_id":"01GBA8J19SMXQWPJMX3P2ESCVG","provider":"jira","replace":false,"url":"https://example.atlassian.net/browse/OPS-42"}
+type IncidentsConnectExternalIssuePayloadV2 struct {
+	// IssueTemplateId ID of the incident ticket template to sync the issue with
+	//
+	// Example: 01GBA8J19SMXQWPJMX3P2ESCVG
+	IssueTemplateId string `json:"issue_template_id"`
+
+	// Provider The issue tracker provider the issue belongs to. It must match the provider of the incident ticket template.
+	//
+	// Example: jira
+	Provider IncidentsConnectExternalIssuePayloadV2Provider `json:"provider"`
+
+	// Replace Whether to replace the incident's current external issue, if it has a different one
+	//
+	// Example: false
+	Replace *bool `json:"replace,omitempty"`
+
+	// Url URL of the issue in the issue tracker
+	//
+	// Example: https://example.atlassian.net/browse/OPS-42
+	Url string `json:"url"`
+}
+
+// IncidentsConnectExternalIssuePayloadV2Provider The issue tracker provider the issue belongs to. It must match the provider of the incident ticket template.
+//
+// Example: jira
+type IncidentsConnectExternalIssuePayloadV2Provider string
+
 // IncidentsCreatePayloadV1 Example: {"custom_field_entries":[{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","values":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","value_catalog_entry_id":"01FCNDV6P870EA6S7TK1DSYDG0","value_link":"https://google.com/","value_numeric":"123.456","value_option_id":"01FCNDV6P870EA6S7TK1DSYDG0","value_text":"This is my text field, I hope you like it","value_timestamp":""}]}],"idempotency_key":"alert-uuid","incident_role_assignments":[{"assignee":{"email":"bob@example.com","id":"01G0J1EXE7AXZ2C93K61WBPYEH","slack_user_id":"USER123"},"incident_role_id":"01FH5TZRWMNAFB0DZ23FD1TV96"}],"incident_type_id":"01FH5TZRWMNAFB0DZ23FD1TV96","mode":"real","name":"Our database is sad","severity_id":"01FH5TZRWMNAFB0DZ23FD1TV96","slack_team_id":"T02A1FSLE8J","source_message_channel_id":"C02AW36C1M5","source_message_timestamp":"1653650280.526509","status":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}
 type IncidentsCreatePayloadV1 struct {
 	// CustomFieldEntries Set the incident's custom fields to these values
@@ -24895,7 +25295,7 @@ type MaintenanceWindowsUpdateResultV1 struct {
 	MaintenanceWindow MaintenanceWindowV1 `json:"maintenance_window"`
 }
 
-// ManagedResourceV2 Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","resource_id":"abc123","resource_type":"alert_route","source_url":"https://github.com/my-company/infrastructure"}
+// ManagedResourceV2 Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"terraform","resource_id":"abc123","resource_type":"alert_route","source_url":"https://github.com/my-company/infrastructure"}
 type ManagedResourceV2 struct {
 	// Annotations Annotations that track metadata about this resource
 	//
@@ -24904,7 +25304,7 @@ type ManagedResourceV2 struct {
 
 	// ManagedBy How is this resource managed
 	//
-	// Example: dashboard
+	// Example: terraform
 	ManagedBy ManagedResourceV2ManagedBy `json:"managed_by"`
 
 	// ResourceId The ID of the resource that this relates to
@@ -24923,7 +25323,7 @@ type ManagedResourceV2 struct {
 
 // ManagedResourceV2ManagedBy How is this resource managed
 //
-// Example: dashboard
+// Example: terraform
 type ManagedResourceV2ManagedBy string
 
 // ManagedResourceV2ResourceType Example: alert_route
@@ -24952,13 +25352,13 @@ type ManagedResourcesCreateManagedResourcePayloadV2 struct {
 // Example: alert_route
 type ManagedResourcesCreateManagedResourcePayloadV2ResourceType string
 
-// ManagedResourcesCreateManagedResourceResultV2 Example: {"managed_resource":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","resource_id":"abc123","resource_type":"alert_route","source_url":"https://github.com/my-company/infrastructure"}}
+// ManagedResourcesCreateManagedResourceResultV2 Example: {"managed_resource":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"terraform","resource_id":"abc123","resource_type":"alert_route","source_url":"https://github.com/my-company/infrastructure"}}
 type ManagedResourcesCreateManagedResourceResultV2 struct {
-	// ManagedResource Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","resource_id":"abc123","resource_type":"alert_route","source_url":"https://github.com/my-company/infrastructure"}
+	// ManagedResource Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"terraform","resource_id":"abc123","resource_type":"alert_route","source_url":"https://github.com/my-company/infrastructure"}
 	ManagedResource ManagedResourceV2 `json:"managed_resource"`
 }
 
-// ManagementMetaV2 Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","source_url":"https://github.com/my-company/infrastructure"}
+// ManagementMetaV2 Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"terraform","source_url":"https://github.com/my-company/infrastructure"}
 type ManagementMetaV2 struct {
 	// Annotations Annotations that track metadata about this resource
 	//
@@ -24967,7 +25367,7 @@ type ManagementMetaV2 struct {
 
 	// ManagedBy How is this resource managed
 	//
-	// Example: dashboard
+	// Example: terraform
 	ManagedBy ManagementMetaV2ManagedBy `json:"managed_by"`
 
 	// SourceUrl The url of the external repository where this resource is managed (if there is one)
@@ -24978,7 +25378,7 @@ type ManagementMetaV2 struct {
 
 // ManagementMetaV2ManagedBy How is this resource managed
 //
-// Example: dashboard
+// Example: terraform
 type ManagementMetaV2ManagedBy string
 
 // NewSlackUserGroupPayloadV2 Example: {"description":"The team responsible for Project A","handle":"project-team-a","name":"Project Team A","slack_team_id":"T01234567"}
@@ -25075,6 +25475,61 @@ type OnCallNotificationMethodPublicV2 struct {
 //
 // Example: app
 type OnCallNotificationMethodPublicV2MethodType string
+
+// OnCallNotificationPauseV2 A window in which a user's on-call notifications are paused: while it's active, escalations skip the user instead of paging them.
+//
+// Example: {"created_at":"2021-08-17T13:28:57.801578Z","ends_at":"2021-08-24T13:28:57.801578Z","id":"01FCNDV6P870EA6S7TK1DSYDG0","reason":"Annual leave","starts_at":"2021-08-17T13:28:57.801578Z","updated_at":"2021-08-17T13:28:57.801578Z","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
+type OnCallNotificationPauseV2 struct {
+	// CreatedAt Example: 2021-08-17T13:28:57.801578Z
+	CreatedAt time.Time `json:"created_at"`
+
+	// EndsAt When notifications resume
+	//
+	// Example: 2021-08-24T13:28:57.801578Z
+	EndsAt time.Time `json:"ends_at"`
+
+	// Id Unique identifier for this notification pause
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	Id string `json:"id"`
+
+	// Reason Free text reason for why notifications are paused, shown to teammates
+	//
+	// Example: Annual leave
+	Reason *string `json:"reason,omitempty"`
+
+	// StartsAt When notifications stop being sent to the user
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	StartsAt time.Time `json:"starts_at"`
+
+	// UpdatedAt Example: 2021-08-17T13:28:57.801578Z
+	UpdatedAt time.Time `json:"updated_at"`
+
+	// UserId The user whose on-call notifications are paused in this time window
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	UserId string `json:"user_id"`
+}
+
+// OnCallNotificationPausesListResultV2 Example: {"on_call_notification_pauses":[{"created_at":"2021-08-17T13:28:57.801578Z","ends_at":"2021-08-24T13:28:57.801578Z","id":"01FCNDV6P870EA6S7TK1DSYDG0","reason":"Annual leave","starts_at":"2021-08-17T13:28:57.801578Z","updated_at":"2021-08-17T13:28:57.801578Z","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}],"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}}
+type OnCallNotificationPausesListResultV2 struct {
+	// OnCallNotificationPauses Pauses ordered by when they start
+	//
+	// Example: [{"created_at":"2021-08-17T13:28:57.801578Z","ends_at":"2021-08-24T13:28:57.801578Z","id":"01FCNDV6P870EA6S7TK1DSYDG0","reason":"Annual leave","starts_at":"2021-08-17T13:28:57.801578Z","updated_at":"2021-08-17T13:28:57.801578Z","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}]
+	OnCallNotificationPauses []OnCallNotificationPauseV2 `json:"on_call_notification_pauses"`
+
+	// PaginationMeta Example: {"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}
+	PaginationMeta PaginationMetaResultV2 `json:"pagination_meta"`
+}
+
+// OnCallNotificationPausesShowResultV2 Example: {"on_call_notification_pause":{"created_at":"2021-08-17T13:28:57.801578Z","ends_at":"2021-08-24T13:28:57.801578Z","id":"01FCNDV6P870EA6S7TK1DSYDG0","reason":"Annual leave","starts_at":"2021-08-17T13:28:57.801578Z","updated_at":"2021-08-17T13:28:57.801578Z","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}}
+type OnCallNotificationPausesShowResultV2 struct {
+	// OnCallNotificationPause A window in which a user's on-call notifications are paused: while it's active, escalations skip the user instead of paging them.
+	//
+	// Example: {"created_at":"2021-08-17T13:28:57.801578Z","ends_at":"2021-08-24T13:28:57.801578Z","id":"01FCNDV6P870EA6S7TK1DSYDG0","reason":"Annual leave","starts_at":"2021-08-17T13:28:57.801578Z","updated_at":"2021-08-17T13:28:57.801578Z","user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
+	OnCallNotificationPause OnCallNotificationPauseV2 `json:"on_call_notification_pause"`
+}
 
 // OnCallNotificationRuleAppDetailsPublicV2 Example: {"push_notification_criticality":"critical"}
 type OnCallNotificationRuleAppDetailsPublicV2 struct {
@@ -25306,7 +25761,7 @@ type PaginationMetaResultWithTotalV3 struct {
 
 // PartialEntryPayloadV3 Represents a partial entry update, allowing selective field updates
 //
-// Example: {"aliases":["abc123"],"attribute_values":{"abc123":{"array_value":[{"literal":"SEV123"}],"value":{"literal":"SEV123"}}},"entry_id":"abc123","external_id":"abc123","name":"abc123","rank":1}
+// Example: {"aliases":["abc123"],"attribute_values":{"abc123":{"array_value":[{"literal":"SEV123"}],"value":{"literal":"SEV123"}}},"custom_aliases":["primary-on-call"],"entry_id":"abc123","external_id":"abc123","name":"abc123","rank":1}
 type PartialEntryPayloadV3 struct {
 	// Aliases If specified, will update the aliases of the entry. When omitted, preserves the existing aliases.
 	//
@@ -25317,6 +25772,11 @@ type PartialEntryPayloadV3 struct {
 	//
 	// Example: {"abc123":{"array_value":[{"literal":"SEV123"}],"value":{"literal":"SEV123"}}}
 	AttributeValues map[string]CatalogEngineParamBindingPayloadV3 `json:"attribute_values"`
+
+	// CustomAliases Aliases your organisation adds to an entry of a catalog type that incident.io syncs, such as a schedule or escalation path, which you can't change aliases on directly. Omit this or send null to keep the entry's current custom aliases, send an empty list to clear them, or send a list to replace them. Only available on catalog types where supports_custom_aliases is true.
+	//
+	// Example: ["primary-on-call"]
+	CustomAliases *[]string `json:"custom_aliases,omitempty"`
 
 	// EntryId ID of the relevant catalog entry
 	//
@@ -25333,7 +25793,7 @@ type PartialEntryPayloadV3 struct {
 	// Example: abc123
 	Name *string `json:"name,omitempty"`
 
-	// Rank If specified, will update the rank of the entry. When omitted, rank will be set to null (allowing rank removal).
+	// Rank If specified, will update the rank of the entry. When omitted, rank will be set to null (allowing rank removal), unless incident.io syncs the catalog type, in which case the existing rank is preserved.
 	//
 	// Example: 1
 	Rank *int32 `json:"rank,omitempty"`
@@ -27189,7 +27649,7 @@ type PostmortemDocumentV1Type string
 
 // PostmortemDocumentsAttachPayloadV1 Example: {"document_provider":"notion","incident_id":"01FCNDV6P870EA6S7TK1DSYD5H","permalink":"https://www.notion.so/INC-123-database-is-sad"}
 type PostmortemDocumentsAttachPayloadV1 struct {
-	// DocumentProvider The provider hosting the document. Set this when it can't be inferred from the permalink so the link renders correctly.
+	// DocumentProvider The provider hosting the document. This is informational only: the document is always stored as a link to the permalink.
 	//
 	// Example: notion
 	DocumentProvider *PostmortemDocumentsAttachPayloadV1DocumentProvider `json:"document_provider,omitempty"`
@@ -27205,7 +27665,7 @@ type PostmortemDocumentsAttachPayloadV1 struct {
 	Permalink string `json:"permalink"`
 }
 
-// PostmortemDocumentsAttachPayloadV1DocumentProvider The provider hosting the document. Set this when it can't be inferred from the permalink so the link renders correctly.
+// PostmortemDocumentsAttachPayloadV1DocumentProvider The provider hosting the document. This is informational only: the document is always stored as a link to the permalink.
 //
 // Example: notion
 type PostmortemDocumentsAttachPayloadV1DocumentProvider string
@@ -29325,7 +29785,7 @@ type StatusPageComponentAvailabilityV2 struct {
 // Components are organisation-scoped. Placement on a page is controlled by that
 // page's structure, not by ownership of the component.
 //
-// Example: {"description":"Our iOS app","id":"01FCNDV6P870EA6S7TK1DSYDG1","management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","source_url":"https://github.com/my-company/infrastructure"},"name":"App"}
+// Example: {"description":"Our iOS app","id":"01FCNDV6P870EA6S7TK1DSYDG1","management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"terraform","source_url":"https://github.com/my-company/infrastructure"},"name":"App"}
 type StatusPageComponentV2 struct {
 	// Description Optional short description of this component
 	//
@@ -29337,7 +29797,7 @@ type StatusPageComponentV2 struct {
 	// Example: 01FCNDV6P870EA6S7TK1DSYDG1
 	Id string `json:"id"`
 
-	// ManagementMeta Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","source_url":"https://github.com/my-company/infrastructure"}
+	// ManagementMeta Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"terraform","source_url":"https://github.com/my-company/infrastructure"}
 	ManagementMeta ManagementMetaV2 `json:"management_meta"`
 
 	// Name Human-readable name for the component
@@ -29359,31 +29819,31 @@ type StatusPageComponentsCreatePayloadV2 struct {
 	Name string `json:"name"`
 }
 
-// StatusPageComponentsCreateResultV2 Example: {"status_page_component":{"description":"Our iOS app","id":"01FCNDV6P870EA6S7TK1DSYDG1","management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","source_url":"https://github.com/my-company/infrastructure"},"name":"App"}}
+// StatusPageComponentsCreateResultV2 Example: {"status_page_component":{"description":"Our iOS app","id":"01FCNDV6P870EA6S7TK1DSYDG1","management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"terraform","source_url":"https://github.com/my-company/infrastructure"},"name":"App"}}
 type StatusPageComponentsCreateResultV2 struct {
 	// StatusPageComponent A status page component that can appear on one or more status pages.
 	//
 	// Components are organisation-scoped. Placement on a page is controlled by that
 	// page's structure, not by ownership of the component.
 	//
-	// Example: {"description":"Our iOS app","id":"01FCNDV6P870EA6S7TK1DSYDG1","management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","source_url":"https://github.com/my-company/infrastructure"},"name":"App"}
+	// Example: {"description":"Our iOS app","id":"01FCNDV6P870EA6S7TK1DSYDG1","management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"terraform","source_url":"https://github.com/my-company/infrastructure"},"name":"App"}
 	StatusPageComponent StatusPageComponentV2 `json:"status_page_component"`
 }
 
-// StatusPageComponentsListResultV2 Example: {"status_page_components":[{"description":"Our iOS app","id":"01FCNDV6P870EA6S7TK1DSYDG1","management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","source_url":"https://github.com/my-company/infrastructure"},"name":"App"}]}
+// StatusPageComponentsListResultV2 Example: {"status_page_components":[{"description":"Our iOS app","id":"01FCNDV6P870EA6S7TK1DSYDG1","management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"terraform","source_url":"https://github.com/my-company/infrastructure"},"name":"App"}]}
 type StatusPageComponentsListResultV2 struct {
-	// StatusPageComponents Example: [{"description":"Our iOS app","id":"01FCNDV6P870EA6S7TK1DSYDG1","management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","source_url":"https://github.com/my-company/infrastructure"},"name":"App"}]
+	// StatusPageComponents Example: [{"description":"Our iOS app","id":"01FCNDV6P870EA6S7TK1DSYDG1","management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"terraform","source_url":"https://github.com/my-company/infrastructure"},"name":"App"}]
 	StatusPageComponents []StatusPageComponentV2 `json:"status_page_components"`
 }
 
-// StatusPageComponentsShowResultV2 Example: {"status_page_component":{"description":"Our iOS app","id":"01FCNDV6P870EA6S7TK1DSYDG1","management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","source_url":"https://github.com/my-company/infrastructure"},"name":"App"}}
+// StatusPageComponentsShowResultV2 Example: {"status_page_component":{"description":"Our iOS app","id":"01FCNDV6P870EA6S7TK1DSYDG1","management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"terraform","source_url":"https://github.com/my-company/infrastructure"},"name":"App"}}
 type StatusPageComponentsShowResultV2 struct {
 	// StatusPageComponent A status page component that can appear on one or more status pages.
 	//
 	// Components are organisation-scoped. Placement on a page is controlled by that
 	// page's structure, not by ownership of the component.
 	//
-	// Example: {"description":"Our iOS app","id":"01FCNDV6P870EA6S7TK1DSYDG1","management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","source_url":"https://github.com/my-company/infrastructure"},"name":"App"}
+	// Example: {"description":"Our iOS app","id":"01FCNDV6P870EA6S7TK1DSYDG1","management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"terraform","source_url":"https://github.com/my-company/infrastructure"},"name":"App"}
 	StatusPageComponent StatusPageComponentV2 `json:"status_page_component"`
 }
 
@@ -29400,14 +29860,14 @@ type StatusPageComponentsUpdatePayloadV2 struct {
 	Name string `json:"name"`
 }
 
-// StatusPageComponentsUpdateResultV2 Example: {"status_page_component":{"description":"Our iOS app","id":"01FCNDV6P870EA6S7TK1DSYDG1","management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","source_url":"https://github.com/my-company/infrastructure"},"name":"App"}}
+// StatusPageComponentsUpdateResultV2 Example: {"status_page_component":{"description":"Our iOS app","id":"01FCNDV6P870EA6S7TK1DSYDG1","management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"terraform","source_url":"https://github.com/my-company/infrastructure"},"name":"App"}}
 type StatusPageComponentsUpdateResultV2 struct {
 	// StatusPageComponent A status page component that can appear on one or more status pages.
 	//
 	// Components are organisation-scoped. Placement on a page is controlled by that
 	// page's structure, not by ownership of the component.
 	//
-	// Example: {"description":"Our iOS app","id":"01FCNDV6P870EA6S7TK1DSYDG1","management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","source_url":"https://github.com/my-company/infrastructure"},"name":"App"}
+	// Example: {"description":"Our iOS app","id":"01FCNDV6P870EA6S7TK1DSYDG1","management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"terraform","source_url":"https://github.com/my-company/infrastructure"},"name":"App"}
 	StatusPageComponent StatusPageComponentV2 `json:"status_page_component"`
 }
 
@@ -29916,7 +30376,7 @@ type StatusPagesCreateStatusPageIncidentPayloadV2 struct {
 	// Example: Elevated API latency
 	Name string `json:"name"`
 
-	// NotifySubscribers Whether to notify subscribers about this status page incident. This will not work if your status page has more than 1000 subscribers.
+	// NotifySubscribers Whether to notify subscribers about this status page incident. If your status page has more than 1000 subscribers, requests that set this to true are rejected. This limit applies only to the public API: publishing from the incident.io dashboard or Slack always notifies every subscriber.
 	//
 	// Example: true
 	NotifySubscribers bool `json:"notify_subscribers"`
@@ -29955,7 +30415,7 @@ type StatusPagesCreateStatusPageIncidentUpdatePayloadV2 struct {
 	// Example: The fix has been deployed and we are monitoring the situation. Some users may still experience intermittent issues.
 	Message string `json:"message"`
 
-	// NotifySubscribers Whether to notify subscribers about this incident update. This will not work if your status page has more than 1000 subscribers.
+	// NotifySubscribers Whether to notify subscribers about this incident update. If your status page has more than 1000 subscribers, requests that set this to true are rejected. This limit applies only to the public API: publishing from the incident.io dashboard or Slack always notifies every subscriber.
 	//
 	// Example: true
 	NotifySubscribers bool `json:"notify_subscribers"`
@@ -30014,7 +30474,7 @@ type StatusPagesCreateStatusPageMaintenancePayloadV2 struct {
 	// Example: Routine infrastructure upgrade
 	Name string `json:"name"`
 
-	// NotifySubscribers Whether to notify subscribers about this status page maintenance. This will not work if your status page has more than 1000 subscribers.
+	// NotifySubscribers Whether to notify subscribers about this status page maintenance. If your status page has more than 1000 subscribers, requests that set this to true are rejected. This limit applies only to the public API: publishing from the incident.io dashboard or Slack always notifies every subscriber.
 	//
 	// Example: true
 	NotifySubscribers bool `json:"notify_subscribers"`
@@ -30058,7 +30518,7 @@ type StatusPagesCreateStatusPageMaintenanceUpdatePayloadV2 struct {
 	// Example: Scheduled maintenance is underway for our database infrastructure. Some services may experience brief interruptions during this window.
 	Message string `json:"message"`
 
-	// NotifySubscribers Whether to notify subscribers about this status page maintenance update. This will not work if your status page has more than 1000 subscribers.
+	// NotifySubscribers Whether to notify subscribers about this status page maintenance update. If your status page has more than 1000 subscribers, requests that set this to true are rejected. This limit applies only to the public API: publishing from the incident.io dashboard or Slack always notifies every subscriber.
 	//
 	// Example: true
 	NotifySubscribers bool `json:"notify_subscribers"`
@@ -30160,7 +30620,7 @@ type StatusPagesSetStatusPageStructurePayloadV2 struct {
 // Example: chart_and_percentage
 type StatusPagesSetStatusPageStructurePayloadV2DisplayUptimeMode string
 
-// StatusPagesSetStatusPageStructureResultV2 Example: {"current_structure":{"items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"},"sub_page":{"id":"01FCNDV6P870EA6S7TK1DSYDG1","items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}}],"name":"United Kingdom"}}]},"display_uptime_mode":"chart_and_percentage","management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","source_url":"https://github.com/my-company/infrastructure"}}
+// StatusPagesSetStatusPageStructureResultV2 Example: {"current_structure":{"items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"},"sub_page":{"id":"01FCNDV6P870EA6S7TK1DSYDG1","items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}}],"name":"United Kingdom"}}]},"display_uptime_mode":"chart_and_percentage","management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"terraform","source_url":"https://github.com/my-company/infrastructure"}}
 type StatusPagesSetStatusPageStructureResultV2 struct {
 	// CurrentStructure Example: {"items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"},"sub_page":{"id":"01FCNDV6P870EA6S7TK1DSYDG1","items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}}],"name":"United Kingdom"}}]}
 	CurrentStructure StatusPageStructureV2 `json:"current_structure"`
@@ -30170,7 +30630,7 @@ type StatusPagesSetStatusPageStructureResultV2 struct {
 	// Example: chart_and_percentage
 	DisplayUptimeMode StatusPagesSetStatusPageStructureResultV2DisplayUptimeMode `json:"display_uptime_mode"`
 
-	// ManagementMeta Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","source_url":"https://github.com/my-company/infrastructure"}
+	// ManagementMeta Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"terraform","source_url":"https://github.com/my-company/infrastructure"}
 	ManagementMeta ManagementMetaV2 `json:"management_meta"`
 }
 
@@ -30205,7 +30665,7 @@ type StatusPagesShowStatusPageResultV2 struct {
 	StatusPage StatusPageV2 `json:"status_page"`
 }
 
-// StatusPagesShowStatusPageStructureResultV2 Example: {"current_structure":{"items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"},"sub_page":{"id":"01FCNDV6P870EA6S7TK1DSYDG1","items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}}],"name":"United Kingdom"}}]},"display_uptime_mode":"chart_and_percentage","management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","source_url":"https://github.com/my-company/infrastructure"}}
+// StatusPagesShowStatusPageStructureResultV2 Example: {"current_structure":{"items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"},"sub_page":{"id":"01FCNDV6P870EA6S7TK1DSYDG1","items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}}],"name":"United Kingdom"}}]},"display_uptime_mode":"chart_and_percentage","management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"terraform","source_url":"https://github.com/my-company/infrastructure"}}
 type StatusPagesShowStatusPageStructureResultV2 struct {
 	// CurrentStructure Example: {"items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"},"sub_page":{"id":"01FCNDV6P870EA6S7TK1DSYDG1","items":[{"component":{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"},"group":{"components":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG1","display_uptime":true,"hidden":false,"name":"App"}],"description":"Services hosted in our EU data center","display_aggregated_uptime":true,"hidden":false,"id":"01FCNDV6P870EA6S7TK1DSYDG1","name":"EU Data center"}}],"name":"United Kingdom"}}]}
 	CurrentStructure StatusPageStructureV2 `json:"current_structure"`
@@ -30215,7 +30675,7 @@ type StatusPagesShowStatusPageStructureResultV2 struct {
 	// Example: chart_and_percentage
 	DisplayUptimeMode StatusPagesShowStatusPageStructureResultV2DisplayUptimeMode `json:"display_uptime_mode"`
 
-	// ManagementMeta Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","source_url":"https://github.com/my-company/infrastructure"}
+	// ManagementMeta Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"terraform","source_url":"https://github.com/my-company/infrastructure"}
 	ManagementMeta ManagementMetaV2 `json:"management_meta"`
 }
 
@@ -31850,9 +32310,9 @@ type WorkflowsCreateWorkflowPayloadV2RunsOnIncidents string
 // Example: active
 type WorkflowsCreateWorkflowPayloadV2State string
 
-// WorkflowsCreateWorkflowResultV2 Example: {"management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","source_url":"https://github.com/my-company/infrastructure"},"workflow":{"auto_run_mode":"confirm_before_running","condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"continue_on_step_error":true,"delay":{"conditions_apply_over_delay":false,"for_seconds":60},"expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"folder":"My folder 01","form_fields":[{"array":true,"description":"The customer affected by this incident","id":"01FCNDV6P870EA6S7TK1DSYDG0","key":"affected_customer","required":true,"title":"Affected customer","type":"User"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","include_private_escalations":true,"include_private_incidents":true,"name":"My little workflow","once_for":[{"array":false,"key":"incident.custom_field[\"01FCNDV6P870EA6S7TK1DSYDG0\"]","label":"Incident -\u003e Affected Team","type":"IncidentSeverity"}],"owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"private_incident_scope":"owning_teams","runs_from":"2021-08-17T13:28:57.801578Z","runs_on_incident_modes":["standard","test","retrospective"],"runs_on_incidents":"newly_created","shortform":"page-the-ceo","state":"active","steps":[{"for_each":"abc123","id":"abc123","label":"PagerDuty Escalate","name":"pagerduty.escalate","param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}]}],"trigger":{"label":"Incident Updated","name":"incident.updated"},"version":3}}
+// WorkflowsCreateWorkflowResultV2 Example: {"management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"terraform","source_url":"https://github.com/my-company/infrastructure"},"workflow":{"auto_run_mode":"confirm_before_running","condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"continue_on_step_error":true,"delay":{"conditions_apply_over_delay":false,"for_seconds":60},"expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"folder":"My folder 01","form_fields":[{"array":true,"description":"The customer affected by this incident","id":"01FCNDV6P870EA6S7TK1DSYDG0","key":"affected_customer","required":true,"title":"Affected customer","type":"User"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","include_private_escalations":true,"include_private_incidents":true,"name":"My little workflow","once_for":[{"array":false,"key":"incident.custom_field[\"01FCNDV6P870EA6S7TK1DSYDG0\"]","label":"Incident -\u003e Affected Team","type":"IncidentSeverity"}],"owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"private_incident_scope":"owning_teams","runs_from":"2021-08-17T13:28:57.801578Z","runs_on_incident_modes":["standard","test","retrospective"],"runs_on_incidents":"newly_created","shortform":"page-the-ceo","state":"active","steps":[{"for_each":"abc123","id":"abc123","label":"PagerDuty Escalate","name":"pagerduty.escalate","param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}]}],"trigger":{"label":"Incident Updated","name":"incident.updated"},"version":3}}
 type WorkflowsCreateWorkflowResultV2 struct {
-	// ManagementMeta Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","source_url":"https://github.com/my-company/infrastructure"}
+	// ManagementMeta Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"terraform","source_url":"https://github.com/my-company/infrastructure"}
 	ManagementMeta ManagementMetaV2 `json:"management_meta"`
 
 	// Workflow Example: {"auto_run_mode":"confirm_before_running","condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"continue_on_step_error":true,"delay":{"conditions_apply_over_delay":false,"for_seconds":60},"expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"folder":"My folder 01","form_fields":[{"array":true,"description":"The customer affected by this incident","id":"01FCNDV6P870EA6S7TK1DSYDG0","key":"affected_customer","required":true,"title":"Affected customer","type":"User"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","include_private_escalations":true,"include_private_incidents":true,"name":"My little workflow","once_for":[{"array":false,"key":"incident.custom_field[\"01FCNDV6P870EA6S7TK1DSYDG0\"]","label":"Incident -\u003e Affected Team","type":"IncidentSeverity"}],"owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"private_incident_scope":"owning_teams","runs_from":"2021-08-17T13:28:57.801578Z","runs_on_incident_modes":["standard","test","retrospective"],"runs_on_incidents":"newly_created","shortform":"page-the-ceo","state":"active","steps":[{"for_each":"abc123","id":"abc123","label":"PagerDuty Escalate","name":"pagerduty.escalate","param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}]}],"trigger":{"label":"Incident Updated","name":"incident.updated"},"version":3}
@@ -31865,9 +32325,9 @@ type WorkflowsListWorkflowsResultV2 struct {
 	Workflows []WorkflowSlimV2 `json:"workflows"`
 }
 
-// WorkflowsShowWorkflowResultV2 Example: {"management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","source_url":"https://github.com/my-company/infrastructure"},"workflow":{"auto_run_mode":"confirm_before_running","condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"continue_on_step_error":true,"delay":{"conditions_apply_over_delay":false,"for_seconds":60},"expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"folder":"My folder 01","form_fields":[{"array":true,"description":"The customer affected by this incident","id":"01FCNDV6P870EA6S7TK1DSYDG0","key":"affected_customer","required":true,"title":"Affected customer","type":"User"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","include_private_escalations":true,"include_private_incidents":true,"name":"My little workflow","once_for":[{"array":false,"key":"incident.custom_field[\"01FCNDV6P870EA6S7TK1DSYDG0\"]","label":"Incident -\u003e Affected Team","type":"IncidentSeverity"}],"owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"private_incident_scope":"owning_teams","runs_from":"2021-08-17T13:28:57.801578Z","runs_on_incident_modes":["standard","test","retrospective"],"runs_on_incidents":"newly_created","shortform":"page-the-ceo","state":"active","steps":[{"for_each":"abc123","id":"abc123","label":"PagerDuty Escalate","name":"pagerduty.escalate","param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}]}],"trigger":{"label":"Incident Updated","name":"incident.updated"},"version":3}}
+// WorkflowsShowWorkflowResultV2 Example: {"management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"terraform","source_url":"https://github.com/my-company/infrastructure"},"workflow":{"auto_run_mode":"confirm_before_running","condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"continue_on_step_error":true,"delay":{"conditions_apply_over_delay":false,"for_seconds":60},"expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"folder":"My folder 01","form_fields":[{"array":true,"description":"The customer affected by this incident","id":"01FCNDV6P870EA6S7TK1DSYDG0","key":"affected_customer","required":true,"title":"Affected customer","type":"User"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","include_private_escalations":true,"include_private_incidents":true,"name":"My little workflow","once_for":[{"array":false,"key":"incident.custom_field[\"01FCNDV6P870EA6S7TK1DSYDG0\"]","label":"Incident -\u003e Affected Team","type":"IncidentSeverity"}],"owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"private_incident_scope":"owning_teams","runs_from":"2021-08-17T13:28:57.801578Z","runs_on_incident_modes":["standard","test","retrospective"],"runs_on_incidents":"newly_created","shortform":"page-the-ceo","state":"active","steps":[{"for_each":"abc123","id":"abc123","label":"PagerDuty Escalate","name":"pagerduty.escalate","param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}]}],"trigger":{"label":"Incident Updated","name":"incident.updated"},"version":3}}
 type WorkflowsShowWorkflowResultV2 struct {
-	// ManagementMeta Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","source_url":"https://github.com/my-company/infrastructure"}
+	// ManagementMeta Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"terraform","source_url":"https://github.com/my-company/infrastructure"}
 	ManagementMeta ManagementMetaV2 `json:"management_meta"`
 
 	// Workflow Example: {"auto_run_mode":"confirm_before_running","condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"continue_on_step_error":true,"delay":{"conditions_apply_over_delay":false,"for_seconds":60},"expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"folder":"My folder 01","form_fields":[{"array":true,"description":"The customer affected by this incident","id":"01FCNDV6P870EA6S7TK1DSYDG0","key":"affected_customer","required":true,"title":"Affected customer","type":"User"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","include_private_escalations":true,"include_private_incidents":true,"name":"My little workflow","once_for":[{"array":false,"key":"incident.custom_field[\"01FCNDV6P870EA6S7TK1DSYDG0\"]","label":"Incident -\u003e Affected Team","type":"IncidentSeverity"}],"owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"private_incident_scope":"owning_teams","runs_from":"2021-08-17T13:28:57.801578Z","runs_on_incident_modes":["standard","test","retrospective"],"runs_on_incidents":"newly_created","shortform":"page-the-ceo","state":"active","steps":[{"for_each":"abc123","id":"abc123","label":"PagerDuty Escalate","name":"pagerduty.escalate","param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}]}],"trigger":{"label":"Incident Updated","name":"incident.updated"},"version":3}
@@ -31998,9 +32458,9 @@ type WorkflowsUpdateWorkflowPayloadV2RunsOnIncidents string
 // Example: active
 type WorkflowsUpdateWorkflowPayloadV2State string
 
-// WorkflowsUpdateWorkflowResultV2 Example: {"management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","source_url":"https://github.com/my-company/infrastructure"},"workflow":{"auto_run_mode":"confirm_before_running","condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"continue_on_step_error":true,"delay":{"conditions_apply_over_delay":false,"for_seconds":60},"expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"folder":"My folder 01","form_fields":[{"array":true,"description":"The customer affected by this incident","id":"01FCNDV6P870EA6S7TK1DSYDG0","key":"affected_customer","required":true,"title":"Affected customer","type":"User"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","include_private_escalations":true,"include_private_incidents":true,"name":"My little workflow","once_for":[{"array":false,"key":"incident.custom_field[\"01FCNDV6P870EA6S7TK1DSYDG0\"]","label":"Incident -\u003e Affected Team","type":"IncidentSeverity"}],"owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"private_incident_scope":"owning_teams","runs_from":"2021-08-17T13:28:57.801578Z","runs_on_incident_modes":["standard","test","retrospective"],"runs_on_incidents":"newly_created","shortform":"page-the-ceo","state":"active","steps":[{"for_each":"abc123","id":"abc123","label":"PagerDuty Escalate","name":"pagerduty.escalate","param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}]}],"trigger":{"label":"Incident Updated","name":"incident.updated"},"version":3}}
+// WorkflowsUpdateWorkflowResultV2 Example: {"management_meta":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"terraform","source_url":"https://github.com/my-company/infrastructure"},"workflow":{"auto_run_mode":"confirm_before_running","condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"continue_on_step_error":true,"delay":{"conditions_apply_over_delay":false,"for_seconds":60},"expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"folder":"My folder 01","form_fields":[{"array":true,"description":"The customer affected by this incident","id":"01FCNDV6P870EA6S7TK1DSYDG0","key":"affected_customer","required":true,"title":"Affected customer","type":"User"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","include_private_escalations":true,"include_private_incidents":true,"name":"My little workflow","once_for":[{"array":false,"key":"incident.custom_field[\"01FCNDV6P870EA6S7TK1DSYDG0\"]","label":"Incident -\u003e Affected Team","type":"IncidentSeverity"}],"owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"private_incident_scope":"owning_teams","runs_from":"2021-08-17T13:28:57.801578Z","runs_on_incident_modes":["standard","test","retrospective"],"runs_on_incidents":"newly_created","shortform":"page-the-ceo","state":"active","steps":[{"for_each":"abc123","id":"abc123","label":"PagerDuty Escalate","name":"pagerduty.escalate","param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}]}],"trigger":{"label":"Incident Updated","name":"incident.updated"},"version":3}}
 type WorkflowsUpdateWorkflowResultV2 struct {
-	// ManagementMeta Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"dashboard","source_url":"https://github.com/my-company/infrastructure"}
+	// ManagementMeta Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"terraform","source_url":"https://github.com/my-company/infrastructure"}
 	ManagementMeta ManagementMetaV2 `json:"management_meta"`
 
 	// Workflow Example: {"auto_run_mode":"confirm_before_running","condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"continue_on_step_error":true,"delay":{"conditions_apply_over_delay":false,"for_seconds":60},"expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"folder":"My folder 01","form_fields":[{"array":true,"description":"The customer affected by this incident","id":"01FCNDV6P870EA6S7TK1DSYDG0","key":"affected_customer","required":true,"title":"Affected customer","type":"User"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","include_private_escalations":true,"include_private_incidents":true,"name":"My little workflow","once_for":[{"array":false,"key":"incident.custom_field[\"01FCNDV6P870EA6S7TK1DSYDG0\"]","label":"Incident -\u003e Affected Team","type":"IncidentSeverity"}],"owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"private_incident_scope":"owning_teams","runs_from":"2021-08-17T13:28:57.801578Z","runs_on_incident_modes":["standard","test","retrospective"],"runs_on_incidents":"newly_created","shortform":"page-the-ceo","state":"active","steps":[{"for_each":"abc123","id":"abc123","label":"PagerDuty Escalate","name":"pagerduty.escalate","param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}]}],"trigger":{"label":"Incident Updated","name":"incident.updated"},"version":3}
@@ -32312,6 +32772,21 @@ type ActionsV2ListParams struct {
 // ActionsV2ListParamsIncidentMode defines parameters for ActionsV2List.
 type ActionsV2ListParamsIncidentMode string
 
+// AlertAttachmentsV2ListParams defines parameters for AlertAttachmentsV2List.
+type AlertAttachmentsV2ListParams struct {
+	// AlertId ID of the alert to list attachments for. Provide exactly one of alert_id or alert_group_id.
+	AlertId *string `form:"alert_id,omitempty" json:"alert_id,omitempty"`
+
+	// AlertGroupId ID of the alert group to list attachments for. Provide exactly one of alert_id or alert_group_id.
+	AlertGroupId *string `form:"alert_group_id,omitempty" json:"alert_group_id,omitempty"`
+
+	// PageSize Integer number of records to return
+	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// After An alert attachment's ID. This endpoint will return the attachments after this one in the response order.
+	After *string `form:"after,omitempty" json:"after,omitempty"`
+}
+
 // AlertEventsV2CreateHTTPParams defines parameters for AlertEventsV2CreateHTTP.
 type AlertEventsV2CreateHTTPParams struct {
 	// Token Token used to authenticate the request, generated when configuring the alert source. Will be consumed via a URL query string parameter
@@ -32522,6 +32997,18 @@ type FollowUpsV2ListParams struct {
 // FollowUpsV2ListParamsIncidentMode defines parameters for FollowUpsV2List.
 type FollowUpsV2ListParamsIncidentMode string
 
+// GlossaryEntriesV2ListParams defines parameters for GlossaryEntriesV2List.
+type GlossaryEntriesV2ListParams struct {
+	// PageSize Number of glossary entries to return per page
+	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// After A glossary entry's ID. This endpoint returns entries after this one. Without search, that is later in rank order. With search, it is the next hit after this entry.
+	After *string `form:"after,omitempty" json:"after,omitempty"`
+
+	// Search Filter to entries whose term or description contains this value (case-insensitive)
+	Search *string `form:"search,omitempty" json:"search,omitempty"`
+}
+
 // HeartbeatV2Ping1Params defines parameters for HeartbeatV2Ping1.
 type HeartbeatV2Ping1Params struct {
 	// Token Token provided via the token query parameter
@@ -32653,6 +33140,21 @@ type IncidentsV2ListParamsSortBy string
 
 // IncidentsV2ListParamsFilterMode defines parameters for IncidentsV2List.
 type IncidentsV2ListParamsFilterMode string
+
+// OnCallNotificationPausesV2ListParams defines parameters for OnCallNotificationPausesV2List.
+type OnCallNotificationPausesV2ListParams struct {
+	// From Only return pauses that end after this time. Defaults to now, so by default only active and upcoming pauses are returned.
+	From *time.Time `form:"from,omitempty" json:"from,omitempty"`
+
+	// To Only return pauses that start before this time
+	To *time.Time `form:"to,omitempty" json:"to,omitempty"`
+
+	// PageSize Integer number of records to return
+	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// After A pause's ID. This endpoint will return a list of pauses after this ID in relation to the API response order.
+	After *string `form:"after,omitempty" json:"after,omitempty"`
+}
 
 // PayConfigsV2ListParams defines parameters for PayConfigsV2List.
 type PayConfigsV2ListParams struct {
@@ -33132,6 +33634,9 @@ type ActionsV2CreateJSONRequestBody = ActionsCreatePayloadV2
 // Deprecated: this type has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 type ActionsV2UpdateJSONRequestBody = ActionsUpdatePayloadV2
 
+// AlertAttachmentsV2CreateJSONRequestBody defines body for AlertAttachmentsV2Create for application/json ContentType.
+type AlertAttachmentsV2CreateJSONRequestBody = AlertAttachmentsCreatePayloadV2
+
 // AlertAttributesV2CreateJSONRequestBody defines body for AlertAttributesV2Create for application/json ContentType.
 type AlertAttributesV2CreateJSONRequestBody = AlertAttributesCreatePayloadV2
 
@@ -33271,6 +33776,15 @@ type FollowUpsV2UpdateJSONRequestBody = FollowUpsUpdatePayloadV2
 // Deprecated: this type has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 type FollowUpsV2ConnectExternalIssueJSONRequestBody = FollowUpsConnectExternalIssuePayloadV2
 
+// GlossaryEntriesV2CreateJSONRequestBody defines body for GlossaryEntriesV2Create for application/json ContentType.
+type GlossaryEntriesV2CreateJSONRequestBody = GlossaryEntriesCreatePayloadV2
+
+// GlossaryEntriesV2UpdateRanksJSONRequestBody defines body for GlossaryEntriesV2UpdateRanks for application/json ContentType.
+type GlossaryEntriesV2UpdateRanksJSONRequestBody = GlossaryEntriesUpdateRanksPayloadV2
+
+// GlossaryEntriesV2UpdateJSONRequestBody defines body for GlossaryEntriesV2Update for application/json ContentType.
+type GlossaryEntriesV2UpdateJSONRequestBody = GlossaryEntriesUpdatePayloadV2
+
 // AlertsV2CreateIncidentAlertJSONRequestBody defines body for AlertsV2CreateIncidentAlert for application/json ContentType.
 type AlertsV2CreateIncidentAlertJSONRequestBody = AlertsCreateIncidentAlertPayloadV2
 
@@ -33294,6 +33808,9 @@ type IncidentUpdatesV2CreateJSONRequestBody = IncidentUpdatesCreatePayloadV2
 
 // IncidentsV2CreateJSONRequestBody defines body for IncidentsV2Create for application/json ContentType.
 type IncidentsV2CreateJSONRequestBody = IncidentsCreatePayloadV2
+
+// IncidentsV2ConnectExternalIssueJSONRequestBody defines body for IncidentsV2ConnectExternalIssue for application/json ContentType.
+type IncidentsV2ConnectExternalIssueJSONRequestBody = IncidentsConnectExternalIssuePayloadV2
 
 // IncidentsV2EditJSONRequestBody defines body for IncidentsV2Edit for application/json ContentType.
 type IncidentsV2EditJSONRequestBody = IncidentsEditPayloadV2
@@ -34687,6 +35204,38 @@ type ClientInterface interface {
 	//
 	// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	ActionsV2Update(ctx context.Context, id string, body ActionsV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertAttachmentsV2List List Alert Attachments V2
+	//
+	// List the attachments on an alert or alert group, newest first. Provide exactly one of alert_id or alert_group_id. Listing by alert_id returns only what is attached to that alert, not what is attached to its alert group.
+	//
+	// Corresponds with GET /v2/alert_attachments (the `AlertAttachmentsV2List` operationId).
+	AlertAttachmentsV2List(ctx context.Context, params *AlertAttachmentsV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertAttachmentsV2CreateWithBody Create Alert Attachments V2
+	//
+	// Attach a URL to an alert or alert group. Provide exactly one of alert_id or alert_group_id. A URL for a ticket or pull request from a connected integration is attached as that ticket or pull request. Any other URL is attached as a link. A URL that is already attached returns a 422.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v2/alert_attachments (the `AlertAttachmentsV2Create` operationId).
+	AlertAttachmentsV2CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertAttachmentsV2Create Create Alert Attachments V2
+	//
+	// Attach a URL to an alert or alert group. Provide exactly one of alert_id or alert_group_id. A URL for a ticket or pull request from a connected integration is attached as that ticket or pull request. Any other URL is attached as a link. A URL that is already attached returns a 422.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v2/alert_attachments (the `AlertAttachmentsV2Create` operationId).
+	AlertAttachmentsV2Create(ctx context.Context, body AlertAttachmentsV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertAttachmentsV2Delete Delete Alert Attachments V2
+	//
+	// Remove an attachment from its alert or alert group.
+	//
+	// Corresponds with DELETE /v2/alert_attachments/{id} (the `AlertAttachmentsV2Delete` operationId).
+	AlertAttachmentsV2Delete(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// AlertAttributesV2List List Alert Attributes V2
 	//
@@ -36116,7 +36665,7 @@ type ClientInterface interface {
 	// To use this API, you will need an API key with the "Create and manage escalations"
 	// permission. The reassignment is attributed to the key; to attribute it to one of your
 	// users instead, set the X-Incident-User header, which needs the
-	// "api_keys.act_on_behalf_of_users" scope.
+	// "api_keys.act_on_behalf_of_users" scope and no team permissions on the key.
 	//
 	// If your API key's permissions are scoped to teams, the escalation you're reassigning
 	// must be owned by one of those teams, and you can only reassign via an escalation path
@@ -36155,7 +36704,7 @@ type ClientInterface interface {
 	// To use this API, you will need an API key with the "Create and manage escalations"
 	// permission. The reassignment is attributed to the key; to attribute it to one of your
 	// users instead, set the X-Incident-User header, which needs the
-	// "api_keys.act_on_behalf_of_users" scope.
+	// "api_keys.act_on_behalf_of_users" scope and no team permissions on the key.
 	//
 	// If your API key's permissions are scoped to teams, the escalation you're reassigning
 	// must be owned by one of those teams, and you can only reassign via an escalation path
@@ -36338,6 +36887,81 @@ type ClientInterface interface {
 	//
 	// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	FollowUpsV2ConnectExternalIssue(ctx context.Context, id string, body FollowUpsV2ConnectExternalIssueJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GlossaryEntriesV2List List Glossary Entries V2
+	//
+	// List glossary entries for this organisation, in rank order.
+	//
+	// Corresponds with GET /v2/glossary_entries (the `GlossaryEntriesV2List` operationId).
+	GlossaryEntriesV2List(ctx context.Context, params *GlossaryEntriesV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GlossaryEntriesV2CreateWithBody Create Glossary Entries V2
+	//
+	// Create a glossary entry. It is appended to the end of the glossary unless after names an existing entry to insert it after.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v2/glossary_entries (the `GlossaryEntriesV2Create` operationId).
+	GlossaryEntriesV2CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GlossaryEntriesV2Create Create Glossary Entries V2
+	//
+	// Create a glossary entry. It is appended to the end of the glossary unless after names an existing entry to insert it after.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v2/glossary_entries (the `GlossaryEntriesV2Create` operationId).
+	GlossaryEntriesV2Create(ctx context.Context, body GlossaryEntriesV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GlossaryEntriesV2UpdateRanksWithBody UpdateRanks Glossary Entries V2
+	//
+	// Reorder glossary entries. Every live entry must be included exactly once.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PUT /v2/glossary_entries/actions/update_ranks (the `GlossaryEntriesV2UpdateRanks` operationId).
+	GlossaryEntriesV2UpdateRanksWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GlossaryEntriesV2UpdateRanks UpdateRanks Glossary Entries V2
+	//
+	// Reorder glossary entries. Every live entry must be included exactly once.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PUT /v2/glossary_entries/actions/update_ranks (the `GlossaryEntriesV2UpdateRanks` operationId).
+	GlossaryEntriesV2UpdateRanks(ctx context.Context, body GlossaryEntriesV2UpdateRanksJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GlossaryEntriesV2Destroy Destroy Glossary Entries V2
+	//
+	// Delete a glossary entry. The entry is archived, which frees its term so the same item can be added again later.
+	//
+	// Corresponds with DELETE /v2/glossary_entries/{id} (the `GlossaryEntriesV2Destroy` operationId).
+	GlossaryEntriesV2Destroy(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GlossaryEntriesV2Show Show Glossary Entries V2
+	//
+	// Get a single glossary entry.
+	//
+	// Corresponds with GET /v2/glossary_entries/{id} (the `GlossaryEntriesV2Show` operationId).
+	GlossaryEntriesV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GlossaryEntriesV2UpdateWithBody Update Glossary Entries V2
+	//
+	// Update a glossary entry's term or description. Rank is unchanged; use the reorder action for that.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PUT /v2/glossary_entries/{id} (the `GlossaryEntriesV2Update` operationId).
+	GlossaryEntriesV2UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GlossaryEntriesV2Update Update Glossary Entries V2
+	//
+	// Update a glossary entry's term or description. Rank is unchanged; use the reorder action for that.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PUT /v2/glossary_entries/{id} (the `GlossaryEntriesV2Update` operationId).
+	GlossaryEntriesV2Update(ctx context.Context, id string, body GlossaryEntriesV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// HeartbeatV2Ping1 Ping Heartbeat V2
 	//
@@ -36883,6 +37507,56 @@ type ClientInterface interface {
 	// Corresponds with GET /v2/incidents/{id} (the `IncidentsV2Show` operationId).
 	IncidentsV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// IncidentsV2ConnectExternalIssueWithBody ConnectExternalIssue Incidents V2
+	//
+	// Connect an existing issue in an issue tracker to an incident, as its external issue.
+	//
+	// The issue is synced using the given incident ticket template, as if incident.io had
+	// created it from that template. The next sync writes the incident's fields into the issue.
+	//
+	// This works whether or not automatic incident ticket creation is turned on. While it is
+	// off, no tickets are created for other incidents, and the incident's fields are not
+	// written into this issue until it is turned on.
+	//
+	// This needs the incidents.connect_external_issue scope, either across the organisation or
+	// from an incident role on this incident.
+	//
+	// This fails if the incident already has a different external issue (unless replace is
+	// true), or if the issue is already linked to another incident or follow-up.
+	//
+	// The ID supplied can be either the incident's full ID, or the numeric part of its
+	// reference.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v2/incidents/{id}/actions/connect_external_issue (the `IncidentsV2ConnectExternalIssue` operationId).
+	IncidentsV2ConnectExternalIssueWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// IncidentsV2ConnectExternalIssue ConnectExternalIssue Incidents V2
+	//
+	// Connect an existing issue in an issue tracker to an incident, as its external issue.
+	//
+	// The issue is synced using the given incident ticket template, as if incident.io had
+	// created it from that template. The next sync writes the incident's fields into the issue.
+	//
+	// This works whether or not automatic incident ticket creation is turned on. While it is
+	// off, no tickets are created for other incidents, and the incident's fields are not
+	// written into this issue until it is turned on.
+	//
+	// This needs the incidents.connect_external_issue scope, either across the organisation or
+	// from an incident role on this incident.
+	//
+	// This fails if the incident already has a different external issue (unless replace is
+	// true), or if the issue is already linked to another incident or follow-up.
+	//
+	// The ID supplied can be either the incident's full ID, or the numeric part of its
+	// reference.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v2/incidents/{id}/actions/connect_external_issue (the `IncidentsV2ConnectExternalIssue` operationId).
+	IncidentsV2ConnectExternalIssue(ctx context.Context, id string, body IncidentsV2ConnectExternalIssueJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// IncidentsV2EditWithBody Edit Incidents V2
 	//
 	// Edit an existing incident.
@@ -36892,9 +37566,9 @@ type ClientInterface interface {
 	// When using this endpoint, only fields that are provided will be edited (omitted fields
 	// will be ignored).
 	//
-	// The API key must have the scope corresponding to each property it changes:
+	// The API key must have `incidents.view`, and the scope corresponding to each property it changes:
 	//
-	// - `incidents.update_name` for the name
+	// - `incidents.update_name` for the name or the Slack channel name override
 	// - `incidents.update_summary` for the summary
 	// - `incidents.update_severity` for the severity
 	// - `incidents.update_status` for the status
@@ -36918,9 +37592,9 @@ type ClientInterface interface {
 	// When using this endpoint, only fields that are provided will be edited (omitted fields
 	// will be ignored).
 	//
-	// The API key must have the scope corresponding to each property it changes:
+	// The API key must have `incidents.view`, and the scope corresponding to each property it changes:
 	//
-	// - `incidents.update_name` for the name
+	// - `incidents.update_name` for the name or the Slack channel name override
 	// - `incidents.update_summary` for the summary
 	// - `incidents.update_severity` for the severity
 	// - `incidents.update_status` for the status
@@ -36969,7 +37643,16 @@ type ClientInterface interface {
 
 	// ManagedResourcesV2CreateManagedResourceWithBody CreateManagedResource Managed Resources V2
 	//
-	// Called by external providers such as Terraform, this can 'claim' an incident.io resource as being managed externally.
+	// Create or update the management record for a resource. This replaces any annotations already stored on it.
+	//
+	// The annotations set `managed_by`:
+	// - `incident.io/terraform/version` sets it to `terraform`.
+	// - `incident.io/is-managed-externally` sets it to `external`. If both keys are present, `external` wins.
+	// - Neither key sets it to `dashboard`.
+	//
+	// This doesn't change the resource's configuration, but `managed_by` controls whether it can be edited in the dashboard. Returning a schedule to `dashboard` also returns its sync rules and targets.
+	//
+	// The API key must have the update scope for the resource type, e.g. `schedules.update` for a schedule.
 	//
 	// Takes any type of body and a specified content type.
 	//
@@ -36978,12 +37661,35 @@ type ClientInterface interface {
 
 	// ManagedResourcesV2CreateManagedResource CreateManagedResource Managed Resources V2
 	//
-	// Called by external providers such as Terraform, this can 'claim' an incident.io resource as being managed externally.
+	// Create or update the management record for a resource. This replaces any annotations already stored on it.
+	//
+	// The annotations set `managed_by`:
+	// - `incident.io/terraform/version` sets it to `terraform`.
+	// - `incident.io/is-managed-externally` sets it to `external`. If both keys are present, `external` wins.
+	// - Neither key sets it to `dashboard`.
+	//
+	// This doesn't change the resource's configuration, but `managed_by` controls whether it can be edited in the dashboard. Returning a schedule to `dashboard` also returns its sync rules and targets.
+	//
+	// The API key must have the update scope for the resource type, e.g. `schedules.update` for a schedule.
 	//
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /v2/managed_resources (the `ManagedResourcesV2CreateManagedResource` operationId).
 	ManagedResourcesV2CreateManagedResource(ctx context.Context, body ManagedResourcesV2CreateManagedResourceJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// OnCallNotificationPausesV2List List On-call Notification Pauses V2
+	//
+	// List on-call notification pauses across the organisation. By default this returns pauses that are active now or scheduled for the future. Cancelled pauses are never returned, and pauses that were resumed early have ends_at set to when they were resumed.
+	//
+	// Corresponds with GET /v2/on_call_notification_pauses (the `OnCallNotificationPausesV2List` operationId).
+	OnCallNotificationPausesV2List(ctx context.Context, params *OnCallNotificationPausesV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// OnCallNotificationPausesV2Show Show On-call Notification Pauses V2
+	//
+	// Show a single on-call notification pause. Cancelled pauses are not found.
+	//
+	// Corresponds with GET /v2/on_call_notification_pauses/{id} (the `OnCallNotificationPausesV2Show` operationId).
+	OnCallNotificationPausesV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// PayConfigsV2List List Pay Configs V2
 	//
@@ -37957,6 +38663,8 @@ type ClientInterface interface {
 	//
 	// Create a status page component. Placement on a page is controlled separately via status page structures.
 	//
+	// This endpoint requires an API key with the "Manage organization settings (e.g. custom fields)" scope.
+	//
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /v2/status_page_components (the `StatusPageComponentsV2Create` operationId).
@@ -37966,6 +38674,8 @@ type ClientInterface interface {
 	//
 	// Create a status page component. Placement on a page is controlled separately via status page structures.
 	//
+	// This endpoint requires an API key with the "Manage organization settings (e.g. custom fields)" scope.
+	//
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /v2/status_page_components (the `StatusPageComponentsV2Create` operationId).
@@ -37974,6 +38684,8 @@ type ClientInterface interface {
 	// StatusPageComponentsV2Destroy Destroy Status Page Components V2
 	//
 	// Archive a status page component.
+	//
+	// This endpoint requires an API key with the "Manage organization settings (e.g. custom fields)" scope.
 	//
 	// Corresponds with DELETE /v2/status_page_components/{id} (the `StatusPageComponentsV2Destroy` operationId).
 	StatusPageComponentsV2Destroy(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -37989,6 +38701,8 @@ type ClientInterface interface {
 	//
 	// Update a status page component's name and description.
 	//
+	// This endpoint requires an API key with the "Manage organization settings (e.g. custom fields)" scope.
+	//
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with PUT /v2/status_page_components/{id} (the `StatusPageComponentsV2Update` operationId).
@@ -37997,6 +38711,8 @@ type ClientInterface interface {
 	// StatusPageComponentsV2Update Update Status Page Components V2
 	//
 	// Update a status page component's name and description.
+	//
+	// This endpoint requires an API key with the "Manage organization settings (e.g. custom fields)" scope.
 	//
 	// Takes a body of the `application/json` content type.
 	//
@@ -41746,6 +42462,78 @@ func (c *Client) ActionsV2Update(ctx context.Context, id string, body ActionsV2U
 	return c.Client.Do(req)
 }
 
+// AlertAttachmentsV2List List Alert Attachments V2
+//
+// List the attachments on an alert or alert group, newest first. Provide exactly one of alert_id or alert_group_id. Listing by alert_id returns only what is attached to that alert, not what is attached to its alert group.
+//
+// Corresponds with GET /v2/alert_attachments (the `AlertAttachmentsV2List` operationId).
+func (c *Client) AlertAttachmentsV2List(ctx context.Context, params *AlertAttachmentsV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertAttachmentsV2ListRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AlertAttachmentsV2CreateWithBody Create Alert Attachments V2
+//
+// Attach a URL to an alert or alert group. Provide exactly one of alert_id or alert_group_id. A URL for a ticket or pull request from a connected integration is attached as that ticket or pull request. Any other URL is attached as a link. A URL that is already attached returns a 422.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v2/alert_attachments (the `AlertAttachmentsV2Create` operationId).
+func (c *Client) AlertAttachmentsV2CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertAttachmentsV2CreateRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AlertAttachmentsV2Create Create Alert Attachments V2
+//
+// Attach a URL to an alert or alert group. Provide exactly one of alert_id or alert_group_id. A URL for a ticket or pull request from a connected integration is attached as that ticket or pull request. Any other URL is attached as a link. A URL that is already attached returns a 422.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v2/alert_attachments (the `AlertAttachmentsV2Create` operationId).
+func (c *Client) AlertAttachmentsV2Create(ctx context.Context, body AlertAttachmentsV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertAttachmentsV2CreateRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AlertAttachmentsV2Delete Delete Alert Attachments V2
+//
+// Remove an attachment from its alert or alert group.
+//
+// Corresponds with DELETE /v2/alert_attachments/{id} (the `AlertAttachmentsV2Delete` operationId).
+func (c *Client) AlertAttachmentsV2Delete(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertAttachmentsV2DeleteRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 // AlertAttributesV2List List Alert Attributes V2
 //
 // List alert attributes.
@@ -44346,7 +45134,7 @@ func (c *Client) EscalationsV2CheckEscalationPermissions(ctx context.Context, es
 // To use this API, you will need an API key with the "Create and manage escalations"
 // permission. The reassignment is attributed to the key; to attribute it to one of your
 // users instead, set the X-Incident-User header, which needs the
-// "api_keys.act_on_behalf_of_users" scope.
+// "api_keys.act_on_behalf_of_users" scope and no team permissions on the key.
 //
 // If your API key's permissions are scoped to teams, the escalation you're reassigning
 // must be owned by one of those teams, and you can only reassign via an escalation path
@@ -44395,7 +45183,7 @@ func (c *Client) EscalationsV2ReassignEscalationWithBody(ctx context.Context, es
 // To use this API, you will need an API key with the "Create and manage escalations"
 // permission. The reassignment is attributed to the key; to attribute it to one of your
 // users instead, set the X-Incident-User header, which needs the
-// "api_keys.act_on_behalf_of_users" scope.
+// "api_keys.act_on_behalf_of_users" scope and no team permissions on the key.
 //
 // If your API key's permissions are scoped to teams, the escalation you're reassigning
 // must be owned by one of those teams, and you can only reassign via an escalation path
@@ -44700,6 +45488,171 @@ func (c *Client) FollowUpsV2ConnectExternalIssueWithBody(ctx context.Context, id
 // Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 func (c *Client) FollowUpsV2ConnectExternalIssue(ctx context.Context, id string, body FollowUpsV2ConnectExternalIssueJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewFollowUpsV2ConnectExternalIssueRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GlossaryEntriesV2List List Glossary Entries V2
+//
+// List glossary entries for this organisation, in rank order.
+//
+// Corresponds with GET /v2/glossary_entries (the `GlossaryEntriesV2List` operationId).
+func (c *Client) GlossaryEntriesV2List(ctx context.Context, params *GlossaryEntriesV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGlossaryEntriesV2ListRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GlossaryEntriesV2CreateWithBody Create Glossary Entries V2
+//
+// Create a glossary entry. It is appended to the end of the glossary unless after names an existing entry to insert it after.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v2/glossary_entries (the `GlossaryEntriesV2Create` operationId).
+func (c *Client) GlossaryEntriesV2CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGlossaryEntriesV2CreateRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GlossaryEntriesV2Create Create Glossary Entries V2
+//
+// Create a glossary entry. It is appended to the end of the glossary unless after names an existing entry to insert it after.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v2/glossary_entries (the `GlossaryEntriesV2Create` operationId).
+func (c *Client) GlossaryEntriesV2Create(ctx context.Context, body GlossaryEntriesV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGlossaryEntriesV2CreateRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GlossaryEntriesV2UpdateRanksWithBody UpdateRanks Glossary Entries V2
+//
+// Reorder glossary entries. Every live entry must be included exactly once.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PUT /v2/glossary_entries/actions/update_ranks (the `GlossaryEntriesV2UpdateRanks` operationId).
+func (c *Client) GlossaryEntriesV2UpdateRanksWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGlossaryEntriesV2UpdateRanksRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GlossaryEntriesV2UpdateRanks UpdateRanks Glossary Entries V2
+//
+// Reorder glossary entries. Every live entry must be included exactly once.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PUT /v2/glossary_entries/actions/update_ranks (the `GlossaryEntriesV2UpdateRanks` operationId).
+func (c *Client) GlossaryEntriesV2UpdateRanks(ctx context.Context, body GlossaryEntriesV2UpdateRanksJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGlossaryEntriesV2UpdateRanksRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GlossaryEntriesV2Destroy Destroy Glossary Entries V2
+//
+// Delete a glossary entry. The entry is archived, which frees its term so the same item can be added again later.
+//
+// Corresponds with DELETE /v2/glossary_entries/{id} (the `GlossaryEntriesV2Destroy` operationId).
+func (c *Client) GlossaryEntriesV2Destroy(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGlossaryEntriesV2DestroyRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GlossaryEntriesV2Show Show Glossary Entries V2
+//
+// Get a single glossary entry.
+//
+// Corresponds with GET /v2/glossary_entries/{id} (the `GlossaryEntriesV2Show` operationId).
+func (c *Client) GlossaryEntriesV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGlossaryEntriesV2ShowRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GlossaryEntriesV2UpdateWithBody Update Glossary Entries V2
+//
+// Update a glossary entry's term or description. Rank is unchanged; use the reorder action for that.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PUT /v2/glossary_entries/{id} (the `GlossaryEntriesV2Update` operationId).
+func (c *Client) GlossaryEntriesV2UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGlossaryEntriesV2UpdateRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GlossaryEntriesV2Update Update Glossary Entries V2
+//
+// Update a glossary entry's term or description. Rank is unchanged; use the reorder action for that.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PUT /v2/glossary_entries/{id} (the `GlossaryEntriesV2Update` operationId).
+func (c *Client) GlossaryEntriesV2Update(ctx context.Context, id string, body GlossaryEntriesV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGlossaryEntriesV2UpdateRequest(c.Server, id, body)
 	if err != nil {
 		return nil, err
 	}
@@ -45562,6 +46515,76 @@ func (c *Client) IncidentsV2Show(ctx context.Context, id string, reqEditors ...R
 	return c.Client.Do(req)
 }
 
+// IncidentsV2ConnectExternalIssueWithBody ConnectExternalIssue Incidents V2
+//
+// Connect an existing issue in an issue tracker to an incident, as its external issue.
+//
+// The issue is synced using the given incident ticket template, as if incident.io had
+// created it from that template. The next sync writes the incident's fields into the issue.
+//
+// This works whether or not automatic incident ticket creation is turned on. While it is
+// off, no tickets are created for other incidents, and the incident's fields are not
+// written into this issue until it is turned on.
+//
+// This needs the incidents.connect_external_issue scope, either across the organisation or
+// from an incident role on this incident.
+//
+// This fails if the incident already has a different external issue (unless replace is
+// true), or if the issue is already linked to another incident or follow-up.
+//
+// The ID supplied can be either the incident's full ID, or the numeric part of its
+// reference.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v2/incidents/{id}/actions/connect_external_issue (the `IncidentsV2ConnectExternalIssue` operationId).
+func (c *Client) IncidentsV2ConnectExternalIssueWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewIncidentsV2ConnectExternalIssueRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// IncidentsV2ConnectExternalIssue ConnectExternalIssue Incidents V2
+//
+// Connect an existing issue in an issue tracker to an incident, as its external issue.
+//
+// The issue is synced using the given incident ticket template, as if incident.io had
+// created it from that template. The next sync writes the incident's fields into the issue.
+//
+// This works whether or not automatic incident ticket creation is turned on. While it is
+// off, no tickets are created for other incidents, and the incident's fields are not
+// written into this issue until it is turned on.
+//
+// This needs the incidents.connect_external_issue scope, either across the organisation or
+// from an incident role on this incident.
+//
+// This fails if the incident already has a different external issue (unless replace is
+// true), or if the issue is already linked to another incident or follow-up.
+//
+// The ID supplied can be either the incident's full ID, or the numeric part of its
+// reference.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v2/incidents/{id}/actions/connect_external_issue (the `IncidentsV2ConnectExternalIssue` operationId).
+func (c *Client) IncidentsV2ConnectExternalIssue(ctx context.Context, id string, body IncidentsV2ConnectExternalIssueJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewIncidentsV2ConnectExternalIssueRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 // IncidentsV2EditWithBody Edit Incidents V2
 //
 // Edit an existing incident.
@@ -45571,9 +46594,9 @@ func (c *Client) IncidentsV2Show(ctx context.Context, id string, reqEditors ...R
 // When using this endpoint, only fields that are provided will be edited (omitted fields
 // will be ignored).
 //
-// The API key must have the scope corresponding to each property it changes:
+// The API key must have `incidents.view`, and the scope corresponding to each property it changes:
 //
-// - `incidents.update_name` for the name
+// - `incidents.update_name` for the name or the Slack channel name override
 // - `incidents.update_summary` for the summary
 // - `incidents.update_severity` for the severity
 // - `incidents.update_status` for the status
@@ -45607,9 +46630,9 @@ func (c *Client) IncidentsV2EditWithBody(ctx context.Context, id string, content
 // When using this endpoint, only fields that are provided will be edited (omitted fields
 // will be ignored).
 //
-// The API key must have the scope corresponding to each property it changes:
+// The API key must have `incidents.view`, and the scope corresponding to each property it changes:
 //
-// - `incidents.update_name` for the name
+// - `incidents.update_name` for the name or the Slack channel name override
 // - `incidents.update_summary` for the summary
 // - `incidents.update_severity` for the severity
 // - `incidents.update_status` for the status
@@ -45688,7 +46711,16 @@ func (c *Client) IncidentsV2ImportPostmortemDocument(ctx context.Context, id str
 
 // ManagedResourcesV2CreateManagedResourceWithBody CreateManagedResource Managed Resources V2
 //
-// Called by external providers such as Terraform, this can 'claim' an incident.io resource as being managed externally.
+// Create or update the management record for a resource. This replaces any annotations already stored on it.
+//
+// The annotations set `managed_by`:
+// - `incident.io/terraform/version` sets it to `terraform`.
+// - `incident.io/is-managed-externally` sets it to `external`. If both keys are present, `external` wins.
+// - Neither key sets it to `dashboard`.
+//
+// This doesn't change the resource's configuration, but `managed_by` controls whether it can be edited in the dashboard. Returning a schedule to `dashboard` also returns its sync rules and targets.
+//
+// The API key must have the update scope for the resource type, e.g. `schedules.update` for a schedule.
 //
 // Takes any type of body and a specified content type.
 //
@@ -45707,13 +46739,56 @@ func (c *Client) ManagedResourcesV2CreateManagedResourceWithBody(ctx context.Con
 
 // ManagedResourcesV2CreateManagedResource CreateManagedResource Managed Resources V2
 //
-// Called by external providers such as Terraform, this can 'claim' an incident.io resource as being managed externally.
+// Create or update the management record for a resource. This replaces any annotations already stored on it.
+//
+// The annotations set `managed_by`:
+// - `incident.io/terraform/version` sets it to `terraform`.
+// - `incident.io/is-managed-externally` sets it to `external`. If both keys are present, `external` wins.
+// - Neither key sets it to `dashboard`.
+//
+// This doesn't change the resource's configuration, but `managed_by` controls whether it can be edited in the dashboard. Returning a schedule to `dashboard` also returns its sync rules and targets.
+//
+// The API key must have the update scope for the resource type, e.g. `schedules.update` for a schedule.
 //
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /v2/managed_resources (the `ManagedResourcesV2CreateManagedResource` operationId).
 func (c *Client) ManagedResourcesV2CreateManagedResource(ctx context.Context, body ManagedResourcesV2CreateManagedResourceJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewManagedResourcesV2CreateManagedResourceRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// OnCallNotificationPausesV2List List On-call Notification Pauses V2
+//
+// List on-call notification pauses across the organisation. By default this returns pauses that are active now or scheduled for the future. Cancelled pauses are never returned, and pauses that were resumed early have ends_at set to when they were resumed.
+//
+// Corresponds with GET /v2/on_call_notification_pauses (the `OnCallNotificationPausesV2List` operationId).
+func (c *Client) OnCallNotificationPausesV2List(ctx context.Context, params *OnCallNotificationPausesV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewOnCallNotificationPausesV2ListRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// OnCallNotificationPausesV2Show Show On-call Notification Pauses V2
+//
+// Show a single on-call notification pause. Cancelled pauses are not found.
+//
+// Corresponds with GET /v2/on_call_notification_pauses/{id} (the `OnCallNotificationPausesV2Show` operationId).
+func (c *Client) OnCallNotificationPausesV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewOnCallNotificationPausesV2ShowRequest(c.Server, id)
 	if err != nil {
 		return nil, err
 	}
@@ -47606,6 +48681,8 @@ func (c *Client) StatusPageComponentsV2List(ctx context.Context, reqEditors ...R
 //
 // Create a status page component. Placement on a page is controlled separately via status page structures.
 //
+// This endpoint requires an API key with the "Manage organization settings (e.g. custom fields)" scope.
+//
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /v2/status_page_components (the `StatusPageComponentsV2Create` operationId).
@@ -47625,6 +48702,8 @@ func (c *Client) StatusPageComponentsV2CreateWithBody(ctx context.Context, conte
 //
 // Create a status page component. Placement on a page is controlled separately via status page structures.
 //
+// This endpoint requires an API key with the "Manage organization settings (e.g. custom fields)" scope.
+//
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /v2/status_page_components (the `StatusPageComponentsV2Create` operationId).
@@ -47643,6 +48722,8 @@ func (c *Client) StatusPageComponentsV2Create(ctx context.Context, body StatusPa
 // StatusPageComponentsV2Destroy Destroy Status Page Components V2
 //
 // Archive a status page component.
+//
+// This endpoint requires an API key with the "Manage organization settings (e.g. custom fields)" scope.
 //
 // Corresponds with DELETE /v2/status_page_components/{id} (the `StatusPageComponentsV2Destroy` operationId).
 func (c *Client) StatusPageComponentsV2Destroy(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -47678,6 +48759,8 @@ func (c *Client) StatusPageComponentsV2Show(ctx context.Context, id string, reqE
 //
 // Update a status page component's name and description.
 //
+// This endpoint requires an API key with the "Manage organization settings (e.g. custom fields)" scope.
+//
 // Takes any type of body and a specified content type.
 //
 // Corresponds with PUT /v2/status_page_components/{id} (the `StatusPageComponentsV2Update` operationId).
@@ -47696,6 +48779,8 @@ func (c *Client) StatusPageComponentsV2UpdateWithBody(ctx context.Context, id st
 // StatusPageComponentsV2Update Update Status Page Components V2
 //
 // Update a status page component's name and description.
+//
+// This endpoint requires an API key with the "Manage organization settings (e.g. custom fields)" scope.
 //
 // Takes a body of the `application/json` content type.
 //
@@ -54157,6 +55242,170 @@ func NewActionsV2UpdateRequestWithBody(server string, id string, contentType str
 	return req, nil
 }
 
+// NewAlertAttachmentsV2ListRequest constructs an http.Request for the AlertAttachmentsV2List method
+func NewAlertAttachmentsV2ListRequest(server string, params *AlertAttachmentsV2ListParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/alert_attachments")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.AlertId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "alert_id", *params.AlertId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.AlertGroupId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "alert_group_id", *params.AlertGroupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.PageSize != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "page_size", *params.PageSize, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: "int64"}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.After != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "after", *params.After, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewAlertAttachmentsV2CreateRequest calls the generic AlertAttachmentsV2Create builder with application/json body
+func NewAlertAttachmentsV2CreateRequest(server string, body AlertAttachmentsV2CreateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewAlertAttachmentsV2CreateRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewAlertAttachmentsV2CreateRequestWithBody constructs an http.Request for the AlertAttachmentsV2Create method, with any body, and a specified content type
+func NewAlertAttachmentsV2CreateRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/alert_attachments")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewAlertAttachmentsV2DeleteRequest constructs an http.Request for the AlertAttachmentsV2Delete method
+func NewAlertAttachmentsV2DeleteRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/alert_attachments/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewAlertAttributesV2ListRequest constructs an http.Request for the AlertAttributesV2List method
 func NewAlertAttributesV2ListRequest(server string) (*http.Request, error) {
 	var err error
@@ -58502,6 +59751,279 @@ func NewFollowUpsV2ConnectExternalIssueRequestWithBody(server string, id string,
 	return req, nil
 }
 
+// NewGlossaryEntriesV2ListRequest constructs an http.Request for the GlossaryEntriesV2List method
+func NewGlossaryEntriesV2ListRequest(server string, params *GlossaryEntriesV2ListParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/glossary_entries")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.PageSize != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "page_size", *params.PageSize, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: "int64"}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.After != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "after", *params.After, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Search != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "search", *params.Search, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGlossaryEntriesV2CreateRequest calls the generic GlossaryEntriesV2Create builder with application/json body
+func NewGlossaryEntriesV2CreateRequest(server string, body GlossaryEntriesV2CreateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewGlossaryEntriesV2CreateRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewGlossaryEntriesV2CreateRequestWithBody constructs an http.Request for the GlossaryEntriesV2Create method, with any body, and a specified content type
+func NewGlossaryEntriesV2CreateRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/glossary_entries")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGlossaryEntriesV2UpdateRanksRequest calls the generic GlossaryEntriesV2UpdateRanks builder with application/json body
+func NewGlossaryEntriesV2UpdateRanksRequest(server string, body GlossaryEntriesV2UpdateRanksJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewGlossaryEntriesV2UpdateRanksRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewGlossaryEntriesV2UpdateRanksRequestWithBody constructs an http.Request for the GlossaryEntriesV2UpdateRanks method, with any body, and a specified content type
+func NewGlossaryEntriesV2UpdateRanksRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/glossary_entries/actions/update_ranks")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPut, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGlossaryEntriesV2DestroyRequest constructs an http.Request for the GlossaryEntriesV2Destroy method
+func NewGlossaryEntriesV2DestroyRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/glossary_entries/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGlossaryEntriesV2ShowRequest constructs an http.Request for the GlossaryEntriesV2Show method
+func NewGlossaryEntriesV2ShowRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/glossary_entries/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGlossaryEntriesV2UpdateRequest calls the generic GlossaryEntriesV2Update builder with application/json body
+func NewGlossaryEntriesV2UpdateRequest(server string, id string, body GlossaryEntriesV2UpdateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewGlossaryEntriesV2UpdateRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewGlossaryEntriesV2UpdateRequestWithBody constructs an http.Request for the GlossaryEntriesV2Update method, with any body, and a specified content type
+func NewGlossaryEntriesV2UpdateRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/glossary_entries/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPut, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewHeartbeatV2Ping1Request constructs an http.Request for the HeartbeatV2Ping1 method
 func NewHeartbeatV2Ping1Request(server string, alertSourceConfigId string, params *HeartbeatV2Ping1Params) (*http.Request, error) {
 	var err error
@@ -59807,6 +61329,53 @@ func NewIncidentsV2ShowRequest(server string, id string) (*http.Request, error) 
 	return req, nil
 }
 
+// NewIncidentsV2ConnectExternalIssueRequest calls the generic IncidentsV2ConnectExternalIssue builder with application/json body
+func NewIncidentsV2ConnectExternalIssueRequest(server string, id string, body IncidentsV2ConnectExternalIssueJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewIncidentsV2ConnectExternalIssueRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewIncidentsV2ConnectExternalIssueRequestWithBody constructs an http.Request for the IncidentsV2ConnectExternalIssue method, with any body, and a specified content type
+func NewIncidentsV2ConnectExternalIssueRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/incidents/%s/actions/connect_external_issue", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewIncidentsV2EditRequest calls the generic IncidentsV2Edit builder with application/json body
 func NewIncidentsV2EditRequest(server string, id string, body IncidentsV2EditJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
@@ -59937,6 +61506,130 @@ func NewManagedResourcesV2CreateManagedResourceRequestWithBody(server string, co
 	}
 
 	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewOnCallNotificationPausesV2ListRequest constructs an http.Request for the OnCallNotificationPausesV2List method
+func NewOnCallNotificationPausesV2ListRequest(server string, params *OnCallNotificationPausesV2ListParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/on_call_notification_pauses")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.From != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "from", *params.From, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: "date-time"}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.To != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "to", *params.To, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: "date-time"}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.PageSize != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "page_size", *params.PageSize, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: "int64"}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.After != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "after", *params.After, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewOnCallNotificationPausesV2ShowRequest constructs an http.Request for the OnCallNotificationPausesV2Show method
+func NewOnCallNotificationPausesV2ShowRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/on_call_notification_pauses/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
 
 	return req, nil
 }
@@ -69115,6 +70808,42 @@ type ClientWithResponsesInterface interface {
 	// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	ActionsV2UpdateWithResponse(ctx context.Context, id string, body ActionsV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*ActionsV2UpdateResponse, error)
 
+	// AlertAttachmentsV2ListWithResponse List Alert Attachments V2
+	//
+	// List the attachments on an alert or alert group, newest first. Provide exactly one of alert_id or alert_group_id. Listing by alert_id returns only what is attached to that alert, not what is attached to its alert group.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v2/alert_attachments (the `AlertAttachmentsV2List` operationId).
+	AlertAttachmentsV2ListWithResponse(ctx context.Context, params *AlertAttachmentsV2ListParams, reqEditors ...RequestEditorFn) (*AlertAttachmentsV2ListResponse, error)
+
+	// AlertAttachmentsV2CreateWithBodyWithResponse Create Alert Attachments V2
+	//
+	// Attach a URL to an alert or alert group. Provide exactly one of alert_id or alert_group_id. A URL for a ticket or pull request from a connected integration is attached as that ticket or pull request. Any other URL is attached as a link. A URL that is already attached returns a 422.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/alert_attachments (the `AlertAttachmentsV2Create` operationId).
+	AlertAttachmentsV2CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertAttachmentsV2CreateResponse, error)
+
+	// AlertAttachmentsV2CreateWithResponse Create Alert Attachments V2
+	//
+	// Attach a URL to an alert or alert group. Provide exactly one of alert_id or alert_group_id. A URL for a ticket or pull request from a connected integration is attached as that ticket or pull request. Any other URL is attached as a link. A URL that is already attached returns a 422.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/alert_attachments (the `AlertAttachmentsV2Create` operationId).
+	AlertAttachmentsV2CreateWithResponse(ctx context.Context, body AlertAttachmentsV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertAttachmentsV2CreateResponse, error)
+
+	// AlertAttachmentsV2DeleteWithResponse Delete Alert Attachments V2
+	//
+	// Remove an attachment from its alert or alert group.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v2/alert_attachments/{id} (the `AlertAttachmentsV2Delete` operationId).
+	AlertAttachmentsV2DeleteWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AlertAttachmentsV2DeleteResponse, error)
+
 	// AlertAttributesV2ListWithResponse List Alert Attributes V2
 	//
 	// List alert attributes.
@@ -70637,7 +72366,7 @@ type ClientWithResponsesInterface interface {
 	// To use this API, you will need an API key with the "Create and manage escalations"
 	// permission. The reassignment is attributed to the key; to attribute it to one of your
 	// users instead, set the X-Incident-User header, which needs the
-	// "api_keys.act_on_behalf_of_users" scope.
+	// "api_keys.act_on_behalf_of_users" scope and no team permissions on the key.
 	//
 	// If your API key's permissions are scoped to teams, the escalation you're reassigning
 	// must be owned by one of those teams, and you can only reassign via an escalation path
@@ -70676,7 +72405,7 @@ type ClientWithResponsesInterface interface {
 	// To use this API, you will need an API key with the "Create and manage escalations"
 	// permission. The reassignment is attributed to the key; to attribute it to one of your
 	// users instead, set the X-Incident-User header, which needs the
-	// "api_keys.act_on_behalf_of_users" scope.
+	// "api_keys.act_on_behalf_of_users" scope and no team permissions on the key.
 	//
 	// If your API key's permissions are scoped to teams, the escalation you're reassigning
 	// must be owned by one of those teams, and you can only reassign via an escalation path
@@ -70869,6 +72598,87 @@ type ClientWithResponsesInterface interface {
 	//
 	// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	FollowUpsV2ConnectExternalIssueWithResponse(ctx context.Context, id string, body FollowUpsV2ConnectExternalIssueJSONRequestBody, reqEditors ...RequestEditorFn) (*FollowUpsV2ConnectExternalIssueResponse, error)
+
+	// GlossaryEntriesV2ListWithResponse List Glossary Entries V2
+	//
+	// List glossary entries for this organisation, in rank order.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v2/glossary_entries (the `GlossaryEntriesV2List` operationId).
+	GlossaryEntriesV2ListWithResponse(ctx context.Context, params *GlossaryEntriesV2ListParams, reqEditors ...RequestEditorFn) (*GlossaryEntriesV2ListResponse, error)
+
+	// GlossaryEntriesV2CreateWithBodyWithResponse Create Glossary Entries V2
+	//
+	// Create a glossary entry. It is appended to the end of the glossary unless after names an existing entry to insert it after.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/glossary_entries (the `GlossaryEntriesV2Create` operationId).
+	GlossaryEntriesV2CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*GlossaryEntriesV2CreateResponse, error)
+
+	// GlossaryEntriesV2CreateWithResponse Create Glossary Entries V2
+	//
+	// Create a glossary entry. It is appended to the end of the glossary unless after names an existing entry to insert it after.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/glossary_entries (the `GlossaryEntriesV2Create` operationId).
+	GlossaryEntriesV2CreateWithResponse(ctx context.Context, body GlossaryEntriesV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*GlossaryEntriesV2CreateResponse, error)
+
+	// GlossaryEntriesV2UpdateRanksWithBodyWithResponse UpdateRanks Glossary Entries V2
+	//
+	// Reorder glossary entries. Every live entry must be included exactly once.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v2/glossary_entries/actions/update_ranks (the `GlossaryEntriesV2UpdateRanks` operationId).
+	GlossaryEntriesV2UpdateRanksWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*GlossaryEntriesV2UpdateRanksResponse, error)
+
+	// GlossaryEntriesV2UpdateRanksWithResponse UpdateRanks Glossary Entries V2
+	//
+	// Reorder glossary entries. Every live entry must be included exactly once.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v2/glossary_entries/actions/update_ranks (the `GlossaryEntriesV2UpdateRanks` operationId).
+	GlossaryEntriesV2UpdateRanksWithResponse(ctx context.Context, body GlossaryEntriesV2UpdateRanksJSONRequestBody, reqEditors ...RequestEditorFn) (*GlossaryEntriesV2UpdateRanksResponse, error)
+
+	// GlossaryEntriesV2DestroyWithResponse Destroy Glossary Entries V2
+	//
+	// Delete a glossary entry. The entry is archived, which frees its term so the same item can be added again later.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v2/glossary_entries/{id} (the `GlossaryEntriesV2Destroy` operationId).
+	GlossaryEntriesV2DestroyWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*GlossaryEntriesV2DestroyResponse, error)
+
+	// GlossaryEntriesV2ShowWithResponse Show Glossary Entries V2
+	//
+	// Get a single glossary entry.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v2/glossary_entries/{id} (the `GlossaryEntriesV2Show` operationId).
+	GlossaryEntriesV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*GlossaryEntriesV2ShowResponse, error)
+
+	// GlossaryEntriesV2UpdateWithBodyWithResponse Update Glossary Entries V2
+	//
+	// Update a glossary entry's term or description. Rank is unchanged; use the reorder action for that.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v2/glossary_entries/{id} (the `GlossaryEntriesV2Update` operationId).
+	GlossaryEntriesV2UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*GlossaryEntriesV2UpdateResponse, error)
+
+	// GlossaryEntriesV2UpdateWithResponse Update Glossary Entries V2
+	//
+	// Update a glossary entry's term or description. Rank is unchanged; use the reorder action for that.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v2/glossary_entries/{id} (the `GlossaryEntriesV2Update` operationId).
+	GlossaryEntriesV2UpdateWithResponse(ctx context.Context, id string, body GlossaryEntriesV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*GlossaryEntriesV2UpdateResponse, error)
 
 	// HeartbeatV2Ping1WithResponse Ping Heartbeat V2
 	//
@@ -71444,6 +73254,56 @@ type ClientWithResponsesInterface interface {
 	// Corresponds with GET /v2/incidents/{id} (the `IncidentsV2Show` operationId).
 	IncidentsV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*IncidentsV2ShowResponse, error)
 
+	// IncidentsV2ConnectExternalIssueWithBodyWithResponse ConnectExternalIssue Incidents V2
+	//
+	// Connect an existing issue in an issue tracker to an incident, as its external issue.
+	//
+	// The issue is synced using the given incident ticket template, as if incident.io had
+	// created it from that template. The next sync writes the incident's fields into the issue.
+	//
+	// This works whether or not automatic incident ticket creation is turned on. While it is
+	// off, no tickets are created for other incidents, and the incident's fields are not
+	// written into this issue until it is turned on.
+	//
+	// This needs the incidents.connect_external_issue scope, either across the organisation or
+	// from an incident role on this incident.
+	//
+	// This fails if the incident already has a different external issue (unless replace is
+	// true), or if the issue is already linked to another incident or follow-up.
+	//
+	// The ID supplied can be either the incident's full ID, or the numeric part of its
+	// reference.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/incidents/{id}/actions/connect_external_issue (the `IncidentsV2ConnectExternalIssue` operationId).
+	IncidentsV2ConnectExternalIssueWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*IncidentsV2ConnectExternalIssueResponse, error)
+
+	// IncidentsV2ConnectExternalIssueWithResponse ConnectExternalIssue Incidents V2
+	//
+	// Connect an existing issue in an issue tracker to an incident, as its external issue.
+	//
+	// The issue is synced using the given incident ticket template, as if incident.io had
+	// created it from that template. The next sync writes the incident's fields into the issue.
+	//
+	// This works whether or not automatic incident ticket creation is turned on. While it is
+	// off, no tickets are created for other incidents, and the incident's fields are not
+	// written into this issue until it is turned on.
+	//
+	// This needs the incidents.connect_external_issue scope, either across the organisation or
+	// from an incident role on this incident.
+	//
+	// This fails if the incident already has a different external issue (unless replace is
+	// true), or if the issue is already linked to another incident or follow-up.
+	//
+	// The ID supplied can be either the incident's full ID, or the numeric part of its
+	// reference.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/incidents/{id}/actions/connect_external_issue (the `IncidentsV2ConnectExternalIssue` operationId).
+	IncidentsV2ConnectExternalIssueWithResponse(ctx context.Context, id string, body IncidentsV2ConnectExternalIssueJSONRequestBody, reqEditors ...RequestEditorFn) (*IncidentsV2ConnectExternalIssueResponse, error)
+
 	// IncidentsV2EditWithBodyWithResponse Edit Incidents V2
 	//
 	// Edit an existing incident.
@@ -71453,9 +73313,9 @@ type ClientWithResponsesInterface interface {
 	// When using this endpoint, only fields that are provided will be edited (omitted fields
 	// will be ignored).
 	//
-	// The API key must have the scope corresponding to each property it changes:
+	// The API key must have `incidents.view`, and the scope corresponding to each property it changes:
 	//
-	// - `incidents.update_name` for the name
+	// - `incidents.update_name` for the name or the Slack channel name override
 	// - `incidents.update_summary` for the summary
 	// - `incidents.update_severity` for the severity
 	// - `incidents.update_status` for the status
@@ -71479,9 +73339,9 @@ type ClientWithResponsesInterface interface {
 	// When using this endpoint, only fields that are provided will be edited (omitted fields
 	// will be ignored).
 	//
-	// The API key must have the scope corresponding to each property it changes:
+	// The API key must have `incidents.view`, and the scope corresponding to each property it changes:
 	//
-	// - `incidents.update_name` for the name
+	// - `incidents.update_name` for the name or the Slack channel name override
 	// - `incidents.update_summary` for the summary
 	// - `incidents.update_severity` for the severity
 	// - `incidents.update_status` for the status
@@ -71530,7 +73390,16 @@ type ClientWithResponsesInterface interface {
 
 	// ManagedResourcesV2CreateManagedResourceWithBodyWithResponse CreateManagedResource Managed Resources V2
 	//
-	// Called by external providers such as Terraform, this can 'claim' an incident.io resource as being managed externally.
+	// Create or update the management record for a resource. This replaces any annotations already stored on it.
+	//
+	// The annotations set `managed_by`:
+	// - `incident.io/terraform/version` sets it to `terraform`.
+	// - `incident.io/is-managed-externally` sets it to `external`. If both keys are present, `external` wins.
+	// - Neither key sets it to `dashboard`.
+	//
+	// This doesn't change the resource's configuration, but `managed_by` controls whether it can be edited in the dashboard. Returning a schedule to `dashboard` also returns its sync rules and targets.
+	//
+	// The API key must have the update scope for the resource type, e.g. `schedules.update` for a schedule.
 	//
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -71539,12 +73408,39 @@ type ClientWithResponsesInterface interface {
 
 	// ManagedResourcesV2CreateManagedResourceWithResponse CreateManagedResource Managed Resources V2
 	//
-	// Called by external providers such as Terraform, this can 'claim' an incident.io resource as being managed externally.
+	// Create or update the management record for a resource. This replaces any annotations already stored on it.
+	//
+	// The annotations set `managed_by`:
+	// - `incident.io/terraform/version` sets it to `terraform`.
+	// - `incident.io/is-managed-externally` sets it to `external`. If both keys are present, `external` wins.
+	// - Neither key sets it to `dashboard`.
+	//
+	// This doesn't change the resource's configuration, but `managed_by` controls whether it can be edited in the dashboard. Returning a schedule to `dashboard` also returns its sync rules and targets.
+	//
+	// The API key must have the update scope for the resource type, e.g. `schedules.update` for a schedule.
 	//
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /v2/managed_resources (the `ManagedResourcesV2CreateManagedResource` operationId).
 	ManagedResourcesV2CreateManagedResourceWithResponse(ctx context.Context, body ManagedResourcesV2CreateManagedResourceJSONRequestBody, reqEditors ...RequestEditorFn) (*ManagedResourcesV2CreateManagedResourceResponse, error)
+
+	// OnCallNotificationPausesV2ListWithResponse List On-call Notification Pauses V2
+	//
+	// List on-call notification pauses across the organisation. By default this returns pauses that are active now or scheduled for the future. Cancelled pauses are never returned, and pauses that were resumed early have ends_at set to when they were resumed.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v2/on_call_notification_pauses (the `OnCallNotificationPausesV2List` operationId).
+	OnCallNotificationPausesV2ListWithResponse(ctx context.Context, params *OnCallNotificationPausesV2ListParams, reqEditors ...RequestEditorFn) (*OnCallNotificationPausesV2ListResponse, error)
+
+	// OnCallNotificationPausesV2ShowWithResponse Show On-call Notification Pauses V2
+	//
+	// Show a single on-call notification pause. Cancelled pauses are not found.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v2/on_call_notification_pauses/{id} (the `OnCallNotificationPausesV2Show` operationId).
+	OnCallNotificationPausesV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*OnCallNotificationPausesV2ShowResponse, error)
 
 	// PayConfigsV2ListWithResponse List Pay Configs V2
 	//
@@ -72596,6 +74492,8 @@ type ClientWithResponsesInterface interface {
 	//
 	// Create a status page component. Placement on a page is controlled separately via status page structures.
 	//
+	// This endpoint requires an API key with the "Manage organization settings (e.g. custom fields)" scope.
+	//
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /v2/status_page_components (the `StatusPageComponentsV2Create` operationId).
@@ -72605,6 +74503,8 @@ type ClientWithResponsesInterface interface {
 	//
 	// Create a status page component. Placement on a page is controlled separately via status page structures.
 	//
+	// This endpoint requires an API key with the "Manage organization settings (e.g. custom fields)" scope.
+	//
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /v2/status_page_components (the `StatusPageComponentsV2Create` operationId).
@@ -72613,6 +74513,8 @@ type ClientWithResponsesInterface interface {
 	// StatusPageComponentsV2DestroyWithResponse Destroy Status Page Components V2
 	//
 	// Archive a status page component.
+	//
+	// This endpoint requires an API key with the "Manage organization settings (e.g. custom fields)" scope.
 	//
 	// Returns a wrapper object for the known response body format(s).
 	//
@@ -72632,6 +74534,8 @@ type ClientWithResponsesInterface interface {
 	//
 	// Update a status page component's name and description.
 	//
+	// This endpoint requires an API key with the "Manage organization settings (e.g. custom fields)" scope.
+	//
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with PUT /v2/status_page_components/{id} (the `StatusPageComponentsV2Update` operationId).
@@ -72640,6 +74544,8 @@ type ClientWithResponsesInterface interface {
 	// StatusPageComponentsV2UpdateWithResponse Update Status Page Components V2
 	//
 	// Update a status page component's name and description.
+	//
+	// This endpoint requires an API key with the "Manage organization settings (e.g. custom fields)" scope.
 	//
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -84763,6 +86669,395 @@ func (r ActionsV2UpdateResponse) StatusCode() int {
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
 func (r ActionsV2UpdateResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type AlertAttachmentsV2ListResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *AlertAttachmentsListResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r AlertAttachmentsV2ListResponse) GetJSON200() *AlertAttachmentsListResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r AlertAttachmentsV2ListResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r AlertAttachmentsV2ListResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r AlertAttachmentsV2ListResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r AlertAttachmentsV2ListResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r AlertAttachmentsV2ListResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r AlertAttachmentsV2ListResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r AlertAttachmentsV2ListResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r AlertAttachmentsV2ListResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r AlertAttachmentsV2ListResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r AlertAttachmentsV2ListResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r AlertAttachmentsV2ListResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r AlertAttachmentsV2ListResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r AlertAttachmentsV2ListResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r AlertAttachmentsV2ListResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertAttachmentsV2ListResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertAttachmentsV2ListResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r AlertAttachmentsV2ListResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type AlertAttachmentsV2CreateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON201 the response for an HTTP 201 `application/json` response
+	JSON201 *AlertAttachmentsCreateResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON201 returns the response for an HTTP 201 `application/json` response
+func (r AlertAttachmentsV2CreateResponse) GetJSON201() *AlertAttachmentsCreateResultV2 {
+	return r.JSON201
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r AlertAttachmentsV2CreateResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r AlertAttachmentsV2CreateResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r AlertAttachmentsV2CreateResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r AlertAttachmentsV2CreateResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r AlertAttachmentsV2CreateResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r AlertAttachmentsV2CreateResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r AlertAttachmentsV2CreateResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r AlertAttachmentsV2CreateResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r AlertAttachmentsV2CreateResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r AlertAttachmentsV2CreateResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r AlertAttachmentsV2CreateResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r AlertAttachmentsV2CreateResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r AlertAttachmentsV2CreateResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r AlertAttachmentsV2CreateResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertAttachmentsV2CreateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertAttachmentsV2CreateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r AlertAttachmentsV2CreateResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type AlertAttachmentsV2DeleteResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r AlertAttachmentsV2DeleteResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r AlertAttachmentsV2DeleteResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r AlertAttachmentsV2DeleteResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r AlertAttachmentsV2DeleteResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r AlertAttachmentsV2DeleteResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r AlertAttachmentsV2DeleteResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r AlertAttachmentsV2DeleteResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r AlertAttachmentsV2DeleteResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r AlertAttachmentsV2DeleteResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r AlertAttachmentsV2DeleteResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r AlertAttachmentsV2DeleteResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r AlertAttachmentsV2DeleteResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r AlertAttachmentsV2DeleteResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r AlertAttachmentsV2DeleteResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertAttachmentsV2DeleteResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertAttachmentsV2DeleteResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r AlertAttachmentsV2DeleteResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
@@ -96933,6 +99228,791 @@ func (r FollowUpsV2ConnectExternalIssueResponse) ContentType() string {
 	return ""
 }
 
+type GlossaryEntriesV2ListResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *GlossaryEntriesListResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GlossaryEntriesV2ListResponse) GetJSON200() *GlossaryEntriesListResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r GlossaryEntriesV2ListResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r GlossaryEntriesV2ListResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r GlossaryEntriesV2ListResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r GlossaryEntriesV2ListResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r GlossaryEntriesV2ListResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r GlossaryEntriesV2ListResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r GlossaryEntriesV2ListResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r GlossaryEntriesV2ListResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r GlossaryEntriesV2ListResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r GlossaryEntriesV2ListResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r GlossaryEntriesV2ListResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r GlossaryEntriesV2ListResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r GlossaryEntriesV2ListResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r GlossaryEntriesV2ListResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GlossaryEntriesV2ListResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GlossaryEntriesV2ListResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GlossaryEntriesV2ListResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GlossaryEntriesV2CreateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON201 the response for an HTTP 201 `application/json` response
+	JSON201 *GlossaryEntriesCreateResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON201 returns the response for an HTTP 201 `application/json` response
+func (r GlossaryEntriesV2CreateResponse) GetJSON201() *GlossaryEntriesCreateResultV2 {
+	return r.JSON201
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r GlossaryEntriesV2CreateResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r GlossaryEntriesV2CreateResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r GlossaryEntriesV2CreateResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r GlossaryEntriesV2CreateResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r GlossaryEntriesV2CreateResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r GlossaryEntriesV2CreateResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r GlossaryEntriesV2CreateResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r GlossaryEntriesV2CreateResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r GlossaryEntriesV2CreateResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r GlossaryEntriesV2CreateResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r GlossaryEntriesV2CreateResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r GlossaryEntriesV2CreateResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r GlossaryEntriesV2CreateResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r GlossaryEntriesV2CreateResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GlossaryEntriesV2CreateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GlossaryEntriesV2CreateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GlossaryEntriesV2CreateResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GlossaryEntriesV2UpdateRanksResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *GlossaryEntriesUpdateRanksResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GlossaryEntriesV2UpdateRanksResponse) GetJSON200() *GlossaryEntriesUpdateRanksResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r GlossaryEntriesV2UpdateRanksResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r GlossaryEntriesV2UpdateRanksResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r GlossaryEntriesV2UpdateRanksResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r GlossaryEntriesV2UpdateRanksResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r GlossaryEntriesV2UpdateRanksResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r GlossaryEntriesV2UpdateRanksResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r GlossaryEntriesV2UpdateRanksResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r GlossaryEntriesV2UpdateRanksResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r GlossaryEntriesV2UpdateRanksResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r GlossaryEntriesV2UpdateRanksResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r GlossaryEntriesV2UpdateRanksResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r GlossaryEntriesV2UpdateRanksResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r GlossaryEntriesV2UpdateRanksResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r GlossaryEntriesV2UpdateRanksResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GlossaryEntriesV2UpdateRanksResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GlossaryEntriesV2UpdateRanksResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GlossaryEntriesV2UpdateRanksResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GlossaryEntriesV2DestroyResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r GlossaryEntriesV2DestroyResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r GlossaryEntriesV2DestroyResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r GlossaryEntriesV2DestroyResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r GlossaryEntriesV2DestroyResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r GlossaryEntriesV2DestroyResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r GlossaryEntriesV2DestroyResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r GlossaryEntriesV2DestroyResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r GlossaryEntriesV2DestroyResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r GlossaryEntriesV2DestroyResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r GlossaryEntriesV2DestroyResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r GlossaryEntriesV2DestroyResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r GlossaryEntriesV2DestroyResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r GlossaryEntriesV2DestroyResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r GlossaryEntriesV2DestroyResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GlossaryEntriesV2DestroyResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GlossaryEntriesV2DestroyResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GlossaryEntriesV2DestroyResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GlossaryEntriesV2ShowResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *GlossaryEntriesShowResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GlossaryEntriesV2ShowResponse) GetJSON200() *GlossaryEntriesShowResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r GlossaryEntriesV2ShowResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r GlossaryEntriesV2ShowResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r GlossaryEntriesV2ShowResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r GlossaryEntriesV2ShowResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r GlossaryEntriesV2ShowResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r GlossaryEntriesV2ShowResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r GlossaryEntriesV2ShowResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r GlossaryEntriesV2ShowResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r GlossaryEntriesV2ShowResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r GlossaryEntriesV2ShowResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r GlossaryEntriesV2ShowResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r GlossaryEntriesV2ShowResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r GlossaryEntriesV2ShowResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r GlossaryEntriesV2ShowResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GlossaryEntriesV2ShowResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GlossaryEntriesV2ShowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GlossaryEntriesV2ShowResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GlossaryEntriesV2UpdateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *GlossaryEntriesUpdateResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GlossaryEntriesV2UpdateResponse) GetJSON200() *GlossaryEntriesUpdateResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r GlossaryEntriesV2UpdateResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r GlossaryEntriesV2UpdateResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r GlossaryEntriesV2UpdateResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r GlossaryEntriesV2UpdateResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r GlossaryEntriesV2UpdateResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r GlossaryEntriesV2UpdateResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r GlossaryEntriesV2UpdateResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r GlossaryEntriesV2UpdateResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r GlossaryEntriesV2UpdateResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r GlossaryEntriesV2UpdateResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r GlossaryEntriesV2UpdateResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r GlossaryEntriesV2UpdateResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r GlossaryEntriesV2UpdateResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r GlossaryEntriesV2UpdateResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GlossaryEntriesV2UpdateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GlossaryEntriesV2UpdateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GlossaryEntriesV2UpdateResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
 type HeartbeatV2Ping1Response struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -99948,6 +103028,131 @@ func (r IncidentsV2ShowResponse) ContentType() string {
 	return ""
 }
 
+type IncidentsV2ConnectExternalIssueResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r IncidentsV2ConnectExternalIssueResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r IncidentsV2ConnectExternalIssueResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r IncidentsV2ConnectExternalIssueResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r IncidentsV2ConnectExternalIssueResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r IncidentsV2ConnectExternalIssueResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r IncidentsV2ConnectExternalIssueResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r IncidentsV2ConnectExternalIssueResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r IncidentsV2ConnectExternalIssueResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r IncidentsV2ConnectExternalIssueResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r IncidentsV2ConnectExternalIssueResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r IncidentsV2ConnectExternalIssueResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r IncidentsV2ConnectExternalIssueResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r IncidentsV2ConnectExternalIssueResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r IncidentsV2ConnectExternalIssueResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r IncidentsV2ConnectExternalIssueResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r IncidentsV2ConnectExternalIssueResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r IncidentsV2ConnectExternalIssueResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
 type IncidentsV2EditResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -100345,6 +103550,270 @@ func (r ManagedResourcesV2CreateManagedResourceResponse) StatusCode() int {
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
 func (r ManagedResourcesV2CreateManagedResourceResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type OnCallNotificationPausesV2ListResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *OnCallNotificationPausesListResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r OnCallNotificationPausesV2ListResponse) GetJSON200() *OnCallNotificationPausesListResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r OnCallNotificationPausesV2ListResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r OnCallNotificationPausesV2ListResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r OnCallNotificationPausesV2ListResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r OnCallNotificationPausesV2ListResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r OnCallNotificationPausesV2ListResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r OnCallNotificationPausesV2ListResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r OnCallNotificationPausesV2ListResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r OnCallNotificationPausesV2ListResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r OnCallNotificationPausesV2ListResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r OnCallNotificationPausesV2ListResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r OnCallNotificationPausesV2ListResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r OnCallNotificationPausesV2ListResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r OnCallNotificationPausesV2ListResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r OnCallNotificationPausesV2ListResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r OnCallNotificationPausesV2ListResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r OnCallNotificationPausesV2ListResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r OnCallNotificationPausesV2ListResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type OnCallNotificationPausesV2ShowResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *OnCallNotificationPausesShowResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r OnCallNotificationPausesV2ShowResponse) GetJSON200() *OnCallNotificationPausesShowResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r OnCallNotificationPausesV2ShowResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r OnCallNotificationPausesV2ShowResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r OnCallNotificationPausesV2ShowResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r OnCallNotificationPausesV2ShowResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r OnCallNotificationPausesV2ShowResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r OnCallNotificationPausesV2ShowResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r OnCallNotificationPausesV2ShowResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r OnCallNotificationPausesV2ShowResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r OnCallNotificationPausesV2ShowResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r OnCallNotificationPausesV2ShowResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r OnCallNotificationPausesV2ShowResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r OnCallNotificationPausesV2ShowResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r OnCallNotificationPausesV2ShowResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r OnCallNotificationPausesV2ShowResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r OnCallNotificationPausesV2ShowResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r OnCallNotificationPausesV2ShowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r OnCallNotificationPausesV2ShowResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
@@ -124438,6 +127907,66 @@ func (c *ClientWithResponses) ActionsV2UpdateWithResponse(ctx context.Context, i
 	return ParseActionsV2UpdateResponse(rsp)
 }
 
+// AlertAttachmentsV2ListWithResponse List Alert Attachments V2
+//
+// List the attachments on an alert or alert group, newest first. Provide exactly one of alert_id or alert_group_id. Listing by alert_id returns only what is attached to that alert, not what is attached to its alert group.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v2/alert_attachments (the `AlertAttachmentsV2List` operationId).
+func (c *ClientWithResponses) AlertAttachmentsV2ListWithResponse(ctx context.Context, params *AlertAttachmentsV2ListParams, reqEditors ...RequestEditorFn) (*AlertAttachmentsV2ListResponse, error) {
+	rsp, err := c.AlertAttachmentsV2List(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertAttachmentsV2ListResponse(rsp)
+}
+
+// AlertAttachmentsV2CreateWithBodyWithResponse Create Alert Attachments V2
+//
+// Attach a URL to an alert or alert group. Provide exactly one of alert_id or alert_group_id. A URL for a ticket or pull request from a connected integration is attached as that ticket or pull request. Any other URL is attached as a link. A URL that is already attached returns a 422.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/alert_attachments (the `AlertAttachmentsV2Create` operationId).
+func (c *ClientWithResponses) AlertAttachmentsV2CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertAttachmentsV2CreateResponse, error) {
+	rsp, err := c.AlertAttachmentsV2CreateWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertAttachmentsV2CreateResponse(rsp)
+}
+
+// AlertAttachmentsV2CreateWithResponse Create Alert Attachments V2
+//
+// Attach a URL to an alert or alert group. Provide exactly one of alert_id or alert_group_id. A URL for a ticket or pull request from a connected integration is attached as that ticket or pull request. Any other URL is attached as a link. A URL that is already attached returns a 422.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/alert_attachments (the `AlertAttachmentsV2Create` operationId).
+func (c *ClientWithResponses) AlertAttachmentsV2CreateWithResponse(ctx context.Context, body AlertAttachmentsV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertAttachmentsV2CreateResponse, error) {
+	rsp, err := c.AlertAttachmentsV2Create(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertAttachmentsV2CreateResponse(rsp)
+}
+
+// AlertAttachmentsV2DeleteWithResponse Delete Alert Attachments V2
+//
+// Remove an attachment from its alert or alert group.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v2/alert_attachments/{id} (the `AlertAttachmentsV2Delete` operationId).
+func (c *ClientWithResponses) AlertAttachmentsV2DeleteWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AlertAttachmentsV2DeleteResponse, error) {
+	rsp, err := c.AlertAttachmentsV2Delete(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertAttachmentsV2DeleteResponse(rsp)
+}
+
 // AlertAttributesV2ListWithResponse List Alert Attributes V2
 //
 // List alert attributes.
@@ -126668,7 +130197,7 @@ func (c *ClientWithResponses) EscalationsV2CheckEscalationPermissionsWithRespons
 // To use this API, you will need an API key with the "Create and manage escalations"
 // permission. The reassignment is attributed to the key; to attribute it to one of your
 // users instead, set the X-Incident-User header, which needs the
-// "api_keys.act_on_behalf_of_users" scope.
+// "api_keys.act_on_behalf_of_users" scope and no team permissions on the key.
 //
 // If your API key's permissions are scoped to teams, the escalation you're reassigning
 // must be owned by one of those teams, and you can only reassign via an escalation path
@@ -126713,7 +130242,7 @@ func (c *ClientWithResponses) EscalationsV2ReassignEscalationWithBodyWithRespons
 // To use this API, you will need an API key with the "Create and manage escalations"
 // permission. The reassignment is attributed to the key; to attribute it to one of your
 // users instead, set the X-Incident-User header, which needs the
-// "api_keys.act_on_behalf_of_users" scope.
+// "api_keys.act_on_behalf_of_users" scope and no team permissions on the key.
 //
 // If your API key's permissions are scoped to teams, the escalation you're reassigning
 // must be owned by one of those teams, and you can only reassign via an escalation path
@@ -126986,6 +130515,141 @@ func (c *ClientWithResponses) FollowUpsV2ConnectExternalIssueWithResponse(ctx co
 		return nil, err
 	}
 	return ParseFollowUpsV2ConnectExternalIssueResponse(rsp)
+}
+
+// GlossaryEntriesV2ListWithResponse List Glossary Entries V2
+//
+// List glossary entries for this organisation, in rank order.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v2/glossary_entries (the `GlossaryEntriesV2List` operationId).
+func (c *ClientWithResponses) GlossaryEntriesV2ListWithResponse(ctx context.Context, params *GlossaryEntriesV2ListParams, reqEditors ...RequestEditorFn) (*GlossaryEntriesV2ListResponse, error) {
+	rsp, err := c.GlossaryEntriesV2List(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGlossaryEntriesV2ListResponse(rsp)
+}
+
+// GlossaryEntriesV2CreateWithBodyWithResponse Create Glossary Entries V2
+//
+// Create a glossary entry. It is appended to the end of the glossary unless after names an existing entry to insert it after.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/glossary_entries (the `GlossaryEntriesV2Create` operationId).
+func (c *ClientWithResponses) GlossaryEntriesV2CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*GlossaryEntriesV2CreateResponse, error) {
+	rsp, err := c.GlossaryEntriesV2CreateWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGlossaryEntriesV2CreateResponse(rsp)
+}
+
+// GlossaryEntriesV2CreateWithResponse Create Glossary Entries V2
+//
+// Create a glossary entry. It is appended to the end of the glossary unless after names an existing entry to insert it after.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/glossary_entries (the `GlossaryEntriesV2Create` operationId).
+func (c *ClientWithResponses) GlossaryEntriesV2CreateWithResponse(ctx context.Context, body GlossaryEntriesV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*GlossaryEntriesV2CreateResponse, error) {
+	rsp, err := c.GlossaryEntriesV2Create(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGlossaryEntriesV2CreateResponse(rsp)
+}
+
+// GlossaryEntriesV2UpdateRanksWithBodyWithResponse UpdateRanks Glossary Entries V2
+//
+// Reorder glossary entries. Every live entry must be included exactly once.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v2/glossary_entries/actions/update_ranks (the `GlossaryEntriesV2UpdateRanks` operationId).
+func (c *ClientWithResponses) GlossaryEntriesV2UpdateRanksWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*GlossaryEntriesV2UpdateRanksResponse, error) {
+	rsp, err := c.GlossaryEntriesV2UpdateRanksWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGlossaryEntriesV2UpdateRanksResponse(rsp)
+}
+
+// GlossaryEntriesV2UpdateRanksWithResponse UpdateRanks Glossary Entries V2
+//
+// Reorder glossary entries. Every live entry must be included exactly once.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v2/glossary_entries/actions/update_ranks (the `GlossaryEntriesV2UpdateRanks` operationId).
+func (c *ClientWithResponses) GlossaryEntriesV2UpdateRanksWithResponse(ctx context.Context, body GlossaryEntriesV2UpdateRanksJSONRequestBody, reqEditors ...RequestEditorFn) (*GlossaryEntriesV2UpdateRanksResponse, error) {
+	rsp, err := c.GlossaryEntriesV2UpdateRanks(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGlossaryEntriesV2UpdateRanksResponse(rsp)
+}
+
+// GlossaryEntriesV2DestroyWithResponse Destroy Glossary Entries V2
+//
+// Delete a glossary entry. The entry is archived, which frees its term so the same item can be added again later.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v2/glossary_entries/{id} (the `GlossaryEntriesV2Destroy` operationId).
+func (c *ClientWithResponses) GlossaryEntriesV2DestroyWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*GlossaryEntriesV2DestroyResponse, error) {
+	rsp, err := c.GlossaryEntriesV2Destroy(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGlossaryEntriesV2DestroyResponse(rsp)
+}
+
+// GlossaryEntriesV2ShowWithResponse Show Glossary Entries V2
+//
+// Get a single glossary entry.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v2/glossary_entries/{id} (the `GlossaryEntriesV2Show` operationId).
+func (c *ClientWithResponses) GlossaryEntriesV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*GlossaryEntriesV2ShowResponse, error) {
+	rsp, err := c.GlossaryEntriesV2Show(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGlossaryEntriesV2ShowResponse(rsp)
+}
+
+// GlossaryEntriesV2UpdateWithBodyWithResponse Update Glossary Entries V2
+//
+// Update a glossary entry's term or description. Rank is unchanged; use the reorder action for that.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v2/glossary_entries/{id} (the `GlossaryEntriesV2Update` operationId).
+func (c *ClientWithResponses) GlossaryEntriesV2UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*GlossaryEntriesV2UpdateResponse, error) {
+	rsp, err := c.GlossaryEntriesV2UpdateWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGlossaryEntriesV2UpdateResponse(rsp)
+}
+
+// GlossaryEntriesV2UpdateWithResponse Update Glossary Entries V2
+//
+// Update a glossary entry's term or description. Rank is unchanged; use the reorder action for that.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v2/glossary_entries/{id} (the `GlossaryEntriesV2Update` operationId).
+func (c *ClientWithResponses) GlossaryEntriesV2UpdateWithResponse(ctx context.Context, id string, body GlossaryEntriesV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*GlossaryEntriesV2UpdateResponse, error) {
+	rsp, err := c.GlossaryEntriesV2Update(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGlossaryEntriesV2UpdateResponse(rsp)
 }
 
 // HeartbeatV2Ping1WithResponse Ping Heartbeat V2
@@ -127746,6 +131410,68 @@ func (c *ClientWithResponses) IncidentsV2ShowWithResponse(ctx context.Context, i
 	return ParseIncidentsV2ShowResponse(rsp)
 }
 
+// IncidentsV2ConnectExternalIssueWithBodyWithResponse ConnectExternalIssue Incidents V2
+//
+// Connect an existing issue in an issue tracker to an incident, as its external issue.
+//
+// The issue is synced using the given incident ticket template, as if incident.io had
+// created it from that template. The next sync writes the incident's fields into the issue.
+//
+// This works whether or not automatic incident ticket creation is turned on. While it is
+// off, no tickets are created for other incidents, and the incident's fields are not
+// written into this issue until it is turned on.
+//
+// This needs the incidents.connect_external_issue scope, either across the organisation or
+// from an incident role on this incident.
+//
+// This fails if the incident already has a different external issue (unless replace is
+// true), or if the issue is already linked to another incident or follow-up.
+//
+// The ID supplied can be either the incident's full ID, or the numeric part of its
+// reference.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/incidents/{id}/actions/connect_external_issue (the `IncidentsV2ConnectExternalIssue` operationId).
+func (c *ClientWithResponses) IncidentsV2ConnectExternalIssueWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*IncidentsV2ConnectExternalIssueResponse, error) {
+	rsp, err := c.IncidentsV2ConnectExternalIssueWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseIncidentsV2ConnectExternalIssueResponse(rsp)
+}
+
+// IncidentsV2ConnectExternalIssueWithResponse ConnectExternalIssue Incidents V2
+//
+// Connect an existing issue in an issue tracker to an incident, as its external issue.
+//
+// The issue is synced using the given incident ticket template, as if incident.io had
+// created it from that template. The next sync writes the incident's fields into the issue.
+//
+// This works whether or not automatic incident ticket creation is turned on. While it is
+// off, no tickets are created for other incidents, and the incident's fields are not
+// written into this issue until it is turned on.
+//
+// This needs the incidents.connect_external_issue scope, either across the organisation or
+// from an incident role on this incident.
+//
+// This fails if the incident already has a different external issue (unless replace is
+// true), or if the issue is already linked to another incident or follow-up.
+//
+// The ID supplied can be either the incident's full ID, or the numeric part of its
+// reference.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/incidents/{id}/actions/connect_external_issue (the `IncidentsV2ConnectExternalIssue` operationId).
+func (c *ClientWithResponses) IncidentsV2ConnectExternalIssueWithResponse(ctx context.Context, id string, body IncidentsV2ConnectExternalIssueJSONRequestBody, reqEditors ...RequestEditorFn) (*IncidentsV2ConnectExternalIssueResponse, error) {
+	rsp, err := c.IncidentsV2ConnectExternalIssue(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseIncidentsV2ConnectExternalIssueResponse(rsp)
+}
+
 // IncidentsV2EditWithBodyWithResponse Edit Incidents V2
 //
 // Edit an existing incident.
@@ -127755,9 +131481,9 @@ func (c *ClientWithResponses) IncidentsV2ShowWithResponse(ctx context.Context, i
 // When using this endpoint, only fields that are provided will be edited (omitted fields
 // will be ignored).
 //
-// The API key must have the scope corresponding to each property it changes:
+// The API key must have `incidents.view`, and the scope corresponding to each property it changes:
 //
-// - `incidents.update_name` for the name
+// - `incidents.update_name` for the name or the Slack channel name override
 // - `incidents.update_summary` for the summary
 // - `incidents.update_severity` for the severity
 // - `incidents.update_status` for the status
@@ -127787,9 +131513,9 @@ func (c *ClientWithResponses) IncidentsV2EditWithBodyWithResponse(ctx context.Co
 // When using this endpoint, only fields that are provided will be edited (omitted fields
 // will be ignored).
 //
-// The API key must have the scope corresponding to each property it changes:
+// The API key must have `incidents.view`, and the scope corresponding to each property it changes:
 //
-// - `incidents.update_name` for the name
+// - `incidents.update_name` for the name or the Slack channel name override
 // - `incidents.update_summary` for the summary
 // - `incidents.update_severity` for the severity
 // - `incidents.update_status` for the status
@@ -127856,7 +131582,16 @@ func (c *ClientWithResponses) IncidentsV2ImportPostmortemDocumentWithResponse(ct
 
 // ManagedResourcesV2CreateManagedResourceWithBodyWithResponse CreateManagedResource Managed Resources V2
 //
-// Called by external providers such as Terraform, this can 'claim' an incident.io resource as being managed externally.
+// Create or update the management record for a resource. This replaces any annotations already stored on it.
+//
+// The annotations set `managed_by`:
+// - `incident.io/terraform/version` sets it to `terraform`.
+// - `incident.io/is-managed-externally` sets it to `external`. If both keys are present, `external` wins.
+// - Neither key sets it to `dashboard`.
+//
+// This doesn't change the resource's configuration, but `managed_by` controls whether it can be edited in the dashboard. Returning a schedule to `dashboard` also returns its sync rules and targets.
+//
+// The API key must have the update scope for the resource type, e.g. `schedules.update` for a schedule.
 //
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
@@ -127871,7 +131606,16 @@ func (c *ClientWithResponses) ManagedResourcesV2CreateManagedResourceWithBodyWit
 
 // ManagedResourcesV2CreateManagedResourceWithResponse CreateManagedResource Managed Resources V2
 //
-// Called by external providers such as Terraform, this can 'claim' an incident.io resource as being managed externally.
+// Create or update the management record for a resource. This replaces any annotations already stored on it.
+//
+// The annotations set `managed_by`:
+// - `incident.io/terraform/version` sets it to `terraform`.
+// - `incident.io/is-managed-externally` sets it to `external`. If both keys are present, `external` wins.
+// - Neither key sets it to `dashboard`.
+//
+// This doesn't change the resource's configuration, but `managed_by` controls whether it can be edited in the dashboard. Returning a schedule to `dashboard` also returns its sync rules and targets.
+//
+// The API key must have the update scope for the resource type, e.g. `schedules.update` for a schedule.
 //
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
@@ -127882,6 +131626,36 @@ func (c *ClientWithResponses) ManagedResourcesV2CreateManagedResourceWithRespons
 		return nil, err
 	}
 	return ParseManagedResourcesV2CreateManagedResourceResponse(rsp)
+}
+
+// OnCallNotificationPausesV2ListWithResponse List On-call Notification Pauses V2
+//
+// List on-call notification pauses across the organisation. By default this returns pauses that are active now or scheduled for the future. Cancelled pauses are never returned, and pauses that were resumed early have ends_at set to when they were resumed.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v2/on_call_notification_pauses (the `OnCallNotificationPausesV2List` operationId).
+func (c *ClientWithResponses) OnCallNotificationPausesV2ListWithResponse(ctx context.Context, params *OnCallNotificationPausesV2ListParams, reqEditors ...RequestEditorFn) (*OnCallNotificationPausesV2ListResponse, error) {
+	rsp, err := c.OnCallNotificationPausesV2List(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseOnCallNotificationPausesV2ListResponse(rsp)
+}
+
+// OnCallNotificationPausesV2ShowWithResponse Show On-call Notification Pauses V2
+//
+// Show a single on-call notification pause. Cancelled pauses are not found.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v2/on_call_notification_pauses/{id} (the `OnCallNotificationPausesV2Show` operationId).
+func (c *ClientWithResponses) OnCallNotificationPausesV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*OnCallNotificationPausesV2ShowResponse, error) {
+	rsp, err := c.OnCallNotificationPausesV2Show(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseOnCallNotificationPausesV2ShowResponse(rsp)
 }
 
 // PayConfigsV2ListWithResponse List Pay Configs V2
@@ -129480,6 +133254,8 @@ func (c *ClientWithResponses) StatusPageComponentsV2ListWithResponse(ctx context
 //
 // Create a status page component. Placement on a page is controlled separately via status page structures.
 //
+// This endpoint requires an API key with the "Manage organization settings (e.g. custom fields)" scope.
+//
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /v2/status_page_components (the `StatusPageComponentsV2Create` operationId).
@@ -129495,6 +133271,8 @@ func (c *ClientWithResponses) StatusPageComponentsV2CreateWithBodyWithResponse(c
 //
 // Create a status page component. Placement on a page is controlled separately via status page structures.
 //
+// This endpoint requires an API key with the "Manage organization settings (e.g. custom fields)" scope.
+//
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /v2/status_page_components (the `StatusPageComponentsV2Create` operationId).
@@ -129509,6 +133287,8 @@ func (c *ClientWithResponses) StatusPageComponentsV2CreateWithResponse(ctx conte
 // StatusPageComponentsV2DestroyWithResponse Destroy Status Page Components V2
 //
 // Archive a status page component.
+//
+// This endpoint requires an API key with the "Manage organization settings (e.g. custom fields)" scope.
 //
 // Returns a wrapper object for the known response body format(s).
 //
@@ -129540,6 +133320,8 @@ func (c *ClientWithResponses) StatusPageComponentsV2ShowWithResponse(ctx context
 //
 // Update a status page component's name and description.
 //
+// This endpoint requires an API key with the "Manage organization settings (e.g. custom fields)" scope.
+//
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with PUT /v2/status_page_components/{id} (the `StatusPageComponentsV2Update` operationId).
@@ -129554,6 +133336,8 @@ func (c *ClientWithResponses) StatusPageComponentsV2UpdateWithBodyWithResponse(c
 // StatusPageComponentsV2UpdateWithResponse Update Status Page Components V2
 //
 // Update a status page component's name and description.
+//
+// This endpoint requires an API key with the "Manage organization settings (e.g. custom fields)" scope.
 //
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
@@ -141406,6 +145190,353 @@ func ParseActionsV2UpdateResponse(rsp *http.Response) (*ActionsV2UpdateResponse,
 	return response, nil
 }
 
+// ParseAlertAttachmentsV2ListResponse parses an HTTP response from a AlertAttachmentsV2ListWithResponse call
+func ParseAlertAttachmentsV2ListResponse(rsp *http.Response) (*AlertAttachmentsV2ListResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertAttachmentsV2ListResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AlertAttachmentsListResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAlertAttachmentsV2CreateResponse parses an HTTP response from a AlertAttachmentsV2CreateWithResponse call
+func ParseAlertAttachmentsV2CreateResponse(rsp *http.Response) (*AlertAttachmentsV2CreateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertAttachmentsV2CreateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest AlertAttachmentsCreateResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAlertAttachmentsV2DeleteResponse parses an HTTP response from a AlertAttachmentsV2DeleteWithResponse call
+func ParseAlertAttachmentsV2DeleteResponse(rsp *http.Response) (*AlertAttachmentsV2DeleteResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertAttachmentsV2DeleteResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case rsp.StatusCode == 204:
+		break // No content-type
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseAlertAttributesV2ListResponse parses an HTTP response from a AlertAttributesV2ListWithResponse call
 func ParseAlertAttributesV2ListResponse(rsp *http.Response) (*AlertAttributesV2ListResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -152223,6 +156354,704 @@ func ParseFollowUpsV2ConnectExternalIssueResponse(rsp *http.Response) (*FollowUp
 	return response, nil
 }
 
+// ParseGlossaryEntriesV2ListResponse parses an HTTP response from a GlossaryEntriesV2ListWithResponse call
+func ParseGlossaryEntriesV2ListResponse(rsp *http.Response) (*GlossaryEntriesV2ListResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GlossaryEntriesV2ListResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest GlossaryEntriesListResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGlossaryEntriesV2CreateResponse parses an HTTP response from a GlossaryEntriesV2CreateWithResponse call
+func ParseGlossaryEntriesV2CreateResponse(rsp *http.Response) (*GlossaryEntriesV2CreateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GlossaryEntriesV2CreateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest GlossaryEntriesCreateResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGlossaryEntriesV2UpdateRanksResponse parses an HTTP response from a GlossaryEntriesV2UpdateRanksWithResponse call
+func ParseGlossaryEntriesV2UpdateRanksResponse(rsp *http.Response) (*GlossaryEntriesV2UpdateRanksResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GlossaryEntriesV2UpdateRanksResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest GlossaryEntriesUpdateRanksResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGlossaryEntriesV2DestroyResponse parses an HTTP response from a GlossaryEntriesV2DestroyWithResponse call
+func ParseGlossaryEntriesV2DestroyResponse(rsp *http.Response) (*GlossaryEntriesV2DestroyResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GlossaryEntriesV2DestroyResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case rsp.StatusCode == 204:
+		break // No content-type
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGlossaryEntriesV2ShowResponse parses an HTTP response from a GlossaryEntriesV2ShowWithResponse call
+func ParseGlossaryEntriesV2ShowResponse(rsp *http.Response) (*GlossaryEntriesV2ShowResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GlossaryEntriesV2ShowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest GlossaryEntriesShowResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGlossaryEntriesV2UpdateResponse parses an HTTP response from a GlossaryEntriesV2UpdateWithResponse call
+func ParseGlossaryEntriesV2UpdateResponse(rsp *http.Response) (*GlossaryEntriesV2UpdateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GlossaryEntriesV2UpdateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest GlossaryEntriesUpdateResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseHeartbeatV2Ping1Response parses an HTTP response from a HeartbeatV2Ping1WithResponse call
 func ParseHeartbeatV2Ping1Response(rsp *http.Response) (*HeartbeatV2Ping1Response, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -154902,6 +159731,119 @@ func ParseIncidentsV2ShowResponse(rsp *http.Response) (*IncidentsV2ShowResponse,
 	return response, nil
 }
 
+// ParseIncidentsV2ConnectExternalIssueResponse parses an HTTP response from a IncidentsV2ConnectExternalIssueWithResponse call
+func ParseIncidentsV2ConnectExternalIssueResponse(rsp *http.Response) (*IncidentsV2ConnectExternalIssueResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &IncidentsV2ConnectExternalIssueResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case rsp.StatusCode == 204:
+		break // No content-type
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseIncidentsV2EditResponse parses an HTTP response from a IncidentsV2EditWithResponse call
 func ParseIncidentsV2EditResponse(rsp *http.Response) (*IncidentsV2EditResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -155165,6 +160107,240 @@ func ParseManagedResourcesV2CreateManagedResourceResponse(rsp *http.Response) (*
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest ManagedResourcesCreateManagedResourceResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseOnCallNotificationPausesV2ListResponse parses an HTTP response from a OnCallNotificationPausesV2ListWithResponse call
+func ParseOnCallNotificationPausesV2ListResponse(rsp *http.Response) (*OnCallNotificationPausesV2ListResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &OnCallNotificationPausesV2ListResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest OnCallNotificationPausesListResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseOnCallNotificationPausesV2ShowResponse parses an HTTP response from a OnCallNotificationPausesV2ShowWithResponse call
+func ParseOnCallNotificationPausesV2ShowResponse(rsp *http.Response) (*OnCallNotificationPausesV2ShowResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &OnCallNotificationPausesV2ShowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest OnCallNotificationPausesShowResultV2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

@@ -8,14 +8,23 @@ description: |-
   for_each, or you don't want terraform to remove any entries that it is not managing.
   If you're working with a large number of entries (>100) or want to be authoritative
   (remove anything Terraform does not manage) then prefer incident_catalog_entries.
-  Managing attributes on internal catalog types
-  Some catalog types like Schedule are managed internally by incident.io - their entries are
-  created and maintained by the product (e.g., the on-call system). You can't create or delete
-  these entries via Terraform, but you can extend them with custom attributes.
-  To do this:
-  Add a custom attribute to the catalog type via the incident.io web UIUse data sources to look up the existing type, attribute, and entrySet managed_attributes to manage only your custom attribute
-  When you run terraform destroy, Terraform will clear the managed attributes rather than
-  attempting to delete the entry.
+  Extending entries that incident.io syncs
+  incident.io syncs the entries of some catalog types, such as Schedule, Escalation path, User
+  and the types an integration syncs. The sync creates and deletes these entries, and owns their
+  name, external ID, aliases and synced attributes, so Terraform can't create them.
+  To extend one of these entries, set existing_entry_identifier to adopt it. Terraform
+  then finds the entry rather than creating it, and writes only what you give it:
+  custom_aliases: aliases your organisation adds to the entry, which syncs keep. When set,
+  Terraform owns the entry's whole custom alias list. Leave it out to leave them alone.attribute_values for the attributes listed in managed_attributes: attributes you
+  added to the catalog type yourself, for example in the incident.io web UI. Terraform doesn't
+  touch any other attribute.
+  Terraform never deletes an adopted entry. When you destroy the resource, it clears the custom
+  aliases (if it owned them) and the managed attributes, and leaves the entry in place. If no
+  entry matches the identifier, Terraform fails rather than creating one. Nothing stops people
+  editing the entry in the dashboard: Terraform puts back what it owns on the next apply.
+  Changing custom_aliases on the User type, or on another type that team membership passes
+  through, needs an API key with the team.memberships_update scope ("Update team
+  memberships"), because aliases on those entries decide who belongs to a team.
 ---
 
 # incident_catalog_entry (Resource)
@@ -27,19 +36,29 @@ for_each, or you don't want terraform to remove any entries that it is not manag
 If you're working with a large number of entries (>100) or want to be authoritative
 (remove anything Terraform does not manage) then prefer `incident_catalog_entries`.
 
-## Managing attributes on internal catalog types
+## Extending entries that incident.io syncs
 
-Some catalog types like Schedule are managed internally by incident.io - their entries are
-created and maintained by the product (e.g., the on-call system). You can't create or delete
-these entries via Terraform, but you can extend them with custom attributes.
+incident.io syncs the entries of some catalog types, such as Schedule, Escalation path, User
+and the types an integration syncs. The sync creates and deletes these entries, and owns their
+name, external ID, aliases and synced attributes, so Terraform can't create them.
 
-To do this:
-1. Add a custom attribute to the catalog type via the incident.io web UI
-2. Use data sources to look up the existing type, attribute, and entry
-3. Set `managed_attributes` to manage only your custom attribute
+To extend one of these entries, set `existing_entry_identifier` to adopt it. Terraform
+then finds the entry rather than creating it, and writes only what you give it:
 
-When you run `terraform destroy`, Terraform will clear the managed attributes rather than
-attempting to delete the entry.
+- `custom_aliases`: aliases your organisation adds to the entry, which syncs keep. When set,
+  Terraform owns the entry's whole custom alias list. Leave it out to leave them alone.
+- `attribute_values` for the attributes listed in `managed_attributes`: attributes you
+  added to the catalog type yourself, for example in the incident.io web UI. Terraform doesn't
+  touch any other attribute.
+
+Terraform never deletes an adopted entry. When you destroy the resource, it clears the custom
+aliases (if it owned them) and the managed attributes, and leaves the entry in place. If no
+entry matches the identifier, Terraform fails rather than creating one. Nothing stops people
+editing the entry in the dashboard: Terraform puts back what it owns on the next apply.
+
+Changing `custom_aliases` on the User type, or on another type that team membership passes
+through, needs an API key with the `team.memberships_update` scope ("Update team
+memberships"), because aliases on those entries decide who belongs to a team.
 
 ## Example Usage
 
@@ -97,6 +116,38 @@ resource "incident_catalog_entry" "service_tier" {
     },
   ]
 }
+
+# Extend an entry that incident.io syncs, such as a schedule, by adopting it.
+# Terraform finds the entry rather than creating it, writes only the custom
+# aliases and the attributes in managed_attributes, and leaves the entry in
+# place when destroyed.
+data "incident_catalog_type" "schedule" {
+  type_name = "Schedule"
+}
+
+# An attribute you added to the Schedule type in the incident.io web UI.
+data "incident_catalog_type_attribute" "schedule_runbook" {
+  catalog_type_id = data.incident_catalog_type.schedule.id
+  name            = "Runbook"
+}
+
+resource "incident_catalog_entry" "primary_on_call" {
+  catalog_type_id = data.incident_catalog_type.schedule.id
+
+  # The entry's ID, external ID or one of its aliases. For a schedule, the
+  # external ID is the schedule's ID.
+  existing_entry_identifier = incident_schedule.primary_on_call.id
+
+  custom_aliases = ["primary", "pd-primary-on-call"]
+
+  managed_attributes = [data.incident_catalog_type_attribute.schedule_runbook.id]
+  attribute_values = [
+    {
+      attribute = data.incident_catalog_type_attribute.schedule_runbook.id
+      value     = "https://runbooks.example.com/primary-on-call"
+    },
+  ]
+}
 ```
 
 <!-- schema generated by tfplugindocs -->
@@ -104,20 +155,28 @@ resource "incident_catalog_entry" "service_tier" {
 
 ### Required
 
-- `attribute_values` (Attributes Set) (see [below for nested schema](#nestedatt--attribute_values))
 - `catalog_type_id` (String) ID of this catalog type
-- `name` (String) Name is the human readable name of this entry
 
 ### Optional
 
-- `aliases` (List of String) Optional aliases that can be used to reference this entry
-- `external_id` (String) An optional alternative ID for this entry, which is ensured to be unique for the type
+- `aliases` (List of String) Optional aliases that can be used to reference this entry. Read-only when `existing_entry_identifier` is set, and then includes the entry's custom aliases.
+- `attribute_values` (Attributes Set) The attribute values of this entry. Required, unless `existing_entry_identifier` is set. (see [below for nested schema](#nestedatt--attribute_values))
+- `custom_aliases` (Set of String) Aliases your organisation adds to an adopted entry, which incident.io syncs keep and also lists in `aliases`. Only for entries adopted with `existing_entry_identifier`, on catalog types that incident.io syncs.
+
+When set, Terraform owns the entry's whole custom alias list: it removes custom aliases added elsewhere, and clears the list when you destroy the resource. Set it to `[]` to clear them. Leave it out to leave them as they are. Changing them on the User type, or another type that team membership passes through, needs the `team.memberships_update` scope.
+- `existing_entry_identifier` (String) Adopt an entry that already exists in this catalog type, rather than creating one. Set it to the entry's ID, external ID or one of its aliases (or its name, if the type uses names as identifiers). Use this to extend entries that incident.io syncs, such as schedules, escalation paths and users.
+
+When set, `name`, `aliases`, `external_id` and `rank` are read-only, Terraform writes only `custom_aliases` and the attributes in `managed_attributes`, and destroying the resource leaves the entry in place. Terraform fails if no entry, or more than one, matches.
+- `external_id` (String) An optional alternative ID for this entry, which is ensured to be unique for the type. Read-only when `existing_entry_identifier` is set.
 - `managed_attributes` (Set of String) The set of attributes that are managed by this resource. By default, all attributes are managed by this resource.
 
 This can be used to allow other attributes of a catalog entry to be managed elsewhere, for example in another Terraform repository or the incident.io web UI.
 
 When `managed_attributes` is set, destroying the Terraform resource will clear only those attributes instead of deleting the catalog entry. This enables partial management of entries owned by external systems (e.g., Schedules from the on-call product).
-- `rank` (Number) When catalog type is ranked, this is used to help order things
+
+When `existing_entry_identifier` is set, Terraform manages no attributes unless you list them here.
+- `name` (String) Name is the human readable name of this entry. Required, unless `existing_entry_identifier` is set, when it is read-only.
+- `rank` (Number) When catalog type is ranked, this is used to help order things. Read-only when `existing_entry_identifier` is set.
 
 ### Read-Only
 

@@ -51,3 +51,35 @@ resource "incident_catalog_entry" "service_tier" {
     },
   ]
 }
+
+# Extend an entry that incident.io syncs, such as a schedule, by adopting it.
+# Terraform finds the entry rather than creating it, writes only the custom
+# aliases and the attributes in managed_attributes, and leaves the entry in
+# place when destroyed.
+data "incident_catalog_type" "schedule" {
+  type_name = "Schedule"
+}
+
+# An attribute you added to the Schedule type in the incident.io web UI.
+data "incident_catalog_type_attribute" "schedule_runbook" {
+  catalog_type_id = data.incident_catalog_type.schedule.id
+  name            = "Runbook"
+}
+
+resource "incident_catalog_entry" "primary_on_call" {
+  catalog_type_id = data.incident_catalog_type.schedule.id
+
+  # The entry's ID, external ID or one of its aliases. For a schedule, the
+  # external ID is the schedule's ID.
+  existing_entry_identifier = incident_schedule.primary_on_call.id
+
+  custom_aliases = ["primary", "pd-primary-on-call"]
+
+  managed_attributes = [data.incident_catalog_type_attribute.schedule_runbook.id]
+  attribute_values = [
+    {
+      attribute = data.incident_catalog_type_attribute.schedule_runbook.id
+      value     = "https://runbooks.example.com/primary-on-call"
+    },
+  ]
+}
