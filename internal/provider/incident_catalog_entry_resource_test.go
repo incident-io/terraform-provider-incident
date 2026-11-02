@@ -563,7 +563,7 @@ resource "incident_catalog_entry" "test" {
     value     = "A value"
   }]
 }`,
-			error: `only manages the attributes listed in managed_attributes`,
+			error: `Unmanaged Attribute`,
 		},
 		{
 			name: "custom aliases without adopting",
