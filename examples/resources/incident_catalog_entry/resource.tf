@@ -60,6 +60,10 @@ data "incident_catalog_type" "schedule" {
   type_name = "Schedule"
 }
 
+data "incident_schedule" "primary_on_call" {
+  name = "Primary on-call"
+}
+
 # An attribute you added to the Schedule type in the incident.io web UI.
 data "incident_catalog_type_attribute" "schedule_runbook" {
   catalog_type_id = data.incident_catalog_type.schedule.id
@@ -71,7 +75,7 @@ resource "incident_catalog_entry" "primary_on_call" {
 
   # The entry's ID, external ID or one of its aliases. For a schedule, the
   # external ID is the schedule's ID.
-  existing_entry_identifier = incident_schedule.primary_on_call.id
+  existing_entry_identifier = data.incident_schedule.primary_on_call.id
 
   custom_aliases = ["primary", "pd-primary-on-call"]
 
