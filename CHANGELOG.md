@@ -1,3 +1,7 @@
+## Unreleased
+
+- Add `existing_entry_identifier` and `custom_aliases` to `incident_catalog_entry`, which adopt an entry that incident.io syncs (such as a schedule, escalation path or user) to manage its custom aliases and your own attributes, without ever creating or deleting the entry. `name` and `attribute_values` are now only required when not adopting. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/catalog_entry). (#668)
+
 ## v7.7.1
 
 - Build with Go 1.27.3, which fixes CVE-2026-111943 in `crypto/x509`.
