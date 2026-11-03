@@ -511,12 +511,23 @@ func (r *IncidentCatalogTypeAttributeResource) lockFor(ctx context.Context, cata
 	mutex.Lock()
 	defer mutex.Unlock()
 
-	typeResult, err := r.client.CatalogV3ShowTypeWithResponse(ctx, catalogTypeID)
-	if err != nil {
-		return fmt.Errorf("unable to get catalog type, got error: %w", err)
-	}
+	// Something outside this provider, such as the dashboard or another Terraform run, can
+	// change the schema between our read and our write, which the API rejects as a version
+	// mismatch. Read the type again and retry.
+	for attempt := 1; ; attempt++ {
+		typeResult, err := r.client.CatalogV3ShowTypeWithResponse(ctx, catalogTypeID)
+		if err != nil {
+			return fmt.Errorf("unable to get catalog type, got error: %w", err)
+		}
 
-	return do(ctx, typeResult.JSON200.CatalogType)
+		err = do(ctx, typeResult.JSON200.CatalogType)
+		if httpErr := (client.HTTPError{}); attempt < 5 && errors.As(err, &httpErr) &&
+			httpErr.StatusCode == 422 && strings.Contains(string(httpErr.Body), "schema version mismatch") {
+			continue
+		}
+
+		return err
+	}
 }
 
 func (r *IncidentCatalogTypeAttributeResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
