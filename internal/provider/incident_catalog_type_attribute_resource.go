@@ -362,6 +362,8 @@ func (r *IncidentCatalogTypeAttributeResource) Update(ctx context.Context, req r
 		var (
 			attributes = []client.CatalogTypeAttributePayloadV3{}
 		)
+		// lockFor can call this again with a newer schema, which may no longer have us.
+		alreadyExists = false
 		tflog.Trace(ctx, fmt.Sprintf("Looking for attribute with id=%s", data.ID.ValueString()))
 		for _, existing := range catalogType.Schema.Attributes {
 			if existing.Id == data.ID.ValueString() {
