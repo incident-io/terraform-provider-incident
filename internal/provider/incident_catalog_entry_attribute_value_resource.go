@@ -14,8 +14,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -36,6 +34,7 @@ type IncidentCatalogEntryAttributeValueResource struct {
 }
 
 type IncidentCatalogEntryAttributeValueResourceModel struct {
+	ID          types.String `tfsdk:"id"`
 	EntryID     types.String `tfsdk:"entry_id"`
 	AttributeID types.String `tfsdk:"attribute_id"`
 	Value       types.String `tfsdk:"value"`
@@ -67,19 +66,17 @@ Don't also manage the attribute with ` + "`incident_catalog_entry`" + ` or
 ` + "`incident_catalog_entries`" + `: the two would overwrite each other.
 		`,
 		Attributes: map[string]schema.Attribute{
+			"id": schema.StringAttribute{
+				MarkdownDescription: "The entry ID and attribute ID, joined by a colon.",
+				Computed:            true,
+			},
 			"entry_id": schema.StringAttribute{
 				MarkdownDescription: "The ID of the catalog entry, usually from the `incident_catalog_entry` data source.",
 				Required:            true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplace(),
-				},
 			},
 			"attribute_id": schema.StringAttribute{
 				MarkdownDescription: "The ID of the attribute, usually from the `incident_catalog_type_attribute` resource or data source.",
 				Required:            true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplace(),
-				},
 			},
 			"value": schema.StringAttribute{
 				MarkdownDescription: "The value of the attribute, in a format suitable for its type. Set this or `array_value`.",
@@ -96,6 +93,7 @@ Don't also manage the attribute with ` + "`incident_catalog_entry`" + ` or
 				Optional:            true,
 				Validators: []validator.List{
 					listvalidator.SizeAtLeast(1),
+					listvalidator.ValueStringsAre(stringvalidator.LengthAtLeast(1)),
 				},
 			},
 		},
@@ -140,10 +138,24 @@ func (r *IncidentCatalogEntryAttributeValueResource) Read(ctx context.Context, r
 }
 
 func (r *IncidentCatalogEntryAttributeValueResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var data *IncidentCatalogEntryAttributeValueResourceModel
+	var data, state *IncidentCatalogEntryAttributeValueResourceModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
+	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
 	if resp.Diagnostics.HasError() {
 		return
+	}
+
+	// entry_id and attribute_id are often unknown at plan time, for example when the data
+	// source that finds the entry waits on a change to a schedule. So moving to another
+	// entry or attribute is an update, not a replacement, and has to clear the old one.
+	if state.EntryID.ValueString() != data.EntryID.ValueString() || state.AttributeID.ValueString() != data.AttributeID.ValueString() {
+		_, diags := writeCatalogEntryPartially(ctx, r.client, state.EntryID.ValueString(), catalogEntryPartialWrite{
+			UpdateAttributes: []string{state.AttributeID.ValueString()},
+		})
+		resp.Diagnostics.Append(diags...)
+		if resp.Diagnostics.HasError() {
+			return
+		}
 	}
 
 	r.write(ctx, data, &resp.State, &resp.Diagnostics)
@@ -208,6 +220,7 @@ func (r *IncidentCatalogEntryAttributeValueResource) write(ctx context.Context, 
 // leaves both value and array_value null, so Terraform plans to set it again.
 func (r *IncidentCatalogEntryAttributeValueResource) buildModel(entry client.CatalogEntryV3, attributeID string) *IncidentCatalogEntryAttributeValueResourceModel {
 	model := &IncidentCatalogEntryAttributeValueResourceModel{
+		ID:          types.StringValue(entry.Id + ":" + attributeID),
 		EntryID:     types.StringValue(entry.Id),
 		AttributeID: types.StringValue(attributeID),
 		Value:       types.StringNull(),

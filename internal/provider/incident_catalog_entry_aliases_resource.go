@@ -12,8 +12,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -67,9 +65,6 @@ entries decide who belongs to a team.
 			"entry_id": schema.StringAttribute{
 				MarkdownDescription: "The ID of the catalog entry, usually from the `incident_catalog_entry` data source.",
 				Required:            true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplace(),
-				},
 			},
 			"aliases": schema.SetAttribute{
 				ElementType:         types.StringType,
@@ -119,10 +114,24 @@ func (r *IncidentCatalogEntryAliasesResource) Read(ctx context.Context, req reso
 }
 
 func (r *IncidentCatalogEntryAliasesResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var data *IncidentCatalogEntryAliasesResourceModel
+	var data, state *IncidentCatalogEntryAliasesResourceModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
+	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
 	if resp.Diagnostics.HasError() {
 		return
+	}
+
+	// entry_id is often unknown at plan time, for example when the data source that finds
+	// the entry waits on a change to a schedule. So moving to another entry is an update,
+	// not a replacement, and has to clear the old entry's aliases itself.
+	if state.EntryID.ValueString() != data.EntryID.ValueString() {
+		_, diags := writeCatalogEntryPartially(ctx, r.client, state.EntryID.ValueString(), catalogEntryPartialWrite{
+			CustomAliases: &[]string{},
+		})
+		resp.Diagnostics.Append(diags...)
+		if resp.Diagnostics.HasError() {
+			return
+		}
 	}
 
 	r.write(ctx, data, &resp.State, &resp.Diagnostics)

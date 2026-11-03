@@ -14,10 +14,11 @@ import (
 
 func TestIncidentCatalogEntryAttributeValueResource_ValidateValue(t *testing.T) {
 	for name, values := range map[string]string{
-		"neither":     ``,
-		"both":        `value = "one"` + "\n" + `array_value = ["two"]`,
-		"empty value": `value = ""`,
-		"empty array": `array_value = []`,
+		"neither":             ``,
+		"both":                `value = "one"` + "\n" + `array_value = ["two"]`,
+		"empty value":         `value = ""`,
+		"empty array":         `array_value = []`,
+		"empty array element": `array_value = [""]`,
 	} {
 		t.Run(name, func(t *testing.T) {
 			resource.UnitTest(t, resource.TestCase{
@@ -100,14 +101,9 @@ func TestAccIncidentCatalogEntryAttributeValueResource(t *testing.T) {
 				Check:            checkValues(map[string]string{"owned": "owned", "first": "three", "second": "four"}),
 			},
 			{
-				ResourceName:                         "incident_catalog_entry_attribute_value.first",
-				ImportState:                          true,
-				ImportStateVerify:                    true,
-				ImportStateVerifyIdentifierAttribute: "entry_id",
-				ImportStateIdFunc: func(s *terraform.State) (string, error) {
-					attributes := s.RootModule().Resources["incident_catalog_entry_attribute_value.first"].Primary.Attributes
-					return attributes["entry_id"] + ":" + attributes["attribute_id"], nil
-				},
+				ResourceName:      "incident_catalog_entry_attribute_value.first",
+				ImportState:       true,
+				ImportStateVerify: true,
 			},
 			// Destroying one resource clears its attribute and leaves the rest of the entry.
 			{

@@ -75,6 +75,10 @@ resource "incident_catalog_entry_attribute_value" "primary_on_call_runbook" {
 - `array_value` (List of String) The values of an array attribute, each in a format suitable for its type. Set this or `value`.
 - `value` (String) The value of the attribute, in a format suitable for its type. Set this or `array_value`.
 
+### Read-Only
+
+- `id` (String) The entry ID and attribute ID, joined by a colon.
+
 ## Import
 
 Import is supported using an [`import` block](https://developer.hashicorp.com/terraform/language/import) or the [`terraform import` command](https://developer.hashicorp.com/terraform/cli/commands/import):
