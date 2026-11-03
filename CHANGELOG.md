@@ -1,3 +1,8 @@
+## Unreleased
+
+- Fix `incident_catalog_entries` sending every existing entry on every apply, even when it was unchanged. An apply now updates only the entries that differ. (#671)
+- Fix `incident_catalog_entries` failing with `413 payload_too_large` when a batch of large entries exceeds the API's request size limit. The provider now splits the batch and resends it. (#671)
+
 ## v7.7.1
 
 - Build with Go 1.27.3, which fixes CVE-2026-111943 in `crypto/x509`.
