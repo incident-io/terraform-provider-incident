@@ -39,17 +39,25 @@ resource "incident_catalog_entry_attribute_value" "test" {
 	}
 }
 
-// Sets two attributes on an entry in a catalog type of the test's own, so it can add
-// attributes without changing the schema of a type other tests share. The two resources
-// write the same entry in the same apply, and incident_catalog_entry owns a third
-// attribute: none of them may undo another's write.
+// Sets two attributes, which Terraform adds to the Schedule type, on a schedule's synced
+// entry. The two resources write the same entry in the same apply, so neither may undo
+// the other's write.
 func TestAccIncidentCatalogEntryAttributeValueResource(t *testing.T) {
-	var entryID string
+	var scheduleID, entryID string
+
+	captureScheduleID := func(s *terraform.State) error {
+		res, ok := s.RootModule().Resources["incident_schedule.test"]
+		if !ok {
+			return fmt.Errorf("incident_schedule.test is not in state")
+		}
+		scheduleID = res.Primary.ID
+		return nil
+	}
 
 	captureEntryID := func(s *terraform.State) error {
-		res, ok := s.RootModule().Resources["incident_catalog_entry.test"]
+		res, ok := s.RootModule().Resources["data.incident_catalog_entry.schedule"]
 		if !ok {
-			return fmt.Errorf("incident_catalog_entry.test is not in state")
+			return fmt.Errorf("data.incident_catalog_entry.schedule is not in state")
 		}
 		entryID = res.Primary.ID
 		return nil
@@ -88,17 +96,22 @@ func TestAccIncidentCatalogEntryAttributeValueResource(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config:           testAccIncidentCatalogEntryAttributeValueConfig(map[string]string{"first": "one", "second": "two"}),
+				Config: testAccIncidentCatalogEntryAttributeValueConfig(false, nil),
+				Check:  captureScheduleID,
+			},
+			{
+				PreConfig:        func() { waitForScheduleCatalogEntry(t, scheduleID) },
+				Config:           testAccIncidentCatalogEntryAttributeValueConfig(true, map[string]string{"first": "one", "second": "two"}),
 				ConfigPlanChecks: emptyPlan,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					captureEntryID,
-					checkValues(map[string]string{"owned": "owned", "first": "one", "second": "two"}),
+					checkValues(map[string]string{"first": "one", "second": "two"}),
 				),
 			},
 			{
-				Config:           testAccIncidentCatalogEntryAttributeValueConfig(map[string]string{"first": "three", "second": "four"}),
+				Config:           testAccIncidentCatalogEntryAttributeValueConfig(true, map[string]string{"first": "three", "second": "four"}),
 				ConfigPlanChecks: emptyPlan,
-				Check:            checkValues(map[string]string{"owned": "owned", "first": "three", "second": "four"}),
+				Check:            checkValues(map[string]string{"first": "three", "second": "four"}),
 			},
 			{
 				ResourceName:      "incident_catalog_entry_attribute_value.first",
@@ -107,23 +120,26 @@ func TestAccIncidentCatalogEntryAttributeValueResource(t *testing.T) {
 			},
 			// Destroying one resource clears its attribute and leaves the rest of the entry.
 			{
-				Config:           testAccIncidentCatalogEntryAttributeValueConfig(map[string]string{"second": "four"}),
+				Config:           testAccIncidentCatalogEntryAttributeValueConfig(true, map[string]string{"second": "four"}),
 				ConfigPlanChecks: emptyPlan,
-				Check:            checkValues(map[string]string{"owned": "owned", "first": "", "second": "four"}),
+				Check:            checkValues(map[string]string{"first": "", "second": "four"}),
 			},
 			{
-				Config: testAccIncidentCatalogEntryAttributeValueConfig(nil),
-				Check:  checkValues(map[string]string{"owned": "owned", "first": "", "second": ""}),
+				Config: testAccIncidentCatalogEntryAttributeValueConfig(true, nil),
+				Check:  checkValues(map[string]string{"first": "", "second": ""}),
 			},
 		},
 	})
 }
 
-// testAccIncidentCatalogEntryAttributeValueConfig sets up a catalog type with an entry
-// that incident_catalog_entry owns, and an incident_catalog_entry_attribute_value for each
-// of the first and second attributes in values.
-func testAccIncidentCatalogEntryAttributeValueConfig(values map[string]string) string {
-	return testRunTemplate("incident_catalog_entry_attribute_value", `
+// An entry that incident_catalog_entry owns belongs to Terraform already, so the resource
+// refuses to write it.
+func TestAccIncidentCatalogEntryAttributeValueResourceUnmanagedType(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{{
+			Config: testRunTemplate("incident_catalog_entry_attribute_value_unmanaged", `
 resource "incident_catalog_type" "test" {
   name        = {{ stableSuffix "acc-catalog-entry-attribute-value" | quote }}
   description = "Used in terraform acceptance tests for incident_catalog_entry_attribute_value"
@@ -131,41 +147,64 @@ resource "incident_catalog_type" "test" {
   source_repo_url = "https://github.com/incident-io/terraform-demo"
 }
 
-resource "incident_catalog_type_attribute" "owned" {
+resource "incident_catalog_type_attribute" "test" {
   catalog_type_id = incident_catalog_type.test.id
-  name            = "Owned"
-  type            = "String"
-}
-
-resource "incident_catalog_type_attribute" "first" {
-  catalog_type_id = incident_catalog_type.test.id
-  name            = "First"
-  type            = "String"
-}
-
-resource "incident_catalog_type_attribute" "second" {
-  catalog_type_id = incident_catalog_type.test.id
-  name            = "Second"
+  name            = "Test"
   type            = "String"
 }
 
 resource "incident_catalog_entry" "test" {
-  catalog_type_id    = incident_catalog_type.test.id
-  name               = "Test entry"
-  external_id        = "test-entry"
-  managed_attributes = [incident_catalog_type_attribute.owned.id]
-  attribute_values = [
-    {
-      attribute = incident_catalog_type_attribute.owned.id
-      value     = "owned"
-    },
-  ]
+  catalog_type_id  = incident_catalog_type.test.id
+  name             = "Test entry"
+  attribute_values = []
+}
+
+resource "incident_catalog_entry_attribute_value" "test" {
+  entry_id     = incident_catalog_entry.test.id
+  attribute_id = incident_catalog_type_attribute.test.id
+  value        = "never-written"
+}
+`, nil),
+			ExpectError: regexp.MustCompile(`Catalog type isn't managed by incident.io`),
+		}},
+	})
+}
+
+// testAccIncidentCatalogEntryAttributeValueConfig creates a schedule, and adds first and
+// second attributes to the Schedule type. With withValues, it also looks up the
+// schedule's entry and sets each attribute in values on it.
+func testAccIncidentCatalogEntryAttributeValueConfig(withValues bool, values map[string]string) string {
+	return testRunTemplate("incident_catalog_entry_attribute_value", `
+data "incident_catalog_type" "schedule" {
+  type_name = "Schedule"
+}
+
+resource "incident_schedule" "test" {
+  name     = {{ stableSuffix "acc-catalog-entry-attribute-value" | quote }}
+  timezone = "Europe/London"
+}
+
+resource "incident_catalog_type_attribute" "first" {
+  catalog_type_id = data.incident_catalog_type.schedule.id
+  name            = {{ stableSuffix "acc-first" | quote }}
+  type            = "String"
+}
+
+resource "incident_catalog_type_attribute" "second" {
+  catalog_type_id = data.incident_catalog_type.schedule.id
+  name            = {{ stableSuffix "acc-second" | quote }}
+  type            = "String"
+}
+{{ if .WithValues }}
+data "incident_catalog_entry" "schedule" {
+  catalog_type_id = data.incident_catalog_type.schedule.id
+  identifier      = incident_schedule.test.id
 }
 {{ range $name, $value := .Values }}
 resource "incident_catalog_entry_attribute_value" "{{ $name }}" {
-  entry_id     = incident_catalog_entry.test.id
+  entry_id     = data.incident_catalog_entry.schedule.id
   attribute_id = incident_catalog_type_attribute.{{ $name }}.id
   value        = {{ $value | quote }}
 }
-{{ end }}`, map[string]any{"Values": values})
+{{ end }}{{ end }}`, map[string]any{"WithValues": withValues, "Values": values})
 }

@@ -54,11 +54,17 @@ func writeCatalogEntryPartially(ctx context.Context, apiClient *client.ClientWit
 	}
 
 	entry, catalogType := current.JSON200.CatalogEntry, current.JSON200.CatalogType
-	if write.CustomAliases != nil && !catalogType.SupportsCustomAliases {
+	// The API reports supports_custom_aliases for exactly the types incident.io manages
+	// (mode internal or external). Any other type belongs to the Terraform or
+	// catalog-importer config, or the dashboard, that created it, which would fight
+	// these writes. Clearing is always allowed, so a type that stops being synced can
+	// still be destroyed.
+	clearing := len(lo.FromPtr(write.CustomAliases)) == 0 && len(write.AttributeValues) == 0
+	if !clearing && !catalogType.SupportsCustomAliases {
 		diags.AddError(
-			"Catalog type doesn't take custom aliases",
-			fmt.Sprintf("Entries of the %q catalog type don't take custom aliases. Only catalog types that incident.io syncs do, "+
-				"and not those whose aliases you edit elsewhere, such as alert priorities.", catalogType.Name),
+			"Catalog type isn't managed by incident.io",
+			fmt.Sprintf("The %q catalog type isn't one that incident.io syncs or manages, so its entries belong to whatever created them, "+
+				"such as incident_catalog_entry, catalog-importer or the dashboard. Set its aliases and attributes there instead.", catalogType.Name),
 		)
 		return nil, diags
 	}

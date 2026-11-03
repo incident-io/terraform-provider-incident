@@ -56,22 +56,6 @@ func TestAccIncidentCatalogEntryAliasesResourceSchedule(t *testing.T) {
 		return nil
 	}
 
-	// The sync creates a schedule's catalog entry after the schedule, so wait for it rather
-	// than racing it: the data source fails until the entry exists.
-	waitForScheduleEntry := func() {
-		deadline := time.Now().Add(2 * time.Minute)
-		for {
-			entry, err := findScheduleCatalogEntry(scheduleID)
-			if err == nil && entry != nil {
-				return
-			}
-			if time.Now().After(deadline) {
-				t.Fatalf("catalog entry for schedule %s never appeared: %v", scheduleID, err)
-			}
-			time.Sleep(5 * time.Second)
-		}
-	}
-
 	checkEntryReleased := func(s *terraform.State) error {
 		entry, err := findScheduleCatalogEntry(scheduleID)
 		if err != nil {
@@ -95,7 +79,7 @@ func TestAccIncidentCatalogEntryAliasesResourceSchedule(t *testing.T) {
 				Check:  captureScheduleID,
 			},
 			{
-				PreConfig: waitForScheduleEntry,
+				PreConfig: func() { waitForScheduleCatalogEntry(t, scheduleID) },
 				Config:    testAccIncidentCatalogEntryAliasesScheduleConfig("one", []string{"tf-acc-one-" + suffix, "tf-acc-two-" + suffix}),
 				ConfigPlanChecks: resource.ConfigPlanChecks{
 					PostApplyPostRefresh: []plancheck.PlanCheck{plancheck.ExpectEmptyPlan()},
@@ -154,6 +138,23 @@ resource "incident_catalog_entry_aliases" "test" {
 			ExpectError: regexp.MustCompile(`Catalog entry not found`),
 		}},
 	})
+}
+
+// waitForScheduleCatalogEntry waits for the sync to create a schedule's catalog entry,
+// which happens after the schedule, so a test doesn't race it: the incident_catalog_entry
+// data source fails until the entry exists.
+func waitForScheduleCatalogEntry(t *testing.T, scheduleID string) {
+	deadline := time.Now().Add(2 * time.Minute)
+	for {
+		entry, err := findScheduleCatalogEntry(scheduleID)
+		if err == nil && entry != nil {
+			return
+		}
+		if time.Now().After(deadline) {
+			t.Fatalf("catalog entry for schedule %s never appeared: %v", scheduleID, err)
+		}
+		time.Sleep(5 * time.Second)
+	}
 }
 
 // findScheduleCatalogEntry returns the Schedule catalog entry synced for a schedule, or nil

@@ -11,7 +11,7 @@ description: |-
   whole list: it removes aliases added to it elsewhere, for example in the dashboard, on the
   next apply. When you destroy the resource, Terraform clears the list and leaves the entry
   in place.
-  Only catalog types that incident.io syncs take these aliases. Changing them on the User
+  Only catalog types that incident.io syncs or manages take these aliases. Changing them on the User
   type, or on another type that team membership passes through, needs an API key with the
   team.memberships_update scope ("Update team memberships"), because aliases on those
   entries decide who belongs to a team.
@@ -29,7 +29,7 @@ whole list: it removes aliases added to it elsewhere, for example in the dashboa
 next apply. When you destroy the resource, Terraform clears the list and leaves the entry
 in place.
 
-Only catalog types that incident.io syncs take these aliases. Changing them on the User
+Only catalog types that incident.io syncs or manages take these aliases. Changing them on the User
 type, or on another type that team membership passes through, needs an API key with the
 `team.memberships_update` scope ("Update team memberships"), because aliases on those
 entries decide who belongs to a team.

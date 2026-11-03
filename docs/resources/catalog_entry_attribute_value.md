@@ -3,32 +3,34 @@
 page_title: "incident_catalog_entry_attribute_value Resource - terraform-provider-incident"
 subcategory: ""
 description: |-
-  This resource sets one attribute on a catalog entry that something else owns, usually an
-  entry that incident.io syncs, such as a schedule, escalation path or user. The sync owns
-  the entry and its synced attributes, so you can't manage it with incident_catalog_entry:
-  look it up with the incident_catalog_entry data source instead.
+  This resource sets one attribute on a catalog entry that incident.io syncs or manages, such
+  as a schedule, escalation path or user. The sync owns the entry and its synced attributes,
+  so you can't manage it with incident_catalog_entry: look it up with the
+  incident_catalog_entry data source instead.
   Use it for attributes you added to the catalog type yourself, for example with
   incident_catalog_type_attribute or in the incident.io web UI. Terraform writes only
   this attribute, and puts it back on the next apply if someone changes it elsewhere. When
   you destroy the resource, Terraform clears the attribute and leaves the entry in place.
-  Don't also manage the attribute with incident_catalog_entry or
-  incident_catalog_entries: the two would overwrite each other.
+  Terraform refuses entries of any other catalog type. Those belong to whatever created them,
+  such as incident_catalog_entry, incident_catalog_entries or catalog-importer, which would
+  overwrite this resource's writes.
 ---
 
 # incident_catalog_entry_attribute_value (Resource)
 
-This resource sets one attribute on a catalog entry that something else owns, usually an
-entry that incident.io syncs, such as a schedule, escalation path or user. The sync owns
-the entry and its synced attributes, so you can't manage it with `incident_catalog_entry`:
-look it up with the `incident_catalog_entry` data source instead.
+This resource sets one attribute on a catalog entry that incident.io syncs or manages, such
+as a schedule, escalation path or user. The sync owns the entry and its synced attributes,
+so you can't manage it with `incident_catalog_entry`: look it up with the
+`incident_catalog_entry` data source instead.
 
 Use it for attributes you added to the catalog type yourself, for example with
 `incident_catalog_type_attribute` or in the incident.io web UI. Terraform writes only
 this attribute, and puts it back on the next apply if someone changes it elsewhere. When
 you destroy the resource, Terraform clears the attribute and leaves the entry in place.
 
-Don't also manage the attribute with `incident_catalog_entry` or
-`incident_catalog_entries`: the two would overwrite each other.
+Terraform refuses entries of any other catalog type. Those belong to whatever created them,
+such as `incident_catalog_entry`, `incident_catalog_entries` or catalog-importer, which would
+overwrite this resource's writes.
 
 ## Example Usage
 
