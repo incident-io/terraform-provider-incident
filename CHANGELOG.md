@@ -1,6 +1,8 @@
-## Unreleased
+## v7.8.0
 
-- Add `incident_catalog_entry_aliases` and `incident_catalog_entry_attribute_value`, which add custom aliases and your own attribute values to a catalog entry that something else owns, such as one incident.io syncs for a schedule, escalation path or user. Neither ever creates or deletes the entry. (#668)
+- Add `incident_catalog_entry_aliases` and `incident_catalog_entry_attribute_value`, which add custom aliases and your own attribute values to a catalog entry that something else owns, such as one incident.io syncs for a schedule, escalation path or user. Neither ever creates or deletes the entry. See the docs for [`incident_catalog_entry_aliases`](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/catalog_entry_aliases) and [`incident_catalog_entry_attribute_value`](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/catalog_entry_attribute_value). (#668)
+- `incident_catalog_type_attribute` retries when something else, such as the dashboard, changes the catalog type's schema during an apply, instead of failing with a schema version mismatch. (#668)
+- Update dependencies: `oapi-codegen/runtime` 1.8.0 (#663), `oapi-codegen/v2` 2.8.1 (#665), `kin-openapi` 0.152.0 (#664) and `goreleaser-action` 7.3.0 (#657).
 
 ## v7.7.1
 
