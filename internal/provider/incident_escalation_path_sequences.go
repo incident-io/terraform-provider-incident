@@ -615,6 +615,19 @@ func nodeExists(sequences map[string][]escalationPathNode, id string) bool {
 func validateSequenceNodes(sequences map[string][]escalationPathNode, diags *diag.Diagnostics) map[string]bool {
 	nodeIDs := map[string]bool{}
 
+	// then is required, so a branch that stops when its condition is met and carries on
+	// down else otherwise names an empty sequence. That's how a read represents one built
+	// in the dashboard, so it has to plan. A branch with nothing on either side does
+	// nothing at all, and is still reported.
+	stopsWhenMet := map[string]bool{}
+	for _, nodes := range sequences {
+		for _, node := range nodes {
+			if node.Branch != nil && !node.Branch.Else.IsNull() {
+				stopsWhenMet[node.Branch.Then.ValueString()] = true
+			}
+		}
+	}
+
 	for _, key := range sortedKeys(sequences) {
 		nodes := sequences[key]
 		sequencePath := path.Root("sequences").AtMapKey(key)
@@ -628,11 +641,13 @@ func validateSequenceNodes(sequences map[string][]escalationPathNode, diags *dia
 		}
 
 		if len(nodes) == 0 {
-			diags.AddAttributeError(
-				sequencePath,
-				"Empty sequence",
-				fmt.Sprintf("Sequence %q has no nodes. Remove it, or give it something to do.", key),
-			)
+			if !stopsWhenMet[key] {
+				diags.AddAttributeError(
+					sequencePath,
+					"Empty sequence",
+					fmt.Sprintf("Sequence %q has no nodes. Remove it, or give it something to do.", key),
+				)
+			}
 			continue
 		}
 

@@ -1,3 +1,7 @@
+## Unreleased
+
+- Fix `incident_escalation_path` and `incident_escalation_path_template` rejecting a branch whose `then` names an empty sequence, which is how a read represents a branch that ends the path when its condition is met. Imported paths with that shape now plan unchanged. (#670)
+
 ## v7.7.1
 
 - Build with Go 1.27.3, which fixes CVE-2026-111943 in `crypto/x509`.

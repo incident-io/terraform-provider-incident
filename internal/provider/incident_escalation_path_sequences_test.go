@@ -268,6 +268,48 @@ func TestFlattenSequences(t *testing.T) {
 		}
 	})
 
+	t.Run("imports a branch with nothing on its then side as config that plans", func(t *testing.T) {
+		// A path built in the dashboard can stop when the condition is met and page
+		// otherwise. The API gives that back as an empty then path.
+		nodes := []client.EscalationPathNodeV2{{
+			Id:   "01AAA",
+			Type: client.EscalationPathNodeV2TypeIfElse,
+			IfElse: &client.EscalationPathNodeIfElseV2{
+				Conditions: workingHoursConditions("UK"),
+				ThenPath:   []client.EscalationPathNodeV2{},
+				ElsePath:   []client.EscalationPathNodeV2{{Id: "01CCC", Type: client.EscalationPathNodeV2TypeDelay, Delay: &client.EscalationPathNodeDelayV2{}}},
+			},
+		}}
+
+		var diags diag.Diagnostics
+		start, got := flattenSequences(ctx, nodes, escalationPathPriorNames{}, &diags)
+		if diags.HasError() {
+			t.Fatalf("unexpected errors: %+v", diags)
+		}
+		if then, ok := got["main_then"]; !ok || len(then) != 0 {
+			t.Fatalf("got main_then=%v (present=%v), want an empty sequence", then, ok)
+		}
+
+		validateSequences(ctx, betaModel(t, start, got), &diags)
+		if diags.HasError() {
+			t.Fatalf("the imported config doesn't validate: %+v", diags)
+		}
+
+		payload := unflattenSequences(ctx, start, got, &diags)
+		if diags.HasError() {
+			t.Fatalf("unexpected errors: %+v", diags)
+		}
+		if len(payload) != 1 || payload[0].IfElse == nil {
+			t.Fatalf("got %+v, want a single branch", payload)
+		}
+		if then := payload[0].IfElse.ThenPath; then == nil || len(then) != 0 {
+			t.Errorf("got then path %v, want an empty one", then)
+		}
+		if len(payload[0].IfElse.ElsePath) != 1 {
+			t.Errorf("got else path %v, want the delay", payload[0].IfElse.ElsePath)
+		}
+	})
+
 	// The API rejects a branch that isn't last in its node list, so it shouldn't hand us one.
 	// Reporting it beats splitting the trailing nodes into a sequence nothing reaches.
 	t.Run("reports a path with nodes after a branch, which the API shouldn't return", func(t *testing.T) {
