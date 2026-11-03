@@ -149,6 +149,37 @@ func TestValidateSequences(t *testing.T) {
 			wantError: "There is no sequence named \"\"",
 		},
 		{
+			// What a read gives back for a branch that does nothing when its condition is
+			// met, so it has to plan.
+			name:  "a branch's then names an empty sequence, ending the path",
+			start: "main",
+			sequences: map[string][]escalationPathNode{
+				"main": {branchNode("stop", "page")},
+				"stop": {},
+				"page": {levelNode(t, "")},
+			},
+		},
+		{
+			// An unset else already ends the path, and a read gives back that rather than
+			// an empty sequence, so naming one here wouldn't survive an apply.
+			name:  "a branch's else names an empty sequence",
+			start: "main",
+			sequences: map[string][]escalationPathNode{
+				"main": {branchNode("page", "stop")},
+				"page": {levelNode(t, "")},
+				"stop": {},
+			},
+			wantError: "Sequence \"stop\" has no nodes",
+		},
+		{
+			name:  "the start sequence is empty",
+			start: "main",
+			sequences: map[string][]escalationPathNode{
+				"main": {},
+			},
+			wantError: "Sequence \"main\" has no nodes",
+		},
+		{
 			name:  "a loop back to a node we derived an id for",
 			start: "main",
 			sequences: map[string][]escalationPathNode{
