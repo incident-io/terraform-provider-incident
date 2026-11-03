@@ -3,7 +3,9 @@ package provider
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"reflect"
+	"slices"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/path"
@@ -529,33 +531,7 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 		if alreadyExists && entry != nil {
 			// If we found the entry in the list of all entries, then we need to diff it and
 			// update as appropriate.
-			isSame :=
-				reflect.DeepEqual(payload.Payload.Name, entry.Name) &&
-					reflect.DeepEqual(payload.Payload.Aliases, entry.Aliases) &&
-					(payload.Payload.Rank == nil || (*payload.Payload.Rank == entry.Rank))
-
-			for attributeID, value := range entry.AttributeValues {
-				current := client.CatalogEngineParamBindingPayloadV3{}
-				if value.ArrayValue != nil {
-					current.ArrayValue = lo.ToPtr(lo.Map(*value.ArrayValue, func(binding client.CatalogEntryEngineParamBindingValueV3, _ int) client.CatalogEngineParamBindingValuePayloadV3 {
-						return client.CatalogEngineParamBindingValuePayloadV3{
-							Literal: binding.Literal,
-						}
-					}))
-				}
-				if value.Value != nil {
-					current.Value = &client.CatalogEngineParamBindingValuePayloadV3{
-						Literal: value.Value.Literal,
-					}
-				}
-
-				if data.isAttributeManaged(attributeID) && !reflect.DeepEqual(payload.Payload.AttributeValues[attributeID], current) {
-					tflog.Debug(ctx, fmt.Sprintf("catalog entry with id=%s has changed, scheduling for update", entry.Id))
-					isSame = false
-				}
-			}
-
-			if isSame {
+			if data.entryUnchanged(payload.Payload, *entry) {
 				tflog.Debug(ctx, fmt.Sprintf("catalog entry with id=%s has not changed, not updating", entry.Id))
 				continue
 			}
@@ -575,23 +551,27 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 
 	// Bulk update entries in batches of 100
 	if len(toUpdate) > 0 {
+		updateAttributes, err := data.buildUpdateAttributes(ctx)
+		if err != nil {
+			return nil, nil, err
+		}
+
+		send := func(entries []client.PartialEntryPayloadV3) error {
+			_, err := r.client.CatalogV3BulkUpdateEntriesWithResponse(ctx, client.CatalogBulkUpdateEntriesPayloadV3{
+				CatalogTypeId:    data.ID.ValueString(),
+				Entries:          entries,
+				UpdateAttributes: updateAttributes,
+			})
+			return err
+		}
+
 		batches := lo.Chunk(toUpdate, 100)
 		for i, batch := range batches {
 			partialEntries := lo.Map(batch, func(u updatePayload, _ int) client.PartialEntryPayloadV3 {
 				return u.toPartialEntryPayload()
 			})
 
-			updateAttributes, err := data.buildUpdateAttributes(ctx)
-			if err != nil {
-				return nil, nil, err
-			}
-
-			_, err = r.client.CatalogV3BulkUpdateEntriesWithResponse(ctx, client.CatalogBulkUpdateEntriesPayloadV3{
-				CatalogTypeId:    data.ID.ValueString(),
-				Entries:          partialEntries,
-				UpdateAttributes: updateAttributes,
-			})
-			if err != nil {
+			if err := bulkUpdateSplittingOversized(partialEntries, send); err != nil {
 				return nil, nil, errors.Wrap(err, fmt.Sprintf("unable to bulk update catalog entries (batch %d of %d)", i+1, len(batches)))
 			}
 
@@ -634,6 +614,81 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 	}
 
 	return catalogType, entries, nil
+}
+
+// entryUnchanged reports whether an existing entry already matches the desired payload, so
+// it can be left out of the bulk update.
+func (m *IncidentCatalogEntriesResourceModel) entryUnchanged(desired client.CatalogCreateEntryPayloadV3, current client.CatalogEntryV3) bool {
+	// The payload holds aliases as *[]string and the API returns []string, so they must be
+	// compared by value: comparing the fields directly never matches, and every entry would be
+	// resent on every apply. Order matters because aliases are a list in state.
+	if desired.Name != current.Name || !slices.Equal(lo.FromPtr(desired.Aliases), current.Aliases) {
+		return false
+	}
+	if desired.Rank != nil && *desired.Rank != current.Rank {
+		return false
+	}
+
+	for attributeID, value := range current.AttributeValues {
+		if !m.isAttributeManaged(attributeID) {
+			continue
+		}
+
+		binding := client.CatalogEngineParamBindingPayloadV3{}
+		if value.ArrayValue != nil {
+			binding.ArrayValue = lo.ToPtr(lo.Map(*value.ArrayValue, func(element client.CatalogEntryEngineParamBindingValueV3, _ int) client.CatalogEngineParamBindingValuePayloadV3 {
+				return client.CatalogEngineParamBindingValuePayloadV3{
+					Literal: element.Literal,
+				}
+			}))
+		}
+		if value.Value != nil {
+			binding.Value = &client.CatalogEngineParamBindingValuePayloadV3{
+				Literal: value.Value.Literal,
+			}
+		}
+
+		if !bindingsEqual(desired.AttributeValues[attributeID], binding) {
+			return false
+		}
+	}
+
+	return true
+}
+
+// bindingsEqual compares two attribute values, treating an empty array the same as no array,
+// since the payload always sends an empty array as [] while the API may omit it.
+func bindingsEqual(a, b client.CatalogEngineParamBindingPayloadV3) bool {
+	if len(lo.FromPtr(a.ArrayValue)) == 0 && len(lo.FromPtr(b.ArrayValue)) == 0 {
+		a.ArrayValue, b.ArrayValue = nil, nil
+	}
+
+	return reflect.DeepEqual(a, b)
+}
+
+// bulkUpdateSplittingOversized sends entries in one bulk update. If the API rejects the
+// request as too large, it sends each half separately, repeating until every request fits,
+// so a catalog with large entries can still be updated.
+func bulkUpdateSplittingOversized(entries []client.PartialEntryPayloadV3, send func([]client.PartialEntryPayloadV3) error) error {
+	err := send(entries)
+	if err == nil || !isPayloadTooLarge(err) {
+		return err
+	}
+	if len(entries) == 1 {
+		return errors.Wrap(err, fmt.Sprintf("catalog entry with external_id=%s is too large to update, even on its own", lo.FromPtr(entries[0].ExternalId)))
+	}
+
+	half := len(entries) / 2
+	if err := bulkUpdateSplittingOversized(entries[:half], send); err != nil {
+		return err
+	}
+
+	return bulkUpdateSplittingOversized(entries[half:], send)
+}
+
+func isPayloadTooLarge(err error) bool {
+	var httpErr client.HTTPError
+	return errors.As(err, &httpErr) && httpErr.StatusCode == http.StatusRequestEntityTooLarge
 }
 
 // isAttributeManaged checks if the given attribute should be managed by this resource.
