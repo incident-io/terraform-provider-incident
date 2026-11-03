@@ -1,6 +1,6 @@
 ## Unreleased
 
-- Add `incident_catalog_entry_extension`, which extends a catalog entry that incident.io syncs (such as a schedule, escalation path or user) with custom aliases and your own attributes, without ever creating or deleting the entry. (#668)
+- Add `incident_catalog_entry_aliases` and `incident_catalog_entry_attribute_value`, which add custom aliases and your own attribute values to a catalog entry that something else owns, such as one incident.io syncs for a schedule, escalation path or user. Neither ever creates or deletes the entry. (#668)
 
 ## v7.7.1
 
