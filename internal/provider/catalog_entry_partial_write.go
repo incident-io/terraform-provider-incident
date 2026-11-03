@@ -34,8 +34,13 @@ func writeCatalogEntryPartially(ctx context.Context, apiClient *client.ClientWit
 	var diags diag.Diagnostics
 
 	lock, _ := catalogEntryWriteLocks.LoadOrStore(entryID, &sync.Mutex{})
-	lock.(*sync.Mutex).Lock()
-	defer lock.(*sync.Mutex).Unlock()
+	mutex, ok := lock.(*sync.Mutex)
+	if !ok {
+		diags.AddError("Provider Error", fmt.Sprintf("Expected a *sync.Mutex for catalog entry %s, got %T. Please report this issue to the provider developers.", entryID, lock))
+		return nil, diags
+	}
+	mutex.Lock()
+	defer mutex.Unlock()
 
 	// Read the entry fresh, so we send back the name and rank it has now: an update always
 	// writes them.
