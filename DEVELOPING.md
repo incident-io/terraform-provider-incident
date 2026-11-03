@@ -30,8 +30,12 @@ If you need to regenerate the client, you first need to copy the following file 
 
 ```
 # If your core repository is one level up, this would be:
-cp ../core/server/lib/openapi/public-schema-v3-including-secret-endpoints.json internal/apischema
+jq 'del(."x-webhooks")' ../core/server/lib/openapi/public-schema-v3-including-secret-endpoints.json \
+  > internal/apischema/public-schema-v3-including-secret-endpoints.json
 ```
+
+This drops the webhook definitions, which the client doesn't use. Don't copy
+`public-schema-v3-no-webhooks.json` instead: it leaves out endpoints the provider calls.
 
 And then run `go generate ./internal/client`
 

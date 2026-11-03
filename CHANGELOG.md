@@ -1,3 +1,7 @@
+## Unreleased
+
+- Add `incident_catalog_entry_aliases` and `incident_catalog_entry_attribute_value`, which add custom aliases and your own attribute values to a catalog entry that something else owns, such as one incident.io syncs for a schedule, escalation path or user. Neither ever creates or deletes the entry. (#668)
+
 ## v7.7.1
 
 - Build with Go 1.27.3, which fixes CVE-2026-111943 in `crypto/x509`.

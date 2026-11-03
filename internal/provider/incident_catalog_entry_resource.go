@@ -45,14 +45,20 @@ type IncidentCatalogEntryResourceModel struct {
 }
 
 func (m IncidentCatalogEntryResourceModel) buildAttributeValues() (map[string]client.CatalogEngineParamBindingPayloadV3, diag.Diagnostics) {
+	return buildCatalogEntryAttributeValues(m.AttributeValues, m.isAttributeManaged)
+}
+
+// buildCatalogEntryAttributeValues converts attribute values to the API payload, keeping
+// only the attributes that managed accepts.
+func buildCatalogEntryAttributeValues(attributeValues []CatalogEntryAttributeValue, managed func(string) bool) (map[string]client.CatalogEngineParamBindingPayloadV3, diag.Diagnostics) {
 	var diags diag.Diagnostics
 	values := map[string]client.CatalogEngineParamBindingPayloadV3{}
 
-	for _, attributeValue := range m.AttributeValues {
+	for _, attributeValue := range attributeValues {
 		attrID := attributeValue.Attribute.ValueString()
 
 		// Skip attributes that aren't managed
-		if !m.isAttributeManaged(attrID) {
+		if !managed(attrID) {
 			continue
 		}
 
@@ -477,11 +483,34 @@ func (m *IncidentCatalogEntryResourceModel) isAttributeManaged(attributeID strin
 }
 
 func (r *IncidentCatalogEntryResource) buildModel(entry client.CatalogEntryV3, data *IncidentCatalogEntryResourceModel) *IncidentCatalogEntryResourceModel {
+	values := catalogEntryAttributeValuesFromAPI(entry.AttributeValues, data.isAttributeManaged)
+
+	aliases := []attr.Value{}
+	for _, alias := range entry.Aliases {
+		aliases = append(aliases, types.StringValue(alias))
+	}
+
+	return &IncidentCatalogEntryResourceModel{
+		ID:              types.StringValue(entry.Id),
+		CatalogTypeID:   types.StringValue(entry.CatalogTypeId),
+		Name:            types.StringValue(entry.Name),
+		ExternalID:      types.StringPointerValue(entry.ExternalId),
+		Aliases:         types.ListValueMust(types.StringType, aliases),
+		Rank:            types.Int64Value(int64(entry.Rank)),
+		AttributeValues: values,
+		// These are managed in config only
+		ManagedAttributes: data.ManagedAttributes,
+	}
+}
+
+// catalogEntryAttributeValuesFromAPI converts an entry's attribute values from the API,
+// keeping only the attributes that managed accepts.
+func catalogEntryAttributeValuesFromAPI(bindings map[string]client.CatalogEntryEngineParamBindingV3, managed func(string) bool) []CatalogEntryAttributeValue {
 	values := []CatalogEntryAttributeValue{}
 
-	for attributeID, binding := range entry.AttributeValues {
+	for attributeID, binding := range bindings {
 		// Skip attributes that aren't managed
-		if !data.isAttributeManaged(attributeID) {
+		if !managed(attributeID) {
 			continue
 		}
 
@@ -518,20 +547,5 @@ func (r *IncidentCatalogEntryResource) buildModel(entry client.CatalogEntryV3, d
 		return values[i].Attribute.ValueString() < values[j].Attribute.ValueString()
 	})
 
-	aliases := []attr.Value{}
-	for _, alias := range entry.Aliases {
-		aliases = append(aliases, types.StringValue(alias))
-	}
-
-	return &IncidentCatalogEntryResourceModel{
-		ID:              types.StringValue(entry.Id),
-		CatalogTypeID:   types.StringValue(entry.CatalogTypeId),
-		Name:            types.StringValue(entry.Name),
-		ExternalID:      types.StringPointerValue(entry.ExternalId),
-		Aliases:         types.ListValueMust(types.StringType, aliases),
-		Rank:            types.Int64Value(int64(entry.Rank)),
-		AttributeValues: values,
-		// These are managed in config only
-		ManagedAttributes: data.ManagedAttributes,
-	}
+	return values
 }
