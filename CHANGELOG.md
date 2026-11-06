@@ -1,6 +1,6 @@
 ## Unreleased
 
-- Add `alertmanager_options` to the `incident_alert_source` resource and data source. Set `one_alert_per_group = false` to ignore Alertmanager's grouping and create an alert for each individual alert that fires; leaving the block out keeps whatever is stored on the source. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/alert_source). (#PR)
+- Add `alertmanager_options` to the `incident_alert_source` resource and data source. Set `one_alert_per_group = false` to ignore Alertmanager's grouping and create an alert for each individual alert that fires; leaving the block out keeps whatever is stored on the source. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/alert_source). (#675)
 
 ## v7.8.0
 
