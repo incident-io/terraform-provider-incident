@@ -52,6 +52,7 @@ output "cron_ping_url" {
 ### Read-Only
 
 - `alert_events_url` (String) The URL to send alert events to
+- `alertmanager_options` (Attributes) Options for an Alertmanager alert source. (see [below for nested schema](#nestedatt--alertmanager_options))
 - `auto_resolve_incident_alerts` (Boolean) Whether alerts from this source keep counting down to auto-resolve while attached to an incident. Defaults to true. Has no effect without auto_resolve_timeout_minutes.
 - `auto_resolve_timeout_minutes` (Number) How long to wait before automatically resolving alerts from this source
 - `description` (Attributes) (see [below for nested schema](#nestedatt--description))
@@ -74,6 +75,14 @@ output "cron_ping_url" {
 - `unlock_in_dashboard` (Boolean) Not populated: whether Terraform claims a resource is configuration, and no read endpoint reports it.
 - `version` (Number) The source's current version, which increments on every write. Pass it back as expected_version to reject a write built from a stale read.
 - `visible_to_teams` (Attributes) (see [below for nested schema](#nestedatt--visible_to_teams))
+
+<a id="nestedatt--alertmanager_options"></a>
+### Nested Schema for `alertmanager_options`
+
+Read-Only:
+
+- `one_alert_per_group` (Boolean) Whether to create one alert for each Alertmanager group. When false, Alertmanager's grouping is ignored and an alert is created for each individual alert that fires.
+
 
 <a id="nestedatt--description"></a>
 ### Nested Schema for `description`

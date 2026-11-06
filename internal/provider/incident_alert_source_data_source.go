@@ -93,11 +93,12 @@ func (d *IncidentAlertSourceDataSource) Schema(_ context.Context, _ datasource.S
 		"priority":         models.BindingDataSourceAttribute(apischema.Docstring("AlertSourceV3", "priority")),
 		"visible_to_teams": models.BindingDataSourceAttribute(apischema.Docstring("AlertSourceV3", "visible_to_teams")),
 
-		"jira_options":        jiraOptionsDataSourceAttribute(),
-		"heartbeat_options":   heartbeatOptionsDataSourceAttribute(),
-		"email_options":       emailOptionsDataSourceAttribute(),
-		"http_custom_options": httpCustomOptionsDataSourceAttribute(),
-		"rate_limit_sharding": rateLimitShardingDataSourceAttribute(),
+		"jira_options":         jiraOptionsDataSourceAttribute(),
+		"heartbeat_options":    heartbeatOptionsDataSourceAttribute(),
+		"email_options":        emailOptionsDataSourceAttribute(),
+		"http_custom_options":  httpCustomOptionsDataSourceAttribute(),
+		"alertmanager_options": alertmanagerOptionsDataSourceAttribute(),
+		"rate_limit_sharding":  rateLimitShardingDataSourceAttribute(),
 
 		"filter_condition_groups": models.ConditionGroupsDataSourceAttribute(),
 
@@ -178,7 +179,11 @@ func (d *IncidentAlertSourceDataSource) Read(ctx context.Context, req datasource
 	// spelling of a binding where the API returns an equivalent one. A data source's config
 	// holds only the lookup field, so in practice this reconciles against nothing and the
 	// API's spelling is what lands — which is correct for a data source.
-	resp.Diagnostics.Append(resp.State.Set(ctx, alertSourceFromAPI(*source, &data, &resp.Diagnostics))...)
+	model := alertSourceFromAPI(*source, &data, &resp.Diagnostics)
+	// A data source reports whatever is stored, unlike the resource, which only reads the
+	// options back when its config manages them.
+	model.AlertmanagerOptions = alertmanagerOptionsFromAPI(source.AlertmanagerOptions, true)
+	resp.Diagnostics.Append(resp.State.Set(ctx, model)...)
 }
 
 // lookup finds the source by whichever field is set. There is no list endpoint that filters,

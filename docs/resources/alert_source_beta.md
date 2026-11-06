@@ -52,6 +52,7 @@ documentation.
 
 ### Optional
 
+- `alertmanager_options` (Attributes) Options for an Alertmanager alert source. When this block is omitted, Terraform leaves the options stored on the source unchanged. (see [below for nested schema](#nestedatt--alertmanager_options))
 - `auto_resolve_incident_alerts` (Boolean) Whether alerts from this source keep counting down to auto-resolve while attached to an incident. Defaults to true. Has no effect without auto_resolve_timeout_minutes.
 - `auto_resolve_timeout_minutes` (Number) How long to wait before automatically resolving alerts from this source
 - `description` (Attributes) (see [below for nested schema](#nestedatt--description))
@@ -80,6 +81,14 @@ Only heartbeat sources can be paused, and only once one has received its first p
 - `id` (String) Unique identifier for this alert source
 - `secret_token` (String, Sensitive) The token to use when sending alerts to this source. Only returned to callers with permission to update the source.
 - `version` (Number) The source's current version, which increments on every write. Pass it back as expected_version to reject a write built from a stale read.
+
+<a id="nestedatt--alertmanager_options"></a>
+### Nested Schema for `alertmanager_options`
+
+Required:
+
+- `one_alert_per_group` (Boolean) Whether to create one alert for each Alertmanager group. When false, Alertmanager's grouping is ignored and an alert is created for each individual alert that fires.
+
 
 <a id="nestedatt--description"></a>
 ### Nested Schema for `description`

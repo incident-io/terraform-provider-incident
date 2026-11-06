@@ -42,6 +42,10 @@ type alertSourceHTTPCustomOptions struct {
 	DeduplicationKeyPath types.String `tfsdk:"deduplication_key_path"`
 }
 
+type alertSourceAlertmanagerOptions struct {
+	OneAlertPerGroup types.Bool `tfsdk:"one_alert_per_group"`
+}
+
 // Not per-source-type, unlike everything else here: most source types accept it, and which ones
 // is decided server-side, so the provider carries no list.
 type alertSourceRateLimitSharding struct {
@@ -127,6 +131,23 @@ func httpCustomOptionsAttribute() schema.Attribute {
 			"deduplication_key_path": schema.StringAttribute{
 				Required:            true,
 				MarkdownDescription: apischema.Docstring("AlertSourceHTTPCustomOptionsV3", "deduplication_key_path"),
+			},
+		},
+	}
+}
+
+// alertmanagerOptionsAttribute is Optional, not Computed: a source whose config has no block
+// leaves the stored options alone and keeps them out of state, so a value set in the dashboard
+// before Terraform managed the source is neither reset nor reported as drift.
+func alertmanagerOptionsAttribute() schema.Attribute {
+	return schema.SingleNestedAttribute{
+		Optional: true,
+		MarkdownDescription: apischema.Docstring("AlertSourceV3", "alertmanager_options") +
+			" When this block is omitted, Terraform leaves the options stored on the source unchanged.",
+		Attributes: map[string]schema.Attribute{
+			"one_alert_per_group": schema.BoolAttribute{
+				Required:            true,
+				MarkdownDescription: apischema.Docstring("AlertSourceAlertmanagerOptionsV3", "one_alert_per_group"),
 			},
 		},
 	}
@@ -286,6 +307,32 @@ func httpCustomOptionsFromAPI(options *client.AlertSourceHTTPCustomOptionsV3) *a
 	return &alertSourceHTTPCustomOptions{
 		TransformExpression:  types.StringValue(options.TransformExpression),
 		DeduplicationKeyPath: types.StringValue(options.DeduplicationKeyPath),
+	}
+}
+
+// toPayload sends nothing when the config has no block, which tells the API to leave the stored
+// options alone. Sending a default instead would silently undo a value set in the dashboard.
+func (o *alertSourceAlertmanagerOptions) toPayload() *client.AlertSourceAlertmanagerOptionsV3 {
+	if o == nil {
+		return nil
+	}
+
+	return &client.AlertSourceAlertmanagerOptionsV3{
+		OneAlertPerGroup: o.OneAlertPerGroup.ValueBool(),
+	}
+}
+
+// alertmanagerOptionsFromAPI only puts the options in state when the caller manages them: the
+// resource when its config has the block, and the data source always. The API may return options
+// for every Alertmanager source, and reading those into a resource that never set the block would
+// show a value the plan didn't have, failing the apply.
+func alertmanagerOptionsFromAPI(options *client.AlertSourceAlertmanagerOptionsV3, managed bool) *alertSourceAlertmanagerOptions {
+	if options == nil || !managed {
+		return nil
+	}
+
+	return &alertSourceAlertmanagerOptions{
+		OneAlertPerGroup: types.BoolValue(options.OneAlertPerGroup),
 	}
 }
 

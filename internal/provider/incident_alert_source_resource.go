@@ -83,10 +83,11 @@ type alertSourceModel struct {
 
 	NamedExpressions []models.NamedExpression `tfsdk:"named_expression"`
 
-	JiraOptions       *alertSourceJiraOptions       `tfsdk:"jira_options"`
-	HeartbeatOptions  *alertSourceHeartbeatOptions  `tfsdk:"heartbeat_options"`
-	EmailOptions      *alertSourceEmailOptions      `tfsdk:"email_options"`
-	HTTPCustomOptions *alertSourceHTTPCustomOptions `tfsdk:"http_custom_options"`
+	JiraOptions         *alertSourceJiraOptions         `tfsdk:"jira_options"`
+	HeartbeatOptions    *alertSourceHeartbeatOptions    `tfsdk:"heartbeat_options"`
+	EmailOptions        *alertSourceEmailOptions        `tfsdk:"email_options"`
+	HTTPCustomOptions   *alertSourceHTTPCustomOptions   `tfsdk:"http_custom_options"`
+	AlertmanagerOptions *alertSourceAlertmanagerOptions `tfsdk:"alertmanager_options"`
 
 	RateLimitSharding *alertSourceRateLimitSharding `tfsdk:"rate_limit_sharding"`
 
@@ -232,11 +233,12 @@ make it.`)),
 			"priority":         models.BindingAttribute(apischema.Docstring("AlertSourceV3", "priority")),
 			"visible_to_teams": models.BindingAttribute(apischema.Docstring("AlertSourceV3", "visible_to_teams")),
 
-			"jira_options":        jiraOptionsAttribute(),
-			"heartbeat_options":   heartbeatOptionsAttribute(),
-			"email_options":       emailOptionsAttribute(),
-			"http_custom_options": httpCustomOptionsAttribute(),
-			"rate_limit_sharding": rateLimitShardingAttribute(),
+			"jira_options":         jiraOptionsAttribute(),
+			"heartbeat_options":    heartbeatOptionsAttribute(),
+			"email_options":        emailOptionsAttribute(),
+			"http_custom_options":  httpCustomOptionsAttribute(),
+			"alertmanager_options": alertmanagerOptionsAttribute(),
+			"rate_limit_sharding":  rateLimitShardingAttribute(),
 
 			"filter_condition_groups": schema.ListNestedAttribute{
 				Optional:            true,
@@ -352,6 +354,8 @@ func (r *alertSourceResource) validateOptionsMatchSourceType(ctx context.Context
 		{"jira_options", "jira", true, "which projects to watch for new issues"},
 		{"heartbeat_options", "heartbeat", true, "the interval a ping is expected within"},
 		{"http_custom_options", "http_custom", true, "the transform expression and deduplication key path"},
+		// Alertmanager sources work without them: the source keeps whatever is stored.
+		{"alertmanager_options", "alertmanager", false, ""},
 		// Email sources work without them: no options means no redactions and no transform.
 		{"email_options", "email", false, ""},
 	} {
@@ -657,11 +661,12 @@ func (r *alertSourceResource) Create(ctx context.Context, req resource.CreateReq
 		VisibleToTeams: bindings.visibleToTeams,
 		Expressions:    &expressions,
 
-		JiraOptions:       data.JiraOptions.toPayload(),
-		HeartbeatOptions:  data.HeartbeatOptions.toPayload(),
-		EmailOptions:      data.EmailOptions.toPayload(),
-		HttpCustomOptions: data.HTTPCustomOptions.toPayload(),
-		RateLimitSharding: data.RateLimitSharding.toPayload(),
+		JiraOptions:         data.JiraOptions.toPayload(),
+		HeartbeatOptions:    data.HeartbeatOptions.toPayload(),
+		EmailOptions:        data.EmailOptions.toPayload(),
+		HttpCustomOptions:   data.HTTPCustomOptions.toPayload(),
+		AlertmanagerOptions: data.AlertmanagerOptions.toPayload(),
+		RateLimitSharding:   data.RateLimitSharding.toPayload(),
 
 		FilterConditionGroups: filterConditionGroupsToPayload(data.FilterConditionGroups),
 
@@ -792,12 +797,13 @@ func (r *alertSourceResource) updateAlertSource(ctx context.Context, id string, 
 		VisibleToTeams: bindings.visibleToTeams,
 		Expressions:    &expressions,
 
-		JiraOptions:       plan.JiraOptions.toPayload(),
-		HeartbeatOptions:  plan.HeartbeatOptions.toPayload(),
-		EmailOptions:      emailOptionsUpdatePayload(plan.EmailOptions, plan.SourceType),
-		HttpCustomOptions: plan.HTTPCustomOptions.toPayload(),
-		RateLimitSharding: rateLimitShardingUpdatePayload(plan.RateLimitSharding),
-		Disabled:          heartbeatDisabledPayload(plan.SourceType.ValueString(), plan.Disabled),
+		JiraOptions:         plan.JiraOptions.toPayload(),
+		HeartbeatOptions:    plan.HeartbeatOptions.toPayload(),
+		EmailOptions:        emailOptionsUpdatePayload(plan.EmailOptions, plan.SourceType),
+		HttpCustomOptions:   plan.HTTPCustomOptions.toPayload(),
+		AlertmanagerOptions: plan.AlertmanagerOptions.toPayload(),
+		RateLimitSharding:   rateLimitShardingUpdatePayload(plan.RateLimitSharding),
+		Disabled:            heartbeatDisabledPayload(plan.SourceType.ValueString(), plan.Disabled),
 
 		// Always sent, as an empty list when the config has no filters: removing the attribute
 		// from HCL clears them, the same way an omitted rate_limit_sharding block does above.
@@ -1036,11 +1042,12 @@ func alertSourceFromAPI(
 
 		NamedExpressions: named,
 
-		JiraOptions:       jiraOptionsFromAPI(source.JiraOptions),
-		HeartbeatOptions:  heartbeatOptionsFromAPI(source.HeartbeatOptions),
-		EmailOptions:      emailOptionsFromAPI(source.EmailOptions),
-		HTTPCustomOptions: httpCustomOptionsFromAPI(source.HttpCustomOptions),
-		RateLimitSharding: rateLimitShardingFromAPI(source.RateLimitSharding),
+		JiraOptions:         jiraOptionsFromAPI(source.JiraOptions),
+		HeartbeatOptions:    heartbeatOptionsFromAPI(source.HeartbeatOptions),
+		EmailOptions:        emailOptionsFromAPI(source.EmailOptions),
+		HTTPCustomOptions:   httpCustomOptionsFromAPI(source.HttpCustomOptions),
+		AlertmanagerOptions: alertmanagerOptionsFromAPI(source.AlertmanagerOptions, config.AlertmanagerOptions != nil),
+		RateLimitSharding:   rateLimitShardingFromAPI(source.RateLimitSharding),
 
 		FilterConditionGroups: filterConditionGroupsFromAPI(source.FilterConditionGroups, config.FilterConditionGroups),
 
