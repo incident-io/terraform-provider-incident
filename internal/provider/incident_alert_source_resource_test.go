@@ -455,3 +455,89 @@ func TestAlertSourceFromAPINamedExpressionOrder(t *testing.T) {
 		t.Errorf("expressions should read back in the order the config wrote them, got %v", got)
 	}
 }
+
+func TestAlertSourceSNSOptions(t *testing.T) {
+	source := alertSourceV3("sns")
+	source.SnsOptions = &client.AlertSourceSnsOptionsV3{
+		DeduplicationStrategy: client.AlertSourceSnsOptionsV3DeduplicationStrategyAutomatic,
+	}
+
+	t.Run("the resource leaves the block null when the config sets none", func(t *testing.T) {
+		diags := diag.Diagnostics{}
+		model := alertSourceResourceFromAPI(source, &alertSourceModel{}, &diags)
+		if diags.HasError() {
+			t.Fatalf("unexpected diagnostics: %+v", diags.Errors())
+		}
+		if model.SNSOptions != nil {
+			t.Errorf("expected no sns_options, got %+v", model.SNSOptions)
+		}
+	})
+
+	t.Run("the resource reads the strategy back when the config sets one", func(t *testing.T) {
+		config := &alertSourceModel{SNSOptions: &alertSourceSNSOptions{
+			DeduplicationStrategy: types.StringValue("automatic"),
+			DeduplicationKeyPath:  types.StringNull(),
+		}}
+
+		diags := diag.Diagnostics{}
+		model := alertSourceResourceFromAPI(source, config, &diags)
+		if diags.HasError() {
+			t.Fatalf("unexpected diagnostics: %+v", diags.Errors())
+		}
+		if model.SNSOptions == nil || model.SNSOptions.DeduplicationStrategy.ValueString() != "automatic" {
+			t.Errorf("expected the automatic strategy, got %+v", model.SNSOptions)
+		}
+		if !model.SNSOptions.DeduplicationKeyPath.IsNull() {
+			t.Errorf("expected no key path, got %s", model.SNSOptions.DeduplicationKeyPath)
+		}
+	})
+
+	t.Run("the data source always shows the strategy", func(t *testing.T) {
+		model := fromAPI(t, source, &alertSourceModel{})
+		if model.SNSOptions == nil || model.SNSOptions.DeduplicationStrategy.ValueString() != "automatic" {
+			t.Errorf("expected the automatic strategy, got %+v", model.SNSOptions)
+		}
+	})
+
+	t.Run("sends a custom path", func(t *testing.T) {
+		options := &alertSourceSNSOptions{
+			DeduplicationStrategy: types.StringValue("custom"),
+			DeduplicationKeyPath:  types.StringValue("$.MessageJSON.AlarmArn"),
+		}
+
+		payload := options.toPayload()
+		if payload.DeduplicationStrategy != client.AlertSourceSnsOptionsV3DeduplicationStrategyCustom {
+			t.Errorf("expected the custom strategy, got %s", payload.DeduplicationStrategy)
+		}
+		if lo.FromPtr(payload.DeduplicationKeyPath) != "$.MessageJSON.AlarmArn" {
+			t.Errorf("expected the key path, got %v", payload.DeduplicationKeyPath)
+		}
+	})
+}
+
+func TestValidateSNSOptions(t *testing.T) {
+	for _, tc := range []struct {
+		name     string
+		strategy string
+		path     types.String
+		wantErr  bool
+	}{
+		{"automatic without a path", "automatic", types.StringNull(), false},
+		{"custom with a path", "custom", types.StringValue("$.MessageJSON.AlarmArn"), false},
+		{"custom without a path", "custom", types.StringNull(), true},
+		{"custom with an empty path", "custom", types.StringValue(""), true},
+		{"message_id with a path", "message_id", types.StringValue("$.MessageId"), true},
+		{"an unknown path", "custom", types.StringUnknown(), false},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			diags := diag.Diagnostics{}
+			validateSNSOptions(&alertSourceSNSOptions{
+				DeduplicationStrategy: types.StringValue(tc.strategy),
+				DeduplicationKeyPath:  tc.path,
+			}, &diags)
+			if diags.HasError() != tc.wantErr {
+				t.Errorf("expected error %v, got %+v", tc.wantErr, diags.Errors())
+			}
+		})
+	}
+}

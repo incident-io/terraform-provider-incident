@@ -87,6 +87,7 @@ type alertSourceModel struct {
 	HeartbeatOptions  *alertSourceHeartbeatOptions  `tfsdk:"heartbeat_options"`
 	EmailOptions      *alertSourceEmailOptions      `tfsdk:"email_options"`
 	HTTPCustomOptions *alertSourceHTTPCustomOptions `tfsdk:"http_custom_options"`
+	SNSOptions        *alertSourceSNSOptions        `tfsdk:"sns_options"`
 
 	RateLimitSharding *alertSourceRateLimitSharding `tfsdk:"rate_limit_sharding"`
 
@@ -236,6 +237,7 @@ make it.`)),
 			"heartbeat_options":   heartbeatOptionsAttribute(),
 			"email_options":       emailOptionsAttribute(),
 			"http_custom_options": httpCustomOptionsAttribute(),
+			"sns_options":         snsOptionsAttribute(),
 			"rate_limit_sharding": rateLimitShardingAttribute(),
 
 			"filter_condition_groups": schema.ListNestedAttribute{
@@ -309,6 +311,7 @@ func (r *alertSourceResource) ValidateConfig(ctx context.Context, req resource.V
 	}
 
 	validateRateLimitSharding(data.RateLimitSharding, &resp.Diagnostics)
+	validateSNSOptions(data.SNSOptions, &resp.Diagnostics)
 
 	models.ValidateExpressions(
 		alertSourceExpressions, nil, path.Empty(),
@@ -354,6 +357,8 @@ func (r *alertSourceResource) validateOptionsMatchSourceType(ctx context.Context
 		{"http_custom_options", "http_custom", true, "the transform expression and deduplication key path"},
 		// Email sources work without them: no options means no redactions and no transform.
 		{"email_options", "email", false, ""},
+		// SNS sources work without them: new sources start on the automatic strategy.
+		{"sns_options", "sns", false, ""},
 	} {
 		at := path.Root(options.name)
 
@@ -661,6 +666,7 @@ func (r *alertSourceResource) Create(ctx context.Context, req resource.CreateReq
 		HeartbeatOptions:  data.HeartbeatOptions.toPayload(),
 		EmailOptions:      data.EmailOptions.toPayload(),
 		HttpCustomOptions: data.HTTPCustomOptions.toPayload(),
+		SnsOptions:        data.SNSOptions.toPayload(),
 		RateLimitSharding: data.RateLimitSharding.toPayload(),
 
 		FilterConditionGroups: filterConditionGroupsToPayload(data.FilterConditionGroups),
@@ -713,7 +719,7 @@ func (r *alertSourceResource) Create(ctx context.Context, req resource.CreateReq
 		unclaimResource(ctx, r.client, source.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertSource)
 	}
 
-	resp.Diagnostics.Append(resp.State.Set(ctx, alertSourceFromAPI(source, &data, &resp.Diagnostics))...)
+	resp.Diagnostics.Append(resp.State.Set(ctx, alertSourceResourceFromAPI(source, &data, &resp.Diagnostics))...)
 }
 
 func (r *alertSourceResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
@@ -740,7 +746,7 @@ func (r *alertSourceResource) Read(ctx context.Context, req resource.ReadRequest
 		return
 	}
 
-	resp.Diagnostics.Append(resp.State.Set(ctx, alertSourceFromAPI(result.JSON200.AlertSource, &data, &resp.Diagnostics))...)
+	resp.Diagnostics.Append(resp.State.Set(ctx, alertSourceResourceFromAPI(result.JSON200.AlertSource, &data, &resp.Diagnostics))...)
 }
 
 func (r *alertSourceResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
@@ -760,7 +766,7 @@ func (r *alertSourceResource) Update(ctx context.Context, req resource.UpdateReq
 		unclaimResource(ctx, r.client, source.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertSource)
 	}
 
-	resp.Diagnostics.Append(resp.State.Set(ctx, alertSourceFromAPI(*source, &plan, &resp.Diagnostics))...)
+	resp.Diagnostics.Append(resp.State.Set(ctx, alertSourceResourceFromAPI(*source, &plan, &resp.Diagnostics))...)
 }
 
 // updateAlertSource writes the planned source. Create calls it after a paused heartbeat is
@@ -796,6 +802,7 @@ func (r *alertSourceResource) updateAlertSource(ctx context.Context, id string, 
 		HeartbeatOptions:  plan.HeartbeatOptions.toPayload(),
 		EmailOptions:      emailOptionsUpdatePayload(plan.EmailOptions, plan.SourceType),
 		HttpCustomOptions: plan.HTTPCustomOptions.toPayload(),
+		SnsOptions:        plan.SNSOptions.toPayload(),
 		RateLimitSharding: rateLimitShardingUpdatePayload(plan.RateLimitSharding),
 		Disabled:          heartbeatDisabledPayload(plan.SourceType.ValueString(), plan.Disabled),
 
@@ -1005,6 +1012,21 @@ func (r *alertSourceResource) toTeamIDsPayload(ctx context.Context, set types.Se
 // spelling: which named expressions were written in what order, which of a binding's
 // interchangeable spellings it used, and whether "nothing" was spelled as an empty collection or
 // an omitted attribute.
+// alertSourceResourceFromAPI is alertSourceFromAPI for the resource. An SNS source always reads
+// back with options, because the API reports the strategy it uses even when none was set. A
+// config without the block leaves the strategy to the dashboard, so keep it null rather than
+// fail the apply on a null-to-object change.
+func alertSourceResourceFromAPI(
+	source client.AlertSourceV3, config *alertSourceModel, diags *diag.Diagnostics,
+) *alertSourceModel {
+	model := alertSourceFromAPI(source, config, diags)
+	if config.SNSOptions == nil {
+		model.SNSOptions = nil
+	}
+
+	return model
+}
+
 func alertSourceFromAPI(
 	source client.AlertSourceV3,
 	config *alertSourceModel,
@@ -1040,6 +1062,7 @@ func alertSourceFromAPI(
 		HeartbeatOptions:  heartbeatOptionsFromAPI(source.HeartbeatOptions),
 		EmailOptions:      emailOptionsFromAPI(source.EmailOptions),
 		HTTPCustomOptions: httpCustomOptionsFromAPI(source.HttpCustomOptions),
+		SNSOptions:        snsOptionsFromAPI(source.SnsOptions),
 		RateLimitSharding: rateLimitShardingFromAPI(source.RateLimitSharding),
 
 		FilterConditionGroups: filterConditionGroupsFromAPI(source.FilterConditionGroups, config.FilterConditionGroups),

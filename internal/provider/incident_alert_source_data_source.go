@@ -97,6 +97,7 @@ func (d *IncidentAlertSourceDataSource) Schema(_ context.Context, _ datasource.S
 		"heartbeat_options":   heartbeatOptionsDataSourceAttribute(),
 		"email_options":       emailOptionsDataSourceAttribute(),
 		"http_custom_options": httpCustomOptionsDataSourceAttribute(),
+		"sns_options":         snsOptionsDataSourceAttribute(),
 		"rate_limit_sharding": rateLimitShardingDataSourceAttribute(),
 
 		"filter_condition_groups": models.ConditionGroupsDataSourceAttribute(),

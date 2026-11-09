@@ -1,11 +1,13 @@
 package provider
 
 import (
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/samber/lo"
 
@@ -40,6 +42,11 @@ type alertSourceEmailOptions struct {
 type alertSourceHTTPCustomOptions struct {
 	TransformExpression  types.String `tfsdk:"transform_expression"`
 	DeduplicationKeyPath types.String `tfsdk:"deduplication_key_path"`
+}
+
+type alertSourceSNSOptions struct {
+	DeduplicationStrategy types.String `tfsdk:"deduplication_strategy"`
+	DeduplicationKeyPath  types.String `tfsdk:"deduplication_key_path"`
 }
 
 // Not per-source-type, unlike everything else here: most source types accept it, and which ones
@@ -129,6 +136,75 @@ func httpCustomOptionsAttribute() schema.Attribute {
 				MarkdownDescription: apischema.Docstring("AlertSourceHTTPCustomOptionsV3", "deduplication_key_path"),
 			},
 		},
+	}
+}
+
+func snsOptionsAttribute() schema.Attribute {
+	return schema.SingleNestedAttribute{
+		Optional:            true,
+		MarkdownDescription: apischema.Docstring("AlertSourceV3", "sns_options"),
+		Attributes: map[string]schema.Attribute{
+			"deduplication_strategy": schema.StringAttribute{
+				Required:            true,
+				MarkdownDescription: apischema.Docstring("AlertSourceSnsOptionsV3", "deduplication_strategy"),
+				Validators: []validator.String{
+					stringvalidator.OneOf(enumValues("AlertSourceSnsOptionsV3", "deduplication_strategy")...),
+				},
+			},
+			"deduplication_key_path": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: apischema.Docstring("AlertSourceSnsOptionsV3", "deduplication_key_path"),
+			},
+		},
+	}
+}
+
+// validateSNSOptions requires a key path exactly when the strategy is custom. The API only keeps
+// a path for the custom strategy, so a path set alongside another strategy would read back null
+// and fail the apply.
+func validateSNSOptions(options *alertSourceSNSOptions, diags *diag.Diagnostics) {
+	if options == nil || options.DeduplicationStrategy.IsUnknown() || options.DeduplicationKeyPath.IsUnknown() {
+		return
+	}
+
+	custom := options.DeduplicationStrategy.ValueString() == string(client.AlertSourceSnsOptionsV3DeduplicationStrategyCustom)
+	hasPath := !options.DeduplicationKeyPath.IsNull() && options.DeduplicationKeyPath.ValueString() != ""
+
+	switch {
+	case custom && !hasPath:
+		diags.AddAttributeError(
+			path.Root("sns_options").AtName("deduplication_key_path"),
+			"Missing deduplication key path",
+			"The custom deduplication strategy needs a JSON path, e.g. $.MessageJSON.AlarmArn.",
+		)
+	case !custom && hasPath:
+		diags.AddAttributeError(
+			path.Root("sns_options").AtName("deduplication_key_path"),
+			"Deduplication key path is only for the custom strategy",
+			"Remove deduplication_key_path, or set deduplication_strategy to \"custom\".",
+		)
+	}
+}
+
+func (o *alertSourceSNSOptions) toPayload() *client.AlertSourceSnsOptionsV3 {
+	if o == nil {
+		return nil
+	}
+
+	return &client.AlertSourceSnsOptionsV3{
+		DeduplicationStrategy: client.AlertSourceSnsOptionsV3DeduplicationStrategy(o.DeduplicationStrategy.ValueString()),
+		DeduplicationKeyPath:  o.DeduplicationKeyPath.ValueStringPointer(),
+	}
+}
+
+func snsOptionsFromAPI(options *client.AlertSourceSnsOptionsV3) *alertSourceSNSOptions {
+	if options == nil {
+		return nil
+	}
+
+	return &alertSourceSNSOptions{
+		DeduplicationStrategy: types.StringValue(string(options.DeduplicationStrategy)),
+		DeduplicationKeyPath:  types.StringPointerValue(options.DeduplicationKeyPath),
 	}
 }
 
