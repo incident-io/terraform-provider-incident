@@ -252,6 +252,7 @@ Only heartbeat sources can be paused, and only once one has received its first p
 - `owning_team_ids` (Set of String) IDs of the teams that own this alert source
 - `priority` (Attributes) (see [below for nested schema](#nestedatt--priority))
 - `rate_limit_sharding` (Attributes) Controls how this source's ingest rate limit is split into buckets. (see [below for nested schema](#nestedatt--rate_limit_sharding))
+- `sns_options` (Attributes) (see [below for nested schema](#nestedatt--sns_options))
 - `title` (Attributes) (see [below for nested schema](#nestedatt--title))
 - `unlock_in_dashboard` (Boolean) Whether to leave this resource unlocked in the incident.io dashboard, so people can edit it there. Defaults to `false`: Terraform claims what it manages, and a claimed resource cannot be edited in the dashboard. Set it to `true` to leave the resource unclaimed — pair that with `lifecycle { ignore_changes = [...] }` naming the attributes people edit, or the next apply reverts them. Setting it on a resource Terraform already claimed hands that resource back, and someone disconnecting one in the dashboard shows as no change.
 - `visible_to_teams` (Attributes) (see [below for nested schema](#nestedatt--visible_to_teams))
@@ -1246,6 +1247,18 @@ Optional:
 Required:
 
 - `rate_limit_shard_key_path` (String) JSON path to a value that splits this source's rate limit into per-value buckets.
+
+
+<a id="nestedatt--sns_options"></a>
+### Nested Schema for `sns_options`
+
+Required:
+
+- `deduplication_strategy` (String) How messages are grouped into alerts. message_id: every SNS message makes its own alert (Grafana notifications are grouped by their group key). automatic: CloudWatch alarms are grouped by alarm name, as the CloudWatch source does by default, and Inspector, GuardDuty and AWS Health events by the finding or event they are about. Every other message makes its own alert. custom: messages are grouped by the value at deduplication_key_path. New sources start on automatic. Possible values are: `message_id`, `automatic`, `custom`.
+
+Optional:
+
+- `deduplication_key_path` (String) For the custom strategy, a JSON path into the SNS payload that gives the deduplication key. When the path doesn't resolve, the message makes its own alert.
 
 
 <a id="nestedatt--title"></a>

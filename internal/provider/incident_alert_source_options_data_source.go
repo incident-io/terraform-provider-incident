@@ -94,6 +94,25 @@ func httpCustomOptionsDataSourceAttribute() schema.Attribute {
 	}
 }
 
+func snsOptionsDataSourceAttribute() schema.Attribute {
+	return schema.SingleNestedAttribute{
+		Computed:            true,
+		MarkdownDescription: apischema.Docstring("AlertSourceV3", "sns_options"),
+		Attributes: map[string]schema.Attribute{
+			"deduplication_strategy": schema.StringAttribute{
+				Computed: true,
+				MarkdownDescription: DescribeEnumValues(
+					apischema.Docstring("AlertSourceSnsOptionsV3", "deduplication_strategy"),
+					"AlertSourceSnsOptionsV3", "deduplication_strategy"),
+			},
+			"deduplication_key_path": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: apischema.Docstring("AlertSourceSnsOptionsV3", "deduplication_key_path"),
+			},
+		},
+	}
+}
+
 func rateLimitShardingDataSourceAttribute() schema.Attribute {
 	return schema.SingleNestedAttribute{
 		Computed:            true,
