@@ -1,3 +1,7 @@
+## v7.9.0
+
+- Add `sns_options` to the `incident_alert_source` resource and data source, which sets how an SNS alert source deduplicates messages into alerts: `message_id` (one alert per message), `automatic` (one alert per CloudWatch alarm, Inspector or GuardDuty finding, or AWS Health event) or `custom` (a JSON path into the payload, set with `deduplication_key_path`). Leave the block out to keep the strategy chosen in the dashboard. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/alert_source). (#676)
+
 ## v7.8.0
 
 - Add `incident_catalog_entry_aliases` and `incident_catalog_entry_attribute_value`, which add custom aliases and your own attribute values to a catalog entry that something else owns, such as one incident.io syncs for a schedule, escalation path or user. Neither ever creates or deletes the entry. See the docs for [`incident_catalog_entry_aliases`](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/catalog_entry_aliases) and [`incident_catalog_entry_attribute_value`](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/catalog_entry_attribute_value). (#668)
