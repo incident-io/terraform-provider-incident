@@ -146,7 +146,9 @@ func snsOptionsAttribute() schema.Attribute {
 		Attributes: map[string]schema.Attribute{
 			"deduplication_strategy": schema.StringAttribute{
 				Required:            true,
-				MarkdownDescription: apischema.Docstring("AlertSourceSnsOptionsV3", "deduplication_strategy"),
+				MarkdownDescription: DescribeEnumValues(
+					apischema.Docstring("AlertSourceSnsOptionsV3", "deduplication_strategy"),
+					"AlertSourceSnsOptionsV3", "deduplication_strategy"),
 				Validators: []validator.String{
 					stringvalidator.OneOf(enumValues("AlertSourceSnsOptionsV3", "deduplication_strategy")...),
 				},

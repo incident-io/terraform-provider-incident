@@ -676,8 +676,9 @@ func (r *alertSourceResource) Create(ctx context.Context, req resource.CreateReq
 	r.applyAutoResolve(&data, &payload.AutoResolveTimeoutMinutes, &payload.AutoResolveIncidentAlerts)
 
 	// Re-checked here because a path from a variable is unknown at plan time, so ValidateConfig
-	// has nothing to judge.
+	// has nothing to judge. The same goes for the SNS key path.
 	validateRateLimitSharding(data.RateLimitSharding, &resp.Diagnostics)
+	validateSNSOptions(data.SNSOptions, &resp.Diagnostics)
 
 	if resp.Diagnostics.HasError() {
 		return
@@ -828,6 +829,7 @@ func (r *alertSourceResource) updateAlertSource(ctx context.Context, id string, 
 	r.applyAutoResolve(plan, &payload.AutoResolveTimeoutMinutes, &payload.AutoResolveIncidentAlerts)
 
 	validateRateLimitSharding(plan.RateLimitSharding, diags)
+	validateSNSOptions(plan.SNSOptions, diags)
 
 	if diags.HasError() {
 		return nil
