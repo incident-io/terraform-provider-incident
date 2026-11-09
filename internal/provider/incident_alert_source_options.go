@@ -145,7 +145,7 @@ func snsOptionsAttribute() schema.Attribute {
 		MarkdownDescription: apischema.Docstring("AlertSourceV3", "sns_options"),
 		Attributes: map[string]schema.Attribute{
 			"deduplication_strategy": schema.StringAttribute{
-				Required:            true,
+				Required: true,
 				MarkdownDescription: DescribeEnumValues(
 					apischema.Docstring("AlertSourceSnsOptionsV3", "deduplication_strategy"),
 					"AlertSourceSnsOptionsV3", "deduplication_strategy"),

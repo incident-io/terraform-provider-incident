@@ -70,6 +70,7 @@ output "cron_ping_url" {
 - `rate_limit_sharding` (Attributes) Controls how this source's ingest rate limit is split into buckets. (see [below for nested schema](#nestedatt--rate_limit_sharding))
 - `secret_token` (String, Sensitive) The token to use when sending alerts to this source. Only returned to callers with permission to update the source.
 - `source_type` (String) Type of alert source. Possible values are: `alertmanager`, `app_optics`, `azure_monitor`, `azure_devops`, `big_panda`, `bugsnag`, `checkly`, `chronosphere`, `cloudwatch`, `cloudflare`, `coralogix`, `cronitor`, `crowdstrike_falcon`, `dash0`, `datadog`, `dynatrace`, `elasticsearch`, `email`, `expel`, `git_guardian`, `github_issue`, `google_cloud`, `google_secops`, `grafana`, `heartbeat`, `http`, `http_custom`, `honeycomb`, `icinga2`, `incoming_calls`, `jira`, `jsm`, `logzio`, `monte_carlo`, `nagios`, `new_relic`, `opsgenie`, `prtg`, `pager_duty`, `panther`, `pingdom`, `posthog`, `runscope`, `sns`, `salesforce_case`, `sentry`, `sentry_metric`, `service_now`, `splunk`, `status_cake`, `status_page_views`, `sumo_logic`, `uptime`, `upwind`, `vercel`, `wiz`, `zendesk`.
+- `sns_options` (Attributes) (see [below for nested schema](#nestedatt--sns_options))
 - `title` (Attributes) (see [below for nested schema](#nestedatt--title))
 - `unlock_in_dashboard` (Boolean) Not populated: whether Terraform claims a resource is configuration, and no read endpoint reports it.
 - `version` (Number) The source's current version, which increments on every write. Pass it back as expected_version to reject a write built from a stale read.
@@ -1012,6 +1013,15 @@ Read-Only:
 Read-Only:
 
 - `rate_limit_shard_key_path` (String) JSON path to a value that splits this source's rate limit into per-value buckets.
+
+
+<a id="nestedatt--sns_options"></a>
+### Nested Schema for `sns_options`
+
+Read-Only:
+
+- `deduplication_key_path` (String) For the custom strategy, a JSON path into the SNS payload that gives the deduplication key. When the path doesn't resolve, the message makes its own alert.
+- `deduplication_strategy` (String) How messages are grouped into alerts. message_id: every SNS message makes its own alert (Grafana notifications are grouped by their group key). automatic: CloudWatch alarms are grouped by alarm name, as the CloudWatch source does by default, and Inspector, GuardDuty and AWS Health events by the finding or event they are about. Every other message makes its own alert. custom: messages are grouped by the value at deduplication_key_path. New sources start on automatic. Possible values are: `message_id`, `automatic`, `custom`.
 
 
 <a id="nestedatt--title"></a>
