@@ -1,6 +1,6 @@
 ## Unreleased
 
-- `incident_alert_route`, `incident_workflow`, `incident_policy` and `incident_escalation_path_template` no longer fail an apply with "Provider produced inconsistent result" when an expression has an empty `else_branch` (`result = {}`).
+- `incident_alert_route`, `incident_workflow`, `incident_policy` and `incident_escalation_path_template` no longer fail an apply with "Provider produced inconsistent result" when an expression has an empty `else_branch` (`result = {}`) (#680).
 
 ## v7.9.0
 
