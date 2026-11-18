@@ -45,15 +45,15 @@ output "platform_base_rate_cents" {
 
 ### Read-Only
 
-- `base_rate_cents` (Number) Rate paid for any time no rule covers, in the lowest denomination of the currency
+- `base_rate_cents` (Number) Rate paid for one unit of rate_time_unit, for any time no rule covers, in the lowest denomination of the currency
 - `created_at` (String) When this pay config was created.
 - `currency` (String) Currency this config pays in, in ISO 4217 format
 - `one_off_rules` (Attributes List) Rules that apply over a single window of time, such as a public holiday. These take precedence over the weekly rules. (see [below for nested schema](#nestedatt--one_off_rules))
 - `published_at` (String) When a published report first priced against this config. Once set, editing the config needs the schedule_pay_configs.update_published scope. Null until then.
-- `rate_time_unit` (String) The unit of time every rate on this config is quoted per. Pay is pro-rated by the second either way. Possible values are: `hour`, `day`.
+- `rate_time_unit` (String) The unit of time every rate on this config is quoted per: hour, day, or week. A day is 24 hours of shift time and a week is 7 days. Pay is pro-rated by the second. Possible values are: `hour`, `day`, `week`.
 - `timezone` (String) IANA timezone this config's rules are interpreted in
 - `updated_at` (String) When this pay config, or one of its rules, was last changed.
-- `weekly_rules` (Attributes List) Rules that apply every week, by day of week and time of day, in evaluation order. The first rule that covers a shift prices it. (see [below for nested schema](#nestedatt--weekly_rules))
+- `weekly_rules` (Attributes List) Rules that apply every week, by day of week and time of day, in evaluation order. Must be empty when rate_time_unit is week. The first rule that covers a shift prices it. (see [below for nested schema](#nestedatt--weekly_rules))
 
 <a id="nestedatt--one_off_rules"></a>
 ### Nested Schema for `one_off_rules`

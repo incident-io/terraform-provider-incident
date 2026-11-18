@@ -1335,6 +1335,111 @@ func (e AlertRouteWhenAlertJoinsGroupV3Mode) Valid() bool {
 	}
 }
 
+// Defines values for AlertRuleActionV3Type.
+const (
+	CreateIncident     AlertRuleActionV3Type = "create_incident"
+	Escalate           AlertRuleActionV3Type = "escalate"
+	Investigate        AlertRuleActionV3Type = "investigate"
+	PostMicrosoftTeams AlertRuleActionV3Type = "post_microsoft_teams"
+	PostSlack          AlertRuleActionV3Type = "post_slack"
+)
+
+// Valid indicates whether the value is a known member of the AlertRuleActionV3Type enum.
+func (e AlertRuleActionV3Type) Valid() bool {
+	switch e {
+	case CreateIncident:
+		return true
+	case Escalate:
+		return true
+	case Investigate:
+		return true
+	case PostMicrosoftTeams:
+		return true
+	case PostSlack:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AlertRuleEscalateActionV3Mode.
+const (
+	AlertRuleEscalateActionV3ModeOnEachNewAlert     AlertRuleEscalateActionV3Mode = "on_each_new_alert"
+	AlertRuleEscalateActionV3ModeOnPriorityIncrease AlertRuleEscalateActionV3Mode = "on_priority_increase"
+)
+
+// Valid indicates whether the value is a known member of the AlertRuleEscalateActionV3Mode enum.
+func (e AlertRuleEscalateActionV3Mode) Valid() bool {
+	switch e {
+	case AlertRuleEscalateActionV3ModeOnEachNewAlert:
+		return true
+	case AlertRuleEscalateActionV3ModeOnPriorityIncrease:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AlertRulePostActionV3Mode.
+const (
+	GroupSummary AlertRulePostActionV3Mode = "group_summary"
+	PerAlert     AlertRulePostActionV3Mode = "per_alert"
+)
+
+// Valid indicates whether the value is a known member of the AlertRulePostActionV3Mode enum.
+func (e AlertRulePostActionV3Mode) Valid() bool {
+	switch e {
+	case GroupSummary:
+		return true
+	case PerAlert:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AlertRuleSetV3Kind.
+const (
+	AlertRuleSetV3KindDefault  AlertRuleSetV3Kind = "default"
+	AlertRuleSetV3KindRequired AlertRuleSetV3Kind = "required"
+	AlertRuleSetV3KindTeam     AlertRuleSetV3Kind = "team"
+)
+
+// Valid indicates whether the value is a known member of the AlertRuleSetV3Kind enum.
+func (e AlertRuleSetV3Kind) Valid() bool {
+	switch e {
+	case AlertRuleSetV3KindDefault:
+		return true
+	case AlertRuleSetV3KindRequired:
+		return true
+	case AlertRuleSetV3KindTeam:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AlertRulesCreatePayloadV3Kind.
+const (
+	AlertRulesCreatePayloadV3KindDefault  AlertRulesCreatePayloadV3Kind = "default"
+	AlertRulesCreatePayloadV3KindRequired AlertRulesCreatePayloadV3Kind = "required"
+	AlertRulesCreatePayloadV3KindTeam     AlertRulesCreatePayloadV3Kind = "team"
+)
+
+// Valid indicates whether the value is a known member of the AlertRulesCreatePayloadV3Kind enum.
+func (e AlertRulesCreatePayloadV3Kind) Valid() bool {
+	switch e {
+	case AlertRulesCreatePayloadV3KindDefault:
+		return true
+	case AlertRulesCreatePayloadV3KindRequired:
+		return true
+	case AlertRulesCreatePayloadV3KindTeam:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for AlertSlimV2Status.
 const (
 	AlertSlimV2StatusFiring   AlertSlimV2Status = "firing"
@@ -7995,6 +8100,7 @@ func (e ManagedResourceV2ManagedBy) Valid() bool {
 // Defines values for ManagedResourceV2ResourceType.
 const (
 	ManagedResourceV2ResourceTypeAlertRoute             ManagedResourceV2ResourceType = "alert_route"
+	ManagedResourceV2ResourceTypeAlertRule              ManagedResourceV2ResourceType = "alert_rule"
 	ManagedResourceV2ResourceTypeAlertSource            ManagedResourceV2ResourceType = "alert_source"
 	ManagedResourceV2ResourceTypeApiKey                 ManagedResourceV2ResourceType = "api_key"
 	ManagedResourceV2ResourceTypeEscalationPath         ManagedResourceV2ResourceType = "escalation_path"
@@ -8016,6 +8122,8 @@ const (
 func (e ManagedResourceV2ResourceType) Valid() bool {
 	switch e {
 	case ManagedResourceV2ResourceTypeAlertRoute:
+		return true
+	case ManagedResourceV2ResourceTypeAlertRule:
 		return true
 	case ManagedResourceV2ResourceTypeAlertSource:
 		return true
@@ -8055,6 +8163,7 @@ func (e ManagedResourceV2ResourceType) Valid() bool {
 // Defines values for ManagedResourcesCreateManagedResourcePayloadV2ResourceType.
 const (
 	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertRoute             ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "alert_route"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertRule              ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "alert_rule"
 	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertSource            ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "alert_source"
 	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeApiKey                 ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "api_key"
 	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPath         ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "escalation_path"
@@ -8076,6 +8185,8 @@ const (
 func (e ManagedResourcesCreateManagedResourcePayloadV2ResourceType) Valid() bool {
 	switch e {
 	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertRoute:
+		return true
+	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertRule:
 		return true
 	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertSource:
 		return true
@@ -8338,6 +8449,7 @@ func (e OnCallNotificationRulePublicV2RuleType) Valid() bool {
 const (
 	PayConfigV2RateTimeUnitDay  PayConfigV2RateTimeUnit = "day"
 	PayConfigV2RateTimeUnitHour PayConfigV2RateTimeUnit = "hour"
+	PayConfigV2RateTimeUnitWeek PayConfigV2RateTimeUnit = "week"
 )
 
 // Valid indicates whether the value is a known member of the PayConfigV2RateTimeUnit enum.
@@ -8346,6 +8458,8 @@ func (e PayConfigV2RateTimeUnit) Valid() bool {
 	case PayConfigV2RateTimeUnitDay:
 		return true
 	case PayConfigV2RateTimeUnitHour:
+		return true
+	case PayConfigV2RateTimeUnitWeek:
 		return true
 	default:
 		return false
@@ -8422,6 +8536,7 @@ func (e PayConfigWeeklyRuleV2Weekdays) Valid() bool {
 const (
 	PayConfigsCreatePayloadV2RateTimeUnitDay  PayConfigsCreatePayloadV2RateTimeUnit = "day"
 	PayConfigsCreatePayloadV2RateTimeUnitHour PayConfigsCreatePayloadV2RateTimeUnit = "hour"
+	PayConfigsCreatePayloadV2RateTimeUnitWeek PayConfigsCreatePayloadV2RateTimeUnit = "week"
 )
 
 // Valid indicates whether the value is a known member of the PayConfigsCreatePayloadV2RateTimeUnit enum.
@@ -8430,6 +8545,8 @@ func (e PayConfigsCreatePayloadV2RateTimeUnit) Valid() bool {
 	case PayConfigsCreatePayloadV2RateTimeUnitDay:
 		return true
 	case PayConfigsCreatePayloadV2RateTimeUnitHour:
+		return true
+	case PayConfigsCreatePayloadV2RateTimeUnitWeek:
 		return true
 	default:
 		return false
@@ -8473,6 +8590,7 @@ func (e PayConfigsCreateWeeklyRulePayloadV2Weekdays) Valid() bool {
 const (
 	PayConfigsUpdatePayloadV2RateTimeUnitDay  PayConfigsUpdatePayloadV2RateTimeUnit = "day"
 	PayConfigsUpdatePayloadV2RateTimeUnitHour PayConfigsUpdatePayloadV2RateTimeUnit = "hour"
+	PayConfigsUpdatePayloadV2RateTimeUnitWeek PayConfigsUpdatePayloadV2RateTimeUnit = "week"
 )
 
 // Valid indicates whether the value is a known member of the PayConfigsUpdatePayloadV2RateTimeUnit enum.
@@ -8481,6 +8599,8 @@ func (e PayConfigsUpdatePayloadV2RateTimeUnit) Valid() bool {
 	case PayConfigsUpdatePayloadV2RateTimeUnitDay:
 		return true
 	case PayConfigsUpdatePayloadV2RateTimeUnitHour:
+		return true
+	case PayConfigsUpdatePayloadV2RateTimeUnitWeek:
 		return true
 	default:
 		return false
@@ -11250,6 +11370,27 @@ func (e ActionsV3ListParamsIncidentMode) Valid() bool {
 	}
 }
 
+// Defines values for AlertRulesV3ListParamsKind.
+const (
+	AlertRulesV3ListParamsKindDefault  AlertRulesV3ListParamsKind = "default"
+	AlertRulesV3ListParamsKindRequired AlertRulesV3ListParamsKind = "required"
+	AlertRulesV3ListParamsKindTeam     AlertRulesV3ListParamsKind = "team"
+)
+
+// Valid indicates whether the value is a known member of the AlertRulesV3ListParamsKind enum.
+func (e AlertRulesV3ListParamsKind) Valid() bool {
+	switch e {
+	case AlertRulesV3ListParamsKindDefault:
+		return true
+	case AlertRulesV3ListParamsKindRequired:
+		return true
+	case AlertRulesV3ListParamsKindTeam:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for FollowUpsV3ListParamsIncidentMode.
 const (
 	FollowUpsV3ListParamsIncidentModeRetrospective FollowUpsV3ListParamsIncidentMode = "retrospective"
@@ -13930,6 +14071,311 @@ type AlertRoutesUpdateResultV2 struct {
 type AlertRoutesUpdateResultV3 struct {
 	// AlertRoute Example: {"alert_sources":[{"alert_source_id":"01FCNDV6P870EA6S7TK1DSYDG0","condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]}],"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"created_at":"2021-08-17T13:28:57.801578Z","enabled":false,"escalation_config":{"auto_cancel_escalations":false,"escalation_targets":[{"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"when_alert_joins_group":{"grace_period_seconds":60,"mode":"on_each_new_alert"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"grouping_config":{"default":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_config":{"auto_decline_enabled":false,"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"enabled":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"template":{"custom_fields":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","merge_strategy":"first-wins"}],"incident_mode":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"incident_type":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"membership_teams":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"severity":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"merge_strategy":"first-wins"},"start_in_triage":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"summary":{"autogenerated":false,"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}},"is_private":false,"message_config":{"destinations":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]}],"ms_teams_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"abc123","group_alerts_summary":false},"slack_targets":{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"channel_visibility":"abc123","group_alerts_summary":false}}],"template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"name":"Production incidents","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"updated_at":"2021-08-17T13:28:57.801578Z","version":1}
 	AlertRoute AlertRouteV3 `json:"alert_route"`
+}
+
+// AlertRuleActionV3 One action a branch takes. Set type, and the object of the same name with the action's parameters. An investigate action has no parameters.
+//
+// Example: {"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}
+type AlertRuleActionV3 struct {
+	// CreateIncident Create an incident from the alert, or attach it to the incident its group already has
+	//
+	// Example: {"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
+	CreateIncident *AlertRuleCreateIncidentActionV3 `json:"create_incident,omitempty"`
+
+	// Escalate Page escalation paths or users about the alert. Set escalation_paths, users, or both.
+	//
+	// Example: {"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
+	Escalate *AlertRuleEscalateActionV3 `json:"escalate,omitempty"`
+
+	// Id Identifier for this action, unique within the set. The server assigns one when it is omitted.
+	//
+	// Example: page-team
+	Id *string `json:"id,omitempty"`
+
+	// PostMicrosoftTeams Post the alert to chat channels
+	//
+	// Example: {"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"}
+	PostMicrosoftTeams *AlertRulePostActionV3 `json:"post_microsoft_teams,omitempty"`
+
+	// PostSlack Post the alert to chat channels
+	//
+	// Example: {"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"}
+	PostSlack *AlertRulePostActionV3 `json:"post_slack,omitempty"`
+
+	// Type Which action to take
+	//
+	// Example: escalate
+	Type AlertRuleActionV3Type `json:"type"`
+}
+
+// AlertRuleActionV3Type Which action to take
+//
+// Example: escalate
+type AlertRuleActionV3Type string
+
+// AlertRuleBlockV3 One block of rules. Inside a block, the first branch whose conditions hold runs.
+//
+// Example: {"branches":[{"actions":[{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}],"branches":[{"actions":[{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"production-grafana"}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"production"}],"id":"page-owning-team"}
+type AlertRuleBlockV3 struct {
+	// Branches One or two branches: an if branch, and optionally an else branch with no condition groups
+	//
+	// Example: [{"actions":[{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}],"branches":[{"actions":[{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"production-grafana"}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"production"}]
+	Branches []AlertRuleBranchV3 `json:"branches"`
+
+	// Id Identifier for this block, unique within the set. Choose a readable key and send the same one on every update, so the block keeps its identity.
+	//
+	// Example: page-owning-team
+	Id string `json:"id"`
+}
+
+// AlertRuleBranchV3 A branch of a block, with the conditions that select it and the actions it takes
+//
+// Example: {"actions":[{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}],"branches":[{"actions":[{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"production-grafana"}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"production"}
+type AlertRuleBranchV3 struct {
+	// Actions The actions to take when the branch holds
+	//
+	// Example: [{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}]
+	Actions []AlertRuleActionV3 `json:"actions"`
+
+	// Branches Branches nested one level deep. Each runs when this branch ran and its own conditions hold, and cannot nest further.
+	//
+	// Example: [{"actions":[{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"production-grafana"}]
+	Branches *[]AlertRuleNestedBranchV3 `json:"branches,omitempty"`
+
+	// ConditionGroups The branch holds when every condition in any one group holds. A branch with no groups always holds.
+	//
+	// Example: [{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]
+	ConditionGroups []ConditionGroupPayloadV3 `json:"condition_groups"`
+
+	// Id Identifier for this branch, unique within the set. Choose a readable key and send the same one on every update: alert groups are keyed on it.
+	//
+	// Example: production
+	Id string `json:"id"`
+}
+
+// AlertRuleCreateIncidentActionV3 Create an incident from the alert, or attach it to the incident its group already has
+//
+// Example: {"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
+type AlertRuleCreateIncidentActionV3 struct {
+	// AutoDecline Decline the incident if its alerts resolve before anyone accepts it. Defaults to false.
+	//
+	// Example: false
+	AutoDecline *bool `json:"auto_decline,omitempty"`
+
+	// IncidentTemplate Example: {"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}
+	IncidentTemplate *EngineParamBindingPayloadV3 `json:"incident_template,omitempty"`
+
+	// IsPrivate Create the incident as private. A private alert, or a template whose incident type allows only private incidents, makes it private anyway. Defaults to false.
+	//
+	// Example: false
+	IsPrivate *bool `json:"is_private,omitempty"`
+
+	// MembershipTeams Example: {"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}
+	MembershipTeams *EngineParamBindingPayloadV3 `json:"membership_teams,omitempty"`
+}
+
+// AlertRuleEscalateActionV3 Page escalation paths or users about the alert. Set escalation_paths, users, or both.
+//
+// Example: {"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
+type AlertRuleEscalateActionV3 struct {
+	// AutoCancel Cancel the escalation when the alert resolves, or when every alert in its group resolves. Defaults to false.
+	//
+	// Example: true
+	AutoCancel *bool `json:"auto_cancel,omitempty"`
+
+	// EscalationPaths Example: {"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}
+	EscalationPaths *EngineParamBindingPayloadV3 `json:"escalation_paths,omitempty"`
+
+	// GracePeriodSeconds How long an alert that joins a group with a live page waits before it pages. 0, the default, pages at once. Only used with on_each_new_alert.
+	//
+	// Example: 120
+	GracePeriodSeconds *int32 `json:"grace_period_seconds,omitempty"`
+
+	// Mode How an alert that joins a group pages. on_each_new_alert pages for every alert. on_priority_increase pages a target only when the alert's priority is above every live page the group already has to that target. Defaults to on_each_new_alert.
+	//
+	// Example: on_each_new_alert
+	Mode *AlertRuleEscalateActionV3Mode `json:"mode,omitempty"`
+
+	// Urgency Example: {"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}
+	Urgency *EngineParamBindingPayloadV3 `json:"urgency,omitempty"`
+
+	// Users Example: {"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}
+	Users *EngineParamBindingPayloadV3 `json:"users,omitempty"`
+}
+
+// AlertRuleEscalateActionV3Mode How an alert that joins a group pages. on_each_new_alert pages for every alert. on_priority_increase pages a target only when the alert's priority is above every live page the group already has to that target. Defaults to on_each_new_alert.
+//
+// Example: on_each_new_alert
+type AlertRuleEscalateActionV3Mode string
+
+// AlertRuleNestedBranchV3 A branch nested inside another, with its own conditions and actions
+//
+// Example: {"actions":[{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"production-grafana"}
+type AlertRuleNestedBranchV3 struct {
+	// Actions The actions to take when the branch holds
+	//
+	// Example: [{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}]
+	Actions []AlertRuleActionV3 `json:"actions"`
+
+	// ConditionGroups The branch holds when every condition in any one group holds. A branch with no groups always holds.
+	//
+	// Example: [{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]
+	ConditionGroups []ConditionGroupPayloadV3 `json:"condition_groups"`
+
+	// Id Identifier for this branch, unique within the set
+	//
+	// Example: production-grafana
+	Id string `json:"id"`
+}
+
+// AlertRulePostActionV3 Post the alert to chat channels
+//
+// Example: {"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"}
+type AlertRulePostActionV3 struct {
+	// Channels Example: {"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}
+	Channels EngineParamBindingPayloadV3 `json:"channels"`
+
+	// MessageTemplate Example: {"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}
+	MessageTemplate *EngineParamBindingPayloadV3 `json:"message_template,omitempty"`
+
+	// Mode per_alert posts one message per alert. group_summary posts one message for the alert's group, and one per alert that is not grouped.
+	//
+	// Example: per_alert
+	Mode AlertRulePostActionV3Mode `json:"mode"`
+}
+
+// AlertRulePostActionV3Mode per_alert posts one message per alert. group_summary posts one message for the alert's group, and one per alert that is not grouped.
+//
+// Example: per_alert
+type AlertRulePostActionV3Mode string
+
+// AlertRuleSetV3 One set of alert rules: the organisation's required rules, its default rules, or one team's rules
+//
+// Example: {"blocks":[{"branches":[{"actions":[{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}],"branches":[{"actions":[{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"production-grafana"}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"production"}],"id":"page-owning-team"}],"created_at":"2021-08-17T13:28:57.801578Z","expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"team","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
+type AlertRuleSetV3 struct {
+	// Blocks The blocks of rules, in order. Every block runs for an alert.
+	//
+	// Example: [{"branches":[{"actions":[{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}],"branches":[{"actions":[{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"production-grafana"}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"production"}],"id":"page-owning-team"}]
+	Blocks []AlertRuleBlockV3 `json:"blocks"`
+
+	// CreatedAt When this set of rules was created
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	CreatedAt time.Time `json:"created_at"`
+
+	// Expressions Expressions the blocks' conditions and actions reference, such as a walk from the alert's team to its escalation path
+	//
+	// Example: [{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}]
+	Expressions []ExpressionPayloadV3 `json:"expressions"`
+
+	// Id Unique identifier for this set of rules
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	Id string `json:"id"`
+
+	// Kind Which set this is. Required rules run for every alert. Team rules run for the alert's team. Default rules run when no team's rules ran.
+	//
+	// Example: team
+	Kind AlertRuleSetV3Kind `json:"kind"`
+
+	// TeamId The catalog entry ID of the team, set only for team rules
+	//
+	// Example: 01G0J1EXE7AXZ2C93K61WBPYEH
+	TeamId *string `json:"team_id,omitempty"`
+
+	// UpdatedAt When the current version was written
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	UpdatedAt time.Time `json:"updated_at"`
+
+	// Version The current version number. Every update writes the next version.
+	//
+	// Example: 3
+	Version int64 `json:"version"`
+}
+
+// AlertRuleSetV3Kind Which set this is. Required rules run for every alert. Team rules run for the alert's team. Default rules run when no team's rules ran.
+//
+// Example: team
+type AlertRuleSetV3Kind string
+
+// AlertRulesCreatePayloadV3 Example: {"blocks":[{"branches":[{"actions":[{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}],"branches":[{"actions":[{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"production-grafana"}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"production"}],"id":"page-owning-team"}],"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"kind":"team","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH"}
+type AlertRulesCreatePayloadV3 struct {
+	// Blocks The blocks of rules, in order. Every block runs for an alert.
+	//
+	// Example: [{"branches":[{"actions":[{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}],"branches":[{"actions":[{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"production-grafana"}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"production"}],"id":"page-owning-team"}]
+	Blocks []AlertRuleBlockV3 `json:"blocks"`
+
+	// Expressions Expressions the blocks' conditions and actions reference. Omit it when the rules use none.
+	//
+	// Example: [{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}]
+	Expressions *[]ExpressionPayloadV3 `json:"expressions,omitempty"`
+
+	// Kind Which set to create. Required rules run for every alert. Team rules run for the alert's team. Default rules run when no team's rules ran.
+	//
+	// Example: team
+	Kind AlertRulesCreatePayloadV3Kind `json:"kind"`
+
+	// TeamId The catalog entry ID of the team. Set it for team rules only.
+	//
+	// Example: 01G0J1EXE7AXZ2C93K61WBPYEH
+	TeamId *string `json:"team_id,omitempty"`
+}
+
+// AlertRulesCreatePayloadV3Kind Which set to create. Required rules run for every alert. Team rules run for the alert's team. Default rules run when no team's rules ran.
+//
+// Example: team
+type AlertRulesCreatePayloadV3Kind string
+
+// AlertRulesCreateResultV3 Example: {"alert_rule_set":{"blocks":[{"branches":[{"actions":[{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}],"branches":[{"actions":[{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"production-grafana"}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"production"}],"id":"page-owning-team"}],"created_at":"2021-08-17T13:28:57.801578Z","expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"team","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}}
+type AlertRulesCreateResultV3 struct {
+	// AlertRuleSet One set of alert rules: the organisation's required rules, its default rules, or one team's rules
+	//
+	// Example: {"blocks":[{"branches":[{"actions":[{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}],"branches":[{"actions":[{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"production-grafana"}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"production"}],"id":"page-owning-team"}],"created_at":"2021-08-17T13:28:57.801578Z","expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"team","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
+	AlertRuleSet AlertRuleSetV3 `json:"alert_rule_set"`
+}
+
+// AlertRulesListResultV3 Example: {"alert_rule_sets":[{"blocks":[{"branches":[{"actions":[{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}],"branches":[{"actions":[{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"production-grafana"}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"production"}],"id":"page-owning-team"}],"created_at":"2021-08-17T13:28:57.801578Z","expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"team","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}],"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}}
+type AlertRulesListResultV3 struct {
+	// AlertRuleSets Example: [{"blocks":[{"branches":[{"actions":[{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}],"branches":[{"actions":[{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"production-grafana"}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"production"}],"id":"page-owning-team"}],"created_at":"2021-08-17T13:28:57.801578Z","expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"team","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}]
+	AlertRuleSets []AlertRuleSetV3 `json:"alert_rule_sets"`
+
+	// PaginationMeta Example: {"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}
+	PaginationMeta PaginationMetaResultV3 `json:"pagination_meta"`
+}
+
+// AlertRulesShowResultV3 Example: {"alert_rule_set":{"blocks":[{"branches":[{"actions":[{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}],"branches":[{"actions":[{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"production-grafana"}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"production"}],"id":"page-owning-team"}],"created_at":"2021-08-17T13:28:57.801578Z","expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"team","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}}
+type AlertRulesShowResultV3 struct {
+	// AlertRuleSet One set of alert rules: the organisation's required rules, its default rules, or one team's rules
+	//
+	// Example: {"blocks":[{"branches":[{"actions":[{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}],"branches":[{"actions":[{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"production-grafana"}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"production"}],"id":"page-owning-team"}],"created_at":"2021-08-17T13:28:57.801578Z","expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"team","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
+	AlertRuleSet AlertRuleSetV3 `json:"alert_rule_set"`
+}
+
+// AlertRulesUpdatePayloadV3 Example: {"blocks":[{"branches":[{"actions":[{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}],"branches":[{"actions":[{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"production-grafana"}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"production"}],"id":"page-owning-team"}],"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"version":4}
+type AlertRulesUpdatePayloadV3 struct {
+	// Blocks The blocks of rules, in order. Every block runs for an alert.
+	//
+	// Example: [{"branches":[{"actions":[{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}],"branches":[{"actions":[{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"production-grafana"}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"production"}],"id":"page-owning-team"}]
+	Blocks []AlertRuleBlockV3 `json:"blocks"`
+
+	// Expressions Expressions the blocks' conditions and actions reference. Omit it when the rules use none.
+	//
+	// Example: [{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}]
+	Expressions *[]ExpressionPayloadV3 `json:"expressions,omitempty"`
+
+	// Version The version this update writes. When set, it must be one more than the set's current version, so two editors can't overwrite each other. When omitted, the update applies to the current version.
+	//
+	// Example: 4
+	Version *int64 `json:"version,omitempty"`
+}
+
+// AlertRulesUpdateResultV3 Example: {"alert_rule_set":{"blocks":[{"branches":[{"actions":[{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}],"branches":[{"actions":[{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"production-grafana"}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"production"}],"id":"page-owning-team"}],"created_at":"2021-08-17T13:28:57.801578Z","expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"team","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}}
+type AlertRulesUpdateResultV3 struct {
+	// AlertRuleSet One set of alert rules: the organisation's required rules, its default rules, or one team's rules
+	//
+	// Example: {"blocks":[{"branches":[{"actions":[{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}],"branches":[{"actions":[{"create_incident":{"auto_decline":false,"incident_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"is_private":false,"membership_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"escalate":{"auto_cancel":true,"escalation_paths":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"grace_period_seconds":120,"mode":"on_each_new_alert","urgency":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"users":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"id":"page-team","post_microsoft_teams":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"post_slack":{"channels":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"message_template":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"mode":"per_alert"},"type":"escalate"}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"production-grafana"}],"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"production"}],"id":"page-owning-team"}],"created_at":"2021-08-17T13:28:57.801578Z","expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"team","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
+	AlertRuleSet AlertRuleSetV3 `json:"alert_rule_set"`
 }
 
 // AlertSlimV2 Example: {"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}
@@ -25970,7 +26416,7 @@ type PayConfigOneOffRuleV2 struct {
 //
 // Example: {"base_rate_cents":1200,"created_at":"2021-08-17T13:28:57.801578Z","currency":"GBP","id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Engineering on-call","one_off_rules":[{"end_at":"2021-08-17T13:28:57.801578Z","id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Christmas day","rate_cents":4800,"start_at":"2021-08-17T13:28:57.801578Z"}],"published_at":"2021-08-17T13:28:57.801578Z","rate_time_unit":"hour","timezone":"Europe/London","updated_at":"2021-08-17T13:28:57.801578Z","weekly_rules":[{"end_time":"17:00","id":"01G0J1EXE7AXZ2C93K61WBPYEH","rate_cents":2400,"start_time":"09:00","weekdays":["monday"]}]}
 type PayConfigV2 struct {
-	// BaseRateCents Rate paid for any time no rule covers, in the lowest denomination of the currency
+	// BaseRateCents Rate paid for one unit of rate_time_unit, for any time no rule covers, in the lowest denomination of the currency
 	//
 	// Example: 1200
 	BaseRateCents int64 `json:"base_rate_cents"`
@@ -26003,7 +26449,7 @@ type PayConfigV2 struct {
 	// Example: 2021-08-17T13:28:57.801578Z
 	PublishedAt *time.Time `json:"published_at,omitempty"`
 
-	// RateTimeUnit The unit of time every rate on this config is quoted per. Pay is pro-rated by the second either way.
+	// RateTimeUnit The unit of time every rate on this config is quoted per: hour, day, or week. A day is 24 hours of shift time and a week is 7 days. Pay is pro-rated by the second.
 	//
 	// Example: hour
 	RateTimeUnit PayConfigV2RateTimeUnit `json:"rate_time_unit"`
@@ -26016,13 +26462,13 @@ type PayConfigV2 struct {
 	// UpdatedAt Example: 2021-08-17T13:28:57.801578Z
 	UpdatedAt time.Time `json:"updated_at"`
 
-	// WeeklyRules Rules that apply every week, by day of week and time of day, in evaluation order
+	// WeeklyRules Rules that apply every week, by day of week and time of day, in evaluation order. Must be empty when rate_time_unit is week.
 	//
 	// Example: [{"end_time":"17:00","id":"01G0J1EXE7AXZ2C93K61WBPYEH","rate_cents":2400,"start_time":"09:00","weekdays":["monday"]}]
 	WeeklyRules []PayConfigWeeklyRuleV2 `json:"weekly_rules"`
 }
 
-// PayConfigV2RateTimeUnit The unit of time every rate on this config is quoted per. Pay is pro-rated by the second either way.
+// PayConfigV2RateTimeUnit The unit of time every rate on this config is quoted per: hour, day, or week. A day is 24 hours of shift time and a week is 7 days. Pay is pro-rated by the second.
 //
 // Example: hour
 type PayConfigV2RateTimeUnit string
@@ -26130,7 +26576,7 @@ type PayConfigsCreateOneOffRuleResultV2 struct {
 
 // PayConfigsCreatePayloadV2 Example: {"base_rate_cents":1200,"currency":"GBP","name":"Engineering on-call","one_off_rules":[{"end_at":"2021-08-17T13:28:57.801578Z","id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Christmas day","rate_cents":4800,"start_at":"2021-08-17T13:28:57.801578Z"}],"rate_time_unit":"hour","timezone":"Europe/London","weekly_rules":[{"end_time":"17:00","id":"01G0J1EXE7AXZ2C93K61WBPYEH","rate_cents":2400,"start_time":"09:00","weekdays":["monday"]}]}
 type PayConfigsCreatePayloadV2 struct {
-	// BaseRateCents Rate paid for any time no rule covers, in the lowest denomination of the currency
+	// BaseRateCents Rate paid for one unit of rate_time_unit, for any time no rule covers, in the lowest denomination of the currency
 	//
 	// Example: 1200
 	BaseRateCents int64 `json:"base_rate_cents"`
@@ -26150,7 +26596,7 @@ type PayConfigsCreatePayloadV2 struct {
 	// Example: [{"end_at":"2021-08-17T13:28:57.801578Z","id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Christmas day","rate_cents":4800,"start_at":"2021-08-17T13:28:57.801578Z"}]
 	OneOffRules *[]PayConfigOneOffRulePayloadV2 `json:"one_off_rules,omitempty"`
 
-	// RateTimeUnit The unit of time every rate on this config is quoted per
+	// RateTimeUnit The unit of time every rate on this config is quoted per: hour, day, or week. A day is 24 hours of shift time and a week is 7 days. Pay is pro-rated by the second.
 	//
 	// Example: hour
 	RateTimeUnit PayConfigsCreatePayloadV2RateTimeUnit `json:"rate_time_unit"`
@@ -26166,7 +26612,7 @@ type PayConfigsCreatePayloadV2 struct {
 	WeeklyRules *[]PayConfigWeeklyRulePayloadV2 `json:"weekly_rules,omitempty"`
 }
 
-// PayConfigsCreatePayloadV2RateTimeUnit The unit of time every rate on this config is quoted per
+// PayConfigsCreatePayloadV2RateTimeUnit The unit of time every rate on this config is quoted per: hour, day, or week. A day is 24 hours of shift time and a week is 7 days. Pay is pro-rated by the second.
 //
 // Example: hour
 type PayConfigsCreatePayloadV2RateTimeUnit string
@@ -26301,7 +26747,7 @@ type PayConfigsUpdateOneOffRuleResultV2 struct {
 
 // PayConfigsUpdatePayloadV2 Example: {"base_rate_cents":1200,"currency":"GBP","name":"Engineering on-call","rate_time_unit":"hour","timezone":"Europe/London"}
 type PayConfigsUpdatePayloadV2 struct {
-	// BaseRateCents Rate paid for any time no rule covers, in the lowest denomination of the currency
+	// BaseRateCents Rate paid for one unit of rate_time_unit, for any time no rule covers, in the lowest denomination of the currency
 	//
 	// Example: 1200
 	BaseRateCents int64 `json:"base_rate_cents"`
@@ -26316,7 +26762,7 @@ type PayConfigsUpdatePayloadV2 struct {
 	// Example: Engineering on-call
 	Name string `json:"name"`
 
-	// RateTimeUnit The unit of time every rate on this config is quoted per. Pay is pro-rated by the second either way.
+	// RateTimeUnit The unit of time every rate on this config is quoted per: hour, day, or week. A day is 24 hours of shift time and a week is 7 days. Pay is pro-rated by the second.
 	//
 	// Example: hour
 	RateTimeUnit PayConfigsUpdatePayloadV2RateTimeUnit `json:"rate_time_unit"`
@@ -26327,7 +26773,7 @@ type PayConfigsUpdatePayloadV2 struct {
 	Timezone string `json:"timezone"`
 }
 
-// PayConfigsUpdatePayloadV2RateTimeUnit The unit of time every rate on this config is quoted per. Pay is pro-rated by the second either way.
+// PayConfigsUpdatePayloadV2RateTimeUnit The unit of time every rate on this config is quoted per: hour, day, or week. A day is 24 hours of shift time and a week is 7 days. Pay is pro-rated by the second.
 //
 // Example: hour
 type PayConfigsUpdatePayloadV2RateTimeUnit string
@@ -29851,7 +30297,7 @@ type SeverityV2 struct {
 //
 // Example: {"availability_percent":"99.94","component_id":"01FCNDV6P870EA6S7TK1DSYDG1","data_available_since":"2025-06-01T00:00:00Z","end_at":"2026-02-01T00:00:00Z","start_at":"2026-01-01T00:00:00Z","status_page_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
 type StatusPageComponentAvailabilityV2 struct {
-	// AvailabilityPercent Availability over the window as a percentage, floored (for example "99.94"). Omitted when we have no data covering the window.
+	// AvailabilityPercent Availability over the window as a percentage, floored (for example "99.94"). It has at least as many decimal places as the status page's uptime decimal places setting. Above 99.99%, it can have more decimal places, up to six. Omitted when we have no data covering the window.
 	//
 	// Example: 99.94
 	AvailabilityPercent *string `json:"availability_percent,omitempty"`
@@ -33642,6 +34088,24 @@ type AlertRoutesV3ListParams struct {
 	After *string `form:"after,omitempty" json:"after,omitempty"`
 }
 
+// AlertRulesV3ListParams defines parameters for AlertRulesV3List.
+type AlertRulesV3ListParams struct {
+	// PageSize Number of sets to return per page
+	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// After The ID of the last set on the previous page
+	After *string `form:"after,omitempty" json:"after,omitempty"`
+
+	// Kind Return only sets of this kind
+	Kind *AlertRulesV3ListParamsKind `form:"kind,omitempty" json:"kind,omitempty"`
+
+	// TeamId Return only this team's rules
+	TeamId *string `form:"team_id,omitempty" json:"team_id,omitempty"`
+}
+
+// AlertRulesV3ListParamsKind defines parameters for AlertRulesV3List.
+type AlertRulesV3ListParamsKind string
+
 // AlertSourcesV3DestroyAttributeParams defines parameters for AlertSourcesV3DestroyAttribute.
 type AlertSourcesV3DestroyAttributeParams struct {
 	// ExpectedVersion The source version this delete is based on, from a previous read. When absent, the delete applies on top of whatever the current version is.
@@ -34186,6 +34650,12 @@ type AlertRoutesV3CreateJSONRequestBody = AlertRoutesCreatePayloadV3
 
 // AlertRoutesV3UpdateJSONRequestBody defines body for AlertRoutesV3Update for application/json ContentType.
 type AlertRoutesV3UpdateJSONRequestBody = AlertRoutesUpdatePayloadV3
+
+// AlertRulesV3CreateJSONRequestBody defines body for AlertRulesV3Create for application/json ContentType.
+type AlertRulesV3CreateJSONRequestBody = AlertRulesCreatePayloadV3
+
+// AlertRulesV3UpdateJSONRequestBody defines body for AlertRulesV3Update for application/json ContentType.
+type AlertRulesV3UpdateJSONRequestBody = AlertRulesUpdatePayloadV3
 
 // AlertSourcesV3CreateJSONRequestBody defines body for AlertSourcesV3Create for application/json ContentType.
 type AlertSourcesV3CreateJSONRequestBody = AlertSourcesCreatePayloadV3
@@ -39642,6 +40112,63 @@ type ClientInterface interface {
 	//
 	// Corresponds with PUT /v3/alert_routes/{id} (the `AlertRoutesV3Update` operationId).
 	AlertRoutesV3Update(ctx context.Context, id string, body AlertRoutesV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertRulesV3List List Alert Rules V3
+	//
+	// List the sets of alert rules in your account.
+	//
+	// Corresponds with GET /v3/alert_rules (the `AlertRulesV3List` operationId).
+	AlertRulesV3List(ctx context.Context, params *AlertRulesV3ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertRulesV3CreateWithBody Create Alert Rules V3
+	//
+	// Create a team's set of alert rules, or the organisation's required or default rules when it has none. A second set of the same kind, or for the same team, is refused. To manage existing required or default rules, import them or update them by ID.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v3/alert_rules (the `AlertRulesV3Create` operationId).
+	AlertRulesV3CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertRulesV3Create Create Alert Rules V3
+	//
+	// Create a team's set of alert rules, or the organisation's required or default rules when it has none. A second set of the same kind, or for the same team, is refused. To manage existing required or default rules, import them or update them by ID.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v3/alert_rules (the `AlertRulesV3Create` operationId).
+	AlertRulesV3Create(ctx context.Context, body AlertRulesV3CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertRulesV3Delete Delete Alert Rules V3
+	//
+	// Remove a team's set of alert rules. The organisation's required and default rules can't be removed: deleting one empties its rules instead, written as its next version, and releases it from Terraform management.
+	//
+	// Corresponds with DELETE /v3/alert_rules/{id} (the `AlertRulesV3Delete` operationId).
+	AlertRulesV3Delete(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertRulesV3Show Show Alert Rules V3
+	//
+	// Load one set of alert rules in your account.
+	//
+	// Corresponds with GET /v3/alert_rules/{id} (the `AlertRulesV3Show` operationId).
+	AlertRulesV3Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertRulesV3UpdateWithBody Update Alert Rules V3
+	//
+	// Replace a set of alert rules and write its next version. The whole set is replaced: a block or branch left out is removed. The set's kind and team cannot change.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PUT /v3/alert_rules/{id} (the `AlertRulesV3Update` operationId).
+	AlertRulesV3UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertRulesV3Update Update Alert Rules V3
+	//
+	// Replace a set of alert rules and write its next version. The whole set is replaced: a block or branch left out is removed. The set's kind and team cannot change.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PUT /v3/alert_rules/{id} (the `AlertRulesV3Update` operationId).
+	AlertRulesV3Update(ctx context.Context, id string, body AlertRulesV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// AlertSourcesV3List List Alert Sources V3
 	//
@@ -50372,6 +50899,133 @@ func (c *Client) AlertRoutesV3UpdateWithBody(ctx context.Context, id string, con
 // Corresponds with PUT /v3/alert_routes/{id} (the `AlertRoutesV3Update` operationId).
 func (c *Client) AlertRoutesV3Update(ctx context.Context, id string, body AlertRoutesV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewAlertRoutesV3UpdateRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AlertRulesV3List List Alert Rules V3
+//
+// List the sets of alert rules in your account.
+//
+// Corresponds with GET /v3/alert_rules (the `AlertRulesV3List` operationId).
+func (c *Client) AlertRulesV3List(ctx context.Context, params *AlertRulesV3ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertRulesV3ListRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AlertRulesV3CreateWithBody Create Alert Rules V3
+//
+// Create a team's set of alert rules, or the organisation's required or default rules when it has none. A second set of the same kind, or for the same team, is refused. To manage existing required or default rules, import them or update them by ID.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v3/alert_rules (the `AlertRulesV3Create` operationId).
+func (c *Client) AlertRulesV3CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertRulesV3CreateRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AlertRulesV3Create Create Alert Rules V3
+//
+// Create a team's set of alert rules, or the organisation's required or default rules when it has none. A second set of the same kind, or for the same team, is refused. To manage existing required or default rules, import them or update them by ID.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v3/alert_rules (the `AlertRulesV3Create` operationId).
+func (c *Client) AlertRulesV3Create(ctx context.Context, body AlertRulesV3CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertRulesV3CreateRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AlertRulesV3Delete Delete Alert Rules V3
+//
+// Remove a team's set of alert rules. The organisation's required and default rules can't be removed: deleting one empties its rules instead, written as its next version, and releases it from Terraform management.
+//
+// Corresponds with DELETE /v3/alert_rules/{id} (the `AlertRulesV3Delete` operationId).
+func (c *Client) AlertRulesV3Delete(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertRulesV3DeleteRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AlertRulesV3Show Show Alert Rules V3
+//
+// Load one set of alert rules in your account.
+//
+// Corresponds with GET /v3/alert_rules/{id} (the `AlertRulesV3Show` operationId).
+func (c *Client) AlertRulesV3Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertRulesV3ShowRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AlertRulesV3UpdateWithBody Update Alert Rules V3
+//
+// Replace a set of alert rules and write its next version. The whole set is replaced: a block or branch left out is removed. The set's kind and team cannot change.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PUT /v3/alert_rules/{id} (the `AlertRulesV3Update` operationId).
+func (c *Client) AlertRulesV3UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertRulesV3UpdateRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AlertRulesV3Update Update Alert Rules V3
+//
+// Replace a set of alert rules and write its next version. The whole set is replaced: a block or branch left out is removed. The set's kind and team cannot change.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PUT /v3/alert_rules/{id} (the `AlertRulesV3Update` operationId).
+func (c *Client) AlertRulesV3Update(ctx context.Context, id string, body AlertRulesV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertRulesV3UpdateRequest(c.Server, id, body)
 	if err != nil {
 		return nil, err
 	}
@@ -67311,6 +67965,251 @@ func NewAlertRoutesV3UpdateRequestWithBody(server string, id string, contentType
 	return req, nil
 }
 
+// NewAlertRulesV3ListRequest constructs an http.Request for the AlertRulesV3List method
+func NewAlertRulesV3ListRequest(server string, params *AlertRulesV3ListParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/alert_rules")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.PageSize != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "page_size", *params.PageSize, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: "int64"}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.After != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "after", *params.After, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Kind != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "kind", *params.Kind, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.TeamId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "team_id", *params.TeamId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewAlertRulesV3CreateRequest calls the generic AlertRulesV3Create builder with application/json body
+func NewAlertRulesV3CreateRequest(server string, body AlertRulesV3CreateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewAlertRulesV3CreateRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewAlertRulesV3CreateRequestWithBody constructs an http.Request for the AlertRulesV3Create method, with any body, and a specified content type
+func NewAlertRulesV3CreateRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/alert_rules")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewAlertRulesV3DeleteRequest constructs an http.Request for the AlertRulesV3Delete method
+func NewAlertRulesV3DeleteRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/alert_rules/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewAlertRulesV3ShowRequest constructs an http.Request for the AlertRulesV3Show method
+func NewAlertRulesV3ShowRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/alert_rules/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewAlertRulesV3UpdateRequest calls the generic AlertRulesV3Update builder with application/json body
+func NewAlertRulesV3UpdateRequest(server string, id string, body AlertRulesV3UpdateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewAlertRulesV3UpdateRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewAlertRulesV3UpdateRequestWithBody constructs an http.Request for the AlertRulesV3Update method, with any body, and a specified content type
+func NewAlertRulesV3UpdateRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/alert_rules/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPut, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewAlertSourcesV3ListRequest constructs an http.Request for the AlertSourcesV3List method
 func NewAlertSourcesV3ListRequest(server string) (*http.Request, error) {
 	var err error
@@ -75602,6 +76501,69 @@ type ClientWithResponsesInterface interface {
 	//
 	// Corresponds with PUT /v3/alert_routes/{id} (the `AlertRoutesV3Update` operationId).
 	AlertRoutesV3UpdateWithResponse(ctx context.Context, id string, body AlertRoutesV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertRoutesV3UpdateResponse, error)
+
+	// AlertRulesV3ListWithResponse List Alert Rules V3
+	//
+	// List the sets of alert rules in your account.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v3/alert_rules (the `AlertRulesV3List` operationId).
+	AlertRulesV3ListWithResponse(ctx context.Context, params *AlertRulesV3ListParams, reqEditors ...RequestEditorFn) (*AlertRulesV3ListResponse, error)
+
+	// AlertRulesV3CreateWithBodyWithResponse Create Alert Rules V3
+	//
+	// Create a team's set of alert rules, or the organisation's required or default rules when it has none. A second set of the same kind, or for the same team, is refused. To manage existing required or default rules, import them or update them by ID.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/alert_rules (the `AlertRulesV3Create` operationId).
+	AlertRulesV3CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertRulesV3CreateResponse, error)
+
+	// AlertRulesV3CreateWithResponse Create Alert Rules V3
+	//
+	// Create a team's set of alert rules, or the organisation's required or default rules when it has none. A second set of the same kind, or for the same team, is refused. To manage existing required or default rules, import them or update them by ID.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/alert_rules (the `AlertRulesV3Create` operationId).
+	AlertRulesV3CreateWithResponse(ctx context.Context, body AlertRulesV3CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertRulesV3CreateResponse, error)
+
+	// AlertRulesV3DeleteWithResponse Delete Alert Rules V3
+	//
+	// Remove a team's set of alert rules. The organisation's required and default rules can't be removed: deleting one empties its rules instead, written as its next version, and releases it from Terraform management.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v3/alert_rules/{id} (the `AlertRulesV3Delete` operationId).
+	AlertRulesV3DeleteWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AlertRulesV3DeleteResponse, error)
+
+	// AlertRulesV3ShowWithResponse Show Alert Rules V3
+	//
+	// Load one set of alert rules in your account.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v3/alert_rules/{id} (the `AlertRulesV3Show` operationId).
+	AlertRulesV3ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AlertRulesV3ShowResponse, error)
+
+	// AlertRulesV3UpdateWithBodyWithResponse Update Alert Rules V3
+	//
+	// Replace a set of alert rules and write its next version. The whole set is replaced: a block or branch left out is removed. The set's kind and team cannot change.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v3/alert_rules/{id} (the `AlertRulesV3Update` operationId).
+	AlertRulesV3UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertRulesV3UpdateResponse, error)
+
+	// AlertRulesV3UpdateWithResponse Update Alert Rules V3
+	//
+	// Replace a set of alert rules and write its next version. The whole set is replaced: a block or branch left out is removed. The set's kind and team cannot change.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v3/alert_rules/{id} (the `AlertRulesV3Update` operationId).
+	AlertRulesV3UpdateWithResponse(ctx context.Context, id string, body AlertRulesV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertRulesV3UpdateResponse, error)
 
 	// AlertSourcesV3ListWithResponse List Alert Sources V3
 	//
@@ -119179,6 +120141,659 @@ func (r AlertRoutesV3UpdateResponse) ContentType() string {
 	return ""
 }
 
+type AlertRulesV3ListResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *AlertRulesListResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r AlertRulesV3ListResponse) GetJSON200() *AlertRulesListResultV3 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r AlertRulesV3ListResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r AlertRulesV3ListResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r AlertRulesV3ListResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r AlertRulesV3ListResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r AlertRulesV3ListResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r AlertRulesV3ListResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r AlertRulesV3ListResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r AlertRulesV3ListResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r AlertRulesV3ListResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r AlertRulesV3ListResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r AlertRulesV3ListResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r AlertRulesV3ListResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r AlertRulesV3ListResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r AlertRulesV3ListResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertRulesV3ListResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertRulesV3ListResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r AlertRulesV3ListResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type AlertRulesV3CreateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON201 the response for an HTTP 201 `application/json` response
+	JSON201 *AlertRulesCreateResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON201 returns the response for an HTTP 201 `application/json` response
+func (r AlertRulesV3CreateResponse) GetJSON201() *AlertRulesCreateResultV3 {
+	return r.JSON201
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r AlertRulesV3CreateResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r AlertRulesV3CreateResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r AlertRulesV3CreateResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r AlertRulesV3CreateResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r AlertRulesV3CreateResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r AlertRulesV3CreateResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r AlertRulesV3CreateResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r AlertRulesV3CreateResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r AlertRulesV3CreateResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r AlertRulesV3CreateResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r AlertRulesV3CreateResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r AlertRulesV3CreateResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r AlertRulesV3CreateResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r AlertRulesV3CreateResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertRulesV3CreateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertRulesV3CreateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r AlertRulesV3CreateResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type AlertRulesV3DeleteResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r AlertRulesV3DeleteResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r AlertRulesV3DeleteResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r AlertRulesV3DeleteResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r AlertRulesV3DeleteResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r AlertRulesV3DeleteResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r AlertRulesV3DeleteResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r AlertRulesV3DeleteResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r AlertRulesV3DeleteResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r AlertRulesV3DeleteResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r AlertRulesV3DeleteResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r AlertRulesV3DeleteResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r AlertRulesV3DeleteResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r AlertRulesV3DeleteResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r AlertRulesV3DeleteResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertRulesV3DeleteResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertRulesV3DeleteResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r AlertRulesV3DeleteResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type AlertRulesV3ShowResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *AlertRulesShowResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r AlertRulesV3ShowResponse) GetJSON200() *AlertRulesShowResultV3 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r AlertRulesV3ShowResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r AlertRulesV3ShowResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r AlertRulesV3ShowResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r AlertRulesV3ShowResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r AlertRulesV3ShowResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r AlertRulesV3ShowResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r AlertRulesV3ShowResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r AlertRulesV3ShowResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r AlertRulesV3ShowResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r AlertRulesV3ShowResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r AlertRulesV3ShowResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r AlertRulesV3ShowResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r AlertRulesV3ShowResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r AlertRulesV3ShowResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertRulesV3ShowResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertRulesV3ShowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r AlertRulesV3ShowResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type AlertRulesV3UpdateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *AlertRulesUpdateResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r AlertRulesV3UpdateResponse) GetJSON200() *AlertRulesUpdateResultV3 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r AlertRulesV3UpdateResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r AlertRulesV3UpdateResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r AlertRulesV3UpdateResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r AlertRulesV3UpdateResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r AlertRulesV3UpdateResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r AlertRulesV3UpdateResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r AlertRulesV3UpdateResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r AlertRulesV3UpdateResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r AlertRulesV3UpdateResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r AlertRulesV3UpdateResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r AlertRulesV3UpdateResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r AlertRulesV3UpdateResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r AlertRulesV3UpdateResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r AlertRulesV3UpdateResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertRulesV3UpdateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertRulesV3UpdateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r AlertRulesV3UpdateResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
 type AlertSourcesV3ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -134934,6 +136549,111 @@ func (c *ClientWithResponses) AlertRoutesV3UpdateWithResponse(ctx context.Contex
 		return nil, err
 	}
 	return ParseAlertRoutesV3UpdateResponse(rsp)
+}
+
+// AlertRulesV3ListWithResponse List Alert Rules V3
+//
+// List the sets of alert rules in your account.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v3/alert_rules (the `AlertRulesV3List` operationId).
+func (c *ClientWithResponses) AlertRulesV3ListWithResponse(ctx context.Context, params *AlertRulesV3ListParams, reqEditors ...RequestEditorFn) (*AlertRulesV3ListResponse, error) {
+	rsp, err := c.AlertRulesV3List(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertRulesV3ListResponse(rsp)
+}
+
+// AlertRulesV3CreateWithBodyWithResponse Create Alert Rules V3
+//
+// Create a team's set of alert rules, or the organisation's required or default rules when it has none. A second set of the same kind, or for the same team, is refused. To manage existing required or default rules, import them or update them by ID.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/alert_rules (the `AlertRulesV3Create` operationId).
+func (c *ClientWithResponses) AlertRulesV3CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertRulesV3CreateResponse, error) {
+	rsp, err := c.AlertRulesV3CreateWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertRulesV3CreateResponse(rsp)
+}
+
+// AlertRulesV3CreateWithResponse Create Alert Rules V3
+//
+// Create a team's set of alert rules, or the organisation's required or default rules when it has none. A second set of the same kind, or for the same team, is refused. To manage existing required or default rules, import them or update them by ID.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/alert_rules (the `AlertRulesV3Create` operationId).
+func (c *ClientWithResponses) AlertRulesV3CreateWithResponse(ctx context.Context, body AlertRulesV3CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertRulesV3CreateResponse, error) {
+	rsp, err := c.AlertRulesV3Create(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertRulesV3CreateResponse(rsp)
+}
+
+// AlertRulesV3DeleteWithResponse Delete Alert Rules V3
+//
+// Remove a team's set of alert rules. The organisation's required and default rules can't be removed: deleting one empties its rules instead, written as its next version, and releases it from Terraform management.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v3/alert_rules/{id} (the `AlertRulesV3Delete` operationId).
+func (c *ClientWithResponses) AlertRulesV3DeleteWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AlertRulesV3DeleteResponse, error) {
+	rsp, err := c.AlertRulesV3Delete(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertRulesV3DeleteResponse(rsp)
+}
+
+// AlertRulesV3ShowWithResponse Show Alert Rules V3
+//
+// Load one set of alert rules in your account.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v3/alert_rules/{id} (the `AlertRulesV3Show` operationId).
+func (c *ClientWithResponses) AlertRulesV3ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AlertRulesV3ShowResponse, error) {
+	rsp, err := c.AlertRulesV3Show(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertRulesV3ShowResponse(rsp)
+}
+
+// AlertRulesV3UpdateWithBodyWithResponse Update Alert Rules V3
+//
+// Replace a set of alert rules and write its next version. The whole set is replaced: a block or branch left out is removed. The set's kind and team cannot change.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v3/alert_rules/{id} (the `AlertRulesV3Update` operationId).
+func (c *ClientWithResponses) AlertRulesV3UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertRulesV3UpdateResponse, error) {
+	rsp, err := c.AlertRulesV3UpdateWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertRulesV3UpdateResponse(rsp)
+}
+
+// AlertRulesV3UpdateWithResponse Update Alert Rules V3
+//
+// Replace a set of alert rules and write its next version. The whole set is replaced: a block or branch left out is removed. The set's kind and team cannot change.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v3/alert_rules/{id} (the `AlertRulesV3Update` operationId).
+func (c *ClientWithResponses) AlertRulesV3UpdateWithResponse(ctx context.Context, id string, body AlertRulesV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertRulesV3UpdateResponse, error) {
+	rsp, err := c.AlertRulesV3Update(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertRulesV3UpdateResponse(rsp)
 }
 
 // AlertSourcesV3ListWithResponse List Alert Sources V3
@@ -174195,6 +175915,587 @@ func ParseAlertRoutesV3UpdateResponse(rsp *http.Response) (*AlertRoutesV3UpdateR
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest AlertRoutesUpdateResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAlertRulesV3ListResponse parses an HTTP response from a AlertRulesV3ListWithResponse call
+func ParseAlertRulesV3ListResponse(rsp *http.Response) (*AlertRulesV3ListResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertRulesV3ListResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AlertRulesListResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAlertRulesV3CreateResponse parses an HTTP response from a AlertRulesV3CreateWithResponse call
+func ParseAlertRulesV3CreateResponse(rsp *http.Response) (*AlertRulesV3CreateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertRulesV3CreateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest AlertRulesCreateResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAlertRulesV3DeleteResponse parses an HTTP response from a AlertRulesV3DeleteWithResponse call
+func ParseAlertRulesV3DeleteResponse(rsp *http.Response) (*AlertRulesV3DeleteResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertRulesV3DeleteResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case rsp.StatusCode == 204:
+		break // No content-type
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAlertRulesV3ShowResponse parses an HTTP response from a AlertRulesV3ShowWithResponse call
+func ParseAlertRulesV3ShowResponse(rsp *http.Response) (*AlertRulesV3ShowResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertRulesV3ShowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AlertRulesShowResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAlertRulesV3UpdateResponse parses an HTTP response from a AlertRulesV3UpdateWithResponse call
+func ParseAlertRulesV3UpdateResponse(rsp *http.Response) (*AlertRulesV3UpdateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertRulesV3UpdateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AlertRulesUpdateResultV3
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
