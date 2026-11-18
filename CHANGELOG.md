@@ -1,6 +1,6 @@
 ## Unreleased
 
-- Fix `incident_escalation_path` and `incident_escalation_path_template` rejecting a branch that ends the path when its condition is met, such as one built in the dashboard: `then` is now optional, like `else`. (#NNN)
+- Fix `incident_escalation_path` and `incident_escalation_path_template` rejecting a branch that ends the path when its condition is met, such as one built in the dashboard: `then` is now optional, like `else`. (#684)
 
 ## v7.9.0
 
