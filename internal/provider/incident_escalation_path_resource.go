@@ -273,8 +273,8 @@ func escalationPathNodeSchema() schema.NestedAttributeObject {
 				Attributes: map[string]schema.Attribute{
 					"if": escalationPathBranchIfAttribute(),
 					"then": schema.StringAttribute{
-						MarkdownDescription: "The key of the sequence to continue down when the condition is met.",
-						Required:            true,
+						MarkdownDescription: "The key of the sequence to continue down when the condition is met. Leave unset to end the escalation path instead. A branch must set at least one of `then` and `else`.",
+						Optional:            true,
 					},
 					"else": schema.StringAttribute{
 						MarkdownDescription: "The key of the sequence to continue down when the condition is not met. Leave unset to end the escalation path instead.",

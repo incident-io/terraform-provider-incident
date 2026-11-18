@@ -263,7 +263,7 @@ func escalationPathNodeDataSourceSchema() schema.NestedAttributeObject {
 					},
 					"then": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "The key of the sequence to continue down when the condition is met.",
+						MarkdownDescription: "The key of the sequence to continue down when the condition is met. Unset when the escalation path ends there.",
 					},
 					"else": schema.StringAttribute{
 						Computed:            true,

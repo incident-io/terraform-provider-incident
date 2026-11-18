@@ -273,9 +273,12 @@ func unflattenSequence[P any, N any](ctx context.Context, codec sequenceCodec[P,
 		id := node.NodeID(key, index)
 
 		if node.Branch != nil {
-			thenPath := unflattenSequence(ctx, codec, node.Branch.Then.ValueString(), sequences, visiting, inlined, diags)
-			// else is optional: a branch with nothing on the false side just falls off the
-			// end of the escalation path.
+			// then and else are both optional: a side with no sequence just falls off the end
+			// of the escalation path.
+			thenPath := []P{}
+			if thenKey := node.Branch.Then.ValueString(); thenKey != "" {
+				thenPath = unflattenSequence(ctx, codec, thenKey, sequences, visiting, inlined, diags)
+			}
 			elsePath := []P{}
 			if elseKey := node.Branch.Else.ValueString(); elseKey != "" {
 				elsePath = unflattenSequence(ctx, codec, elseKey, sequences, visiting, inlined, diags)
@@ -386,10 +389,15 @@ func flattenSequence[P any, N any](ctx context.Context, codec sequenceCodec[P, N
 			}
 
 			priorThen, priorElse := prior.branchTargets(priorKey)
+			// An empty side ends the escalation path, which the config says by leaving it
+			// unset rather than naming a sequence with nothing in it.
 			branch := &escalationPathBranch{
 				If:   escalationPathBranchIfFromAPI(ctx, conditions, diags),
-				Then: types.StringValue(flattenSequence(ctx, codec, thenPath, priorThen, key+"_then", prior, sequences, diags)),
+				Then: types.StringNull(),
 				Else: types.StringNull(),
+			}
+			if len(thenPath) > 0 {
+				branch.Then = types.StringValue(flattenSequence(ctx, codec, thenPath, priorThen, key+"_then", prior, sequences, diags))
 			}
 			if len(elsePath) > 0 {
 				branch.Else = types.StringValue(flattenSequence(ctx, codec, elsePath, priorElse, key+"_else", prior, sequences, diags))
@@ -686,6 +694,16 @@ func validateSequenceNodes(sequences map[string][]escalationPathNode, diags *dia
 				)
 			}
 
+			// Either side may be left unset to end the escalation path there, but a branch
+			// that ends it on both sides does nothing.
+			if node.Branch != nil && node.Branch.Then.IsNull() && node.Branch.Else.IsNull() {
+				diags.AddAttributeError(
+					nodePath.AtName("branch"),
+					"Branch goes nowhere",
+					fmt.Sprintf("The branch in sequence %q sets neither then nor else. Name a sequence for at least one of them, or remove the branch.", key),
+				)
+			}
+
 			// A loop goes back to an earlier node rather than on to the next one. The only
 			// thing that runs after it is a single reassignment, once it has run out of
 			// repeats; the API rejects anything else.
@@ -730,7 +748,7 @@ func validateSequenceReferences(sequences map[string][]escalationPathNode, nodeI
 					{"then", node.Branch.Then},
 					{"else", node.Branch.Else},
 				} {
-					// Only an unset else ends the escalation path here; an empty string
+					// Only an unset side ends the escalation path here; an empty string
 					// is a name like any other, and no sequence has it.
 					if side.value.IsNull() {
 						continue

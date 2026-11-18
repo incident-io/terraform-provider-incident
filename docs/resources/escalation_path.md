@@ -284,11 +284,11 @@ Optional:
 Required:
 
 - `if` (Attributes) What the branch tests. Set exactly one of these: a branch tests one thing, so combining them means nesting a second branch inside the first. (see [below for nested schema](#nestedatt--sequences--nodes--branch--if))
-- `then` (String) The key of the sequence to continue down when the condition is met.
 
 Optional:
 
 - `else` (String) The key of the sequence to continue down when the condition is not met. Leave unset to end the escalation path instead.
+- `then` (String) The key of the sequence to continue down when the condition is met. Leave unset to end the escalation path instead. A branch must set at least one of `then` and `else`.
 
 <a id="nestedatt--sequences--nodes--branch--if"></a>
 ### Nested Schema for `sequences.nodes.branch.if`

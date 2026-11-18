@@ -138,8 +138,8 @@ func TestValidateSequences(t *testing.T) {
 			wantError: "continues after a loop node",
 		},
 		{
-			// then is required, so an empty one is a name the author wrote, not a side
-			// they left off.
+			// An empty then is a name the author wrote, not a side they left off: only an
+			// unset then ends the path.
 			name:  "a branch names the empty sequence",
 			start: "main",
 			sequences: map[string][]escalationPathNode{
@@ -147,6 +147,22 @@ func TestValidateSequences(t *testing.T) {
 				"urgent": {levelNode(t, "")},
 			},
 			wantError: "There is no sequence named \"\"",
+		},
+		{
+			name:  "a branch that ends the path when its condition is met",
+			start: "main",
+			sequences: map[string][]escalationPathNode{
+				"main":  {endingBranchNode("quiet")},
+				"quiet": {levelNode(t, "")},
+			},
+		},
+		{
+			name:  "a branch that sets neither then nor else",
+			start: "main",
+			sequences: map[string][]escalationPathNode{
+				"main": {levelNode(t, ""), endingBranchNode("")},
+			},
+			wantError: "sets neither then nor else",
 		},
 		{
 			name:  "a loop back to a node we derived an id for",
