@@ -649,6 +649,13 @@ func (expressions IncidentEngineExpressions) ReconcileSpelling(plan IncidentEngi
 				ReconcileSpelling(planExpression.ElseBranch.Result)
 		}
 
+		// The API doesn't store an else branch with an empty result, so `else_branch { result = {} }`
+		// reads back as no else branch at all.
+		if expressions[ei].ElseBranch == nil && planExpression.ElseBranch != nil &&
+			planExpression.ElseBranch.Result.IsEmpty() {
+			expressions[ei].ElseBranch = planExpression.ElseBranch
+		}
+
 		for oi := range expressions[ei].Operations {
 			if oi >= len(planExpression.Operations) {
 				break

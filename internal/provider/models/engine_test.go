@@ -288,6 +288,39 @@ func TestIncidentEngineExpressions_ReconcileSpellingCorrelatesByReference(t *tes
 	assert.NotPanics(t, func() { unplanned.ReconcileSpelling(nil) })
 }
 
+func TestIncidentEngineExpressions_ReconcileSpellingKeepsEmptyElseBranch(t *testing.T) {
+	expression := func(elseBranch *IncidentEngineElseBranch) IncidentEngineExpression {
+		return IncidentEngineExpression{
+			Reference:  types.StringValue("escalation"),
+			ElseBranch: elseBranch,
+		}
+	}
+
+	emptyElse := &IncidentEngineElseBranch{Result: NullParamBinding()}
+	applied := IncidentEngineExpressions{expression(nil)}
+	applied.ReconcileSpelling(IncidentEngineExpressions{expression(emptyElse)})
+	assert.Equal(t, emptyElse, applied[0].ElseBranch, "empty else branch the API dropped is kept")
+
+	emptyArray := NullParamBinding()
+	emptyArray.ArrayValue = types.ListValueMust(ParamBindingValueType(), []attr.Value{})
+	emptyArrayElse := &IncidentEngineElseBranch{Result: emptyArray}
+	applied = IncidentEngineExpressions{expression(nil)}
+	applied.ReconcileSpelling(IncidentEngineExpressions{expression(emptyArrayElse)})
+	assert.Equal(t, emptyArrayElse, applied[0].ElseBranch, "an else branch of array_value = [] the API dropped is kept")
+
+	literalElse := NullParamBinding()
+	literalElse.ValueLiteral = jsontypes.NewNormalizedJSONOrStringValue("fallback")
+	applied = IncidentEngineExpressions{expression(nil)}
+	applied.ReconcileSpelling(IncidentEngineExpressions{expression(&IncidentEngineElseBranch{Result: literalElse})})
+	assert.Nil(t, applied[0].ElseBranch, "a missing else branch that had a value is drift")
+
+	unknownElse := NullParamBinding()
+	unknownElse.ValueLiteral = jsontypes.NewNormalizedJSONOrStringUnknown()
+	applied = IncidentEngineExpressions{expression(nil)}
+	applied.ReconcileSpelling(IncidentEngineExpressions{expression(&IncidentEngineElseBranch{Result: unknownElse})})
+	assert.Nil(t, applied[0].ElseBranch, "an unknown else branch is not treated as empty")
+}
+
 func TestIncidentEngineParamBinding_IsEmpty(t *testing.T) {
 	assert.True(t, NullParamBinding().IsEmpty(), "a binding with nothing set is empty")
 

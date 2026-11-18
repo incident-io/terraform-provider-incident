@@ -1,3 +1,7 @@
+## Unreleased
+
+- `incident_alert_route`, `incident_workflow`, `incident_policy` and `incident_escalation_path_template` no longer fail an apply with "Provider produced inconsistent result" when an expression has an empty `else_branch` (`result = {}`) (#680).
+
 ## v7.9.0
 
 - Add `sns_options` to the `incident_alert_source` resource and data source, which sets how an SNS alert source deduplicates messages into alerts: `message_id` (one alert per message), `automatic` (one alert per CloudWatch alarm, Inspector or GuardDuty finding, or AWS Health event) or `custom` (a JSON path into the payload, set with `deduplication_key_path`). Leave the block out to keep the strategy chosen in the dashboard. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/alert_source). (#676)
