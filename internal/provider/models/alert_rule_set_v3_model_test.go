@@ -19,8 +19,6 @@ import (
 	"github.com/incident-io/terraform-provider-incident/v7/internal/client"
 )
 
-// alertRuleSetSchema is the resource's schema as the resource will build it, adding the
-// unlock_in_dashboard attribute every claimable resource carries.
 func alertRuleSetSchema() schema.Schema {
 	attributes := AlertRuleSetAttributes()
 	attributes["unlock_in_dashboard"] = schema.BoolAttribute{Optional: true}
@@ -28,8 +26,6 @@ func alertRuleSetSchema() schema.Schema {
 	return schema.Schema{Attributes: attributes, Blocks: AlertRuleSetBlocks()}
 }
 
-// alertRuleSetState is the model as Terraform stores it. Comparing these rather than the Go
-// structs compares what Terraform compares: null against empty, and each spelling.
 func alertRuleSetState(t *testing.T, m AlertRuleSetResourceModel) tftypes.Value {
 	t.Helper()
 	ctx := context.Background()
@@ -53,10 +49,7 @@ func requireSameState(t *testing.T, want, got AlertRuleSetResourceModel) {
 	}
 }
 
-// alertRuleSetResponse is what the API answers a write with: the same set in the stored shape.
-// It sends condition_groups even when there are none, answers the one_of alias with its
-// canonical name, omits an empty array_value and an empty list of nested branches, and orders
-// expressions by dependency rather than as sent.
+// alertRuleSetResponse answers a write the way the API does, in its stored shape.
 func alertRuleSetResponse(t *testing.T, kind string, teamID *string, blocks []client.AlertRuleBlockV3, expressions []client.ExpressionPayloadV3) client.AlertRuleSetV3 {
 	t.Helper()
 
@@ -108,7 +101,6 @@ func alertRuleSetResponse(t *testing.T, kind string, teamID *string, blocks []cl
 	}
 }
 
-// applyAlertRuleSet creates the planned set and reads the answer back, as the resource will.
 func applyAlertRuleSet(t *testing.T, plan AlertRuleSetResourceModel) AlertRuleSetResourceModel {
 	t.Helper()
 
@@ -119,7 +111,6 @@ func applyAlertRuleSet(t *testing.T, plan AlertRuleSetResourceModel) AlertRuleSe
 		alertRuleSetResponse(t, string(payload.Kind), payload.TeamId, payload.Blocks, *payload.Expressions), &plan)
 }
 
-// applied is the plan with the attributes the API computes filled in.
 func applied(plan AlertRuleSetResourceModel) AlertRuleSetResourceModel {
 	plan.ID = types.StringValue("01SET")
 	plan.Version = types.Int64Value(1)
@@ -147,8 +138,6 @@ func alertRuleSetModel(kind string, teamID types.String, blocks ...AlertRuleBloc
 	}
 }
 
-// pageOnHighPriority is an if/else block with a nested branch, written in the shorthands a
-// config would use.
 func pageOnHighPriority() AlertRuleBlockModel {
 	return AlertRuleBlockModel{
 		ID: types.StringValue("page-owning-team"),
@@ -178,8 +167,6 @@ func TestAlertRuleSetSchemaIsValid(t *testing.T) {
 		t.Fatalf("the schema is not a valid implementation: %s", diags)
 	}
 
-	// Every field the model carries has to be in the schema, or the resource can't read its
-	// plan. Writing a full model to state proves it.
 	alertRuleSetState(t, alertRuleSetModel("team", types.StringValue("01TEAM"), pageOnHighPriority()))
 }
 
@@ -226,7 +213,6 @@ func TestAlertRuleSetRoundTrip(t *testing.T) {
 			got := applyAlertRuleSet(t, tc.plan)
 			requireSameState(t, applied(tc.plan), got)
 
-			// A refresh reads the same answer with the state as the prior.
 			payload, err := got.ToCreatePayload()
 			require.NoError(t, err)
 			refreshed := AlertRuleSetResourceModel{}.FromAPI(
@@ -241,8 +227,6 @@ func TestAlertRuleSetCreatePayload(t *testing.T) {
 	payload, err := plan.ToCreatePayload()
 	require.NoError(t, err)
 
-	// What the API is sent, byte for byte: shorthands folded onto value and array_value,
-	// condition_groups and actions always present, no nested branches key when there are none.
 	assert.JSONEq(t, `{
 		"kind": "team",
 		"team_id": "01TEAM",
@@ -287,16 +271,12 @@ func TestAlertRuleSetCreatePayload(t *testing.T) {
 	})
 }
 
-// An update replaces the whole set but can't change its kind or team, so it sends neither.
 func TestAlertRuleSetUpdatePayload(t *testing.T) {
 	payload, err := alertRuleSetModel("team", types.StringValue("01TEAM")).ToUpdatePayload(4)
 	require.NoError(t, err)
 	assert.JSONEq(t, `{"version": 4, "blocks": [], "expressions": []}`, string(lo.Must(json.Marshal(payload))))
 }
 
-// The API answers condition_groups = [] for a branch with no conditions, whether the config
-// omitted the attribute or set it empty. Either way the read must match, or the apply fails
-// as an inconsistent result and every plan shows a change.
 func TestAlertRuleSetEmptyConditionGroups(t *testing.T) {
 	block := func(conditionGroups IncidentEngineConditionGroups) AlertRuleBlockModel {
 		return AlertRuleBlockModel{ID: types.StringValue("block"), Branches: []AlertRuleBranchModel{{
@@ -319,8 +299,6 @@ func TestAlertRuleSetEmptyConditionGroups(t *testing.T) {
 		})
 	}
 
-	// With no prior to say which, an import reads them as omitted, the way a config would
-	// write an unconditional branch.
 	t.Run("imported", func(t *testing.T) {
 		plan := alertRuleSetModel("required", types.StringNull(), block(IncidentEngineConditionGroups{}))
 		payload, err := plan.ToCreatePayload()
@@ -333,8 +311,6 @@ func TestAlertRuleSetEmptyConditionGroups(t *testing.T) {
 	})
 }
 
-// Branches are matched to their prior by id, so a branch that moves keeps its spelling, and
-// one that is new reads back in the API's spelling rather than borrowing another's.
 func TestAlertRuleSetMatchesPriorBranchesByID(t *testing.T) {
 	plan := alertRuleSetModel("required", types.StringNull(), pageOnHighPriority())
 
@@ -384,7 +360,6 @@ func TestAlertRuleSetExpressionsRoundTrip(t *testing.T) {
 	assert.Equal(t, []string{"team", "team_path"}, lo.Map(*payload.Expressions,
 		func(e client.ExpressionPayloadV3, _ int) string { return e.Reference }))
 
-	// The API returns them in another order; the config's order has to come back.
 	requireSameState(t, applied(plan), applyAlertRuleSet(t, plan))
 }
 
@@ -421,7 +396,6 @@ func TestValidateAlertRuleSet(t *testing.T) {
 			model: alertRuleSetModel("default", types.StringNull()),
 		},
 		{
-			// Settled at apply, so there's nothing to check yet.
 			name:  "a team Terraform hasn't settled",
 			model: alertRuleSetModel("team", types.StringUnknown()),
 		},

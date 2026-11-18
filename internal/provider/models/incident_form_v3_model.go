@@ -271,14 +271,10 @@ func (IncidentFormLifecycleElementModel) FromAPI(element client.IncidentFormLife
 	return result
 }
 
+// optionalConditionGroupsFromV3 reads condition groups the config may have left out. The
+// API answers an element with no conditions with an empty list, so an empty answer reads
+// back as whatever the config said: null when unset, empty when it wrote `[]`.
 func optionalConditionGroupsFromV3(groups []client.ConditionGroupV3, plan IncidentEngineConditionGroups) IncidentEngineConditionGroups {
-	return optionalConditionGroups(conditionGroupsFromV3(groups), plan)
-}
-
-// optionalConditionGroups reads condition groups the config may have left out. The API
-// answers no conditions with an empty list, so an empty answer reads back as whatever the
-// config said: null when unset, empty when it wrote `[]`.
-func optionalConditionGroups(groups, plan IncidentEngineConditionGroups) IncidentEngineConditionGroups {
 	if len(groups) == 0 {
 		if plan != nil {
 			return IncidentEngineConditionGroups{}
@@ -287,9 +283,10 @@ func optionalConditionGroups(groups, plan IncidentEngineConditionGroups) Inciden
 		return nil
 	}
 
-	groups.ReconcileSpelling(plan)
+	result := conditionGroupsFromV3(groups)
+	result.ReconcileSpelling(plan)
 
-	return groups
+	return result
 }
 
 func (m IncidentFormResourceModel) ToCreatePayload() client.IncidentFormsCreatePayloadV3 {

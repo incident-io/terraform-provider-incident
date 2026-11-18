@@ -18,15 +18,8 @@ import (
 	"github.com/incident-io/terraform-provider-incident/v7/internal/client"
 )
 
-// One set of alert rules: the organisation's required rules, its default rules, or one team's
-// rules. The API reads a set back in the shape it accepts, so conditions use the alert source's
-// filter_condition_groups grammar and expressions its named_expression blocks.
-
-// alertRuleSetExpressions stores names as written: a set's expressions are its own.
 var alertRuleSetExpressions = ExpressionNamespace{}
 
-// AlertRuleSetResourceModel is the incident_alert_rules resource. The resource adds the
-// unlock_in_dashboard attribute to the schema, as every claimable resource does.
 type AlertRuleSetResourceModel struct {
 	ID                types.String          `tfsdk:"id"`
 	UnlockInDashboard types.Bool            `tfsdk:"unlock_in_dashboard"`
@@ -42,8 +35,6 @@ type AlertRuleBlockModel struct {
 	Branches []AlertRuleBranchModel `tfsdk:"branch"`
 }
 
-// AlertRuleBranchModel and AlertRuleNestedBranchModel have no actions yet. They are added
-// when the resource is wired: see alertRuleActionsToPayload.
 type AlertRuleBranchModel struct {
 	ID              types.String                  `tfsdk:"id"`
 	ConditionGroups IncidentEngineConditionGroups `tfsdk:"condition_groups"`
@@ -64,8 +55,7 @@ func AlertRuleSetAttributes() map[string]schema.Attribute {
 				stringplanmodifier.UseStateForUnknown(),
 			},
 		},
-		// The API can't change a set's kind or team, so a change to either replaces the set.
-		// Otherwise the update would leave them as they were and every plan would show the change.
+		// The API can't change a set's kind or team, so changing either replaces the set.
 		"kind": schema.StringAttribute{
 			Required:            true,
 			MarkdownDescription: apischema.EnumValuesDescription("AlertRuleSetV3", "kind"),
@@ -93,9 +83,6 @@ func AlertRuleSetAttributes() map[string]schema.Attribute {
 	}
 }
 
-// The rules are list blocks rather than nested attributes, because the actions will need
-// blocks inside a branch, which an attribute can't hold. An omitted list block is also empty
-// rather than null, so it can't diff against an empty answer.
 func AlertRuleSetBlocks() map[string]schema.Block {
 	return map[string]schema.Block{
 		"block": schema.ListNestedBlock{
@@ -140,7 +127,6 @@ func alertRuleIDAttribute(definition string) schema.StringAttribute {
 }
 
 func alertRuleBranchAttributes(definition string) map[string]schema.Attribute {
-	// The API refuses a condition group with no conditions.
 	conditions := ConditionsAttribute()
 	conditions.Validators = []validator.List{listvalidator.SizeAtLeast(1)}
 
@@ -158,8 +144,6 @@ func alertRuleBranchAttributes(definition string) map[string]schema.Attribute {
 	}
 }
 
-// ValidateAlertRuleSet runs the checks the API makes that the schema can't express, so they
-// fail the plan rather than the apply.
 func ValidateAlertRuleSet(m AlertRuleSetResourceModel, diags *diag.Diagnostics) {
 	if !m.Kind.IsUnknown() && !m.TeamID.IsUnknown() {
 		isTeam := m.Kind.ValueString() == string(client.AlertRuleSetV3KindTeam)
@@ -173,8 +157,6 @@ func ValidateAlertRuleSet(m AlertRuleSetResourceModel, diags *diag.Diagnostics) 
 		}
 	}
 
-	// Blocks, branches and actions share one set of ids. Actions join this check when the
-	// resource is wired.
 	seen := map[string]bool{}
 	checkID := func(id types.String, at path.Path) {
 		if id.IsNull() || id.IsUnknown() {
@@ -196,7 +178,6 @@ func ValidateAlertRuleSet(m AlertRuleSetResourceModel, diags *diag.Diagnostics) 
 			branchPath := blockPath.AtName("branch").AtListIndex(branchIdx)
 			checkID(branch.ID, branchPath.AtName("id"))
 
-			// A block is an if and an optional else, and the else holds unconditionally.
 			if branchIdx == 1 && len(branch.ConditionGroups) > 0 {
 				diags.AddAttributeError(branchPath.AtName("condition_groups"), "Conditions on an else branch",
 					"The second branch of a block is its else, which runs when the first doesn't. Remove its condition_groups.")
@@ -227,8 +208,6 @@ func (m AlertRuleSetResourceModel) ToCreatePayload() (client.AlertRulesCreatePay
 	}, nil
 }
 
-// ToUpdatePayload carries the version the update writes, one more than the current one, so a
-// concurrent edit is rejected rather than overwritten.
 func (m AlertRuleSetResourceModel) ToUpdatePayload(version int64) (client.AlertRulesUpdatePayloadV3, error) {
 	expressions, err := m.expressionsToPayload()
 	if err != nil {
@@ -242,8 +221,6 @@ func (m AlertRuleSetResourceModel) ToUpdatePayload(version int64) (client.AlertR
 	}, nil
 }
 
-// expressionsToPayload always sends the list, even empty: an update replaces the whole set,
-// so leaving it out mustn't read as "keep what's there".
 func (m AlertRuleSetResourceModel) expressionsToPayload() ([]client.ExpressionPayloadV3, error) {
 	expressions, _, err := ExpressionsToPayload(alertRuleSetExpressions, nil, m.NamedExpressions)
 
@@ -278,17 +255,12 @@ func alertRuleBlocksToPayload(blocks []AlertRuleBlockModel) []client.AlertRuleBl
 	})
 }
 
-// alertRuleActionsToPayload is where actions are wired in with the resource. The API requires
-// the list, so until then every branch is sent with none.
+// Actions are added with the resource. The API requires the list, so send it empty until then.
 func alertRuleActionsToPayload() []client.AlertRuleActionV3 {
 	return []client.AlertRuleActionV3{}
 }
 
-// FromAPI builds the model from the API's set. prior is the plan on create and update, the
-// prior state on read, and nil on import. It settles what the API's answer can't: whether a
-// branch without conditions omitted condition_groups or set it empty, which spelling each
-// binding used, and the order of the named expressions. Branches are matched to their prior by
-// id, which is unique within a set.
+// FromAPI takes the plan on create and update, the prior state on read, and nil on import.
 func (AlertRuleSetResourceModel) FromAPI(set client.AlertRuleSetV3, prior *AlertRuleSetResourceModel) AlertRuleSetResourceModel {
 	priorConditionGroups := map[string]IncidentEngineConditionGroups{}
 	var priorNamed []NamedExpression
@@ -305,8 +277,19 @@ func (AlertRuleSetResourceModel) FromAPI(set client.AlertRuleSetV3, prior *Alert
 			}
 		}
 	}
+	// Keep condition_groups as the config wrote it: the API answers both omitted and [] with [].
 	conditionGroups := func(id string, groups []client.ConditionGroupPayloadV3) IncidentEngineConditionGroups {
-		return optionalConditionGroups(ConditionGroupsFromV3Payload(groups), priorConditionGroups[id])
+		prior := priorConditionGroups[id]
+		if len(groups) == 0 {
+			if prior != nil {
+				return IncidentEngineConditionGroups{}
+			}
+			return nil
+		}
+		out := ConditionGroupsFromV3Payload(groups)
+		out.ReconcileSpelling(prior)
+
+		return out
 	}
 
 	result.ID = types.StringValue(set.Id)
@@ -333,7 +316,6 @@ func (AlertRuleSetResourceModel) FromAPI(set client.AlertRuleSetV3, prior *Alert
 		}
 	})
 
-	// No unnamed expression block on this resource, so no prior for one either.
 	_, result.NamedExpressions = ExpressionsFromPayload(set.Expressions, alertRuleSetExpressions, nil, priorNamed)
 	if result.NamedExpressions == nil {
 		result.NamedExpressions = []NamedExpression{}
