@@ -51,6 +51,14 @@ func branchNode(then, els string) escalationPathNode {
 	}
 }
 
+// endingBranchNode is a branch that ends the escalation path when its condition is met,
+// and carries on down els otherwise (or ends there too, when els is empty).
+func endingBranchNode(els string) escalationPathNode {
+	node := branchNode("", els)
+	node.Branch.Then = types.StringNull()
+	return node
+}
+
 func TestUnflattenSequences(t *testing.T) {
 	ctx := context.Background()
 
@@ -119,6 +127,24 @@ func TestUnflattenSequences(t *testing.T) {
 		}
 		if got := len(path[0].IfElse.ElsePath); got != 0 {
 			t.Errorf("got %d else nodes, want 0", got)
+		}
+	})
+
+	t.Run("leaves the then path empty when the branch has no then", func(t *testing.T) {
+		var diags diag.Diagnostics
+		path := unflattenSequences(ctx, "main", map[string][]escalationPathNode{
+			"main":  {endingBranchNode("quiet")},
+			"quiet": {levelNode(t, "")},
+		}, &diags)
+
+		if diags.HasError() {
+			t.Fatalf("unexpected errors: %+v", diags)
+		}
+		if got := len(path[0].IfElse.ThenPath); got != 0 {
+			t.Errorf("got %d then nodes, want 0", got)
+		}
+		if got := len(path[0].IfElse.ElsePath); got != 1 {
+			t.Errorf("got %d else nodes, want 1", got)
 		}
 	})
 
@@ -265,6 +291,51 @@ func TestFlattenSequences(t *testing.T) {
 			if _, ok := got[key]; !ok {
 				t.Errorf("missing sequence %q, got %v", key, lo.Keys(got))
 			}
+		}
+	})
+
+	t.Run("leaves then unset when the branch ends the path when its condition is met", func(t *testing.T) {
+		// The dashboard builds "do nothing in working hours, page otherwise" as a branch
+		// with an empty then path. Reading that back as a sequence with no nodes would
+		// fail validation, so the path can't be imported.
+		nodes := []client.EscalationPathNodeV2{{
+			Id:   "01AAA",
+			Type: client.EscalationPathNodeV2TypeIfElse,
+			IfElse: &client.EscalationPathNodeIfElseV2{
+				Conditions: workingHoursConditions("UK"),
+				ThenPath:   []client.EscalationPathNodeV2{},
+				ElsePath:   []client.EscalationPathNodeV2{{Id: "01CCC", Type: client.EscalationPathNodeV2TypeDelay, Delay: &client.EscalationPathNodeDelayV2{}}},
+			},
+		}}
+
+		var diags diag.Diagnostics
+		start, got := flattenSequences(ctx, nodes, escalationPathPriorNames{}, &diags)
+		if diags.HasError() {
+			t.Fatalf("unexpected errors: %+v", diags)
+		}
+
+		branch := got["main"][0].Branch
+		if !branch.Then.IsNull() {
+			t.Errorf("got then %q, want unset", branch.Then.ValueString())
+		}
+		if _, ok := got["main_then"]; ok {
+			t.Errorf("got a main_then sequence, want none")
+		}
+
+		validateSequences(ctx, betaModel(t, start, got), &diags)
+		if diags.HasError() {
+			t.Fatalf("flattened path doesn't validate: %+v", diags)
+		}
+
+		path := unflattenSequences(ctx, start, got, &diags)
+		if diags.HasError() {
+			t.Fatalf("unexpected errors: %+v", diags)
+		}
+		if got := len(path[0].IfElse.ThenPath); got != 0 {
+			t.Errorf("got %d then nodes, want 0", got)
+		}
+		if got := len(path[0].IfElse.ElsePath); got != 1 {
+			t.Errorf("got %d else nodes, want 1", got)
 		}
 	})
 

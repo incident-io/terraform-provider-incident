@@ -112,7 +112,7 @@ Read-Only:
 
 - `else` (String) The key of the sequence to continue down when the condition is not met.
 - `if` (Attributes) What the branch tests. Set exactly one of these: a branch tests one thing, so combining them means nesting a second branch inside the first. (see [below for nested schema](#nestedatt--sequences--nodes--branch--if))
-- `then` (String) The key of the sequence to continue down when the condition is met.
+- `then` (String) The key of the sequence to continue down when the condition is met. Unset when the escalation path ends there.
 
 <a id="nestedatt--sequences--nodes--branch--if"></a>
 ### Nested Schema for `sequences.nodes.branch.if`
