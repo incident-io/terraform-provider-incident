@@ -208,6 +208,19 @@ func TestAlertRuleSetRoundTrip(t *testing.T) {
 				}},
 			),
 		},
+		{
+			name: "actions on a branch and a nested branch",
+			plan: alertRuleSetModel("team", types.StringValue("01TEAM"),
+				AlertRuleBlockModel{ID: types.StringValue("page"), Branches: []AlertRuleBranchModel{{
+					ID:      types.StringValue("always"),
+					Actions: []AlertRuleActionV3Model{escalateAction(AlertRuleEscalateActionV3Model{Users: v3Values("U1")})},
+					Branches: []AlertRuleNestedBranchModel{{
+						ID:      types.StringValue("investigate"),
+						Actions: []AlertRuleActionV3Model{{ID: types.StringValue("look"), Type: types.StringValue("investigate")}},
+					}},
+				}}},
+			),
+		},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			got := applyAlertRuleSet(t, tc.plan)
@@ -422,6 +435,27 @@ func TestValidateAlertRuleSet(t *testing.T) {
 			want: []path.Path{
 				path.Root("block").AtListIndex(0).AtName("branch").AtListIndex(0).AtName("id"),
 				path.Root("block").AtListIndex(1).AtName("branch").AtListIndex(0).AtName("id"),
+			},
+		},
+		{
+			name: "actions are checked on branches and nested branches",
+			model: alertRuleSetModel("required", types.StringNull(),
+				block("page", AlertRuleBranchModel{
+					ID:      types.StringValue("always"),
+					Actions: []AlertRuleActionV3Model{{Type: types.StringValue("escalate")}},
+					Branches: []AlertRuleNestedBranchModel{{
+						ID: types.StringValue("nested"),
+						Actions: []AlertRuleActionV3Model{{
+							Type:     types.StringValue("escalate"),
+							Escalate: &AlertRuleEscalateActionV3Model{EscalationPaths: v3ExpressionRef("undeclared")},
+						}},
+					}},
+				}),
+			),
+			want: []path.Path{
+				path.Root("block").AtListIndex(0).AtName("branch").AtListIndex(0).AtName("actions").AtListIndex(0).AtName("escalate"),
+				path.Root("block").AtListIndex(0).AtName("branch").AtListIndex(0).AtName("branch").AtListIndex(0).
+					AtName("actions").AtListIndex(0).AtName("escalate").AtName("escalation_paths").AtName("expression_ref"),
 			},
 		},
 		{
