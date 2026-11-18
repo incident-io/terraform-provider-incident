@@ -90,7 +90,7 @@ func TestIncidentPayConfigResourceValidateConfig(t *testing.T) {
 		},
 		{
 			name:         "rate time unit outside the enum",
-			rateTimeUnit: "week",
+			rateTimeUnit: "month",
 			errRe:        `value must be one of`,
 		},
 		{

@@ -110,16 +110,16 @@ resource "incident_pay_config" "flat_daily" {
 
 ### Required
 
-- `base_rate_cents` (Number) Rate paid for any time no rule covers, in the lowest denomination of the currency
+- `base_rate_cents` (Number) Rate paid for one unit of rate_time_unit, for any time no rule covers, in the lowest denomination of the currency
 - `currency` (String) Currency this config pays in, in ISO 4217 format, such as `GBP`.
 - `name` (String) Human readable name for this pay config
-- `rate_time_unit` (String) The unit of time every rate on this config is quoted per. Pay is pro-rated by the second either way. Possible values are: `hour`, `day`.
+- `rate_time_unit` (String) The unit of time every rate on this config is quoted per: hour, day, or week. A day is 24 hours of shift time and a week is 7 days. Pay is pro-rated by the second. Possible values are: `hour`, `day`, `week`.
 - `timezone` (String) IANA timezone this config's rules are interpreted in, such as `Europe/London`.
 
 ### Optional
 
 - `one_off_rules` (Attributes List) Rules that apply over a single window of time, such as a public holiday. These take precedence over the weekly rules and may not overlap each other. Changing the list changes the rules in place, position by position. (see [below for nested schema](#nestedatt--one_off_rules))
-- `weekly_rules` (Attributes List) Rules that apply every week, by day of week and time of day, in evaluation order. The first rule that covers a shift prices it, so order matters. Changing the list changes the rules in place, position by position: a rule that moves keeps its position's ID rather than its own. (see [below for nested schema](#nestedatt--weekly_rules))
+- `weekly_rules` (Attributes List) Rules that apply every week, by day of week and time of day, in evaluation order. Must be empty when rate_time_unit is week. The first rule that covers a shift prices it, so order matters. Changing the list changes the rules in place, position by position: a rule that moves keeps its position's ID rather than its own. (see [below for nested schema](#nestedatt--weekly_rules))
 
 ### Read-Only
 

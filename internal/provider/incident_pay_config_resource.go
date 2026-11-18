@@ -123,7 +123,7 @@ resource needs.`),
 					types.ObjectType{AttrTypes: models.PayConfigWeeklyRuleModel{}.AttrTypes()}, []attr.Value{},
 				)),
 				MarkdownDescription: apischema.Docstring("PayConfigV2", "weekly_rules") +
-					". The first rule that covers a shift prices it, so order matters. Changing the list " +
+					" The first rule that covers a shift prices it, so order matters. Changing the list " +
 					"changes the rules in place, position by position: a rule that moves keeps its position's " +
 					"ID rather than its own.",
 				NestedObject: schema.NestedAttributeObject{

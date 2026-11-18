@@ -70,7 +70,7 @@ func (d *IncidentPayConfigDataSource) Schema(_ context.Context, _ datasource.Sch
 				Computed:            true,
 			},
 			"weekly_rules": schema.ListNestedAttribute{
-				MarkdownDescription: apischema.Docstring("PayConfigV2", "weekly_rules") + ". The first rule that covers a shift prices it.",
+				MarkdownDescription: apischema.Docstring("PayConfigV2", "weekly_rules") + " The first rule that covers a shift prices it.",
 				Computed:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
