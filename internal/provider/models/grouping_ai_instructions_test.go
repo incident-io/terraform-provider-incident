@@ -189,3 +189,42 @@ func TestAIInstructionsFromAPI(t *testing.T) {
 		})
 	}
 }
+
+// The provider doesn't model a team's conditional branches yet. The API keeps the stored
+// branches and expressions when an update leaves them out, so we must never send either,
+// not even as an empty list, which would delete them.
+func TestTeamGroupingPreferencePayloadLeavesBranchesOut(t *testing.T) {
+	model := TeamGroupingPreferenceResourceModel{
+		TeamID: types.StringValue("01TEAM"),
+		Default: &TeamGroupingPreferenceBranchModel{
+			Settings: &TeamGroupingPreferenceSettingsModel{
+				Enabled:        types.BoolValue(true),
+				AIEnabled:      types.BoolValue(false),
+				AIInstructions: types.StringValue("Group alerts from both clusters."),
+				WindowSeconds:  types.Int64Value(600),
+				WindowType:     types.StringValue("rolling"),
+			},
+		},
+	}
+
+	payloads := map[string]any{
+		"create": model.ToCreatePayload(),
+		"update": model.ToUpdatePayload(2),
+	}
+	for name, payload := range payloads {
+		body, err := json.Marshal(payload)
+		if err != nil {
+			t.Fatalf("marshalling the %s payload: %v", name, err)
+		}
+
+		var fields map[string]json.RawMessage
+		if err := json.Unmarshal(body, &fields); err != nil {
+			t.Fatalf("unmarshalling the %s payload: %v", name, err)
+		}
+		for _, field := range []string{"branches", "expressions"} {
+			if raw, ok := fields[field]; ok {
+				t.Errorf("the %s payload sends %s = %s, want it left out", name, field, raw)
+			}
+		}
+	}
+}

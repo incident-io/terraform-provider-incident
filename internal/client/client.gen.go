@@ -27469,7 +27469,7 @@ type PolicyDebriefPayloadV2 struct {
 	// Example: [{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}]
 	Requirements []ConditionGroupPayloadV2 `json:"requirements"`
 
-	// RunOnPrivateIncidents Requires the policies.run_on_private scope
+	// RunOnPrivateIncidents Requires the policies.run.private_incidents scope
 	//
 	// Example: false
 	RunOnPrivateIncidents *bool `json:"run_on_private_incidents,omitempty"`
@@ -27487,7 +27487,7 @@ type PolicyDebriefV2 struct {
 	// Example: [{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]
 	Requirements []ConditionGroupV2 `json:"requirements"`
 
-	// RunOnPrivateIncidents Requires the policies.run_on_private scope
+	// RunOnPrivateIncidents Requires the policies.run.private_incidents scope
 	//
 	// Example: false
 	RunOnPrivateIncidents *bool `json:"run_on_private_incidents,omitempty"`
@@ -27939,7 +27939,7 @@ type PolicyFollowUpPayloadV2 struct {
 	// Example: [{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}]
 	Requirements []ConditionGroupPayloadV2 `json:"requirements"`
 
-	// RunOnPrivateIncidents Requires the policies.run_on_private scope
+	// RunOnPrivateIncidents Requires the policies.run.private_incidents scope
 	//
 	// Example: false
 	RunOnPrivateIncidents *bool `json:"run_on_private_incidents,omitempty"`
@@ -27957,7 +27957,7 @@ type PolicyFollowUpV2 struct {
 	// Example: [{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]
 	Requirements []ConditionGroupV2 `json:"requirements"`
 
-	// RunOnPrivateIncidents Requires the policies.run_on_private scope
+	// RunOnPrivateIncidents Requires the policies.run.private_incidents scope
 	//
 	// Example: false
 	RunOnPrivateIncidents *bool `json:"run_on_private_incidents,omitempty"`
@@ -27996,7 +27996,7 @@ type PolicyPostMortemPayloadV2 struct {
 	// Example: [{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}]
 	Requirements []ConditionGroupPayloadV2 `json:"requirements"`
 
-	// RunOnPrivateIncidents Requires the policies.run_on_private scope
+	// RunOnPrivateIncidents Requires the policies.run.private_incidents scope
 	//
 	// Example: false
 	RunOnPrivateIncidents *bool `json:"run_on_private_incidents,omitempty"`
@@ -28014,7 +28014,7 @@ type PolicyPostMortemV2 struct {
 	// Example: [{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]
 	Requirements []ConditionGroupV2 `json:"requirements"`
 
-	// RunOnPrivateIncidents Requires the policies.run_on_private scope
+	// RunOnPrivateIncidents Requires the policies.run.private_incidents scope
 	//
 	// Example: false
 	RunOnPrivateIncidents *bool `json:"run_on_private_incidents,omitempty"`
@@ -31583,7 +31583,27 @@ type StepProgressV2WebhookDeliveryState string
 //
 // Example: {"settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
 type TeamGroupingBranchV3 struct {
-	// Settings How a team's alerts are grouped together, on every alert route
+	// Settings How alerts are grouped together
+	//
+	// Example: {"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}
+	Settings TeamGroupingSettingsV3 `json:"settings"`
+}
+
+// TeamGroupingConditionalBranchV3 A grouping branch: the grouping settings for the alerts that match its conditions
+//
+// Example: {"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
+type TeamGroupingConditionalBranchV3 struct {
+	// ConditionGroups The branch matches an alert when every condition in any one group holds
+	//
+	// Example: [{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]
+	ConditionGroups []ConditionGroupPayloadV3 `json:"condition_groups"`
+
+	// Id Identifier for this branch, a ULID. Omit it on a new branch and one is assigned. Send the ID you read back on every update: alert groups are keyed on it.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	Id *string `json:"id,omitempty"`
+
+	// Settings How alerts are grouped together
 	//
 	// Example: {"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}
 	Settings TeamGroupingSettingsV3 `json:"settings"`
@@ -31591,8 +31611,13 @@ type TeamGroupingBranchV3 struct {
 
 // TeamGroupingPreferenceV3 A team's alert grouping preference, which takes priority over the default grouping of every alert route its alerts match
 //
-// Example: {"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
+// Example: {"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
 type TeamGroupingPreferenceV3 struct {
+	// Branches Grouping branches in order. Alert rules group an alert by the first branch whose conditions hold, else by the default. Alert routes only use the default.
+	//
+	// Example: [{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}]
+	Branches []TeamGroupingConditionalBranchV3 `json:"branches"`
+
 	// CreatedAt When this preference was created
 	//
 	// Example: 2021-08-17T13:28:57.801578Z
@@ -31602,6 +31627,11 @@ type TeamGroupingPreferenceV3 struct {
 	//
 	// Example: {"settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
 	Default TeamGroupingBranchV3 `json:"default"`
+
+	// Expressions Expressions the branches' conditions test or compare against, as expressions["reference"]
+	//
+	// Example: [{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}]
+	Expressions []ExpressionPayloadV3 `json:"expressions"`
 
 	// Id Unique identifier for this preference
 	//
@@ -31624,12 +31654,22 @@ type TeamGroupingPreferenceV3 struct {
 	Version int64 `json:"version"`
 }
 
-// TeamGroupingPreferencesCreatePayloadV3 Example: {"default":{"settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"team_id":"01G0J1EXE7AXZ2C93K61WBPYEH"}
+// TeamGroupingPreferencesCreatePayloadV3 Example: {"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"default":{"settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"team_id":"01G0J1EXE7AXZ2C93K61WBPYEH"}
 type TeamGroupingPreferencesCreatePayloadV3 struct {
+	// Branches Grouping branches in order. Alert rules group an alert by the first branch whose conditions hold, else by the default. Alert routes only use the default. Omit it on an update to keep the current branches and expressions. Only organisations that use alert rules can add or change branches.
+	//
+	// Example: [{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}]
+	Branches *[]TeamGroupingConditionalBranchV3 `json:"branches,omitempty"`
+
 	// Default One set of grouping settings.
 	//
 	// Example: {"settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
 	Default TeamGroupingBranchV3 `json:"default"`
+
+	// Expressions Expressions the branches' conditions test or compare against, as expressions["reference"]. Omit it on an update to keep the current expressions, which are also kept when branches are omitted.
+	//
+	// Example: [{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}]
+	Expressions *[]ExpressionPayloadV3 `json:"expressions,omitempty"`
 
 	// TeamId The catalog entry ID of the team this preference belongs to
 	//
@@ -31637,37 +31677,47 @@ type TeamGroupingPreferencesCreatePayloadV3 struct {
 	TeamId string `json:"team_id"`
 }
 
-// TeamGroupingPreferencesCreateResultV3 Example: {"team_grouping_preference":{"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}}
+// TeamGroupingPreferencesCreateResultV3 Example: {"team_grouping_preference":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}}
 type TeamGroupingPreferencesCreateResultV3 struct {
 	// TeamGroupingPreference A team's alert grouping preference, which takes priority over the default grouping of every alert route its alerts match
 	//
-	// Example: {"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
+	// Example: {"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
 	TeamGroupingPreference TeamGroupingPreferenceV3 `json:"team_grouping_preference"`
 }
 
-// TeamGroupingPreferencesListResultV3 Example: {"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25},"team_grouping_preferences":[{"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}]}
+// TeamGroupingPreferencesListResultV3 Example: {"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25},"team_grouping_preferences":[{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}]}
 type TeamGroupingPreferencesListResultV3 struct {
 	// PaginationMeta Example: {"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}
 	PaginationMeta PaginationMetaResultV3 `json:"pagination_meta"`
 
-	// TeamGroupingPreferences Example: [{"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}]
+	// TeamGroupingPreferences Example: [{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}]
 	TeamGroupingPreferences []TeamGroupingPreferenceV3 `json:"team_grouping_preferences"`
 }
 
-// TeamGroupingPreferencesShowResultV3 Example: {"team_grouping_preference":{"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}}
+// TeamGroupingPreferencesShowResultV3 Example: {"team_grouping_preference":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}}
 type TeamGroupingPreferencesShowResultV3 struct {
 	// TeamGroupingPreference A team's alert grouping preference, which takes priority over the default grouping of every alert route its alerts match
 	//
-	// Example: {"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
+	// Example: {"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
 	TeamGroupingPreference TeamGroupingPreferenceV3 `json:"team_grouping_preference"`
 }
 
-// TeamGroupingPreferencesUpdatePayloadV3 Example: {"default":{"settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"version":4}
+// TeamGroupingPreferencesUpdatePayloadV3 Example: {"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"default":{"settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"version":4}
 type TeamGroupingPreferencesUpdatePayloadV3 struct {
+	// Branches Grouping branches in order. Alert rules group an alert by the first branch whose conditions hold, else by the default. Alert routes only use the default. Omit it on an update to keep the current branches and expressions. Only organisations that use alert rules can add or change branches.
+	//
+	// Example: [{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}]
+	Branches *[]TeamGroupingConditionalBranchV3 `json:"branches,omitempty"`
+
 	// Default One set of grouping settings.
 	//
 	// Example: {"settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
 	Default TeamGroupingBranchV3 `json:"default"`
+
+	// Expressions Expressions the branches' conditions test or compare against, as expressions["reference"]. Omit it on an update to keep the current expressions, which are also kept when branches are omitted.
+	//
+	// Example: [{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}]
+	Expressions *[]ExpressionPayloadV3 `json:"expressions,omitempty"`
 
 	// Version The version this update will create. It must be one more than the preference's latest version, otherwise the update is rejected - guarding against concurrent edits.
 	//
@@ -31675,15 +31725,15 @@ type TeamGroupingPreferencesUpdatePayloadV3 struct {
 	Version int64 `json:"version"`
 }
 
-// TeamGroupingPreferencesUpdateResultV3 Example: {"team_grouping_preference":{"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}}
+// TeamGroupingPreferencesUpdateResultV3 Example: {"team_grouping_preference":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}}
 type TeamGroupingPreferencesUpdateResultV3 struct {
 	// TeamGroupingPreference A team's alert grouping preference, which takes priority over the default grouping of every alert route its alerts match
 	//
-	// Example: {"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
+	// Example: {"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
 	TeamGroupingPreference TeamGroupingPreferenceV3 `json:"team_grouping_preference"`
 }
 
-// TeamGroupingSettingsV3 How a team's alerts are grouped together, on every alert route
+// TeamGroupingSettingsV3 How alerts are grouped together
 //
 // Example: {"ai_enabled":false,"ai_instructions":"Alerts from the old and new clusters describe the same outage, so group them together.","enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}
 type TeamGroupingSettingsV3 struct {
@@ -31697,7 +31747,7 @@ type TeamGroupingSettingsV3 struct {
 	// Example: Alerts from the old and new clusters describe the same outage, so group them together.
 	AiInstructions *string `json:"ai_instructions,omitempty"`
 
-	// Enabled Whether the team's alerts are grouped. When false, none of the team's alerts are grouped, regardless of any alert route grouping config.
+	// Enabled Whether these alerts are grouped. When false, none of them are grouped.
 	//
 	// Example: true
 	Enabled bool `json:"enabled"`
@@ -37823,7 +37873,7 @@ type ClientInterface interface {
 	// may still be filling. The metadata reports the time the figures are calculated up to.
 	//
 	// Workload for private incidents is only returned to API keys with the
-	// `incident_workloads.view_private` scope.
+	// `incident_workloads.view.private_incidents` scope.
 	//
 	// Corresponds with GET /v2/incident_participant_workloads (the `IncidentParticipantWorkloadsV2List` operationId).
 	IncidentParticipantWorkloadsV2List(ctx context.Context, params *IncidentParticipantWorkloadsV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -38238,7 +38288,7 @@ type ClientInterface interface {
 	// off, no tickets are created for other incidents, and the incident's fields are not
 	// written into this issue until it is turned on.
 	//
-	// This needs the incidents.connect_external_issue scope, either across the organisation or
+	// This needs the incident_external_issues.create scope, either across the organisation or
 	// from an incident role on this incident.
 	//
 	// This fails if the incident already has a different external issue (unless replace is
@@ -38263,7 +38313,7 @@ type ClientInterface interface {
 	// off, no tickets are created for other incidents, and the incident's fields are not
 	// written into this issue until it is turned on.
 	//
-	// This needs the incidents.connect_external_issue scope, either across the organisation or
+	// This needs the incident_external_issues.create scope, either across the organisation or
 	// from an incident role on this incident.
 	//
 	// This fails if the incident already has a different external issue (unless replace is
@@ -39779,7 +39829,7 @@ type ClientInterface interface {
 
 	// UsersV2ListNotificationMethods ListNotificationMethods Users V2
 	//
-	// List notification methods for a user. Phone numbers are partially redacted unless the API key holds the notification_methods.view_unredacted scope.
+	// List notification methods for a user. Phone numbers are partially redacted unless the API key holds the unredacted_notification_methods.view scope.
 	//
 	// Corresponds with GET /v2/users/{user_id}/notification_methods (the `UsersV2ListNotificationMethods` operationId).
 	UsersV2ListNotificationMethods(ctx context.Context, userId string, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -46671,7 +46721,7 @@ func (c *Client) AlertsV2TransitionIncidentAlert(ctx context.Context, id string,
 // may still be filling. The metadata reports the time the figures are calculated up to.
 //
 // Workload for private incidents is only returned to API keys with the
-// `incident_workloads.view_private` scope.
+// `incident_workloads.view.private_incidents` scope.
 //
 // Corresponds with GET /v2/incident_participant_workloads (the `IncidentParticipantWorkloadsV2List` operationId).
 func (c *Client) IncidentParticipantWorkloadsV2List(ctx context.Context, params *IncidentParticipantWorkloadsV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -47314,7 +47364,7 @@ func (c *Client) IncidentsV2Show(ctx context.Context, id string, reqEditors ...R
 // off, no tickets are created for other incidents, and the incident's fields are not
 // written into this issue until it is turned on.
 //
-// This needs the incidents.connect_external_issue scope, either across the organisation or
+// This needs the incident_external_issues.create scope, either across the organisation or
 // from an incident role on this incident.
 //
 // This fails if the incident already has a different external issue (unless replace is
@@ -47349,7 +47399,7 @@ func (c *Client) IncidentsV2ConnectExternalIssueWithBody(ctx context.Context, id
 // off, no tickets are created for other incidents, and the incident's fields are not
 // written into this issue until it is turned on.
 //
-// This needs the incidents.connect_external_issue scope, either across the organisation or
+// This needs the incident_external_issues.create scope, either across the organisation or
 // from an incident role on this incident.
 //
 // This fails if the incident already has a different external issue (unless replace is
@@ -50225,7 +50275,7 @@ func (c *Client) UsersV2Show(ctx context.Context, id string, reqEditors ...Reque
 
 // UsersV2ListNotificationMethods ListNotificationMethods Users V2
 //
-// List notification methods for a user. Phone numbers are partially redacted unless the API key holds the notification_methods.view_unredacted scope.
+// List notification methods for a user. Phone numbers are partially redacted unless the API key holds the unredacted_notification_methods.view scope.
 //
 // Corresponds with GET /v2/users/{user_id}/notification_methods (the `UsersV2ListNotificationMethods` operationId).
 func (c *Client) UsersV2ListNotificationMethods(ctx context.Context, userId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -74050,7 +74100,7 @@ type ClientWithResponsesInterface interface {
 	// may still be filling. The metadata reports the time the figures are calculated up to.
 	//
 	// Workload for private incidents is only returned to API keys with the
-	// `incident_workloads.view_private` scope.
+	// `incident_workloads.view.private_incidents` scope.
 	//
 	// Returns a wrapper object for the known response body format(s).
 	//
@@ -74487,7 +74537,7 @@ type ClientWithResponsesInterface interface {
 	// off, no tickets are created for other incidents, and the incident's fields are not
 	// written into this issue until it is turned on.
 	//
-	// This needs the incidents.connect_external_issue scope, either across the organisation or
+	// This needs the incident_external_issues.create scope, either across the organisation or
 	// from an incident role on this incident.
 	//
 	// This fails if the incident already has a different external issue (unless replace is
@@ -74512,7 +74562,7 @@ type ClientWithResponsesInterface interface {
 	// off, no tickets are created for other incidents, and the incident's fields are not
 	// written into this issue until it is turned on.
 	//
-	// This needs the incidents.connect_external_issue scope, either across the organisation or
+	// This needs the incident_external_issues.create scope, either across the organisation or
 	// from an incident role on this incident.
 	//
 	// This fails if the incident already has a different external issue (unless replace is
@@ -76138,7 +76188,7 @@ type ClientWithResponsesInterface interface {
 
 	// UsersV2ListNotificationMethodsWithResponse ListNotificationMethods Users V2
 	//
-	// List notification methods for a user. Phone numbers are partially redacted unless the API key holds the notification_methods.view_unredacted scope.
+	// List notification methods for a user. Phone numbers are partially redacted unless the API key holds the unredacted_notification_methods.view scope.
 	//
 	// Returns a wrapper object for the known response body format(s).
 	//
@@ -132931,7 +132981,7 @@ func (c *ClientWithResponses) AlertsV2TransitionIncidentAlertWithResponse(ctx co
 // may still be filling. The metadata reports the time the figures are calculated up to.
 //
 // Workload for private incidents is only returned to API keys with the
-// `incident_workloads.view_private` scope.
+// `incident_workloads.view.private_incidents` scope.
 //
 // Returns a wrapper object for the known response body format(s).
 //
@@ -133504,7 +133554,7 @@ func (c *ClientWithResponses) IncidentsV2ShowWithResponse(ctx context.Context, i
 // off, no tickets are created for other incidents, and the incident's fields are not
 // written into this issue until it is turned on.
 //
-// This needs the incidents.connect_external_issue scope, either across the organisation or
+// This needs the incident_external_issues.create scope, either across the organisation or
 // from an incident role on this incident.
 //
 // This fails if the incident already has a different external issue (unless replace is
@@ -133535,7 +133585,7 @@ func (c *ClientWithResponses) IncidentsV2ConnectExternalIssueWithBodyWithRespons
 // off, no tickets are created for other incidents, and the incident's fields are not
 // written into this issue until it is turned on.
 //
-// This needs the incidents.connect_external_issue scope, either across the organisation or
+// This needs the incident_external_issues.create scope, either across the organisation or
 // from an incident role on this incident.
 //
 // This fails if the incident already has a different external issue (unless replace is
@@ -135977,7 +136027,7 @@ func (c *ClientWithResponses) UsersV2ShowWithResponse(ctx context.Context, id st
 
 // UsersV2ListNotificationMethodsWithResponse ListNotificationMethods Users V2
 //
-// List notification methods for a user. Phone numbers are partially redacted unless the API key holds the notification_methods.view_unredacted scope.
+// List notification methods for a user. Phone numbers are partially redacted unless the API key holds the unredacted_notification_methods.view scope.
 //
 // Returns a wrapper object for the known response body format(s).
 //

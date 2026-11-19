@@ -100,14 +100,14 @@ resource "incident_team_grouping_preference" "payments" {
 
 Required:
 
-- `settings` (Attributes) How a team's alerts are grouped together, on every alert route (see [below for nested schema](#nestedatt--default--settings))
+- `settings` (Attributes) How alerts are grouped together (see [below for nested schema](#nestedatt--default--settings))
 
 <a id="nestedatt--default--settings"></a>
 ### Nested Schema for `default.settings`
 
 Required:
 
-- `enabled` (Boolean) Whether the team's alerts are grouped. When false, none of the team's alerts are grouped, regardless of any alert route grouping config.
+- `enabled` (Boolean) Whether these alerts are grouped. When false, none of them are grouped.
 
 Optional:
 
