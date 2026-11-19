@@ -300,6 +300,7 @@ func (AlertRuleSetResourceModel) FromAPI(set client.AlertRuleSetV3, prior *Alert
 		}
 	}
 	// Keep condition_groups as the config wrote it: the API answers both omitted and [] with [].
+	// Where there is no prior spelling to keep, as on import, read bindings in the shorthand.
 	conditionGroups := func(id string, groups []client.ConditionGroupPayloadV3) IncidentEngineConditionGroups {
 		prior := priorConditionGroups[id]
 		if len(groups) == 0 {
@@ -309,6 +310,7 @@ func (AlertRuleSetResourceModel) FromAPI(set client.AlertRuleSetV3, prior *Alert
 			return nil
 		}
 		out := ConditionGroupsFromV3Payload(groups)
+		out.ShortestSpelling()
 		out.ReconcileSpelling(prior)
 
 		return out

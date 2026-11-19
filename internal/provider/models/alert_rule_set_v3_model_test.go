@@ -343,6 +343,44 @@ func TestAlertRuleSetMatchesPriorBranchesByID(t *testing.T) {
 	requireSameState(t, applied(plan), got)
 }
 
+// An import reads condition bindings in the shorthand, and a refresh keeps a long-form config.
+func TestAlertRuleSetConditionBindingSpelling(t *testing.T) {
+	withBindings := func(literal, reference, literals IncidentEngineParamBinding) AlertRuleSetResourceModel {
+		return alertRuleSetModel("required", types.StringNull(), AlertRuleBlockModel{
+			ID: types.StringValue("block"),
+			Branches: []AlertRuleBranchModel{{
+				ID:       types.StringValue("branch"),
+				Branches: []AlertRuleNestedBranchModel{},
+				ConditionGroups: IncidentEngineConditionGroups{
+					conditionGroup("alert.title", "contains", literal),
+					conditionGroup("alert.attributes.team", "is", reference),
+					conditionGroup("alert.attributes.priority", "is_one_of", literals),
+				},
+			}},
+		})
+	}
+	shorthand := withBindings(bindValueLiteral("database"), bindValueReference("alert.attributes.owner"), bindValues("P1", "P2"))
+	longForm := withBindings(bindValue(litValue("database")), bindValue(refValue("alert.attributes.owner")), bindArray(litValue("P1"), litValue("P2")))
+
+	t.Run("import reads the shorthand", func(t *testing.T) {
+		payload, err := longForm.ToCreatePayload()
+		require.NoError(t, err)
+
+		imported := AlertRuleSetResourceModel{}.FromAPI(alertRuleSetResponse(t, "required", nil, payload.Blocks, nil), nil)
+		requireSameState(t, applied(shorthand), imported)
+	})
+
+	t.Run("refresh keeps the long form", func(t *testing.T) {
+		got := applyAlertRuleSet(t, longForm)
+		requireSameState(t, applied(longForm), got)
+
+		payload, err := got.ToCreatePayload()
+		require.NoError(t, err)
+		refreshed := AlertRuleSetResourceModel{}.FromAPI(alertRuleSetResponse(t, "required", nil, payload.Blocks, nil), &got)
+		requireSameState(t, got, refreshed)
+	})
+}
+
 func TestAlertRuleSetExpressionsRoundTrip(t *testing.T) {
 	plan := alertRuleSetModel("team", types.StringValue("01TEAM"), AlertRuleBlockModel{
 		ID: types.StringValue("page-team"),
