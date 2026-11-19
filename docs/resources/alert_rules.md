@@ -260,7 +260,7 @@ Optional:
 
 - `auto_cancel` (Boolean) Cancel the escalation when the alert resolves, or when every alert in its group resolves. Defaults to false.
 - `escalation_paths` (Attributes) The escalation paths to page: escalation path IDs in `values`, or an `expression_ref` that finds them, such as from the alert's team. (see [below for nested schema](#nestedatt--block--branch--actions--escalate--escalation_paths))
-- `grace_period_seconds` (Number) How long an alert that joins a group with a live page waits before it pages. 0, the default, pages at once. Only used with on_each_new_alert.
+- `grace_period_seconds` (Number) How long an alert that joins a group with a live page waits before it pages. 0, the default, pages at once. Only used with on_each_new_alert. Allowed with on_priority_increase, which ignores it.
 - `mode` (String) How an alert that joins a group pages. on_each_new_alert pages for every alert. on_priority_increase pages a target only when the alert's priority is above every live page the group already has to that target. Defaults to on_each_new_alert. Possible values are: `on_priority_increase`, `on_each_new_alert`.
 - `urgency` (Attributes) The urgency to page at: the ID of an escalation urgency catalog entry, or a reference. Leave it out to page at the alert priority's default urgency. (see [below for nested schema](#nestedatt--block--branch--actions--escalate--urgency))
 - `users` (Attributes) The users to page: user IDs in `values`, or a reference. (see [below for nested schema](#nestedatt--block--branch--actions--escalate--users))
@@ -617,7 +617,7 @@ Optional:
 
 - `auto_cancel` (Boolean) Cancel the escalation when the alert resolves, or when every alert in its group resolves. Defaults to false.
 - `escalation_paths` (Attributes) The escalation paths to page: escalation path IDs in `values`, or an `expression_ref` that finds them, such as from the alert's team. (see [below for nested schema](#nestedatt--block--branch--branch--actions--escalate--escalation_paths))
-- `grace_period_seconds` (Number) How long an alert that joins a group with a live page waits before it pages. 0, the default, pages at once. Only used with on_each_new_alert.
+- `grace_period_seconds` (Number) How long an alert that joins a group with a live page waits before it pages. 0, the default, pages at once. Only used with on_each_new_alert. Allowed with on_priority_increase, which ignores it.
 - `mode` (String) How an alert that joins a group pages. on_each_new_alert pages for every alert. on_priority_increase pages a target only when the alert's priority is above every live page the group already has to that target. Defaults to on_each_new_alert. Possible values are: `on_priority_increase`, `on_each_new_alert`.
 - `urgency` (Attributes) The urgency to page at: the ID of an escalation urgency catalog entry, or a reference. Leave it out to page at the alert priority's default urgency. (see [below for nested schema](#nestedatt--block--branch--branch--actions--escalate--urgency))
 - `users` (Attributes) The users to page: user IDs in `values`, or a reference. (see [below for nested schema](#nestedatt--block--branch--branch--actions--escalate--users))

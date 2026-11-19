@@ -421,26 +421,10 @@ func TestValidateAlertRuleActions(t *testing.T) {
 			want:   []path.Path{at.AtName("escalate")},
 		},
 		{
-			name: "a grace period with on_priority_increase",
+			name: "a grace period with on_priority_increase, which the API keeps",
 			action: AlertRuleActionV3Model{Type: types.StringValue("escalate"), Escalate: &AlertRuleEscalateActionV3Model{
 				Users:              users,
 				Mode:               types.StringValue("on_priority_increase"),
-				GracePeriodSeconds: types.Int64Value(60),
-			}},
-			want: []path.Path{at.AtName("escalate").AtName("grace_period_seconds")},
-		},
-		{
-			name: "a grace period with the default mode",
-			action: AlertRuleActionV3Model{Type: types.StringValue("escalate"), Escalate: &AlertRuleEscalateActionV3Model{
-				Users:              users,
-				GracePeriodSeconds: types.Int64Value(60),
-			}},
-		},
-		{
-			name: "a grace period with on_each_new_alert",
-			action: AlertRuleActionV3Model{Type: types.StringValue("escalate"), Escalate: &AlertRuleEscalateActionV3Model{
-				Users:              users,
-				Mode:               types.StringValue("on_each_new_alert"),
 				GracePeriodSeconds: types.Int64Value(60),
 			}},
 		},

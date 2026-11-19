@@ -103,11 +103,14 @@ func AlertRuleActionAttributes() map[string]schema.Attribute {
 					},
 				},
 				"grace_period_seconds": schema.Int64Attribute{
-					Optional:            true,
-					Computed:            true,
-					Default:             int64default.StaticInt64(0),
-					MarkdownDescription: apischema.Docstring("AlertRuleEscalateActionV3", "grace_period_seconds"),
-					Validators:          []validator.Int64{int64validator.Between(0, math.MaxInt32)},
+					Optional: true,
+					Computed: true,
+					Default:  int64default.StaticInt64(0),
+					// Allowed with any mode: the API keeps it, and rules converted from alert routes
+					// before November 2026 have one with on_priority_increase.
+					MarkdownDescription: apischema.Docstring("AlertRuleEscalateActionV3", "grace_period_seconds") +
+						" Allowed with on_priority_increase, which ignores it.",
+					Validators: []validator.Int64{int64validator.Between(0, math.MaxInt32)},
 				},
 				"auto_cancel": schema.BoolAttribute{
 					Optional:            true,
@@ -203,13 +206,6 @@ func validateAlertRuleAction(action AlertRuleActionV3Model, at path.Path, known 
 		if escalate.EscalationPaths == nil && escalate.Users == nil {
 			diags.AddAttributeError(escalateAt, "Nobody to page",
 				"Set escalation_paths, users, or both.")
-		}
-
-		// A null mode is the default, on_each_new_alert.
-		if isSet(escalate.GracePeriodSeconds) && isSet(escalate.Mode) &&
-			escalate.Mode.ValueString() != string(client.AlertRuleEscalateActionV3ModeOnEachNewAlert) {
-			diags.AddAttributeError(escalateAt.AtName("grace_period_seconds"), "Invalid attribute combination",
-				fmt.Sprintf("grace_period_seconds is only used when mode is %s.", client.AlertRuleEscalateActionV3ModeOnEachNewAlert))
 		}
 
 		ValidateBinding(escalate.EscalationPaths, escalateAt.AtName("escalation_paths"), known, diags)
