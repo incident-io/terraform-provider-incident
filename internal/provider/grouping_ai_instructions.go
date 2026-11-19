@@ -4,7 +4,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 )
 
@@ -29,8 +28,12 @@ func aiInstructionsAttribute(description string) schema.StringAttribute {
 		Validators: []validator.String{
 			stringvalidator.UTF8LengthAtMost(maxAIGroupingInstructionsLength),
 		},
+		// Not the built-in UseStateForUnknown, which copies a null state value. That null
+		// is what state holds when grouping settings are added to an existing resource,
+		// or when the state is from before the attribute existed, and the API always
+		// returns a value, so the plan must stay unknown.
 		PlanModifiers: []planmodifier.String{
-			stringplanmodifier.UseStateForUnknown(),
+			useStateForUnknownIfSet{},
 		},
 	}
 }

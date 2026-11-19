@@ -278,8 +278,10 @@ make it.`)),
 				Optional:            true,
 				Computed:            true,
 				MarkdownDescription: apischema.Docstring("AlertSourceV3", "ai_titles_enabled") + "\n\n" + aiTitlesEnabledDescription,
+				// Not useStateForUnknownIncludingNull: the API always returns a value, so a
+				// null from a state written before the attribute existed must plan unknown.
 				PlanModifiers: []planmodifier.Bool{
-					useStateForUnknownIncludingNull{},
+					useStateForUnknownIfSet{},
 				},
 			},
 

@@ -75,6 +75,23 @@ func TestAIInstructionsAttributeKeepsStoredValue(t *testing.T) {
 				t.Errorf("planned %v, want the stored instructions", planResp.PlanValue)
 			}
 
+			// A null in state is grouping settings added to an existing resource, or a
+			// state from before the attribute existed. The API returns a value either way,
+			// so planning null would fail the apply.
+			nullResp := &planmodifier.StringResponse{PlanValue: types.StringUnknown()}
+			for _, modifier := range instructions.PlanModifiers {
+				modifier.PlanModifyString(context.Background(), planmodifier.StringRequest{
+					Path:        tc.path,
+					State:       existing,
+					ConfigValue: types.StringNull(),
+					PlanValue:   types.StringUnknown(),
+					StateValue:  types.StringNull(),
+				}, nullResp)
+			}
+			if !nullResp.PlanValue.IsUnknown() {
+				t.Errorf("planned %v for a null state value, want unknown", nullResp.PlanValue)
+			}
+
 			// The API allows 2000 characters, so reject more at plan time.
 			for _, tooLong := range []bool{false, true} {
 				value := strings.Repeat("é", maxAIGroupingInstructionsLength)

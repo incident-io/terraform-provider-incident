@@ -85,3 +85,20 @@ func (m useStateForUnknownIfSet) PlanModifyString(ctx context.Context, req planm
 
 	resp.PlanValue = req.StateValue
 }
+
+// PlanModifyBool does the same for a bool, such as ai_titles_enabled on an alert source. A
+// state from before the attribute existed holds null, and a plan made without a refresh
+// would copy that null and then fail the consistency check when the API returns a value.
+func (m useStateForUnknownIfSet) PlanModifyBool(ctx context.Context, req planmodifier.BoolRequest, resp *planmodifier.BoolResponse) {
+	if !req.PlanValue.IsUnknown() {
+		return
+	}
+	if req.ConfigValue.IsUnknown() {
+		return
+	}
+	if req.StateValue.IsNull() || req.StateValue.IsUnknown() {
+		return
+	}
+
+	resp.PlanValue = req.StateValue
+}

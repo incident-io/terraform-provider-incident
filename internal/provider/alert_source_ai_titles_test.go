@@ -9,6 +9,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
@@ -228,6 +230,58 @@ func TestAlertSourceUpdateAITitlesEnabled(t *testing.T) {
 
 			if got := aiTitlesEnabledInState(t, resp.State); got.ValueBool() != tc.want {
 				t.Errorf("state ai_titles_enabled = %v, want %v", got, tc.want)
+			}
+		})
+	}
+}
+
+// The plan carries the stored value over when the config leaves the attribute out, so an
+// unrelated change doesn't show it as "known after apply". A null in state is a state from
+// before the attribute existed: the API always returns a value, so the plan must stay
+// unknown rather than copy the null, or the apply fails the consistency check.
+func TestAlertSourceAITitlesEnabledPlan(t *testing.T) {
+	config, _ := alertSourceSchemaType(t)
+
+	attribute, diags := config.Schema.AttributeAtPath(context.Background(), path.Root("ai_titles_enabled"))
+	if diags.HasError() {
+		t.Fatalf("finding ai_titles_enabled: %+v", diags)
+	}
+	aiTitlesEnabled, ok := attribute.(schema.BoolAttribute)
+	if !ok {
+		t.Fatalf("ai_titles_enabled is a %T, want a bool attribute", attribute)
+	}
+	if !aiTitlesEnabled.Optional || !aiTitlesEnabled.Computed {
+		t.Errorf("ai_titles_enabled must be Optional and Computed, got optional=%v computed=%v",
+			aiTitlesEnabled.Optional, aiTitlesEnabled.Computed)
+	}
+
+	// Only whether the state is null matters to the modifier, so any value stands for the
+	// existing resource.
+	existing := tfsdk.State{Schema: config.Schema, Raw: tftypes.NewValue(tftypes.String, "existing")}
+
+	cases := []struct {
+		name  string
+		state types.Bool
+		want  types.Bool
+	}{
+		{name: "keeps the stored value", state: types.BoolValue(true), want: types.BoolValue(true)},
+		{name: "stays unknown when state is null", state: types.BoolNull(), want: types.BoolUnknown()},
+	}
+
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			resp := &planmodifier.BoolResponse{PlanValue: types.BoolUnknown()}
+			for _, modifier := range aiTitlesEnabled.PlanModifiers {
+				modifier.PlanModifyBool(context.Background(), planmodifier.BoolRequest{
+					Path:        path.Root("ai_titles_enabled"),
+					State:       existing,
+					ConfigValue: types.BoolNull(),
+					PlanValue:   types.BoolUnknown(),
+					StateValue:  tc.state,
+				}, resp)
+			}
+			if !resp.PlanValue.Equal(tc.want) {
+				t.Errorf("planned %v, want %v", resp.PlanValue, tc.want)
 			}
 		})
 	}
