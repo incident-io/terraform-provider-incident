@@ -12,6 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -273,13 +274,14 @@ make it.`)),
 				},
 			},
 			// Computed, so a source whose AI titles were turned on in the dashboard keeps them
-			// when the config doesn't mention the attribute.
+			// when the config doesn't mention the attribute. A null state (before the first
+			// refresh after upgrading) stays unknown, so the API's value is accepted.
 			"ai_titles_enabled": schema.BoolAttribute{
 				Optional:            true,
 				Computed:            true,
 				MarkdownDescription: apischema.Docstring("AlertSourceV3", "ai_titles_enabled") + "\n\n" + aiTitlesEnabledDescription,
 				PlanModifiers: []planmodifier.Bool{
-					useStateForUnknownIncludingNull{},
+					boolplanmodifier.UseStateForUnknown(),
 				},
 			},
 
@@ -775,16 +777,9 @@ func (r *alertSourceResource) Update(ctx context.Context, req resource.UpdateReq
 		return
 	}
 
-	// Read from the config, not the plan: the plan holds the stored value when the config
-	// leaves the attribute out, and sending that back could undo a change made in the
-	// dashboard since the last refresh. Left out, the API keeps what it has.
-	var aiTitlesEnabled types.Bool
-	resp.Diagnostics.Append(req.Config.GetAttribute(ctx, path.Root("ai_titles_enabled"), &aiTitlesEnabled)...)
-	if resp.Diagnostics.HasError() {
-		return
-	}
-
-	source := r.updateAlertSource(ctx, state.ID.ValueString(), &plan, knownBoolPointer(aiTitlesEnabled), &resp.Diagnostics)
+	// Send the planned value so the result matches the plan. It is unknown, and so left out
+	// for the API to keep, only when there is no stored value to carry over.
+	source := r.updateAlertSource(ctx, state.ID.ValueString(), &plan, knownBoolPointer(plan.AITitlesEnabled), &resp.Diagnostics)
 	if resp.Diagnostics.HasError() {
 		return
 	}

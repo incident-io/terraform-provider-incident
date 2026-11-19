@@ -179,11 +179,19 @@ func TestAlertSourceUpdateAITitlesEnabled(t *testing.T) {
 		want       bool
 	}{
 		{
-			// Sending the planned true back would undo a change made in the dashboard
-			// since the last refresh, so the config decides.
-			name:       "not sent when the config leaves it out",
+			// The planned value is sent so the result matches the plan.
+			name:       "sends the carried-over value when the config leaves it out",
 			configured: tftypes.NewValue(tftypes.Bool, nil),
 			planned:    tftypes.NewValue(tftypes.Bool, true),
+			wantSent:   true,
+			want:       true,
+		},
+		{
+			// With no stored value to carry over, the plan is unknown and the API keeps
+			// what it has.
+			name:       "not sent when the plan is unknown",
+			configured: tftypes.NewValue(tftypes.Bool, nil),
+			planned:    tftypes.NewValue(tftypes.Bool, tftypes.UnknownValue),
 			wantSent:   false,
 			want:       true,
 		},
