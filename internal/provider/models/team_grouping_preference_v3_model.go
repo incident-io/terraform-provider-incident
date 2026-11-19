@@ -1,9 +1,12 @@
 package models
 
 import (
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/samber/lo"
 
+	"github.com/incident-io/terraform-provider-incident/v7/internal/apischema"
 	"github.com/incident-io/terraform-provider-incident/v7/internal/client"
 )
 
@@ -31,11 +34,108 @@ type TeamGroupingPreferenceSettingsModel struct {
 	WindowType    types.String            `tfsdk:"window_type"`
 }
 
-// FromAPI builds the model from the API's preference. Empty grouping_keys reads back as
-// absent or as an empty set to match the prior plan or state, or apply reports a diff.
-func (TeamGroupingPreferenceResourceModel) FromAPI(preference client.TeamGroupingPreferenceV3, prior *TeamGroupingPreferenceResourceModel) TeamGroupingPreferenceResourceModel {
-	api := preference.Default.Settings
+// GroupingDefaultAttribute is a preference's default branch, the settings for alerts no
+// conditional branch matches.
+func GroupingDefaultAttribute(description string) schema.SingleNestedAttribute {
+	return schema.SingleNestedAttribute{
+		Required:            true,
+		MarkdownDescription: description,
+		Attributes: map[string]schema.Attribute{
+			"settings": groupingSettingsAttribute(),
+		},
+	}
+}
 
+func groupingSettingsAttribute() schema.SingleNestedAttribute {
+	return schema.SingleNestedAttribute{
+		Required:            true,
+		MarkdownDescription: apischema.Docstring("TeamGroupingBranchV3", "settings"),
+		Attributes: map[string]schema.Attribute{
+			"enabled": schema.BoolAttribute{
+				Required:            true,
+				MarkdownDescription: apischema.Docstring("TeamGroupingSettingsV3", "enabled"),
+			},
+			"ai_enabled": schema.BoolAttribute{
+				Optional:            true,
+				Computed:            true,
+				Default:             booldefault.StaticBool(false),
+				MarkdownDescription: apischema.Docstring("TeamGroupingSettingsV3", "ai_enabled"),
+			},
+			"grouping_keys": schema.SetNestedAttribute{
+				Optional:            true,
+				MarkdownDescription: apischema.Docstring("TeamGroupingSettingsV3", "grouping_keys"),
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"reference": schema.StringAttribute{
+							Required:            true,
+							MarkdownDescription: apischema.Docstring("GroupingKeyV3", "reference"),
+						},
+					},
+				},
+			},
+			"window_seconds": schema.Int64Attribute{
+				Optional:            true,
+				MarkdownDescription: apischema.Docstring("TeamGroupingSettingsV3", "window_seconds"),
+			},
+			"window_type": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: apischema.EnumValuesDescription("TeamGroupingSettingsV3", "window_type"),
+			},
+		},
+	}
+}
+
+// FromAPI builds the model from the API's preference.
+func (TeamGroupingPreferenceResourceModel) FromAPI(preference client.TeamGroupingPreferenceV3, prior *TeamGroupingPreferenceResourceModel) TeamGroupingPreferenceResourceModel {
+	var priorDefault *TeamGroupingPreferenceBranchModel
+	if prior != nil {
+		priorDefault = prior.Default
+	}
+
+	return TeamGroupingPreferenceResourceModel{
+		ID:      types.StringValue(preference.Id),
+		TeamID:  types.StringValue(preference.TeamId),
+		Version: types.Int64Value(preference.Version),
+		Default: groupingDefaultFromAPI(preference.Default, priorDefault),
+	}
+}
+
+func (m TeamGroupingPreferenceResourceModel) ToCreatePayload() client.TeamGroupingPreferencesCreatePayloadV3 {
+	return client.TeamGroupingPreferencesCreatePayloadV3{
+		TeamId:  m.TeamID.ValueString(),
+		Default: m.Default.toPayload(),
+	}
+}
+
+// ToUpdatePayload carries the version the update creates, which the caller reads back from
+// the API first so a concurrent edit is rejected rather than overwritten.
+func (m TeamGroupingPreferenceResourceModel) ToUpdatePayload(version int64) client.TeamGroupingPreferencesUpdatePayloadV3 {
+	return client.TeamGroupingPreferencesUpdatePayloadV3{
+		Version: version,
+		Default: m.Default.toPayload(),
+	}
+}
+
+func groupingDefaultFromAPI(api client.TeamGroupingBranchV3, prior *TeamGroupingPreferenceBranchModel) *TeamGroupingPreferenceBranchModel {
+	var priorSettings *TeamGroupingPreferenceSettingsModel
+	if prior != nil {
+		priorSettings = prior.Settings
+	}
+
+	return &TeamGroupingPreferenceBranchModel{Settings: groupingSettingsFromAPI(api.Settings, priorSettings)}
+}
+
+func (b *TeamGroupingPreferenceBranchModel) toPayload() client.TeamGroupingBranchV3 {
+	if b == nil {
+		return client.TeamGroupingBranchV3{}
+	}
+
+	return client.TeamGroupingBranchV3{Settings: b.Settings.toPayload()}
+}
+
+// groupingSettingsFromAPI reads empty grouping_keys back as absent or as an empty set to
+// match the prior plan or state, or apply reports a diff.
+func groupingSettingsFromAPI(api client.TeamGroupingSettingsV3, prior *TeamGroupingPreferenceSettingsModel) *TeamGroupingPreferenceSettingsModel {
 	settings := &TeamGroupingPreferenceSettingsModel{
 		Enabled:       types.BoolValue(api.Enabled),
 		AIEnabled:     types.BoolValue(lo.FromPtr(api.AiEnabled)),
@@ -49,71 +149,42 @@ func (TeamGroupingPreferenceResourceModel) FromAPI(preference client.TeamGroupin
 		settings.WindowType = types.StringValue(string(*api.WindowType))
 	}
 
-	var priorSettings *TeamGroupingPreferenceSettingsModel
-	if prior != nil && prior.Default != nil {
-		priorSettings = prior.Default.Settings
-	}
 	switch {
 	case api.GroupingKeys != nil && len(*api.GroupingKeys) > 0:
 		settings.GroupingKeys = lo.Map(*api.GroupingKeys, func(key client.GroupingKeyV3, _ int) AlertRouteGroupingKey {
 			return AlertRouteGroupingKey{Reference: types.StringValue(key.Reference)}
 		})
-	case api.Enabled && priorSettings != nil && priorSettings.GroupingKeys != nil:
+	case api.Enabled && prior != nil && prior.GroupingKeys != nil:
 		settings.GroupingKeys = []AlertRouteGroupingKey{}
 	}
 
-	return TeamGroupingPreferenceResourceModel{
-		ID:      types.StringValue(preference.Id),
-		TeamID:  types.StringValue(preference.TeamId),
-		Version: types.Int64Value(preference.Version),
-		Default: &TeamGroupingPreferenceBranchModel{Settings: settings},
-	}
+	return settings
 }
 
-func (m TeamGroupingPreferenceResourceModel) ToCreatePayload() client.TeamGroupingPreferencesCreatePayloadV3 {
-	return client.TeamGroupingPreferencesCreatePayloadV3{
-		TeamId:  m.TeamID.ValueString(),
-		Default: m.toBranchPayload(),
-	}
-}
-
-// ToUpdatePayload carries the version the update creates, which the caller reads back from
-// the API first so a concurrent edit is rejected rather than overwritten.
-func (m TeamGroupingPreferenceResourceModel) ToUpdatePayload(version int64) client.TeamGroupingPreferencesUpdatePayloadV3 {
-	return client.TeamGroupingPreferencesUpdatePayloadV3{
-		Version: version,
-		Default: m.toBranchPayload(),
-	}
-}
-
-// toBranchPayload only sends the window, keys and AI setting when grouping is enabled; the API
+// toPayload only sends the window, keys and AI setting when grouping is enabled; the API
 // rejects them otherwise.
-func (m TeamGroupingPreferenceResourceModel) toBranchPayload() client.TeamGroupingBranchV3 {
+func (s *TeamGroupingPreferenceSettingsModel) toPayload() client.TeamGroupingSettingsV3 {
 	settings := client.TeamGroupingSettingsV3{}
-	if m.Default == nil || m.Default.Settings == nil {
-		return client.TeamGroupingBranchV3{Settings: settings}
+	if s == nil {
+		return settings
 	}
 
-	config := m.Default.Settings
-	settings.Enabled = config.Enabled.ValueBool()
+	settings.Enabled = s.Enabled.ValueBool()
 	if !settings.Enabled {
-		return client.TeamGroupingBranchV3{Settings: settings}
+		return settings
 	}
 
-	keys := lo.Map(config.GroupingKeys, func(key AlertRouteGroupingKey, _ int) client.GroupingKeyV3 {
+	keys := lo.Map(s.GroupingKeys, func(key AlertRouteGroupingKey, _ int) client.GroupingKeyV3 {
 		return client.GroupingKeyV3{Reference: key.Reference.ValueString()}
 	})
-	if keys == nil {
-		keys = []client.GroupingKeyV3{}
-	}
 	settings.GroupingKeys = &keys
-	settings.AiEnabled = lo.ToPtr(config.AIEnabled.ValueBool())
-	if !config.WindowSeconds.IsNull() {
-		settings.WindowSeconds = lo32(config.WindowSeconds.ValueInt64())
+	settings.AiEnabled = lo.ToPtr(s.AIEnabled.ValueBool())
+	if !s.WindowSeconds.IsNull() {
+		settings.WindowSeconds = lo32(s.WindowSeconds.ValueInt64())
 	}
-	if !config.WindowType.IsNull() {
-		settings.WindowType = lo.ToPtr(client.TeamGroupingSettingsV3WindowType(config.WindowType.ValueString()))
+	if !s.WindowType.IsNull() {
+		settings.WindowType = lo.ToPtr(client.TeamGroupingSettingsV3WindowType(s.WindowType.ValueString()))
 	}
 
-	return client.TeamGroupingBranchV3{Settings: settings}
+	return settings
 }
