@@ -189,6 +189,10 @@ func (d *IncidentAlertRouteDataSource) Schema(_ context.Context, _ datasource.Sc
 								MarkdownDescription: apischema.Docstring("GroupingSettingsV3", "ai_enabled"),
 								Computed:            true,
 							},
+							"ai_instructions": schema.StringAttribute{
+								MarkdownDescription: apischema.Docstring("GroupingSettingsV3", "ai_instructions"),
+								Computed:            true,
+							},
 							"grouping_keys": schema.SetNestedAttribute{
 								MarkdownDescription: apischema.Docstring("GroupingSettingsV3", "grouping_keys"),
 								Computed:            true,

@@ -99,6 +99,8 @@ type alertSourceModel struct {
 	// Only heartbeat sources support this: true pauses monitoring, false resumes it.
 	Disabled types.Bool `tfsdk:"disabled"`
 
+	AITitlesEnabled types.Bool `tfsdk:"ai_titles_enabled"`
+
 	Version types.Int64 `tfsdk:"version"`
 }
 
@@ -266,6 +268,16 @@ make it.`)),
 				Optional:            true,
 				Computed:            true,
 				MarkdownDescription: apischema.Docstring("AlertSourceV3", "disabled") + "\n\n" + heartbeatDisabledV3Description,
+				PlanModifiers: []planmodifier.Bool{
+					useStateForUnknownIncludingNull{},
+				},
+			},
+			// Computed, so a source whose AI titles were turned on in the dashboard keeps them
+			// when the config doesn't mention the attribute.
+			"ai_titles_enabled": schema.BoolAttribute{
+				Optional:            true,
+				Computed:            true,
+				MarkdownDescription: apischema.Docstring("AlertSourceV3", "ai_titles_enabled") + "\n\n" + aiTitlesEnabledDescription,
 				PlanModifiers: []planmodifier.Bool{
 					useStateForUnknownIncludingNull{},
 				},
@@ -671,6 +683,10 @@ func (r *alertSourceResource) Create(ctx context.Context, req resource.CreateReq
 
 		FilterConditionGroups: filterConditionGroupsToPayload(data.FilterConditionGroups),
 
+		// Sent only when the config sets it. The API creates a source with AI titles off
+		// when the field is left out.
+		AiTitlesEnabled: knownBoolPointer(data.AITitlesEnabled),
+
 		Annotations: r.annotations(data.UnlockInDashboard),
 	}
 	r.applyAutoResolve(&data, &payload.AutoResolveTimeoutMinutes, &payload.AutoResolveIncidentAlerts)
@@ -701,7 +717,8 @@ func (r *alertSourceResource) Create(ctx context.Context, req resource.CreateReq
 	// follow-up update when the config asked for that, so apply doesn't store false against a
 	// plan of true.
 	if wantsHeartbeatPaused(data.SourceType.ValueString(), data.Disabled) {
-		updated := r.updateAlertSource(ctx, source.Id, &data, &resp.Diagnostics)
+		// No ai_titles_enabled: the create above already set it.
+		updated := r.updateAlertSource(ctx, source.Id, &data, nil, &resp.Diagnostics)
 		if updated != nil {
 			source = *updated
 		} else {
@@ -758,7 +775,16 @@ func (r *alertSourceResource) Update(ctx context.Context, req resource.UpdateReq
 		return
 	}
 
-	source := r.updateAlertSource(ctx, state.ID.ValueString(), &plan, &resp.Diagnostics)
+	// Read from the config, not the plan: the plan holds the stored value when the config
+	// leaves the attribute out, and sending that back could undo a change made in the
+	// dashboard since the last refresh. Left out, the API keeps what it has.
+	var aiTitlesEnabled types.Bool
+	resp.Diagnostics.Append(req.Config.GetAttribute(ctx, path.Root("ai_titles_enabled"), &aiTitlesEnabled)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	source := r.updateAlertSource(ctx, state.ID.ValueString(), &plan, knownBoolPointer(aiTitlesEnabled), &resp.Diagnostics)
 	if resp.Diagnostics.HasError() {
 		return
 	}
@@ -771,8 +797,11 @@ func (r *alertSourceResource) Update(ctx context.Context, req resource.UpdateReq
 }
 
 // updateAlertSource writes the planned source. Create calls it after a paused heartbeat is
-// born, because the create payload has no disabled field.
-func (r *alertSourceResource) updateAlertSource(ctx context.Context, id string, plan *alertSourceModel, diags *diag.Diagnostics) *client.AlertSourceV3 {
+// born, because the create payload has no disabled field. aiTitlesEnabled is nil to leave the
+// stored value alone.
+func (r *alertSourceResource) updateAlertSource(
+	ctx context.Context, id string, plan *alertSourceModel, aiTitlesEnabled *bool, diags *diag.Diagnostics,
+) *client.AlertSourceV3 {
 	expressions, bindings := r.toPayloads(plan, diags)
 	if diags.HasError() {
 		return nil
@@ -806,6 +835,7 @@ func (r *alertSourceResource) updateAlertSource(ctx context.Context, id string, 
 		SnsOptions:        plan.SNSOptions.toPayload(),
 		RateLimitSharding: rateLimitShardingUpdatePayload(plan.RateLimitSharding),
 		Disabled:          heartbeatDisabledPayload(plan.SourceType.ValueString(), plan.Disabled),
+		AiTitlesEnabled:   aiTitlesEnabled,
 
 		// Always sent, as an empty list when the config has no filters: removing the attribute
 		// from HCL clears them, the same way an omitted rate_limit_sharding block does above.
@@ -1074,6 +1104,8 @@ func alertSourceFromAPI(
 		// Only heartbeat sources return this; every other type omits it, which reads as null.
 		Disabled: types.BoolPointerValue(source.Disabled),
 
+		AITitlesEnabled: types.BoolValue(source.AiTitlesEnabled),
+
 		// Minted for email sources and absent for every other type, so it lives at the top
 		// level rather than inside the optional email_options block.
 		EmailAddress: types.StringNull(),
@@ -1143,6 +1175,21 @@ func heartbeatDisabledPayload(sourceType string, disabled types.Bool) *bool {
 	}
 
 	return disabled.ValueBoolPointer()
+}
+
+const aiTitlesEnabledDescription = "Leave the attribute unset to keep the current value, so " +
+	"AI titles turned on in the dashboard stay on after an unrelated apply. A new source " +
+	"created without it has AI titles off."
+
+// knownBoolPointer is the value to send for an optional bool: nil when the config doesn't
+// set it, so the API keeps or defaults the value. ValueBoolPointer alone would send false
+// for an unknown value.
+func knownBoolPointer(value types.Bool) *bool {
+	if value.IsNull() || value.IsUnknown() {
+		return nil
+	}
+
+	return value.ValueBoolPointer()
 }
 
 func wantsHeartbeatPaused(sourceType string, disabled types.Bool) bool {

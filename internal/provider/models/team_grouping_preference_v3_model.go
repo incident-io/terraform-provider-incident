@@ -24,11 +24,12 @@ type TeamGroupingPreferenceBranchModel struct {
 // TeamGroupingPreferenceSettingsModel mirrors the alert route's grouping settings, minus the
 // escalation fields, which stay the route's.
 type TeamGroupingPreferenceSettingsModel struct {
-	Enabled       types.Bool              `tfsdk:"enabled"`
-	AIEnabled     types.Bool              `tfsdk:"ai_enabled"`
-	GroupingKeys  []AlertRouteGroupingKey `tfsdk:"grouping_keys"`
-	WindowSeconds types.Int64             `tfsdk:"window_seconds"`
-	WindowType    types.String            `tfsdk:"window_type"`
+	Enabled        types.Bool              `tfsdk:"enabled"`
+	AIEnabled      types.Bool              `tfsdk:"ai_enabled"`
+	AIInstructions types.String            `tfsdk:"ai_instructions"`
+	GroupingKeys   []AlertRouteGroupingKey `tfsdk:"grouping_keys"`
+	WindowSeconds  types.Int64             `tfsdk:"window_seconds"`
+	WindowType     types.String            `tfsdk:"window_type"`
 }
 
 // FromAPI builds the model from the API's preference. Empty grouping_keys reads back as
@@ -37,10 +38,12 @@ func (TeamGroupingPreferenceResourceModel) FromAPI(preference client.TeamGroupin
 	api := preference.Default.Settings
 
 	settings := &TeamGroupingPreferenceSettingsModel{
-		Enabled:       types.BoolValue(api.Enabled),
-		AIEnabled:     types.BoolValue(lo.FromPtr(api.AiEnabled)),
-		WindowSeconds: types.Int64Null(),
-		WindowType:    types.StringNull(),
+		Enabled:   types.BoolValue(api.Enabled),
+		AIEnabled: types.BoolValue(lo.FromPtr(api.AiEnabled)),
+		// The API always returns the instructions, as an empty string when there are none.
+		AIInstructions: types.StringValue(lo.FromPtr(api.AiInstructions)),
+		WindowSeconds:  types.Int64Null(),
+		WindowType:     types.StringNull(),
 	}
 	if api.WindowSeconds != nil {
 		settings.WindowSeconds = types.Int64Value(int64(*api.WindowSeconds))
@@ -96,6 +99,8 @@ func (m TeamGroupingPreferenceResourceModel) toBranchPayload() client.TeamGroupi
 
 	config := m.Default.Settings
 	settings.Enabled = config.Enabled.ValueBool()
+	// Sent whether or not grouping is enabled, as the API keeps instructions either way.
+	settings.AiInstructions = AIInstructionsPayload(config.AIInstructions)
 	if !settings.Enabled {
 		return client.TeamGroupingBranchV3{Settings: settings}
 	}
@@ -116,4 +121,16 @@ func (m TeamGroupingPreferenceResourceModel) toBranchPayload() client.TeamGroupi
 	}
 
 	return client.TeamGroupingBranchV3{Settings: settings}
+}
+
+// AIInstructionsPayload is the ai_instructions to send for a set of grouping settings. It is
+// nil when the plan doesn't know the value, which is a new resource whose config leaves it
+// out: the API then keeps what it has, or stores none. A known value, including the stored
+// one the plan carries forward and an empty string that clears them, is sent as it is.
+func AIInstructionsPayload(value types.String) *string {
+	if value.IsNull() || value.IsUnknown() {
+		return nil
+	}
+
+	return value.ValueStringPointer()
 }

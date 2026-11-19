@@ -94,11 +94,12 @@ type AlertRouteV3GroupingConfigModel struct {
 }
 
 type AlertRouteV3GroupingSettingsModel struct {
-	Enabled       types.Bool              `tfsdk:"enabled"`
-	AIEnabled     types.Bool              `tfsdk:"ai_enabled"`
-	GroupingKeys  []AlertRouteGroupingKey `tfsdk:"grouping_keys"`
-	WindowSeconds types.Int64             `tfsdk:"window_seconds"`
-	WindowType    types.String            `tfsdk:"window_type"`
+	Enabled        types.Bool              `tfsdk:"enabled"`
+	AIEnabled      types.Bool              `tfsdk:"ai_enabled"`
+	AIInstructions types.String            `tfsdk:"ai_instructions"`
+	GroupingKeys   []AlertRouteGroupingKey `tfsdk:"grouping_keys"`
+	WindowSeconds  types.Int64             `tfsdk:"window_seconds"`
+	WindowType     types.String            `tfsdk:"window_type"`
 }
 
 type AlertRouteV3MessageConfigModel struct {
@@ -321,10 +322,12 @@ func (AlertRouteResourceModel) FromAPIV3WithPlan(apiModel client.AlertRouteV3, p
 		planGrouping = plan.GroupingConfig.Default
 	}
 	groupingDefault := &AlertRouteV3GroupingSettingsModel{
-		Enabled:       types.BoolValue(apiModel.GroupingConfig.Default.Enabled),
-		AIEnabled:     types.BoolValue(lo.FromPtr(apiModel.GroupingConfig.Default.AiEnabled)),
-		WindowSeconds: types.Int64Null(),
-		WindowType:    types.StringNull(),
+		Enabled:   types.BoolValue(apiModel.GroupingConfig.Default.Enabled),
+		AIEnabled: types.BoolValue(lo.FromPtr(apiModel.GroupingConfig.Default.AiEnabled)),
+		// The API always returns the instructions, as an empty string when there are none.
+		AIInstructions: types.StringValue(lo.FromPtr(apiModel.GroupingConfig.Default.AiInstructions)),
+		WindowSeconds:  types.Int64Null(),
+		WindowType:     types.StringNull(),
 	}
 	if apiModel.GroupingConfig.Default.WindowSeconds != nil {
 		groupingDefault.WindowSeconds = types.Int64Value(int64(*apiModel.GroupingConfig.Default.WindowSeconds))
@@ -646,6 +649,9 @@ func (m AlertRouteResourceModel) ToCreatePayloadV3() client.AlertRoutesCreatePay
 	if m.GroupingConfig != nil && m.GroupingConfig.Default != nil {
 		groupingDefault := client.GroupingSettingsV3{
 			Enabled: m.GroupingConfig.Default.Enabled.ValueBool(),
+			// Sent whether or not grouping is enabled, as the API keeps instructions
+			// either way.
+			AiInstructions: AIInstructionsPayload(m.GroupingConfig.Default.AIInstructions),
 		}
 		// The detail fields are only valid when grouping is enabled; the API
 		// rejects them otherwise.

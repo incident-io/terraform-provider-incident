@@ -52,6 +52,9 @@ documentation.
 
 ### Optional
 
+- `ai_titles_enabled` (Boolean) Whether alerts from this source get an AI-improved title. Only source types that set a recurrence key support it.
+
+Leave the attribute unset to keep the current value, so AI titles turned on in the dashboard stay on after an unrelated apply. A new source created without it has AI titles off.
 - `auto_resolve_incident_alerts` (Boolean) Whether alerts from this source keep counting down to auto-resolve while attached to an incident. Defaults to true. Has no effect without auto_resolve_timeout_minutes.
 - `auto_resolve_timeout_minutes` (Number) How long to wait before automatically resolving alerts from this source
 - `description` (Attributes) (see [below for nested schema](#nestedatt--description))

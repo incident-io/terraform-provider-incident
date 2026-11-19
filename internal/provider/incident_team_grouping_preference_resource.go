@@ -84,6 +84,7 @@ API refuses to create, update or delete one, and this resource fails at apply wi
 								Default:             booldefault.StaticBool(false),
 								MarkdownDescription: apischema.Docstring("TeamGroupingSettingsV3", "ai_enabled"),
 							},
+							"ai_instructions": aiInstructionsAttribute(apischema.Docstring("TeamGroupingSettingsV3", "ai_instructions")),
 							"grouping_keys": schema.SetNestedAttribute{
 								Optional:            true,
 								MarkdownDescription: apischema.Docstring("TeamGroupingSettingsV3", "grouping_keys"),
