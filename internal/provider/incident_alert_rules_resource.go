@@ -95,10 +95,14 @@ func (r *IncidentAlertRulesResource) ModifyPlan(ctx context.Context, req resourc
 	if r.client == nil {
 		return
 	}
+	// ModifyPlan isn't told the resource's address, but Terraform prints it above this message.
 	if id, ok := r.findSingletonID(ctx, kind.ValueString()); ok {
 		resp.Diagnostics.AddAttributeError(path.Root("kind"), "Alert rules already exist",
-			fmt.Sprintf("This organisation already has %s rules, so they cannot be created. Import them to manage them:"+
-				"\n\n  terraform import <address> %s", kind.ValueString(), id))
+			fmt.Sprintf("This organisation already has %[1]s rules, with ID %[2]s, so they cannot be created. "+
+				"To manage them, import them into this resource with an import block:"+
+				"\n\n  import {\n    to = <this resource's address, shown above>\n    id = %[2]q\n  }"+
+				"\n\nBefore Terraform 1.5, run terraform import with this resource's address and %[2]s instead.",
+				kind.ValueString(), id))
 	}
 }
 
