@@ -8099,23 +8099,24 @@ func (e ManagedResourceV2ManagedBy) Valid() bool {
 
 // Defines values for ManagedResourceV2ResourceType.
 const (
-	ManagedResourceV2ResourceTypeAlertRoute             ManagedResourceV2ResourceType = "alert_route"
-	ManagedResourceV2ResourceTypeAlertRule              ManagedResourceV2ResourceType = "alert_rule"
-	ManagedResourceV2ResourceTypeAlertSource            ManagedResourceV2ResourceType = "alert_source"
-	ManagedResourceV2ResourceTypeApiKey                 ManagedResourceV2ResourceType = "api_key"
-	ManagedResourceV2ResourceTypeEscalationPath         ManagedResourceV2ResourceType = "escalation_path"
-	ManagedResourceV2ResourceTypeEscalationPathTemplate ManagedResourceV2ResourceType = "escalation_path_template"
-	ManagedResourceV2ResourceTypeIncidentForm           ManagedResourceV2ResourceType = "incident_form"
-	ManagedResourceV2ResourceTypeIncidentTemplate       ManagedResourceV2ResourceType = "incident_template"
-	ManagedResourceV2ResourceTypePolicy                 ManagedResourceV2ResourceType = "policy"
-	ManagedResourceV2ResourceTypeSchedule               ManagedResourceV2ResourceType = "schedule"
-	ManagedResourceV2ResourceTypeScheduleSyncRule       ManagedResourceV2ResourceType = "schedule_sync_rule"
-	ManagedResourceV2ResourceTypeScheduleSyncTarget     ManagedResourceV2ResourceType = "schedule_sync_target"
-	ManagedResourceV2ResourceTypeSecret                 ManagedResourceV2ResourceType = "secret"
-	ManagedResourceV2ResourceTypeStatusPageComponent    ManagedResourceV2ResourceType = "status_page_component"
-	ManagedResourceV2ResourceTypeStatusPageStructure    ManagedResourceV2ResourceType = "status_page_structure"
-	ManagedResourceV2ResourceTypeTeamGroupingPreference ManagedResourceV2ResourceType = "team_grouping_preference"
-	ManagedResourceV2ResourceTypeWorkflow               ManagedResourceV2ResourceType = "workflow"
+	ManagedResourceV2ResourceTypeAlertRoute                ManagedResourceV2ResourceType = "alert_route"
+	ManagedResourceV2ResourceTypeAlertRule                 ManagedResourceV2ResourceType = "alert_rule"
+	ManagedResourceV2ResourceTypeAlertSource               ManagedResourceV2ResourceType = "alert_source"
+	ManagedResourceV2ResourceTypeApiKey                    ManagedResourceV2ResourceType = "api_key"
+	ManagedResourceV2ResourceTypeDefaultGroupingPreference ManagedResourceV2ResourceType = "default_grouping_preference"
+	ManagedResourceV2ResourceTypeEscalationPath            ManagedResourceV2ResourceType = "escalation_path"
+	ManagedResourceV2ResourceTypeEscalationPathTemplate    ManagedResourceV2ResourceType = "escalation_path_template"
+	ManagedResourceV2ResourceTypeIncidentForm              ManagedResourceV2ResourceType = "incident_form"
+	ManagedResourceV2ResourceTypeIncidentTemplate          ManagedResourceV2ResourceType = "incident_template"
+	ManagedResourceV2ResourceTypePolicy                    ManagedResourceV2ResourceType = "policy"
+	ManagedResourceV2ResourceTypeSchedule                  ManagedResourceV2ResourceType = "schedule"
+	ManagedResourceV2ResourceTypeScheduleSyncRule          ManagedResourceV2ResourceType = "schedule_sync_rule"
+	ManagedResourceV2ResourceTypeScheduleSyncTarget        ManagedResourceV2ResourceType = "schedule_sync_target"
+	ManagedResourceV2ResourceTypeSecret                    ManagedResourceV2ResourceType = "secret"
+	ManagedResourceV2ResourceTypeStatusPageComponent       ManagedResourceV2ResourceType = "status_page_component"
+	ManagedResourceV2ResourceTypeStatusPageStructure       ManagedResourceV2ResourceType = "status_page_structure"
+	ManagedResourceV2ResourceTypeTeamGroupingPreference    ManagedResourceV2ResourceType = "team_grouping_preference"
+	ManagedResourceV2ResourceTypeWorkflow                  ManagedResourceV2ResourceType = "workflow"
 )
 
 // Valid indicates whether the value is a known member of the ManagedResourceV2ResourceType enum.
@@ -8128,6 +8129,8 @@ func (e ManagedResourceV2ResourceType) Valid() bool {
 	case ManagedResourceV2ResourceTypeAlertSource:
 		return true
 	case ManagedResourceV2ResourceTypeApiKey:
+		return true
+	case ManagedResourceV2ResourceTypeDefaultGroupingPreference:
 		return true
 	case ManagedResourceV2ResourceTypeEscalationPath:
 		return true
@@ -8162,23 +8165,24 @@ func (e ManagedResourceV2ResourceType) Valid() bool {
 
 // Defines values for ManagedResourcesCreateManagedResourcePayloadV2ResourceType.
 const (
-	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertRoute             ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "alert_route"
-	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertRule              ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "alert_rule"
-	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertSource            ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "alert_source"
-	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeApiKey                 ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "api_key"
-	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPath         ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "escalation_path"
-	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPathTemplate ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "escalation_path_template"
-	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeIncidentForm           ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "incident_form"
-	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeIncidentTemplate       ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "incident_template"
-	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypePolicy                 ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "policy"
-	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeSchedule               ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "schedule"
-	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeScheduleSyncRule       ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "schedule_sync_rule"
-	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeScheduleSyncTarget     ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "schedule_sync_target"
-	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeSecret                 ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "secret"
-	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeStatusPageComponent    ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "status_page_component"
-	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeStatusPageStructure    ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "status_page_structure"
-	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeTeamGroupingPreference ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "team_grouping_preference"
-	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeWorkflow               ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "workflow"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertRoute                ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "alert_route"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertRule                 ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "alert_rule"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertSource               ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "alert_source"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeApiKey                    ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "api_key"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeDefaultGroupingPreference ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "default_grouping_preference"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPath            ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "escalation_path"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPathTemplate    ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "escalation_path_template"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeIncidentForm              ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "incident_form"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeIncidentTemplate          ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "incident_template"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypePolicy                    ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "policy"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeSchedule                  ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "schedule"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeScheduleSyncRule          ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "schedule_sync_rule"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeScheduleSyncTarget        ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "schedule_sync_target"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeSecret                    ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "secret"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeStatusPageComponent       ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "status_page_component"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeStatusPageStructure       ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "status_page_structure"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeTeamGroupingPreference    ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "team_grouping_preference"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeWorkflow                  ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "workflow"
 )
 
 // Valid indicates whether the value is a known member of the ManagedResourcesCreateManagedResourcePayloadV2ResourceType enum.
@@ -8191,6 +8195,8 @@ func (e ManagedResourcesCreateManagedResourcePayloadV2ResourceType) Valid() bool
 	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertSource:
 		return true
 	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeApiKey:
+		return true
+	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeDefaultGroupingPreference:
 		return true
 	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPath:
 		return true
@@ -19394,6 +19400,117 @@ type CustomFieldsUpdateResultV1 struct {
 type CustomFieldsUpdateResultV2 struct {
 	// CustomField Example: {"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","created_at":"2021-08-17T13:28:57.801578Z","description":"Which team is impacted by this issue","field_type":"single_select","filter_by":{"catalog_attribute_id":"01H2FW182TAH0NHEVBY34SCAK0","custom_field_id":"01H2FW182TAH0NHEVBY34SCAK0"},"fixed_filter":{"catalog_attribute_id":"01H2FW182TAH0NHEVBY34SCAK0","values":["01H2FW182TAH0NHEVBY34SCAK0","01H2FW182TAH0NHEVBY34SCAK1"]},"group_by_catalog_attribute_id":"01FCNDV6P870EA6S7TK1DSYDG0","helptext_catalog_attribute_id":"01H2FW182TAH0NHEVBY34SCAK0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Affected Team","updated_at":"2021-08-17T13:28:57.801578Z"}
 	CustomField CustomFieldV2 `json:"custom_field"`
+}
+
+// DefaultGroupingPreferenceV3 The organisation's default alert grouping preference, which alert rules use for alerts no team's preference groups. An organisation has at most one.
+//
+// Example: {"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
+type DefaultGroupingPreferenceV3 struct {
+	// Branches Grouping branches in order. Alert rules group an alert by the first branch whose conditions hold, else by the default. Alert routes only use the default.
+	//
+	// Example: [{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}]
+	Branches []TeamGroupingConditionalBranchV3 `json:"branches"`
+
+	// CreatedAt When this preference was created
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	CreatedAt time.Time `json:"created_at"`
+
+	// Default One set of grouping settings.
+	//
+	// Example: {"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
+	Default TeamGroupingBranchV3 `json:"default"`
+
+	// Expressions Expressions the branches' conditions test or compare against, as expressions["reference"]
+	//
+	// Example: [{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}]
+	Expressions []ExpressionPayloadV3 `json:"expressions"`
+
+	// Id Unique identifier for this preference
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	Id string `json:"id"`
+
+	// UpdatedAt When this preference was last updated
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	UpdatedAt time.Time `json:"updated_at"`
+
+	// Version The current version number. Every update writes the next version.
+	//
+	// Example: 3
+	Version int64 `json:"version"`
+}
+
+// DefaultGroupingPreferencesCreatePayloadV3 Example: {"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}]}
+type DefaultGroupingPreferencesCreatePayloadV3 struct {
+	// Branches Grouping branches in order. Alert rules group an alert by the first branch whose conditions hold, else by the default. Alert routes only use the default. Omit it on an update to keep the current branches and expressions. Only organisations that use alert rules can add or change branches.
+	//
+	// Example: [{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}]
+	Branches *[]TeamGroupingConditionalBranchV3 `json:"branches,omitempty"`
+
+	// Default One set of grouping settings.
+	//
+	// Example: {"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
+	Default TeamGroupingBranchV3 `json:"default"`
+
+	// Expressions Expressions the branches' conditions test or compare against, as expressions["reference"]. Omit it on an update to keep the current expressions, which are also kept when branches are omitted.
+	//
+	// Example: [{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}]
+	Expressions *[]ExpressionPayloadV3 `json:"expressions,omitempty"`
+}
+
+// DefaultGroupingPreferencesCreateResultV3 Example: {"default_grouping_preference":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","updated_at":"2021-08-17T13:28:57.801578Z","version":3}}
+type DefaultGroupingPreferencesCreateResultV3 struct {
+	// DefaultGroupingPreference The organisation's default alert grouping preference, which alert rules use for alerts no team's preference groups. An organisation has at most one.
+	//
+	// Example: {"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
+	DefaultGroupingPreference DefaultGroupingPreferenceV3 `json:"default_grouping_preference"`
+}
+
+// DefaultGroupingPreferencesListResultV3 Example: {"default_grouping_preferences":[{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","updated_at":"2021-08-17T13:28:57.801578Z","version":3}]}
+type DefaultGroupingPreferencesListResultV3 struct {
+	// DefaultGroupingPreferences Example: [{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","updated_at":"2021-08-17T13:28:57.801578Z","version":3}]
+	DefaultGroupingPreferences []DefaultGroupingPreferenceV3 `json:"default_grouping_preferences"`
+}
+
+// DefaultGroupingPreferencesShowResultV3 Example: {"default_grouping_preference":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","updated_at":"2021-08-17T13:28:57.801578Z","version":3}}
+type DefaultGroupingPreferencesShowResultV3 struct {
+	// DefaultGroupingPreference The organisation's default alert grouping preference, which alert rules use for alerts no team's preference groups. An organisation has at most one.
+	//
+	// Example: {"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
+	DefaultGroupingPreference DefaultGroupingPreferenceV3 `json:"default_grouping_preference"`
+}
+
+// DefaultGroupingPreferencesUpdatePayloadV3 Example: {"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"version":4}
+type DefaultGroupingPreferencesUpdatePayloadV3 struct {
+	// Branches Grouping branches in order. Alert rules group an alert by the first branch whose conditions hold, else by the default. Alert routes only use the default. Omit it on an update to keep the current branches and expressions. Only organisations that use alert rules can add or change branches.
+	//
+	// Example: [{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}]
+	Branches *[]TeamGroupingConditionalBranchV3 `json:"branches,omitempty"`
+
+	// Default One set of grouping settings.
+	//
+	// Example: {"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
+	Default TeamGroupingBranchV3 `json:"default"`
+
+	// Expressions Expressions the branches' conditions test or compare against, as expressions["reference"]. Omit it on an update to keep the current expressions, which are also kept when branches are omitted.
+	//
+	// Example: [{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}]
+	Expressions *[]ExpressionPayloadV3 `json:"expressions,omitempty"`
+
+	// Version The version this update writes. When set, it must be one more than the preference's current version, so two editors can't overwrite each other. When omitted, the update applies to the current version.
+	//
+	// Example: 4
+	Version *int64 `json:"version,omitempty"`
+}
+
+// DefaultGroupingPreferencesUpdateResultV3 Example: {"default_grouping_preference":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","updated_at":"2021-08-17T13:28:57.801578Z","version":3}}
+type DefaultGroupingPreferencesUpdateResultV3 struct {
+	// DefaultGroupingPreference The organisation's default alert grouping preference, which alert rules use for alerts no team's preference groups. An organisation has at most one.
+	//
+	// Example: {"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
+	DefaultGroupingPreference DefaultGroupingPreferenceV3 `json:"default_grouping_preference"`
 }
 
 // EmbeddedCatalogEntryV1 Example: {"aliases":["lawrence@incident.io","lawrence"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"}
@@ -31563,7 +31680,27 @@ type StepProgressV2WebhookDeliveryState string
 //
 // Example: {"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
 type TeamGroupingBranchV3 struct {
-	// Settings How a team's alerts are grouped together, on every alert route
+	// Settings How alerts are grouped together
+	//
+	// Example: {"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}
+	Settings TeamGroupingSettingsV3 `json:"settings"`
+}
+
+// TeamGroupingConditionalBranchV3 A grouping branch: the grouping settings for the alerts that match its conditions
+//
+// Example: {"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
+type TeamGroupingConditionalBranchV3 struct {
+	// ConditionGroups The branch matches an alert when every condition in any one group holds
+	//
+	// Example: [{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]
+	ConditionGroups []ConditionGroupPayloadV3 `json:"condition_groups"`
+
+	// Id Identifier for this branch, a ULID. Omit it on a new branch and one is assigned. Send the ID you read back on every update: alert groups are keyed on it.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	Id *string `json:"id,omitempty"`
+
+	// Settings How alerts are grouped together
 	//
 	// Example: {"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}
 	Settings TeamGroupingSettingsV3 `json:"settings"`
@@ -31571,8 +31708,13 @@ type TeamGroupingBranchV3 struct {
 
 // TeamGroupingPreferenceV3 A team's alert grouping preference, which takes priority over the default grouping of every alert route its alerts match
 //
-// Example: {"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
+// Example: {"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
 type TeamGroupingPreferenceV3 struct {
+	// Branches Grouping branches in order. Alert rules group an alert by the first branch whose conditions hold, else by the default. Alert routes only use the default.
+	//
+	// Example: [{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}]
+	Branches []TeamGroupingConditionalBranchV3 `json:"branches"`
+
 	// CreatedAt When this preference was created
 	//
 	// Example: 2021-08-17T13:28:57.801578Z
@@ -31582,6 +31724,11 @@ type TeamGroupingPreferenceV3 struct {
 	//
 	// Example: {"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
 	Default TeamGroupingBranchV3 `json:"default"`
+
+	// Expressions Expressions the branches' conditions test or compare against, as expressions["reference"]
+	//
+	// Example: [{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}]
+	Expressions []ExpressionPayloadV3 `json:"expressions"`
 
 	// Id Unique identifier for this preference
 	//
@@ -31604,12 +31751,22 @@ type TeamGroupingPreferenceV3 struct {
 	Version int64 `json:"version"`
 }
 
-// TeamGroupingPreferencesCreatePayloadV3 Example: {"default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"team_id":"01G0J1EXE7AXZ2C93K61WBPYEH"}
+// TeamGroupingPreferencesCreatePayloadV3 Example: {"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"team_id":"01G0J1EXE7AXZ2C93K61WBPYEH"}
 type TeamGroupingPreferencesCreatePayloadV3 struct {
+	// Branches Grouping branches in order. Alert rules group an alert by the first branch whose conditions hold, else by the default. Alert routes only use the default. Omit it on an update to keep the current branches and expressions. Only organisations that use alert rules can add or change branches.
+	//
+	// Example: [{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}]
+	Branches *[]TeamGroupingConditionalBranchV3 `json:"branches,omitempty"`
+
 	// Default One set of grouping settings.
 	//
 	// Example: {"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
 	Default TeamGroupingBranchV3 `json:"default"`
+
+	// Expressions Expressions the branches' conditions test or compare against, as expressions["reference"]. Omit it on an update to keep the current expressions, which are also kept when branches are omitted.
+	//
+	// Example: [{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}]
+	Expressions *[]ExpressionPayloadV3 `json:"expressions,omitempty"`
 
 	// TeamId The catalog entry ID of the team this preference belongs to
 	//
@@ -31617,37 +31774,47 @@ type TeamGroupingPreferencesCreatePayloadV3 struct {
 	TeamId string `json:"team_id"`
 }
 
-// TeamGroupingPreferencesCreateResultV3 Example: {"team_grouping_preference":{"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}}
+// TeamGroupingPreferencesCreateResultV3 Example: {"team_grouping_preference":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}}
 type TeamGroupingPreferencesCreateResultV3 struct {
 	// TeamGroupingPreference A team's alert grouping preference, which takes priority over the default grouping of every alert route its alerts match
 	//
-	// Example: {"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
+	// Example: {"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
 	TeamGroupingPreference TeamGroupingPreferenceV3 `json:"team_grouping_preference"`
 }
 
-// TeamGroupingPreferencesListResultV3 Example: {"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25},"team_grouping_preferences":[{"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}]}
+// TeamGroupingPreferencesListResultV3 Example: {"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25},"team_grouping_preferences":[{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}]}
 type TeamGroupingPreferencesListResultV3 struct {
 	// PaginationMeta Example: {"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}
 	PaginationMeta PaginationMetaResultV3 `json:"pagination_meta"`
 
-	// TeamGroupingPreferences Example: [{"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}]
+	// TeamGroupingPreferences Example: [{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}]
 	TeamGroupingPreferences []TeamGroupingPreferenceV3 `json:"team_grouping_preferences"`
 }
 
-// TeamGroupingPreferencesShowResultV3 Example: {"team_grouping_preference":{"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}}
+// TeamGroupingPreferencesShowResultV3 Example: {"team_grouping_preference":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}}
 type TeamGroupingPreferencesShowResultV3 struct {
 	// TeamGroupingPreference A team's alert grouping preference, which takes priority over the default grouping of every alert route its alerts match
 	//
-	// Example: {"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
+	// Example: {"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
 	TeamGroupingPreference TeamGroupingPreferenceV3 `json:"team_grouping_preference"`
 }
 
-// TeamGroupingPreferencesUpdatePayloadV3 Example: {"default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"version":4}
+// TeamGroupingPreferencesUpdatePayloadV3 Example: {"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"version":4}
 type TeamGroupingPreferencesUpdatePayloadV3 struct {
+	// Branches Grouping branches in order. Alert rules group an alert by the first branch whose conditions hold, else by the default. Alert routes only use the default. Omit it on an update to keep the current branches and expressions. Only organisations that use alert rules can add or change branches.
+	//
+	// Example: [{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}]
+	Branches *[]TeamGroupingConditionalBranchV3 `json:"branches,omitempty"`
+
 	// Default One set of grouping settings.
 	//
 	// Example: {"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
 	Default TeamGroupingBranchV3 `json:"default"`
+
+	// Expressions Expressions the branches' conditions test or compare against, as expressions["reference"]. Omit it on an update to keep the current expressions, which are also kept when branches are omitted.
+	//
+	// Example: [{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}]
+	Expressions *[]ExpressionPayloadV3 `json:"expressions,omitempty"`
 
 	// Version The version this update will create. It must be one more than the preference's latest version, otherwise the update is rejected - guarding against concurrent edits.
 	//
@@ -31655,15 +31822,15 @@ type TeamGroupingPreferencesUpdatePayloadV3 struct {
 	Version int64 `json:"version"`
 }
 
-// TeamGroupingPreferencesUpdateResultV3 Example: {"team_grouping_preference":{"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}}
+// TeamGroupingPreferencesUpdateResultV3 Example: {"team_grouping_preference":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}}
 type TeamGroupingPreferencesUpdateResultV3 struct {
 	// TeamGroupingPreference A team's alert grouping preference, which takes priority over the default grouping of every alert route its alerts match
 	//
-	// Example: {"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
+	// Example: {"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
 	TeamGroupingPreference TeamGroupingPreferenceV3 `json:"team_grouping_preference"`
 }
 
-// TeamGroupingSettingsV3 How a team's alerts are grouped together, on every alert route
+// TeamGroupingSettingsV3 How alerts are grouped together
 //
 // Example: {"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}
 type TeamGroupingSettingsV3 struct {
@@ -31672,7 +31839,7 @@ type TeamGroupingSettingsV3 struct {
 	// Example: false
 	AiEnabled *bool `json:"ai_enabled,omitempty"`
 
-	// Enabled Whether the team's alerts are grouped. When false, none of the team's alerts are grouped, regardless of any alert route grouping config.
+	// Enabled Whether these alerts are grouped. When false, none of them are grouped.
 	//
 	// Example: true
 	Enabled bool `json:"enabled"`
@@ -34692,6 +34859,12 @@ type CatalogV3UpdateTypeJSONRequestBody = CatalogUpdateTypePayloadV3
 
 // CatalogV3UpdateTypeSchemaJSONRequestBody defines body for CatalogV3UpdateTypeSchema for application/json ContentType.
 type CatalogV3UpdateTypeSchemaJSONRequestBody = CatalogUpdateTypeSchemaPayloadV3
+
+// DefaultGroupingPreferencesV3CreateJSONRequestBody defines body for DefaultGroupingPreferencesV3Create for application/json ContentType.
+type DefaultGroupingPreferencesV3CreateJSONRequestBody = DefaultGroupingPreferencesCreatePayloadV3
+
+// DefaultGroupingPreferencesV3UpdateJSONRequestBody defines body for DefaultGroupingPreferencesV3Update for application/json ContentType.
+type DefaultGroupingPreferencesV3UpdateJSONRequestBody = DefaultGroupingPreferencesUpdatePayloadV3
 
 // FollowUpsV3CreateJSONRequestBody defines body for FollowUpsV3Create for application/json ContentType.
 type FollowUpsV3CreateJSONRequestBody = FollowUpsCreatePayloadV3
@@ -40540,6 +40713,63 @@ type ClientInterface interface {
 	//
 	// Corresponds with POST /v3/catalog_types/{id}/actions/update_schema (the `CatalogV3UpdateTypeSchema` operationId).
 	CatalogV3UpdateTypeSchema(ctx context.Context, id string, body CatalogV3UpdateTypeSchemaJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DefaultGroupingPreferencesV3List List Default Grouping Preferences V3
+	//
+	// List the organisation's default grouping preference: one, or none if it has never been created.
+	//
+	// Corresponds with GET /v3/default_grouping_preferences (the `DefaultGroupingPreferencesV3List` operationId).
+	DefaultGroupingPreferencesV3List(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DefaultGroupingPreferencesV3CreateWithBody Create Default Grouping Preferences V3
+	//
+	// Create the organisation's default grouping preference when it has none. To manage an existing one, import it or update it by ID.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v3/default_grouping_preferences (the `DefaultGroupingPreferencesV3Create` operationId).
+	DefaultGroupingPreferencesV3CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DefaultGroupingPreferencesV3Create Create Default Grouping Preferences V3
+	//
+	// Create the organisation's default grouping preference when it has none. To manage an existing one, import it or update it by ID.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v3/default_grouping_preferences (the `DefaultGroupingPreferencesV3Create` operationId).
+	DefaultGroupingPreferencesV3Create(ctx context.Context, body DefaultGroupingPreferencesV3CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DefaultGroupingPreferencesV3Delete Delete Default Grouping Preferences V3
+	//
+	// Turn the organisation's default grouping off. The preference is kept: its grouping is switched off and its branches and expressions removed, written as its next version so it can be restored in the dashboard, and it is released from Terraform management.
+	//
+	// Corresponds with DELETE /v3/default_grouping_preferences/{id} (the `DefaultGroupingPreferencesV3Delete` operationId).
+	DefaultGroupingPreferencesV3Delete(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DefaultGroupingPreferencesV3Show Show Default Grouping Preferences V3
+	//
+	// Load the organisation's default grouping preference.
+	//
+	// Corresponds with GET /v3/default_grouping_preferences/{id} (the `DefaultGroupingPreferencesV3Show` operationId).
+	DefaultGroupingPreferencesV3Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DefaultGroupingPreferencesV3UpdateWithBody Update Default Grouping Preferences V3
+	//
+	// Update the organisation's default grouping preference and write its next version.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PUT /v3/default_grouping_preferences/{id} (the `DefaultGroupingPreferencesV3Update` operationId).
+	DefaultGroupingPreferencesV3UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DefaultGroupingPreferencesV3Update Update Default Grouping Preferences V3
+	//
+	// Update the organisation's default grouping preference and write its next version.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PUT /v3/default_grouping_preferences/{id} (the `DefaultGroupingPreferencesV3Update` operationId).
+	DefaultGroupingPreferencesV3Update(ctx context.Context, id string, body DefaultGroupingPreferencesV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// FollowUpsV3List List Follow-ups V3
 	//
@@ -51767,6 +51997,133 @@ func (c *Client) CatalogV3UpdateTypeSchemaWithBody(ctx context.Context, id strin
 // Corresponds with POST /v3/catalog_types/{id}/actions/update_schema (the `CatalogV3UpdateTypeSchema` operationId).
 func (c *Client) CatalogV3UpdateTypeSchema(ctx context.Context, id string, body CatalogV3UpdateTypeSchemaJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewCatalogV3UpdateTypeSchemaRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DefaultGroupingPreferencesV3List List Default Grouping Preferences V3
+//
+// List the organisation's default grouping preference: one, or none if it has never been created.
+//
+// Corresponds with GET /v3/default_grouping_preferences (the `DefaultGroupingPreferencesV3List` operationId).
+func (c *Client) DefaultGroupingPreferencesV3List(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDefaultGroupingPreferencesV3ListRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DefaultGroupingPreferencesV3CreateWithBody Create Default Grouping Preferences V3
+//
+// Create the organisation's default grouping preference when it has none. To manage an existing one, import it or update it by ID.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v3/default_grouping_preferences (the `DefaultGroupingPreferencesV3Create` operationId).
+func (c *Client) DefaultGroupingPreferencesV3CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDefaultGroupingPreferencesV3CreateRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DefaultGroupingPreferencesV3Create Create Default Grouping Preferences V3
+//
+// Create the organisation's default grouping preference when it has none. To manage an existing one, import it or update it by ID.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v3/default_grouping_preferences (the `DefaultGroupingPreferencesV3Create` operationId).
+func (c *Client) DefaultGroupingPreferencesV3Create(ctx context.Context, body DefaultGroupingPreferencesV3CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDefaultGroupingPreferencesV3CreateRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DefaultGroupingPreferencesV3Delete Delete Default Grouping Preferences V3
+//
+// Turn the organisation's default grouping off. The preference is kept: its grouping is switched off and its branches and expressions removed, written as its next version so it can be restored in the dashboard, and it is released from Terraform management.
+//
+// Corresponds with DELETE /v3/default_grouping_preferences/{id} (the `DefaultGroupingPreferencesV3Delete` operationId).
+func (c *Client) DefaultGroupingPreferencesV3Delete(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDefaultGroupingPreferencesV3DeleteRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DefaultGroupingPreferencesV3Show Show Default Grouping Preferences V3
+//
+// Load the organisation's default grouping preference.
+//
+// Corresponds with GET /v3/default_grouping_preferences/{id} (the `DefaultGroupingPreferencesV3Show` operationId).
+func (c *Client) DefaultGroupingPreferencesV3Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDefaultGroupingPreferencesV3ShowRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DefaultGroupingPreferencesV3UpdateWithBody Update Default Grouping Preferences V3
+//
+// Update the organisation's default grouping preference and write its next version.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PUT /v3/default_grouping_preferences/{id} (the `DefaultGroupingPreferencesV3Update` operationId).
+func (c *Client) DefaultGroupingPreferencesV3UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDefaultGroupingPreferencesV3UpdateRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DefaultGroupingPreferencesV3Update Update Default Grouping Preferences V3
+//
+// Update the organisation's default grouping preference and write its next version.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PUT /v3/default_grouping_preferences/{id} (the `DefaultGroupingPreferencesV3Update` operationId).
+func (c *Client) DefaultGroupingPreferencesV3Update(ctx context.Context, id string, body DefaultGroupingPreferencesV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDefaultGroupingPreferencesV3UpdateRequest(c.Server, id, body)
 	if err != nil {
 		return nil, err
 	}
@@ -69283,6 +69640,188 @@ func NewCatalogV3UpdateTypeSchemaRequestWithBody(server string, id string, conte
 	return req, nil
 }
 
+// NewDefaultGroupingPreferencesV3ListRequest constructs an http.Request for the DefaultGroupingPreferencesV3List method
+func NewDefaultGroupingPreferencesV3ListRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/default_grouping_preferences")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewDefaultGroupingPreferencesV3CreateRequest calls the generic DefaultGroupingPreferencesV3Create builder with application/json body
+func NewDefaultGroupingPreferencesV3CreateRequest(server string, body DefaultGroupingPreferencesV3CreateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewDefaultGroupingPreferencesV3CreateRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewDefaultGroupingPreferencesV3CreateRequestWithBody constructs an http.Request for the DefaultGroupingPreferencesV3Create method, with any body, and a specified content type
+func NewDefaultGroupingPreferencesV3CreateRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/default_grouping_preferences")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDefaultGroupingPreferencesV3DeleteRequest constructs an http.Request for the DefaultGroupingPreferencesV3Delete method
+func NewDefaultGroupingPreferencesV3DeleteRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/default_grouping_preferences/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewDefaultGroupingPreferencesV3ShowRequest constructs an http.Request for the DefaultGroupingPreferencesV3Show method
+func NewDefaultGroupingPreferencesV3ShowRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/default_grouping_preferences/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewDefaultGroupingPreferencesV3UpdateRequest calls the generic DefaultGroupingPreferencesV3Update builder with application/json body
+func NewDefaultGroupingPreferencesV3UpdateRequest(server string, id string, body DefaultGroupingPreferencesV3UpdateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewDefaultGroupingPreferencesV3UpdateRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewDefaultGroupingPreferencesV3UpdateRequestWithBody constructs an http.Request for the DefaultGroupingPreferencesV3Update method, with any body, and a specified content type
+func NewDefaultGroupingPreferencesV3UpdateRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/default_grouping_preferences/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPut, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewFollowUpsV3ListRequest constructs an http.Request for the FollowUpsV3List method
 func NewFollowUpsV3ListRequest(server string, params *FollowUpsV3ListParams) (*http.Request, error) {
 	var err error
@@ -76961,6 +77500,69 @@ type ClientWithResponsesInterface interface {
 	//
 	// Corresponds with POST /v3/catalog_types/{id}/actions/update_schema (the `CatalogV3UpdateTypeSchema` operationId).
 	CatalogV3UpdateTypeSchemaWithResponse(ctx context.Context, id string, body CatalogV3UpdateTypeSchemaJSONRequestBody, reqEditors ...RequestEditorFn) (*CatalogV3UpdateTypeSchemaResponse, error)
+
+	// DefaultGroupingPreferencesV3ListWithResponse List Default Grouping Preferences V3
+	//
+	// List the organisation's default grouping preference: one, or none if it has never been created.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v3/default_grouping_preferences (the `DefaultGroupingPreferencesV3List` operationId).
+	DefaultGroupingPreferencesV3ListWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*DefaultGroupingPreferencesV3ListResponse, error)
+
+	// DefaultGroupingPreferencesV3CreateWithBodyWithResponse Create Default Grouping Preferences V3
+	//
+	// Create the organisation's default grouping preference when it has none. To manage an existing one, import it or update it by ID.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/default_grouping_preferences (the `DefaultGroupingPreferencesV3Create` operationId).
+	DefaultGroupingPreferencesV3CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DefaultGroupingPreferencesV3CreateResponse, error)
+
+	// DefaultGroupingPreferencesV3CreateWithResponse Create Default Grouping Preferences V3
+	//
+	// Create the organisation's default grouping preference when it has none. To manage an existing one, import it or update it by ID.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/default_grouping_preferences (the `DefaultGroupingPreferencesV3Create` operationId).
+	DefaultGroupingPreferencesV3CreateWithResponse(ctx context.Context, body DefaultGroupingPreferencesV3CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*DefaultGroupingPreferencesV3CreateResponse, error)
+
+	// DefaultGroupingPreferencesV3DeleteWithResponse Delete Default Grouping Preferences V3
+	//
+	// Turn the organisation's default grouping off. The preference is kept: its grouping is switched off and its branches and expressions removed, written as its next version so it can be restored in the dashboard, and it is released from Terraform management.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v3/default_grouping_preferences/{id} (the `DefaultGroupingPreferencesV3Delete` operationId).
+	DefaultGroupingPreferencesV3DeleteWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*DefaultGroupingPreferencesV3DeleteResponse, error)
+
+	// DefaultGroupingPreferencesV3ShowWithResponse Show Default Grouping Preferences V3
+	//
+	// Load the organisation's default grouping preference.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v3/default_grouping_preferences/{id} (the `DefaultGroupingPreferencesV3Show` operationId).
+	DefaultGroupingPreferencesV3ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*DefaultGroupingPreferencesV3ShowResponse, error)
+
+	// DefaultGroupingPreferencesV3UpdateWithBodyWithResponse Update Default Grouping Preferences V3
+	//
+	// Update the organisation's default grouping preference and write its next version.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v3/default_grouping_preferences/{id} (the `DefaultGroupingPreferencesV3Update` operationId).
+	DefaultGroupingPreferencesV3UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DefaultGroupingPreferencesV3UpdateResponse, error)
+
+	// DefaultGroupingPreferencesV3UpdateWithResponse Update Default Grouping Preferences V3
+	//
+	// Update the organisation's default grouping preference and write its next version.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v3/default_grouping_preferences/{id} (the `DefaultGroupingPreferencesV3Update` operationId).
+	DefaultGroupingPreferencesV3UpdateWithResponse(ctx context.Context, id string, body DefaultGroupingPreferencesV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*DefaultGroupingPreferencesV3UpdateResponse, error)
 
 	// FollowUpsV3ListWithResponse List Follow-ups V3
 	//
@@ -124052,6 +124654,659 @@ func (r CatalogV3UpdateTypeSchemaResponse) ContentType() string {
 	return ""
 }
 
+type DefaultGroupingPreferencesV3ListResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *DefaultGroupingPreferencesListResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r DefaultGroupingPreferencesV3ListResponse) GetJSON200() *DefaultGroupingPreferencesListResultV3 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r DefaultGroupingPreferencesV3ListResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r DefaultGroupingPreferencesV3ListResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r DefaultGroupingPreferencesV3ListResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r DefaultGroupingPreferencesV3ListResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r DefaultGroupingPreferencesV3ListResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r DefaultGroupingPreferencesV3ListResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r DefaultGroupingPreferencesV3ListResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r DefaultGroupingPreferencesV3ListResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r DefaultGroupingPreferencesV3ListResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r DefaultGroupingPreferencesV3ListResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r DefaultGroupingPreferencesV3ListResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r DefaultGroupingPreferencesV3ListResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r DefaultGroupingPreferencesV3ListResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r DefaultGroupingPreferencesV3ListResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DefaultGroupingPreferencesV3ListResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DefaultGroupingPreferencesV3ListResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DefaultGroupingPreferencesV3ListResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DefaultGroupingPreferencesV3CreateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON201 the response for an HTTP 201 `application/json` response
+	JSON201 *DefaultGroupingPreferencesCreateResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON201 returns the response for an HTTP 201 `application/json` response
+func (r DefaultGroupingPreferencesV3CreateResponse) GetJSON201() *DefaultGroupingPreferencesCreateResultV3 {
+	return r.JSON201
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r DefaultGroupingPreferencesV3CreateResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r DefaultGroupingPreferencesV3CreateResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r DefaultGroupingPreferencesV3CreateResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r DefaultGroupingPreferencesV3CreateResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r DefaultGroupingPreferencesV3CreateResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r DefaultGroupingPreferencesV3CreateResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r DefaultGroupingPreferencesV3CreateResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r DefaultGroupingPreferencesV3CreateResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r DefaultGroupingPreferencesV3CreateResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r DefaultGroupingPreferencesV3CreateResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r DefaultGroupingPreferencesV3CreateResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r DefaultGroupingPreferencesV3CreateResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r DefaultGroupingPreferencesV3CreateResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r DefaultGroupingPreferencesV3CreateResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DefaultGroupingPreferencesV3CreateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DefaultGroupingPreferencesV3CreateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DefaultGroupingPreferencesV3CreateResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DefaultGroupingPreferencesV3DeleteResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r DefaultGroupingPreferencesV3DeleteResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r DefaultGroupingPreferencesV3DeleteResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r DefaultGroupingPreferencesV3DeleteResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r DefaultGroupingPreferencesV3DeleteResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r DefaultGroupingPreferencesV3DeleteResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r DefaultGroupingPreferencesV3DeleteResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r DefaultGroupingPreferencesV3DeleteResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r DefaultGroupingPreferencesV3DeleteResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r DefaultGroupingPreferencesV3DeleteResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r DefaultGroupingPreferencesV3DeleteResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r DefaultGroupingPreferencesV3DeleteResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r DefaultGroupingPreferencesV3DeleteResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r DefaultGroupingPreferencesV3DeleteResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r DefaultGroupingPreferencesV3DeleteResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DefaultGroupingPreferencesV3DeleteResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DefaultGroupingPreferencesV3DeleteResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DefaultGroupingPreferencesV3DeleteResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DefaultGroupingPreferencesV3ShowResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *DefaultGroupingPreferencesShowResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r DefaultGroupingPreferencesV3ShowResponse) GetJSON200() *DefaultGroupingPreferencesShowResultV3 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r DefaultGroupingPreferencesV3ShowResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r DefaultGroupingPreferencesV3ShowResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r DefaultGroupingPreferencesV3ShowResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r DefaultGroupingPreferencesV3ShowResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r DefaultGroupingPreferencesV3ShowResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r DefaultGroupingPreferencesV3ShowResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r DefaultGroupingPreferencesV3ShowResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r DefaultGroupingPreferencesV3ShowResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r DefaultGroupingPreferencesV3ShowResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r DefaultGroupingPreferencesV3ShowResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r DefaultGroupingPreferencesV3ShowResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r DefaultGroupingPreferencesV3ShowResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r DefaultGroupingPreferencesV3ShowResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r DefaultGroupingPreferencesV3ShowResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DefaultGroupingPreferencesV3ShowResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DefaultGroupingPreferencesV3ShowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DefaultGroupingPreferencesV3ShowResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DefaultGroupingPreferencesV3UpdateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *DefaultGroupingPreferencesUpdateResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r DefaultGroupingPreferencesV3UpdateResponse) GetJSON200() *DefaultGroupingPreferencesUpdateResultV3 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r DefaultGroupingPreferencesV3UpdateResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r DefaultGroupingPreferencesV3UpdateResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r DefaultGroupingPreferencesV3UpdateResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r DefaultGroupingPreferencesV3UpdateResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r DefaultGroupingPreferencesV3UpdateResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r DefaultGroupingPreferencesV3UpdateResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r DefaultGroupingPreferencesV3UpdateResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r DefaultGroupingPreferencesV3UpdateResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r DefaultGroupingPreferencesV3UpdateResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r DefaultGroupingPreferencesV3UpdateResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r DefaultGroupingPreferencesV3UpdateResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r DefaultGroupingPreferencesV3UpdateResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r DefaultGroupingPreferencesV3UpdateResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r DefaultGroupingPreferencesV3UpdateResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DefaultGroupingPreferencesV3UpdateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DefaultGroupingPreferencesV3UpdateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DefaultGroupingPreferencesV3UpdateResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
 type FollowUpsV3ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -137273,6 +138528,111 @@ func (c *ClientWithResponses) CatalogV3UpdateTypeSchemaWithResponse(ctx context.
 		return nil, err
 	}
 	return ParseCatalogV3UpdateTypeSchemaResponse(rsp)
+}
+
+// DefaultGroupingPreferencesV3ListWithResponse List Default Grouping Preferences V3
+//
+// List the organisation's default grouping preference: one, or none if it has never been created.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v3/default_grouping_preferences (the `DefaultGroupingPreferencesV3List` operationId).
+func (c *ClientWithResponses) DefaultGroupingPreferencesV3ListWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*DefaultGroupingPreferencesV3ListResponse, error) {
+	rsp, err := c.DefaultGroupingPreferencesV3List(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDefaultGroupingPreferencesV3ListResponse(rsp)
+}
+
+// DefaultGroupingPreferencesV3CreateWithBodyWithResponse Create Default Grouping Preferences V3
+//
+// Create the organisation's default grouping preference when it has none. To manage an existing one, import it or update it by ID.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/default_grouping_preferences (the `DefaultGroupingPreferencesV3Create` operationId).
+func (c *ClientWithResponses) DefaultGroupingPreferencesV3CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DefaultGroupingPreferencesV3CreateResponse, error) {
+	rsp, err := c.DefaultGroupingPreferencesV3CreateWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDefaultGroupingPreferencesV3CreateResponse(rsp)
+}
+
+// DefaultGroupingPreferencesV3CreateWithResponse Create Default Grouping Preferences V3
+//
+// Create the organisation's default grouping preference when it has none. To manage an existing one, import it or update it by ID.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/default_grouping_preferences (the `DefaultGroupingPreferencesV3Create` operationId).
+func (c *ClientWithResponses) DefaultGroupingPreferencesV3CreateWithResponse(ctx context.Context, body DefaultGroupingPreferencesV3CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*DefaultGroupingPreferencesV3CreateResponse, error) {
+	rsp, err := c.DefaultGroupingPreferencesV3Create(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDefaultGroupingPreferencesV3CreateResponse(rsp)
+}
+
+// DefaultGroupingPreferencesV3DeleteWithResponse Delete Default Grouping Preferences V3
+//
+// Turn the organisation's default grouping off. The preference is kept: its grouping is switched off and its branches and expressions removed, written as its next version so it can be restored in the dashboard, and it is released from Terraform management.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v3/default_grouping_preferences/{id} (the `DefaultGroupingPreferencesV3Delete` operationId).
+func (c *ClientWithResponses) DefaultGroupingPreferencesV3DeleteWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*DefaultGroupingPreferencesV3DeleteResponse, error) {
+	rsp, err := c.DefaultGroupingPreferencesV3Delete(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDefaultGroupingPreferencesV3DeleteResponse(rsp)
+}
+
+// DefaultGroupingPreferencesV3ShowWithResponse Show Default Grouping Preferences V3
+//
+// Load the organisation's default grouping preference.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v3/default_grouping_preferences/{id} (the `DefaultGroupingPreferencesV3Show` operationId).
+func (c *ClientWithResponses) DefaultGroupingPreferencesV3ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*DefaultGroupingPreferencesV3ShowResponse, error) {
+	rsp, err := c.DefaultGroupingPreferencesV3Show(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDefaultGroupingPreferencesV3ShowResponse(rsp)
+}
+
+// DefaultGroupingPreferencesV3UpdateWithBodyWithResponse Update Default Grouping Preferences V3
+//
+// Update the organisation's default grouping preference and write its next version.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v3/default_grouping_preferences/{id} (the `DefaultGroupingPreferencesV3Update` operationId).
+func (c *ClientWithResponses) DefaultGroupingPreferencesV3UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DefaultGroupingPreferencesV3UpdateResponse, error) {
+	rsp, err := c.DefaultGroupingPreferencesV3UpdateWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDefaultGroupingPreferencesV3UpdateResponse(rsp)
+}
+
+// DefaultGroupingPreferencesV3UpdateWithResponse Update Default Grouping Preferences V3
+//
+// Update the organisation's default grouping preference and write its next version.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v3/default_grouping_preferences/{id} (the `DefaultGroupingPreferencesV3Update` operationId).
+func (c *ClientWithResponses) DefaultGroupingPreferencesV3UpdateWithResponse(ctx context.Context, id string, body DefaultGroupingPreferencesV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*DefaultGroupingPreferencesV3UpdateResponse, error) {
+	rsp, err := c.DefaultGroupingPreferencesV3Update(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDefaultGroupingPreferencesV3UpdateResponse(rsp)
 }
 
 // FollowUpsV3ListWithResponse List Follow-ups V3
@@ -179397,6 +180757,587 @@ func ParseCatalogV3UpdateTypeSchemaResponse(rsp *http.Response) (*CatalogV3Updat
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest CatalogUpdateTypeSchemaResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDefaultGroupingPreferencesV3ListResponse parses an HTTP response from a DefaultGroupingPreferencesV3ListWithResponse call
+func ParseDefaultGroupingPreferencesV3ListResponse(rsp *http.Response) (*DefaultGroupingPreferencesV3ListResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DefaultGroupingPreferencesV3ListResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest DefaultGroupingPreferencesListResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDefaultGroupingPreferencesV3CreateResponse parses an HTTP response from a DefaultGroupingPreferencesV3CreateWithResponse call
+func ParseDefaultGroupingPreferencesV3CreateResponse(rsp *http.Response) (*DefaultGroupingPreferencesV3CreateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DefaultGroupingPreferencesV3CreateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest DefaultGroupingPreferencesCreateResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDefaultGroupingPreferencesV3DeleteResponse parses an HTTP response from a DefaultGroupingPreferencesV3DeleteWithResponse call
+func ParseDefaultGroupingPreferencesV3DeleteResponse(rsp *http.Response) (*DefaultGroupingPreferencesV3DeleteResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DefaultGroupingPreferencesV3DeleteResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case rsp.StatusCode == 204:
+		break // No content-type
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDefaultGroupingPreferencesV3ShowResponse parses an HTTP response from a DefaultGroupingPreferencesV3ShowWithResponse call
+func ParseDefaultGroupingPreferencesV3ShowResponse(rsp *http.Response) (*DefaultGroupingPreferencesV3ShowResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DefaultGroupingPreferencesV3ShowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest DefaultGroupingPreferencesShowResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDefaultGroupingPreferencesV3UpdateResponse parses an HTTP response from a DefaultGroupingPreferencesV3UpdateWithResponse call
+func ParseDefaultGroupingPreferencesV3UpdateResponse(rsp *http.Response) (*DefaultGroupingPreferencesV3UpdateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DefaultGroupingPreferencesV3UpdateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest DefaultGroupingPreferencesUpdateResultV3
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
