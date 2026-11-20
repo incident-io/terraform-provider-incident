@@ -476,6 +476,39 @@ func TestValidateAlertRuleSet(t *testing.T) {
 			},
 		},
 		{
+			name: "action ids share one namespace with blocks and branches",
+			model: alertRuleSetModel("required", types.StringNull(),
+				block("investigate", AlertRuleBranchModel{
+					ID:      types.StringValue("always"),
+					Actions: []AlertRuleActionV3Model{{ID: types.StringValue("investigate"), Type: types.StringValue("investigate")}},
+					Branches: []AlertRuleNestedBranchModel{{
+						ID:      types.StringValue("nested"),
+						Actions: []AlertRuleActionV3Model{{ID: types.StringValue("always"), Type: types.StringValue("investigate")}},
+					}},
+				}),
+			),
+			want: []path.Path{
+				path.Root("block").AtListIndex(0).AtName("branch").AtListIndex(0).AtName("actions").AtListIndex(0).AtName("id"),
+				path.Root("block").AtListIndex(0).AtName("branch").AtListIndex(0).AtName("branch").AtListIndex(0).
+					AtName("actions").AtListIndex(0).AtName("id"),
+			},
+		},
+		{
+			name: "distinct, unknown and omitted action ids",
+			model: alertRuleSetModel("required", types.StringNull(),
+				block("page", AlertRuleBranchModel{
+					ID: types.StringValue("always"),
+					Actions: []AlertRuleActionV3Model{
+						{ID: types.StringValue("investigate"), Type: types.StringValue("investigate")},
+						{ID: types.StringUnknown(), Type: types.StringValue("investigate")},
+						{ID: types.StringUnknown(), Type: types.StringValue("investigate")},
+						{ID: types.StringNull(), Type: types.StringValue("investigate")},
+						{ID: types.StringNull(), Type: types.StringValue("investigate")},
+					},
+				}),
+			),
+		},
+		{
 			name: "actions are checked on branches and nested branches",
 			model: alertRuleSetModel("required", types.StringNull(),
 				block("page", AlertRuleBranchModel{

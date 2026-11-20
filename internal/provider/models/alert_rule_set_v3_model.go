@@ -166,10 +166,16 @@ func ValidateAlertRuleSet(m AlertRuleSetResourceModel, diags *diag.Diagnostics) 
 		}
 		if seen[id.ValueString()] {
 			diags.AddAttributeError(at, "Duplicate id", fmt.Sprintf(
-				"Another block or branch in this set already uses the id %q. Ids must be unique within a set.",
+				"Another block, branch or action in this set already uses the id %q. Ids must be unique within a set.",
 				id.ValueString()))
 		}
 		seen[id.ValueString()] = true
+	}
+	checkActions := func(actions []AlertRuleActionV3Model, at path.Path) {
+		for idx, action := range actions {
+			checkID(action.ID, at.AtListIndex(idx).AtName("id"))
+		}
+		ValidateAlertRuleActions(actions, at, known, diags)
 	}
 
 	for blockIdx, block := range m.Blocks {
@@ -179,7 +185,7 @@ func ValidateAlertRuleSet(m AlertRuleSetResourceModel, diags *diag.Diagnostics) 
 		for branchIdx, branch := range block.Branches {
 			branchPath := blockPath.AtName("branch").AtListIndex(branchIdx)
 			checkID(branch.ID, branchPath.AtName("id"))
-			ValidateAlertRuleActions(branch.Actions, branchPath.AtName("actions"), known, diags)
+			checkActions(branch.Actions, branchPath.AtName("actions"))
 
 			if branchIdx == 1 && len(branch.ConditionGroups) > 0 {
 				diags.AddAttributeError(branchPath.AtName("condition_groups"), "Conditions on an else branch",
@@ -189,7 +195,7 @@ func ValidateAlertRuleSet(m AlertRuleSetResourceModel, diags *diag.Diagnostics) 
 			for nestedIdx, nested := range branch.Branches {
 				nestedPath := branchPath.AtName("branch").AtListIndex(nestedIdx)
 				checkID(nested.ID, nestedPath.AtName("id"))
-				ValidateAlertRuleActions(nested.Actions, nestedPath.AtName("actions"), known, diags)
+				checkActions(nested.Actions, nestedPath.AtName("actions"))
 			}
 		}
 	}

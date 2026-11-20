@@ -116,7 +116,7 @@ resource "incident_alert_rules" "required" {
 
     branch {
       id      = "always"
-      actions = [{ id = "investigate", type = "investigate" }]
+      actions = [{ id = "start-investigation", type = "investigate" }]
     }
   }
 }
