@@ -287,6 +287,7 @@ func TestClaimableResourcesDeclareTheOptOut(t *testing.T) {
 		NewIncidentAPIKeyResource,
 		NewIncidentCatalogTypeResource,
 		NewIncidentEscalationPathResource,
+		NewIncidentGroupingPreferenceResource,
 		NewEscalationPathTemplateResource,
 		NewIncidentIncidentTemplateResource,
 		NewIncidentPolicyResource,
