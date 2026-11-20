@@ -51,6 +51,7 @@ output "cron_ping_url" {
 
 ### Read-Only
 
+- `ai_titles_enabled` (Boolean) Whether to improve the titles of alerts from this source with AI. We create one title format for each kind of alert and reuse it, so the same alert gets a consistent title each time it fires.
 - `alert_events_url` (String) The URL to send alert events to
 - `auto_resolve_incident_alerts` (Boolean) Whether alerts from this source keep counting down to auto-resolve while attached to an incident. Defaults to true. Has no effect without auto_resolve_timeout_minutes.
 - `auto_resolve_timeout_minutes` (Number) How long to wait before automatically resolving alerts from this source

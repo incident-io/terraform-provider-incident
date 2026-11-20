@@ -100,18 +100,21 @@ resource "incident_team_grouping_preference" "payments" {
 
 Required:
 
-- `settings` (Attributes) How a team's alerts are grouped together, on every alert route (see [below for nested schema](#nestedatt--default--settings))
+- `settings` (Attributes) How alerts are grouped together (see [below for nested schema](#nestedatt--default--settings))
 
 <a id="nestedatt--default--settings"></a>
 ### Nested Schema for `default.settings`
 
 Required:
 
-- `enabled` (Boolean) Whether the team's alerts are grouped. When false, none of the team's alerts are grouped, regardless of any alert route grouping config.
+- `enabled` (Boolean) Whether these alerts are grouped. When false, none of them are grouped.
 
 Optional:
 
 - `ai_enabled` (Boolean) Use AI to group similar looking alerts. AI alert grouping can only group alerts that are attributed to the same team, so grouping keys must be empty or only contain the team alert attribute. Private alerts are not grouped unless AI incident access allows private incidents and alerts. Omit it on an update to keep the current value.
+- `ai_instructions` (String) Optional instructions the model follows when AI groups alerts for this team, such as how the systems you run relate to each other. Up to 2000 characters.
+
+Leave the attribute out to have no instructions. Removing it clears any instructions the route or team has, including ones set in the dashboard.
 - `grouping_keys` (Attributes Set) Which alert attributes the team's alerts are grouped by. Only set when grouping is enabled. (see [below for nested schema](#nestedatt--default--settings--grouping_keys))
 - `window_seconds` (Number) How long the grouping window is, in seconds. Must be between 60 (1 minute) and 172800 (48 hours). Only set when grouping is enabled.
 - `window_type` (String) How the grouping window behaves. 'rolling' keeps the window open for window_seconds after the most recent alert, so the group stays open as long as alerts keep arriving. 'fixed' opens the window when the first alert arrives and always closes window_seconds later. Only set when grouping is enabled. Possible values are: `rolling`, `fixed`.
