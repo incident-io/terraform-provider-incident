@@ -38,10 +38,9 @@ func (TeamGroupingPreferenceResourceModel) FromAPI(preference client.TeamGroupin
 	api := preference.Default.Settings
 
 	settings := &TeamGroupingPreferenceSettingsModel{
-		Enabled:   types.BoolValue(api.Enabled),
-		AIEnabled: types.BoolValue(lo.FromPtr(api.AiEnabled)),
-		// The API always returns the instructions, as an empty string when there are none.
-		AIInstructions: types.StringValue(lo.FromPtr(api.AiInstructions)),
+		Enabled:        types.BoolValue(api.Enabled),
+		AIEnabled:      types.BoolValue(lo.FromPtr(api.AiEnabled)),
+		AIInstructions: AIInstructionsFromAPI(api.AiInstructions),
 		WindowSeconds:  types.Int64Null(),
 		WindowType:     types.StringNull(),
 	}
@@ -99,7 +98,8 @@ func (m TeamGroupingPreferenceResourceModel) toBranchPayload() client.TeamGroupi
 
 	config := m.Default.Settings
 	settings.Enabled = config.Enabled.ValueBool()
-	// Sent whether or not grouping is enabled, as the API keeps instructions either way.
+	// Sent whether or not grouping is enabled, as the API stores instructions either way.
+	// Left out, the API clears them.
 	settings.AiInstructions = AIInstructionsPayload(config.AIInstructions)
 	if !settings.Enabled {
 		return client.TeamGroupingBranchV3{Settings: settings}
@@ -124,13 +124,23 @@ func (m TeamGroupingPreferenceResourceModel) toBranchPayload() client.TeamGroupi
 }
 
 // AIInstructionsPayload is the ai_instructions to send for a set of grouping settings. It is
-// nil when the plan doesn't know the value, which is a new resource whose config leaves it
-// out: the API then keeps what it has, or stores none. A known value, including the stored
-// one the plan carries forward and an empty string that clears them, is sent as it is.
+// nil when the config leaves them out, which the API takes as no instructions and clears
+// any it has.
 func AIInstructionsPayload(value types.String) *string {
 	if value.IsNull() || value.IsUnknown() {
 		return nil
 	}
 
 	return value.ValueStringPointer()
+}
+
+// AIInstructionsFromAPI reads a set of grouping settings' ai_instructions. The API returns
+// an empty string when there are none, which reads as null, so settings without
+// instructions match a config that leaves the attribute out.
+func AIInstructionsFromAPI(value *string) types.String {
+	if lo.FromPtr(value) == "" {
+		return types.StringNull()
+	}
+
+	return types.StringValue(*value)
 }

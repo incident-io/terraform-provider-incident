@@ -322,10 +322,9 @@ func (AlertRouteResourceModel) FromAPIV3WithPlan(apiModel client.AlertRouteV3, p
 		planGrouping = plan.GroupingConfig.Default
 	}
 	groupingDefault := &AlertRouteV3GroupingSettingsModel{
-		Enabled:   types.BoolValue(apiModel.GroupingConfig.Default.Enabled),
-		AIEnabled: types.BoolValue(lo.FromPtr(apiModel.GroupingConfig.Default.AiEnabled)),
-		// The API always returns the instructions, as an empty string when there are none.
-		AIInstructions: types.StringValue(lo.FromPtr(apiModel.GroupingConfig.Default.AiInstructions)),
+		Enabled:        types.BoolValue(apiModel.GroupingConfig.Default.Enabled),
+		AIEnabled:      types.BoolValue(lo.FromPtr(apiModel.GroupingConfig.Default.AiEnabled)),
+		AIInstructions: AIInstructionsFromAPI(apiModel.GroupingConfig.Default.AiInstructions),
 		WindowSeconds:  types.Int64Null(),
 		WindowType:     types.StringNull(),
 	}
@@ -649,8 +648,8 @@ func (m AlertRouteResourceModel) ToCreatePayloadV3() client.AlertRoutesCreatePay
 	if m.GroupingConfig != nil && m.GroupingConfig.Default != nil {
 		groupingDefault := client.GroupingSettingsV3{
 			Enabled: m.GroupingConfig.Default.Enabled.ValueBool(),
-			// Sent whether or not grouping is enabled, as the API keeps instructions
-			// either way.
+			// Sent whether or not grouping is enabled, as the API stores instructions
+			// either way. Left out, the API clears them.
 			AiInstructions: AIInstructionsPayload(m.GroupingConfig.Default.AIInstructions),
 		}
 		// The detail fields are only valid when grouping is enabled; the API

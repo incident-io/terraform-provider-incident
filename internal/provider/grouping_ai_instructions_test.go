@@ -8,17 +8,15 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
-	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/hashicorp/terraform-plugin-go/tftypes"
 )
 
-// A customer who upgrades the provider must keep the instructions they wrote in the
-// dashboard. That needs the attribute to be Computed, so leaving it out isn't a change to
-// "", and to carry the stored value into the plan, so the payload sends it back unchanged.
-func TestAIInstructionsAttributeKeepsStoredValue(t *testing.T) {
+// The API clears the instructions when a write leaves them out, so the config is the whole
+// truth. The attribute must be plain Optional with no plan modifier: Computed, or a
+// modifier that carried the stored value over, would hide the change that removing the
+// attribute makes.
+func TestAIInstructionsAttributeIsPlainOptional(t *testing.T) {
 	cases := []struct {
 		name     string
 		resource resource.Resource
@@ -52,63 +50,36 @@ func TestAIInstructionsAttributeKeepsStoredValue(t *testing.T) {
 			if !ok {
 				t.Fatalf("%s is a %T, want a string attribute", tc.path, attribute)
 			}
-			if !instructions.Optional || !instructions.Computed {
-				t.Errorf("%s must be Optional and Computed, got optional=%v computed=%v",
-					tc.path, instructions.Optional, instructions.Computed)
+			if !instructions.Optional || instructions.Computed || instructions.Required {
+				t.Errorf("%s must be plain Optional, got optional=%v computed=%v required=%v",
+					tc.path, instructions.Optional, instructions.Computed, instructions.Required)
+			}
+			if len(instructions.PlanModifiers) != 0 {
+				t.Errorf("%s must have no plan modifiers, got %d", tc.path, len(instructions.PlanModifiers))
 			}
 
-			// The plan modifier carries the stored value over when the config leaves the
-			// attribute out of a resource that already exists. Only whether the state is
-			// null matters to it, so any value stands for the existing resource.
-			existing := tfsdk.State{Schema: resp.Schema, Raw: tftypes.NewValue(tftypes.String, "existing")}
-			planResp := &planmodifier.StringResponse{PlanValue: types.StringUnknown()}
-			for _, modifier := range instructions.PlanModifiers {
-				modifier.PlanModifyString(context.Background(), planmodifier.StringRequest{
-					Path:        tc.path,
-					State:       existing,
-					ConfigValue: types.StringNull(),
-					PlanValue:   types.StringUnknown(),
-					StateValue:  types.StringValue("Group alerts from both clusters."),
-				}, planResp)
+			// An empty string reads back as null, so it could never match the state, and
+			// the API allows 2000 characters.
+			cases := []struct {
+				value     string
+				wantError bool
+			}{
+				{value: "", wantError: true},
+				{value: "a", wantError: false},
+				{value: strings.Repeat("é", maxAIGroupingInstructionsLength), wantError: false},
+				{value: strings.Repeat("é", maxAIGroupingInstructionsLength+1), wantError: true},
 			}
-			if planResp.PlanValue.ValueString() != "Group alerts from both clusters." {
-				t.Errorf("planned %v, want the stored instructions", planResp.PlanValue)
-			}
-
-			// A null in state is grouping settings added to an existing resource, or a
-			// state from before the attribute existed. The API returns a value either way,
-			// so planning null would fail the apply.
-			nullResp := &planmodifier.StringResponse{PlanValue: types.StringUnknown()}
-			for _, modifier := range instructions.PlanModifiers {
-				modifier.PlanModifyString(context.Background(), planmodifier.StringRequest{
-					Path:        tc.path,
-					State:       existing,
-					ConfigValue: types.StringNull(),
-					PlanValue:   types.StringUnknown(),
-					StateValue:  types.StringNull(),
-				}, nullResp)
-			}
-			if !nullResp.PlanValue.IsUnknown() {
-				t.Errorf("planned %v for a null state value, want unknown", nullResp.PlanValue)
-			}
-
-			// The API allows 2000 characters, so reject more at plan time.
-			for _, tooLong := range []bool{false, true} {
-				value := strings.Repeat("é", maxAIGroupingInstructionsLength)
-				if tooLong {
-					value += "é"
-				}
-
+			for _, vc := range cases {
 				validateResp := &validator.StringResponse{}
 				for _, v := range instructions.Validators {
 					v.ValidateString(context.Background(), validator.StringRequest{
 						Path:        tc.path,
-						ConfigValue: types.StringValue(value),
+						ConfigValue: types.StringValue(vc.value),
 					}, validateResp)
 				}
-				if validateResp.Diagnostics.HasError() != tooLong {
+				if validateResp.Diagnostics.HasError() != vc.wantError {
 					t.Errorf("%d characters: error = %v, want %v",
-						len([]rune(value)), validateResp.Diagnostics.HasError(), tooLong)
+						len([]rune(vc.value)), validateResp.Diagnostics.HasError(), vc.wantError)
 				}
 			}
 		})

@@ -22677,7 +22677,7 @@ type GroupingSettingsV3 struct {
 	// Example: false
 	AiEnabled *bool `json:"ai_enabled,omitempty"`
 
-	// AiInstructions Instructions the model follows when AI groups alerts on this route, such as how the systems you run relate to each other. Up to 2000 characters. Omit it on an update to keep the current value; send an empty string to clear it.
+	// AiInstructions Optional instructions the model follows when AI groups alerts on this route, such as how the systems you run relate to each other. Up to 2000 characters.
 	//
 	// Example: Alerts from the old and new clusters describe the same outage, so group them together.
 	AiInstructions *string `json:"ai_instructions,omitempty"`
@@ -31742,7 +31742,7 @@ type TeamGroupingSettingsV3 struct {
 	// Example: false
 	AiEnabled *bool `json:"ai_enabled,omitempty"`
 
-	// AiInstructions Instructions the model follows when AI groups alerts for this team, such as how the systems you run relate to each other. Up to 2000 characters. Omit it on an update to keep the current value; send an empty string to clear it.
+	// AiInstructions Optional instructions the model follows when AI groups alerts for this team, such as how the systems you run relate to each other. Up to 2000 characters.
 	//
 	// Example: Alerts from the old and new clusters describe the same outage, so group them together.
 	AiInstructions *string `json:"ai_instructions,omitempty"`

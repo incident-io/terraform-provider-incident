@@ -10,9 +10,9 @@ import (
 	"github.com/incident-io/terraform-provider-incident/v7/internal/client"
 )
 
-// aiInstructionsCases are the ways a plan can hold ai_instructions. The attribute is
-// Optional and Computed, so a config that leaves it out plans unknown on create and the
-// stored value on update. Either way the instructions the account has are kept.
+// aiInstructionsCases are the ways a plan can hold ai_instructions. The attribute is plain
+// Optional, and the API clears the instructions when a write leaves them out, so a config
+// without the attribute sends nothing.
 var aiInstructionsCases = []struct {
 	name     string
 	planned  types.String
@@ -20,32 +20,31 @@ var aiInstructionsCases = []struct {
 	want     string
 }{
 	{
-		name:     "keeps the stored instructions when the plan doesn't know them",
+		name:     "clears the instructions when the config leaves them out",
+		planned:  types.StringNull(),
+		wantSent: false,
+	},
+	{
+		name:     "sends nothing for an unknown value",
 		planned:  types.StringUnknown(),
 		wantSent: false,
 	},
 	{
-		name:     "keeps the stored instructions when the plan carries them over",
+		name:     "sets instructions",
 		planned:  types.StringValue("Group alerts from both clusters."),
 		wantSent: true,
 		want:     "Group alerts from both clusters.",
 	},
 	{
-		name:     "sets new instructions",
+		name:     "changes instructions",
 		planned:  types.StringValue("Alerts from the old and new clusters describe the same outage."),
 		wantSent: true,
 		want:     "Alerts from the old and new clusters describe the same outage.",
 	},
-	{
-		name:     "clears the instructions with an empty string",
-		planned:  types.StringValue(""),
-		wantSent: true,
-		want:     "",
-	},
 }
 
 // sentAIInstructions marshals settings as the client would, and reports what it sends for
-// ai_instructions. Leaving the key out is what makes the API keep the stored value, so
+// ai_instructions. Leaving the key out is what makes the API clear the stored value, so
 // this checks the JSON rather than the pointer.
 func sentAIInstructions(t *testing.T, settings any) (string, bool) {
 	t.Helper()
@@ -142,18 +141,17 @@ func TestTeamGroupingPreferenceAIInstructionsPayload(t *testing.T) {
 	}
 }
 
-// The API returns the instructions as an empty string when there are none. Reading that,
-// or a response with no field at all, as an empty string matches a config that sets "" to
-// clear them, and gives a known value for the plan to carry over.
+// The API returns the instructions as an empty string when there are none. That reads as
+// null, so settings without instructions match a config that leaves the attribute out.
 func TestAIInstructionsFromAPI(t *testing.T) {
 	cases := []struct {
 		name string
 		api  *string
-		want string
+		want types.String
 	}{
-		{name: "stored instructions", api: lo.ToPtr("Group alerts from both clusters."), want: "Group alerts from both clusters."},
-		{name: "no instructions", api: lo.ToPtr(""), want: ""},
-		{name: "field missing", api: nil, want: ""},
+		{name: "stored instructions", api: lo.ToPtr("Group alerts from both clusters."), want: types.StringValue("Group alerts from both clusters.")},
+		{name: "no instructions", api: lo.ToPtr(""), want: types.StringNull()},
+		{name: "field missing", api: nil, want: types.StringNull()},
 	}
 
 	for _, tc := range cases {
@@ -172,8 +170,8 @@ func TestAIInstructionsFromAPI(t *testing.T) {
 					EscalationTargets: []client.AlertRouteEscalationTargetV3{},
 				},
 			})
-			if got := route.GroupingConfig.Default.AIInstructions; got.IsNull() || got.IsUnknown() || got.ValueString() != tc.want {
-				t.Errorf("alert route ai_instructions = %v, want %q", got, tc.want)
+			if got := route.GroupingConfig.Default.AIInstructions; !got.Equal(tc.want) {
+				t.Errorf("alert route ai_instructions = %v, want %v", got, tc.want)
 			}
 
 			preference := TeamGroupingPreferenceResourceModel{}.FromAPI(client.TeamGroupingPreferenceV3{
@@ -183,8 +181,8 @@ func TestAIInstructionsFromAPI(t *testing.T) {
 					Settings: client.TeamGroupingSettingsV3{Enabled: false, AiInstructions: tc.api},
 				},
 			}, nil)
-			if got := preference.Default.Settings.AIInstructions; got.IsNull() || got.IsUnknown() || got.ValueString() != tc.want {
-				t.Errorf("team grouping preference ai_instructions = %v, want %q", got, tc.want)
+			if got := preference.Default.Settings.AIInstructions; !got.Equal(tc.want) {
+				t.Errorf("team grouping preference ai_instructions = %v, want %v", got, tc.want)
 			}
 		})
 	}

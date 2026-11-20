@@ -3,7 +3,6 @@ package provider
 import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 )
 
@@ -14,26 +13,18 @@ const maxAIGroupingInstructionsLength = 2000
 // aiInstructionsAttribute is the ai_instructions attribute of a set of grouping settings,
 // shared by the alert route and the team grouping preference.
 //
-// It is Optional and Computed so that a config that doesn't set it keeps the instructions
-// the account has, such as ones written in the dashboard before the attribute existed. The
-// plan then holds the stored value, and sending that back changes nothing. An empty string
-// clears them.
+// It is plain Optional: the API clears the instructions when a write leaves them out, so
+// the config is the whole truth, and removing the attribute plans a change that clears
+// them. State holds null when there are none, which is how the API's empty string reads
+// back, so an empty string in config would never match and is rejected.
 func aiInstructionsAttribute(description string) schema.StringAttribute {
 	return schema.StringAttribute{
 		Optional: true,
-		Computed: true,
 		MarkdownDescription: description + "\n\n" +
-			"Leave the attribute unset to keep the current instructions, such as ones set in " +
-			"the dashboard. Set it to `\"\"` to clear them.",
+			"Leave the attribute out to have no instructions. Removing it clears any " +
+			"instructions the route or team has, including ones set in the dashboard.",
 		Validators: []validator.String{
-			stringvalidator.UTF8LengthAtMost(maxAIGroupingInstructionsLength),
-		},
-		// Not the built-in UseStateForUnknown, which copies a null state value. That null
-		// is what state holds when grouping settings are added to an existing resource,
-		// or when the state is from before the attribute existed, and the API always
-		// returns a value, so the plan must stay unknown.
-		PlanModifiers: []planmodifier.String{
-			useStateForUnknownIfSet{},
+			stringvalidator.UTF8LengthBetween(1, maxAIGroupingInstructionsLength),
 		},
 	}
 }
