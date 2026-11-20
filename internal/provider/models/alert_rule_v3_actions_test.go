@@ -421,26 +421,10 @@ func TestValidateAlertRuleActions(t *testing.T) {
 			want:   []path.Path{at.AtName("escalate")},
 		},
 		{
-			name: "a grace period with on_priority_increase",
+			name: "a grace period with on_priority_increase, which the API keeps",
 			action: AlertRuleActionV3Model{Type: types.StringValue("escalate"), Escalate: &AlertRuleEscalateActionV3Model{
 				Users:              users,
 				Mode:               types.StringValue("on_priority_increase"),
-				GracePeriodSeconds: types.Int64Value(60),
-			}},
-			want: []path.Path{at.AtName("escalate").AtName("grace_period_seconds")},
-		},
-		{
-			name: "a grace period with the default mode",
-			action: AlertRuleActionV3Model{Type: types.StringValue("escalate"), Escalate: &AlertRuleEscalateActionV3Model{
-				Users:              users,
-				GracePeriodSeconds: types.Int64Value(60),
-			}},
-		},
-		{
-			name: "a grace period with on_each_new_alert",
-			action: AlertRuleActionV3Model{Type: types.StringValue("escalate"), Escalate: &AlertRuleEscalateActionV3Model{
-				Users:              users,
-				Mode:               types.StringValue("on_each_new_alert"),
 				GracePeriodSeconds: types.Int64Value(60),
 			}},
 		},
@@ -480,6 +464,51 @@ func TestValidateAlertRuleActions(t *testing.T) {
 			name: "a binding to a known expression",
 			action: AlertRuleActionV3Model{Type: types.StringValue("escalate"), Escalate: &AlertRuleEscalateActionV3Model{
 				EscalationPaths: v3ExpressionRef("team_path"),
+			}},
+		},
+		{
+			name: "a list for a single-value param",
+			action: AlertRuleActionV3Model{Type: types.StringValue("escalate"), Escalate: &AlertRuleEscalateActionV3Model{
+				Users:   users,
+				Urgency: v3Values("URG"),
+			}},
+			want: []path.Path{at.AtName("escalate").AtName("urgency")},
+		},
+		{
+			name: "an array_value for a single-value param",
+			action: AlertRuleActionV3Model{Type: types.StringValue("create_incident"), CreateIncident: &AlertRuleCreateIncidentActionV3Model{
+				IncidentTemplate: v3Array(v3Literal("TPL")),
+			}},
+			want: []path.Path{at.AtName("create_incident").AtName("incident_template")},
+		},
+		{
+			name: "value_literal for a list param",
+			action: AlertRuleActionV3Model{Type: types.StringValue("create_incident"), CreateIncident: &AlertRuleCreateIncidentActionV3Model{
+				MembershipTeams: v3ValueLiteral("TEAM"),
+			}},
+			want: []path.Path{at.AtName("create_incident").AtName("membership_teams")},
+		},
+		{
+			name: "a value_literal Terraform hasn't settled for a list param",
+			action: AlertRuleActionV3Model{Type: types.StringValue("create_incident"), CreateIncident: &AlertRuleCreateIncidentActionV3Model{
+				MembershipTeams: func() *Binding {
+					binding := NullBinding()
+					binding.ValueLiteral = types.StringUnknown()
+					return &binding
+				}(),
+			}},
+		},
+		{
+			name: "value.literal for a list param",
+			action: AlertRuleActionV3Model{Type: types.StringValue("create_incident"), CreateIncident: &AlertRuleCreateIncidentActionV3Model{
+				MembershipTeams: v3Value(v3Literal("TEAM")),
+			}},
+			want: []path.Path{at.AtName("create_incident").AtName("membership_teams")},
+		},
+		{
+			name: "a reference for a list param, which can resolve to a list",
+			action: AlertRuleActionV3Model{Type: types.StringValue("create_incident"), CreateIncident: &AlertRuleCreateIncidentActionV3Model{
+				MembershipTeams: v3ValueReference("alert.attributes.teams"),
 			}},
 		},
 	} {

@@ -155,6 +155,7 @@ func (p *IncidentProvider) Resources(ctx context.Context) []func() resource.Reso
 	return []func() resource.Resource{
 		NewIncidentAlertAttributeResource,
 		NewIncidentAlertRouteResource,
+		NewIncidentAlertRulesResource,
 		NewIncidentAlertSourceResource,
 		NewIncidentAlertSourceAttributeResource,
 		NewIncidentAnnouncementRuleResource,

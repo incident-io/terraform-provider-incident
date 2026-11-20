@@ -345,3 +345,27 @@ func TestReconcileScalarBindingKeepsRealDrift(t *testing.T) {
 	twoValues := bindArray(litValue("01USER"), litValue("01SECOND"))
 	assert.Equal(t, twoValues, ReconcileScalarBinding(twoValues, prior))
 }
+
+func TestShortestSpelling(t *testing.T) {
+	for _, tc := range []struct {
+		name          string
+		fromAPI, want IncidentEngineParamBinding
+	}{
+		{"a literal", bindValue(litValue("high")), bindValueLiteral("high")},
+		{"a reference", bindValue(refValue("alert.title")), bindValueReference("alert.title")},
+		{"an expression", bindValue(refValue(`expressions["owner"]`)), bindExpressionRef("owner")},
+		{"a path into an expression", bindValue(refValue(`expressions["team"].name`)), bindValueReference(`expressions["team"].name`)},
+		{"literals", bindArray(litValue("P1"), litValue("P2")), bindValues("P1", "P2")},
+		{"literals and references", bindArray(litValue("P1"), refValue("alert.priority")), bindArray(litValue("P1"), refValue("alert.priority"))},
+		{"a JSON literal", bindValue(litValue(`{"b":1,"a":"<x>"}`)), bindValueLiteral(`{"b":1,"a":"<x>"}`)},
+		{"a literal and a reference", bindValue(IncidentEngineParamBindingValue{Literal: literal("x"), Reference: types.StringValue("alert.title")}), bindValue(IncidentEngineParamBindingValue{Literal: literal("x"), Reference: types.StringValue("alert.title")})},
+		{"nothing", NullParamBinding(), NullParamBinding()},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			got := tc.fromAPI.ShortestSpelling()
+			assert.Equal(t, tc.want, got)
+			assert.True(t, got.meansTheSameAs(tc.fromAPI), "the shorthand must bind the same value")
+			assert.Equal(t, tc.fromAPI.ToPayload(), got.ToPayload())
+		})
+	}
+}

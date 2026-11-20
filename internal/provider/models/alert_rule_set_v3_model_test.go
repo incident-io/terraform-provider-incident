@@ -208,6 +208,19 @@ func TestAlertRuleSetRoundTrip(t *testing.T) {
 				}},
 			),
 		},
+		{
+			name: "actions on a branch and a nested branch",
+			plan: alertRuleSetModel("team", types.StringValue("01TEAM"),
+				AlertRuleBlockModel{ID: types.StringValue("page"), Branches: []AlertRuleBranchModel{{
+					ID:      types.StringValue("always"),
+					Actions: []AlertRuleActionV3Model{escalateAction(AlertRuleEscalateActionV3Model{Users: v3Values("U1")})},
+					Branches: []AlertRuleNestedBranchModel{{
+						ID:      types.StringValue("investigate"),
+						Actions: []AlertRuleActionV3Model{{ID: types.StringValue("look"), Type: types.StringValue("investigate")}},
+					}},
+				}}},
+			),
+		},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			got := applyAlertRuleSet(t, tc.plan)
@@ -330,6 +343,44 @@ func TestAlertRuleSetMatchesPriorBranchesByID(t *testing.T) {
 	requireSameState(t, applied(plan), got)
 }
 
+// An import reads condition bindings in the shorthand, and a refresh keeps a long-form config.
+func TestAlertRuleSetConditionBindingSpelling(t *testing.T) {
+	withBindings := func(literal, reference, literals IncidentEngineParamBinding) AlertRuleSetResourceModel {
+		return alertRuleSetModel("required", types.StringNull(), AlertRuleBlockModel{
+			ID: types.StringValue("block"),
+			Branches: []AlertRuleBranchModel{{
+				ID:       types.StringValue("branch"),
+				Branches: []AlertRuleNestedBranchModel{},
+				ConditionGroups: IncidentEngineConditionGroups{
+					conditionGroup("alert.title", "contains", literal),
+					conditionGroup("alert.attributes.team", "is", reference),
+					conditionGroup("alert.attributes.priority", "is_one_of", literals),
+				},
+			}},
+		})
+	}
+	shorthand := withBindings(bindValueLiteral("database"), bindValueReference("alert.attributes.owner"), bindValues("P1", "P2"))
+	longForm := withBindings(bindValue(litValue("database")), bindValue(refValue("alert.attributes.owner")), bindArray(litValue("P1"), litValue("P2")))
+
+	t.Run("import reads the shorthand", func(t *testing.T) {
+		payload, err := longForm.ToCreatePayload()
+		require.NoError(t, err)
+
+		imported := AlertRuleSetResourceModel{}.FromAPI(alertRuleSetResponse(t, "required", nil, payload.Blocks, nil), nil)
+		requireSameState(t, applied(shorthand), imported)
+	})
+
+	t.Run("refresh keeps the long form", func(t *testing.T) {
+		got := applyAlertRuleSet(t, longForm)
+		requireSameState(t, applied(longForm), got)
+
+		payload, err := got.ToCreatePayload()
+		require.NoError(t, err)
+		refreshed := AlertRuleSetResourceModel{}.FromAPI(alertRuleSetResponse(t, "required", nil, payload.Blocks, nil), &got)
+		requireSameState(t, got, refreshed)
+	})
+}
+
 func TestAlertRuleSetExpressionsRoundTrip(t *testing.T) {
 	plan := alertRuleSetModel("team", types.StringValue("01TEAM"), AlertRuleBlockModel{
 		ID: types.StringValue("page-team"),
@@ -422,6 +473,60 @@ func TestValidateAlertRuleSet(t *testing.T) {
 			want: []path.Path{
 				path.Root("block").AtListIndex(0).AtName("branch").AtListIndex(0).AtName("id"),
 				path.Root("block").AtListIndex(1).AtName("branch").AtListIndex(0).AtName("id"),
+			},
+		},
+		{
+			name: "action ids share one namespace with blocks and branches",
+			model: alertRuleSetModel("required", types.StringNull(),
+				block("investigate", AlertRuleBranchModel{
+					ID:      types.StringValue("always"),
+					Actions: []AlertRuleActionV3Model{{ID: types.StringValue("investigate"), Type: types.StringValue("investigate")}},
+					Branches: []AlertRuleNestedBranchModel{{
+						ID:      types.StringValue("nested"),
+						Actions: []AlertRuleActionV3Model{{ID: types.StringValue("always"), Type: types.StringValue("investigate")}},
+					}},
+				}),
+			),
+			want: []path.Path{
+				path.Root("block").AtListIndex(0).AtName("branch").AtListIndex(0).AtName("actions").AtListIndex(0).AtName("id"),
+				path.Root("block").AtListIndex(0).AtName("branch").AtListIndex(0).AtName("branch").AtListIndex(0).
+					AtName("actions").AtListIndex(0).AtName("id"),
+			},
+		},
+		{
+			name: "distinct, unknown and omitted action ids",
+			model: alertRuleSetModel("required", types.StringNull(),
+				block("page", AlertRuleBranchModel{
+					ID: types.StringValue("always"),
+					Actions: []AlertRuleActionV3Model{
+						{ID: types.StringValue("investigate"), Type: types.StringValue("investigate")},
+						{ID: types.StringUnknown(), Type: types.StringValue("investigate")},
+						{ID: types.StringUnknown(), Type: types.StringValue("investigate")},
+						{ID: types.StringNull(), Type: types.StringValue("investigate")},
+						{ID: types.StringNull(), Type: types.StringValue("investigate")},
+					},
+				}),
+			),
+		},
+		{
+			name: "actions are checked on branches and nested branches",
+			model: alertRuleSetModel("required", types.StringNull(),
+				block("page", AlertRuleBranchModel{
+					ID:      types.StringValue("always"),
+					Actions: []AlertRuleActionV3Model{{Type: types.StringValue("escalate")}},
+					Branches: []AlertRuleNestedBranchModel{{
+						ID: types.StringValue("nested"),
+						Actions: []AlertRuleActionV3Model{{
+							Type:     types.StringValue("escalate"),
+							Escalate: &AlertRuleEscalateActionV3Model{EscalationPaths: v3ExpressionRef("undeclared")},
+						}},
+					}},
+				}),
+			),
+			want: []path.Path{
+				path.Root("block").AtListIndex(0).AtName("branch").AtListIndex(0).AtName("actions").AtListIndex(0).AtName("escalate"),
+				path.Root("block").AtListIndex(0).AtName("branch").AtListIndex(0).AtName("branch").AtListIndex(0).
+					AtName("actions").AtListIndex(0).AtName("escalate").AtName("escalation_paths").AtName("expression_ref"),
 			},
 		},
 		{
