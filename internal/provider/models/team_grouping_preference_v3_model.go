@@ -154,7 +154,7 @@ func groupingSettingsFromAPI(api client.TeamGroupingSettingsV3, prior *TeamGroup
 		settings.GroupingKeys = lo.Map(*api.GroupingKeys, func(key client.GroupingKeyV3, _ int) AlertRouteGroupingKey {
 			return AlertRouteGroupingKey{Reference: types.StringValue(key.Reference)}
 		})
-	case api.Enabled && prior != nil && prior.GroupingKeys != nil:
+	case prior != nil && prior.GroupingKeys != nil:
 		settings.GroupingKeys = []AlertRouteGroupingKey{}
 	}
 
