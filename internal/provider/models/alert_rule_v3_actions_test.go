@@ -466,6 +466,51 @@ func TestValidateAlertRuleActions(t *testing.T) {
 				EscalationPaths: v3ExpressionRef("team_path"),
 			}},
 		},
+		{
+			name: "a list for a single-value param",
+			action: AlertRuleActionV3Model{Type: types.StringValue("escalate"), Escalate: &AlertRuleEscalateActionV3Model{
+				Users:   users,
+				Urgency: v3Values("URG"),
+			}},
+			want: []path.Path{at.AtName("escalate").AtName("urgency")},
+		},
+		{
+			name: "an array_value for a single-value param",
+			action: AlertRuleActionV3Model{Type: types.StringValue("create_incident"), CreateIncident: &AlertRuleCreateIncidentActionV3Model{
+				IncidentTemplate: v3Array(v3Literal("TPL")),
+			}},
+			want: []path.Path{at.AtName("create_incident").AtName("incident_template")},
+		},
+		{
+			name: "value_literal for a list param",
+			action: AlertRuleActionV3Model{Type: types.StringValue("create_incident"), CreateIncident: &AlertRuleCreateIncidentActionV3Model{
+				MembershipTeams: v3ValueLiteral("TEAM"),
+			}},
+			want: []path.Path{at.AtName("create_incident").AtName("membership_teams")},
+		},
+		{
+			name: "a value_literal Terraform hasn't settled for a list param",
+			action: AlertRuleActionV3Model{Type: types.StringValue("create_incident"), CreateIncident: &AlertRuleCreateIncidentActionV3Model{
+				MembershipTeams: func() *Binding {
+					binding := NullBinding()
+					binding.ValueLiteral = types.StringUnknown()
+					return &binding
+				}(),
+			}},
+		},
+		{
+			name: "value.literal for a list param",
+			action: AlertRuleActionV3Model{Type: types.StringValue("create_incident"), CreateIncident: &AlertRuleCreateIncidentActionV3Model{
+				MembershipTeams: v3Value(v3Literal("TEAM")),
+			}},
+			want: []path.Path{at.AtName("create_incident").AtName("membership_teams")},
+		},
+		{
+			name: "a reference for a list param, which can resolve to a list",
+			action: AlertRuleActionV3Model{Type: types.StringValue("create_incident"), CreateIncident: &AlertRuleCreateIncidentActionV3Model{
+				MembershipTeams: v3ValueReference("alert.attributes.teams"),
+			}},
+		},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			var diags diag.Diagnostics

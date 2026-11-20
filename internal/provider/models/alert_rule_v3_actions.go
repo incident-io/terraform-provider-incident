@@ -208,9 +208,9 @@ func validateAlertRuleAction(action AlertRuleActionV3Model, at path.Path, known 
 				"Set escalation_paths, users, or both.")
 		}
 
-		ValidateBinding(escalate.EscalationPaths, escalateAt.AtName("escalation_paths"), known, diags)
-		ValidateBinding(escalate.Users, escalateAt.AtName("users"), known, diags)
-		ValidateBinding(escalate.Urgency, escalateAt.AtName("urgency"), known, diags)
+		validateActionParam(escalate.EscalationPaths, escalateAt, "escalation_paths", true, known, diags)
+		validateActionParam(escalate.Users, escalateAt, "users", true, known, diags)
+		validateActionParam(escalate.Urgency, escalateAt, "urgency", false, known, diags)
 	}
 
 	for _, post := range []struct {
@@ -221,14 +221,35 @@ func validateAlertRuleAction(action AlertRuleActionV3Model, at path.Path, known 
 		{"post_microsoft_teams", action.PostMicrosoftTeams},
 	} {
 		if post.model != nil {
-			ValidateBinding(post.model.Channels, at.AtName(post.name).AtName("channels"), known, diags)
-			ValidateBinding(post.model.MessageTemplate, at.AtName(post.name).AtName("message_template"), known, diags)
+			validateActionParam(post.model.Channels, at.AtName(post.name), "channels", true, known, diags)
+			validateActionParam(post.model.MessageTemplate, at.AtName(post.name), "message_template", false, known, diags)
 		}
 	}
 
 	if create := action.CreateIncident; create != nil {
-		ValidateBinding(create.IncidentTemplate, at.AtName("create_incident").AtName("incident_template"), known, diags)
-		ValidateBinding(create.MembershipTeams, at.AtName("create_incident").AtName("membership_teams"), known, diags)
+		validateActionParam(create.IncidentTemplate, at.AtName("create_incident"), "incident_template", false, known, diags)
+		validateActionParam(create.MembershipTeams, at.AtName("create_incident"), "membership_teams", true, known, diags)
+	}
+}
+
+// validateActionParam also checks the binding's shape against the param, as the server's
+// engine.BindParam does on save: a single-value param takes no list, and a list param takes
+// no fixed single value. A reference passes either way, as it can resolve to a list.
+func validateActionParam(binding *Binding, at path.Path, name string, list bool, known map[string]bool, diags *diag.Diagnostics) {
+	at = at.AtName(name)
+	ValidateBinding(binding, at, known, diags)
+	if binding == nil || SetBindingForms(binding) != 1 {
+		return
+	}
+
+	value, hasValue := binding.BindingObject()
+	switch {
+	case !list && (len(binding.BindingValues()) > 0 || len(binding.BindingArray()) > 0):
+		diags.AddAttributeError(at, "List for a single value", fmt.Sprintf(
+			"%s takes a single value: use value_literal, value_reference or expression_ref, not values or array_value.", name))
+	case list && (isSet(binding.ValueLiteral) || hasValue && isSet(value.Literal)):
+		diags.AddAttributeError(at, "Single value for a list", fmt.Sprintf(
+			"%s takes a list: put fixed values in values, or use value_reference or expression_ref, not value_literal or value.literal.", name))
 	}
 }
 
