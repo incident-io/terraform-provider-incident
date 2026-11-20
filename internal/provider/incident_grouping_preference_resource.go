@@ -26,6 +26,7 @@ var (
 	_ resource.ResourceWithImportState    = &IncidentGroupingPreferenceResource{}
 	_ resource.ResourceWithValidateConfig = &IncidentGroupingPreferenceResource{}
 	_ resource.ResourceWithModifyPlan     = &IncidentGroupingPreferenceResource{}
+	_ resource.ResourceWithMoveState      = &IncidentGroupingPreferenceResource{}
 )
 
 type IncidentGroupingPreferenceResource struct {
@@ -384,6 +385,33 @@ func (r *IncidentGroupingPreferenceResource) ImportState(ctx context.Context, re
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, state)...)
+}
+
+// MoveState takes the state of an incident_team_grouping_preference, which this resource
+// replaces, so moving one over is a `moved` block rather than a destroy and create:
+//
+//	moved {
+//	  from = incident_team_grouping_preference.payments
+//	  to   = incident_grouping_preference.payments
+//	}
+//
+// The attributes both resources hold are carried across, and the old one only ever held a
+// team's preference. Terraform refreshes the moved resource before it plans, which reads the
+// branches and expressions the old resource never held.
+func (r *IncidentGroupingPreferenceResource) MoveState(ctx context.Context) []resource.StateMover {
+	source := NewIncidentTeamGroupingPreferenceResource()
+	mover := migrateStateMover(resourceTypeName(ctx, source), declaredResourceSchema(ctx, source), declaredResourceSchema(ctx, r))
+
+	carry := mover.StateMover
+	mover.StateMover = func(ctx context.Context, req resource.MoveStateRequest, resp *resource.MoveStateResponse) {
+		carry(ctx, req, resp)
+		if resp.Diagnostics.HasError() || resp.TargetState.Raw.IsNull() {
+			return
+		}
+		resp.Diagnostics.Append(resp.TargetState.SetAttribute(ctx, path.Root("scope"), models.GroupingScopeTeam)...)
+	}
+
+	return []resource.StateMover{mover}
 }
 
 // show reads one preference from its scope's endpoint, reporting a 404 as not found so each
