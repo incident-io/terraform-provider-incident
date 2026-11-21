@@ -110,7 +110,7 @@ func (m APIKeyModel) ToValidatePayload() client.APIKeysValidatePayloadV1 {
 	return client.APIKeysValidatePayloadV1{
 		Name:      m.Name.ValueString(),
 		ExpiresAt: m.ExpiresAtTime(),
-		Comments: lo.ToPtr(m.Comments.ValueString()),
+		Comments:  lo.ToPtr(m.Comments.ValueString()),
 		RoleNames: lo.Map(m.RoleNamesSlice(), func(name string, _ int) client.APIKeysValidatePayloadV1RoleNames {
 			return client.APIKeysValidatePayloadV1RoleNames(name)
 		}),

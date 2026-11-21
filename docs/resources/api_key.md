@@ -106,6 +106,17 @@ resource "incident_api_key" "rotated_quarterly" {
   rotation_grace_period_minutes = 60
 }
 
+# A key can expire. incident.io only changes a key's expiry when it rotates the key, so
+# moving expires_at on an existing key goes with a change to token_version, which rotates
+# it with the new expiry.
+resource "incident_api_key" "expiring" {
+  name       = "Quarterly audit export"
+  role_names = ["viewer"]
+
+  expires_at    = "2027-03-31T00:00:00Z"
+  token_version = 1
+}
+
 # A key can be scoped to particular teams instead of the whole account. team_ids says
 # which teams, and team_role_names says what the key may do for them, so the two go
 # together: set both, or neither. An account with no account-level roles leaves
@@ -140,9 +151,12 @@ resource "incident_api_key" "narrowed" {
 ### Optional
 
 - `comments` (String) Freeform notes about this API key
+- `expires_at` (String) When the API key stops working. Leave it out for a key that never expires. It must be in the future and within your organization's maximum lifetime for API keys.
+
+incident.io only changes a key's expiry when it rotates the key, so changing this on an existing key needs a change to `token_version` in the same plan. Removing it from your configuration leaves the key's expiry as it is.
 - `role_names` (Set of String) Account-level roles to assign to the API key. These roles apply across the entire account, not scoped to specific teams. Pass an empty array if no account-level roles are needed.
 
-API key role name. Possible values are: `viewer`, `incident_creator`, `incident_editor`, `manage_settings`, `glossary_entries_manage`, `global_access`, `catalog_viewer`, `catalog_editor`, `incident_memberships_editor`, `schedules_editor`, `schedules_reader`, `schedule_overrides_editor`, `workflows_editor`, `workflows_viewer`, `private_workflows_editor`, `private_escalation_workflows_editor`, `on_call_editor`, `on_call_viewer`, `escalation_creator`, `post_incident_flow_opt_out`, `security_settings_editor`, `investigation_download`, `team_memberships_manage`, `status_page_publisher`, `status_page_viewer`, `postmortems_manage`, `api_keys_manage`, `notification_methods_manage`, `notification_methods_unredacted_viewer`, `incident_workload_viewer`, `incident_workload_private_viewer`, `act_on_behalf_of_users`, `secrets_manage`, `secrets_use`, `call_transcripts_viewer`, `heartbeats_ping`, `telemetry_query_restricted`, `telemetry_data_source_update`, `policies_viewer`, `policy_findings_manage`, `pay_reports_viewer`, `pay_reports_editor`, `pay_configs_viewer`, `pay_configs_editor`, `investigations_editor`, `telemetry_viewer`, `documents_viewer`.
+API key role name. Possible values are: `viewer`, `incident_creator`, `incident_editor`, `manage_settings`, `glossary_entries_manage`, `global_access`, `catalog_viewer`, `catalog_editor`, `incident_memberships_editor`, `schedules_editor`, `schedules_reader`, `schedule_overrides_editor`, `workflows_editor`, `workflows_viewer`, `private_workflows_editor`, `private_escalation_workflows_editor`, `on_call_editor`, `on_call_viewer`, `escalation_creator`, `post_incident_flow_opt_out`, `security_settings_editor`, `investigation_download`, `team_memberships_manage`, `status_page_publisher`, `status_page_viewer`, `postmortems_manage`, `api_keys_manage`, `notification_methods_manage`, `notification_methods_unredacted_viewer`, `incident_workload_viewer`, `incident_workload_private_viewer`, `act_on_behalf_of_users`, `secrets_manage`, `secrets_use`, `call_transcripts_viewer`, `heartbeats_ping`, `telemetry_query_restricted`, `telemetry_data_source_update`, `policies_viewer`, `policy_findings_manage`, `pay_reports_viewer`, `pay_reports_editor`, `pay_configs_viewer`, `pay_configs_editor`, `investigations_editor`, `telemetry_viewer`, `documents_viewer`, `user_sessions_revoke`, `users_viewer`.
 - `rotation_grace_period_minutes` (Number) How long the previous token keeps working after a rotation, in minutes, giving whatever holds it a window to pick up the new one. Defaults to 30. Set it to 0 to retire the old token immediately, at the cost of breaking anything still using it. incident.io documents an hour as the longest a rotated token stays valid, so it may reject a longer period. Only read when a change to `token_version` rotates the key.
 - `team_ids` (Set of String) IDs of teams to scope the `team_role_names` to. If provided, `team_role_names` must also be a non-empty array, and vice versa. Pass an empty array if the key should not be scoped to any teams.
 - `team_role_names` (Set of String) Roles to grant for the teams specified in `team_ids`. If provided, `team_ids` must also be a non-empty array, and vice versa. Pass an empty array if no team-level roles are needed.
