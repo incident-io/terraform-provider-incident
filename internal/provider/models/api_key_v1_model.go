@@ -1,6 +1,8 @@
 package models
 
 import (
+	"time"
+
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -32,6 +34,7 @@ type APIKeyModel struct {
 	Token                      types.String      `tfsdk:"token"`
 	TokenVersion               types.Int64       `tfsdk:"token_version"`
 	RotationGracePeriodMinutes types.Int64       `tfsdk:"rotation_grace_period_minutes"`
+	ExpiresAt                  timetypes.RFC3339 `tfsdk:"expires_at"`
 	CreatedAt                  timetypes.RFC3339 `tfsdk:"created_at"`
 	TokenLastIssuedAt          timetypes.RFC3339 `tfsdk:"token_last_issued_at"`
 	LastUsedAt                 timetypes.RFC3339 `tfsdk:"last_used_at"`
@@ -61,6 +64,7 @@ func (APIKeyModel) FromAPI(key client.APIKeyV1, locals APIKeyLocals) APIKeyModel
 		Token:                      locals.Token,
 		TokenVersion:               locals.TokenVersion,
 		RotationGracePeriodMinutes: locals.RotationGracePeriodMinutes,
+		ExpiresAt:                  timetypes.NewRFC3339TimePointerValue(key.ExpiresAt),
 		CreatedAt:                  timetypes.NewRFC3339TimeValue(key.CreatedAt),
 		TokenLastIssuedAt:          timetypes.NewRFC3339TimeValue(key.TokenLastIssuedAt),
 		LastUsedAt:                 timetypes.NewRFC3339TimePointerValue(key.LastUsedAt),
@@ -87,6 +91,8 @@ func (m APIKeyModel) ToCreatePayload() client.APIKeysCreatePayloadV1 {
 		payload.Comments = lo.ToPtr(m.Comments.ValueString())
 	}
 
+	payload.ExpiresAt = m.ExpiresAtTime()
+
 	return payload
 }
 
@@ -97,9 +103,13 @@ func (m APIKeyModel) ToCreatePayload() client.APIKeysCreatePayloadV1 {
 // Unlike the create payload, absent comments are still sent as empty. Nothing is being
 // stored, so there is no "leave unchanged" reading to avoid, and it keeps the payload a
 // straight description of the planned key.
+//
+// The planned expiry is sent too, so an organisation that requires keys to expire rejects a
+// key without one here rather than at apply.
 func (m APIKeyModel) ToValidatePayload() client.APIKeysValidatePayloadV1 {
 	return client.APIKeysValidatePayloadV1{
-		Name:     m.Name.ValueString(),
+		Name:      m.Name.ValueString(),
+		ExpiresAt: m.ExpiresAtTime(),
 		Comments: lo.ToPtr(m.Comments.ValueString()),
 		RoleNames: lo.Map(m.RoleNamesSlice(), func(name string, _ int) client.APIKeysValidatePayloadV1RoleNames {
 			return client.APIKeysValidatePayloadV1RoleNames(name)
@@ -130,6 +140,21 @@ func (m APIKeyModel) ToUpdatePayload() client.APIKeysUpdatePayloadV1 {
 	}
 }
 
+// ExpiresAtTime reads the planned expiry, or nil for a key that never expires or an expiry
+// that isn't known yet.
+func (m APIKeyModel) ExpiresAtTime() *time.Time {
+	if m.ExpiresAt.IsNull() || m.ExpiresAt.IsUnknown() {
+		return nil
+	}
+
+	expiresAt, diags := m.ExpiresAt.ValueRFC3339Time()
+	if diags.HasError() {
+		return nil
+	}
+
+	return &expiresAt
+}
+
 // RoleNamesSlice reads the account-level role names out of the set.
 func (m APIKeyModel) RoleNamesSlice() []string {
 	return apiKeyStringSlice(m.RoleNames)
@@ -155,6 +180,7 @@ type APIKeyDataSourceModel struct {
 	RoleNames         types.Set         `tfsdk:"role_names"`
 	TeamIDs           types.Set         `tfsdk:"team_ids"`
 	TeamRoleNames     types.Set         `tfsdk:"team_role_names"`
+	ExpiresAt         timetypes.RFC3339 `tfsdk:"expires_at"`
 	CreatedAt         timetypes.RFC3339 `tfsdk:"created_at"`
 	TokenLastIssuedAt timetypes.RFC3339 `tfsdk:"token_last_issued_at"`
 	LastUsedAt        timetypes.RFC3339 `tfsdk:"last_used_at"`
@@ -169,6 +195,7 @@ func (APIKeyDataSourceModel) FromAPI(key client.APIKeyV1) APIKeyDataSourceModel 
 		RoleNames:         apiKeyRoleNames(key.Roles),
 		TeamIDs:           apiKeyStringSet(key.TeamIds),
 		TeamRoleNames:     apiKeyTeamRoleNames(key.TeamRoles),
+		ExpiresAt:         timetypes.NewRFC3339TimePointerValue(key.ExpiresAt),
 		CreatedAt:         timetypes.NewRFC3339TimeValue(key.CreatedAt),
 		TokenLastIssuedAt: timetypes.NewRFC3339TimeValue(key.TokenLastIssuedAt),
 		LastUsedAt:        timetypes.NewRFC3339TimePointerValue(key.LastUsedAt),

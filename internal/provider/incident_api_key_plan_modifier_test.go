@@ -4,6 +4,7 @@ import (
 	"context"
 	"testing"
 
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -210,6 +211,54 @@ func TestAPIKeyRotationAwarePlanModifier(t *testing.T) {
 			}
 			if resp.PlanValue.ValueString() != want {
 				t.Fatalf("expected the planned token to be %q, got %q", want, resp.PlanValue.ValueString())
+			}
+		})
+	}
+}
+
+// TestAPIKeyUnsetExpiry covers an expiry left out of the configuration: a new key plans
+// null, so the plan can be validated, and an existing key keeps the expiry it has.
+func TestAPIKeyUnsetExpiry(t *testing.T) {
+	keySchema := apiKeySchema(t)
+	objType, _ := apiKeyObject(t, nil)
+	_, existing := apiKeyObject(t, map[string]tftypes.Value{
+		"expires_at": tftypes.NewValue(tftypes.String, "2027-01-01T00:00:00Z"),
+	})
+	_, planned := apiKeyObject(t, nil)
+
+	cases := []struct {
+		name   string
+		config types.String
+		state  tftypes.Value
+		stored types.String
+		want   types.String
+	}{
+		{name: "new key", config: types.StringNull(), state: tftypes.NewValue(objType, nil), stored: types.StringNull(), want: types.StringNull()},
+		{name: "existing key", config: types.StringNull(), state: existing, stored: types.StringValue("2027-01-01T00:00:00Z"), want: types.StringValue("2027-01-01T00:00:00Z")},
+		{name: "configured", config: types.StringValue("2027-06-01T00:00:00Z"), state: existing, stored: types.StringValue("2027-01-01T00:00:00Z"), want: types.StringValue("2027-06-01T00:00:00Z")},
+	}
+
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			planValue := types.StringUnknown()
+			if !tc.config.IsNull() {
+				planValue = tc.config
+			}
+
+			req := planmodifier.StringRequest{
+				Path:        path.Root("expires_at"),
+				ConfigValue: tc.config,
+				PlanValue:   planValue,
+				StateValue:  tc.stored,
+				Plan:        tfsdk.Plan{Schema: keySchema, Raw: planned},
+				State:       tfsdk.State{Schema: keySchema, Raw: tc.state},
+			}
+			resp := planmodifier.StringResponse{PlanValue: req.PlanValue}
+
+			apiKeyUnsetExpiry{}.PlanModifyString(context.Background(), req, &resp)
+
+			if !resp.PlanValue.Equal(tc.want) {
+				t.Errorf("expected %v, got %v", tc.want, resp.PlanValue)
 			}
 		})
 	}

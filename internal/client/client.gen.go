@@ -64,6 +64,8 @@ const (
 	APIKeyRoleV1NameTelemetryDataSourceUpdate           APIKeyRoleV1Name = "telemetry_data_source_update"
 	APIKeyRoleV1NameTelemetryQueryRestricted            APIKeyRoleV1Name = "telemetry_query_restricted"
 	APIKeyRoleV1NameTelemetryViewer                     APIKeyRoleV1Name = "telemetry_viewer"
+	APIKeyRoleV1NameUserSessionsRevoke                  APIKeyRoleV1Name = "user_sessions_revoke"
+	APIKeyRoleV1NameUsersViewer                         APIKeyRoleV1Name = "users_viewer"
 	APIKeyRoleV1NameViewer                              APIKeyRoleV1Name = "viewer"
 	APIKeyRoleV1NameWorkflowsEditor                     APIKeyRoleV1Name = "workflows_editor"
 	APIKeyRoleV1NameWorkflowsViewer                     APIKeyRoleV1Name = "workflows_viewer"
@@ -159,6 +161,10 @@ func (e APIKeyRoleV1Name) Valid() bool {
 	case APIKeyRoleV1NameTelemetryQueryRestricted:
 		return true
 	case APIKeyRoleV1NameTelemetryViewer:
+		return true
+	case APIKeyRoleV1NameUserSessionsRevoke:
+		return true
+	case APIKeyRoleV1NameUsersViewer:
 		return true
 	case APIKeyRoleV1NameViewer:
 		return true
@@ -271,6 +277,8 @@ const (
 	APIKeysCreatePayloadV1RoleNamesTelemetryDataSourceUpdate           APIKeysCreatePayloadV1RoleNames = "telemetry_data_source_update"
 	APIKeysCreatePayloadV1RoleNamesTelemetryQueryRestricted            APIKeysCreatePayloadV1RoleNames = "telemetry_query_restricted"
 	APIKeysCreatePayloadV1RoleNamesTelemetryViewer                     APIKeysCreatePayloadV1RoleNames = "telemetry_viewer"
+	APIKeysCreatePayloadV1RoleNamesUserSessionsRevoke                  APIKeysCreatePayloadV1RoleNames = "user_sessions_revoke"
+	APIKeysCreatePayloadV1RoleNamesUsersViewer                         APIKeysCreatePayloadV1RoleNames = "users_viewer"
 	APIKeysCreatePayloadV1RoleNamesViewer                              APIKeysCreatePayloadV1RoleNames = "viewer"
 	APIKeysCreatePayloadV1RoleNamesWorkflowsEditor                     APIKeysCreatePayloadV1RoleNames = "workflows_editor"
 	APIKeysCreatePayloadV1RoleNamesWorkflowsViewer                     APIKeysCreatePayloadV1RoleNames = "workflows_viewer"
@@ -366,6 +374,10 @@ func (e APIKeysCreatePayloadV1RoleNames) Valid() bool {
 	case APIKeysCreatePayloadV1RoleNamesTelemetryQueryRestricted:
 		return true
 	case APIKeysCreatePayloadV1RoleNamesTelemetryViewer:
+		return true
+	case APIKeysCreatePayloadV1RoleNamesUserSessionsRevoke:
+		return true
+	case APIKeysCreatePayloadV1RoleNamesUsersViewer:
 		return true
 	case APIKeysCreatePayloadV1RoleNamesViewer:
 		return true
@@ -478,6 +490,8 @@ const (
 	APIKeysUpdatePayloadV1RoleNamesTelemetryDataSourceUpdate           APIKeysUpdatePayloadV1RoleNames = "telemetry_data_source_update"
 	APIKeysUpdatePayloadV1RoleNamesTelemetryQueryRestricted            APIKeysUpdatePayloadV1RoleNames = "telemetry_query_restricted"
 	APIKeysUpdatePayloadV1RoleNamesTelemetryViewer                     APIKeysUpdatePayloadV1RoleNames = "telemetry_viewer"
+	APIKeysUpdatePayloadV1RoleNamesUserSessionsRevoke                  APIKeysUpdatePayloadV1RoleNames = "user_sessions_revoke"
+	APIKeysUpdatePayloadV1RoleNamesUsersViewer                         APIKeysUpdatePayloadV1RoleNames = "users_viewer"
 	APIKeysUpdatePayloadV1RoleNamesViewer                              APIKeysUpdatePayloadV1RoleNames = "viewer"
 	APIKeysUpdatePayloadV1RoleNamesWorkflowsEditor                     APIKeysUpdatePayloadV1RoleNames = "workflows_editor"
 	APIKeysUpdatePayloadV1RoleNamesWorkflowsViewer                     APIKeysUpdatePayloadV1RoleNames = "workflows_viewer"
@@ -573,6 +587,10 @@ func (e APIKeysUpdatePayloadV1RoleNames) Valid() bool {
 	case APIKeysUpdatePayloadV1RoleNamesTelemetryQueryRestricted:
 		return true
 	case APIKeysUpdatePayloadV1RoleNamesTelemetryViewer:
+		return true
+	case APIKeysUpdatePayloadV1RoleNamesUserSessionsRevoke:
+		return true
+	case APIKeysUpdatePayloadV1RoleNamesUsersViewer:
 		return true
 	case APIKeysUpdatePayloadV1RoleNamesViewer:
 		return true
@@ -685,6 +703,8 @@ const (
 	APIKeysValidatePayloadV1RoleNamesTelemetryDataSourceUpdate           APIKeysValidatePayloadV1RoleNames = "telemetry_data_source_update"
 	APIKeysValidatePayloadV1RoleNamesTelemetryQueryRestricted            APIKeysValidatePayloadV1RoleNames = "telemetry_query_restricted"
 	APIKeysValidatePayloadV1RoleNamesTelemetryViewer                     APIKeysValidatePayloadV1RoleNames = "telemetry_viewer"
+	APIKeysValidatePayloadV1RoleNamesUserSessionsRevoke                  APIKeysValidatePayloadV1RoleNames = "user_sessions_revoke"
+	APIKeysValidatePayloadV1RoleNamesUsersViewer                         APIKeysValidatePayloadV1RoleNames = "users_viewer"
 	APIKeysValidatePayloadV1RoleNamesViewer                              APIKeysValidatePayloadV1RoleNames = "viewer"
 	APIKeysValidatePayloadV1RoleNamesWorkflowsEditor                     APIKeysValidatePayloadV1RoleNames = "workflows_editor"
 	APIKeysValidatePayloadV1RoleNamesWorkflowsViewer                     APIKeysValidatePayloadV1RoleNames = "workflows_viewer"
@@ -780,6 +800,10 @@ func (e APIKeysValidatePayloadV1RoleNames) Valid() bool {
 	case APIKeysValidatePayloadV1RoleNamesTelemetryQueryRestricted:
 		return true
 	case APIKeysValidatePayloadV1RoleNamesTelemetryViewer:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesUserSessionsRevoke:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesUsersViewer:
 		return true
 	case APIKeysValidatePayloadV1RoleNamesViewer:
 		return true
@@ -6706,6 +6730,8 @@ const (
 	IdentityV1RolesTelemetryDataSourceUpdate           IdentityV1Roles = "telemetry_data_source_update"
 	IdentityV1RolesTelemetryQueryRestricted            IdentityV1Roles = "telemetry_query_restricted"
 	IdentityV1RolesTelemetryViewer                     IdentityV1Roles = "telemetry_viewer"
+	IdentityV1RolesUserSessionsRevoke                  IdentityV1Roles = "user_sessions_revoke"
+	IdentityV1RolesUsersViewer                         IdentityV1Roles = "users_viewer"
 	IdentityV1RolesViewer                              IdentityV1Roles = "viewer"
 	IdentityV1RolesWorkflowsEditor                     IdentityV1Roles = "workflows_editor"
 	IdentityV1RolesWorkflowsViewer                     IdentityV1Roles = "workflows_viewer"
@@ -6801,6 +6827,10 @@ func (e IdentityV1Roles) Valid() bool {
 	case IdentityV1RolesTelemetryQueryRestricted:
 		return true
 	case IdentityV1RolesTelemetryViewer:
+		return true
+	case IdentityV1RolesUserSessionsRevoke:
+		return true
+	case IdentityV1RolesUsersViewer:
 		return true
 	case IdentityV1RolesViewer:
 		return true
@@ -11480,7 +11510,7 @@ type APIKeyTeamRoleV1 struct {
 // Example: catalog_editor
 type APIKeyTeamRoleV1Name string
 
-// APIKeyV1 Example: {"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}
+// APIKeyV1 Example: {"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"expires_at":"2022-08-17T13:28:57.801578Z","id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}
 type APIKeyV1 struct {
 	// Comments Freeform notes about this API key
 	//
@@ -11494,6 +11524,11 @@ type APIKeyV1 struct {
 
 	// Creator Example: {"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}}
 	Creator ActorV1 `json:"creator"`
+
+	// ExpiresAt When this API key stops working. If it's not set, the key never expires.
+	//
+	// Example: 2022-08-17T13:28:57.801578Z
+	ExpiresAt *time.Time `json:"expires_at,omitempty"`
 
 	// Id Unique identifier for this API key
 	//
@@ -11531,12 +11566,17 @@ type APIKeyV1 struct {
 	TokenLastIssuedAt time.Time `json:"token_last_issued_at"`
 }
 
-// APIKeysCreatePayloadV1 Example: {"comments":"Requested in https://example.slack.com/archives/C123/p456","name":"My test API key","role_names":["viewer","incident_creator"],"team_ids":["01FCNDV6P870EA6S7TK1DSYDG0"],"team_role_names":["schedules_editor"]}
+// APIKeysCreatePayloadV1 Example: {"comments":"Requested in https://example.slack.com/archives/C123/p456","expires_at":"2022-08-17T13:28:57.801578Z","name":"My test API key","role_names":["viewer","incident_creator"],"team_ids":["01FCNDV6P870EA6S7TK1DSYDG0"],"team_role_names":["schedules_editor"]}
 type APIKeysCreatePayloadV1 struct {
 	// Comments Freeform notes about the API key
 	//
 	// Example: Requested in https://example.slack.com/archives/C123/p456
 	Comments *string `json:"comments,omitempty"`
+
+	// ExpiresAt When the API key stops working. Leave it out for a key that never expires. It must be in the future and within your organization's maximum lifetime for API keys.
+	//
+	// Example: 2022-08-17T13:28:57.801578Z
+	ExpiresAt *time.Time `json:"expires_at,omitempty"`
 
 	// Name Human-readable name for the new API key
 	//
@@ -11565,9 +11605,9 @@ type APIKeysCreatePayloadV1RoleNames string
 // APIKeysCreatePayloadV1TeamRoleNames Example: catalog_editor
 type APIKeysCreatePayloadV1TeamRoleNames string
 
-// APIKeysCreateResultV1 Example: {"api_key":{"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"},"token":"inc_0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"}
+// APIKeysCreateResultV1 Example: {"api_key":{"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"expires_at":"2022-08-17T13:28:57.801578Z","id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"},"token":"inc_0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"}
 type APIKeysCreateResultV1 struct {
-	// ApiKey Example: {"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}
+	// ApiKey Example: {"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"expires_at":"2022-08-17T13:28:57.801578Z","id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}
 	ApiKey APIKeyV1 `json:"api_key"`
 
 	// Token The bearer token to use in API requests. This is the only time the token is returned — store it securely.
@@ -11576,26 +11616,31 @@ type APIKeysCreateResultV1 struct {
 	Token string `json:"token"`
 }
 
-// APIKeysListResultV1 Example: {"api_keys":[{"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}],"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}}
+// APIKeysListResultV1 Example: {"api_keys":[{"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"expires_at":"2022-08-17T13:28:57.801578Z","id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}],"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}}
 type APIKeysListResultV1 struct {
-	// ApiKeys Example: [{"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}]
+	// ApiKeys Example: [{"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"expires_at":"2022-08-17T13:28:57.801578Z","id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}]
 	ApiKeys []APIKeyV1 `json:"api_keys"`
 
 	// PaginationMeta Example: {"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}
 	PaginationMeta PaginationMetaResultV1 `json:"pagination_meta"`
 }
 
-// APIKeysRotatePayloadV1 Example: {"grace_period_minutes":30}
+// APIKeysRotatePayloadV1 Example: {"expires_at":"2022-08-17T13:28:57.801578Z","grace_period_minutes":30}
 type APIKeysRotatePayloadV1 struct {
+	// ExpiresAt A new expiry for the API key. Leave it blank to keep its current expiry. It must be in the future and within your organization's maximum lifetime for API keys.
+	//
+	// Example: 2022-08-17T13:28:57.801578Z
+	ExpiresAt *time.Time `json:"expires_at,omitempty"`
+
 	// GracePeriodMinutes How many minutes to keep the old access token alive.
 	//
 	// Example: 30
 	GracePeriodMinutes int64 `json:"grace_period_minutes"`
 }
 
-// APIKeysRotateResultV1 Example: {"api_key":{"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"},"token":"inc_0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"}
+// APIKeysRotateResultV1 Example: {"api_key":{"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"expires_at":"2022-08-17T13:28:57.801578Z","id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"},"token":"inc_0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"}
 type APIKeysRotateResultV1 struct {
-	// ApiKey Example: {"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}
+	// ApiKey Example: {"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"expires_at":"2022-08-17T13:28:57.801578Z","id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}
 	ApiKey APIKeyV1 `json:"api_key"`
 
 	// Token The new bearer token to use in API requests. This is the only time the token is returned — store it securely.
@@ -11604,9 +11649,9 @@ type APIKeysRotateResultV1 struct {
 	Token string `json:"token"`
 }
 
-// APIKeysShowResultV1 Example: {"api_key":{"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}}
+// APIKeysShowResultV1 Example: {"api_key":{"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"expires_at":"2022-08-17T13:28:57.801578Z","id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}}
 type APIKeysShowResultV1 struct {
-	// ApiKey Example: {"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}
+	// ApiKey Example: {"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"expires_at":"2022-08-17T13:28:57.801578Z","id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}
 	ApiKey APIKeyV1 `json:"api_key"`
 }
 
@@ -11644,18 +11689,23 @@ type APIKeysUpdatePayloadV1RoleNames string
 // APIKeysUpdatePayloadV1TeamRoleNames Example: catalog_editor
 type APIKeysUpdatePayloadV1TeamRoleNames string
 
-// APIKeysUpdateResultV1 Example: {"api_key":{"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}}
+// APIKeysUpdateResultV1 Example: {"api_key":{"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"expires_at":"2022-08-17T13:28:57.801578Z","id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}}
 type APIKeysUpdateResultV1 struct {
-	// ApiKey Example: {"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}
+	// ApiKey Example: {"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"expires_at":"2022-08-17T13:28:57.801578Z","id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}
 	ApiKey APIKeyV1 `json:"api_key"`
 }
 
-// APIKeysValidatePayloadV1 Example: {"comments":"Requested in https://example.slack.com/archives/C123/p456","name":"My test API key","role_names":["viewer","incident_creator"],"team_ids":["01FCNDV6P870EA6S7TK1DSYDG0"],"team_role_names":["schedules_editor"]}
+// APIKeysValidatePayloadV1 Example: {"comments":"Requested in https://example.slack.com/archives/C123/p456","expires_at":"2022-08-17T13:28:57.801578Z","name":"My test API key","role_names":["viewer","incident_creator"],"team_ids":["01FCNDV6P870EA6S7TK1DSYDG0"],"team_role_names":["schedules_editor"]}
 type APIKeysValidatePayloadV1 struct {
 	// Comments Freeform notes about the API key
 	//
 	// Example: Requested in https://example.slack.com/archives/C123/p456
 	Comments *string `json:"comments,omitempty"`
+
+	// ExpiresAt When the API key stops working. Leave it out for a key that never expires. It must be in the future and within your organization's maximum lifetime for API keys.
+	//
+	// Example: 2022-08-17T13:28:57.801578Z
+	ExpiresAt *time.Time `json:"expires_at,omitempty"`
 
 	// Name Human-readable name for the new API key
 	//
@@ -27449,7 +27499,7 @@ type PolicyDebriefPayloadV2 struct {
 	// Example: [{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}]
 	Requirements []ConditionGroupPayloadV2 `json:"requirements"`
 
-	// RunOnPrivateIncidents Requires the policies.run_on_private scope
+	// RunOnPrivateIncidents Requires the policies.run.private_incidents scope
 	//
 	// Example: false
 	RunOnPrivateIncidents *bool `json:"run_on_private_incidents,omitempty"`
@@ -27467,7 +27517,7 @@ type PolicyDebriefV2 struct {
 	// Example: [{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]
 	Requirements []ConditionGroupV2 `json:"requirements"`
 
-	// RunOnPrivateIncidents Requires the policies.run_on_private scope
+	// RunOnPrivateIncidents Requires the policies.run.private_incidents scope
 	//
 	// Example: false
 	RunOnPrivateIncidents *bool `json:"run_on_private_incidents,omitempty"`
@@ -27919,7 +27969,7 @@ type PolicyFollowUpPayloadV2 struct {
 	// Example: [{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}]
 	Requirements []ConditionGroupPayloadV2 `json:"requirements"`
 
-	// RunOnPrivateIncidents Requires the policies.run_on_private scope
+	// RunOnPrivateIncidents Requires the policies.run.private_incidents scope
 	//
 	// Example: false
 	RunOnPrivateIncidents *bool `json:"run_on_private_incidents,omitempty"`
@@ -27937,7 +27987,7 @@ type PolicyFollowUpV2 struct {
 	// Example: [{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]
 	Requirements []ConditionGroupV2 `json:"requirements"`
 
-	// RunOnPrivateIncidents Requires the policies.run_on_private scope
+	// RunOnPrivateIncidents Requires the policies.run.private_incidents scope
 	//
 	// Example: false
 	RunOnPrivateIncidents *bool `json:"run_on_private_incidents,omitempty"`
@@ -27976,7 +28026,7 @@ type PolicyPostMortemPayloadV2 struct {
 	// Example: [{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}]
 	Requirements []ConditionGroupPayloadV2 `json:"requirements"`
 
-	// RunOnPrivateIncidents Requires the policies.run_on_private scope
+	// RunOnPrivateIncidents Requires the policies.run.private_incidents scope
 	//
 	// Example: false
 	RunOnPrivateIncidents *bool `json:"run_on_private_incidents,omitempty"`
@@ -27994,7 +28044,7 @@ type PolicyPostMortemV2 struct {
 	// Example: [{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]
 	Requirements []ConditionGroupV2 `json:"requirements"`
 
-	// RunOnPrivateIncidents Requires the policies.run_on_private scope
+	// RunOnPrivateIncidents Requires the policies.run.private_incidents scope
 	//
 	// Example: false
 	RunOnPrivateIncidents *bool `json:"run_on_private_incidents,omitempty"`
@@ -31563,7 +31613,27 @@ type StepProgressV2WebhookDeliveryState string
 //
 // Example: {"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
 type TeamGroupingBranchV3 struct {
-	// Settings How a team's alerts are grouped together, on every alert route
+	// Settings How alerts are grouped together
+	//
+	// Example: {"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}
+	Settings TeamGroupingSettingsV3 `json:"settings"`
+}
+
+// TeamGroupingConditionalBranchV3 A grouping branch: the grouping settings for the alerts that match its conditions
+//
+// Example: {"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
+type TeamGroupingConditionalBranchV3 struct {
+	// ConditionGroups The branch matches an alert when every condition in any one group holds
+	//
+	// Example: [{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]
+	ConditionGroups []ConditionGroupPayloadV3 `json:"condition_groups"`
+
+	// Id Identifier for this branch, a ULID. Omit it on a new branch and one is assigned. Send the ID you read back on every update: alert groups are keyed on it.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	Id *string `json:"id,omitempty"`
+
+	// Settings How alerts are grouped together
 	//
 	// Example: {"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}
 	Settings TeamGroupingSettingsV3 `json:"settings"`
@@ -31571,8 +31641,13 @@ type TeamGroupingBranchV3 struct {
 
 // TeamGroupingPreferenceV3 A team's alert grouping preference, which takes priority over the default grouping of every alert route its alerts match
 //
-// Example: {"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
+// Example: {"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
 type TeamGroupingPreferenceV3 struct {
+	// Branches Grouping branches in order. Alert rules group an alert by the first branch whose conditions hold, else by the default. Alert routes only use the default.
+	//
+	// Example: [{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}]
+	Branches []TeamGroupingConditionalBranchV3 `json:"branches"`
+
 	// CreatedAt When this preference was created
 	//
 	// Example: 2021-08-17T13:28:57.801578Z
@@ -31582,6 +31657,11 @@ type TeamGroupingPreferenceV3 struct {
 	//
 	// Example: {"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
 	Default TeamGroupingBranchV3 `json:"default"`
+
+	// Expressions Expressions the branches' conditions test or compare against, as expressions["reference"]
+	//
+	// Example: [{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}]
+	Expressions []ExpressionPayloadV3 `json:"expressions"`
 
 	// Id Unique identifier for this preference
 	//
@@ -31604,12 +31684,22 @@ type TeamGroupingPreferenceV3 struct {
 	Version int64 `json:"version"`
 }
 
-// TeamGroupingPreferencesCreatePayloadV3 Example: {"default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"team_id":"01G0J1EXE7AXZ2C93K61WBPYEH"}
+// TeamGroupingPreferencesCreatePayloadV3 Example: {"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"team_id":"01G0J1EXE7AXZ2C93K61WBPYEH"}
 type TeamGroupingPreferencesCreatePayloadV3 struct {
+	// Branches Grouping branches in order. Alert rules group an alert by the first branch whose conditions hold, else by the default. Alert routes only use the default. Omit it on an update to keep the current branches and expressions. Only organisations that use alert rules can add or change branches.
+	//
+	// Example: [{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}]
+	Branches *[]TeamGroupingConditionalBranchV3 `json:"branches,omitempty"`
+
 	// Default One set of grouping settings.
 	//
 	// Example: {"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
 	Default TeamGroupingBranchV3 `json:"default"`
+
+	// Expressions Expressions the branches' conditions test or compare against, as expressions["reference"]. Omit it on an update to keep the current expressions, which are also kept when branches are omitted.
+	//
+	// Example: [{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}]
+	Expressions *[]ExpressionPayloadV3 `json:"expressions,omitempty"`
 
 	// TeamId The catalog entry ID of the team this preference belongs to
 	//
@@ -31617,37 +31707,47 @@ type TeamGroupingPreferencesCreatePayloadV3 struct {
 	TeamId string `json:"team_id"`
 }
 
-// TeamGroupingPreferencesCreateResultV3 Example: {"team_grouping_preference":{"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}}
+// TeamGroupingPreferencesCreateResultV3 Example: {"team_grouping_preference":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}}
 type TeamGroupingPreferencesCreateResultV3 struct {
 	// TeamGroupingPreference A team's alert grouping preference, which takes priority over the default grouping of every alert route its alerts match
 	//
-	// Example: {"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
+	// Example: {"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
 	TeamGroupingPreference TeamGroupingPreferenceV3 `json:"team_grouping_preference"`
 }
 
-// TeamGroupingPreferencesListResultV3 Example: {"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25},"team_grouping_preferences":[{"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}]}
+// TeamGroupingPreferencesListResultV3 Example: {"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25},"team_grouping_preferences":[{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}]}
 type TeamGroupingPreferencesListResultV3 struct {
 	// PaginationMeta Example: {"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}
 	PaginationMeta PaginationMetaResultV3 `json:"pagination_meta"`
 
-	// TeamGroupingPreferences Example: [{"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}]
+	// TeamGroupingPreferences Example: [{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}]
 	TeamGroupingPreferences []TeamGroupingPreferenceV3 `json:"team_grouping_preferences"`
 }
 
-// TeamGroupingPreferencesShowResultV3 Example: {"team_grouping_preference":{"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}}
+// TeamGroupingPreferencesShowResultV3 Example: {"team_grouping_preference":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}}
 type TeamGroupingPreferencesShowResultV3 struct {
 	// TeamGroupingPreference A team's alert grouping preference, which takes priority over the default grouping of every alert route its alerts match
 	//
-	// Example: {"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
+	// Example: {"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
 	TeamGroupingPreference TeamGroupingPreferenceV3 `json:"team_grouping_preference"`
 }
 
-// TeamGroupingPreferencesUpdatePayloadV3 Example: {"default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"version":4}
+// TeamGroupingPreferencesUpdatePayloadV3 Example: {"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"version":4}
 type TeamGroupingPreferencesUpdatePayloadV3 struct {
+	// Branches Grouping branches in order. Alert rules group an alert by the first branch whose conditions hold, else by the default. Alert routes only use the default. Omit it on an update to keep the current branches and expressions. Only organisations that use alert rules can add or change branches.
+	//
+	// Example: [{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}]
+	Branches *[]TeamGroupingConditionalBranchV3 `json:"branches,omitempty"`
+
 	// Default One set of grouping settings.
 	//
 	// Example: {"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}
 	Default TeamGroupingBranchV3 `json:"default"`
+
+	// Expressions Expressions the branches' conditions test or compare against, as expressions["reference"]. Omit it on an update to keep the current expressions, which are also kept when branches are omitted.
+	//
+	// Example: [{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}]
+	Expressions *[]ExpressionPayloadV3 `json:"expressions,omitempty"`
 
 	// Version The version this update will create. It must be one more than the preference's latest version, otherwise the update is rejected - guarding against concurrent edits.
 	//
@@ -31655,15 +31755,15 @@ type TeamGroupingPreferencesUpdatePayloadV3 struct {
 	Version int64 `json:"version"`
 }
 
-// TeamGroupingPreferencesUpdateResultV3 Example: {"team_grouping_preference":{"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}}
+// TeamGroupingPreferencesUpdateResultV3 Example: {"team_grouping_preference":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}}
 type TeamGroupingPreferencesUpdateResultV3 struct {
 	// TeamGroupingPreference A team's alert grouping preference, which takes priority over the default grouping of every alert route its alerts match
 	//
-	// Example: {"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
+	// Example: {"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}}],"created_at":"2021-08-17T13:28:57.801578Z","default":{"settings":{"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","updated_at":"2021-08-17T13:28:57.801578Z","version":3}
 	TeamGroupingPreference TeamGroupingPreferenceV3 `json:"team_grouping_preference"`
 }
 
-// TeamGroupingSettingsV3 How a team's alerts are grouped together, on every alert route
+// TeamGroupingSettingsV3 How alerts are grouped together
 //
 // Example: {"ai_enabled":false,"enabled":true,"grouping_keys":[{"reference":"alert.title"}],"window_seconds":1800,"window_type":"rolling"}
 type TeamGroupingSettingsV3 struct {
@@ -31672,7 +31772,7 @@ type TeamGroupingSettingsV3 struct {
 	// Example: false
 	AiEnabled *bool `json:"ai_enabled,omitempty"`
 
-	// Enabled Whether the team's alerts are grouped. When false, none of the team's alerts are grouped, regardless of any alert route grouping config.
+	// Enabled Whether these alerts are grouped. When false, none of them are grouped.
 	//
 	// Example: true
 	Enabled bool `json:"enabled"`
@@ -37798,7 +37898,7 @@ type ClientInterface interface {
 	// may still be filling. The metadata reports the time the figures are calculated up to.
 	//
 	// Workload for private incidents is only returned to API keys with the
-	// `incident_workloads.view_private` scope.
+	// `incident_workloads.view.private_incidents` scope.
 	//
 	// Corresponds with GET /v2/incident_participant_workloads (the `IncidentParticipantWorkloadsV2List` operationId).
 	IncidentParticipantWorkloadsV2List(ctx context.Context, params *IncidentParticipantWorkloadsV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -38213,7 +38313,7 @@ type ClientInterface interface {
 	// off, no tickets are created for other incidents, and the incident's fields are not
 	// written into this issue until it is turned on.
 	//
-	// This needs the incidents.connect_external_issue scope, either across the organisation or
+	// This needs the incident_external_issues.create scope, either across the organisation or
 	// from an incident role on this incident.
 	//
 	// This fails if the incident already has a different external issue (unless replace is
@@ -38238,7 +38338,7 @@ type ClientInterface interface {
 	// off, no tickets are created for other incidents, and the incident's fields are not
 	// written into this issue until it is turned on.
 	//
-	// This needs the incidents.connect_external_issue scope, either across the organisation or
+	// This needs the incident_external_issues.create scope, either across the organisation or
 	// from an incident role on this incident.
 	//
 	// This fails if the incident already has a different external issue (unless replace is
@@ -39752,9 +39852,22 @@ type ClientInterface interface {
 	// Corresponds with GET /v2/users/{id} (the `UsersV2Show` operationId).
 	UsersV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// UsersV2RevokeSessions RevokeSessions Users V2
+	//
+	// Sign a user out of everywhere they're logged in: dashboard, plus any mobile app, desktop app, or MCP clients they've connected to via OAuth.
+	//
+	// This doesn't deactivate the user. They will be able to log back into those accounts, and it won't revoke any personal API keys they've created.
+	//
+	// This is useful in the case of a compromised device or as part of urgent user deactivation.
+	//
+	// Note that when a user is deactivated, all of this happens automatically without you having to take an explicit action.
+	//
+	// Corresponds with POST /v2/users/{id}/actions/revoke_sessions (the `UsersV2RevokeSessions` operationId).
+	UsersV2RevokeSessions(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// UsersV2ListNotificationMethods ListNotificationMethods Users V2
 	//
-	// List notification methods for a user. Phone numbers are partially redacted unless the API key holds the notification_methods.view_unredacted scope.
+	// List notification methods for a user. Phone numbers are partially redacted unless the API key holds the unredacted_notification_methods.view scope.
 	//
 	// Corresponds with GET /v2/users/{user_id}/notification_methods (the `UsersV2ListNotificationMethods` operationId).
 	UsersV2ListNotificationMethods(ctx context.Context, userId string, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -46646,7 +46759,7 @@ func (c *Client) AlertsV2TransitionIncidentAlert(ctx context.Context, id string,
 // may still be filling. The metadata reports the time the figures are calculated up to.
 //
 // Workload for private incidents is only returned to API keys with the
-// `incident_workloads.view_private` scope.
+// `incident_workloads.view.private_incidents` scope.
 //
 // Corresponds with GET /v2/incident_participant_workloads (the `IncidentParticipantWorkloadsV2List` operationId).
 func (c *Client) IncidentParticipantWorkloadsV2List(ctx context.Context, params *IncidentParticipantWorkloadsV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -47289,7 +47402,7 @@ func (c *Client) IncidentsV2Show(ctx context.Context, id string, reqEditors ...R
 // off, no tickets are created for other incidents, and the incident's fields are not
 // written into this issue until it is turned on.
 //
-// This needs the incidents.connect_external_issue scope, either across the organisation or
+// This needs the incident_external_issues.create scope, either across the organisation or
 // from an incident role on this incident.
 //
 // This fails if the incident already has a different external issue (unless replace is
@@ -47324,7 +47437,7 @@ func (c *Client) IncidentsV2ConnectExternalIssueWithBody(ctx context.Context, id
 // off, no tickets are created for other incidents, and the incident's fields are not
 // written into this issue until it is turned on.
 //
-// This needs the incidents.connect_external_issue scope, either across the organisation or
+// This needs the incident_external_issues.create scope, either across the organisation or
 // from an incident role on this incident.
 //
 // This fails if the incident already has a different external issue (unless replace is
@@ -50198,9 +50311,32 @@ func (c *Client) UsersV2Show(ctx context.Context, id string, reqEditors ...Reque
 	return c.Client.Do(req)
 }
 
+// UsersV2RevokeSessions RevokeSessions Users V2
+//
+// Sign a user out of everywhere they're logged in: dashboard, plus any mobile app, desktop app, or MCP clients they've connected to via OAuth.
+//
+// This doesn't deactivate the user. They will be able to log back into those accounts, and it won't revoke any personal API keys they've created.
+//
+// This is useful in the case of a compromised device or as part of urgent user deactivation.
+//
+// Note that when a user is deactivated, all of this happens automatically without you having to take an explicit action.
+//
+// Corresponds with POST /v2/users/{id}/actions/revoke_sessions (the `UsersV2RevokeSessions` operationId).
+func (c *Client) UsersV2RevokeSessions(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUsersV2RevokeSessionsRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 // UsersV2ListNotificationMethods ListNotificationMethods Users V2
 //
-// List notification methods for a user. Phone numbers are partially redacted unless the API key holds the notification_methods.view_unredacted scope.
+// List notification methods for a user. Phone numbers are partially redacted unless the API key holds the unredacted_notification_methods.view scope.
 //
 // Corresponds with GET /v2/users/{user_id}/notification_methods (the `UsersV2ListNotificationMethods` operationId).
 func (c *Client) UsersV2ListNotificationMethods(ctx context.Context, userId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -66806,6 +66942,40 @@ func NewUsersV2ShowRequest(server string, id string) (*http.Request, error) {
 	return req, nil
 }
 
+// NewUsersV2RevokeSessionsRequest constructs an http.Request for the UsersV2RevokeSessions method
+func NewUsersV2RevokeSessionsRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/users/%s/actions/revoke_sessions", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewUsersV2ListNotificationMethodsRequest constructs an http.Request for the UsersV2ListNotificationMethods method
 func NewUsersV2ListNotificationMethodsRequest(server string, userId string) (*http.Request, error) {
 	var err error
@@ -74025,7 +74195,7 @@ type ClientWithResponsesInterface interface {
 	// may still be filling. The metadata reports the time the figures are calculated up to.
 	//
 	// Workload for private incidents is only returned to API keys with the
-	// `incident_workloads.view_private` scope.
+	// `incident_workloads.view.private_incidents` scope.
 	//
 	// Returns a wrapper object for the known response body format(s).
 	//
@@ -74462,7 +74632,7 @@ type ClientWithResponsesInterface interface {
 	// off, no tickets are created for other incidents, and the incident's fields are not
 	// written into this issue until it is turned on.
 	//
-	// This needs the incidents.connect_external_issue scope, either across the organisation or
+	// This needs the incident_external_issues.create scope, either across the organisation or
 	// from an incident role on this incident.
 	//
 	// This fails if the incident already has a different external issue (unless replace is
@@ -74487,7 +74657,7 @@ type ClientWithResponsesInterface interface {
 	// off, no tickets are created for other incidents, and the incident's fields are not
 	// written into this issue until it is turned on.
 	//
-	// This needs the incidents.connect_external_issue scope, either across the organisation or
+	// This needs the incident_external_issues.create scope, either across the organisation or
 	// from an incident role on this incident.
 	//
 	// This fails if the incident already has a different external issue (unless replace is
@@ -76111,9 +76281,24 @@ type ClientWithResponsesInterface interface {
 	// Corresponds with GET /v2/users/{id} (the `UsersV2Show` operationId).
 	UsersV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*UsersV2ShowResponse, error)
 
+	// UsersV2RevokeSessionsWithResponse RevokeSessions Users V2
+	//
+	// Sign a user out of everywhere they're logged in: dashboard, plus any mobile app, desktop app, or MCP clients they've connected to via OAuth.
+	//
+	// This doesn't deactivate the user. They will be able to log back into those accounts, and it won't revoke any personal API keys they've created.
+	//
+	// This is useful in the case of a compromised device or as part of urgent user deactivation.
+	//
+	// Note that when a user is deactivated, all of this happens automatically without you having to take an explicit action.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/users/{id}/actions/revoke_sessions (the `UsersV2RevokeSessions` operationId).
+	UsersV2RevokeSessionsWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*UsersV2RevokeSessionsResponse, error)
+
 	// UsersV2ListNotificationMethodsWithResponse ListNotificationMethods Users V2
 	//
-	// List notification methods for a user. Phone numbers are partially redacted unless the API key holds the notification_methods.view_unredacted scope.
+	// List notification methods for a user. Phone numbers are partially redacted unless the API key holds the unredacted_notification_methods.view scope.
 	//
 	// Returns a wrapper object for the known response body format(s).
 	//
@@ -116876,6 +117061,131 @@ func (r UsersV2ShowResponse) ContentType() string {
 	return ""
 }
 
+type UsersV2RevokeSessionsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r UsersV2RevokeSessionsResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r UsersV2RevokeSessionsResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r UsersV2RevokeSessionsResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r UsersV2RevokeSessionsResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r UsersV2RevokeSessionsResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r UsersV2RevokeSessionsResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r UsersV2RevokeSessionsResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r UsersV2RevokeSessionsResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r UsersV2RevokeSessionsResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r UsersV2RevokeSessionsResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r UsersV2RevokeSessionsResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r UsersV2RevokeSessionsResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r UsersV2RevokeSessionsResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r UsersV2RevokeSessionsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r UsersV2RevokeSessionsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r UsersV2RevokeSessionsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r UsersV2RevokeSessionsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
 type UsersV2ListNotificationMethodsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -132906,7 +133216,7 @@ func (c *ClientWithResponses) AlertsV2TransitionIncidentAlertWithResponse(ctx co
 // may still be filling. The metadata reports the time the figures are calculated up to.
 //
 // Workload for private incidents is only returned to API keys with the
-// `incident_workloads.view_private` scope.
+// `incident_workloads.view.private_incidents` scope.
 //
 // Returns a wrapper object for the known response body format(s).
 //
@@ -133479,7 +133789,7 @@ func (c *ClientWithResponses) IncidentsV2ShowWithResponse(ctx context.Context, i
 // off, no tickets are created for other incidents, and the incident's fields are not
 // written into this issue until it is turned on.
 //
-// This needs the incidents.connect_external_issue scope, either across the organisation or
+// This needs the incident_external_issues.create scope, either across the organisation or
 // from an incident role on this incident.
 //
 // This fails if the incident already has a different external issue (unless replace is
@@ -133510,7 +133820,7 @@ func (c *ClientWithResponses) IncidentsV2ConnectExternalIssueWithBodyWithRespons
 // off, no tickets are created for other incidents, and the incident's fields are not
 // written into this issue until it is turned on.
 //
-// This needs the incidents.connect_external_issue scope, either across the organisation or
+// This needs the incident_external_issues.create scope, either across the organisation or
 // from an incident role on this incident.
 //
 // This fails if the incident already has a different external issue (unless replace is
@@ -135950,9 +136260,30 @@ func (c *ClientWithResponses) UsersV2ShowWithResponse(ctx context.Context, id st
 	return ParseUsersV2ShowResponse(rsp)
 }
 
+// UsersV2RevokeSessionsWithResponse RevokeSessions Users V2
+//
+// Sign a user out of everywhere they're logged in: dashboard, plus any mobile app, desktop app, or MCP clients they've connected to via OAuth.
+//
+// This doesn't deactivate the user. They will be able to log back into those accounts, and it won't revoke any personal API keys they've created.
+//
+// This is useful in the case of a compromised device or as part of urgent user deactivation.
+//
+// Note that when a user is deactivated, all of this happens automatically without you having to take an explicit action.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/users/{id}/actions/revoke_sessions (the `UsersV2RevokeSessions` operationId).
+func (c *ClientWithResponses) UsersV2RevokeSessionsWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*UsersV2RevokeSessionsResponse, error) {
+	rsp, err := c.UsersV2RevokeSessions(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUsersV2RevokeSessionsResponse(rsp)
+}
+
 // UsersV2ListNotificationMethodsWithResponse ListNotificationMethods Users V2
 //
-// List notification methods for a user. Phone numbers are partially redacted unless the API key holds the notification_methods.view_unredacted scope.
+// List notification methods for a user. Phone numbers are partially redacted unless the API key holds the unredacted_notification_methods.view scope.
 //
 // Returns a wrapper object for the known response body format(s).
 //
@@ -173014,6 +173345,119 @@ func ParseUsersV2ShowResponse(rsp *http.Response) (*UsersV2ShowResponse, error) 
 			return nil, err
 		}
 		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseUsersV2RevokeSessionsResponse parses an HTTP response from a UsersV2RevokeSessionsWithResponse call
+func ParseUsersV2RevokeSessionsResponse(rsp *http.Response) (*UsersV2RevokeSessionsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &UsersV2RevokeSessionsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case rsp.StatusCode == 204:
+		break // No content-type
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
 		var dest ErrorResponse
