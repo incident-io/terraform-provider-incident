@@ -73,6 +73,11 @@ func (d *IncidentAPIKeyDataSource) Schema(_ context.Context, _ datasource.Schema
 				Computed:            true,
 				ElementType:         types.StringType,
 			},
+			"expires_at": schema.StringAttribute{
+				MarkdownDescription: apischema.Docstring("APIKeyV1", "expires_at"),
+				Computed:            true,
+				CustomType:          timetypes.RFC3339Type{},
+			},
 			"created_at": schema.StringAttribute{
 				MarkdownDescription: apischema.Docstring("APIKeyV1", "created_at"),
 				Computed:            true,

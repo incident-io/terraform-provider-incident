@@ -3,6 +3,10 @@
 - Add `ai_titles_enabled` to the `incident_alert_source` resource and data source, which gives alerts from the source an AI-improved title. Leave it unset to keep the current value. A new source has AI titles off. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/alert_source). (#689)
 - Add `ai_instructions` to `incident_alert_route`'s `grouping_config.default` and `incident_team_grouping_preference`'s `default.settings`, which tells AI grouping how to group alerts. Leave it out to have no instructions: removing it clears any instructions set in the dashboard. See the docs for [alert routes](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/alert_route) and [team grouping preferences](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/team_grouping_preference). (#689)
 
+## v7.10.0
+
+- Add `expires_at` to the `incident_api_key` resource and data source, which gives a key an expiry date. Changing it on an existing key needs a change to `token_version` in the same plan, because incident.io only changes a key's expiry when it rotates the key. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/api_key). (#694)
+
 ## v7.9.0
 
 - Add `sns_options` to the `incident_alert_source` resource and data source, which sets how an SNS alert source deduplicates messages into alerts: `message_id` (one alert per message), `automatic` (one alert per CloudWatch alarm, Inspector or GuardDuty finding, or AWS Health event) or `custom` (a JSON path into the payload, set with `deduplication_key_path`). Leave the block out to keep the strategy chosen in the dashboard. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/alert_source). (#676)

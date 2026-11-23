@@ -20,6 +20,7 @@ import (
 
 // Defines values for APIKeyRoleV1Name.
 const (
+	APIKeyRoleV1NameAccessControlManage                 APIKeyRoleV1Name = "access_control_manage"
 	APIKeyRoleV1NameActOnBehalfOfUsers                  APIKeyRoleV1Name = "act_on_behalf_of_users"
 	APIKeyRoleV1NameApiKeysManage                       APIKeyRoleV1Name = "api_keys_manage"
 	APIKeyRoleV1NameCallTranscriptsViewer               APIKeyRoleV1Name = "call_transcripts_viewer"
@@ -64,6 +65,8 @@ const (
 	APIKeyRoleV1NameTelemetryDataSourceUpdate           APIKeyRoleV1Name = "telemetry_data_source_update"
 	APIKeyRoleV1NameTelemetryQueryRestricted            APIKeyRoleV1Name = "telemetry_query_restricted"
 	APIKeyRoleV1NameTelemetryViewer                     APIKeyRoleV1Name = "telemetry_viewer"
+	APIKeyRoleV1NameUserSessionsRevoke                  APIKeyRoleV1Name = "user_sessions_revoke"
+	APIKeyRoleV1NameUsersViewer                         APIKeyRoleV1Name = "users_viewer"
 	APIKeyRoleV1NameViewer                              APIKeyRoleV1Name = "viewer"
 	APIKeyRoleV1NameWorkflowsEditor                     APIKeyRoleV1Name = "workflows_editor"
 	APIKeyRoleV1NameWorkflowsViewer                     APIKeyRoleV1Name = "workflows_viewer"
@@ -72,6 +75,8 @@ const (
 // Valid indicates whether the value is a known member of the APIKeyRoleV1Name enum.
 func (e APIKeyRoleV1Name) Valid() bool {
 	switch e {
+	case APIKeyRoleV1NameAccessControlManage:
+		return true
 	case APIKeyRoleV1NameActOnBehalfOfUsers:
 		return true
 	case APIKeyRoleV1NameApiKeysManage:
@@ -160,6 +165,10 @@ func (e APIKeyRoleV1Name) Valid() bool {
 		return true
 	case APIKeyRoleV1NameTelemetryViewer:
 		return true
+	case APIKeyRoleV1NameUserSessionsRevoke:
+		return true
+	case APIKeyRoleV1NameUsersViewer:
+		return true
 	case APIKeyRoleV1NameViewer:
 		return true
 	case APIKeyRoleV1NameWorkflowsEditor:
@@ -227,6 +236,7 @@ func (e APIKeyTeamRoleV1Name) Valid() bool {
 
 // Defines values for APIKeysCreatePayloadV1RoleNames.
 const (
+	APIKeysCreatePayloadV1RoleNamesAccessControlManage                 APIKeysCreatePayloadV1RoleNames = "access_control_manage"
 	APIKeysCreatePayloadV1RoleNamesActOnBehalfOfUsers                  APIKeysCreatePayloadV1RoleNames = "act_on_behalf_of_users"
 	APIKeysCreatePayloadV1RoleNamesApiKeysManage                       APIKeysCreatePayloadV1RoleNames = "api_keys_manage"
 	APIKeysCreatePayloadV1RoleNamesCallTranscriptsViewer               APIKeysCreatePayloadV1RoleNames = "call_transcripts_viewer"
@@ -271,6 +281,8 @@ const (
 	APIKeysCreatePayloadV1RoleNamesTelemetryDataSourceUpdate           APIKeysCreatePayloadV1RoleNames = "telemetry_data_source_update"
 	APIKeysCreatePayloadV1RoleNamesTelemetryQueryRestricted            APIKeysCreatePayloadV1RoleNames = "telemetry_query_restricted"
 	APIKeysCreatePayloadV1RoleNamesTelemetryViewer                     APIKeysCreatePayloadV1RoleNames = "telemetry_viewer"
+	APIKeysCreatePayloadV1RoleNamesUserSessionsRevoke                  APIKeysCreatePayloadV1RoleNames = "user_sessions_revoke"
+	APIKeysCreatePayloadV1RoleNamesUsersViewer                         APIKeysCreatePayloadV1RoleNames = "users_viewer"
 	APIKeysCreatePayloadV1RoleNamesViewer                              APIKeysCreatePayloadV1RoleNames = "viewer"
 	APIKeysCreatePayloadV1RoleNamesWorkflowsEditor                     APIKeysCreatePayloadV1RoleNames = "workflows_editor"
 	APIKeysCreatePayloadV1RoleNamesWorkflowsViewer                     APIKeysCreatePayloadV1RoleNames = "workflows_viewer"
@@ -279,6 +291,8 @@ const (
 // Valid indicates whether the value is a known member of the APIKeysCreatePayloadV1RoleNames enum.
 func (e APIKeysCreatePayloadV1RoleNames) Valid() bool {
 	switch e {
+	case APIKeysCreatePayloadV1RoleNamesAccessControlManage:
+		return true
 	case APIKeysCreatePayloadV1RoleNamesActOnBehalfOfUsers:
 		return true
 	case APIKeysCreatePayloadV1RoleNamesApiKeysManage:
@@ -367,6 +381,10 @@ func (e APIKeysCreatePayloadV1RoleNames) Valid() bool {
 		return true
 	case APIKeysCreatePayloadV1RoleNamesTelemetryViewer:
 		return true
+	case APIKeysCreatePayloadV1RoleNamesUserSessionsRevoke:
+		return true
+	case APIKeysCreatePayloadV1RoleNamesUsersViewer:
+		return true
 	case APIKeysCreatePayloadV1RoleNamesViewer:
 		return true
 	case APIKeysCreatePayloadV1RoleNamesWorkflowsEditor:
@@ -434,6 +452,7 @@ func (e APIKeysCreatePayloadV1TeamRoleNames) Valid() bool {
 
 // Defines values for APIKeysUpdatePayloadV1RoleNames.
 const (
+	APIKeysUpdatePayloadV1RoleNamesAccessControlManage                 APIKeysUpdatePayloadV1RoleNames = "access_control_manage"
 	APIKeysUpdatePayloadV1RoleNamesActOnBehalfOfUsers                  APIKeysUpdatePayloadV1RoleNames = "act_on_behalf_of_users"
 	APIKeysUpdatePayloadV1RoleNamesApiKeysManage                       APIKeysUpdatePayloadV1RoleNames = "api_keys_manage"
 	APIKeysUpdatePayloadV1RoleNamesCallTranscriptsViewer               APIKeysUpdatePayloadV1RoleNames = "call_transcripts_viewer"
@@ -478,6 +497,8 @@ const (
 	APIKeysUpdatePayloadV1RoleNamesTelemetryDataSourceUpdate           APIKeysUpdatePayloadV1RoleNames = "telemetry_data_source_update"
 	APIKeysUpdatePayloadV1RoleNamesTelemetryQueryRestricted            APIKeysUpdatePayloadV1RoleNames = "telemetry_query_restricted"
 	APIKeysUpdatePayloadV1RoleNamesTelemetryViewer                     APIKeysUpdatePayloadV1RoleNames = "telemetry_viewer"
+	APIKeysUpdatePayloadV1RoleNamesUserSessionsRevoke                  APIKeysUpdatePayloadV1RoleNames = "user_sessions_revoke"
+	APIKeysUpdatePayloadV1RoleNamesUsersViewer                         APIKeysUpdatePayloadV1RoleNames = "users_viewer"
 	APIKeysUpdatePayloadV1RoleNamesViewer                              APIKeysUpdatePayloadV1RoleNames = "viewer"
 	APIKeysUpdatePayloadV1RoleNamesWorkflowsEditor                     APIKeysUpdatePayloadV1RoleNames = "workflows_editor"
 	APIKeysUpdatePayloadV1RoleNamesWorkflowsViewer                     APIKeysUpdatePayloadV1RoleNames = "workflows_viewer"
@@ -486,6 +507,8 @@ const (
 // Valid indicates whether the value is a known member of the APIKeysUpdatePayloadV1RoleNames enum.
 func (e APIKeysUpdatePayloadV1RoleNames) Valid() bool {
 	switch e {
+	case APIKeysUpdatePayloadV1RoleNamesAccessControlManage:
+		return true
 	case APIKeysUpdatePayloadV1RoleNamesActOnBehalfOfUsers:
 		return true
 	case APIKeysUpdatePayloadV1RoleNamesApiKeysManage:
@@ -574,6 +597,10 @@ func (e APIKeysUpdatePayloadV1RoleNames) Valid() bool {
 		return true
 	case APIKeysUpdatePayloadV1RoleNamesTelemetryViewer:
 		return true
+	case APIKeysUpdatePayloadV1RoleNamesUserSessionsRevoke:
+		return true
+	case APIKeysUpdatePayloadV1RoleNamesUsersViewer:
+		return true
 	case APIKeysUpdatePayloadV1RoleNamesViewer:
 		return true
 	case APIKeysUpdatePayloadV1RoleNamesWorkflowsEditor:
@@ -641,6 +668,7 @@ func (e APIKeysUpdatePayloadV1TeamRoleNames) Valid() bool {
 
 // Defines values for APIKeysValidatePayloadV1RoleNames.
 const (
+	APIKeysValidatePayloadV1RoleNamesAccessControlManage                 APIKeysValidatePayloadV1RoleNames = "access_control_manage"
 	APIKeysValidatePayloadV1RoleNamesActOnBehalfOfUsers                  APIKeysValidatePayloadV1RoleNames = "act_on_behalf_of_users"
 	APIKeysValidatePayloadV1RoleNamesApiKeysManage                       APIKeysValidatePayloadV1RoleNames = "api_keys_manage"
 	APIKeysValidatePayloadV1RoleNamesCallTranscriptsViewer               APIKeysValidatePayloadV1RoleNames = "call_transcripts_viewer"
@@ -685,6 +713,8 @@ const (
 	APIKeysValidatePayloadV1RoleNamesTelemetryDataSourceUpdate           APIKeysValidatePayloadV1RoleNames = "telemetry_data_source_update"
 	APIKeysValidatePayloadV1RoleNamesTelemetryQueryRestricted            APIKeysValidatePayloadV1RoleNames = "telemetry_query_restricted"
 	APIKeysValidatePayloadV1RoleNamesTelemetryViewer                     APIKeysValidatePayloadV1RoleNames = "telemetry_viewer"
+	APIKeysValidatePayloadV1RoleNamesUserSessionsRevoke                  APIKeysValidatePayloadV1RoleNames = "user_sessions_revoke"
+	APIKeysValidatePayloadV1RoleNamesUsersViewer                         APIKeysValidatePayloadV1RoleNames = "users_viewer"
 	APIKeysValidatePayloadV1RoleNamesViewer                              APIKeysValidatePayloadV1RoleNames = "viewer"
 	APIKeysValidatePayloadV1RoleNamesWorkflowsEditor                     APIKeysValidatePayloadV1RoleNames = "workflows_editor"
 	APIKeysValidatePayloadV1RoleNamesWorkflowsViewer                     APIKeysValidatePayloadV1RoleNames = "workflows_viewer"
@@ -693,6 +723,8 @@ const (
 // Valid indicates whether the value is a known member of the APIKeysValidatePayloadV1RoleNames enum.
 func (e APIKeysValidatePayloadV1RoleNames) Valid() bool {
 	switch e {
+	case APIKeysValidatePayloadV1RoleNamesAccessControlManage:
+		return true
 	case APIKeysValidatePayloadV1RoleNamesActOnBehalfOfUsers:
 		return true
 	case APIKeysValidatePayloadV1RoleNamesApiKeysManage:
@@ -781,6 +813,10 @@ func (e APIKeysValidatePayloadV1RoleNames) Valid() bool {
 		return true
 	case APIKeysValidatePayloadV1RoleNamesTelemetryViewer:
 		return true
+	case APIKeysValidatePayloadV1RoleNamesUserSessionsRevoke:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesUsersViewer:
+		return true
 	case APIKeysValidatePayloadV1RoleNamesViewer:
 		return true
 	case APIKeysValidatePayloadV1RoleNamesWorkflowsEditor:
@@ -840,6 +876,54 @@ func (e APIKeysValidatePayloadV1TeamRoleNames) Valid() bool {
 	case APIKeysValidatePayloadV1TeamRoleNamesTelemetryQueryRestricted:
 		return true
 	case APIKeysValidatePayloadV1TeamRoleNamesWorkflowsEditor:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AccessGrantPrincipalV2Type.
+const (
+	AccessGrantPrincipalV2TypeAccessGroup AccessGrantPrincipalV2Type = "access_group"
+)
+
+// Valid indicates whether the value is a known member of the AccessGrantPrincipalV2Type enum.
+func (e AccessGrantPrincipalV2Type) Valid() bool {
+	switch e {
+	case AccessGrantPrincipalV2TypeAccessGroup:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AccessGrantResourceV2Type.
+const (
+	Global AccessGrantResourceV2Type = "global"
+)
+
+// Valid indicates whether the value is a known member of the AccessGrantResourceV2Type enum.
+func (e AccessGrantResourceV2Type) Valid() bool {
+	switch e {
+	case Global:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AccessGroupV2Type.
+const (
+	AccessGroupV2TypeBase   AccessGroupV2Type = "base"
+	AccessGroupV2TypeCustom AccessGroupV2Type = "custom"
+)
+
+// Valid indicates whether the value is a known member of the AccessGroupV2Type enum.
+func (e AccessGroupV2Type) Valid() bool {
+	switch e {
+	case AccessGroupV2TypeBase:
+		return true
+	case AccessGroupV2TypeCustom:
 		return true
 	default:
 		return false
@@ -6662,6 +6746,7 @@ func (e GroupingSettingsV3WindowType) Valid() bool {
 
 // Defines values for IdentityV1Roles.
 const (
+	IdentityV1RolesAccessControlManage                 IdentityV1Roles = "access_control_manage"
 	IdentityV1RolesActOnBehalfOfUsers                  IdentityV1Roles = "act_on_behalf_of_users"
 	IdentityV1RolesApiKeysManage                       IdentityV1Roles = "api_keys_manage"
 	IdentityV1RolesCallTranscriptsViewer               IdentityV1Roles = "call_transcripts_viewer"
@@ -6706,6 +6791,8 @@ const (
 	IdentityV1RolesTelemetryDataSourceUpdate           IdentityV1Roles = "telemetry_data_source_update"
 	IdentityV1RolesTelemetryQueryRestricted            IdentityV1Roles = "telemetry_query_restricted"
 	IdentityV1RolesTelemetryViewer                     IdentityV1Roles = "telemetry_viewer"
+	IdentityV1RolesUserSessionsRevoke                  IdentityV1Roles = "user_sessions_revoke"
+	IdentityV1RolesUsersViewer                         IdentityV1Roles = "users_viewer"
 	IdentityV1RolesViewer                              IdentityV1Roles = "viewer"
 	IdentityV1RolesWorkflowsEditor                     IdentityV1Roles = "workflows_editor"
 	IdentityV1RolesWorkflowsViewer                     IdentityV1Roles = "workflows_viewer"
@@ -6714,6 +6801,8 @@ const (
 // Valid indicates whether the value is a known member of the IdentityV1Roles enum.
 func (e IdentityV1Roles) Valid() bool {
 	switch e {
+	case IdentityV1RolesAccessControlManage:
+		return true
 	case IdentityV1RolesActOnBehalfOfUsers:
 		return true
 	case IdentityV1RolesApiKeysManage:
@@ -6801,6 +6890,10 @@ func (e IdentityV1Roles) Valid() bool {
 	case IdentityV1RolesTelemetryQueryRestricted:
 		return true
 	case IdentityV1RolesTelemetryViewer:
+		return true
+	case IdentityV1RolesUserSessionsRevoke:
+		return true
+	case IdentityV1RolesUsersViewer:
 		return true
 	case IdentityV1RolesViewer:
 		return true
@@ -8099,6 +8192,8 @@ func (e ManagedResourceV2ManagedBy) Valid() bool {
 
 // Defines values for ManagedResourceV2ResourceType.
 const (
+	ManagedResourceV2ResourceTypeAccessGrant            ManagedResourceV2ResourceType = "access_grant"
+	ManagedResourceV2ResourceTypeAccessGroup            ManagedResourceV2ResourceType = "access_group"
 	ManagedResourceV2ResourceTypeAlertRoute             ManagedResourceV2ResourceType = "alert_route"
 	ManagedResourceV2ResourceTypeAlertRule              ManagedResourceV2ResourceType = "alert_rule"
 	ManagedResourceV2ResourceTypeAlertSource            ManagedResourceV2ResourceType = "alert_source"
@@ -8121,6 +8216,10 @@ const (
 // Valid indicates whether the value is a known member of the ManagedResourceV2ResourceType enum.
 func (e ManagedResourceV2ResourceType) Valid() bool {
 	switch e {
+	case ManagedResourceV2ResourceTypeAccessGrant:
+		return true
+	case ManagedResourceV2ResourceTypeAccessGroup:
+		return true
 	case ManagedResourceV2ResourceTypeAlertRoute:
 		return true
 	case ManagedResourceV2ResourceTypeAlertRule:
@@ -8162,6 +8261,8 @@ func (e ManagedResourceV2ResourceType) Valid() bool {
 
 // Defines values for ManagedResourcesCreateManagedResourcePayloadV2ResourceType.
 const (
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAccessGrant            ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "access_grant"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAccessGroup            ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "access_group"
 	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertRoute             ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "alert_route"
 	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertRule              ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "alert_rule"
 	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertSource            ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "alert_source"
@@ -8184,6 +8285,10 @@ const (
 // Valid indicates whether the value is a known member of the ManagedResourcesCreateManagedResourcePayloadV2ResourceType enum.
 func (e ManagedResourcesCreateManagedResourcePayloadV2ResourceType) Valid() bool {
 	switch e {
+	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAccessGrant:
+		return true
+	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAccessGroup:
+		return true
 	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertRoute:
 		return true
 	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertRule:
@@ -11480,7 +11585,7 @@ type APIKeyTeamRoleV1 struct {
 // Example: catalog_editor
 type APIKeyTeamRoleV1Name string
 
-// APIKeyV1 Example: {"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}
+// APIKeyV1 Example: {"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"expires_at":"2022-08-17T13:28:57.801578Z","id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}
 type APIKeyV1 struct {
 	// Comments Freeform notes about this API key
 	//
@@ -11494,6 +11599,11 @@ type APIKeyV1 struct {
 
 	// Creator Example: {"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}}
 	Creator ActorV1 `json:"creator"`
+
+	// ExpiresAt When this API key stops working. If it's not set, the key never expires.
+	//
+	// Example: 2022-08-17T13:28:57.801578Z
+	ExpiresAt *time.Time `json:"expires_at,omitempty"`
 
 	// Id Unique identifier for this API key
 	//
@@ -11531,12 +11641,17 @@ type APIKeyV1 struct {
 	TokenLastIssuedAt time.Time `json:"token_last_issued_at"`
 }
 
-// APIKeysCreatePayloadV1 Example: {"comments":"Requested in https://example.slack.com/archives/C123/p456","name":"My test API key","role_names":["viewer","incident_creator"],"team_ids":["01FCNDV6P870EA6S7TK1DSYDG0"],"team_role_names":["schedules_editor"]}
+// APIKeysCreatePayloadV1 Example: {"comments":"Requested in https://example.slack.com/archives/C123/p456","expires_at":"2022-08-17T13:28:57.801578Z","name":"My test API key","role_names":["viewer","incident_creator"],"team_ids":["01FCNDV6P870EA6S7TK1DSYDG0"],"team_role_names":["schedules_editor"]}
 type APIKeysCreatePayloadV1 struct {
 	// Comments Freeform notes about the API key
 	//
 	// Example: Requested in https://example.slack.com/archives/C123/p456
 	Comments *string `json:"comments,omitempty"`
+
+	// ExpiresAt When the API key stops working. Leave it out for a key that never expires. It must be in the future and within your organization's maximum lifetime for API keys.
+	//
+	// Example: 2022-08-17T13:28:57.801578Z
+	ExpiresAt *time.Time `json:"expires_at,omitempty"`
 
 	// Name Human-readable name for the new API key
 	//
@@ -11565,9 +11680,9 @@ type APIKeysCreatePayloadV1RoleNames string
 // APIKeysCreatePayloadV1TeamRoleNames Example: catalog_editor
 type APIKeysCreatePayloadV1TeamRoleNames string
 
-// APIKeysCreateResultV1 Example: {"api_key":{"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"},"token":"inc_0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"}
+// APIKeysCreateResultV1 Example: {"api_key":{"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"expires_at":"2022-08-17T13:28:57.801578Z","id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"},"token":"inc_0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"}
 type APIKeysCreateResultV1 struct {
-	// ApiKey Example: {"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}
+	// ApiKey Example: {"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"expires_at":"2022-08-17T13:28:57.801578Z","id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}
 	ApiKey APIKeyV1 `json:"api_key"`
 
 	// Token The bearer token to use in API requests. This is the only time the token is returned — store it securely.
@@ -11576,26 +11691,31 @@ type APIKeysCreateResultV1 struct {
 	Token string `json:"token"`
 }
 
-// APIKeysListResultV1 Example: {"api_keys":[{"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}],"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}}
+// APIKeysListResultV1 Example: {"api_keys":[{"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"expires_at":"2022-08-17T13:28:57.801578Z","id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}],"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}}
 type APIKeysListResultV1 struct {
-	// ApiKeys Example: [{"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}]
+	// ApiKeys Example: [{"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"expires_at":"2022-08-17T13:28:57.801578Z","id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}]
 	ApiKeys []APIKeyV1 `json:"api_keys"`
 
 	// PaginationMeta Example: {"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}
 	PaginationMeta PaginationMetaResultV1 `json:"pagination_meta"`
 }
 
-// APIKeysRotatePayloadV1 Example: {"grace_period_minutes":30}
+// APIKeysRotatePayloadV1 Example: {"expires_at":"2022-08-17T13:28:57.801578Z","grace_period_minutes":30}
 type APIKeysRotatePayloadV1 struct {
+	// ExpiresAt A new expiry for the API key. Leave it blank to keep its current expiry. It must be in the future and within your organization's maximum lifetime for API keys.
+	//
+	// Example: 2022-08-17T13:28:57.801578Z
+	ExpiresAt *time.Time `json:"expires_at,omitempty"`
+
 	// GracePeriodMinutes How many minutes to keep the old access token alive.
 	//
 	// Example: 30
 	GracePeriodMinutes int64 `json:"grace_period_minutes"`
 }
 
-// APIKeysRotateResultV1 Example: {"api_key":{"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"},"token":"inc_0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"}
+// APIKeysRotateResultV1 Example: {"api_key":{"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"expires_at":"2022-08-17T13:28:57.801578Z","id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"},"token":"inc_0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"}
 type APIKeysRotateResultV1 struct {
-	// ApiKey Example: {"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}
+	// ApiKey Example: {"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"expires_at":"2022-08-17T13:28:57.801578Z","id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}
 	ApiKey APIKeyV1 `json:"api_key"`
 
 	// Token The new bearer token to use in API requests. This is the only time the token is returned — store it securely.
@@ -11604,9 +11724,9 @@ type APIKeysRotateResultV1 struct {
 	Token string `json:"token"`
 }
 
-// APIKeysShowResultV1 Example: {"api_key":{"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}}
+// APIKeysShowResultV1 Example: {"api_key":{"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"expires_at":"2022-08-17T13:28:57.801578Z","id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}}
 type APIKeysShowResultV1 struct {
-	// ApiKey Example: {"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}
+	// ApiKey Example: {"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"expires_at":"2022-08-17T13:28:57.801578Z","id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}
 	ApiKey APIKeyV1 `json:"api_key"`
 }
 
@@ -11644,18 +11764,23 @@ type APIKeysUpdatePayloadV1RoleNames string
 // APIKeysUpdatePayloadV1TeamRoleNames Example: catalog_editor
 type APIKeysUpdatePayloadV1TeamRoleNames string
 
-// APIKeysUpdateResultV1 Example: {"api_key":{"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}}
+// APIKeysUpdateResultV1 Example: {"api_key":{"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"expires_at":"2022-08-17T13:28:57.801578Z","id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}}
 type APIKeysUpdateResultV1 struct {
-	// ApiKey Example: {"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}
+	// ApiKey Example: {"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"expires_at":"2022-08-17T13:28:57.801578Z","id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}
 	ApiKey APIKeyV1 `json:"api_key"`
 }
 
-// APIKeysValidatePayloadV1 Example: {"comments":"Requested in https://example.slack.com/archives/C123/p456","name":"My test API key","role_names":["viewer","incident_creator"],"team_ids":["01FCNDV6P870EA6S7TK1DSYDG0"],"team_role_names":["schedules_editor"]}
+// APIKeysValidatePayloadV1 Example: {"comments":"Requested in https://example.slack.com/archives/C123/p456","expires_at":"2022-08-17T13:28:57.801578Z","name":"My test API key","role_names":["viewer","incident_creator"],"team_ids":["01FCNDV6P870EA6S7TK1DSYDG0"],"team_role_names":["schedules_editor"]}
 type APIKeysValidatePayloadV1 struct {
 	// Comments Freeform notes about the API key
 	//
 	// Example: Requested in https://example.slack.com/archives/C123/p456
 	Comments *string `json:"comments,omitempty"`
+
+	// ExpiresAt When the API key stops working. Leave it out for a key that never expires. It must be in the future and within your organization's maximum lifetime for API keys.
+	//
+	// Example: 2022-08-17T13:28:57.801578Z
+	ExpiresAt *time.Time `json:"expires_at,omitempty"`
 
 	// Name Human-readable name for the new API key
 	//
@@ -11683,6 +11808,334 @@ type APIKeysValidatePayloadV1RoleNames string
 
 // APIKeysValidatePayloadV1TeamRoleNames Example: catalog_editor
 type APIKeysValidatePayloadV1TeamRoleNames string
+
+// AccessGrantPrincipalV2 Who an access grant gives privileges to.
+//
+// Example: {"id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"access_group"}
+type AccessGrantPrincipalV2 struct {
+	// Id The principal's ID
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	Id string `json:"id"`
+
+	// Type The kind of principal. Only access groups can hold grants today.
+	//
+	// Example: access_group
+	Type AccessGrantPrincipalV2Type `json:"type"`
+}
+
+// AccessGrantPrincipalV2Type The kind of principal. Only access groups can hold grants today.
+//
+// Example: access_group
+type AccessGrantPrincipalV2Type string
+
+// AccessGrantResourceV2 What an access grant's privileges apply to. Only global, the whole account, is
+// supported today. Later types will name one resource, such as a data source, with an id.
+//
+// Example: {"id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"global"}
+type AccessGrantResourceV2 struct {
+	// Id The resource's ID. Leave it out for global, which names no single resource.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	Id *string `json:"id,omitempty"`
+
+	// Type The kind of resource. global means the whole account.
+	//
+	// Example: global
+	Type AccessGrantResourceV2Type `json:"type"`
+}
+
+// AccessGrantResourceV2Type The kind of resource. global means the whole account.
+//
+// Example: global
+type AccessGrantResourceV2Type string
+
+// AccessGrantV2 An access grant gives a principal a list of privileges on a resource. Today the
+// principal is always an access group and the resource is always the whole account
+// ({"type": "global"}), so each access group has at most one grant, and the grant's ID is the same as
+// its group's ID.
+//
+// The privileges are stored and returned exactly as you send them, and order and duplicates
+// don't matter. Old names and deprecated privileges are accepted.
+//
+// Example: {"id":"01FCNDV6P870EA6S7TK1DSYDG0","principal":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"access_group"},"privileges":["custom_fields.manage","incident_config.manage"],"resource":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"global"}}
+type AccessGrantV2 struct {
+	// Id Unique identifier for this access grant. While each group has one global grant, this is the group's ID.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	Id string `json:"id"`
+
+	// Principal Who an access grant gives privileges to.
+	//
+	// Example: {"id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"access_group"}
+	Principal AccessGrantPrincipalV2 `json:"principal"`
+
+	// Privileges Names of the privileges this grant gives, stored and returned as sent. Unknown names return 422.
+	//
+	// Example: ["custom_fields.manage","incident_config.manage"]
+	Privileges []string `json:"privileges"`
+
+	// Resource What an access grant's privileges apply to. Only global, the whole account, is
+	// supported today. Later types will name one resource, such as a data source, with an id.
+	//
+	// Example: {"id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"global"}
+	Resource AccessGrantResourceV2 `json:"resource"`
+}
+
+// AccessGrantsCreatePayloadV2 Example: {"principal":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"access_group"},"privileges":["custom_fields.manage","incident_config.manage"],"resource":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"global"}}
+type AccessGrantsCreatePayloadV2 struct {
+	// Principal Who an access grant gives privileges to.
+	//
+	// Example: {"id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"access_group"}
+	Principal AccessGrantPrincipalV2 `json:"principal"`
+
+	// Privileges Names of the privileges this grant gives, stored and returned as sent. Unknown names return 422.
+	//
+	// Example: ["custom_fields.manage","incident_config.manage"]
+	Privileges []string `json:"privileges"`
+
+	// Resource What an access grant's privileges apply to. Only global, the whole account, is
+	// supported today. Later types will name one resource, such as a data source, with an id.
+	//
+	// Example: {"id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"global"}
+	Resource AccessGrantResourceV2 `json:"resource"`
+}
+
+// AccessGrantsCreateResultV2 Example: {"access_grant":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","principal":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"access_group"},"privileges":["custom_fields.manage","incident_config.manage"],"resource":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"global"}}}
+type AccessGrantsCreateResultV2 struct {
+	// AccessGrant An access grant gives a principal a list of privileges on a resource. Today the
+	// principal is always an access group and the resource is always the whole account
+	// ({"type": "global"}), so each access group has at most one grant, and the grant's ID is the same as
+	// its group's ID.
+	//
+	// The privileges are stored and returned exactly as you send them, and order and duplicates
+	// don't matter. Old names and deprecated privileges are accepted.
+	//
+	// Example: {"id":"01FCNDV6P870EA6S7TK1DSYDG0","principal":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"access_group"},"privileges":["custom_fields.manage","incident_config.manage"],"resource":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"global"}}
+	AccessGrant AccessGrantV2 `json:"access_grant"`
+}
+
+// AccessGrantsListResultV2 Example: {"access_grants":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","principal":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"access_group"},"privileges":["custom_fields.manage","incident_config.manage"],"resource":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"global"}}],"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}}
+type AccessGrantsListResultV2 struct {
+	// AccessGrants Example: [{"id":"01FCNDV6P870EA6S7TK1DSYDG0","principal":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"access_group"},"privileges":["custom_fields.manage","incident_config.manage"],"resource":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"global"}}]
+	AccessGrants []AccessGrantV2 `json:"access_grants"`
+
+	// PaginationMeta Example: {"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}
+	PaginationMeta *PaginationMetaResultV2 `json:"pagination_meta,omitempty"`
+}
+
+// AccessGrantsShowResultV2 Example: {"access_grant":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","principal":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"access_group"},"privileges":["custom_fields.manage","incident_config.manage"],"resource":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"global"}}}
+type AccessGrantsShowResultV2 struct {
+	// AccessGrant An access grant gives a principal a list of privileges on a resource. Today the
+	// principal is always an access group and the resource is always the whole account
+	// ({"type": "global"}), so each access group has at most one grant, and the grant's ID is the same as
+	// its group's ID.
+	//
+	// The privileges are stored and returned exactly as you send them, and order and duplicates
+	// don't matter. Old names and deprecated privileges are accepted.
+	//
+	// Example: {"id":"01FCNDV6P870EA6S7TK1DSYDG0","principal":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"access_group"},"privileges":["custom_fields.manage","incident_config.manage"],"resource":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"global"}}
+	AccessGrant AccessGrantV2 `json:"access_grant"`
+}
+
+// AccessGrantsUpdatePayloadV2 Example: {"privileges":["custom_fields.manage","incident_config.manage"]}
+type AccessGrantsUpdatePayloadV2 struct {
+	// Privileges Names of the privileges this grant gives, stored and returned as sent. Unknown names return 422.
+	//
+	// Example: ["custom_fields.manage","incident_config.manage"]
+	Privileges []string `json:"privileges"`
+}
+
+// AccessGrantsUpdateResultV2 Example: {"access_grant":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","principal":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"access_group"},"privileges":["custom_fields.manage","incident_config.manage"],"resource":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"global"}}}
+type AccessGrantsUpdateResultV2 struct {
+	// AccessGrant An access grant gives a principal a list of privileges on a resource. Today the
+	// principal is always an access group and the resource is always the whole account
+	// ({"type": "global"}), so each access group has at most one grant, and the grant's ID is the same as
+	// its group's ID.
+	//
+	// The privileges are stored and returned exactly as you send them, and order and duplicates
+	// don't matter. Old names and deprecated privileges are accepted.
+	//
+	// Example: {"id":"01FCNDV6P870EA6S7TK1DSYDG0","principal":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"access_group"},"privileges":["custom_fields.manage","incident_config.manage"],"resource":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"global"}}
+	AccessGrant AccessGrantV2 `json:"access_grant"`
+}
+
+// AccessGroupV2 An access group is a named group of users. Access grants give a group its
+// privileges, and every member of the group gets them.
+//
+// Every organisation has base groups (Owner, Admin and Standard), which can be listed and
+// granted privileges but not changed or deleted. Membership is managed in the dashboard or
+// through SCIM, not through this API.
+//
+// Example: {"description":"Engineers who run the platform and its tooling","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Platform team","slug":"platform-team","type":"custom"}
+type AccessGroupV2 struct {
+	// Description Optional description of who belongs in this group
+	//
+	// Example: Engineers who run the platform and its tooling
+	Description *string `json:"description,omitempty"`
+
+	// Id Unique identifier for this access group
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	Id string `json:"id"`
+
+	// Name Human-readable name, unique within the organisation
+	//
+	// Example: Platform team
+	Name string `json:"name"`
+
+	// Slug Stable identifier, unique within the organisation. Base groups use owner, admin and standard. Generated from the name when omitted on create, and cannot be changed later.
+	//
+	// Example: platform-team
+	Slug string `json:"slug"`
+
+	// Type base for the groups every organisation has, which cannot be changed or deleted, or custom for groups you create
+	//
+	// Example: custom
+	Type AccessGroupV2Type `json:"type"`
+}
+
+// AccessGroupV2Type base for the groups every organisation has, which cannot be changed or deleted, or custom for groups you create
+//
+// Example: custom
+type AccessGroupV2Type string
+
+// AccessGroupsCreatePayloadV2 Example: {"description":"Engineers who run the platform and its tooling","name":"Platform team","slug":"platform-team"}
+type AccessGroupsCreatePayloadV2 struct {
+	// Description Optional description of who belongs in this group
+	//
+	// Example: Engineers who run the platform and its tooling
+	Description *string `json:"description,omitempty"`
+
+	// Name Human-readable name, unique within the organisation
+	//
+	// Example: Platform team
+	Name string `json:"name"`
+
+	// Slug Stable identifier, unique within the organisation. Base groups use owner, admin and standard. Generated from the name when omitted on create, and cannot be changed later.
+	//
+	// Example: platform-team
+	Slug *string `json:"slug,omitempty"`
+}
+
+// AccessGroupsCreateResultV2 Example: {"access_group":{"description":"Engineers who run the platform and its tooling","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Platform team","slug":"platform-team","type":"custom"}}
+type AccessGroupsCreateResultV2 struct {
+	// AccessGroup An access group is a named group of users. Access grants give a group its
+	// privileges, and every member of the group gets them.
+	//
+	// Every organisation has base groups (Owner, Admin and Standard), which can be listed and
+	// granted privileges but not changed or deleted. Membership is managed in the dashboard or
+	// through SCIM, not through this API.
+	//
+	// Example: {"description":"Engineers who run the platform and its tooling","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Platform team","slug":"platform-team","type":"custom"}
+	AccessGroup AccessGroupV2 `json:"access_group"`
+}
+
+// AccessGroupsListResultV2 Example: {"access_groups":[{"description":"Engineers who run the platform and its tooling","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Platform team","slug":"platform-team","type":"custom"}],"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}}
+type AccessGroupsListResultV2 struct {
+	// AccessGroups Example: [{"description":"Engineers who run the platform and its tooling","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Platform team","slug":"platform-team","type":"custom"}]
+	AccessGroups []AccessGroupV2 `json:"access_groups"`
+
+	// PaginationMeta Example: {"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}
+	PaginationMeta *PaginationMetaResultV2 `json:"pagination_meta,omitempty"`
+}
+
+// AccessGroupsShowResultV2 Example: {"access_group":{"description":"Engineers who run the platform and its tooling","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Platform team","slug":"platform-team","type":"custom"}}
+type AccessGroupsShowResultV2 struct {
+	// AccessGroup An access group is a named group of users. Access grants give a group its
+	// privileges, and every member of the group gets them.
+	//
+	// Every organisation has base groups (Owner, Admin and Standard), which can be listed and
+	// granted privileges but not changed or deleted. Membership is managed in the dashboard or
+	// through SCIM, not through this API.
+	//
+	// Example: {"description":"Engineers who run the platform and its tooling","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Platform team","slug":"platform-team","type":"custom"}
+	AccessGroup AccessGroupV2 `json:"access_group"`
+}
+
+// AccessGroupsUpdatePayloadV2 Example: {"description":"Engineers who run the platform and its tooling","name":"Platform team"}
+type AccessGroupsUpdatePayloadV2 struct {
+	// Description Optional description of who belongs in this group
+	//
+	// Example: Engineers who run the platform and its tooling
+	Description *string `json:"description,omitempty"`
+
+	// Name Human-readable name, unique within the organisation
+	//
+	// Example: Platform team
+	Name string `json:"name"`
+}
+
+// AccessGroupsUpdateResultV2 Example: {"access_group":{"description":"Engineers who run the platform and its tooling","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Platform team","slug":"platform-team","type":"custom"}}
+type AccessGroupsUpdateResultV2 struct {
+	// AccessGroup An access group is a named group of users. Access grants give a group its
+	// privileges, and every member of the group gets them.
+	//
+	// Every organisation has base groups (Owner, Admin and Standard), which can be listed and
+	// granted privileges but not changed or deleted. Membership is managed in the dashboard or
+	// through SCIM, not through this API.
+	//
+	// Example: {"description":"Engineers who run the platform and its tooling","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Platform team","slug":"platform-team","type":"custom"}
+	AccessGroup AccessGroupV2 `json:"access_group"`
+}
+
+// AccessPrivilegeV2 A privilege is a named set of permissions that access can grant.
+//
+// A privilege with children grants every privilege in its children. Additional child privileges may be added for new features.
+//
+// Example: {"aliases":[],"children":["custom_fields.manage","incident_config.manage","integrations.manage"],"deprecated":false,"description":"Every settings area, including areas added later.","grants_nothing":false,"label":"Manage all settings","name":"organisation_settings.manage","parents":[],"replaced_by":[]}
+type AccessPrivilegeV2 struct {
+	// Aliases Earlier names of this privilege. Granting an alias grants this privilege.
+	//
+	// Example: []
+	Aliases []string `json:"aliases"`
+
+	// Children Names of the privileges this privilege grants as well as its own
+	//
+	// Example: ["custom_fields.manage","incident_config.manage","integrations.manage"]
+	Children []string `json:"children"`
+
+	// Deprecated Whether new grants should use another privilege instead. A deprecated privilege still works.
+	//
+	// Example: false
+	Deprecated bool `json:"deprecated"`
+
+	// Description What the privilege allows, where the label needs more context
+	//
+	// Example: Every settings area, including areas added later.
+	Description *string `json:"description,omitempty"`
+
+	// GrantsNothing Whether the privilege is retired: it grants no permissions and has no children. A grant that holds it gives no access.
+	//
+	// Example: false
+	GrantsNothing bool `json:"grants_nothing"`
+
+	// Label Human readable label of the privilege
+	//
+	// Example: Manage all settings
+	Label string `json:"label"`
+
+	// Name Unique name of the privilege. Use this name to grant it.
+	//
+	// Example: organisation_settings.manage
+	Name string `json:"name"`
+
+	// Parents Names of the privileges whose children include this privilege
+	//
+	// Example: []
+	Parents []string `json:"parents"`
+
+	// ReplacedBy Names of the privileges to use instead of a deprecated one
+	//
+	// Example: []
+	ReplacedBy []string `json:"replaced_by"`
+}
+
+// AccessPrivilegesListResultV2 Example: {"access_privileges":[{"aliases":[],"children":["custom_fields.manage","incident_config.manage","integrations.manage"],"deprecated":false,"description":"Every settings area, including areas added later.","grants_nothing":false,"label":"Manage all settings","name":"organisation_settings.manage","parents":[],"replaced_by":[]}]}
+type AccessPrivilegesListResultV2 struct {
+	// AccessPrivileges Example: [{"aliases":[],"children":["custom_fields.manage","incident_config.manage","integrations.manage"],"deprecated":false,"description":"Every settings area, including areas added later.","grants_nothing":false,"label":"Manage all settings","name":"organisation_settings.manage","parents":[],"replaced_by":[]}]
+	AccessPrivileges []AccessPrivilegeV2 `json:"access_privileges"`
+}
 
 // ActionV1 Example: {"assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"},"completed_at":"2021-08-17T13:28:57.801578Z","created_at":"2021-08-17T13:28:57.801578Z","description":"Call the fire brigade","external_issue_reference":{"issue_name":"INC-123","issue_permalink":"https://linear.app/incident-io/issue/INC-1609/find-copywriter-to-write-up","provider":"asana"},"follow_up":true,"id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0","status":"outstanding","updated_at":"2021-08-17T13:28:57.801578Z"}
 type ActionV1 struct {
@@ -25863,7 +26316,7 @@ type MaintenanceWindowsUpdateResultV1 struct {
 	MaintenanceWindow MaintenanceWindowV1 `json:"maintenance_window"`
 }
 
-// ManagedResourceV2 Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"terraform","resource_id":"abc123","resource_type":"alert_route","source_url":"https://github.com/my-company/infrastructure"}
+// ManagedResourceV2 Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"terraform","resource_id":"abc123","resource_type":"access_grant","source_url":"https://github.com/my-company/infrastructure"}
 type ManagedResourceV2 struct {
 	// Annotations Annotations that track metadata about this resource
 	//
@@ -25880,7 +26333,7 @@ type ManagedResourceV2 struct {
 	// Example: abc123
 	ResourceId string `json:"resource_id"`
 
-	// ResourceType Example: alert_route
+	// ResourceType Example: access_grant
 	ResourceType ManagedResourceV2ResourceType `json:"resource_type"`
 
 	// SourceUrl The url of the external repository where this resource is managed (if there is one)
@@ -25894,10 +26347,10 @@ type ManagedResourceV2 struct {
 // Example: terraform
 type ManagedResourceV2ManagedBy string
 
-// ManagedResourceV2ResourceType Example: alert_route
+// ManagedResourceV2ResourceType Example: access_grant
 type ManagedResourceV2ResourceType string
 
-// ManagedResourcesCreateManagedResourcePayloadV2 Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"resource_id":"abc123","resource_type":"alert_route"}
+// ManagedResourcesCreateManagedResourcePayloadV2 Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"resource_id":"abc123","resource_type":"access_grant"}
 type ManagedResourcesCreateManagedResourcePayloadV2 struct {
 	// Annotations Annotations that track metadata about this resource
 	//
@@ -25911,18 +26364,18 @@ type ManagedResourcesCreateManagedResourcePayloadV2 struct {
 
 	// ResourceType The type of the related resource
 	//
-	// Example: alert_route
+	// Example: access_grant
 	ResourceType ManagedResourcesCreateManagedResourcePayloadV2ResourceType `json:"resource_type"`
 }
 
 // ManagedResourcesCreateManagedResourcePayloadV2ResourceType The type of the related resource
 //
-// Example: alert_route
+// Example: access_grant
 type ManagedResourcesCreateManagedResourcePayloadV2ResourceType string
 
-// ManagedResourcesCreateManagedResourceResultV2 Example: {"managed_resource":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"terraform","resource_id":"abc123","resource_type":"alert_route","source_url":"https://github.com/my-company/infrastructure"}}
+// ManagedResourcesCreateManagedResourceResultV2 Example: {"managed_resource":{"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"terraform","resource_id":"abc123","resource_type":"access_grant","source_url":"https://github.com/my-company/infrastructure"}}
 type ManagedResourcesCreateManagedResourceResultV2 struct {
-	// ManagedResource Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"terraform","resource_id":"abc123","resource_type":"alert_route","source_url":"https://github.com/my-company/infrastructure"}
+	// ManagedResource Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"managed_by":"terraform","resource_id":"abc123","resource_type":"access_grant","source_url":"https://github.com/my-company/infrastructure"}
 	ManagedResource ManagedResourceV2 `json:"managed_resource"`
 }
 
@@ -33506,6 +33959,36 @@ type PostmortemDocumentsV1ListParams struct {
 // PostmortemDocumentsV1ListParamsSortBy defines parameters for PostmortemDocumentsV1List.
 type PostmortemDocumentsV1ListParamsSortBy string
 
+// AccessGrantsV2ListParams defines parameters for AccessGrantsV2List.
+type AccessGrantsV2ListParams struct {
+	// PageSize Integer number of records to return
+	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// After An access grant's ID. This endpoint will return a list of access grants after this ID in relation to the API response order.
+	After *string `form:"after,omitempty" json:"after,omitempty"`
+
+	// PrincipalId Only return grants for this principal, such as an access group's ID
+	PrincipalId *string `form:"principal_id,omitempty" json:"principal_id,omitempty"`
+}
+
+// AccessGroupsV2ListParams defines parameters for AccessGroupsV2List.
+type AccessGroupsV2ListParams struct {
+	// PageSize Integer number of records to return
+	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// After An access group's ID. This endpoint will return a list of access groups after this ID in relation to the API response order.
+	After *string `form:"after,omitempty" json:"after,omitempty"`
+
+	// Slug Only return the access group with this slug, such as admin
+	Slug *string `form:"slug,omitempty" json:"slug,omitempty"`
+}
+
+// AccessPrivilegesV2ListParams defines parameters for AccessPrivilegesV2List.
+type AccessPrivilegesV2ListParams struct {
+	// IncludeDeprecated Whether to include deprecated privileges
+	IncludeDeprecated *bool `form:"include_deprecated,omitempty" json:"include_deprecated,omitempty"`
+}
+
 // ActionsV2ListParams defines parameters for ActionsV2List.
 type ActionsV2ListParams struct {
 	// IncidentId Find actions related to this incident
@@ -34387,6 +34870,18 @@ type SeveritiesV1CreateJSONRequestBody = SeveritiesCreatePayloadV1
 
 // SeveritiesV1UpdateJSONRequestBody defines body for SeveritiesV1Update for application/json ContentType.
 type SeveritiesV1UpdateJSONRequestBody = SeveritiesUpdatePayloadV1
+
+// AccessGrantsV2CreateJSONRequestBody defines body for AccessGrantsV2Create for application/json ContentType.
+type AccessGrantsV2CreateJSONRequestBody = AccessGrantsCreatePayloadV2
+
+// AccessGrantsV2UpdateJSONRequestBody defines body for AccessGrantsV2Update for application/json ContentType.
+type AccessGrantsV2UpdateJSONRequestBody = AccessGrantsUpdatePayloadV2
+
+// AccessGroupsV2CreateJSONRequestBody defines body for AccessGroupsV2Create for application/json ContentType.
+type AccessGroupsV2CreateJSONRequestBody = AccessGroupsCreatePayloadV2
+
+// AccessGroupsV2UpdateJSONRequestBody defines body for AccessGroupsV2Update for application/json ContentType.
+type AccessGroupsV2UpdateJSONRequestBody = AccessGroupsUpdatePayloadV2
 
 // ActionsV2CreateJSONRequestBody defines body for ActionsV2Create for application/json ContentType.
 //
@@ -35889,6 +36384,135 @@ type ClientInterface interface {
 	//
 	// Corresponds with GET /v1/status-pages/{id}/incidents/{incident_id}/response-incidents (the `StatusPagesV1ListResponseIncidents` operationId).
 	StatusPagesV1ListResponseIncidents(ctx context.Context, id string, incidentId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AccessGrantsV2List List Access Grants V2
+	//
+	// List the access grants in this organisation.
+	//
+	// Corresponds with GET /v2/access_grants (the `AccessGrantsV2List` operationId).
+	AccessGrantsV2List(ctx context.Context, params *AccessGrantsV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AccessGrantsV2CreateWithBody Create Access Grants V2
+	//
+	// Create an access group's global grant. The grant's ID is the group's ID.
+	//
+	// A group has at most one global grant, and every base group (Admin, Standard) has one from
+	// the start. If the group already has a grant, this replaces its privileges with the ones you
+	// send and returns it, so a new configuration can take over an existing grant.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v2/access_grants (the `AccessGrantsV2Create` operationId).
+	AccessGrantsV2CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AccessGrantsV2Create Create Access Grants V2
+	//
+	// Create an access group's global grant. The grant's ID is the group's ID.
+	//
+	// A group has at most one global grant, and every base group (Admin, Standard) has one from
+	// the start. If the group already has a grant, this replaces its privileges with the ones you
+	// send and returns it, so a new configuration can take over an existing grant.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v2/access_grants (the `AccessGrantsV2Create` operationId).
+	AccessGrantsV2Create(ctx context.Context, body AccessGrantsV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AccessGrantsV2Destroy Destroy Access Grants V2
+	//
+	// Delete a custom group's access grant, taking all its privileges away from the group's members. Base groups' grants (Owner, Admin and Standard) cannot be deleted: update them instead.
+	//
+	// Corresponds with DELETE /v2/access_grants/{id} (the `AccessGrantsV2Destroy` operationId).
+	AccessGrantsV2Destroy(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AccessGrantsV2Show Show Access Grants V2
+	//
+	// Show a single access grant.
+	//
+	// Corresponds with GET /v2/access_grants/{id} (the `AccessGrantsV2Show` operationId).
+	AccessGrantsV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AccessGrantsV2UpdateWithBody Update Access Grants V2
+	//
+	// Replace an access grant's privileges. The Owner group's grant cannot be changed.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PUT /v2/access_grants/{id} (the `AccessGrantsV2Update` operationId).
+	AccessGrantsV2UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AccessGrantsV2Update Update Access Grants V2
+	//
+	// Replace an access grant's privileges. The Owner group's grant cannot be changed.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PUT /v2/access_grants/{id} (the `AccessGrantsV2Update` operationId).
+	AccessGrantsV2Update(ctx context.Context, id string, body AccessGrantsV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AccessGroupsV2List List Access Groups V2
+	//
+	// List the access groups in this organisation, including the base groups.
+	//
+	// Corresponds with GET /v2/access_groups (the `AccessGroupsV2List` operationId).
+	AccessGroupsV2List(ctx context.Context, params *AccessGroupsV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AccessGroupsV2CreateWithBody Create Access Groups V2
+	//
+	// Create an access group. It has no privileges until you create an access grant for it.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v2/access_groups (the `AccessGroupsV2Create` operationId).
+	AccessGroupsV2CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AccessGroupsV2Create Create Access Groups V2
+	//
+	// Create an access group. It has no privileges until you create an access grant for it.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v2/access_groups (the `AccessGroupsV2Create` operationId).
+	AccessGroupsV2Create(ctx context.Context, body AccessGroupsV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AccessGroupsV2Destroy Destroy Access Groups V2
+	//
+	// Delete an access group. Its members lose the privileges its access grants gave them. Base groups cannot be deleted.
+	//
+	// Corresponds with DELETE /v2/access_groups/{id} (the `AccessGroupsV2Destroy` operationId).
+	AccessGroupsV2Destroy(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AccessGroupsV2Show Show Access Groups V2
+	//
+	// Show a single access group.
+	//
+	// Corresponds with GET /v2/access_groups/{id} (the `AccessGroupsV2Show` operationId).
+	AccessGroupsV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AccessGroupsV2UpdateWithBody Update Access Groups V2
+	//
+	// Replace an access group's name and description. This is a full replacement: omitting description clears it. Base groups cannot be updated.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PUT /v2/access_groups/{id} (the `AccessGroupsV2Update` operationId).
+	AccessGroupsV2UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AccessGroupsV2Update Update Access Groups V2
+	//
+	// Replace an access group's name and description. This is a full replacement: omitting description clears it. Base groups cannot be updated.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PUT /v2/access_groups/{id} (the `AccessGroupsV2Update` operationId).
+	AccessGroupsV2Update(ctx context.Context, id string, body AccessGroupsV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AccessPrivilegesV2List List Access Privileges V2
+	//
+	// List the privileges that access can grant. Deprecated privileges are left out unless include_deprecated is true.
+	//
+	// Corresponds with GET /v2/access_privileges (the `AccessPrivilegesV2List` operationId).
+	AccessPrivilegesV2List(ctx context.Context, params *AccessPrivilegesV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// ActionsV2List List Actions V2
 	//
@@ -39827,6 +40451,19 @@ type ClientInterface interface {
 	// Corresponds with GET /v2/users/{id} (the `UsersV2Show` operationId).
 	UsersV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// UsersV2RevokeSessions RevokeSessions Users V2
+	//
+	// Sign a user out of everywhere they're logged in: dashboard, plus any mobile app, desktop app, or MCP clients they've connected to via OAuth.
+	//
+	// This doesn't deactivate the user. They will be able to log back into those accounts, and it won't revoke any personal API keys they've created.
+	//
+	// This is useful in the case of a compromised device or as part of urgent user deactivation.
+	//
+	// Note that when a user is deactivated, all of this happens automatically without you having to take an explicit action.
+	//
+	// Corresponds with POST /v2/users/{id}/actions/revoke_sessions (the `UsersV2RevokeSessions` operationId).
+	UsersV2RevokeSessions(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// UsersV2ListNotificationMethods ListNotificationMethods Users V2
 	//
 	// List notification methods for a user. Phone numbers are partially redacted unless the API key holds the unredacted_notification_methods.view scope.
@@ -43142,6 +43779,285 @@ func (c *Client) SeveritiesV1Update(ctx context.Context, id string, body Severit
 // Corresponds with GET /v1/status-pages/{id}/incidents/{incident_id}/response-incidents (the `StatusPagesV1ListResponseIncidents` operationId).
 func (c *Client) StatusPagesV1ListResponseIncidents(ctx context.Context, id string, incidentId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewStatusPagesV1ListResponseIncidentsRequest(c.Server, id, incidentId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AccessGrantsV2List List Access Grants V2
+//
+// List the access grants in this organisation.
+//
+// Corresponds with GET /v2/access_grants (the `AccessGrantsV2List` operationId).
+func (c *Client) AccessGrantsV2List(ctx context.Context, params *AccessGrantsV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAccessGrantsV2ListRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AccessGrantsV2CreateWithBody Create Access Grants V2
+//
+// Create an access group's global grant. The grant's ID is the group's ID.
+//
+// A group has at most one global grant, and every base group (Admin, Standard) has one from
+// the start. If the group already has a grant, this replaces its privileges with the ones you
+// send and returns it, so a new configuration can take over an existing grant.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v2/access_grants (the `AccessGrantsV2Create` operationId).
+func (c *Client) AccessGrantsV2CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAccessGrantsV2CreateRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AccessGrantsV2Create Create Access Grants V2
+//
+// Create an access group's global grant. The grant's ID is the group's ID.
+//
+// A group has at most one global grant, and every base group (Admin, Standard) has one from
+// the start. If the group already has a grant, this replaces its privileges with the ones you
+// send and returns it, so a new configuration can take over an existing grant.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v2/access_grants (the `AccessGrantsV2Create` operationId).
+func (c *Client) AccessGrantsV2Create(ctx context.Context, body AccessGrantsV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAccessGrantsV2CreateRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AccessGrantsV2Destroy Destroy Access Grants V2
+//
+// Delete a custom group's access grant, taking all its privileges away from the group's members. Base groups' grants (Owner, Admin and Standard) cannot be deleted: update them instead.
+//
+// Corresponds with DELETE /v2/access_grants/{id} (the `AccessGrantsV2Destroy` operationId).
+func (c *Client) AccessGrantsV2Destroy(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAccessGrantsV2DestroyRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AccessGrantsV2Show Show Access Grants V2
+//
+// Show a single access grant.
+//
+// Corresponds with GET /v2/access_grants/{id} (the `AccessGrantsV2Show` operationId).
+func (c *Client) AccessGrantsV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAccessGrantsV2ShowRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AccessGrantsV2UpdateWithBody Update Access Grants V2
+//
+// Replace an access grant's privileges. The Owner group's grant cannot be changed.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PUT /v2/access_grants/{id} (the `AccessGrantsV2Update` operationId).
+func (c *Client) AccessGrantsV2UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAccessGrantsV2UpdateRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AccessGrantsV2Update Update Access Grants V2
+//
+// Replace an access grant's privileges. The Owner group's grant cannot be changed.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PUT /v2/access_grants/{id} (the `AccessGrantsV2Update` operationId).
+func (c *Client) AccessGrantsV2Update(ctx context.Context, id string, body AccessGrantsV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAccessGrantsV2UpdateRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AccessGroupsV2List List Access Groups V2
+//
+// List the access groups in this organisation, including the base groups.
+//
+// Corresponds with GET /v2/access_groups (the `AccessGroupsV2List` operationId).
+func (c *Client) AccessGroupsV2List(ctx context.Context, params *AccessGroupsV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAccessGroupsV2ListRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AccessGroupsV2CreateWithBody Create Access Groups V2
+//
+// Create an access group. It has no privileges until you create an access grant for it.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v2/access_groups (the `AccessGroupsV2Create` operationId).
+func (c *Client) AccessGroupsV2CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAccessGroupsV2CreateRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AccessGroupsV2Create Create Access Groups V2
+//
+// Create an access group. It has no privileges until you create an access grant for it.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v2/access_groups (the `AccessGroupsV2Create` operationId).
+func (c *Client) AccessGroupsV2Create(ctx context.Context, body AccessGroupsV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAccessGroupsV2CreateRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AccessGroupsV2Destroy Destroy Access Groups V2
+//
+// Delete an access group. Its members lose the privileges its access grants gave them. Base groups cannot be deleted.
+//
+// Corresponds with DELETE /v2/access_groups/{id} (the `AccessGroupsV2Destroy` operationId).
+func (c *Client) AccessGroupsV2Destroy(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAccessGroupsV2DestroyRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AccessGroupsV2Show Show Access Groups V2
+//
+// Show a single access group.
+//
+// Corresponds with GET /v2/access_groups/{id} (the `AccessGroupsV2Show` operationId).
+func (c *Client) AccessGroupsV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAccessGroupsV2ShowRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AccessGroupsV2UpdateWithBody Update Access Groups V2
+//
+// Replace an access group's name and description. This is a full replacement: omitting description clears it. Base groups cannot be updated.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PUT /v2/access_groups/{id} (the `AccessGroupsV2Update` operationId).
+func (c *Client) AccessGroupsV2UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAccessGroupsV2UpdateRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AccessGroupsV2Update Update Access Groups V2
+//
+// Replace an access group's name and description. This is a full replacement: omitting description clears it. Base groups cannot be updated.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PUT /v2/access_groups/{id} (the `AccessGroupsV2Update` operationId).
+func (c *Client) AccessGroupsV2Update(ctx context.Context, id string, body AccessGroupsV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAccessGroupsV2UpdateRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AccessPrivilegesV2List List Access Privileges V2
+//
+// List the privileges that access can grant. Deprecated privileges are left out unless include_deprecated is true.
+//
+// Corresponds with GET /v2/access_privileges (the `AccessPrivilegesV2List` operationId).
+func (c *Client) AccessPrivilegesV2List(ctx context.Context, params *AccessPrivilegesV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAccessPrivilegesV2ListRequest(c.Server, params)
 	if err != nil {
 		return nil, err
 	}
@@ -50273,6 +51189,29 @@ func (c *Client) UsersV2Show(ctx context.Context, id string, reqEditors ...Reque
 	return c.Client.Do(req)
 }
 
+// UsersV2RevokeSessions RevokeSessions Users V2
+//
+// Sign a user out of everywhere they're logged in: dashboard, plus any mobile app, desktop app, or MCP clients they've connected to via OAuth.
+//
+// This doesn't deactivate the user. They will be able to log back into those accounts, and it won't revoke any personal API keys they've created.
+//
+// This is useful in the case of a compromised device or as part of urgent user deactivation.
+//
+// Note that when a user is deactivated, all of this happens automatically without you having to take an explicit action.
+//
+// Corresponds with POST /v2/users/{id}/actions/revoke_sessions (the `UsersV2RevokeSessions` operationId).
+func (c *Client) UsersV2RevokeSessions(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUsersV2RevokeSessionsRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 // UsersV2ListNotificationMethods ListNotificationMethods Users V2
 //
 // List notification methods for a user. Phone numbers are partially redacted unless the API key holds the unredacted_notification_methods.view scope.
@@ -55997,6 +56936,526 @@ func NewStatusPagesV1ListResponseIncidentsRequest(server string, id string, inci
 	queryURL, err := serverURL.Parse(operationPath)
 	if err != nil {
 		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewAccessGrantsV2ListRequest constructs an http.Request for the AccessGrantsV2List method
+func NewAccessGrantsV2ListRequest(server string, params *AccessGrantsV2ListParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/access_grants")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.PageSize != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "page_size", *params.PageSize, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: "int64"}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.After != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "after", *params.After, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.PrincipalId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "principal_id", *params.PrincipalId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewAccessGrantsV2CreateRequest calls the generic AccessGrantsV2Create builder with application/json body
+func NewAccessGrantsV2CreateRequest(server string, body AccessGrantsV2CreateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewAccessGrantsV2CreateRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewAccessGrantsV2CreateRequestWithBody constructs an http.Request for the AccessGrantsV2Create method, with any body, and a specified content type
+func NewAccessGrantsV2CreateRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/access_grants")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewAccessGrantsV2DestroyRequest constructs an http.Request for the AccessGrantsV2Destroy method
+func NewAccessGrantsV2DestroyRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/access_grants/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewAccessGrantsV2ShowRequest constructs an http.Request for the AccessGrantsV2Show method
+func NewAccessGrantsV2ShowRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/access_grants/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewAccessGrantsV2UpdateRequest calls the generic AccessGrantsV2Update builder with application/json body
+func NewAccessGrantsV2UpdateRequest(server string, id string, body AccessGrantsV2UpdateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewAccessGrantsV2UpdateRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewAccessGrantsV2UpdateRequestWithBody constructs an http.Request for the AccessGrantsV2Update method, with any body, and a specified content type
+func NewAccessGrantsV2UpdateRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/access_grants/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPut, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewAccessGroupsV2ListRequest constructs an http.Request for the AccessGroupsV2List method
+func NewAccessGroupsV2ListRequest(server string, params *AccessGroupsV2ListParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/access_groups")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.PageSize != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "page_size", *params.PageSize, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: "int64"}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.After != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "after", *params.After, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Slug != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "slug", *params.Slug, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewAccessGroupsV2CreateRequest calls the generic AccessGroupsV2Create builder with application/json body
+func NewAccessGroupsV2CreateRequest(server string, body AccessGroupsV2CreateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewAccessGroupsV2CreateRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewAccessGroupsV2CreateRequestWithBody constructs an http.Request for the AccessGroupsV2Create method, with any body, and a specified content type
+func NewAccessGroupsV2CreateRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/access_groups")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewAccessGroupsV2DestroyRequest constructs an http.Request for the AccessGroupsV2Destroy method
+func NewAccessGroupsV2DestroyRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/access_groups/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewAccessGroupsV2ShowRequest constructs an http.Request for the AccessGroupsV2Show method
+func NewAccessGroupsV2ShowRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/access_groups/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewAccessGroupsV2UpdateRequest calls the generic AccessGroupsV2Update builder with application/json body
+func NewAccessGroupsV2UpdateRequest(server string, id string, body AccessGroupsV2UpdateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewAccessGroupsV2UpdateRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewAccessGroupsV2UpdateRequestWithBody constructs an http.Request for the AccessGroupsV2Update method, with any body, and a specified content type
+func NewAccessGroupsV2UpdateRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/access_groups/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPut, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewAccessPrivilegesV2ListRequest constructs an http.Request for the AccessPrivilegesV2List method
+func NewAccessPrivilegesV2ListRequest(server string, params *AccessPrivilegesV2ListParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/access_privileges")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.IncludeDeprecated != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "include_deprecated", *params.IncludeDeprecated, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "boolean", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
 	}
 
 	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
@@ -66881,6 +68340,40 @@ func NewUsersV2ShowRequest(server string, id string) (*http.Request, error) {
 	return req, nil
 }
 
+// NewUsersV2RevokeSessionsRequest constructs an http.Request for the UsersV2RevokeSessions method
+func NewUsersV2RevokeSessionsRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/users/%s/actions/revoke_sessions", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewUsersV2ListNotificationMethodsRequest constructs an http.Request for the UsersV2ListNotificationMethods method
 func NewUsersV2ListNotificationMethodsRequest(server string, userId string) (*http.Request, error) {
 	var err error
@@ -71989,6 +73482,149 @@ type ClientWithResponsesInterface interface {
 	// Corresponds with GET /v1/status-pages/{id}/incidents/{incident_id}/response-incidents (the `StatusPagesV1ListResponseIncidents` operationId).
 	StatusPagesV1ListResponseIncidentsWithResponse(ctx context.Context, id string, incidentId string, reqEditors ...RequestEditorFn) (*StatusPagesV1ListResponseIncidentsResponse, error)
 
+	// AccessGrantsV2ListWithResponse List Access Grants V2
+	//
+	// List the access grants in this organisation.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v2/access_grants (the `AccessGrantsV2List` operationId).
+	AccessGrantsV2ListWithResponse(ctx context.Context, params *AccessGrantsV2ListParams, reqEditors ...RequestEditorFn) (*AccessGrantsV2ListResponse, error)
+
+	// AccessGrantsV2CreateWithBodyWithResponse Create Access Grants V2
+	//
+	// Create an access group's global grant. The grant's ID is the group's ID.
+	//
+	// A group has at most one global grant, and every base group (Admin, Standard) has one from
+	// the start. If the group already has a grant, this replaces its privileges with the ones you
+	// send and returns it, so a new configuration can take over an existing grant.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/access_grants (the `AccessGrantsV2Create` operationId).
+	AccessGrantsV2CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AccessGrantsV2CreateResponse, error)
+
+	// AccessGrantsV2CreateWithResponse Create Access Grants V2
+	//
+	// Create an access group's global grant. The grant's ID is the group's ID.
+	//
+	// A group has at most one global grant, and every base group (Admin, Standard) has one from
+	// the start. If the group already has a grant, this replaces its privileges with the ones you
+	// send and returns it, so a new configuration can take over an existing grant.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/access_grants (the `AccessGrantsV2Create` operationId).
+	AccessGrantsV2CreateWithResponse(ctx context.Context, body AccessGrantsV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*AccessGrantsV2CreateResponse, error)
+
+	// AccessGrantsV2DestroyWithResponse Destroy Access Grants V2
+	//
+	// Delete a custom group's access grant, taking all its privileges away from the group's members. Base groups' grants (Owner, Admin and Standard) cannot be deleted: update them instead.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v2/access_grants/{id} (the `AccessGrantsV2Destroy` operationId).
+	AccessGrantsV2DestroyWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AccessGrantsV2DestroyResponse, error)
+
+	// AccessGrantsV2ShowWithResponse Show Access Grants V2
+	//
+	// Show a single access grant.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v2/access_grants/{id} (the `AccessGrantsV2Show` operationId).
+	AccessGrantsV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AccessGrantsV2ShowResponse, error)
+
+	// AccessGrantsV2UpdateWithBodyWithResponse Update Access Grants V2
+	//
+	// Replace an access grant's privileges. The Owner group's grant cannot be changed.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v2/access_grants/{id} (the `AccessGrantsV2Update` operationId).
+	AccessGrantsV2UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AccessGrantsV2UpdateResponse, error)
+
+	// AccessGrantsV2UpdateWithResponse Update Access Grants V2
+	//
+	// Replace an access grant's privileges. The Owner group's grant cannot be changed.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v2/access_grants/{id} (the `AccessGrantsV2Update` operationId).
+	AccessGrantsV2UpdateWithResponse(ctx context.Context, id string, body AccessGrantsV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*AccessGrantsV2UpdateResponse, error)
+
+	// AccessGroupsV2ListWithResponse List Access Groups V2
+	//
+	// List the access groups in this organisation, including the base groups.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v2/access_groups (the `AccessGroupsV2List` operationId).
+	AccessGroupsV2ListWithResponse(ctx context.Context, params *AccessGroupsV2ListParams, reqEditors ...RequestEditorFn) (*AccessGroupsV2ListResponse, error)
+
+	// AccessGroupsV2CreateWithBodyWithResponse Create Access Groups V2
+	//
+	// Create an access group. It has no privileges until you create an access grant for it.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/access_groups (the `AccessGroupsV2Create` operationId).
+	AccessGroupsV2CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AccessGroupsV2CreateResponse, error)
+
+	// AccessGroupsV2CreateWithResponse Create Access Groups V2
+	//
+	// Create an access group. It has no privileges until you create an access grant for it.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/access_groups (the `AccessGroupsV2Create` operationId).
+	AccessGroupsV2CreateWithResponse(ctx context.Context, body AccessGroupsV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*AccessGroupsV2CreateResponse, error)
+
+	// AccessGroupsV2DestroyWithResponse Destroy Access Groups V2
+	//
+	// Delete an access group. Its members lose the privileges its access grants gave them. Base groups cannot be deleted.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v2/access_groups/{id} (the `AccessGroupsV2Destroy` operationId).
+	AccessGroupsV2DestroyWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AccessGroupsV2DestroyResponse, error)
+
+	// AccessGroupsV2ShowWithResponse Show Access Groups V2
+	//
+	// Show a single access group.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v2/access_groups/{id} (the `AccessGroupsV2Show` operationId).
+	AccessGroupsV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AccessGroupsV2ShowResponse, error)
+
+	// AccessGroupsV2UpdateWithBodyWithResponse Update Access Groups V2
+	//
+	// Replace an access group's name and description. This is a full replacement: omitting description clears it. Base groups cannot be updated.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v2/access_groups/{id} (the `AccessGroupsV2Update` operationId).
+	AccessGroupsV2UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AccessGroupsV2UpdateResponse, error)
+
+	// AccessGroupsV2UpdateWithResponse Update Access Groups V2
+	//
+	// Replace an access group's name and description. This is a full replacement: omitting description clears it. Base groups cannot be updated.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v2/access_groups/{id} (the `AccessGroupsV2Update` operationId).
+	AccessGroupsV2UpdateWithResponse(ctx context.Context, id string, body AccessGroupsV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*AccessGroupsV2UpdateResponse, error)
+
+	// AccessPrivilegesV2ListWithResponse List Access Privileges V2
+	//
+	// List the privileges that access can grant. Deprecated privileges are left out unless include_deprecated is true.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v2/access_privileges (the `AccessPrivilegesV2List` operationId).
+	AccessPrivilegesV2ListWithResponse(ctx context.Context, params *AccessPrivilegesV2ListParams, reqEditors ...RequestEditorFn) (*AccessPrivilegesV2ListResponse, error)
+
 	// ActionsV2ListWithResponse List Actions V2
 	//
 	// Deprecated: this endpoint will be removed on 31 December 2026. Use <code>GET /v3/actions</code> instead.
@@ -76185,6 +77821,21 @@ type ClientWithResponsesInterface interface {
 	//
 	// Corresponds with GET /v2/users/{id} (the `UsersV2Show` operationId).
 	UsersV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*UsersV2ShowResponse, error)
+
+	// UsersV2RevokeSessionsWithResponse RevokeSessions Users V2
+	//
+	// Sign a user out of everywhere they're logged in: dashboard, plus any mobile app, desktop app, or MCP clients they've connected to via OAuth.
+	//
+	// This doesn't deactivate the user. They will be able to log back into those accounts, and it won't revoke any personal API keys they've created.
+	//
+	// This is useful in the case of a compromised device or as part of urgent user deactivation.
+	//
+	// Note that when a user is deactivated, all of this happens automatically without you having to take an explicit action.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/users/{id}/actions/revoke_sessions (the `UsersV2RevokeSessions` operationId).
+	UsersV2RevokeSessionsWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*UsersV2RevokeSessionsResponse, error)
 
 	// UsersV2ListNotificationMethodsWithResponse ListNotificationMethods Users V2
 	//
@@ -87364,6 +89015,1444 @@ func (r StatusPagesV1ListResponseIncidentsResponse) StatusCode() int {
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
 func (r StatusPagesV1ListResponseIncidentsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type AccessGrantsV2ListResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *AccessGrantsListResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r AccessGrantsV2ListResponse) GetJSON200() *AccessGrantsListResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r AccessGrantsV2ListResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r AccessGrantsV2ListResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r AccessGrantsV2ListResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r AccessGrantsV2ListResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r AccessGrantsV2ListResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r AccessGrantsV2ListResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r AccessGrantsV2ListResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r AccessGrantsV2ListResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r AccessGrantsV2ListResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r AccessGrantsV2ListResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r AccessGrantsV2ListResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r AccessGrantsV2ListResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r AccessGrantsV2ListResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r AccessGrantsV2ListResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r AccessGrantsV2ListResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AccessGrantsV2ListResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r AccessGrantsV2ListResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type AccessGrantsV2CreateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *AccessGrantsCreateResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r AccessGrantsV2CreateResponse) GetJSON200() *AccessGrantsCreateResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r AccessGrantsV2CreateResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r AccessGrantsV2CreateResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r AccessGrantsV2CreateResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r AccessGrantsV2CreateResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r AccessGrantsV2CreateResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r AccessGrantsV2CreateResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r AccessGrantsV2CreateResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r AccessGrantsV2CreateResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r AccessGrantsV2CreateResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r AccessGrantsV2CreateResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r AccessGrantsV2CreateResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r AccessGrantsV2CreateResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r AccessGrantsV2CreateResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r AccessGrantsV2CreateResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r AccessGrantsV2CreateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AccessGrantsV2CreateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r AccessGrantsV2CreateResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type AccessGrantsV2DestroyResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r AccessGrantsV2DestroyResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r AccessGrantsV2DestroyResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r AccessGrantsV2DestroyResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r AccessGrantsV2DestroyResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r AccessGrantsV2DestroyResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r AccessGrantsV2DestroyResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r AccessGrantsV2DestroyResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r AccessGrantsV2DestroyResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r AccessGrantsV2DestroyResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r AccessGrantsV2DestroyResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r AccessGrantsV2DestroyResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r AccessGrantsV2DestroyResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r AccessGrantsV2DestroyResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r AccessGrantsV2DestroyResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r AccessGrantsV2DestroyResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AccessGrantsV2DestroyResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r AccessGrantsV2DestroyResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type AccessGrantsV2ShowResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *AccessGrantsShowResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r AccessGrantsV2ShowResponse) GetJSON200() *AccessGrantsShowResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r AccessGrantsV2ShowResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r AccessGrantsV2ShowResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r AccessGrantsV2ShowResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r AccessGrantsV2ShowResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r AccessGrantsV2ShowResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r AccessGrantsV2ShowResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r AccessGrantsV2ShowResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r AccessGrantsV2ShowResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r AccessGrantsV2ShowResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r AccessGrantsV2ShowResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r AccessGrantsV2ShowResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r AccessGrantsV2ShowResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r AccessGrantsV2ShowResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r AccessGrantsV2ShowResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r AccessGrantsV2ShowResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AccessGrantsV2ShowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r AccessGrantsV2ShowResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type AccessGrantsV2UpdateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *AccessGrantsUpdateResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r AccessGrantsV2UpdateResponse) GetJSON200() *AccessGrantsUpdateResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r AccessGrantsV2UpdateResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r AccessGrantsV2UpdateResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r AccessGrantsV2UpdateResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r AccessGrantsV2UpdateResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r AccessGrantsV2UpdateResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r AccessGrantsV2UpdateResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r AccessGrantsV2UpdateResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r AccessGrantsV2UpdateResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r AccessGrantsV2UpdateResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r AccessGrantsV2UpdateResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r AccessGrantsV2UpdateResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r AccessGrantsV2UpdateResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r AccessGrantsV2UpdateResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r AccessGrantsV2UpdateResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r AccessGrantsV2UpdateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AccessGrantsV2UpdateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r AccessGrantsV2UpdateResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type AccessGroupsV2ListResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *AccessGroupsListResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r AccessGroupsV2ListResponse) GetJSON200() *AccessGroupsListResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r AccessGroupsV2ListResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r AccessGroupsV2ListResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r AccessGroupsV2ListResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r AccessGroupsV2ListResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r AccessGroupsV2ListResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r AccessGroupsV2ListResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r AccessGroupsV2ListResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r AccessGroupsV2ListResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r AccessGroupsV2ListResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r AccessGroupsV2ListResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r AccessGroupsV2ListResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r AccessGroupsV2ListResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r AccessGroupsV2ListResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r AccessGroupsV2ListResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r AccessGroupsV2ListResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AccessGroupsV2ListResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r AccessGroupsV2ListResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type AccessGroupsV2CreateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON201 the response for an HTTP 201 `application/json` response
+	JSON201 *AccessGroupsCreateResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON201 returns the response for an HTTP 201 `application/json` response
+func (r AccessGroupsV2CreateResponse) GetJSON201() *AccessGroupsCreateResultV2 {
+	return r.JSON201
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r AccessGroupsV2CreateResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r AccessGroupsV2CreateResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r AccessGroupsV2CreateResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r AccessGroupsV2CreateResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r AccessGroupsV2CreateResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r AccessGroupsV2CreateResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r AccessGroupsV2CreateResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r AccessGroupsV2CreateResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r AccessGroupsV2CreateResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r AccessGroupsV2CreateResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r AccessGroupsV2CreateResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r AccessGroupsV2CreateResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r AccessGroupsV2CreateResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r AccessGroupsV2CreateResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r AccessGroupsV2CreateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AccessGroupsV2CreateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r AccessGroupsV2CreateResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type AccessGroupsV2DestroyResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r AccessGroupsV2DestroyResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r AccessGroupsV2DestroyResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r AccessGroupsV2DestroyResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r AccessGroupsV2DestroyResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r AccessGroupsV2DestroyResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r AccessGroupsV2DestroyResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r AccessGroupsV2DestroyResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r AccessGroupsV2DestroyResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r AccessGroupsV2DestroyResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r AccessGroupsV2DestroyResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r AccessGroupsV2DestroyResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r AccessGroupsV2DestroyResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r AccessGroupsV2DestroyResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r AccessGroupsV2DestroyResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r AccessGroupsV2DestroyResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AccessGroupsV2DestroyResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r AccessGroupsV2DestroyResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type AccessGroupsV2ShowResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *AccessGroupsShowResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r AccessGroupsV2ShowResponse) GetJSON200() *AccessGroupsShowResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r AccessGroupsV2ShowResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r AccessGroupsV2ShowResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r AccessGroupsV2ShowResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r AccessGroupsV2ShowResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r AccessGroupsV2ShowResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r AccessGroupsV2ShowResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r AccessGroupsV2ShowResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r AccessGroupsV2ShowResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r AccessGroupsV2ShowResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r AccessGroupsV2ShowResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r AccessGroupsV2ShowResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r AccessGroupsV2ShowResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r AccessGroupsV2ShowResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r AccessGroupsV2ShowResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r AccessGroupsV2ShowResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AccessGroupsV2ShowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r AccessGroupsV2ShowResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type AccessGroupsV2UpdateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *AccessGroupsUpdateResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r AccessGroupsV2UpdateResponse) GetJSON200() *AccessGroupsUpdateResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r AccessGroupsV2UpdateResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r AccessGroupsV2UpdateResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r AccessGroupsV2UpdateResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r AccessGroupsV2UpdateResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r AccessGroupsV2UpdateResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r AccessGroupsV2UpdateResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r AccessGroupsV2UpdateResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r AccessGroupsV2UpdateResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r AccessGroupsV2UpdateResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r AccessGroupsV2UpdateResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r AccessGroupsV2UpdateResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r AccessGroupsV2UpdateResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r AccessGroupsV2UpdateResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r AccessGroupsV2UpdateResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r AccessGroupsV2UpdateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AccessGroupsV2UpdateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r AccessGroupsV2UpdateResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type AccessPrivilegesV2ListResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *AccessPrivilegesListResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r AccessPrivilegesV2ListResponse) GetJSON200() *AccessPrivilegesListResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r AccessPrivilegesV2ListResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r AccessPrivilegesV2ListResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r AccessPrivilegesV2ListResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r AccessPrivilegesV2ListResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r AccessPrivilegesV2ListResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r AccessPrivilegesV2ListResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r AccessPrivilegesV2ListResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r AccessPrivilegesV2ListResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r AccessPrivilegesV2ListResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r AccessPrivilegesV2ListResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r AccessPrivilegesV2ListResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r AccessPrivilegesV2ListResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r AccessPrivilegesV2ListResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r AccessPrivilegesV2ListResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r AccessPrivilegesV2ListResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AccessPrivilegesV2ListResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r AccessPrivilegesV2ListResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
@@ -116951,6 +120040,131 @@ func (r UsersV2ShowResponse) ContentType() string {
 	return ""
 }
 
+type UsersV2RevokeSessionsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r UsersV2RevokeSessionsResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r UsersV2RevokeSessionsResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r UsersV2RevokeSessionsResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r UsersV2RevokeSessionsResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r UsersV2RevokeSessionsResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r UsersV2RevokeSessionsResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r UsersV2RevokeSessionsResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r UsersV2RevokeSessionsResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r UsersV2RevokeSessionsResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r UsersV2RevokeSessionsResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r UsersV2RevokeSessionsResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r UsersV2RevokeSessionsResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r UsersV2RevokeSessionsResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r UsersV2RevokeSessionsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r UsersV2RevokeSessionsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r UsersV2RevokeSessionsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r UsersV2RevokeSessionsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
 type UsersV2ListNotificationMethodsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -129909,6 +133123,239 @@ func (c *ClientWithResponses) StatusPagesV1ListResponseIncidentsWithResponse(ctx
 	return ParseStatusPagesV1ListResponseIncidentsResponse(rsp)
 }
 
+// AccessGrantsV2ListWithResponse List Access Grants V2
+//
+// List the access grants in this organisation.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v2/access_grants (the `AccessGrantsV2List` operationId).
+func (c *ClientWithResponses) AccessGrantsV2ListWithResponse(ctx context.Context, params *AccessGrantsV2ListParams, reqEditors ...RequestEditorFn) (*AccessGrantsV2ListResponse, error) {
+	rsp, err := c.AccessGrantsV2List(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAccessGrantsV2ListResponse(rsp)
+}
+
+// AccessGrantsV2CreateWithBodyWithResponse Create Access Grants V2
+//
+// Create an access group's global grant. The grant's ID is the group's ID.
+//
+// A group has at most one global grant, and every base group (Admin, Standard) has one from
+// the start. If the group already has a grant, this replaces its privileges with the ones you
+// send and returns it, so a new configuration can take over an existing grant.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/access_grants (the `AccessGrantsV2Create` operationId).
+func (c *ClientWithResponses) AccessGrantsV2CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AccessGrantsV2CreateResponse, error) {
+	rsp, err := c.AccessGrantsV2CreateWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAccessGrantsV2CreateResponse(rsp)
+}
+
+// AccessGrantsV2CreateWithResponse Create Access Grants V2
+//
+// Create an access group's global grant. The grant's ID is the group's ID.
+//
+// A group has at most one global grant, and every base group (Admin, Standard) has one from
+// the start. If the group already has a grant, this replaces its privileges with the ones you
+// send and returns it, so a new configuration can take over an existing grant.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/access_grants (the `AccessGrantsV2Create` operationId).
+func (c *ClientWithResponses) AccessGrantsV2CreateWithResponse(ctx context.Context, body AccessGrantsV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*AccessGrantsV2CreateResponse, error) {
+	rsp, err := c.AccessGrantsV2Create(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAccessGrantsV2CreateResponse(rsp)
+}
+
+// AccessGrantsV2DestroyWithResponse Destroy Access Grants V2
+//
+// Delete a custom group's access grant, taking all its privileges away from the group's members. Base groups' grants (Owner, Admin and Standard) cannot be deleted: update them instead.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v2/access_grants/{id} (the `AccessGrantsV2Destroy` operationId).
+func (c *ClientWithResponses) AccessGrantsV2DestroyWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AccessGrantsV2DestroyResponse, error) {
+	rsp, err := c.AccessGrantsV2Destroy(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAccessGrantsV2DestroyResponse(rsp)
+}
+
+// AccessGrantsV2ShowWithResponse Show Access Grants V2
+//
+// Show a single access grant.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v2/access_grants/{id} (the `AccessGrantsV2Show` operationId).
+func (c *ClientWithResponses) AccessGrantsV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AccessGrantsV2ShowResponse, error) {
+	rsp, err := c.AccessGrantsV2Show(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAccessGrantsV2ShowResponse(rsp)
+}
+
+// AccessGrantsV2UpdateWithBodyWithResponse Update Access Grants V2
+//
+// Replace an access grant's privileges. The Owner group's grant cannot be changed.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v2/access_grants/{id} (the `AccessGrantsV2Update` operationId).
+func (c *ClientWithResponses) AccessGrantsV2UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AccessGrantsV2UpdateResponse, error) {
+	rsp, err := c.AccessGrantsV2UpdateWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAccessGrantsV2UpdateResponse(rsp)
+}
+
+// AccessGrantsV2UpdateWithResponse Update Access Grants V2
+//
+// Replace an access grant's privileges. The Owner group's grant cannot be changed.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v2/access_grants/{id} (the `AccessGrantsV2Update` operationId).
+func (c *ClientWithResponses) AccessGrantsV2UpdateWithResponse(ctx context.Context, id string, body AccessGrantsV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*AccessGrantsV2UpdateResponse, error) {
+	rsp, err := c.AccessGrantsV2Update(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAccessGrantsV2UpdateResponse(rsp)
+}
+
+// AccessGroupsV2ListWithResponse List Access Groups V2
+//
+// List the access groups in this organisation, including the base groups.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v2/access_groups (the `AccessGroupsV2List` operationId).
+func (c *ClientWithResponses) AccessGroupsV2ListWithResponse(ctx context.Context, params *AccessGroupsV2ListParams, reqEditors ...RequestEditorFn) (*AccessGroupsV2ListResponse, error) {
+	rsp, err := c.AccessGroupsV2List(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAccessGroupsV2ListResponse(rsp)
+}
+
+// AccessGroupsV2CreateWithBodyWithResponse Create Access Groups V2
+//
+// Create an access group. It has no privileges until you create an access grant for it.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/access_groups (the `AccessGroupsV2Create` operationId).
+func (c *ClientWithResponses) AccessGroupsV2CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AccessGroupsV2CreateResponse, error) {
+	rsp, err := c.AccessGroupsV2CreateWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAccessGroupsV2CreateResponse(rsp)
+}
+
+// AccessGroupsV2CreateWithResponse Create Access Groups V2
+//
+// Create an access group. It has no privileges until you create an access grant for it.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/access_groups (the `AccessGroupsV2Create` operationId).
+func (c *ClientWithResponses) AccessGroupsV2CreateWithResponse(ctx context.Context, body AccessGroupsV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*AccessGroupsV2CreateResponse, error) {
+	rsp, err := c.AccessGroupsV2Create(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAccessGroupsV2CreateResponse(rsp)
+}
+
+// AccessGroupsV2DestroyWithResponse Destroy Access Groups V2
+//
+// Delete an access group. Its members lose the privileges its access grants gave them. Base groups cannot be deleted.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v2/access_groups/{id} (the `AccessGroupsV2Destroy` operationId).
+func (c *ClientWithResponses) AccessGroupsV2DestroyWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AccessGroupsV2DestroyResponse, error) {
+	rsp, err := c.AccessGroupsV2Destroy(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAccessGroupsV2DestroyResponse(rsp)
+}
+
+// AccessGroupsV2ShowWithResponse Show Access Groups V2
+//
+// Show a single access group.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v2/access_groups/{id} (the `AccessGroupsV2Show` operationId).
+func (c *ClientWithResponses) AccessGroupsV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AccessGroupsV2ShowResponse, error) {
+	rsp, err := c.AccessGroupsV2Show(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAccessGroupsV2ShowResponse(rsp)
+}
+
+// AccessGroupsV2UpdateWithBodyWithResponse Update Access Groups V2
+//
+// Replace an access group's name and description. This is a full replacement: omitting description clears it. Base groups cannot be updated.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v2/access_groups/{id} (the `AccessGroupsV2Update` operationId).
+func (c *ClientWithResponses) AccessGroupsV2UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AccessGroupsV2UpdateResponse, error) {
+	rsp, err := c.AccessGroupsV2UpdateWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAccessGroupsV2UpdateResponse(rsp)
+}
+
+// AccessGroupsV2UpdateWithResponse Update Access Groups V2
+//
+// Replace an access group's name and description. This is a full replacement: omitting description clears it. Base groups cannot be updated.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v2/access_groups/{id} (the `AccessGroupsV2Update` operationId).
+func (c *ClientWithResponses) AccessGroupsV2UpdateWithResponse(ctx context.Context, id string, body AccessGroupsV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*AccessGroupsV2UpdateResponse, error) {
+	rsp, err := c.AccessGroupsV2Update(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAccessGroupsV2UpdateResponse(rsp)
+}
+
+// AccessPrivilegesV2ListWithResponse List Access Privileges V2
+//
+// List the privileges that access can grant. Deprecated privileges are left out unless include_deprecated is true.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v2/access_privileges (the `AccessPrivilegesV2List` operationId).
+func (c *ClientWithResponses) AccessPrivilegesV2ListWithResponse(ctx context.Context, params *AccessPrivilegesV2ListParams, reqEditors ...RequestEditorFn) (*AccessPrivilegesV2ListResponse, error) {
+	rsp, err := c.AccessPrivilegesV2List(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAccessPrivilegesV2ListResponse(rsp)
+}
+
 // ActionsV2ListWithResponse List Actions V2
 //
 // Deprecated: this endpoint will be removed on 31 December 2026. Use <code>GET /v3/actions</code> instead.
@@ -136023,6 +139470,27 @@ func (c *ClientWithResponses) UsersV2ShowWithResponse(ctx context.Context, id st
 		return nil, err
 	}
 	return ParseUsersV2ShowResponse(rsp)
+}
+
+// UsersV2RevokeSessionsWithResponse RevokeSessions Users V2
+//
+// Sign a user out of everywhere they're logged in: dashboard, plus any mobile app, desktop app, or MCP clients they've connected to via OAuth.
+//
+// This doesn't deactivate the user. They will be able to log back into those accounts, and it won't revoke any personal API keys they've created.
+//
+// This is useful in the case of a compromised device or as part of urgent user deactivation.
+//
+// Note that when a user is deactivated, all of this happens automatically without you having to take an explicit action.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/users/{id}/actions/revoke_sessions (the `UsersV2RevokeSessions` operationId).
+func (c *ClientWithResponses) UsersV2RevokeSessionsWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*UsersV2RevokeSessionsResponse, error) {
+	rsp, err := c.UsersV2RevokeSessions(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUsersV2RevokeSessionsResponse(rsp)
 }
 
 // UsersV2ListNotificationMethodsWithResponse ListNotificationMethods Users V2
@@ -146765,6 +150233,1285 @@ func ParseStatusPagesV1ListResponseIncidentsResponse(rsp *http.Response) (*Statu
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest StatusPagesListResponseIncidentsResultV1
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAccessGrantsV2ListResponse parses an HTTP response from a AccessGrantsV2ListWithResponse call
+func ParseAccessGrantsV2ListResponse(rsp *http.Response) (*AccessGrantsV2ListResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AccessGrantsV2ListResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AccessGrantsListResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAccessGrantsV2CreateResponse parses an HTTP response from a AccessGrantsV2CreateWithResponse call
+func ParseAccessGrantsV2CreateResponse(rsp *http.Response) (*AccessGrantsV2CreateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AccessGrantsV2CreateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AccessGrantsCreateResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAccessGrantsV2DestroyResponse parses an HTTP response from a AccessGrantsV2DestroyWithResponse call
+func ParseAccessGrantsV2DestroyResponse(rsp *http.Response) (*AccessGrantsV2DestroyResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AccessGrantsV2DestroyResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case rsp.StatusCode == 204:
+		break // No content-type
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAccessGrantsV2ShowResponse parses an HTTP response from a AccessGrantsV2ShowWithResponse call
+func ParseAccessGrantsV2ShowResponse(rsp *http.Response) (*AccessGrantsV2ShowResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AccessGrantsV2ShowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AccessGrantsShowResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAccessGrantsV2UpdateResponse parses an HTTP response from a AccessGrantsV2UpdateWithResponse call
+func ParseAccessGrantsV2UpdateResponse(rsp *http.Response) (*AccessGrantsV2UpdateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AccessGrantsV2UpdateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AccessGrantsUpdateResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAccessGroupsV2ListResponse parses an HTTP response from a AccessGroupsV2ListWithResponse call
+func ParseAccessGroupsV2ListResponse(rsp *http.Response) (*AccessGroupsV2ListResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AccessGroupsV2ListResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AccessGroupsListResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAccessGroupsV2CreateResponse parses an HTTP response from a AccessGroupsV2CreateWithResponse call
+func ParseAccessGroupsV2CreateResponse(rsp *http.Response) (*AccessGroupsV2CreateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AccessGroupsV2CreateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest AccessGroupsCreateResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAccessGroupsV2DestroyResponse parses an HTTP response from a AccessGroupsV2DestroyWithResponse call
+func ParseAccessGroupsV2DestroyResponse(rsp *http.Response) (*AccessGroupsV2DestroyResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AccessGroupsV2DestroyResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case rsp.StatusCode == 204:
+		break // No content-type
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAccessGroupsV2ShowResponse parses an HTTP response from a AccessGroupsV2ShowWithResponse call
+func ParseAccessGroupsV2ShowResponse(rsp *http.Response) (*AccessGroupsV2ShowResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AccessGroupsV2ShowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AccessGroupsShowResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAccessGroupsV2UpdateResponse parses an HTTP response from a AccessGroupsV2UpdateWithResponse call
+func ParseAccessGroupsV2UpdateResponse(rsp *http.Response) (*AccessGroupsV2UpdateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AccessGroupsV2UpdateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AccessGroupsUpdateResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAccessPrivilegesV2ListResponse parses an HTTP response from a AccessPrivilegesV2ListWithResponse call
+func ParseAccessPrivilegesV2ListResponse(rsp *http.Response) (*AccessPrivilegesV2ListResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AccessPrivilegesV2ListResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AccessPrivilegesListResultV2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -173089,6 +177836,119 @@ func ParseUsersV2ShowResponse(rsp *http.Response) (*UsersV2ShowResponse, error) 
 			return nil, err
 		}
 		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseUsersV2RevokeSessionsResponse parses an HTTP response from a UsersV2RevokeSessionsWithResponse call
+func ParseUsersV2RevokeSessionsResponse(rsp *http.Response) (*UsersV2RevokeSessionsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &UsersV2RevokeSessionsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case rsp.StatusCode == 204:
+		break // No content-type
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
 		var dest ErrorResponse

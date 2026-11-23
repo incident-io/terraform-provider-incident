@@ -362,3 +362,69 @@ func TestAPIKeyModifyPlanChecksAnUpdate(t *testing.T) {
 		t.Errorf("expected the planned roles rather than the stored ones, got %v", sent.RoleNames)
 	}
 }
+
+// TestAPIKeyModifyPlanSendsExpiry covers a new key with an expiry: the check has to see it,
+// or an organisation that requires keys to expire would reject the key only at apply.
+func TestAPIKeyModifyPlanSendsExpiry(t *testing.T) {
+	api := &fakeAPIKeyValidateAPI{}
+	plan := apiKeyPlan(t, map[string]tftypes.Value{
+		"expires_at": tftypes.NewValue(tftypes.String, "2027-01-01T00:00:00Z"),
+	})
+
+	resp := modifyAPIKeyPlan(t, api, plan)
+
+	if resp.Diagnostics.HasError() || resp.Diagnostics.WarningsCount() > 0 {
+		t.Errorf("expected no diagnostics, got %+v", resp.Diagnostics)
+	}
+
+	var sent struct {
+		ExpiresAt *time.Time `json:"expires_at"`
+	}
+	if err := json.Unmarshal(api.received, &sent); err != nil {
+		t.Fatalf("decoding what we sent: %v (%s)", err, api.received)
+	}
+	if sent.ExpiresAt == nil || !sent.ExpiresAt.Equal(time.Date(2027, 1, 1, 0, 0, 0, 0, time.UTC)) {
+		t.Errorf("expected the planned expiry, got %v", sent.ExpiresAt)
+	}
+}
+
+// TestAPIKeyModifyPlanExpiryChangeNeedsRotation covers changing an existing key's expiry.
+// The API only takes a new expiry with a rotation, so a plan that changes it without one
+// would apply as an update that leaves the expiry where it was.
+func TestAPIKeyModifyPlanExpiryChangeNeedsRotation(t *testing.T) {
+	keySchema := apiKeySchema(t)
+	state := apiKeyPlan(t, map[string]tftypes.Value{
+		"expires_at":    tftypes.NewValue(tftypes.String, "2027-01-01T00:00:00Z"),
+		"token_version": tftypes.NewValue(tftypes.Number, 1),
+	})
+
+	cases := []struct {
+		name         string
+		expiresAt    string
+		tokenVersion int64
+		wantError    bool
+	}{
+		{name: "new expiry without a rotation", expiresAt: "2027-06-01T00:00:00Z", tokenVersion: 1, wantError: true},
+		{name: "new expiry with a rotation", expiresAt: "2027-06-01T00:00:00Z", tokenVersion: 2},
+		{name: "same instant in another offset", expiresAt: "2027-01-01T01:00:00+01:00", tokenVersion: 1},
+	}
+
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			api := &fakeAPIKeyValidateAPI{}
+			plan := apiKeyPlan(t, map[string]tftypes.Value{
+				"expires_at":    tftypes.NewValue(tftypes.String, tc.expiresAt),
+				"token_version": tftypes.NewValue(tftypes.Number, tc.tokenVersion),
+			})
+
+			resp := modifyAPIKeyPlanFrom(t, api, plan, tfsdk.State{Schema: keySchema, Raw: state.Raw})
+
+			if resp.Diagnostics.HasError() != tc.wantError {
+				t.Fatalf("expected error=%v, got %+v", tc.wantError, resp.Diagnostics)
+			}
+			if tc.wantError && !strings.Contains(resp.Diagnostics.Errors()[0].Summary(), "expires_at") {
+				t.Errorf("expected the error to name expires_at, got %+v", resp.Diagnostics.Errors()[0])
+			}
+		})
+	}
+}

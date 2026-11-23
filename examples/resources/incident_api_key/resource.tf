@@ -27,6 +27,17 @@ resource "incident_api_key" "rotated_quarterly" {
   rotation_grace_period_minutes = 60
 }
 
+# A key can expire. incident.io only changes a key's expiry when it rotates the key, so
+# moving expires_at on an existing key goes with a change to token_version, which rotates
+# it with the new expiry.
+resource "incident_api_key" "expiring" {
+  name       = "Quarterly audit export"
+  role_names = ["viewer"]
+
+  expires_at    = "2027-03-31T00:00:00Z"
+  token_version = 1
+}
+
 # A key can be scoped to particular teams instead of the whole account. team_ids says
 # which teams, and team_role_names says what the key may do for them, so the two go
 # together: set both, or neither. An account with no account-level roles leaves

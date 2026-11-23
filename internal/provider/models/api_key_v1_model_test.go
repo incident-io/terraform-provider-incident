@@ -4,6 +4,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/samber/lo"
@@ -16,6 +17,7 @@ import (
 // apiKeyFixture is a key as the API returns one, with both kinds of role.
 func apiKeyFixture() client.APIKeyV1 {
 	lastUsedAt := time.Date(2021, 9, 1, 9, 0, 0, 0, time.UTC)
+	expiresAt := time.Date(2022, 8, 17, 13, 28, 57, 0, time.UTC)
 
 	return client.APIKeyV1{
 		Id:       "01FCNDV6P870EA6S7TK1DSYDG0",
@@ -32,6 +34,7 @@ func apiKeyFixture() client.APIKeyV1 {
 		CreatedAt:         time.Date(2021, 8, 17, 13, 28, 57, 0, time.UTC),
 		TokenLastIssuedAt: time.Date(2021, 8, 20, 10, 0, 0, 0, time.UTC),
 		LastUsedAt:        &lastUsedAt,
+		ExpiresAt:         &expiresAt,
 	}
 }
 
@@ -70,6 +73,10 @@ func TestAPIKeyModelFromAPI(t *testing.T) {
 	usedAt, diags := model.LastUsedAt.ValueRFC3339Time()
 	require.False(t, diags.HasError())
 	assert.Equal(t, time.Date(2021, 9, 1, 9, 0, 0, 0, time.UTC), usedAt)
+
+	expiresAt, diags := model.ExpiresAt.ValueRFC3339Time()
+	require.False(t, diags.HasError())
+	assert.Equal(t, time.Date(2022, 8, 17, 13, 28, 57, 0, time.UTC), expiresAt)
 }
 
 // TestAPIKeyModelFromAPIAbsentValues covers a key the API describes as sparsely as it can:
@@ -108,6 +115,9 @@ func TestAPIKeyModelFromAPIAbsentValues(t *testing.T) {
 	// A key nothing has authenticated with has no last_used_at, and null is how that reads.
 	assert.True(t, model.LastUsedAt.IsNull())
 
+	// A key that never expires has no expires_at.
+	assert.True(t, model.ExpiresAt.IsNull())
+
 	// An imported key has no token, and no version to rotate from.
 	assert.True(t, model.Token.IsNull())
 	assert.True(t, model.TokenVersion.IsNull())
@@ -132,6 +142,27 @@ func TestAPIKeyModelToCreatePayload(t *testing.T) {
 	assert.Equal(t, []client.APIKeysCreatePayloadV1RoleNames{"viewer"}, payload.RoleNames)
 	assert.Equal(t, []string{"01G0J1EXE7AXZ2C93K61WBPYEH"}, payload.TeamIds)
 	assert.Equal(t, []client.APIKeysCreatePayloadV1TeamRoleNames{"schedules_editor"}, payload.TeamRoleNames)
+	assert.Nil(t, payload.ExpiresAt, "a key with no expiry never expires")
+}
+
+func TestAPIKeyModelToCreatePayloadSendsExpiry(t *testing.T) {
+	t.Parallel()
+
+	model := APIKeyModel{
+		Name:          types.StringValue("CI deploy key"),
+		RoleNames:     stringSet(t, "viewer"),
+		TeamIDs:       stringSet(t),
+		TeamRoleNames: stringSet(t),
+		ExpiresAt:     timetypes.NewRFC3339TimeValue(time.Date(2027, 1, 1, 0, 0, 0, 0, time.UTC)),
+	}
+
+	payload := model.ToCreatePayload()
+	require.NotNil(t, payload.ExpiresAt)
+	assert.Equal(t, time.Date(2027, 1, 1, 0, 0, 0, 0, time.UTC), *payload.ExpiresAt)
+
+	validate := model.ToValidatePayload()
+	require.NotNil(t, validate.ExpiresAt)
+	assert.Equal(t, time.Date(2027, 1, 1, 0, 0, 0, 0, time.UTC), *validate.ExpiresAt)
 }
 
 // TestAPIKeyModelToCreatePayloadOmitsAbsentComments covers a brand new key with nothing to
