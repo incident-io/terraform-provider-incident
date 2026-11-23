@@ -1491,6 +1491,8 @@ Optional:
 - `ai_enabled` (Boolean) **Beta:** AI alert grouping is in beta, so contact support to get access for your organisation before you set this to `true`. Use AI to group similar looking alerts. AI alert grouping can only group alerts that are attributed to the same team, so grouping keys must only contain the team alert attribute. Private alerts are not grouped unless AI incident access allows private incidents and alerts. Omit it on an update to keep the current value.
 - `ai_instructions` (String) Optional instructions the model follows when AI groups alerts on this route, such as how the systems you run relate to each other. Up to 2000 characters.
 
+AI grouping instructions are in beta. Contact us if you'd like them turned on for your organisation.
+
 Leave the attribute out to have no instructions. Removing it clears any instructions the route or team has, including ones set in the dashboard.
 - `grouping_keys` (Attributes Set) Which attributes should this alert route use to group alerts? Only set when grouping is enabled. (see [below for nested schema](#nestedatt--grouping_config--default--grouping_keys))
 - `window_seconds` (Number) How long the grouping window is, in seconds. Must be between 60 (1 minute) and 172800 (48 hours). Only set when grouping is enabled.

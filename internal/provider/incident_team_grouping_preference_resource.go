@@ -72,22 +72,22 @@ API refuses to create, update or delete one, and this resource fails at apply wi
 				Attributes: map[string]schema.Attribute{
 					"settings": schema.SingleNestedAttribute{
 						Required:            true,
-						MarkdownDescription: apischema.Docstring("TeamGroupingBranchV3", "settings"),
+						MarkdownDescription: apischema.Docstring("AlertGroupingDefaultBranchV3", "settings"),
 						Attributes: map[string]schema.Attribute{
 							"enabled": schema.BoolAttribute{
 								Required:            true,
-								MarkdownDescription: apischema.Docstring("TeamGroupingSettingsV3", "enabled"),
+								MarkdownDescription: apischema.Docstring("AlertGroupingSettingsV3", "enabled"),
 							},
 							"ai_enabled": schema.BoolAttribute{
 								Optional:            true,
 								Computed:            true,
 								Default:             booldefault.StaticBool(false),
-								MarkdownDescription: apischema.Docstring("TeamGroupingSettingsV3", "ai_enabled"),
+								MarkdownDescription: apischema.Docstring("AlertGroupingSettingsV3", "ai_enabled"),
 							},
-							"ai_instructions": aiInstructionsAttribute(apischema.Docstring("TeamGroupingSettingsV3", "ai_instructions")),
+							"ai_instructions": aiInstructionsAttribute(apischema.Docstring("AlertGroupingSettingsV3", "ai_instructions")),
 							"grouping_keys": schema.SetNestedAttribute{
 								Optional:            true,
-								MarkdownDescription: apischema.Docstring("TeamGroupingSettingsV3", "grouping_keys"),
+								MarkdownDescription: apischema.Docstring("AlertGroupingSettingsV3", "grouping_keys"),
 								NestedObject: schema.NestedAttributeObject{
 									Attributes: map[string]schema.Attribute{
 										"reference": schema.StringAttribute{
@@ -99,11 +99,11 @@ API refuses to create, update or delete one, and this resource fails at apply wi
 							},
 							"window_seconds": schema.Int64Attribute{
 								Optional:            true,
-								MarkdownDescription: apischema.Docstring("TeamGroupingSettingsV3", "window_seconds"),
+								MarkdownDescription: apischema.Docstring("AlertGroupingSettingsV3", "window_seconds"),
 							},
 							"window_type": schema.StringAttribute{
 								Optional:            true,
-								MarkdownDescription: EnumValuesDescription("TeamGroupingSettingsV3", "window_type"),
+								MarkdownDescription: EnumValuesDescription("AlertGroupingSettingsV3", "window_type"),
 							},
 						},
 					},

@@ -177,8 +177,8 @@ func TestAIInstructionsFromAPI(t *testing.T) {
 			preference := TeamGroupingPreferenceResourceModel{}.FromAPI(client.TeamGroupingPreferenceV3{
 				Id:     "01PREFERENCE",
 				TeamId: "01TEAM",
-				Default: client.TeamGroupingBranchV3{
-					Settings: client.TeamGroupingSettingsV3{Enabled: false, AiInstructions: tc.api},
+				Default: client.AlertGroupingDefaultBranchV3{
+					Settings: client.AlertGroupingSettingsV3{Enabled: false, AiInstructions: tc.api},
 				},
 			}, nil)
 			if got := preference.Default.Settings.AIInstructions; !got.Equal(tc.want) {
