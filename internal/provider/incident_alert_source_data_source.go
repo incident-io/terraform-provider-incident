@@ -114,6 +114,10 @@ func (d *IncidentAlertSourceDataSource) Schema(_ context.Context, _ datasource.S
 			Computed:            true,
 			MarkdownDescription: apischema.Docstring("AlertSourceV3", "disabled"),
 		},
+		"ai_titles_enabled": schema.BoolAttribute{
+			Computed:            true,
+			MarkdownDescription: apischema.Docstring("AlertSourceV3", "ai_titles_enabled"),
+		},
 		"version": schema.Int64Attribute{
 			Computed:            true,
 			MarkdownDescription: apischema.Docstring("AlertSourceV3", "version"),
