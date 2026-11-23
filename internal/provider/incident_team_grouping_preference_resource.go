@@ -7,7 +7,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -66,49 +65,7 @@ API refuses to create, update or delete one, and this resource fails at apply wi
 				Computed:            true,
 				MarkdownDescription: apischema.Docstring("TeamGroupingPreferenceV3", "version"),
 			},
-			"default": schema.SingleNestedAttribute{
-				Required:            true,
-				MarkdownDescription: "The grouping settings applied to this team's alerts on every alert route they match.",
-				Attributes: map[string]schema.Attribute{
-					"settings": schema.SingleNestedAttribute{
-						Required:            true,
-						MarkdownDescription: apischema.Docstring("AlertGroupingDefaultBranchV3", "settings"),
-						Attributes: map[string]schema.Attribute{
-							"enabled": schema.BoolAttribute{
-								Required:            true,
-								MarkdownDescription: apischema.Docstring("AlertGroupingSettingsV3", "enabled"),
-							},
-							"ai_enabled": schema.BoolAttribute{
-								Optional:            true,
-								Computed:            true,
-								Default:             booldefault.StaticBool(false),
-								MarkdownDescription: apischema.Docstring("AlertGroupingSettingsV3", "ai_enabled"),
-							},
-							"ai_instructions": aiInstructionsAttribute(apischema.Docstring("AlertGroupingSettingsV3", "ai_instructions")),
-							"grouping_keys": schema.SetNestedAttribute{
-								Optional:            true,
-								MarkdownDescription: apischema.Docstring("AlertGroupingSettingsV3", "grouping_keys"),
-								NestedObject: schema.NestedAttributeObject{
-									Attributes: map[string]schema.Attribute{
-										"reference": schema.StringAttribute{
-											Required:            true,
-											MarkdownDescription: apischema.Docstring("GroupingKeyV3", "reference"),
-										},
-									},
-								},
-							},
-							"window_seconds": schema.Int64Attribute{
-								Optional:            true,
-								MarkdownDescription: apischema.Docstring("AlertGroupingSettingsV3", "window_seconds"),
-							},
-							"window_type": schema.StringAttribute{
-								Optional:            true,
-								MarkdownDescription: EnumValuesDescription("AlertGroupingSettingsV3", "window_type"),
-							},
-						},
-					},
-				},
-			},
+			"default": models.GroupingDefaultAttribute("The grouping settings applied to this team's alerts on every alert route they match."),
 		},
 	}
 }

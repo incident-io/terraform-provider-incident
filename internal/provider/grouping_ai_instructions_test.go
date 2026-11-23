@@ -10,6 +10,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+
+	"github.com/incident-io/terraform-provider-incident/v7/internal/provider/models"
 )
 
 // The API clears the instructions when a write leaves them out, so the config is the whole
@@ -66,8 +68,8 @@ func TestAIInstructionsAttributeIsPlainOptional(t *testing.T) {
 			}{
 				{value: "", wantError: true},
 				{value: "a", wantError: false},
-				{value: strings.Repeat("é", maxAIGroupingInstructionsLength), wantError: false},
-				{value: strings.Repeat("é", maxAIGroupingInstructionsLength+1), wantError: true},
+				{value: strings.Repeat("é", models.MaxAIGroupingInstructionsLength), wantError: false},
+				{value: strings.Repeat("é", models.MaxAIGroupingInstructionsLength+1), wantError: true},
 			}
 			for _, vc := range cases {
 				validateResp := &validator.StringResponse{}
