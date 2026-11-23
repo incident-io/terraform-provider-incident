@@ -1,6 +1,7 @@
 package models
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
@@ -26,24 +27,28 @@ type AlertRuleSetResourceModel struct {
 	Kind              types.String          `tfsdk:"kind"`
 	TeamID            types.String          `tfsdk:"team_id"`
 	Version           types.Int64           `tfsdk:"version"`
+	MessageTemplate   *Binding              `tfsdk:"message_template"`
 	Blocks            []AlertRuleBlockModel `tfsdk:"block"`
 	NamedExpressions  []NamedExpression     `tfsdk:"named_expression"`
 }
 
 type AlertRuleBlockModel struct {
-	ID       types.String           `tfsdk:"id"`
-	Branches []AlertRuleBranchModel `tfsdk:"branch"`
+	ID              types.String           `tfsdk:"id"`
+	MessageTemplate *Binding               `tfsdk:"message_template"`
+	Branches        []AlertRuleBranchModel `tfsdk:"branch"`
 }
 
 type AlertRuleBranchModel struct {
 	ID              types.String                  `tfsdk:"id"`
 	ConditionGroups IncidentEngineConditionGroups `tfsdk:"condition_groups"`
+	Actions         []AlertRuleActionV3Model      `tfsdk:"actions"`
 	Branches        []AlertRuleNestedBranchModel  `tfsdk:"branch"`
 }
 
 type AlertRuleNestedBranchModel struct {
 	ID              types.String                  `tfsdk:"id"`
 	ConditionGroups IncidentEngineConditionGroups `tfsdk:"condition_groups"`
+	Actions         []AlertRuleActionV3Model      `tfsdk:"actions"`
 }
 
 func AlertRuleSetAttributes() map[string]schema.Attribute {
@@ -55,15 +60,12 @@ func AlertRuleSetAttributes() map[string]schema.Attribute {
 				stringplanmodifier.UseStateForUnknown(),
 			},
 		},
-		// The API can't change a set's kind or team, so changing either replaces the set.
+		// The API can't change a set's kind or team: a new kind fails at plan, a new team replaces the set.
 		"kind": schema.StringAttribute{
 			Required:            true,
-			MarkdownDescription: apischema.EnumValuesDescription("AlertRuleSetV3", "kind"),
+			MarkdownDescription: apischema.EnumValuesDescription("AlertRuleSetV3", "kind") + " A set's kind cannot change.",
 			Validators: []validator.String{
 				stringvalidator.OneOf(apischema.EnumValues("AlertRuleSetV3", "kind")...),
-			},
-			PlanModifiers: []planmodifier.String{
-				stringplanmodifier.RequiresReplace(),
 			},
 		},
 		"team_id": schema.StringAttribute{
@@ -80,6 +82,7 @@ func AlertRuleSetAttributes() map[string]schema.Attribute {
 			Computed:            true,
 			MarkdownDescription: apischema.Docstring("AlertRuleSetV3", "version"),
 		},
+		"message_template": BindingAttribute("The alert message template for blocks without their own: its ID, or a reference. Leave it out to post the default message."),
 	}
 }
 
@@ -89,7 +92,8 @@ func AlertRuleSetBlocks() map[string]schema.Block {
 			MarkdownDescription: apischema.Docstring("AlertRuleSetV3", "blocks"),
 			NestedObject: schema.NestedBlockObject{
 				Attributes: map[string]schema.Attribute{
-					"id": alertRuleIDAttribute("AlertRuleBlockV3"),
+					"id":               alertRuleIDAttribute("AlertRuleBlockV3"),
+					"message_template": BindingAttribute("The alert message template for this block, in place of the set's: its ID, or a reference. Leave it out to use the set's template."),
 				},
 				Blocks: map[string]schema.Block{
 					"branch": schema.ListNestedBlock{
@@ -130,6 +134,7 @@ func alertRuleBranchAttributes(definition string) map[string]schema.Attribute {
 	return map[string]schema.Attribute{
 		"id":               alertRuleIDAttribute(definition),
 		"condition_groups": branchConditionGroupsAttribute(definition),
+		"actions":          AlertRuleActionsAttribute(),
 	}
 }
 
@@ -161,6 +166,9 @@ func ValidateAlertRuleSet(m AlertRuleSetResourceModel, diags *diag.Diagnostics) 
 		}
 	}
 
+	known := KnownExpressionNames(m.NamedExpressions)
+	validateActionParam(m.MessageTemplate, path.Empty(), "message_template", false, known, diags)
+
 	seen := map[string]bool{}
 	checkID := func(id types.String, at path.Path) {
 		if id.IsNull() || id.IsUnknown() {
@@ -168,19 +176,27 @@ func ValidateAlertRuleSet(m AlertRuleSetResourceModel, diags *diag.Diagnostics) 
 		}
 		if seen[id.ValueString()] {
 			diags.AddAttributeError(at, "Duplicate id", fmt.Sprintf(
-				"Another block or branch in this set already uses the id %q. Ids must be unique within a set.",
+				"Another block, branch or action in this set already uses the id %q. Ids must be unique within a set.",
 				id.ValueString()))
 		}
 		seen[id.ValueString()] = true
+	}
+	checkActions := func(actions []AlertRuleActionV3Model, at path.Path) {
+		for idx, action := range actions {
+			checkID(action.ID, at.AtListIndex(idx).AtName("id"))
+		}
+		ValidateAlertRuleActions(actions, at, known, diags)
 	}
 
 	for blockIdx, block := range m.Blocks {
 		blockPath := path.Root("block").AtListIndex(blockIdx)
 		checkID(block.ID, blockPath.AtName("id"))
+		validateActionParam(block.MessageTemplate, blockPath, "message_template", false, known, diags)
 
 		for branchIdx, branch := range block.Branches {
 			branchPath := blockPath.AtName("branch").AtListIndex(branchIdx)
 			checkID(branch.ID, branchPath.AtName("id"))
+			checkActions(branch.Actions, branchPath.AtName("actions"))
 
 			if branchIdx == 1 && len(branch.ConditionGroups) > 0 {
 				diags.AddAttributeError(branchPath.AtName("condition_groups"), "Conditions on an else branch",
@@ -188,7 +204,9 @@ func ValidateAlertRuleSet(m AlertRuleSetResourceModel, diags *diag.Diagnostics) 
 			}
 
 			for nestedIdx, nested := range branch.Branches {
-				checkID(nested.ID, branchPath.AtName("branch").AtListIndex(nestedIdx).AtName("id"))
+				nestedPath := branchPath.AtName("branch").AtListIndex(nestedIdx)
+				checkID(nested.ID, nestedPath.AtName("id"))
+				checkActions(nested.Actions, nestedPath.AtName("actions"))
 			}
 		}
 	}
@@ -203,13 +221,19 @@ func (m AlertRuleSetResourceModel) ToCreatePayload() (client.AlertRulesCreatePay
 	if err != nil {
 		return client.AlertRulesCreatePayloadV3{}, err
 	}
+	blocks, err := alertRuleBlocksToPayload(m.Blocks)
+	if err != nil {
+		return client.AlertRulesCreatePayloadV3{}, err
+	}
 
-	return client.AlertRulesCreatePayloadV3{
+	payload := client.AlertRulesCreatePayloadV3{
 		Kind:        client.AlertRulesCreatePayloadV3Kind(m.Kind.ValueString()),
 		TeamId:      m.TeamID.ValueStringPointer(),
-		Blocks:      alertRuleBlocksToPayload(m.Blocks),
+		Blocks:      blocks,
 		Expressions: &expressions,
-	}, nil
+	}
+
+	return payload, bindingsToPayload(bindingField{"message_template", m.MessageTemplate, &payload.MessageTemplate})
 }
 
 func (m AlertRuleSetResourceModel) ToUpdatePayload(version int64) (client.AlertRulesUpdatePayloadV3, error) {
@@ -217,12 +241,19 @@ func (m AlertRuleSetResourceModel) ToUpdatePayload(version int64) (client.AlertR
 	if err != nil {
 		return client.AlertRulesUpdatePayloadV3{}, err
 	}
+	blocks, err := alertRuleBlocksToPayload(m.Blocks)
+	if err != nil {
+		return client.AlertRulesUpdatePayloadV3{}, err
+	}
 
-	return client.AlertRulesUpdatePayloadV3{
+	payload := client.AlertRulesUpdatePayloadV3{
 		Version:     &version,
-		Blocks:      alertRuleBlocksToPayload(m.Blocks),
+		Blocks:      blocks,
 		Expressions: &expressions,
-	}, nil
+	}
+
+	// The API removes a template an update leaves out, as it does the rest of the set.
+	return payload, bindingsToPayload(bindingField{"message_template", m.MessageTemplate, &payload.MessageTemplate})
 }
 
 func (m AlertRuleSetResourceModel) expressionsToPayload() ([]client.ExpressionPayloadV3, error) {
@@ -231,15 +262,24 @@ func (m AlertRuleSetResourceModel) expressionsToPayload() ([]client.ExpressionPa
 	return expressions, err
 }
 
-func alertRuleBlocksToPayload(blocks []AlertRuleBlockModel) []client.AlertRuleBlockV3 {
-	return lo.Map(blocks, func(block AlertRuleBlockModel, _ int) client.AlertRuleBlockV3 {
-		return client.AlertRuleBlockV3{
+func alertRuleBlocksToPayload(blocks []AlertRuleBlockModel) ([]client.AlertRuleBlockV3, error) {
+	var errs []error
+	actionsToPayload := func(branchID types.String, actions []AlertRuleActionV3Model) []client.AlertRuleActionV3 {
+		payload, err := AlertRuleActionsV3ToPayload(actions)
+		if err != nil {
+			errs = append(errs, fmt.Errorf("branch %s: %w", branchID.ValueString(), err))
+		}
+		return payload
+	}
+
+	payload := lo.Map(blocks, func(block AlertRuleBlockModel, _ int) client.AlertRuleBlockV3 {
+		out := client.AlertRuleBlockV3{
 			Id: block.ID.ValueString(),
 			Branches: lo.Map(block.Branches, func(branch AlertRuleBranchModel, _ int) client.AlertRuleBranchV3 {
 				payload := client.AlertRuleBranchV3{
 					Id:              branch.ID.ValueString(),
 					ConditionGroups: ConditionGroupsToV3Payload(branch.ConditionGroups),
-					Actions:         alertRuleActionsToPayload(),
+					Actions:         actionsToPayload(branch.ID, branch.Actions),
 				}
 				// The API omits an empty list here, so send it the same way.
 				if len(branch.Branches) > 0 {
@@ -248,7 +288,7 @@ func alertRuleBlocksToPayload(blocks []AlertRuleBlockModel) []client.AlertRuleBl
 							return client.AlertRuleNestedBranchV3{
 								Id:              nested.ID.ValueString(),
 								ConditionGroups: ConditionGroupsToV3Payload(nested.ConditionGroups),
-								Actions:         alertRuleActionsToPayload(),
+								Actions:         actionsToPayload(nested.ID, nested.Actions),
 							}
 						}))
 				}
@@ -256,32 +296,42 @@ func alertRuleBlocksToPayload(blocks []AlertRuleBlockModel) []client.AlertRuleBl
 				return payload
 			}),
 		}
-	})
-}
+		if err := bindingsToPayload(bindingField{"message_template", block.MessageTemplate, &out.MessageTemplate}); err != nil {
+			errs = append(errs, fmt.Errorf("block %s: %w", block.ID.ValueString(), err))
+		}
 
-// Actions are added with the resource. The API requires the list, so send it empty until then.
-func alertRuleActionsToPayload() []client.AlertRuleActionV3 {
-	return []client.AlertRuleActionV3{}
+		return out
+	})
+
+	return payload, errors.Join(errs...)
 }
 
 // FromAPI takes the plan on create and update, the prior state on read, and nil on import.
 func (AlertRuleSetResourceModel) FromAPI(set client.AlertRuleSetV3, prior *AlertRuleSetResourceModel) AlertRuleSetResourceModel {
 	priorConditionGroups := map[string]IncidentEngineConditionGroups{}
+	priorActions := map[string][]AlertRuleActionV3Model{}
+	priorBlockTemplates := map[string]*Binding{}
 	var priorNamed []NamedExpression
+	var priorTemplate *Binding
 	result := AlertRuleSetResourceModel{UnlockInDashboard: types.BoolNull()}
 	if prior != nil {
 		result.UnlockInDashboard = prior.UnlockInDashboard
 		priorNamed = prior.NamedExpressions
+		priorTemplate = prior.MessageTemplate
 		for _, block := range prior.Blocks {
+			priorBlockTemplates[block.ID.ValueString()] = block.MessageTemplate
 			for _, branch := range block.Branches {
 				priorConditionGroups[branch.ID.ValueString()] = branch.ConditionGroups
+				priorActions[branch.ID.ValueString()] = branch.Actions
 				for _, nested := range branch.Branches {
 					priorConditionGroups[nested.ID.ValueString()] = nested.ConditionGroups
+					priorActions[nested.ID.ValueString()] = nested.Actions
 				}
 			}
 		}
 	}
 	// Keep condition_groups as the config wrote it: the API answers both omitted and [] with [].
+	// Where there is no prior spelling to keep, as on import, read bindings in the shorthand.
 	conditionGroups := func(id string, groups []client.ConditionGroupPayloadV3) IncidentEngineConditionGroups {
 		prior := priorConditionGroups[id]
 		if len(groups) == 0 {
@@ -291,6 +341,7 @@ func (AlertRuleSetResourceModel) FromAPI(set client.AlertRuleSetV3, prior *Alert
 			return nil
 		}
 		out := ConditionGroupsFromV3Payload(groups)
+		out.ShortestSpelling()
 		out.ReconcileSpelling(prior)
 
 		return out
@@ -300,19 +351,23 @@ func (AlertRuleSetResourceModel) FromAPI(set client.AlertRuleSetV3, prior *Alert
 	result.Kind = types.StringValue(string(set.Kind))
 	result.TeamID = types.StringPointerValue(set.TeamId)
 	result.Version = types.Int64Value(set.Version)
+	result.MessageTemplate = ReconcileBinding(priorTemplate, set.MessageTemplate)
 
 	result.Blocks = lo.Map(set.Blocks, func(block client.AlertRuleBlockV3, _ int) AlertRuleBlockModel {
 		return AlertRuleBlockModel{
-			ID: types.StringValue(block.Id),
+			ID:              types.StringValue(block.Id),
+			MessageTemplate: ReconcileBinding(priorBlockTemplates[block.Id], block.MessageTemplate),
 			Branches: lo.Map(block.Branches, func(branch client.AlertRuleBranchV3, _ int) AlertRuleBranchModel {
 				return AlertRuleBranchModel{
 					ID:              types.StringValue(branch.Id),
 					ConditionGroups: conditionGroups(branch.Id, branch.ConditionGroups),
+					Actions:         AlertRuleActionsV3FromAPI(branch.Actions, priorActions[branch.Id]),
 					Branches: lo.Map(lo.FromPtr(branch.Branches),
 						func(nested client.AlertRuleNestedBranchV3, _ int) AlertRuleNestedBranchModel {
 							return AlertRuleNestedBranchModel{
 								ID:              types.StringValue(nested.Id),
 								ConditionGroups: conditionGroups(nested.Id, nested.ConditionGroups),
+								Actions:         AlertRuleActionsV3FromAPI(nested.Actions, priorActions[nested.Id]),
 							}
 						}),
 				}
