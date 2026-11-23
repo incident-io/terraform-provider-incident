@@ -182,6 +182,18 @@ func (r *IncidentAPIKeyResource) Schema(_ context.Context, _ resource.SchemaRequ
 					int64validator.AtLeast(0),
 				},
 			},
+			"expires_at": schema.StringAttribute{
+				Optional:   true,
+				Computed:   true,
+				CustomType: timetypes.RFC3339Type{},
+				MarkdownDescription: apischema.Docstring("APIKeysCreatePayloadV1", "expires_at") + "\n\n" +
+					"incident.io only changes a key's expiry when it rotates the key, so changing this on an " +
+					"existing key needs a change to `token_version` in the same plan. Removing it from your " +
+					"configuration leaves the key's expiry as it is.",
+				PlanModifiers: []planmodifier.String{
+					apiKeyUnsetExpiry{},
+				},
+			},
 			"created_at": schema.StringAttribute{
 				Computed:   true,
 				CustomType: timetypes.RFC3339Type{},
@@ -277,6 +289,7 @@ var apiKeyValidatedAttributes = []string{
 	"role_names",
 	"team_ids",
 	"team_role_names",
+	"expires_at",
 }
 
 // ModifyPlan asks the API whether the planned key would be accepted, so a role the calling
@@ -290,8 +303,17 @@ var apiKeyValidatedAttributes = []string{
 // It can't live in ValidateConfig, which `terraform validate` also calls: that runs the
 // provider without configuring it, so there is no client to ask with.
 func (r *IncidentAPIKeyResource) ModifyPlan(ctx context.Context, req resource.ModifyPlanRequest, resp *resource.ModifyPlanResponse) {
-	// A destroy plans no key, and an unconfigured provider has no client.
-	if r.client == nil || req.Plan.Raw.IsNull() {
+	// A destroy plans no key.
+	if req.Plan.Raw.IsNull() {
+		return
+	}
+
+	if apiKeyCheckExpiryChange(ctx, req, resp); resp.Diagnostics.HasError() {
+		return
+	}
+
+	// An unconfigured provider has no client.
+	if r.client == nil {
 		return
 	}
 
@@ -336,6 +358,58 @@ func (r *IncidentAPIKeyResource) ModifyPlan(ctx context.Context, req resource.Mo
 		"Could not validate the API key",
 		fmt.Sprintf("The API key was not checked, and may still be rejected when you apply: %s", err),
 	)
+}
+
+// apiKeyCheckExpiryChange rejects a plan that changes an existing key's expiry without
+// rotating it. The API only takes a new expiry with a rotation, so an update alone would
+// leave the key's expiry where it was and contradict the plan.
+func apiKeyCheckExpiryChange(ctx context.Context, req resource.ModifyPlanRequest, resp *resource.ModifyPlanResponse) {
+	// A create sends its expiry with the new key.
+	if req.State.Raw.IsNull() {
+		return
+	}
+
+	var planned, stored models.APIKeyModel
+	if resp.Diagnostics.Append(req.Plan.Get(ctx, &planned)...); resp.Diagnostics.HasError() {
+		return
+	}
+	if resp.Diagnostics.Append(req.State.Get(ctx, &stored)...); resp.Diagnostics.HasError() {
+		return
+	}
+
+	if !apiKeyExpiryChanged(planned.ExpiresAt, stored.ExpiresAt) {
+		return
+	}
+	if apiKeyRotationPlanned(planned.TokenVersion, stored.TokenVersion) {
+		return
+	}
+
+	resp.Diagnostics.AddAttributeError(
+		path.Root("expires_at"),
+		"Changing expires_at needs a rotation",
+		"incident.io only changes a key's expiry when it rotates the key. Change token_version in the "+
+			"same plan to rotate the key with the new expiry.",
+	)
+}
+
+// apiKeyExpiryChanged reports whether the planned expiry would differ from the stored one.
+// An unknown expiry might, so it counts as a change. Times are compared as instants, so the
+// same moment written with a different offset is no change.
+func apiKeyExpiryChanged(planned, stored timetypes.RFC3339) bool {
+	if planned.IsUnknown() {
+		return true
+	}
+	if planned.IsNull() || stored.IsNull() || stored.IsUnknown() {
+		return !planned.IsNull() || !stored.IsNull()
+	}
+
+	plannedTime, plannedDiags := planned.ValueRFC3339Time()
+	storedTime, storedDiags := stored.ValueRFC3339Time()
+	if plannedDiags.HasError() || storedDiags.HasError() {
+		return !planned.Equal(stored)
+	}
+
+	return !plannedTime.Equal(storedTime)
 }
 
 // apiKeyValidateSettled reports whether every value the check would send is known. The
@@ -475,7 +549,14 @@ func (r *IncidentAPIKeyResource) Update(ctx context.Context, req resource.Update
 	// Whether this plan rotates has to be decided exactly as the plan modifier decided it,
 	// or the token we return won't be the one the plan promised.
 	if apiKeyRotationPlanned(plan.TokenVersion, state.TokenVersion) {
-		rotated, newToken, err := r.rotate(ctx, plan.ID.ValueString(), plan.RotationGracePeriodMinutes)
+		// Only send an expiry that's changing. Sending the current one would fail once it has
+		// passed, and leaving it out keeps it.
+		var expiresAt *time.Time
+		if apiKeyExpiryChanged(plan.ExpiresAt, state.ExpiresAt) {
+			expiresAt = plan.ExpiresAtTime()
+		}
+
+		rotated, newToken, err := r.rotate(ctx, plan.ID.ValueString(), plan.RotationGracePeriodMinutes, expiresAt)
 		if err != nil {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to rotate API key, got error: %s", err))
 			return
@@ -556,8 +637,9 @@ func (r *IncidentAPIKeyResource) ImportState(ctx context.Context, req resource.I
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
-// rotate issues a new token for the key, retiring the old one after the grace period.
-func (r *IncidentAPIKeyResource) rotate(ctx context.Context, id string, gracePeriod types.Int64) (*client.APIKeyV1, string, error) {
+// rotate issues a new token for the key, retiring the old one after the grace period. A
+// non-nil expiresAt also gives the key that new expiry.
+func (r *IncidentAPIKeyResource) rotate(ctx context.Context, id string, gracePeriod types.Int64, expiresAt *time.Time) (*client.APIKeyV1, string, error) {
 	// The attribute is Computed with a static default, so it is only null or unknown if
 	// something has gone unexpectedly wrong; fall back rather than rotating with a zero
 	// grace period nobody asked for.
@@ -568,6 +650,7 @@ func (r *IncidentAPIKeyResource) rotate(ctx context.Context, id string, gracePer
 
 	result, err := r.client.APIKeysV1RotateWithResponse(ctx, id, client.APIKeysRotatePayloadV1{
 		GracePeriodMinutes: minutes,
+		ExpiresAt:          expiresAt,
 	})
 	if err != nil {
 		return nil, "", err
@@ -632,6 +715,33 @@ func (m apiKeyRotationAware) PlanModifyString(ctx context.Context, req planmodif
 
 	// A rotation is coming, so leave the value unknown for the apply to fill in.
 	if apiKeyRotationPlanned(planned, state) {
+		return
+	}
+
+	resp.PlanValue = req.StateValue
+}
+
+// apiKeyUnsetExpiry plans an expiry left out of the configuration. A new key gets none, so
+// the plan says null rather than unknown, which lets ModifyPlan validate the key. An existing
+// key keeps whatever expiry it has, including one set in the dashboard: rotating can't
+// remove an expiry, so there's no plan that could act on a null.
+type apiKeyUnsetExpiry struct{}
+
+func (m apiKeyUnsetExpiry) Description(ctx context.Context) string {
+	return m.MarkdownDescription(ctx)
+}
+
+func (m apiKeyUnsetExpiry) MarkdownDescription(_ context.Context) string {
+	return "When unset, a new key never expires and an existing key keeps its expiry."
+}
+
+func (m apiKeyUnsetExpiry) PlanModifyString(_ context.Context, req planmodifier.StringRequest, resp *planmodifier.StringResponse) {
+	if !req.ConfigValue.IsNull() || req.Plan.Raw.IsNull() {
+		return
+	}
+
+	if req.State.Raw.IsNull() {
+		resp.PlanValue = types.StringNull()
 		return
 	}
 

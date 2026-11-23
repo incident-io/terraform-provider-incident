@@ -86,6 +86,7 @@ output "ci_key_last_used_at" {
 
 - `comments` (String) Freeform notes about this API key
 - `created_at` (String) When the API key was created
+- `expires_at` (String) When this API key stops working. If it's not set, the key never expires.
 - `last_used_at` (String) When the key was last used to authenticate a request
 - `role_names` (Set of String) The account-level roles assigned to this API key
 - `team_ids` (Set of String) IDs of teams that this API key is scoped to

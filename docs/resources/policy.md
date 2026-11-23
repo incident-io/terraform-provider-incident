@@ -494,7 +494,7 @@ Required:
 
 Optional:
 
-- `run_on_private_incidents` (Boolean) Requires the policies.run_on_private scope
+- `run_on_private_incidents` (Boolean) Requires the policies.run.private_incidents scope
 
 <a id="nestedatt--debrief--due_date_config"></a>
 ### Nested Schema for `debrief.due_date_config`
@@ -888,7 +888,7 @@ Required:
 
 Optional:
 
-- `run_on_private_incidents` (Boolean) Requires the policies.run_on_private scope
+- `run_on_private_incidents` (Boolean) Requires the policies.run.private_incidents scope
 
 <a id="nestedatt--follow_up--due_date_config"></a>
 ### Nested Schema for `follow_up.due_date_config`
@@ -1030,7 +1030,7 @@ Required:
 
 Optional:
 
-- `run_on_private_incidents` (Boolean) Requires the policies.run_on_private scope
+- `run_on_private_incidents` (Boolean) Requires the policies.run.private_incidents scope
 
 <a id="nestedatt--post_mortem--due_date_config"></a>
 ### Nested Schema for `post_mortem.due_date_config`

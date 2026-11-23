@@ -1,3 +1,7 @@
+## Unreleased
+
+- Add `expires_at` to the `incident_api_key` resource and data source, which gives a key an expiry date. Changing it on an existing key needs a change to `token_version` in the same plan, because incident.io only changes a key's expiry when it rotates the key. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/api_key). (#694)
+
 ## v7.9.0
 
 - Add `sns_options` to the `incident_alert_source` resource and data source, which sets how an SNS alert source deduplicates messages into alerts: `message_id` (one alert per message), `automatic` (one alert per CloudWatch alarm, Inspector or GuardDuty finding, or AWS Health event) or `custom` (a JSON path into the payload, set with `deduplication_key_path`). Leave the block out to keep the strategy chosen in the dashboard. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/alert_source). (#676)
