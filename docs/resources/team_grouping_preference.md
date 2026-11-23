@@ -5,6 +5,7 @@ subcategory: ""
 description: |-
   Manage how each team's alerts are grouped, on every alert route.
   A team's grouping preference takes priority over the default grouping of any alert route its alerts match. A team without one groups by each route's own settings.
+  This API manages a preference's default only, and an update keeps its branches. Use the Alert Grouping Preferences API to manage branches.
   A team has at most one preference, and it cannot move to another team: changing team_id destroys the
   preference and creates one for the new team. The settings use the field names of an alert route's
   grouping_config, so a team's preference can be written by copying the route block it replaces.
@@ -17,6 +18,8 @@ description: |-
 Manage how each team's alerts are grouped, on every alert route.
 
 A team's grouping preference takes priority over the default grouping of any alert route its alerts match. A team without one groups by each route's own settings.
+
+This API manages a preference's default only, and an update keeps its branches. Use the Alert Grouping Preferences API to manage branches.
 
 A team has at most one preference, and it cannot move to another team: changing `team_id` destroys the
 preference and creates one for the new team. The settings use the field names of an alert route's
@@ -112,7 +115,7 @@ Required:
 Optional:
 
 - `ai_enabled` (Boolean) Use AI to group similar looking alerts. AI alert grouping can only group alerts that are attributed to the same team, so grouping keys must be empty or only contain the team alert attribute. Private alerts are not grouped unless AI incident access allows private incidents and alerts. Omit it on an update to keep the current value.
-- `grouping_keys` (Attributes Set) Which alert attributes the team's alerts are grouped by. Only set when grouping is enabled. (see [below for nested schema](#nestedatt--default--settings--grouping_keys))
+- `grouping_keys` (Attributes Set) Which alert attributes these alerts are grouped by. Only set when grouping is enabled. (see [below for nested schema](#nestedatt--default--settings--grouping_keys))
 - `window_seconds` (Number) How long the grouping window is, in seconds. Must be between 60 (1 minute) and 172800 (48 hours). Only set when grouping is enabled.
 - `window_type` (String) How the grouping window behaves. 'rolling' keeps the window open for window_seconds after the most recent alert, so the group stays open as long as alerts keep arriving. 'fixed' opens the window when the first alert arrives and always closes window_seconds later. Only set when grouping is enabled. Possible values are: `rolling`, `fixed`.
 

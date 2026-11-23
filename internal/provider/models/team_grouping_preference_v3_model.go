@@ -88,16 +88,16 @@ func (m TeamGroupingPreferenceResourceModel) ToUpdatePayload(version int64) clie
 
 // toBranchPayload only sends the window, keys and AI setting when grouping is enabled; the API
 // rejects them otherwise.
-func (m TeamGroupingPreferenceResourceModel) toBranchPayload() client.TeamGroupingBranchV3 {
-	settings := client.TeamGroupingSettingsV3{}
+func (m TeamGroupingPreferenceResourceModel) toBranchPayload() client.AlertGroupingDefaultBranchV3 {
+	settings := client.AlertGroupingSettingsV3{}
 	if m.Default == nil || m.Default.Settings == nil {
-		return client.TeamGroupingBranchV3{Settings: settings}
+		return client.AlertGroupingDefaultBranchV3{Settings: settings}
 	}
 
 	config := m.Default.Settings
 	settings.Enabled = config.Enabled.ValueBool()
 	if !settings.Enabled {
-		return client.TeamGroupingBranchV3{Settings: settings}
+		return client.AlertGroupingDefaultBranchV3{Settings: settings}
 	}
 
 	keys := lo.Map(config.GroupingKeys, func(key AlertRouteGroupingKey, _ int) client.GroupingKeyV3 {
@@ -112,8 +112,8 @@ func (m TeamGroupingPreferenceResourceModel) toBranchPayload() client.TeamGroupi
 		settings.WindowSeconds = lo32(config.WindowSeconds.ValueInt64())
 	}
 	if !config.WindowType.IsNull() {
-		settings.WindowType = lo.ToPtr(client.TeamGroupingSettingsV3WindowType(config.WindowType.ValueString()))
+		settings.WindowType = lo.ToPtr(client.AlertGroupingSettingsV3WindowType(config.WindowType.ValueString()))
 	}
 
-	return client.TeamGroupingBranchV3{Settings: settings}
+	return client.AlertGroupingDefaultBranchV3{Settings: settings}
 }
