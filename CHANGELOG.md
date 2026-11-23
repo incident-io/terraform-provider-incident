@@ -1,4 +1,4 @@
-## Unreleased
+## v7.10.0
 
 - Add `expires_at` to the `incident_api_key` resource and data source, which gives a key an expiry date. Changing it on an existing key needs a change to `token_version` in the same plan, because incident.io only changes a key's expiry when it rotates the key. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/api_key). (#694)
 
