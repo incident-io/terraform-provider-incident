@@ -164,8 +164,16 @@ func CarryBranchIDs(plan, state []GroupingBranchModel) {
 		}
 	}
 
+	// An import reads an alias back as the operation the API stores, so compare by that.
 	conditions := func(branch GroupingBranchModel) string {
-		return string(lo.Must(json.Marshal(ConditionGroupsToV3Payload(branch.ConditionGroups))))
+		groups := ConditionGroupsToV3Payload(branch.ConditionGroups)
+		for _, group := range groups {
+			for i, condition := range group.Conditions {
+				group.Conditions[i].Operation = lo.ValueOr(serverOperationNormalisations, condition.Operation, condition.Operation)
+			}
+		}
+
+		return string(lo.Must(json.Marshal(groups)))
 	}
 	for i := range plan {
 		if !plan[i].ID.IsUnknown() {

@@ -406,4 +406,23 @@ func TestCarryBranchIDs(t *testing.T) {
 			assert.Equal(t, tc.want, lo.Map(plan, func(b GroupingBranchModel, _ int) types.String { return b.ID }))
 		})
 	}
+
+	t.Run("branches reordered after an import read an alias back", func(t *testing.T) {
+		withOperation := func(id types.String, subject, operation string) GroupingBranchModel {
+			return GroupingBranchModel{
+				ID:              id,
+				ConditionGroups: IncidentEngineConditionGroups{conditionGroup(subject, operation)},
+				Settings:        groupingOff(),
+			}
+		}
+		imported := []GroupingBranchModel{
+			withOperation(types.StringValue("01A"), "alert.a", "contains_one_of"),
+			withOperation(types.StringValue("01B"), "alert.b", "contains_one_of"),
+		}
+		plan := []GroupingBranchModel{withOperation(unknown, "alert.b", "one_of"), withOperation(unknown, "alert.a", "one_of")}
+
+		CarryBranchIDs(plan, imported)
+		assert.Equal(t, []types.String{types.StringValue("01B"), types.StringValue("01A")},
+			lo.Map(plan, func(b GroupingBranchModel, _ int) types.String { return b.ID }))
+	})
 }
