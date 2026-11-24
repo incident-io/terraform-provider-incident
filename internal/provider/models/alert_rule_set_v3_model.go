@@ -127,18 +127,22 @@ func alertRuleIDAttribute(definition string) schema.StringAttribute {
 }
 
 func alertRuleBranchAttributes(definition string) map[string]schema.Attribute {
+	return map[string]schema.Attribute{
+		"id":               alertRuleIDAttribute(definition),
+		"condition_groups": branchConditionGroupsAttribute(definition),
+	}
+}
+
+func branchConditionGroupsAttribute(definition string) schema.ListNestedAttribute {
 	conditions := ConditionsAttribute()
 	conditions.Validators = []validator.List{listvalidator.SizeAtLeast(1)}
 
-	return map[string]schema.Attribute{
-		"id": alertRuleIDAttribute(definition),
-		"condition_groups": schema.ListNestedAttribute{
-			Optional:            true,
-			MarkdownDescription: apischema.Docstring(definition, "condition_groups"),
-			NestedObject: schema.NestedAttributeObject{
-				Attributes: map[string]schema.Attribute{
-					"conditions": conditions,
-				},
+	return schema.ListNestedAttribute{
+		Optional:            true,
+		MarkdownDescription: apischema.Docstring(definition, "condition_groups"),
+		NestedObject: schema.NestedAttributeObject{
+			Attributes: map[string]schema.Attribute{
+				"conditions": conditions,
 			},
 		},
 	}
