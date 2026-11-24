@@ -1,6 +1,6 @@
 ## Unreleased
 
-- Fix `incident_status_page_structure` failing to plan with a "Value Conversion Error" when `items`, or a group's `components`, is built from a variable. (#PRNUM)
+- Fix `incident_status_page_structure` failing to plan with a "Value Conversion Error" when `items`, or a group's `components`, is built from a variable. (#701)
 
 ## v7.11.0
 
