@@ -1003,6 +1003,8 @@ func TestNavigateCatalogAttributeReference(t *testing.T) {
 
 	t.Run("a reference path is left alone", func(t *testing.T) {
 		for _, reference := range []string{
+			"name",
+			`catalog_attribute["name"]`,
 			`catalog_attribute["01ABC"]`,
 			`incident.custom_field["team"]`,
 			"owner.email",

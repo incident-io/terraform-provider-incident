@@ -1004,7 +1004,7 @@ Optional:
 
 Required:
 
-- `to` (String) The catalog attribute to follow.
+- `to` (String) The catalog attribute to follow, by its ID, or `name` for the catalog entry's name. To follow a custom attribute whose ID is `name`, write `catalog_attribute["name"]`.
 
 
 <a id="nestedatt--named_expression--operation--parse"></a>

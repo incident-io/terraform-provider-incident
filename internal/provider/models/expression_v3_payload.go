@@ -30,11 +30,17 @@ func ExpressionReference(name string) string {
 // navigate has to go through it: a bare attribute ID resolves to nothing.
 const catalogAttributePrefix = "catalog_attribute["
 
+// catalogEntryName is the one built-in field the API addresses bare on a catalog entry,
+// rather than through catalog_attribute[...].
+const catalogEntryName = "name"
+
 // catalogAttributeReference wraps a bare catalog attribute ID into the reference the API
 // expects. Anything already written as a reference path is passed through, which leaves an
-// escape hatch for navigating something that isn't a catalog attribute.
+// escape hatch for navigating something that isn't a catalog attribute. The entry's name is
+// passed through too, so a custom attribute with the ID "name" needs the explicit
+// catalog_attribute["name"].
 func catalogAttributeReference(to string) string {
-	if strings.Contains(to, "[") || strings.Contains(to, ".") {
+	if to == catalogEntryName || strings.Contains(to, "[") || strings.Contains(to, ".") {
 		return to
 	}
 

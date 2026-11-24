@@ -1,3 +1,7 @@
+## Unreleased
+
+- Fix `navigate` operations in `incident_alert_source` and `incident_alert_source_attribute` expressions failing with a 422 for `to = "name"`. It now follows the catalog entry's name. To follow a custom attribute whose ID is `name`, write `catalog_attribute["name"]`. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/alert_source). (#PRNUM)
+
 ## v7.11.0
 
 - Add `ai_titles_enabled` to the `incident_alert_source` resource and data source, which gives alerts from the source an AI-improved title. Leave it unset to keep the current value. A new source has AI titles off. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/alert_source). (#689)
