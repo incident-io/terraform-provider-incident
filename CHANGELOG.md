@@ -1,6 +1,6 @@
 ## Unreleased
 
-- Fix `navigate` operations in `incident_alert_source` and `incident_alert_source_attribute` expressions failing with a 422 for `to = "name"`. It now follows the catalog entry's name. To follow a custom attribute whose ID is `name`, write `catalog_attribute["name"]`. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/alert_source). (#PRNUM)
+- Fix `navigate` operations in `incident_alert_source` and `incident_alert_source_attribute` expressions failing with a 422 for `to = "name"`. It now follows the catalog entry's name. To follow a custom attribute whose ID is `name`, write `catalog_attribute["name"]`. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/alert_source). (#700)
 
 ## v7.11.0
 
