@@ -1,3 +1,7 @@
+## Unreleased
+
+- Fix `incident_status_page_structure` failing to plan with a "Value Conversion Error" when `items`, or a group's `components`, is built from a variable. (#PRNUM)
+
 ## v7.11.0
 
 - Add `ai_titles_enabled` to the `incident_alert_source` resource and data source, which gives alerts from the source an AI-improved title. Leave it unset to keep the current value. A new source has AI titles off. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/alert_source). (#689)

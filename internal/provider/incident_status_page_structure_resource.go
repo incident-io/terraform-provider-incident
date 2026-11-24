@@ -14,6 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	"github.com/incident-io/terraform-provider-incident/v7/internal/apischema"
@@ -186,13 +187,28 @@ func (r *IncidentStatusPageStructureResource) Schema(_ context.Context, _ resour
 // optional so either shape fits, which means a plan could otherwise carry both or neither,
 // or a group with a component's display flags beside it.
 func (r *IncidentStatusPageStructureResource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
-	var data *models.StatusPageStructureModel
-	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
-	if resp.Diagnostics.HasError() || data == nil {
+	// Terraform validates before it plans, when an input variable is still unknown, so items
+	// built from one reaches here as an unknown list. A slice cannot hold that.
+	var items types.List
+	resp.Diagnostics.Append(req.Config.GetAttribute(ctx, path.Root("items"), &items)...)
+	if resp.Diagnostics.HasError() || items.IsNull() || items.IsUnknown() {
 		return
 	}
 
-	for idx, item := range data.Items {
+	for idx, element := range items.Elements() {
+		object, ok := element.(types.Object)
+		// An unknown group decodes as no group, which would read as an empty item.
+		if !ok || object.IsUnknown() || object.Attributes()["group"].IsUnknown() {
+			continue
+		}
+
+		var item models.StatusPageStructureItemModel
+		diags := object.As(ctx, &item, basetypes.ObjectAsOptions{UnhandledUnknownAsEmpty: true})
+		resp.Diagnostics.Append(diags...)
+		if diags.HasError() {
+			return
+		}
+
 		// A component id from a resource created in the same apply is unknown, not null,
 		// so an unknown counts as set.
 		hasComponent := !item.ComponentID.IsNull()
