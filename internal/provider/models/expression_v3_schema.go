@@ -108,7 +108,7 @@ func operationOptionAttributes() map[string]schema.Attribute {
 			Attributes: map[string]schema.Attribute{
 				"to": schema.StringAttribute{
 					Required:    true,
-					Description: "The catalog attribute to follow.",
+					Description: "The ID of the catalog attribute to follow. This takes custom catalog attributes only: built-in entry fields such as `name` and `external_id` can't be followed. To use an entry's name, end the expression on the catalog entry itself; it renders as the entry's name wherever it is shown as text.",
 				},
 			},
 		},
