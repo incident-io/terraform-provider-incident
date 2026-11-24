@@ -33,7 +33,10 @@ func TestStatusPageStructureValidateConfig(t *testing.T) {
 	if !ok {
 		t.Fatal("an item is not an object")
 	}
-	groupType := itemType.AttributeTypes["group"].(tftypes.Object)
+	groupType, ok := itemType.AttributeTypes["group"].(tftypes.Object)
+	if !ok {
+		t.Fatal("group is not an object")
+	}
 
 	// nullAll gives an object of the given type with every attribute null, then applies
 	// overrides.
@@ -127,7 +130,7 @@ func TestStatusPageStructureValidateConfig(t *testing.T) {
 			})
 
 			var resp resource.ValidateConfigResponse
-			NewIncidentStatusPageStructureResource().(resource.ResourceWithValidateConfig).ValidateConfig(
+			(&IncidentStatusPageStructureResource{}).ValidateConfig(
 				ctx,
 				resource.ValidateConfigRequest{Config: tfsdk.Config{Schema: schemaResp.Schema, Raw: config}},
 				&resp,
