@@ -1,6 +1,6 @@
 ## Unreleased
 
-- Document on the `navigate` operation of `incident_alert_source` and `incident_alert_source_attribute` that `to` takes custom catalog attribute IDs only, not built-in fields such as `name`. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/alert_source). (#PRNUM)
+- Document on the `navigate` operation of `incident_alert_source` and `incident_alert_source_attribute` that `to` takes custom catalog attribute IDs only, not built-in fields such as `name`. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/alert_source). (#702)
 
 ## v7.11.0
 
