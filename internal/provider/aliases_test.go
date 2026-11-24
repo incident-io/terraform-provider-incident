@@ -80,24 +80,32 @@ func TestEveryBetaNameIsStillRegistered(t *testing.T) {
 }
 
 // An alias warns and its resource doesn't, which is the whole difference between them at
-// plan time. A missing warning leaves people on the old name with nothing telling them to
-// move before v8 removes it; a warning on the real resource would fire on every plan
-// anyone ever runs.
+// plan time. A resource replaced by another warns too, naming its replacement. A missing
+// warning leaves people on the old name with nothing telling them to move before v8
+// removes it; a warning on the real resource would fire on every plan anyone ever runs.
 func TestOnlyTheAliasesAreDeprecated(t *testing.T) {
 	ctx := context.Background()
+
+	// Resources replaced by another resource, rather than renamed, and what replaces them.
+	replaced := map[string]string{
+		"incident_team_grouping_preference": "incident_alert_grouping_preference",
+	}
 
 	for name, r := range registeredResourceNames(ctx, t) {
 		t.Run(name, func(t *testing.T) {
 			message := declaredResourceSchema(ctx, r).DeprecationMessage
 
-			if !strings.HasSuffix(name, "_beta") {
+			replacement, isReplaced := replaced[name]
+			if !strings.HasSuffix(name, "_beta") && !isReplaced {
 				assert.Empty(t, message, "a resource anyone should be using must not warn")
 				return
 			}
+			if !isReplaced {
+				replacement = strings.TrimSuffix(name, "_beta")
+			}
 
 			require.NotEmpty(t, message, "a deprecated name has to say so")
-			assert.Contains(t, message, strings.TrimSuffix(name, "_beta"),
-				"the warning has to name the resource to move to")
+			assert.Contains(t, message, replacement, "the warning has to name the resource to move to")
 			assert.Contains(t, message, "moved {", "the warning has to say how to move")
 		})
 	}

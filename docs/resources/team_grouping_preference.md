@@ -3,6 +3,9 @@
 page_title: "incident_team_grouping_preference Resource - terraform-provider-incident"
 subcategory: ""
 description: |-
+  ~> Deprecated: use incident_alert_grouping_preference with kind = "team", which also manages the
+  team's grouping branches. This resource keeps working. That resource's page explains how to move a preference
+  over with a moved block.
   Manage how each team's alerts are grouped, on every alert route.
   A team's grouping preference takes priority over the default grouping of any alert route its alerts match. A team without one groups by each route's own settings.
   This API manages a preference's default only, and an update keeps its branches. Use the Alert Grouping Preferences API to manage branches.
@@ -14,6 +17,10 @@ description: |-
 ---
 
 # incident_team_grouping_preference (Resource)
+
+~> **Deprecated:** use `incident_alert_grouping_preference` with `kind = "team"`, which also manages the
+team's grouping branches. This resource keeps working. That resource's page explains how to move a preference
+over with a `moved` block.
 
 Manage how each team's alerts are grouped, on every alert route.
 
