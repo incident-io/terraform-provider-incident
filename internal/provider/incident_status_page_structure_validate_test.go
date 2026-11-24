@@ -78,6 +78,10 @@ func TestStatusPageStructureValidateConfig(t *testing.T) {
 			items: list(tftypes.NewValue(itemType, tftypes.UnknownValue)),
 		},
 		{
+			name:  "a null item is skipped",
+			items: list(tftypes.NewValue(itemType, nil)),
+		},
+		{
 			name:  "a component with an unknown id is fine",
 			items: list(item(map[string]tftypes.Value{"component_id": unknownString})),
 		},

@@ -198,7 +198,7 @@ func (r *IncidentStatusPageStructureResource) ValidateConfig(ctx context.Context
 	for idx, element := range items.Elements() {
 		object, ok := element.(types.Object)
 		// An unknown group decodes as no group, which would read as an empty item.
-		if !ok || object.IsUnknown() || object.Attributes()["group"].IsUnknown() {
+		if !ok || object.IsNull() || object.IsUnknown() || object.Attributes()["group"].IsUnknown() {
 			continue
 		}
 
