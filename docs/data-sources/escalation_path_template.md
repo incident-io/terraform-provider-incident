@@ -444,7 +444,7 @@ Read-Only:
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to.
 - `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
-- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
+- `urgency` (String) The interruption level we notify this target at: high or low. Possible values are: `high`, `low`.
 
 <a id="nestedatt--sequences--nodes--level--targets--binding"></a>
 ### Nested Schema for `sequences.nodes.level.targets.binding`
@@ -508,7 +508,7 @@ Read-Only:
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to.
 - `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
-- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
+- `urgency` (String) The interruption level we notify this target at: high or low. Possible values are: `high`, `low`.
 
 <a id="nestedatt--sequences--nodes--notify_channel--targets--binding"></a>
 ### Nested Schema for `sequences.nodes.notify_channel.targets.binding`

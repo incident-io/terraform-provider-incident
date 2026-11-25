@@ -188,7 +188,7 @@ Required:
 
 - `id` (String) Uniquely identifies an entity of this type
 - `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
-- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
+- `urgency` (String) The interruption level we notify this target at: high or low. Possible values are: `high`, `low`.
 
 Optional:
 
@@ -247,7 +247,7 @@ Required:
 
 - `id` (String) Uniquely identifies an entity of this type
 - `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
-- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
+- `urgency` (String) The interruption level we notify this target at: high or low. Possible values are: `high`, `low`.
 
 Optional:
 
