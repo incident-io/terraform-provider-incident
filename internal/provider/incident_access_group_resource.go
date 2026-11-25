@@ -73,7 +73,7 @@ func (r *IncidentAccessGroupResource) Schema(_ context.Context, _ resource.Schem
 			},
 			"type": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: apischema.Docstring("AccessGroupV2", "type"),
+				MarkdownDescription: EnumValuesDescription("AccessGroupV2", "type"),
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},

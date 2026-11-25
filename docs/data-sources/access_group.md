@@ -39,4 +39,4 @@ data "incident_access_group" "platform" {
 
 - `description` (String) Optional description of who belongs in this group
 - `name` (String) Human-readable name, unique within the organisation
-- `type` (String) base for the groups every organisation has, which cannot be changed or deleted, or custom for groups you create
+- `type` (String) base for the groups every organisation has, which cannot be changed or deleted, or custom for groups you create. Possible values are: `base`, `custom`.

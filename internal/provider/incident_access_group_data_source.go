@@ -57,7 +57,7 @@ func (d *IncidentAccessGroupDataSource) Schema(_ context.Context, _ datasource.S
 				Computed:            true,
 			},
 			"type": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("AccessGroupV2", "type"),
+				MarkdownDescription: EnumValuesDescription("AccessGroupV2", "type"),
 				Computed:            true,
 			},
 		},
@@ -106,24 +106,12 @@ func (d *IncidentAccessGroupDataSource) Read(ctx context.Context, req datasource
 		group = &result.JSON200.AccessGroup
 
 	case !data.Slug.IsNull():
-		// A slug is unique within an organization, so the filtered list has at most one entry.
-		result, err := d.client.AccessGroupsV2ListWithResponse(ctx, &client.AccessGroupsV2ListParams{
-			Slug:     lo.ToPtr(data.Slug.ValueString()),
-			PageSize: lo.ToPtr(int64(1)),
-		})
+		got, err := d.findBySlug(ctx, data.Slug.ValueString())
 		if err != nil {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to list access groups, got error: %s", err))
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read access group by slug, got error: %s", err))
 			return
 		}
-		if result.JSON200 == nil {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to list access groups, unexpected response: %s", result.Status()))
-			return
-		}
-		if len(result.JSON200.AccessGroups) == 0 {
-			resp.Diagnostics.AddError("Access Group Not Found", fmt.Sprintf("No access group with slug %q exists.", data.Slug.ValueString()))
-			return
-		}
-		group = &result.JSON200.AccessGroups[0]
+		group = got
 
 	default:
 		resp.Diagnostics.AddError("Missing lookup", "Set one of id or slug.")
@@ -132,4 +120,46 @@ func (d *IncidentAccessGroupDataSource) Read(ctx context.Context, req datasource
 
 	model := models.AccessGroupDataSourceModel{}.FromAPI(*group)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &model)...)
+}
+
+// findBySlug looks for an exact slug match, and requires exactly one. The API filters the
+// list by slug, but the provider checks the match itself and walks every page rather than
+// trusting the filter to be exact.
+func (d *IncidentAccessGroupDataSource) findBySlug(ctx context.Context, slug string) (*client.AccessGroupV2, error) {
+	var (
+		after   *string
+		matches []client.AccessGroupV2
+	)
+
+	for {
+		result, err := d.client.AccessGroupsV2ListWithResponse(ctx, &client.AccessGroupsV2ListParams{
+			Slug:     lo.ToPtr(slug),
+			PageSize: lo.ToPtr(int64(250)),
+			After:    after,
+		})
+		if err != nil {
+			return nil, err
+		}
+		if result.JSON200 == nil {
+			return nil, fmt.Errorf("unexpected response listing access groups: %s", result.Status())
+		}
+
+		matches = append(matches, lo.Filter(result.JSON200.AccessGroups, func(group client.AccessGroupV2, _ int) bool {
+			return group.Slug == slug
+		})...)
+
+		if result.JSON200.PaginationMeta == nil || result.JSON200.PaginationMeta.After == nil {
+			break
+		}
+		after = result.JSON200.PaginationMeta.After
+	}
+
+	switch len(matches) {
+	case 0:
+		return nil, fmt.Errorf("no access group found with slug %q", slug)
+	case 1:
+		return &matches[0], nil
+	default:
+		return nil, fmt.Errorf("found %d access groups with slug %q; look it up by id instead", len(matches), slug)
+	}
 }

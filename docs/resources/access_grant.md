@@ -84,7 +84,7 @@ resource "incident_access_grant" "standard" {
 Required:
 
 - `id` (String) The principal's ID
-- `type` (String) The kind of principal. Only access groups can hold grants today.
+- `type` (String) The kind of principal. Only access groups can hold grants today. Possible values are: `access_group`.
 
 
 <a id="nestedatt--resource"></a>
@@ -92,7 +92,7 @@ Required:
 
 Required:
 
-- `type` (String) The kind of resource. organization means the whole organization.
+- `type` (String) The kind of resource. organization means the whole organization. Possible values are: `organization`.
 
 ## Import
 

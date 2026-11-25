@@ -58,7 +58,7 @@ resource "incident_access_grant" "platform" {
 ### Read-Only
 
 - `id` (String) Unique identifier for this access group
-- `type` (String) base for the groups every organisation has, which cannot be changed or deleted, or custom for groups you create
+- `type` (String) base for the groups every organisation has, which cannot be changed or deleted, or custom for groups you create. Possible values are: `base`, `custom`.
 
 ## Import
 

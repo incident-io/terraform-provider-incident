@@ -67,9 +67,9 @@ func (r *IncidentAccessGrantResource) Schema(_ context.Context, _ resource.Schem
 				Attributes: map[string]schema.Attribute{
 					"type": schema.StringAttribute{
 						Required:            true,
-						MarkdownDescription: apischema.Docstring("AccessGrantPrincipalV2", "type"),
+						MarkdownDescription: EnumValuesDescription("AccessGrantPrincipalV2", "type"),
 						Validators: []validator.String{
-							stringvalidator.OneOf(string(client.AccessGrantPrincipalV2TypeAccessGroup)),
+							stringvalidator.OneOf(enumValues("AccessGrantPrincipalV2", "type")...),
 						},
 					},
 					"id": schema.StringAttribute{
@@ -87,9 +87,9 @@ func (r *IncidentAccessGrantResource) Schema(_ context.Context, _ resource.Schem
 				Attributes: map[string]schema.Attribute{
 					"type": schema.StringAttribute{
 						Required:            true,
-						MarkdownDescription: apischema.Docstring("AccessGrantResourceV2", "type"),
+						MarkdownDescription: EnumValuesDescription("AccessGrantResourceV2", "type"),
 						Validators: []validator.String{
-							stringvalidator.OneOf(string(client.Organization)),
+							stringvalidator.OneOf(enumValues("AccessGrantResourceV2", "type")...),
 						},
 					},
 				},
