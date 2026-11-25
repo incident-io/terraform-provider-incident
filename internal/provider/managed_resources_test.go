@@ -283,6 +283,7 @@ func TestClaimableResourcesDeclareTheOptOut(t *testing.T) {
 
 	for _, newResource := range []func() resource.Resource{
 		NewIncidentAlertRouteResource,
+		NewIncidentAlertRulesResource,
 		NewIncidentAlertSourceResource,
 		NewIncidentAPIKeyResource,
 		NewIncidentCatalogTypeResource,

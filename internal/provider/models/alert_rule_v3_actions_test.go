@@ -132,18 +132,41 @@ func TestAlertRuleActionRoundTrip(t *testing.T) {
 				ID:   types.StringNull(),
 				Type: types.StringValue("post_slack"),
 				PostSlack: &AlertRulePostActionV3Model{
-					Channels: v3Values("C1"),
-					Mode:     types.StringValue("per_alert"),
+					Channels:          v3Values("C1"),
+					Mode:              types.StringValue("per_alert"),
+					ChannelVisibility: types.StringValue("public"),
 				},
 			},
 			payload: `{
 				"type": "post_slack",
-				"post_slack": {"channels": {"array_value": [{"literal": "C1"}]}, "mode": "per_alert"}
+				"post_slack": {"channels": {"array_value": [{"literal": "C1"}]}, "mode": "per_alert", "channel_visibility": "public"}
 			}`,
 			response: `{
 				"id": "01SERVERASSIGNED",
 				"type": "post_slack",
-				"post_slack": {"channels": {"array_value": [{"literal": "C1"}]}, "mode": "per_alert"}
+				"post_slack": {"channels": {"array_value": [{"literal": "C1"}]}, "mode": "per_alert", "channel_visibility": "public"}
+			}`,
+		},
+		{
+			name: "post to a private Slack channel",
+			plan: AlertRuleActionV3Model{
+				ID:   types.StringValue("private"),
+				Type: types.StringValue("post_slack"),
+				PostSlack: &AlertRulePostActionV3Model{
+					Channels:          v3Values("C1"),
+					Mode:              types.StringValue("per_alert"),
+					ChannelVisibility: types.StringValue("private"),
+				},
+			},
+			payload: `{
+				"id": "private",
+				"type": "post_slack",
+				"post_slack": {"channels": {"array_value": [{"literal": "C1"}]}, "mode": "per_alert", "channel_visibility": "private"}
+			}`,
+			response: `{
+				"id": "private",
+				"type": "post_slack",
+				"post_slack": {"channels": {"array_value": [{"literal": "C1"}]}, "mode": "per_alert", "channel_visibility": "private"}
 			}`,
 		},
 		{
@@ -152,8 +175,9 @@ func TestAlertRuleActionRoundTrip(t *testing.T) {
 				ID:   types.StringValue("teams"),
 				Type: types.StringValue("post_microsoft_teams"),
 				PostMicrosoftTeams: &AlertRulePostActionV3Model{
-					Channels: v3Array(v3Literal("C1"), v3Reference("alert.attributes.channel")),
-					Mode:     types.StringValue("group_summary"),
+					Channels:          v3Array(v3Literal("C1"), v3Reference("alert.attributes.channel")),
+					Mode:              types.StringValue("group_summary"),
+					ChannelVisibility: types.StringValue("public"),
 				},
 			},
 			payload: `{
@@ -161,7 +185,8 @@ func TestAlertRuleActionRoundTrip(t *testing.T) {
 				"type": "post_microsoft_teams",
 				"post_microsoft_teams": {
 					"channels": {"array_value": [{"literal": "C1"}, {"reference": "alert.attributes.channel"}]},
-					"mode": "group_summary"
+					"mode": "group_summary",
+					"channel_visibility": "public"
 				}
 			}`,
 			response: `{
@@ -169,7 +194,8 @@ func TestAlertRuleActionRoundTrip(t *testing.T) {
 				"type": "post_microsoft_teams",
 				"post_microsoft_teams": {
 					"channels": {"array_value": [{"literal": "C1"}, {"reference": "alert.attributes.channel"}]},
-					"mode": "group_summary"
+					"mode": "group_summary",
+					"channel_visibility": "public"
 				}
 			}`,
 		},
@@ -270,6 +296,9 @@ func TestAlertRuleActionDefaultsMatchTheServer(t *testing.T) {
 	createAttribute, ok := attributes["create_incident"].(schema.SingleNestedAttribute)
 	require.True(t, ok)
 	create := createAttribute.Attributes
+	postAttribute, ok := attributes["post_slack"].(schema.SingleNestedAttribute)
+	require.True(t, ok)
+	post := postAttribute.Attributes
 
 	server := alertRuleActionV3FromAPI(decodeAction(t, `{
 		"type": "escalate",
@@ -279,6 +308,10 @@ func TestAlertRuleActionDefaultsMatchTheServer(t *testing.T) {
 		"type": "create_incident",
 		"create_incident": {"auto_decline": false, "is_private": false}
 	}`), nil).CreateIncident
+	serverPost := alertRuleActionV3FromAPI(decodeAction(t, `{
+		"type": "post_slack",
+		"post_slack": {"channels": {"array_value": [{"literal": "C1"}]}, "mode": "per_alert", "channel_visibility": "public"}
+	}`), nil).PostSlack
 
 	modeAttribute, ok := escalate["mode"].(schema.StringAttribute)
 	require.True(t, ok)
@@ -291,6 +324,12 @@ func TestAlertRuleActionDefaultsMatchTheServer(t *testing.T) {
 	var grace defaults.Int64Response
 	graceAttribute.Default.DefaultInt64(ctx, defaults.Int64Request{}, &grace)
 	assert.Equal(t, server.GracePeriodSeconds, grace.PlanValue, "grace_period_seconds")
+
+	visibilityAttribute, ok := post["channel_visibility"].(schema.StringAttribute)
+	require.True(t, ok)
+	var visibility defaults.StringResponse
+	visibilityAttribute.Default.DefaultString(ctx, defaults.StringRequest{}, &visibility)
+	assert.Equal(t, serverPost.ChannelVisibility, visibility.PlanValue, "channel_visibility")
 
 	for _, tc := range []struct {
 		name      string
@@ -418,26 +457,10 @@ func TestValidateAlertRuleActions(t *testing.T) {
 			want:   []path.Path{at.AtName("escalate")},
 		},
 		{
-			name: "a grace period with on_priority_increase",
+			name: "a grace period with on_priority_increase, which the API keeps",
 			action: AlertRuleActionV3Model{Type: types.StringValue("escalate"), Escalate: &AlertRuleEscalateActionV3Model{
 				Users:              users,
 				Mode:               types.StringValue("on_priority_increase"),
-				GracePeriodSeconds: types.Int64Value(60),
-			}},
-			want: []path.Path{at.AtName("escalate").AtName("grace_period_seconds")},
-		},
-		{
-			name: "a grace period with the default mode",
-			action: AlertRuleActionV3Model{Type: types.StringValue("escalate"), Escalate: &AlertRuleEscalateActionV3Model{
-				Users:              users,
-				GracePeriodSeconds: types.Int64Value(60),
-			}},
-		},
-		{
-			name: "a grace period with on_each_new_alert",
-			action: AlertRuleActionV3Model{Type: types.StringValue("escalate"), Escalate: &AlertRuleEscalateActionV3Model{
-				Users:              users,
-				Mode:               types.StringValue("on_each_new_alert"),
 				GracePeriodSeconds: types.Int64Value(60),
 			}},
 		},
@@ -477,6 +500,97 @@ func TestValidateAlertRuleActions(t *testing.T) {
 			name: "a binding to a known expression",
 			action: AlertRuleActionV3Model{Type: types.StringValue("escalate"), Escalate: &AlertRuleEscalateActionV3Model{
 				EscalationPaths: v3ExpressionRef("team_path"),
+			}},
+		},
+		{
+			name: "a list for a single-value param",
+			action: AlertRuleActionV3Model{Type: types.StringValue("escalate"), Escalate: &AlertRuleEscalateActionV3Model{
+				Users:   users,
+				Urgency: v3Values("URG"),
+			}},
+			want: []path.Path{at.AtName("escalate").AtName("urgency")},
+		},
+		{
+			name: "an array_value for a single-value param",
+			action: AlertRuleActionV3Model{Type: types.StringValue("create_incident"), CreateIncident: &AlertRuleCreateIncidentActionV3Model{
+				IncidentTemplate: v3Array(v3Literal("TPL")),
+			}},
+			want: []path.Path{at.AtName("create_incident").AtName("incident_template")},
+		},
+		{
+			name: "value_literal for a list param",
+			action: AlertRuleActionV3Model{Type: types.StringValue("create_incident"), CreateIncident: &AlertRuleCreateIncidentActionV3Model{
+				MembershipTeams: v3ValueLiteral("TEAM"),
+			}},
+			want: []path.Path{at.AtName("create_incident").AtName("membership_teams")},
+		},
+		{
+			name: "a value_literal Terraform hasn't settled for a list param",
+			action: AlertRuleActionV3Model{Type: types.StringValue("create_incident"), CreateIncident: &AlertRuleCreateIncidentActionV3Model{
+				MembershipTeams: func() *Binding {
+					binding := NullBinding()
+					binding.ValueLiteral = types.StringUnknown()
+					return &binding
+				}(),
+			}},
+		},
+		{
+			name: "value.literal for a list param",
+			action: AlertRuleActionV3Model{Type: types.StringValue("create_incident"), CreateIncident: &AlertRuleCreateIncidentActionV3Model{
+				MembershipTeams: v3Value(v3Literal("TEAM")),
+			}},
+			want: []path.Path{at.AtName("create_incident").AtName("membership_teams")},
+		},
+		{
+			name: "a private Slack channel by its ID",
+			action: AlertRuleActionV3Model{Type: types.StringValue("post_slack"), PostSlack: &AlertRulePostActionV3Model{
+				Channels: v3Values("C1"), Mode: types.StringValue("per_alert"), ChannelVisibility: types.StringValue("private"),
+			}},
+		},
+		{
+			name: "a private Slack channel in array_value",
+			action: AlertRuleActionV3Model{Type: types.StringValue("post_slack"), PostSlack: &AlertRulePostActionV3Model{
+				Channels: v3Array(v3Literal("C1")), Mode: types.StringValue("per_alert"), ChannelVisibility: types.StringValue("private"),
+			}},
+		},
+		{
+			name: "a private channel on Microsoft Teams",
+			action: AlertRuleActionV3Model{Type: types.StringValue("post_microsoft_teams"), PostMicrosoftTeams: &AlertRulePostActionV3Model{
+				Channels: v3Values("C1"), Mode: types.StringValue("per_alert"), ChannelVisibility: types.StringValue("private"),
+			}},
+			want: []path.Path{at.AtName("post_microsoft_teams").AtName("channel_visibility")},
+		},
+		{
+			name: "a private post to two channels",
+			action: AlertRuleActionV3Model{Type: types.StringValue("post_slack"), PostSlack: &AlertRulePostActionV3Model{
+				Channels: v3Values("C1", "C2"), Mode: types.StringValue("per_alert"), ChannelVisibility: types.StringValue("private"),
+			}},
+			want: []path.Path{at.AtName("post_slack").AtName("channels")},
+		},
+		{
+			name: "a private post to a referenced channel",
+			action: AlertRuleActionV3Model{Type: types.StringValue("post_slack"), PostSlack: &AlertRulePostActionV3Model{
+				Channels: v3ValueReference("alert.attributes.channel"), Mode: types.StringValue("per_alert"), ChannelVisibility: types.StringValue("private"),
+			}},
+			want: []path.Path{at.AtName("post_slack").AtName("channels")},
+		},
+		{
+			name: "a private post to a channel ID and a referenced channel",
+			action: AlertRuleActionV3Model{Type: types.StringValue("post_slack"), PostSlack: &AlertRulePostActionV3Model{
+				Channels: v3Array(v3Literal("C1"), v3Reference("alert.attributes.channel")), Mode: types.StringValue("per_alert"), ChannelVisibility: types.StringValue("private"),
+			}},
+			want: []path.Path{at.AtName("post_slack").AtName("channels")},
+		},
+		{
+			name: "a private Slack channel whose ID is not known yet",
+			action: AlertRuleActionV3Model{Type: types.StringValue("post_slack"), PostSlack: &AlertRulePostActionV3Model{
+				Channels: v3Array(BindingValue{Literal: types.StringUnknown(), Reference: types.StringNull()}), Mode: types.StringValue("per_alert"), ChannelVisibility: types.StringValue("private"),
+			}},
+		},
+		{
+			name: "a reference for a list param, which can resolve to a list",
+			action: AlertRuleActionV3Model{Type: types.StringValue("create_incident"), CreateIncident: &AlertRuleCreateIncidentActionV3Model{
+				MembershipTeams: v3ValueReference("alert.attributes.teams"),
 			}},
 		},
 	} {
@@ -519,7 +633,7 @@ func TestAlertRuleActionsSchemaMatchesTheModel(t *testing.T) {
 		{
 			ID:        types.StringValue("slack"),
 			Type:      types.StringValue("post_slack"),
-			PostSlack: &AlertRulePostActionV3Model{Channels: v3Values("C1"), Mode: types.StringValue("per_alert")},
+			PostSlack: &AlertRulePostActionV3Model{Channels: v3Values("C1"), Mode: types.StringValue("per_alert"), ChannelVisibility: types.StringValue("private")},
 		},
 		{
 			ID:   types.StringNull(),

@@ -400,6 +400,59 @@ func (v IncidentEngineParamBindingValue) meansTheSameAs(other IncidentEnginePara
 	return jsontypes.JSONStringsEqual(v.Literal.ValueString(), other.Literal.ValueString())
 }
 
+// ShortestSpelling returns the narrowest spelling that means the same, as BindingFromPayload
+// does: value_literal, value_reference or expression_ref for one value, values for literals
+// only, and the long form for anything else. It is for a read with no config to copy the
+// spelling from, such as an import, where the long form would plan a change against a config
+// written in the shorthand.
+func (binding IncidentEngineParamBinding) ShortestSpelling() IncidentEngineParamBinding {
+	resolved := binding.resolved()
+	if resolved.unsettled || (resolved.Value != nil && len(resolved.ArrayValue) > 0) {
+		return binding
+	}
+
+	out := NullParamBinding()
+	if value := resolved.Value; value != nil {
+		switch {
+		case isSet(value.Literal) && value.Reference.IsNull():
+			out.ValueLiteral = value.Literal
+		case isSet(value.Reference) && value.Literal.IsNull():
+			if name := ExpressionNameFromReference(value.Reference.ValueString()); name != "" {
+				out.ExpressionRef = types.StringValue(name)
+			} else {
+				out.ValueReference = value.Reference
+			}
+		default:
+			return binding
+		}
+
+		return out
+	}
+
+	literals := []jsontypes.NormalizedJSONOrString{}
+	for _, value := range resolved.ArrayValue {
+		if !isSet(value.Literal) || !value.Reference.IsNull() {
+			return binding
+		}
+		literals = append(literals, value.Literal)
+	}
+	out.Values = ParamBindingValuesList(literals...)
+
+	return out
+}
+
+// ShortestSpelling rewrites every param binding in the groups in place.
+func (groups IncidentEngineConditionGroups) ShortestSpelling() {
+	for gi := range groups {
+		for ci := range groups[gi].Conditions {
+			bindings := groups[gi].Conditions[ci].ParamBindings
+			for bi := range bindings {
+				bindings[bi] = bindings[bi].ShortestSpelling()
+			}
+		}
+	}
+}
+
 // ReconcileBindingSpelling is ReconcileSpelling for the standalone bindings a resource holds as a
 // pointer, rather than as part of a list.
 func ReconcileBindingSpelling(applied, prior *IncidentEngineParamBinding) *IncidentEngineParamBinding {
