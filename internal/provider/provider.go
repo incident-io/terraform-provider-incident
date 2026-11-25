@@ -153,6 +153,8 @@ func (p *IncidentProvider) Configure(ctx context.Context, req provider.Configure
 
 func (p *IncidentProvider) Resources(ctx context.Context) []func() resource.Resource {
 	return []func() resource.Resource{
+		NewIncidentAccessGrantResource,
+		NewIncidentAccessGroupResource,
 		NewIncidentAlertAttributeResource,
 		NewIncidentAlertRouteResource,
 		NewIncidentAlertSourceResource,
@@ -203,6 +205,8 @@ func (p *IncidentProvider) Resources(ctx context.Context) []func() resource.Reso
 
 func (p *IncidentProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
+		NewIncidentAccessGroupDataSource,
+		NewIncidentAccessPrivilegesDataSource,
 		NewIncidentAlertAttributeDataSource,
 		NewIncidentAlertRouteDataSource,
 		NewIncidentAlertSourceDataSource,
