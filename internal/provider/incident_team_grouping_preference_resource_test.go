@@ -1,6 +1,7 @@
 package provider
 
 import (
+	"os"
 	"regexp"
 	"testing"
 
@@ -9,8 +10,15 @@ import (
 )
 
 // TestAccIncidentTeamGroupingPreferenceResource needs team grouping preferences enabled
-// for the test organisation, as the API refuses every write otherwise.
+// for the test organisation, as the API refuses every write otherwise. The preference it
+// writes also makes the API return when_alert_joins_group on every v3 route, breaking the
+// route tests the other CI jobs run at the same time, so it skips unless TF_ACC_ALERT_RULES
+// is set.
 func TestAccIncidentTeamGroupingPreferenceResource(t *testing.T) {
+	if os.Getenv("TF_ACC_ALERT_RULES") == "" {
+		t.Skip("No TF_ACC_ALERT_RULES environment variable set, skipping")
+	}
+
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,

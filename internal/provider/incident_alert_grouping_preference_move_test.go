@@ -1,6 +1,7 @@
 package provider
 
 import (
+	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -70,9 +71,15 @@ func TestGroupingPreferenceMovesFromTheTeamResource(t *testing.T) {
 
 // TestAccIncidentGroupingPreferenceMovedFromTeamResource moves a preference from the
 // resource this one replaces with a `moved` block, and expects the move to plan no change.
-// It writes only a team's default, which the API allows whatever the organisation routes
-// alerts with.
+// While any team has a grouping preference, even one with grouping off, the API returns
+// when_alert_joins_group on every v3 route, which breaks the route tests the other CI jobs run
+// against the same organisation at the same time. So it skips unless TF_ACC_ALERT_RULES is set,
+// as the resource's own acceptance test does.
 func TestAccIncidentGroupingPreferenceMovedFromTeamResource(t *testing.T) {
+	if os.Getenv("TF_ACC_ALERT_RULES") == "" {
+		t.Skip("No TF_ACC_ALERT_RULES environment variable set, skipping")
+	}
+
 	preferenceID := statecheck.CompareValue(compare.ValuesSame())
 
 	tfresource.Test(t, tfresource.TestCase{
