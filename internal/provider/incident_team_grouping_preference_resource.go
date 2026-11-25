@@ -38,7 +38,16 @@ func (r *IncidentTeamGroupingPreferenceResource) Metadata(_ context.Context, req
 
 func (r *IncidentTeamGroupingPreferenceResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: fmt.Sprintf("%s\n\n%s", apischema.TagDocstring("Team Grouping Preferences V3"),
+		DeprecationMessage: "`incident_team_grouping_preference` is replaced by `incident_alert_grouping_preference`, which also " +
+			"manages a team's grouping branches and the organisation default. Add `kind = \"team\"` to move a preference " +
+			"over without recreating it, on Terraform 1.8 or later:\n\nmoved {\n  from = incident_team_grouping_preference.example\n" +
+			"  to   = incident_alert_grouping_preference.example\n}\n\nOn earlier versions, run terraform state rm on the old " +
+			"address and import the preference into the new resource by its ID.",
+		MarkdownDescription: fmt.Sprintf("%s\n\n%s\n\n%s",
+			`~> **Deprecated:** use `+"`incident_alert_grouping_preference`"+` with `+"`kind = \"team\"`"+`, which also manages the
+team's grouping branches. This resource keeps working. That resource's page explains how to move a preference
+over with a `+"`moved`"+` block.`,
+			apischema.TagDocstring("Team Grouping Preferences V3"),
 			`A team has at most one preference, and it cannot move to another team: changing `+"`team_id`"+` destroys the
 preference and creates one for the new team. The settings use the field names of an alert route's
 `+"`grouping_config`"+`, so a team's preference can be written by copying the route block it replaces.
