@@ -182,7 +182,7 @@ Read-Only:
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
 - `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
-- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
+- `urgency` (String) The interruption level we notify this target at: high or low. Possible values are: `high`, `low`.
 
 
 
@@ -214,7 +214,7 @@ Read-Only:
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
 - `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
-- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
+- `urgency` (String) The interruption level we notify this target at: high or low. Possible values are: `high`, `low`.
 
 
 

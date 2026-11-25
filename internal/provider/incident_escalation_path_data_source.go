@@ -463,7 +463,7 @@ func (d *EscalationPathDataSource) Read(ctx context.Context, req datasource.Read
 
 	var escalationPath *client.EscalationPathV2
 	if !data.ID.IsNull() {
-		result, err := d.client.EscalationsV2ShowPathWithResponse(ctx, data.ID.ValueString())
+		result, err := d.client.EscalationPathsV2ShowWithResponse(ctx, data.ID.ValueString())
 		if err != nil {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read escalation path, got error: %s", err))
 			return
@@ -508,7 +508,7 @@ func (d *EscalationPathDataSource) Read(ctx context.Context, req datasource.Read
 			return
 		}
 
-		result, err := d.client.EscalationsV2ShowPathWithResponse(ctx, *catalogEntry.ExternalId)
+		result, err := d.client.EscalationPathsV2ShowWithResponse(ctx, *catalogEntry.ExternalId)
 		if err != nil {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read escalation path with ID %s, got error: %s", *catalogEntry.ExternalId, err))
 			return

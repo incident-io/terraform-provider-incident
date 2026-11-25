@@ -342,7 +342,7 @@ var escalationPathValidateTimeout = 10 * time.Second
 // such as a branch with no nodes in it. The API's path is a dotted/indexed location into
 // the payload rather than a schema attribute path, so these surface as plan-level warnings
 // rather than attribute ones.
-func addEscalationPathValidateWarnings(result *client.EscalationsV2ValidatePathResponse, diags *diag.Diagnostics) {
+func addEscalationPathValidateWarnings(result *client.EscalationPathsV2ValidateResponse, diags *diag.Diagnostics) {
 	if result == nil || result.JSON200 == nil {
 		return
 	}
@@ -387,12 +387,12 @@ func (r *escalationPathResource) ModifyPlan(ctx context.Context, req resource.Mo
 	ctx, cancel := context.WithTimeout(ctx, escalationPathValidateTimeout)
 	defer cancel()
 
-	result, err := r.client.EscalationsV2ValidatePathWithResponse(ctx, client.EscalationsV2ValidatePathJSONRequestBody{
+	result, err := r.client.EscalationPathsV2ValidateWithResponse(ctx, client.EscalationPathsV2ValidateJSONRequestBody{
 		Path:          payload.Path,
 		TeamIds:       payload.TeamIds,
 		WorkingHours:  payload.WorkingHours,
 		RepeatConfig:  payload.RepeatConfig,
-		Kind:          (*client.EscalationsValidatePathPayloadV2Kind)(payload.Kind),
+		Kind:          (*client.EscalationPathsValidatePayloadV2Kind)(payload.Kind),
 		TemplateId:    payload.TemplateID,
 		ParamBindings: payload.ParamBindings,
 	})
@@ -471,13 +471,13 @@ func (r *escalationPathResource) Create(ctx context.Context, req resource.Create
 		return
 	}
 
-	result, err := r.client.EscalationsV2CreatePathWithResponse(ctx, client.EscalationsV2CreatePathJSONRequestBody{
+	result, err := r.client.EscalationPathsV2CreateWithResponse(ctx, client.EscalationPathsV2CreateJSONRequestBody{
 		Name:          data.Name.ValueString(),
 		Path:          payload.Path,
 		WorkingHours:  payload.WorkingHours,
 		TeamIds:       payload.TeamIds,
 		RepeatConfig:  payload.RepeatConfig,
-		Kind:          (*client.EscalationsCreatePathPayloadV2Kind)(payload.Kind),
+		Kind:          (*client.EscalationPathsCreatePayloadV2Kind)(payload.Kind),
 		TemplateId:    payload.TemplateID,
 		ParamBindings: payload.ParamBindings,
 	})
@@ -526,7 +526,7 @@ func (r *escalationPathResource) Read(ctx context.Context, req resource.ReadRequ
 		return
 	}
 
-	result, err := r.client.EscalationsV2ShowPathWithResponse(ctx, data.ID.ValueString())
+	result, err := r.client.EscalationPathsV2ShowWithResponse(ctx, data.ID.ValueString())
 	if isNotFound(err) {
 		tflog.Warn(ctx, fmt.Sprintf("Escalation path with ID %s not found: removing from state.", data.ID.ValueString()))
 		resp.State.RemoveResource(ctx)
@@ -561,13 +561,13 @@ func (r *escalationPathResource) Update(ctx context.Context, req resource.Update
 		return
 	}
 
-	result, err := r.client.EscalationsV2UpdatePathWithResponse(ctx, data.ID.ValueString(), client.EscalationsV2UpdatePathJSONRequestBody{
+	result, err := r.client.EscalationPathsV2UpdateWithResponse(ctx, data.ID.ValueString(), client.EscalationPathsV2UpdateJSONRequestBody{
 		Name:          data.Name.ValueString(),
 		Path:          payload.Path,
 		WorkingHours:  payload.WorkingHours,
 		TeamIds:       payload.TeamIds,
 		RepeatConfig:  payload.RepeatConfig,
-		Kind:          (*client.EscalationsUpdatePathPayloadV2Kind)(payload.Kind),
+		Kind:          (*client.EscalationPathsUpdatePayloadV2Kind)(payload.Kind),
 		TemplateId:    payload.TemplateID,
 		ParamBindings: payload.ParamBindings,
 	})
@@ -601,7 +601,7 @@ func (r *escalationPathResource) Delete(ctx context.Context, req resource.Delete
 		return
 	}
 
-	_, err := r.client.EscalationsV2DestroyPathWithResponse(ctx, data.ID.ValueString())
+	_, err := r.client.EscalationPathsV2DestroyWithResponse(ctx, data.ID.ValueString())
 	if err != nil && !isNotFound(err) {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete escalation path, got error: %s", err))
 		return
