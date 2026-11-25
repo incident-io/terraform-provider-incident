@@ -43,9 +43,8 @@ type AlertRuleEscalateActionV3Model struct {
 }
 
 type AlertRulePostActionV3Model struct {
-	Channels        *Binding     `tfsdk:"channels"`
-	MessageTemplate *Binding     `tfsdk:"message_template"`
-	Mode            types.String `tfsdk:"mode"`
+	Channels *Binding     `tfsdk:"channels"`
+	Mode     types.String `tfsdk:"mode"`
 }
 
 type AlertRuleCreateIncidentActionV3Model struct {
@@ -152,7 +151,6 @@ func alertRulePostAttribute(actionType, product string) schema.Attribute {
 				Description: "The channels to post to: channel IDs in `values`, or a reference.",
 				Attributes:  BindingAttributes(),
 			},
-			"message_template": BindingAttribute("The alert message template to post with: its ID, or a reference. Leave it out to post the default message."),
 			"mode": schema.StringAttribute{
 				Required:            true,
 				MarkdownDescription: apischema.EnumValuesDescription("AlertRulePostActionV3", "mode"),
@@ -226,7 +224,6 @@ func validateAlertRuleAction(action AlertRuleActionV3Model, at path.Path, known 
 	} {
 		if post.model != nil {
 			ValidateBinding(post.model.Channels, at.AtName(post.name).AtName("channels"), known, diags)
-			ValidateBinding(post.model.MessageTemplate, at.AtName(post.name).AtName("message_template"), known, diags)
 		}
 	}
 
@@ -307,12 +304,11 @@ func (m *AlertRulePostActionV3Model) toPayload() (*client.AlertRulePostActionV3,
 		Mode: client.AlertRulePostActionV3Mode(m.Mode.ValueString()),
 	}
 
-	// channels is the one binding the payload holds by value. The schema requires it, and
-	// the server refuses the empty one sent if it's missing anyway.
+	// The payload holds channels by value. The schema requires it, and the server refuses
+	// the empty one sent if it's missing anyway.
 	var channels *client.EngineParamBindingPayloadV3
 	err := bindingsToPayload(
 		bindingField{"channels", m.Channels, &channels},
-		bindingField{"message_template", m.MessageTemplate, &payload.MessageTemplate},
 	)
 	payload.Channels = lo.FromPtr(channels)
 
@@ -433,9 +429,8 @@ func postActionFromAPI(post *client.AlertRulePostActionV3, prior *AlertRulePostA
 	p := lo.FromPtr(prior)
 
 	return &AlertRulePostActionV3Model{
-		Channels:        ReconcileBinding(p.Channels, &post.Channels),
-		MessageTemplate: ReconcileBinding(p.MessageTemplate, post.MessageTemplate),
-		Mode:            types.StringValue(string(post.Mode)),
+		Channels: ReconcileBinding(p.Channels, &post.Channels),
+		Mode:     types.StringValue(string(post.Mode)),
 	}
 }
 

@@ -147,14 +147,13 @@ func TestAlertRuleActionRoundTrip(t *testing.T) {
 			}`,
 		},
 		{
-			name: "post to Microsoft Teams with a template",
+			name: "post a group summary to Microsoft Teams",
 			plan: AlertRuleActionV3Model{
 				ID:   types.StringValue("teams"),
 				Type: types.StringValue("post_microsoft_teams"),
 				PostMicrosoftTeams: &AlertRulePostActionV3Model{
-					Channels:        v3Array(v3Literal("C1"), v3Reference("alert.attributes.channel")),
-					MessageTemplate: v3ValueLiteral("TPL"),
-					Mode:            types.StringValue("group_summary"),
+					Channels: v3Array(v3Literal("C1"), v3Reference("alert.attributes.channel")),
+					Mode:     types.StringValue("group_summary"),
 				},
 			},
 			payload: `{
@@ -162,7 +161,6 @@ func TestAlertRuleActionRoundTrip(t *testing.T) {
 				"type": "post_microsoft_teams",
 				"post_microsoft_teams": {
 					"channels": {"array_value": [{"literal": "C1"}, {"reference": "alert.attributes.channel"}]},
-					"message_template": {"value": {"literal": "TPL"}},
 					"mode": "group_summary"
 				}
 			}`,
@@ -171,7 +169,6 @@ func TestAlertRuleActionRoundTrip(t *testing.T) {
 				"type": "post_microsoft_teams",
 				"post_microsoft_teams": {
 					"channels": {"array_value": [{"literal": "C1"}, {"reference": "alert.attributes.channel"}]},
-					"message_template": {"value": {"literal": "TPL"}},
 					"mode": "group_summary"
 				}
 			}`,
