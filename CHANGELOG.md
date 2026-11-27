@@ -1,6 +1,6 @@
 ## Unreleased
 
-- Fix `incident_schedule_rotation` changing who is on call when you edit another attribute, like `name`, after a phased `rollout`: an update now leaves `first_interval_starts_at` out unless you changed it. (#PRNUM)
+- Fix `incident_schedule_rotation` changing who is on call when you edit another attribute, like `name`, after a phased `rollout`: an update now leaves `first_interval_starts_at` out unless you changed it. (#709)
 - Fix `incident_status_page_structure` failing to plan with a "Value Conversion Error" when `items`, or a group's `components`, is built from a variable. (#701)
 - Add the `incident_alert_grouping_preference` resource, which manages the organisation's default alert grouping or one team's, including branches that group alerts differently by condition. It replaces `incident_team_grouping_preference`, which is now deprecated: move to it with a `moved` block. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/alert_grouping_preference). (#691)
 - Add the `incident_alert_rules` resource, which manages an organisation's required or default alert rules, or one team's. Import existing required and default rules to manage them: destroying one empties it and hands it back to the dashboard. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/alert_rules). (#688)
