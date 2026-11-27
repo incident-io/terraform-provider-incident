@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Fix `incident_escalation_path` and `incident_escalation_path_template` rejecting a branch whose `then` names a sequence with no nodes, which is how an imported path that stops when the condition matches is written. Such a sequence now ends the escalation path. (#708)
+
 ## v7.12.0
 
 - Fix `incident_status_page_structure` failing to plan with a "Value Conversion Error" when `items`, or a group's `components`, is built from a variable. (#701)
