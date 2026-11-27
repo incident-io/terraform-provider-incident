@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -48,15 +49,21 @@ func (f escalationPathVersionedFields) version() escalationPathAPIVersion {
 	return escalationPathAPIV3
 }
 
-// escalationPathFields walks a path's sequences for the fields that pick its version. An
-// unknown value counts as set: it's a value another resource computes, and it will almost
-// always resolve to one.
+// escalationPathFields walks a path's sequences for the fields that pick its version.
+// countUnknown says whether a value that isn't known yet counts as set. Picking a version
+// counts it, since such a value almost always resolves to one. Reporting a mix doesn't,
+// since two unknowns can be alternatives that resolve to one version, like the two sides
+// of a conditional.
 //
 // A templated path has no sequences, so it sets nothing and goes through V3.
-func escalationPathFields(ctx context.Context, data *escalationPathModel, diags *diag.Diagnostics) escalationPathVersionedFields {
+func escalationPathFields(ctx context.Context, data *escalationPathModel, countUnknown bool, diags *diag.Diagnostics) escalationPathVersionedFields {
 	var fields escalationPathVersionedFields
 	if data == nil {
 		return fields
+	}
+
+	set := func(value attr.Value) bool {
+		return !value.IsNull() && (countUnknown || !value.IsUnknown())
 	}
 
 	sequences := decodeSequences(ctx, data.Sequences, diags)
@@ -67,10 +74,10 @@ func escalationPathFields(ctx context.Context, data *escalationPathModel, diags 
 			for _, holder := range escalationPathNodeTargets(node) {
 				for targetIndex, target := range decodeTargets(ctx, holder.targets, diags) {
 					targetPath := fmt.Sprintf("%s.%s.targets[%d]", nodePath, holder.block, targetIndex)
-					if !target.Urgency.IsNull() {
+					if set(target.Urgency) {
 						fields.v2 = append(fields.v2, targetPath+".urgency")
 					}
-					if !target.InterruptionLevel.IsNull() {
+					if set(target.InterruptionLevel) {
 						fields.v3 = append(fields.v3, targetPath+".interruption_level")
 					}
 				}
@@ -78,10 +85,10 @@ func escalationPathFields(ctx context.Context, data *escalationPathModel, diags 
 
 			if node.Branch != nil && node.Branch.If != nil {
 				ifPath := nodePath + ".branch.if"
-				if !node.Branch.If.PriorityOneOf.IsNull() {
+				if set(node.Branch.If.PriorityOneOf) {
 					fields.v2 = append(fields.v2, ifPath+".priority_one_of")
 				}
-				if !node.Branch.If.UrgencyOneOf.IsNull() {
+				if set(node.Branch.If.UrgencyOneOf) {
 					fields.v3 = append(fields.v3, ifPath+".urgency_one_of")
 				}
 			}
@@ -112,13 +119,13 @@ func escalationPathNodeTargets(node escalationPathNode) []escalationPathTargetHo
 
 // escalationPathVersionOf is the API version a plan or state goes through.
 func escalationPathVersionOf(ctx context.Context, data *escalationPathModel, diags *diag.Diagnostics) escalationPathAPIVersion {
-	return escalationPathFields(ctx, data, diags).version()
+	return escalationPathFields(ctx, data, true, diags).version()
 }
 
 // validateEscalationPathVersion rejects a path mixing V2 and V3 fields, listing every one
 // of them so the author can see what to change in one pass rather than one error at a time.
 func validateEscalationPathVersion(ctx context.Context, data *escalationPathModel, diags *diag.Diagnostics) {
-	fields := escalationPathFields(ctx, data, diags)
+	fields := escalationPathFields(ctx, data, false, diags)
 	if len(fields.v2) == 0 || len(fields.v3) == 0 {
 		return
 	}

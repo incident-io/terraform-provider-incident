@@ -132,7 +132,8 @@ func validateEscalationPathTemplateBranches(ctx context.Context, sequences types
 	decoded := decodeSequences(ctx, sequences, diags)
 	for _, key := range sortedKeys(decoded) {
 		for index, node := range decoded[key] {
-			if node.Branch == nil || node.Branch.If == nil || node.Branch.If.UrgencyOneOf.IsNull() {
+			// An unknown value may resolve to null, which a template can have.
+			if node.Branch == nil || node.Branch.If == nil || node.Branch.If.UrgencyOneOf.IsNull() || node.Branch.If.UrgencyOneOf.IsUnknown() {
 				continue
 			}
 			diags.AddAttributeError(

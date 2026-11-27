@@ -29,20 +29,27 @@ func levelNodeV3(t *testing.T) escalationPathNode {
 	return escalationPathNode{ID: types.StringNull(), Level: &IncidentEscalationPathNodeLevel{Targets: targets}}
 }
 
-// levelNodeNoSetting is a level whose target sets neither urgency nor interruption_level.
-func levelNodeNoSetting(t *testing.T) escalationPathNode {
+// levelNodeWith is a level whose target sets urgency and interruption_level as given.
+func levelNodeWith(t *testing.T, urgency, interruptionLevel types.String) escalationPathNode {
 	t.Helper()
 
 	node := levelNodeV3(t)
 	var diags diag.Diagnostics
 	targets := decodeTargets(context.Background(), node.Level.Targets, &diags)
-	targets[0].InterruptionLevel = types.StringNull()
+	targets[0].Urgency = urgency
+	targets[0].InterruptionLevel = interruptionLevel
 	list, d := types.ListValueFrom(context.Background(), types.ObjectType{AttrTypes: targetAttrTypes()}, targets)
 	if d.HasError() {
 		t.Fatalf("building targets: %+v", d)
 	}
 	node.Level.Targets = list
 	return node
+}
+
+// levelNodeNoSetting is a level whose target sets neither urgency nor interruption_level.
+func levelNodeNoSetting(t *testing.T) escalationPathNode {
+	t.Helper()
+	return levelNodeWith(t, types.StringNull(), types.StringNull())
 }
 
 func TestEscalationPathVersionOf(t *testing.T) {
@@ -131,6 +138,26 @@ Current (interruption_level, urgency_one_of):
   - sequences["urgent"].nodes[0].level.targets[0].interruption_level`
 		if got.Detail() != want {
 			t.Errorf("got detail:\n%s\n\nwant:\n%s", got.Detail(), want)
+		}
+	})
+
+	// Two unknowns can be the two sides of a conditional, which resolve to one version.
+	t.Run("waits for values another resource computes", func(t *testing.T) {
+		for name, sequences := range map[string]map[string][]escalationPathNode{
+			"both unknown": {"main": {
+				levelNodeWith(t, types.StringUnknown(), types.StringNull()),
+				levelNodeWith(t, types.StringNull(), types.StringUnknown()),
+			}},
+			"one known, one unknown": {"main": {
+				levelNode(t, ""),
+				levelNodeWith(t, types.StringNull(), types.StringUnknown()),
+			}},
+		} {
+			var diags diag.Diagnostics
+			validateEscalationPathVersion(ctx, betaModel(t, "main", sequences), &diags)
+			if diags.HasError() {
+				t.Errorf("%s: unexpected errors: %+v", name, diags)
+			}
 		}
 	})
 
@@ -251,14 +278,55 @@ func apiNodesV3(payload []client.EscalationPathNodePayloadV3) []client.Escalatio
 func TestValidateEscalationPathTemplateBranches(t *testing.T) {
 	ctx := context.Background()
 
-	data := betaModel(t, "main", map[string][]escalationPathNode{
-		"main":   {levelNode(t, ""), branchWith(urgencyIf(t, "01HIGH"))},
-		"urgent": {levelNode(t, "")},
+	t.Run("rejects urgency_one_of", func(t *testing.T) {
+		data := betaModel(t, "main", map[string][]escalationPathNode{
+			"main":   {levelNode(t, ""), branchWith(urgencyIf(t, "01HIGH"))},
+			"urgent": {levelNode(t, "")},
+		})
+
+		var diags diag.Diagnostics
+		validateEscalationPathTemplateBranches(ctx, data.Sequences, &diags)
+		if diags.ErrorsCount() != 1 || diags.Errors()[0].Summary() != "Templates can't branch on urgency" {
+			t.Errorf("got %+v, want one error refusing urgency_one_of", diags)
+		}
 	})
 
-	var diags diag.Diagnostics
-	validateEscalationPathTemplateBranches(ctx, data.Sequences, &diags)
-	if diags.ErrorsCount() != 1 || diags.Errors()[0].Summary() != "Templates can't branch on urgency" {
-		t.Errorf("got %+v, want one error refusing urgency_one_of", diags)
+	t.Run("waits for an urgency_one_of another resource computes", func(t *testing.T) {
+		branchIf := priorityIf(t, "01P1")
+		branchIf.UrgencyOneOf = types.SetUnknown(types.StringType)
+		data := betaModel(t, "main", map[string][]escalationPathNode{
+			"main":   {levelNode(t, ""), branchWith(branchIf)},
+			"urgent": {levelNode(t, "")},
+		})
+
+		var diags diag.Diagnostics
+		validateEscalationPathTemplateBranches(ctx, data.Sequences, &diags)
+		if diags.HasError() {
+			t.Errorf("unexpected errors: %+v", diags)
+		}
+	})
+}
+
+// TestValidateSequenceConditionsSuggestsOneOf checks a branch testing nothing is pointed at
+// the attribute the rest of the path uses.
+func TestValidateSequenceConditionsSuggestsOneOf(t *testing.T) {
+	ctx := context.Background()
+
+	for _, oneOf := range []string{"priority_one_of", "urgency_one_of"} {
+		empty := &escalationPathBranchIf{
+			WorkingHoursActive: types.StringNull(),
+			PriorityOneOf:      types.SetNull(types.StringType),
+			UrgencyOneOf:       types.SetNull(types.StringType),
+		}
+		data := betaModel(t, "main", map[string][]escalationPathNode{
+			"main":   {branchWith(empty)},
+			"urgent": {levelNode(t, "")},
+		})
+
+		var diags diag.Diagnostics
+		validateSequenceConditions(ctx, data, oneOf, &diags)
+		if diags.ErrorsCount() != 1 || !strings.Contains(diags.Errors()[0].Detail(), "Set working_hours_active or "+oneOf) {
+			t.Errorf("%s: got %+v, want one error suggesting it", oneOf, diags)
+		}
 	}
 }
