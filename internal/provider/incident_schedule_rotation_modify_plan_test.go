@@ -588,3 +588,91 @@ func TestScheduleRotationModifyPlanSupersededChangeQuiet(t *testing.T) {
 		}
 	})
 }
+
+// updateRotation runs Update against a fake API whose rotation has had its first
+// interval slid a week on by a phased rollout. It returns the first_interval_starts_at
+// the update sent, if any, and the resulting state.
+func updateRotation(t *testing.T, state, plan tftypes.Value) (sent json.RawMessage, after IncidentScheduleRotationModel) {
+	t.Helper()
+
+	mux := http.NewServeMux()
+	mux.HandleFunc("/v3/schedules/", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodPut {
+			w.WriteHeader(http.StatusNotFound)
+			return
+		}
+
+		var body struct {
+			Rotation map[string]json.RawMessage `json:"rotation"`
+		}
+		if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+			t.Fatalf("decoding update: %v", err)
+		}
+		sent = body.Rotation["first_interval_starts_at"]
+
+		rotation := rotationFixture()
+		rotation.FirstIntervalStartsAt = time.Date(2024, 1, 15, 9, 0, 0, 0, time.UTC)
+		if sent != nil {
+			if err := json.Unmarshal(sent, &rotation.FirstIntervalStartsAt); err != nil {
+				t.Fatalf("decoding first_interval_starts_at: %v", err)
+			}
+		}
+		_ = json.Unmarshal(body.Rotation["name"], &rotation.Name)
+		writeJSON(t, w, map[string]any{"rotation": rotation})
+	})
+	server := httptest.NewServer(mux)
+	t.Cleanup(server.Close)
+
+	api, err := client.New(t.Context(), "test-key", server.URL, "test")
+	if err != nil {
+		t.Fatalf("building client: %v", err)
+	}
+
+	var schemaResp resource.SchemaResponse
+	NewIncidentScheduleRotationResource().Schema(context.Background(), resource.SchemaRequest{}, &schemaResp)
+
+	r := &IncidentScheduleRotationResource{resourceConfigurer: withClient(api)}
+	resp := resource.UpdateResponse{State: tfsdk.State{Schema: schemaResp.Schema}}
+	r.Update(context.Background(), resource.UpdateRequest{
+		State: tfsdk.State{Schema: schemaResp.Schema, Raw: state},
+		Plan:  tfsdk.Plan{Schema: schemaResp.Schema, Raw: plan},
+	}, &resp)
+	if resp.Diagnostics.HasError() {
+		t.Fatalf("update failed: %v", resp.Diagnostics)
+	}
+	resp.Diagnostics.Append(resp.State.Get(context.Background(), &after)...)
+
+	return sent, after
+}
+
+// TestScheduleRotationUpdateKeepsSlidHandover is the sequence from GitHub #654: a
+// phased rollout slid the API's first_interval_starts_at a week on, state kept the
+// configured value, and a rename then sent that value back, changing who was on call.
+func TestScheduleRotationUpdateKeepsSlidHandover(t *testing.T) {
+	state := rotationValue(t, "01SCHED", 1)
+
+	t.Run("a rename leaves it out", func(t *testing.T) {
+		plan := withAttribute(t, state, "name", tftypes.NewValue(tftypes.String, "Renamed"))
+
+		sent, after := updateRotation(t, state, plan)
+		if sent != nil {
+			t.Errorf("expected no first_interval_starts_at in the update, got %s", sent)
+		}
+		if got := after.FirstIntervalStartsAt.ValueString(); got != "2024-01-08T09:00:00Z" {
+			t.Errorf("expected state to keep the configured value, got %s", got)
+		}
+	})
+
+	t.Run("moving it in config sends it", func(t *testing.T) {
+		plan := withAttribute(t, state, "first_interval_starts_at",
+			tftypes.NewValue(tftypes.String, "2024-01-09T14:00:00Z"))
+
+		sent, after := updateRotation(t, state, plan)
+		if string(sent) != `"2024-01-09T14:00:00Z"` {
+			t.Errorf("expected the new first_interval_starts_at to be sent, got %s", sent)
+		}
+		if got := after.FirstIntervalStartsAt.ValueString(); got != "2024-01-09T14:00:00Z" {
+			t.Errorf("expected state to hold the new value, got %s", got)
+		}
+	})
+}

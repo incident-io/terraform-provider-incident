@@ -1,7 +1,7 @@
 ## Unreleased
 
 - Add `alertmanager_options` to the `incident_alert_source` resource and data source. Its `one_alert_per_group` sets whether an Alertmanager source creates one alert per Alertmanager group, or one alert for each alert that fires. Leave the block out to keep the setting chosen in the dashboard. A new source groups alerts. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/alert_source). (#711)
-
+- Fix `incident_schedule_rotation` changing who is on call when you edit another attribute, like `name`, after a phased `rollout`: an update now leaves `first_interval_starts_at` out unless you changed it. (#709)
 - Fix `incident_escalation_path` and `incident_escalation_path_template` rejecting a branch whose `then` names a sequence with no nodes, which is how an imported path that stops when the condition matches is written. Such a sequence now ends the escalation path. (#708)
 
 ## v7.12.0
