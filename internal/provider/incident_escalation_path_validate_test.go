@@ -414,6 +414,68 @@ func TestValidateSequencesEmptyElseWithUnknownTarget(t *testing.T) {
 	t.Errorf("expected the empty else sequence to be rejected, got %+v", diags.Errors())
 }
 
+// TestValidateSequencesEmptyWithUnknownTarget covers empty sequences while a branch target is
+// still unknown: only an unknown then could make one valid, and never the start.
+func TestValidateSequencesEmptyWithUnknownTarget(t *testing.T) {
+	unknownThen := branchNode("", "")
+	unknownThen.Branch.Then = types.StringUnknown()
+	unknownElse := branchNode("main_then", "")
+	unknownElse.Branch.Else = types.StringUnknown()
+
+	for _, tc := range []struct {
+		name      string
+		start     string
+		sequences map[string][]escalationPathNode
+		wantError string
+	}{
+		{
+			name:  "an unknown then may name the empty sequence",
+			start: "main",
+			sequences: map[string][]escalationPathNode{
+				"main":  {unknownThen},
+				"empty": {},
+			},
+		},
+		{
+			name:  "the start is empty",
+			start: "main",
+			sequences: map[string][]escalationPathNode{
+				"main":  {},
+				"other": {unknownThen},
+			},
+			wantError: "Sequence \"main\" has no nodes",
+		},
+		{
+			name:  "only an else is unknown",
+			start: "main",
+			sequences: map[string][]escalationPathNode{
+				"main":      {unknownElse},
+				"main_then": {levelNode(t, "")},
+				"stranded":  {},
+			},
+			wantError: "Sequence \"stranded\" has no nodes",
+		},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			var diags diag.Diagnostics
+			validateSequences(context.Background(), betaModel(t, tc.start, tc.sequences), &diags)
+
+			if tc.wantError == "" {
+				if diags.HasError() {
+					t.Fatalf("expected no errors, got %+v", diags)
+				}
+				return
+			}
+			for _, d := range diags.Errors() {
+				if strings.Contains(d.Detail(), tc.wantError) {
+					return
+				}
+			}
+			t.Errorf("no error mentioned %q, got %+v", tc.wantError, diags.Errors())
+		})
+	}
+}
+
 func TestValidateSequencesSkipsUnknownNodes(t *testing.T) {
 	ctx := context.Background()
 
