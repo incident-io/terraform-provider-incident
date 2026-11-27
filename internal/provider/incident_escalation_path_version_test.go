@@ -117,16 +117,16 @@ func TestValidateEscalationPathVersion(t *testing.T) {
 		}
 
 		got := diags.Errors()[0]
-		if got.Summary() != "Escalation path mixes V2 and V3 fields" {
+		if got.Summary() != "Escalation path mixes deprecated and current attributes" {
 			t.Errorf("got summary %q", got.Summary())
 		}
-		want := `This escalation path uses fields from both versions of the escalation path API, and a resource can only use one. Use interruption_level and urgency_one_of throughout to move it to V3, or urgency and priority_one_of throughout to keep it on V2.
+		want := `This escalation path uses the deprecated urgency and priority_one_of attributes together with their replacements, interruption_level and urgency_one_of. The two sets of attributes correspond to versions 2 and 3 of the incident.io public API, so an escalation path must use one set throughout. Replace the deprecated attributes with interruption_level and urgency_one_of.
 
-V2 fields (urgency, priority_one_of):
+Deprecated (urgency, priority_one_of):
   - sequences["main"].nodes[0].level.targets[0].urgency
   - sequences["main"].nodes[2].branch.if.priority_one_of
 
-V3 fields (interruption_level, urgency_one_of):
+Current (interruption_level, urgency_one_of):
   - sequences["main"].nodes[1].level.targets[0].interruption_level
   - sequences["urgent"].nodes[0].level.targets[0].interruption_level`
 		if got.Detail() != want {
@@ -151,16 +151,28 @@ V3 fields (interruption_level, urgency_one_of):
 func TestValidateEscalationPathTargetInterruptionLevels(t *testing.T) {
 	ctx := context.Background()
 
-	var diags diag.Diagnostics
-	validateEscalationPathTargetInterruptionLevels(ctx, betaModel(t, "main", map[string][]escalationPathNode{
-		"main": {levelNodeV3(t), levelNodeNoSetting(t)},
-	}), &diags)
+	for _, tc := range []struct {
+		name  string
+		other escalationPathNode
+		want  string
+	}{
+		{"a path using interruption_level", levelNodeV3(t), "Set interruption_level"},
+		// Suggesting interruption_level here would lead to the mixed-attributes error.
+		{"a path still using urgency", levelNode(t, ""), "Set urgency"},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			var diags diag.Diagnostics
+			validateEscalationPathTargetInterruptionLevels(ctx, betaModel(t, "main", map[string][]escalationPathNode{
+				"main": {tc.other, levelNodeNoSetting(t)},
+			}), &diags)
 
-	if diags.ErrorsCount() != 1 {
-		t.Fatalf("got %d errors, want 1: %+v", diags.ErrorsCount(), diags)
-	}
-	if got := diags.Errors()[0].Detail(); !strings.Contains(got, "Set interruption_level") {
-		t.Errorf("got %q, want it to say to set interruption_level", got)
+			if diags.ErrorsCount() != 1 {
+				t.Fatalf("got %d errors, want 1: %+v", diags.ErrorsCount(), diags)
+			}
+			if got := diags.Errors()[0].Detail(); !strings.Contains(got, tc.want) {
+				t.Errorf("got %q, want it to say %q", got, tc.want)
+			}
+		})
 	}
 }
 

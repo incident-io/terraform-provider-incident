@@ -1,10 +1,10 @@
 ## Unreleased
 
-- `incident_escalation_path` now manages escalation paths through the V3 escalation paths API, which branches on escalation urgency instead of alert priority. In V3, a target's high/low setting is `interruption_level`, and a branch tests urgency with `urgency_one_of`. A path that still uses `urgency` or `priority_one_of` uses the V2 API, as before. Those two attributes are deprecated. A path can't use attributes from both versions. The `incident_escalation_path` data source reads a path that branches on urgency through V3, and sets `interruption_level` and `urgency_one_of`. Escalation path templates still branch on priority. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/escalation_path). (#712)
+- Add `urgency_one_of` and `interruption_level` to `incident_escalation_path`. Escalation paths can now branch on escalation urgency, which has replaced priority on escalations, and notification urgency has been renamed to interruption level. `priority_one_of` and a target's `urgency` are deprecated, and configs that use them keep working unchanged. The `incident_escalation_path` data source sets `urgency_one_of` for a path that branches on urgency, and sets `interruption_level` on every target. Escalation path templates still branch on priority. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/escalation_path). (#712)
 
-  To move a path to V3, replace `urgency` with `interruption_level` on every target. The values are the same. Then replace `priority_one_of` with `urgency_one_of` on every branch, and list escalation urgency IDs. Terraform updates the path in place.
+  To move an escalation path off the deprecated attributes, replace `urgency` with `interruption_level` on every target, and `priority_one_of` with `urgency_one_of` on every branch, listing escalation urgency IDs. Make both changes at the same time: a path can't use the deprecated attributes and their replacements together, because they correspond to versions 2 and 3 of the incident.io public API. Terraform updates the path in place.
 
-  Earlier provider versions can't read an escalation path that branches on urgency: the V2 API returns a 409. A path saved in the dashboard branches on urgency. Upgrade the provider before you move a path to V3.
+  Earlier provider versions can't read an escalation path that branches on urgency, which includes one saved in the dashboard. Upgrade the provider before you change the configuration.
 
 ## v7.13.0
 

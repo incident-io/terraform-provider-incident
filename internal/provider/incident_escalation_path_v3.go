@@ -115,7 +115,7 @@ func showEscalationPath(ctx context.Context, apiClient *client.ClientWithRespons
 // branches on urgency, which V2 can't write.
 func escalationPathBranchesOnUrgencyDetail(err error) string {
 	return "This escalation path now branches on escalation urgency, probably because someone " +
-		"saved it in the dashboard. Only the V3 API can update it. To move this resource to V3, " +
-		"replace urgency with interruption_level on every target, and priority_one_of with " +
-		"urgency_one_of on every branch.\n\n" + err.Error()
+		"saved it in the dashboard, so it can't be updated with the deprecated urgency and " +
+		"priority_one_of attributes. Replace urgency with interruption_level on every target, " +
+		"and priority_one_of with urgency_one_of on every branch.\n\n" + err.Error()
 }

@@ -73,17 +73,16 @@ func escalationPathBranchIfAttribute() schema.SingleNestedAttribute {
 				Optional:            true,
 			},
 			"priority_one_of": schema.SetAttribute{
-				MarkdownDescription: "Alert priority ids, met when the escalation came in at one of them. Deprecated: use `urgency_one_of`, which moves the escalation path to the V3 API. See the `urgency_one_of` docs.",
-				DeprecationMessage:  priorityOneOfDeprecation,
-				Optional:            true,
-				ElementType:         types.StringType,
+				MarkdownDescription: "Deprecated: priority on escalations has been replaced with escalation urgency. Use `urgency_one_of` instead. " +
+					"Alert priority ids, met when the escalation came in at one of them.",
+				DeprecationMessage: priorityOneOfDeprecation,
+				Optional:           true,
+				ElementType:        types.StringType,
 			},
 			"urgency_one_of": schema.SetAttribute{
-				MarkdownDescription: "Escalation urgency ids, met when the escalation came in at one of them. " +
-					"An escalation path using `urgency_one_of` or `interruption_level` is managed through the V3 API, " +
-					"and can't also use `priority_one_of` or `urgency`.",
-				Optional:    true,
-				ElementType: types.StringType,
+				MarkdownDescription: "Escalation urgency ids, met when the escalation came in at one of them.",
+				Optional:            true,
+				ElementType:         types.StringType,
 			},
 		},
 	}
@@ -108,9 +107,13 @@ func escalationPathTemplateBranchIfAttribute() schema.SingleNestedAttribute {
 }
 
 // priorityOneOfDeprecation is the warning a config still branching on priority gets.
-const priorityOneOfDeprecation = "Branch on escalation urgency with urgency_one_of instead. " +
-	"An escalation path that uses priority_one_of or a target's urgency goes through the V2 API, which is deprecated. " +
-	"To move it to V3, use urgency_one_of and interruption_level throughout."
+const priorityOneOfDeprecation = "Priority on escalations has been replaced with escalation urgency. " +
+	"Please replace escalation path conditions on priority_one_of with urgency_one_of. " +
+	escalationPathMigrateTogether
+
+// escalationPathMigrateTogether follows both deprecation warnings, because a path that
+// mixes the old and new attributes is rejected.
+const escalationPathMigrateTogether = "Change every target and branch in the escalation path at the same time."
 
 // toPayload builds the one condition the API stores, reporting a branch that tests more
 // than one thing, or nothing, rather than sending a payload the API would reject.
@@ -288,8 +291,10 @@ func escalationPathOneOfIDsFromAPI(bindings []client.EngineParamBindingV2) ([]st
 }
 
 // validateSequenceConditions checks each branch tests one thing, and that the working
-// hours it names are ones this path declares.
-func validateSequenceConditions(ctx context.Context, data *escalationPathModel, diags *diag.Diagnostics) {
+// hours it names are ones this path declares. oneOf is the attribute to suggest for a
+// branch that tests nothing: the deprecated priority_one_of for a path still using the
+// deprecated attributes, or a template, and urgency_one_of otherwise.
+func validateSequenceConditions(ctx context.Context, data *escalationPathModel, oneOf string, diags *diag.Diagnostics) {
 	workingHoursIDs := escalationPathWorkingHoursIDs(ctx, data.WorkingHours, diags)
 	sequences := decodeSequences(ctx, data.Sequences, diags)
 
@@ -310,7 +315,7 @@ func validateSequenceConditions(ctx context.Context, data *escalationPathModel, 
 				diags.AddAttributeError(
 					ifPath,
 					"Branch tests nothing",
-					"Set working_hours_active or urgency_one_of, so the branch has something to choose on.",
+					fmt.Sprintf("Set working_hours_active or %s, so the branch has something to choose on.", oneOf),
 				)
 			case len(set) > 1 && branchIf.testsKnown():
 				diags.AddAttributeError(

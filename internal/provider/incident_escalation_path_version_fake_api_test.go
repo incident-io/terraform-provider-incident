@@ -520,7 +520,7 @@ func TestEscalationPathAPIVersionFakeAPI(t *testing.T) {
 				{
 					// V2 can't write it back, and the error says how to move to V3.
 					Config:      escalationPathV2Config,
-					ExpectError: regexp.MustCompile(`Only the V3 API can update it`),
+					ExpectError: regexp.MustCompile(`Escalation path branches on urgency`),
 				},
 				{
 					Config: escalationPathV3Config,
@@ -538,7 +538,7 @@ func TestEscalationPathAPIVersionFakeAPI(t *testing.T) {
 			Steps: []resource.TestStep{{
 				Config:      escalationPathVersionConfig(`interruption_level = "high"`, `priority_one_of = ["01P1"]`),
 				PlanOnly:    true,
-				ExpectError: regexp.MustCompile(`Escalation path mixes V2 and V3 fields`),
+				ExpectError: regexp.MustCompile(`Escalation path mixes deprecated and current attributes`),
 			}},
 		})
 	})
@@ -558,6 +558,7 @@ data "incident_escalation_path" "test" {
 `,
 					Check: resource.ComposeTestCheckFunc(
 						resource.TestCheckResourceAttr("data.incident_escalation_path.test", firstTarget+".interruption_level", "high"),
+						resource.TestCheckResourceAttr("data.incident_escalation_path.test", firstTarget+".urgency", "high"),
 						resource.TestCheckResourceAttr("data.incident_escalation_path.test", "sequences.main.nodes.1.branch.if.urgency_one_of.0", "01HIGH"),
 					),
 				},
@@ -580,6 +581,7 @@ data "incident_escalation_path" "test" {
 `,
 					Check: resource.ComposeTestCheckFunc(
 						resource.TestCheckResourceAttr("data.incident_escalation_path.test", firstTarget+".urgency", "high"),
+						resource.TestCheckResourceAttr("data.incident_escalation_path.test", firstTarget+".interruption_level", "high"),
 						resource.TestCheckResourceAttr("data.incident_escalation_path.test", "sequences.main.nodes.1.branch.if.priority_one_of.0", "01P1"),
 					),
 				},

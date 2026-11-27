@@ -123,21 +123,23 @@ func validateEscalationPathVersion(ctx context.Context, data *escalationPathMode
 		return
 	}
 
-	diags.AddError("Escalation path mixes V2 and V3 fields", escalationPathMixedFieldsDetail(fields))
+	diags.AddError("Escalation path mixes deprecated and current attributes", escalationPathMixedFieldsDetail(fields))
 }
 
 func escalationPathMixedFieldsDetail(fields escalationPathVersionedFields) string {
 	var b strings.Builder
-	b.WriteString("This escalation path uses fields from both versions of the escalation path API, ")
-	b.WriteString("and a resource can only use one. Use interruption_level and urgency_one_of ")
-	b.WriteString("throughout to move it to V3, or urgency and priority_one_of throughout to keep it on V2.\n\n")
+	b.WriteString("This escalation path uses the deprecated urgency and priority_one_of attributes ")
+	b.WriteString("together with their replacements, interruption_level and urgency_one_of. ")
+	b.WriteString("The two sets of attributes correspond to versions 2 and 3 of the incident.io public API, ")
+	b.WriteString("so an escalation path must use one set throughout. ")
+	b.WriteString("Replace the deprecated attributes with interruption_level and urgency_one_of.\n\n")
 
-	b.WriteString("V2 fields (urgency, priority_one_of):\n")
+	b.WriteString("Deprecated (urgency, priority_one_of):\n")
 	for _, field := range fields.v2 {
 		fmt.Fprintf(&b, "  - %s\n", field)
 	}
 
-	b.WriteString("\nV3 fields (interruption_level, urgency_one_of):\n")
+	b.WriteString("\nCurrent (interruption_level, urgency_one_of):\n")
 	for _, field := range fields.v3 {
 		fmt.Fprintf(&b, "  - %s\n", field)
 	}
@@ -147,7 +149,16 @@ func escalationPathMixedFieldsDetail(fields escalationPathVersionedFields) strin
 
 // validateEscalationPathTargetInterruptionLevels requires every target to say how loudly
 // to page. A target setting both names is reported by validateEscalationPathVersion.
+//
+// A path that still uses the deprecated attributes is told to set urgency, since following
+// advice to set interruption_level there would only lead to the mixed-attributes error.
 func validateEscalationPathTargetInterruptionLevels(ctx context.Context, data *escalationPathModel, diags *diag.Diagnostics) {
+	name, detail := "interruption_level", `Set interruption_level on this target, to "high" or "low".`
+	if escalationPathVersionOf(ctx, data, diags) == escalationPathAPIV2 {
+		name, detail = "urgency", `Set urgency on this target, to "high" or "low", as the rest of this escalation path does. `+
+			"urgency is deprecated: to replace it with interruption_level, change every target and branch in the escalation path at the same time."
+	}
+
 	sequences := decodeSequences(ctx, data.Sequences, diags)
 	for _, key := range sortedKeys(sequences) {
 		for index, node := range sequences[key] {
@@ -158,9 +169,9 @@ func validateEscalationPathTargetInterruptionLevels(ctx context.Context, data *e
 					}
 					diags.AddAttributeError(
 						path.Root("sequences").AtMapKey(key).AtName("nodes").AtListIndex(index).
-							AtName(holder.block).AtName("targets").AtListIndex(targetIndex).AtName("interruption_level"),
+							AtName(holder.block).AtName("targets").AtListIndex(targetIndex).AtName(name),
 						"Missing interruption level",
-						`Set interruption_level on this target, to "high" or "low".`,
+						detail,
 					)
 				}
 			}

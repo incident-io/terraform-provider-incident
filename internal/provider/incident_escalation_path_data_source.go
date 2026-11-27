@@ -7,6 +7,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/incident-io/terraform-provider-incident/v7/internal/apischema"
@@ -243,8 +244,9 @@ func escalationPathNodeDataSourceSchema() schema.NestedAttributeObject {
 			"delay":           escalationPathDelayAttributeDataSource(),
 			"escalation_path": escalationPathEscalationPathAttributeDataSource(),
 			"branch": escalationPathBranchAttributeDataSource(
-				"Alert priority ids, met when the escalation came in at one of them. Set when the path branches on priority, and read through the V2 API.",
-				"Escalation urgency ids, met when the escalation came in at one of them. Set when the path branches on urgency, and read through the V3 API.",
+				"Deprecated: priority on escalations has been replaced with escalation urgency. Use `urgency_one_of` instead. "+
+					"Alert priority ids, met when the escalation came in at one of them. Set only for an escalation path that still branches on priority.",
+				"Escalation urgency ids, met when the escalation came in at one of them.",
 			),
 			"loop": schema.SingleNestedAttribute{
 				Computed:            true,
@@ -319,12 +321,13 @@ func escalationPathTargetsAttributeDataSource(docType string) schema.ListNestedA
 					MarkdownDescription: EnumValuesDescription("EscalationPathTargetV2", "type"),
 				},
 				"urgency": schema.StringAttribute{
-					Computed:            true,
-					MarkdownDescription: EnumValuesDescription("EscalationPathTargetV2", "urgency") + " Set when the path is read through the V2 API.",
+					Computed: true,
+					MarkdownDescription: "Deprecated: notification urgency has been renamed to interruption level. Use `interruption_level` instead. " +
+						EnumValuesDescription("EscalationPathTargetV2", "urgency"),
 				},
 				"interruption_level": schema.StringAttribute{
 					Computed:            true,
-					MarkdownDescription: EnumValuesDescription("EscalationPathTargetV3", "interruption_level") + " Set when the path is read through the V3 API, which it is when it branches on urgency.",
+					MarkdownDescription: EnumValuesDescription("EscalationPathTargetV3", "interruption_level"),
 				},
 				"schedule_mode": schema.StringAttribute{
 					Computed:            true,
@@ -529,5 +532,48 @@ func (d *EscalationPathDataSource) Read(ctx context.Context, req datasource.Read
 		return
 	}
 
+	setBothInterruptionLevelNames(ctx, model, &resp.Diagnostics)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
 	resp.Diagnostics.Append(resp.State.Set(ctx, model)...)
+}
+
+// setBothInterruptionLevelNames sets both interruption_level and the deprecated urgency on
+// every target, whichever API version the path was read through. Nothing is written back,
+// so a data source can offer both names, and a config reading interruption_level works for
+// every path.
+func setBothInterruptionLevelNames(ctx context.Context, model *escalationPathModel, diags *diag.Diagnostics) {
+	sequences := decodeSequences(ctx, model.Sequences, diags)
+	if sequences == nil || diags.HasError() {
+		return
+	}
+
+	for _, nodes := range sequences {
+		for _, node := range nodes {
+			for _, holder := range escalationPathNodeTargets(node) {
+				targets := decodeTargets(ctx, holder.targets, diags)
+				for index := range targets {
+					if targets[index].InterruptionLevel.IsNull() {
+						targets[index].InterruptionLevel = targets[index].Urgency
+					}
+					if targets[index].Urgency.IsNull() {
+						targets[index].Urgency = targets[index].InterruptionLevel
+					}
+				}
+
+				list, d := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: targetAttrTypes()}, targets)
+				diags.Append(d...)
+				switch holder.block {
+				case "level":
+					node.Level.Targets = list
+				case "notify_channel":
+					node.NotifyChannel.Targets = list
+				}
+			}
+		}
+	}
+
+	model.Sequences = escalationPathSequencesToMap(ctx, sequences, diags)
 }

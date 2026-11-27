@@ -131,22 +131,19 @@ We'd generally recommend building escalation paths in our [web dashboard](https:
 
 ## Branching on escalation urgency
 
-An escalation path uses the V3 escalation paths API, unless its configuration sets
-` + "`urgency`" + ` on a target or ` + "`priority_one_of`" + ` on a branch. Those two are V2 attributes,
-and are deprecated. In V3, a target's high/low setting is ` + "`interruption_level`" + `, and a
-branch tests escalation urgency with ` + "`urgency_one_of`" + ` instead of alert priority. A
-configuration that uses attributes from both versions is an error.
+Escalation paths branch on escalation urgency, which has replaced priority on escalations,
+and notification urgency has been renamed to interruption level. Use ` + "`urgency_one_of`" + ` on
+branches and ` + "`interruption_level`" + ` on targets. ` + "`priority_one_of`" + ` and ` + "`urgency`" + ` are
+deprecated.
 
-To move an escalation path to V3, change every target's ` + "`urgency`" + ` to
-` + "`interruption_level`" + `. The values are the same. Then change every branch's
-` + "`priority_one_of`" + ` to ` + "`urgency_one_of`" + `, and list the IDs of the escalation urgencies
-to match. Terraform updates the path in place.
+Replace the deprecated attributes on every target and branch of an escalation path at the
+same time: a path can't use both. The deprecated attributes correspond to version 2 of the
+incident.io public API, and their replacements to version 3. Terraform updates the path in
+place.
 
-Provider versions from before V3 support can't read an escalation path that branches on
-urgency: the V2 API returns a 409. A path saved in the dashboard branches on urgency. This
-provider reads such a path through V3. If the configuration still uses V2 attributes,
-Terraform plans a change, and the update fails with a message that tells you to move the
-configuration to V3.
+Older provider versions can't read an escalation path that branches on urgency, which
+includes one saved in the dashboard. Upgrade the provider before you change the
+configuration.
 
 ## Upgrading from v6
 
@@ -335,7 +332,11 @@ func (r *escalationPathResource) ValidateConfig(ctx context.Context, req resourc
 
 	validateEscalationPathKind(data, &resp.Diagnostics)
 	validateSequences(ctx, data, &resp.Diagnostics)
-	validateSequenceConditions(ctx, data, &resp.Diagnostics)
+	oneOf := "urgency_one_of"
+	if escalationPathVersionOf(ctx, data, &resp.Diagnostics) == escalationPathAPIV2 {
+		oneOf = "priority_one_of"
+	}
+	validateSequenceConditions(ctx, data, oneOf, &resp.Diagnostics)
 	validateEscalationPathTargets(ctx, data, &resp.Diagnostics)
 	validateEscalationPathTargetInterruptionLevels(ctx, data, &resp.Diagnostics)
 	validateEscalationPathVersion(ctx, data, &resp.Diagnostics)

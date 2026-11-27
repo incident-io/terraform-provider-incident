@@ -455,7 +455,7 @@ func TestValidateSequenceConditions(t *testing.T) {
 			data.WorkingHours = workingHoursList(t, tc.workingHours)
 
 			var diags diag.Diagnostics
-			validateSequenceConditions(ctx, data, &diags)
+			validateSequenceConditions(ctx, data, "urgency_one_of", &diags)
 
 			if tc.wantError == "" {
 				if diags.HasError() {
