@@ -1,9 +1,14 @@
 ## Unreleased
 
 - Fix `incident_schedule_rotation` changing who is on call when you edit another attribute, like `name`, after a phased `rollout`: an update now leaves `first_interval_starts_at` out unless you changed it. (#709)
+- Fix `incident_escalation_path` and `incident_escalation_path_template` rejecting a branch whose `then` names a sequence with no nodes, which is how an imported path that stops when the condition matches is written. Such a sequence now ends the escalation path. (#708)
+
+## v7.12.0
+
 - Fix `incident_status_page_structure` failing to plan with a "Value Conversion Error" when `items`, or a group's `components`, is built from a variable. (#701)
 - Add the `incident_alert_grouping_preference` resource, which manages the organisation's default alert grouping or one team's, including branches that group alerts differently by condition. It replaces `incident_team_grouping_preference`, which is now deprecated: move to it with a `moved` block. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/alert_grouping_preference). (#691)
 - Add the `incident_alert_rules` resource, which manages an organisation's required or default alert rules, or one team's. Import existing required and default rules to manage them: destroying one empties it and hands it back to the dashboard. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/alert_rules). (#688)
+- Internal: Update `golang.org/x/sync` to 0.25.0 (#677) and `actions/setup-go` to 7.1.0 (#692).
 
 ## v7.11.0
 

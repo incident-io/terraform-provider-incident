@@ -480,7 +480,7 @@ func validateSequences(ctx context.Context, data *escalationPathModel, diags *di
 	// What a node says about itself resolves against nothing, so these run even with a name
 	// elsewhere still outstanding. Skipping them would let a node setting two type blocks
 	// reach unflattenSequences, which matches one and silently drops the other.
-	nodeIDs := validateSequenceNodes(sequences, diags)
+	nodeIDs := validateSequenceNodes(data.Start, sequences, diags)
 
 	// The checks below resolve names against each other, and read them through ValueString,
 	// where an unknown is indistinguishable from an empty string. Running them with one
@@ -612,8 +612,9 @@ func nodeExists(sequences map[string][]escalationPathNode, id string) bool {
 
 // validateSequenceNodes checks each sequence in isolation and returns every node ID the
 // path will hold, which the reference checks need.
-func validateSequenceNodes(sequences map[string][]escalationPathNode, diags *diag.Diagnostics) map[string]bool {
+func validateSequenceNodes(start types.String, sequences map[string][]escalationPathNode, diags *diag.Diagnostics) map[string]bool {
 	nodeIDs := map[string]bool{}
+	thenTargets, elseTargets, unknownThen := sequenceBranchTargets(sequences)
 
 	for _, key := range sortedKeys(sequences) {
 		nodes := sequences[key]
@@ -627,6 +628,24 @@ func validateSequenceNodes(sequences map[string][]escalationPathNode, diags *dia
 			)
 		}
 
+		// An empty sequence a branch's then names ends the escalation path on that side. It's
+		// how a read spells a branch whose then side does nothing, so import must be able to
+		// plan it. An else side that does nothing reads back as else unset, so naming an empty
+		// sequence there would diff forever. An empty sequence nothing branches to (the start,
+		// or a stranded one) does nothing at all. While a branch's then is unknown it may name
+		// this one, unless this is the start, which nothing may branch to.
+		if len(nodes) == 0 && elseTargets[key] {
+			diags.AddAttributeError(
+				sequencePath,
+				"Empty sequence",
+				fmt.Sprintf("Sequence %q has no nodes. To end the escalation path when the condition isn't met, leave the branch's else unset instead.", key),
+			)
+			continue
+		}
+		isStart := !start.IsUnknown() && start.ValueString() == key
+		if len(nodes) == 0 && !isStart && (thenTargets[key] || unknownThen) {
+			continue
+		}
 		if len(nodes) == 0 {
 			diags.AddAttributeError(
 				sequencePath,
@@ -700,6 +719,30 @@ func validateSequenceNodes(sequences map[string][]escalationPathNode, diags *dia
 	}
 
 	return nodeIDs
+}
+
+// sequenceBranchTargets returns the sequences some branch's then names, those some branch's
+// else names, and whether any branch's then isn't known yet.
+func sequenceBranchTargets(sequences map[string][]escalationPathNode) (map[string]bool, map[string]bool, bool) {
+	thenTargets, elseTargets := map[string]bool{}, map[string]bool{}
+	unknownThen := false
+	for _, nodes := range sequences {
+		for _, node := range nodes {
+			if node.Branch == nil {
+				continue
+			}
+			switch then := node.Branch.Then; {
+			case then.IsUnknown():
+				unknownThen = true
+			case !then.IsNull():
+				thenTargets[then.ValueString()] = true
+			}
+			if els := node.Branch.Else; !els.IsUnknown() && !els.IsNull() {
+				elseTargets[els.ValueString()] = true
+			}
+		}
+	}
+	return thenTargets, elseTargets, unknownThen
 }
 
 // loopEndsSequence reports whether the nodes after a loop are ones the API allows: none,
