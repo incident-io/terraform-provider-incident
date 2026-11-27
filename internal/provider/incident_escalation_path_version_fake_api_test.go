@@ -472,7 +472,9 @@ func TestEscalationPathAPIVersionFakeAPI(t *testing.T) {
 				{
 					// The path was written with priority conditions, which V3 shows as their
 					// default urgencies: a V2 config then plans a one-time update.
-					Config:        escalationPathV2Config,
+					//
+					// No Config: the step reuses the last one, which the harness gave the
+					// required_providers block that OpenTofu needs to find this provider.
 					ResourceName:  address,
 					ImportState:   true,
 					ImportStateId: "01FAKEPATH0000000000000001",
