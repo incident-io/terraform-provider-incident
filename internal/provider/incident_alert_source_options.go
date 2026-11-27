@@ -49,6 +49,10 @@ type alertSourceSNSOptions struct {
 	DeduplicationKeyPath  types.String `tfsdk:"deduplication_key_path"`
 }
 
+type alertSourceAlertmanagerOptions struct {
+	OneAlertPerGroup types.Bool `tfsdk:"one_alert_per_group"`
+}
+
 // Not per-source-type, unlike everything else here: most source types accept it, and which ones
 // is decided server-side, so the provider carries no list.
 type alertSourceRateLimitSharding struct {
@@ -207,6 +211,39 @@ func snsOptionsFromAPI(options *client.AlertSourceSnsOptionsV3) *alertSourceSNSO
 	return &alertSourceSNSOptions{
 		DeduplicationStrategy: types.StringValue(string(options.DeduplicationStrategy)),
 		DeduplicationKeyPath:  types.StringPointerValue(options.DeduplicationKeyPath),
+	}
+}
+
+func alertmanagerOptionsAttribute() schema.Attribute {
+	return schema.SingleNestedAttribute{
+		Optional:            true,
+		MarkdownDescription: apischema.Docstring("AlertSourceV3", "alertmanager_options"),
+		Attributes: map[string]schema.Attribute{
+			"one_alert_per_group": schema.BoolAttribute{
+				Required:            true,
+				MarkdownDescription: apischema.Docstring("AlertSourceAlertmanagerOptionsV3", "one_alert_per_group"),
+			},
+		},
+	}
+}
+
+func (o *alertSourceAlertmanagerOptions) toPayload() *client.AlertSourceAlertmanagerOptionsV3 {
+	if o == nil {
+		return nil
+	}
+
+	return &client.AlertSourceAlertmanagerOptionsV3{
+		OneAlertPerGroup: o.OneAlertPerGroup.ValueBool(),
+	}
+}
+
+func alertmanagerOptionsFromAPI(options *client.AlertSourceAlertmanagerOptionsV3) *alertSourceAlertmanagerOptions {
+	if options == nil {
+		return nil
+	}
+
+	return &alertSourceAlertmanagerOptions{
+		OneAlertPerGroup: types.BoolValue(options.OneAlertPerGroup),
 	}
 }
 

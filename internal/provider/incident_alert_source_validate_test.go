@@ -150,6 +150,10 @@ func TestAlertSourceValidateOptions(t *testing.T) {
 		"project_ids": projectIDs(stringValue("ENG")),
 	})
 
+	alertmanagerOptions := objectWith(t, attributeType(t, "alertmanager_options"), map[string]tftypes.Value{
+		"one_alert_per_group": tftypes.NewValue(tftypes.Bool, false),
+	})
+
 	t.Run("rejects options the source type doesn't read", func(t *testing.T) {
 		diags := validateAlertSource(t, alertSourceConfig(t, map[string]tftypes.Value{
 			"source_type":  stringValue("http"),
@@ -199,6 +203,26 @@ func TestAlertSourceValidateOptions(t *testing.T) {
 		}))
 
 		assertErrorContaining(t, diags, "No Jira projects")
+	})
+
+	t.Run("rejects alertmanager_options on a source that isn't alertmanager", func(t *testing.T) {
+		diags := validateAlertSource(t, alertSourceConfig(t, map[string]tftypes.Value{
+			"source_type":          stringValue("http"),
+			"alertmanager_options": alertmanagerOptions,
+		}))
+
+		assertErrorContaining(t, diags, "alertmanager_options is only for alertmanager alert sources")
+	})
+
+	// A new alertmanager source groups alerts, so the block is optional.
+	t.Run("accepts an alertmanager source with or without alertmanager_options", func(t *testing.T) {
+		for _, config := range []map[string]tftypes.Value{
+			{"source_type": stringValue("alertmanager")},
+			{"source_type": stringValue("alertmanager"), "alertmanager_options": alertmanagerOptions},
+		} {
+			diags := validateAlertSource(t, alertSourceConfig(t, config))
+			assertNoErrorContaining(t, diags, "alertmanager_options")
+		}
 	})
 
 	// source_type computed from another resource isn't known at validate time, so the check

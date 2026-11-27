@@ -113,6 +113,19 @@ func snsOptionsDataSourceAttribute() schema.Attribute {
 	}
 }
 
+func alertmanagerOptionsDataSourceAttribute() schema.Attribute {
+	return schema.SingleNestedAttribute{
+		Computed:            true,
+		MarkdownDescription: apischema.Docstring("AlertSourceV3", "alertmanager_options"),
+		Attributes: map[string]schema.Attribute{
+			"one_alert_per_group": schema.BoolAttribute{
+				Computed:            true,
+				MarkdownDescription: apischema.Docstring("AlertSourceAlertmanagerOptionsV3", "one_alert_per_group"),
+			},
+		},
+	}
+}
+
 func rateLimitShardingDataSourceAttribute() schema.Attribute {
 	return schema.SingleNestedAttribute{
 		Computed:            true,
