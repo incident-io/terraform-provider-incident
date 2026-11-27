@@ -728,7 +728,9 @@ func (r *IncidentScheduleRotationResource) planEffectiveFrom(ctx context.Context
 		return
 	}
 
-	startsAt, diags := plan.FirstIntervalStartsAt.ValueRFC3339Time()
+	// Leave it out on the same terms as Update, so the preview is of the write apply
+	// will make.
+	startsAt, diags := firstIntervalStartsAtToSend(plan, state)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -740,7 +742,7 @@ func (r *IncidentScheduleRotationResource) planEffectiveFrom(ctx context.Context
 		client.SchedulesV3PreviewRotationRolloutJSONRequestBody{
 			From:     time.Now().UTC(),
 			Rollout:  &strategy,
-			Rotation: rotationUpdatePayload(plan, &startsAt),
+			Rotation: rotationUpdatePayload(plan, startsAt),
 		})
 	if err != nil {
 		resp.Diagnostics.AddError("Unable to preview schedule rotation rollout", err.Error())
