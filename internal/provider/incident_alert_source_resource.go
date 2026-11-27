@@ -89,6 +89,8 @@ type alertSourceModel struct {
 	HTTPCustomOptions *alertSourceHTTPCustomOptions `tfsdk:"http_custom_options"`
 	SNSOptions        *alertSourceSNSOptions        `tfsdk:"sns_options"`
 
+	AlertmanagerOptions *alertSourceAlertmanagerOptions `tfsdk:"alertmanager_options"`
+
 	RateLimitSharding *alertSourceRateLimitSharding `tfsdk:"rate_limit_sharding"`
 
 	FilterConditionGroups models.IncidentEngineConditionGroups `tfsdk:"filter_condition_groups"`
@@ -235,12 +237,13 @@ make it.`)),
 			"priority":         models.BindingAttribute(apischema.Docstring("AlertSourceV3", "priority")),
 			"visible_to_teams": models.BindingAttribute(apischema.Docstring("AlertSourceV3", "visible_to_teams")),
 
-			"jira_options":        jiraOptionsAttribute(),
-			"heartbeat_options":   heartbeatOptionsAttribute(),
-			"email_options":       emailOptionsAttribute(),
-			"http_custom_options": httpCustomOptionsAttribute(),
-			"sns_options":         snsOptionsAttribute(),
-			"rate_limit_sharding": rateLimitShardingAttribute(),
+			"jira_options":         jiraOptionsAttribute(),
+			"heartbeat_options":    heartbeatOptionsAttribute(),
+			"email_options":        emailOptionsAttribute(),
+			"http_custom_options":  httpCustomOptionsAttribute(),
+			"sns_options":          snsOptionsAttribute(),
+			"alertmanager_options": alertmanagerOptionsAttribute(),
+			"rate_limit_sharding":  rateLimitShardingAttribute(),
 
 			"filter_condition_groups": schema.ListNestedAttribute{
 				Optional:            true,
@@ -373,6 +376,8 @@ func (r *alertSourceResource) validateOptionsMatchSourceType(ctx context.Context
 		{"email_options", "email", false, ""},
 		// SNS sources work without them: new sources start on the automatic strategy.
 		{"sns_options", "sns", false, ""},
+		// Alertmanager sources work without them: new sources group alerts.
+		{"alertmanager_options", "alertmanager", false, ""},
 	} {
 		at := path.Root(options.name)
 
@@ -676,12 +681,13 @@ func (r *alertSourceResource) Create(ctx context.Context, req resource.CreateReq
 		VisibleToTeams: bindings.visibleToTeams,
 		Expressions:    &expressions,
 
-		JiraOptions:       data.JiraOptions.toPayload(),
-		HeartbeatOptions:  data.HeartbeatOptions.toPayload(),
-		EmailOptions:      data.EmailOptions.toPayload(),
-		HttpCustomOptions: data.HTTPCustomOptions.toPayload(),
-		SnsOptions:        data.SNSOptions.toPayload(),
-		RateLimitSharding: data.RateLimitSharding.toPayload(),
+		JiraOptions:         data.JiraOptions.toPayload(),
+		HeartbeatOptions:    data.HeartbeatOptions.toPayload(),
+		EmailOptions:        data.EmailOptions.toPayload(),
+		HttpCustomOptions:   data.HTTPCustomOptions.toPayload(),
+		SnsOptions:          data.SNSOptions.toPayload(),
+		AlertmanagerOptions: data.AlertmanagerOptions.toPayload(),
+		RateLimitSharding:   data.RateLimitSharding.toPayload(),
 
 		FilterConditionGroups: filterConditionGroupsToPayload(data.FilterConditionGroups),
 
@@ -830,14 +836,15 @@ func (r *alertSourceResource) updateAlertSource(
 		VisibleToTeams: bindings.visibleToTeams,
 		Expressions:    &expressions,
 
-		JiraOptions:       plan.JiraOptions.toPayload(),
-		HeartbeatOptions:  plan.HeartbeatOptions.toPayload(),
-		EmailOptions:      emailOptionsUpdatePayload(plan.EmailOptions, plan.SourceType),
-		HttpCustomOptions: plan.HTTPCustomOptions.toPayload(),
-		SnsOptions:        plan.SNSOptions.toPayload(),
-		RateLimitSharding: rateLimitShardingUpdatePayload(plan.RateLimitSharding),
-		Disabled:          heartbeatDisabledPayload(plan.SourceType.ValueString(), plan.Disabled),
-		AiTitlesEnabled:   aiTitlesEnabled,
+		JiraOptions:         plan.JiraOptions.toPayload(),
+		HeartbeatOptions:    plan.HeartbeatOptions.toPayload(),
+		EmailOptions:        emailOptionsUpdatePayload(plan.EmailOptions, plan.SourceType),
+		HttpCustomOptions:   plan.HTTPCustomOptions.toPayload(),
+		SnsOptions:          plan.SNSOptions.toPayload(),
+		AlertmanagerOptions: plan.AlertmanagerOptions.toPayload(),
+		RateLimitSharding:   rateLimitShardingUpdatePayload(plan.RateLimitSharding),
+		Disabled:            heartbeatDisabledPayload(plan.SourceType.ValueString(), plan.Disabled),
+		AiTitlesEnabled:     aiTitlesEnabled,
 
 		// Always sent, as an empty list when the config has no filters: removing the attribute
 		// from HCL clears them, the same way an omitted rate_limit_sharding block does above.
@@ -1046,16 +1053,19 @@ func (r *alertSourceResource) toTeamIDsPayload(ctx context.Context, set types.Se
 // spelling: which named expressions were written in what order, which of a binding's
 // interchangeable spellings it used, and whether "nothing" was spelled as an empty collection or
 // an omitted attribute.
-// alertSourceResourceFromAPI is alertSourceFromAPI for the resource. An SNS source always reads
-// back with options, because the API reports the strategy it uses even when none was set. A
-// config without the block leaves the strategy to the dashboard, so keep it null rather than
-// fail the apply on a null-to-object change.
+// alertSourceResourceFromAPI is alertSourceFromAPI for the resource. SNS and Alertmanager
+// sources always read back with options, because the API reports the setting it uses even when
+// none was set. A config without the block leaves the setting to the dashboard, so keep it null
+// rather than fail the apply on a null-to-object change.
 func alertSourceResourceFromAPI(
 	source client.AlertSourceV3, config *alertSourceModel, diags *diag.Diagnostics,
 ) *alertSourceModel {
 	model := alertSourceFromAPI(source, config, diags)
 	if config.SNSOptions == nil {
 		model.SNSOptions = nil
+	}
+	if config.AlertmanagerOptions == nil {
+		model.AlertmanagerOptions = nil
 	}
 
 	return model
@@ -1092,12 +1102,13 @@ func alertSourceFromAPI(
 
 		NamedExpressions: named,
 
-		JiraOptions:       jiraOptionsFromAPI(source.JiraOptions),
-		HeartbeatOptions:  heartbeatOptionsFromAPI(source.HeartbeatOptions),
-		EmailOptions:      emailOptionsFromAPI(source.EmailOptions),
-		HTTPCustomOptions: httpCustomOptionsFromAPI(source.HttpCustomOptions),
-		SNSOptions:        snsOptionsFromAPI(source.SnsOptions),
-		RateLimitSharding: rateLimitShardingFromAPI(source.RateLimitSharding),
+		JiraOptions:         jiraOptionsFromAPI(source.JiraOptions),
+		HeartbeatOptions:    heartbeatOptionsFromAPI(source.HeartbeatOptions),
+		EmailOptions:        emailOptionsFromAPI(source.EmailOptions),
+		HTTPCustomOptions:   httpCustomOptionsFromAPI(source.HttpCustomOptions),
+		SNSOptions:          snsOptionsFromAPI(source.SnsOptions),
+		AlertmanagerOptions: alertmanagerOptionsFromAPI(source.AlertmanagerOptions),
+		RateLimitSharding:   rateLimitShardingFromAPI(source.RateLimitSharding),
 
 		FilterConditionGroups: filterConditionGroupsFromAPI(source.FilterConditionGroups, config.FilterConditionGroups),
 

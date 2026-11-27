@@ -93,12 +93,13 @@ func (d *IncidentAlertSourceDataSource) Schema(_ context.Context, _ datasource.S
 		"priority":         models.BindingDataSourceAttribute(apischema.Docstring("AlertSourceV3", "priority")),
 		"visible_to_teams": models.BindingDataSourceAttribute(apischema.Docstring("AlertSourceV3", "visible_to_teams")),
 
-		"jira_options":        jiraOptionsDataSourceAttribute(),
-		"heartbeat_options":   heartbeatOptionsDataSourceAttribute(),
-		"email_options":       emailOptionsDataSourceAttribute(),
-		"http_custom_options": httpCustomOptionsDataSourceAttribute(),
-		"sns_options":         snsOptionsDataSourceAttribute(),
-		"rate_limit_sharding": rateLimitShardingDataSourceAttribute(),
+		"jira_options":         jiraOptionsDataSourceAttribute(),
+		"heartbeat_options":    heartbeatOptionsDataSourceAttribute(),
+		"email_options":        emailOptionsDataSourceAttribute(),
+		"http_custom_options":  httpCustomOptionsDataSourceAttribute(),
+		"sns_options":          snsOptionsDataSourceAttribute(),
+		"alertmanager_options": alertmanagerOptionsDataSourceAttribute(),
+		"rate_limit_sharding":  rateLimitShardingDataSourceAttribute(),
 
 		"filter_condition_groups": models.ConditionGroupsDataSourceAttribute(),
 
