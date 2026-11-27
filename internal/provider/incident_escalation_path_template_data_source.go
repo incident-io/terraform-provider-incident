@@ -141,6 +141,12 @@ func escalationPathTemplateNodeDataSourceSchema() schema.NestedAttributeObject {
 	notifyChannel.Attributes["targets"] = escalationPathTemplateTargetsAttributeDataSource("EscalationPathNodeNotifyChannelWithBindingV2")
 	node.Attributes["notify_channel"] = notifyChannel
 
+	// Templates are read through V2 only, so they branch on priority, never on urgency.
+	node.Attributes["branch"] = escalationPathBranchAttributeDataSource(
+		"Alert priority ids, met when the escalation came in at one of them.",
+		"Always unset: a template branches on `priority_one_of`.",
+	)
+
 	return node
 }
 

@@ -142,7 +142,8 @@ Optional:
 
 Optional:
 
-- `priority_one_of` (Set of String) Alert priority ids, met when the escalation came in at one of them.
+- `priority_one_of` (Set of String, Deprecated) Deprecated: priority on escalations has been replaced with escalation urgency. Use `urgency_one_of` instead. Alert priority ids, met when the escalation came in at one of them.
+- `urgency_one_of` (Set of String) Escalation urgency ids, met when the escalation came in at one of them.
 - `working_hours_active` (String) The `id` of one of this escalation path's `working_hours`, met while those hours are active.
 
 
@@ -188,12 +189,13 @@ Required:
 
 - `id` (String) Uniquely identifies an entity of this type
 - `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
-- `urgency` (String) The interruption level we notify this target at: high or low. Possible values are: `high`, `low`.
 
 Optional:
 
+- `interruption_level` (String) How we interrupt this target when we notify them: high or low. Possible values are: `high`, `low`. Required, unless the target sets the deprecated `urgency`.
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+- `urgency` (String, Deprecated) Deprecated: notification urgency has been renamed to interruption level. Use `interruption_level` instead. The interruption level we notify this target at: high or low. Possible values are: `high`, `low`.
 
 
 <a id="nestedatt--sequences--nodes--level--retry_config"></a>
@@ -247,12 +249,13 @@ Required:
 
 - `id` (String) Uniquely identifies an entity of this type
 - `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
-- `urgency` (String) The interruption level we notify this target at: high or low. Possible values are: `high`, `low`.
 
 Optional:
 
+- `interruption_level` (String) How we interrupt this target when we notify them: high or low. Possible values are: `high`, `low`. Required, unless the target sets the deprecated `urgency`.
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+- `urgency` (String, Deprecated) Deprecated: notification urgency has been renamed to interruption level. Use `interruption_level` instead. The interruption level we notify this target at: high or low. Possible values are: `high`, `low`.
 
 
 

@@ -213,6 +213,7 @@ Optional:
 Optional:
 
 - `priority_one_of` (Set of String) Alert priority ids, met when the escalation came in at one of them.
+- `urgency_one_of` (Set of String) Not supported on templates, which branch on `priority_one_of`.
 - `working_hours_active` (String) The `id` of one of this escalation path's `working_hours`, met while those hours are active.
 
 

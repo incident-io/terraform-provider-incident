@@ -207,8 +207,9 @@ func (r *escalationPathTemplateResource) ValidateConfig(ctx context.Context, req
 	// The sequence checks read the model through the path resource's type, which shares
 	// every field they look at.
 	validateSequences(ctx, &escalationPathModel{Start: data.Start, Sequences: data.Sequences}, &resp.Diagnostics)
-	validateSequenceConditions(ctx, &escalationPathModel{Sequences: data.Sequences, WorkingHours: data.WorkingHours}, &resp.Diagnostics)
+	validateSequenceConditions(ctx, &escalationPathModel{Sequences: data.Sequences, WorkingHours: data.WorkingHours}, "priority_one_of", &resp.Diagnostics)
 	validateEscalationPathTemplateTargets(ctx, data.Sequences, &resp.Diagnostics)
+	validateEscalationPathTemplateBranches(ctx, data.Sequences, &resp.Diagnostics)
 
 	// The API refuses a template with no parameters: a template that binds nothing is just
 	// an escalation path. Say so at plan time rather than part way through an apply.

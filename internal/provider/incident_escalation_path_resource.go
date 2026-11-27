@@ -129,6 +129,22 @@ Each sequence runs its nodes in order and either ends with a ` + "`branch`" + `,
 
 We'd generally recommend building escalation paths in our [web dashboard](https://app.incident.io/~/on-call/escalation-paths) and using the 'Export' flow to generate your Terraform.
 
+## Branching on escalation urgency
+
+Escalation paths branch on escalation urgency, which has replaced priority on escalations,
+and notification urgency has been renamed to interruption level. Use ` + "`urgency_one_of`" + ` on
+branches and ` + "`interruption_level`" + ` on targets. ` + "`priority_one_of`" + ` and ` + "`urgency`" + ` are
+deprecated.
+
+Replace the deprecated attributes on every target and branch of an escalation path at the
+same time: a path can't use both. The deprecated attributes correspond to version 2 of the
+incident.io public API, and their replacements to version 3. Terraform updates the path in
+place.
+
+Older provider versions can't read an escalation path that branches on urgency, which
+includes one saved in the dashboard. Upgrade the provider before you change the
+configuration.
+
 ## Upgrading from v6
 
 Before v7 this resource nested a branch's nodes inside it, as ` + "`if_else.then_path`" + ` and
@@ -249,6 +265,26 @@ it.`),
 	}
 }
 
+// escalationPathBranchAttribute returns the branch block's schema around branchIf, which
+// differs for templates.
+func escalationPathBranchAttribute(branchIf schema.SingleNestedAttribute) schema.SingleNestedAttribute {
+	return schema.SingleNestedAttribute{
+		MarkdownDescription: "Send the escalation down one of two sequences, depending on what `if` tests. A branch must be the last node in its sequence.",
+		Optional:            true,
+		Attributes: map[string]schema.Attribute{
+			"if": branchIf,
+			"then": schema.StringAttribute{
+				MarkdownDescription: "The key of the sequence to continue down when the condition is met. Name a sequence with no nodes to end the escalation path instead.",
+				Required:            true,
+			},
+			"else": schema.StringAttribute{
+				MarkdownDescription: "The key of the sequence to continue down when the condition is not met. Leave unset to end the escalation path instead.",
+				Optional:            true,
+			},
+		},
+	}
+}
+
 // escalationPathNodeSchema returns the schema for a single node. The level,
 // notify_channel, delay and escalation_path blocks are shared with incident_escalation_path;
 // branch and loop are this resource's own, and reference other nodes by name rather than
@@ -267,21 +303,7 @@ func escalationPathNodeSchema() schema.NestedAttributeObject {
 			"delay":           escalationPathDelayAttribute(),
 			"escalation_path": escalationPathEscalationPathAttribute(),
 
-			"branch": schema.SingleNestedAttribute{
-				MarkdownDescription: "Send the escalation down one of two sequences, depending on what `if` tests. A branch must be the last node in its sequence.",
-				Optional:            true,
-				Attributes: map[string]schema.Attribute{
-					"if": escalationPathBranchIfAttribute(),
-					"then": schema.StringAttribute{
-						MarkdownDescription: "The key of the sequence to continue down when the condition is met. Name a sequence with no nodes to end the escalation path instead.",
-						Required:            true,
-					},
-					"else": schema.StringAttribute{
-						MarkdownDescription: "The key of the sequence to continue down when the condition is not met. Leave unset to end the escalation path instead.",
-						Optional:            true,
-					},
-				},
-			},
+			"branch": escalationPathBranchAttribute(escalationPathBranchIfAttribute()),
 
 			"loop": schema.SingleNestedAttribute{
 				MarkdownDescription: "Go back to an earlier node and run from there again. A loop must be the last node in its sequence, or be followed by a single `escalation_path` node to reassign to once it has run out of repeats.",
@@ -310,8 +332,14 @@ func (r *escalationPathResource) ValidateConfig(ctx context.Context, req resourc
 
 	validateEscalationPathKind(data, &resp.Diagnostics)
 	validateSequences(ctx, data, &resp.Diagnostics)
-	validateSequenceConditions(ctx, data, &resp.Diagnostics)
+	oneOf := "urgency_one_of"
+	if escalationPathVersionOf(ctx, data, &resp.Diagnostics) == escalationPathAPIV2 {
+		oneOf = "priority_one_of"
+	}
+	validateSequenceConditions(ctx, data, oneOf, &resp.Diagnostics)
 	validateEscalationPathTargets(ctx, data, &resp.Diagnostics)
+	validateEscalationPathTargetInterruptionLevels(ctx, data, &resp.Diagnostics)
+	validateEscalationPathVersion(ctx, data, &resp.Diagnostics)
 }
 
 // validateEscalationPathTargets applies the same target checks as
@@ -338,16 +366,16 @@ func validateEscalationPathTargets(ctx context.Context, data *escalationPathMode
 // seconds rather than minutes. A var so tests don't have to wait it out.
 var escalationPathValidateTimeout = 10 * time.Second
 
+// escalationPathValidateWarning is a warning from either version's validate endpoint,
+// which share its shape.
+type escalationPathValidateWarning = client.EscalationPathValidateWarningV2
+
 // addEscalationPathValidateWarnings reports what the API found suspect without rejecting,
 // such as a branch with no nodes in it. The API's path is a dotted/indexed location into
 // the payload rather than a schema attribute path, so these surface as plan-level warnings
 // rather than attribute ones.
-func addEscalationPathValidateWarnings(result *client.EscalationPathsV2ValidateResponse, diags *diag.Diagnostics) {
-	if result == nil || result.JSON200 == nil {
-		return
-	}
-
-	for _, warning := range result.JSON200.Warnings {
+func addEscalationPathValidateWarnings(warnings []escalationPathValidateWarning, diags *diag.Diagnostics) {
+	for _, warning := range warnings {
 		diags.AddWarning(warning.Summary, fmt.Sprintf("%s (at %s)", warning.Detail, warning.Path))
 	}
 }
@@ -379,7 +407,9 @@ func (r *escalationPathResource) ModifyPlan(ctx context.Context, req resource.Mo
 		return
 	}
 
-	payload := r.toPayload(ctx, &data, &resp.Diagnostics)
+	// A path mixing V2 and V3 fields fails ValidateConfig, so doesn't get here.
+	version := escalationPathVersionOf(ctx, &data, &resp.Diagnostics)
+	payload := r.toPayload(ctx, &data, version, &resp.Diagnostics)
 	if resp.Diagnostics.HasError() {
 		return
 	}
@@ -387,17 +417,40 @@ func (r *escalationPathResource) ModifyPlan(ctx context.Context, req resource.Mo
 	ctx, cancel := context.WithTimeout(ctx, escalationPathValidateTimeout)
 	defer cancel()
 
-	result, err := r.client.EscalationPathsV2ValidateWithResponse(ctx, client.EscalationPathsV2ValidateJSONRequestBody{
-		Path:          payload.Path,
-		TeamIds:       payload.TeamIds,
-		WorkingHours:  payload.WorkingHours,
-		RepeatConfig:  payload.RepeatConfig,
-		Kind:          (*client.EscalationPathsValidatePayloadV2Kind)(payload.Kind),
-		TemplateId:    payload.TemplateID,
-		ParamBindings: payload.ParamBindings,
-	})
+	var warnings []escalationPathValidateWarning
+	var err error
+	switch version {
+	case escalationPathAPIV3:
+		var result *client.EscalationPathsV3ValidateResponse
+		result, err = r.client.EscalationPathsV3ValidateWithResponse(ctx, client.EscalationPathsV3ValidateJSONRequestBody{
+			Path:          payload.PathV3,
+			TeamIds:       payload.TeamIds,
+			WorkingHours:  payload.workingHoursV3(),
+			RepeatConfig:  payload.repeatConfigV3(),
+			Kind:          (*client.EscalationPathsValidatePayloadV3Kind)(payload.Kind),
+			TemplateId:    payload.TemplateID,
+			ParamBindings: payload.paramBindingsV3(),
+		})
+		if result != nil && result.JSON200 != nil {
+			warnings = models.ConvertAPIType[[]escalationPathValidateWarning](result.JSON200.Warnings)
+		}
+	default:
+		var result *client.EscalationPathsV2ValidateResponse
+		result, err = r.client.EscalationPathsV2ValidateWithResponse(ctx, client.EscalationPathsV2ValidateJSONRequestBody{
+			Path:          payload.Path,
+			TeamIds:       payload.TeamIds,
+			WorkingHours:  payload.WorkingHours,
+			RepeatConfig:  payload.RepeatConfig,
+			Kind:          (*client.EscalationPathsValidatePayloadV2Kind)(payload.Kind),
+			TemplateId:    payload.TemplateID,
+			ParamBindings: payload.ParamBindings,
+		})
+		if result != nil && result.JSON200 != nil {
+			warnings = result.JSON200.Warnings
+		}
+	}
 	if err == nil {
-		addEscalationPathValidateWarnings(result, &resp.Diagnostics)
+		addEscalationPathValidateWarnings(warnings, &resp.Diagnostics)
 		return
 	}
 
@@ -466,40 +519,68 @@ func (r *escalationPathResource) Create(ctx context.Context, req resource.Create
 		return
 	}
 
-	payload := r.toPayload(ctx, data, &resp.Diagnostics)
+	version := escalationPathVersionOf(ctx, data, &resp.Diagnostics)
+	payload := r.toPayload(ctx, data, version, &resp.Diagnostics)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	result, err := r.client.EscalationPathsV2CreateWithResponse(ctx, client.EscalationPathsV2CreateJSONRequestBody{
-		Name:          data.Name.ValueString(),
-		Path:          payload.Path,
-		WorkingHours:  payload.WorkingHours,
-		TeamIds:       payload.TeamIds,
-		RepeatConfig:  payload.RepeatConfig,
-		Kind:          (*client.EscalationPathsCreatePayloadV2Kind)(payload.Kind),
-		TemplateId:    payload.TemplateID,
-		ParamBindings: payload.ParamBindings,
-	})
-	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create escalation path, got error: %s", err))
-		return
-	}
+	var model *escalationPathModel
+	switch version {
+	case escalationPathAPIV3:
+		result, err := r.client.EscalationPathsV3CreateWithResponse(ctx, client.EscalationPathsV3CreateJSONRequestBody{
+			Name:          data.Name.ValueString(),
+			Path:          payload.PathV3,
+			WorkingHours:  payload.workingHoursV3(),
+			TeamIds:       payload.TeamIds,
+			RepeatConfig:  payload.repeatConfigV3(),
+			Kind:          (*client.EscalationPathsCreatePayloadV3Kind)(payload.Kind),
+			TemplateId:    payload.TemplateID,
+			ParamBindings: payload.paramBindingsV3(),
+		})
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create escalation path, got error: %s", err))
+			return
+		}
+		if result.JSON201 == nil {
+			resp.Diagnostics.AddError(
+				"Client Error",
+				fmt.Sprintf("Unable to create escalation path: unexpected response from API (status %s)", result.Status()),
+			)
+			return
+		}
+		model = r.buildModelV3(ctx, result.JSON201.EscalationPath, data, &resp.Diagnostics)
 
-	if result.JSON201 == nil {
-		resp.Diagnostics.AddError(
-			"Client Error",
-			fmt.Sprintf("Unable to create escalation path: unexpected response from API (status %s)", result.Status()),
-		)
-		return
+	default:
+		result, err := r.client.EscalationPathsV2CreateWithResponse(ctx, client.EscalationPathsV2CreateJSONRequestBody{
+			Name:          data.Name.ValueString(),
+			Path:          payload.Path,
+			WorkingHours:  payload.WorkingHours,
+			TeamIds:       payload.TeamIds,
+			RepeatConfig:  payload.RepeatConfig,
+			Kind:          (*client.EscalationPathsCreatePayloadV2Kind)(payload.Kind),
+			TemplateId:    payload.TemplateID,
+			ParamBindings: payload.ParamBindings,
+		})
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create escalation path, got error: %s", err))
+			return
+		}
+		if result.JSON201 == nil {
+			resp.Diagnostics.AddError(
+				"Client Error",
+				fmt.Sprintf("Unable to create escalation path: unexpected response from API (status %s)", result.Status()),
+			)
+			return
+		}
+		model = r.buildModel(ctx, result.JSON201.EscalationPath, data, &resp.Diagnostics)
 	}
 
 	if shouldClaim(data.UnlockInDashboard) {
-		claimResource(ctx, r.client, result.JSON201.EscalationPath.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPath, r.terraformVersion)
+		claimResource(ctx, r.client, model.ID.ValueString(), &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPath, r.terraformVersion)
 	}
 
-	tflog.Trace(ctx, fmt.Sprintf("created an escalation path resource with id=%s", result.JSON201.EscalationPath.Id))
-	model := r.buildModel(ctx, result.JSON201.EscalationPath, data, &resp.Diagnostics)
+	tflog.Trace(ctx, fmt.Sprintf("created an escalation path resource with id=%s through %s", model.ID.ValueString(), version))
 	resp.Diagnostics.Append(resp.State.Set(ctx, &model)...)
 }
 
@@ -526,7 +607,11 @@ func (r *escalationPathResource) Read(ctx context.Context, req resource.ReadRequ
 		return
 	}
 
-	result, err := r.client.EscalationPathsV2ShowWithResponse(ctx, data.ID.ValueString())
+	// Read through the version the state was written with, so state keeps matching the
+	// config. An import's state has only the id, so it reads through V3, which can read
+	// every path.
+	version := escalationPathVersionOf(ctx, data, &resp.Diagnostics)
+	model, err := showEscalationPath(ctx, r.client, data.ID.ValueString(), version, data, &resp.Diagnostics)
 	if isNotFound(err) {
 		tflog.Warn(ctx, fmt.Sprintf("Escalation path with ID %s not found: removing from state.", data.ID.ValueString()))
 		resp.State.RemoveResource(ctx)
@@ -536,16 +621,10 @@ func (r *escalationPathResource) Read(ctx context.Context, req resource.ReadRequ
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read escalation path, got error: %s", err))
 		return
 	}
-
-	if result.JSON200 == nil {
-		resp.Diagnostics.AddError(
-			"Client Error",
-			fmt.Sprintf("Unable to read escalation path: unexpected response from API (status %s)", result.Status()),
-		)
+	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	model := r.buildModel(ctx, result.JSON200.EscalationPath, data, &resp.Diagnostics)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &model)...)
 }
 
@@ -556,41 +635,75 @@ func (r *escalationPathResource) Update(ctx context.Context, req resource.Update
 		return
 	}
 
-	payload := r.toPayload(ctx, data, &resp.Diagnostics)
+	// The plan's version, not the state's: moving a path to V3 is a config change from the
+	// V2 fields to the V3 ones, applied as an update through V3.
+	version := escalationPathVersionOf(ctx, data, &resp.Diagnostics)
+	payload := r.toPayload(ctx, data, version, &resp.Diagnostics)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	result, err := r.client.EscalationPathsV2UpdateWithResponse(ctx, data.ID.ValueString(), client.EscalationPathsV2UpdateJSONRequestBody{
-		Name:          data.Name.ValueString(),
-		Path:          payload.Path,
-		WorkingHours:  payload.WorkingHours,
-		TeamIds:       payload.TeamIds,
-		RepeatConfig:  payload.RepeatConfig,
-		Kind:          (*client.EscalationPathsUpdatePayloadV2Kind)(payload.Kind),
-		TemplateId:    payload.TemplateID,
-		ParamBindings: payload.ParamBindings,
-	})
-	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update escalation path, got error: %s", err))
-		return
-	}
+	var model *escalationPathModel
+	switch version {
+	case escalationPathAPIV3:
+		result, err := r.client.EscalationPathsV3UpdateWithResponse(ctx, data.ID.ValueString(), client.EscalationPathsV3UpdateJSONRequestBody{
+			Name:          data.Name.ValueString(),
+			Path:          payload.PathV3,
+			WorkingHours:  payload.workingHoursV3(),
+			TeamIds:       payload.TeamIds,
+			RepeatConfig:  payload.repeatConfigV3(),
+			Kind:          (*client.EscalationPathsUpdatePayloadV3Kind)(payload.Kind),
+			TemplateId:    payload.TemplateID,
+			ParamBindings: payload.paramBindingsV3(),
+		})
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update escalation path, got error: %s", err))
+			return
+		}
+		if result.JSON200 == nil {
+			resp.Diagnostics.AddError(
+				"Client Error",
+				fmt.Sprintf("Unable to update escalation path: unexpected response from API (status %s)", result.Status()),
+			)
+			return
+		}
+		model = r.buildModelV3(ctx, result.JSON200.EscalationPath, data, &resp.Diagnostics)
 
-	if result.JSON200 == nil {
-		resp.Diagnostics.AddError(
-			"Client Error",
-			fmt.Sprintf("Unable to update escalation path: unexpected response from API (status %s)", result.Status()),
-		)
-		return
+	default:
+		result, err := r.client.EscalationPathsV2UpdateWithResponse(ctx, data.ID.ValueString(), client.EscalationPathsV2UpdateJSONRequestBody{
+			Name:          data.Name.ValueString(),
+			Path:          payload.Path,
+			WorkingHours:  payload.WorkingHours,
+			TeamIds:       payload.TeamIds,
+			RepeatConfig:  payload.RepeatConfig,
+			Kind:          (*client.EscalationPathsUpdatePayloadV2Kind)(payload.Kind),
+			TemplateId:    payload.TemplateID,
+			ParamBindings: payload.ParamBindings,
+		})
+		if isConflict(err) {
+			resp.Diagnostics.AddError("Escalation path branches on urgency", escalationPathBranchesOnUrgencyDetail(err))
+			return
+		}
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update escalation path, got error: %s", err))
+			return
+		}
+		if result.JSON200 == nil {
+			resp.Diagnostics.AddError(
+				"Client Error",
+				fmt.Sprintf("Unable to update escalation path: unexpected response from API (status %s)", result.Status()),
+			)
+			return
+		}
+		model = r.buildModel(ctx, result.JSON200.EscalationPath, data, &resp.Diagnostics)
 	}
 
 	if shouldClaim(data.UnlockInDashboard) {
-		claimResource(ctx, r.client, result.JSON200.EscalationPath.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPath, r.terraformVersion)
+		claimResource(ctx, r.client, model.ID.ValueString(), &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPath, r.terraformVersion)
 	} else {
-		unclaimResource(ctx, r.client, result.JSON200.EscalationPath.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPath)
+		unclaimResource(ctx, r.client, model.ID.ValueString(), &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPath)
 	}
 
-	model := r.buildModel(ctx, result.JSON200.EscalationPath, data, &resp.Diagnostics)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &model)...)
 }
 
@@ -601,7 +714,13 @@ func (r *escalationPathResource) Delete(ctx context.Context, req resource.Delete
 		return
 	}
 
-	_, err := r.client.EscalationPathsV2DestroyWithResponse(ctx, data.ID.ValueString())
+	var err error
+	switch escalationPathVersionOf(ctx, data, &resp.Diagnostics) {
+	case escalationPathAPIV3:
+		_, err = r.client.EscalationPathsV3DestroyWithResponse(ctx, data.ID.ValueString())
+	default:
+		_, err = r.client.EscalationPathsV2DestroyWithResponse(ctx, data.ID.ValueString())
+	}
 	if err != nil && !isNotFound(err) {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete escalation path, got error: %s", err))
 		return
@@ -615,8 +734,13 @@ func (r *escalationPathResource) ImportState(ctx context.Context, req resource.I
 
 // escalationPathPayload is the part of a create, update or validate body that this
 // resource builds the same way for all three.
+//
+// Path holds the nodes for a V2 request and PathV3 for a V3 one, and only the one for the
+// version asked for is built. The rest is built in its V2 shape, which V3 shares, and the
+// V3 accessors below bridge it across.
 type escalationPathPayload struct {
 	Path         []client.EscalationPathNodePayloadV2
+	PathV3       []client.EscalationPathNodePayloadV3
 	WorkingHours *[]client.WeekdayIntervalConfigV2
 	RepeatConfig *client.EscalationPathRepeatConfigV2
 	TeamIds      *[]string
@@ -627,7 +751,19 @@ type escalationPathPayload struct {
 	ParamBindings *map[string]client.EngineParamBindingPayloadV2
 }
 
-func (r *escalationPathResource) toPayload(ctx context.Context, data *escalationPathModel, diags *diag.Diagnostics) escalationPathPayload {
+func (p escalationPathPayload) workingHoursV3() *[]client.WeekdayIntervalConfigV3 {
+	return models.ConvertAPIType[*[]client.WeekdayIntervalConfigV3](p.WorkingHours)
+}
+
+func (p escalationPathPayload) repeatConfigV3() *client.EscalationPathRepeatConfigV3 {
+	return models.ConvertAPIType[*client.EscalationPathRepeatConfigV3](p.RepeatConfig)
+}
+
+func (p escalationPathPayload) paramBindingsV3() *map[string]client.EngineParamBindingPayloadV3 {
+	return models.ConvertAPIType[*map[string]client.EngineParamBindingPayloadV3](p.ParamBindings)
+}
+
+func (r *escalationPathResource) toPayload(ctx context.Context, data *escalationPathModel, version escalationPathAPIVersion, diags *diag.Diagnostics) escalationPathPayload {
 	payload := escalationPathPayload{
 		TeamIds: escalationPathTeamIDsToPayload(ctx, data.TeamIDs, diags),
 		// Always sent, so the API is the backstop for a kind change that reached apply
@@ -639,6 +775,7 @@ func (r *escalationPathResource) toPayload(ctx context.Context, data *escalation
 	// "read the template".
 	if data.isTemplated() {
 		payload.Path = []client.EscalationPathNodePayloadV2{}
+		payload.PathV3 = []client.EscalationPathNodePayloadV3{}
 		payload.TemplateID = data.TemplateID.ValueStringPointer()
 		payload.ParamBindings = escalationPathParamBindingsToPayload(ctx, data.ParamBindings, diags)
 		return payload
@@ -649,7 +786,12 @@ func (r *escalationPathResource) toPayload(ctx context.Context, data *escalation
 		return escalationPathPayload{}
 	}
 
-	payload.Path = unflattenSequences(ctx, data.Start.ValueString(), sequences, diags)
+	switch version {
+	case escalationPathAPIV3:
+		payload.PathV3 = unflattenSequencesWith(ctx, pathSequenceCodecV3{}, data.Start.ValueString(), sequences, diags)
+	default:
+		payload.Path = unflattenSequences(ctx, data.Start.ValueString(), sequences, diags)
+	}
 	payload.WorkingHours = escalationPathWorkingHoursToPayload(ctx, data.WorkingHours, diags)
 	payload.RepeatConfig = escalationPathRepeatConfigToPayload(ctx, data.RepeatConfig, diags)
 	return payload
@@ -659,6 +801,24 @@ func (r *escalationPathResource) toPayload(ctx context.Context, data *escalation
 // so prior is where they come from: the plan on a create or update, and the state on a
 // read, which on an import holds nothing but the id and so names nothing.
 func (r *escalationPathResource) buildModel(ctx context.Context, ep client.EscalationPathV2, prior *escalationPathModel, diags *diag.Diagnostics) *escalationPathModel {
+	return buildEscalationPathModel(ctx, ep, func(priorNames escalationPathPriorNames) (string, map[string][]escalationPathNode) {
+		return flattenSequences(ctx, ep.Path, priorNames, diags)
+	}, prior, diags)
+}
+
+// buildModelV3 is buildModel for a path read through V3.
+func (r *escalationPathResource) buildModelV3(ctx context.Context, ep client.EscalationPathV3, prior *escalationPathModel, diags *diag.Diagnostics) *escalationPathModel {
+	// Everything but the nodes has the same shape in both versions. The nodes are read
+	// through the V3 codec, so the bridged V2 copy of them is never looked at.
+	return buildEscalationPathModel(ctx, models.ConvertAPIType[client.EscalationPathV2](ep), func(priorNames escalationPathPriorNames) (string, map[string][]escalationPathNode) {
+		return flattenSequencesWith(ctx, pathSequenceCodecV3{}, ep.Path, priorNames, diags)
+	}, prior, diags)
+}
+
+// buildEscalationPathModel builds state from a path read through either version. ep holds
+// everything but the nodes in their V2 shape, and flatten reads the nodes through the
+// codec for the version they came from.
+func buildEscalationPathModel(ctx context.Context, ep client.EscalationPathV2, flatten func(escalationPathPriorNames) (string, map[string][]escalationPathNode), prior *escalationPathModel, diags *diag.Diagnostics) *escalationPathModel {
 	model := &escalationPathModel{
 		ID:            types.StringValue(ep.Id),
 		Name:          types.StringValue(ep.Name),
@@ -692,7 +852,7 @@ func (r *escalationPathResource) buildModel(ctx context.Context, ep client.Escal
 		return model
 	}
 
-	start, sequences := flattenSequences(ctx, ep.Path, escalationPathPriorNamesFrom(ctx, prior), diags)
+	start, sequences := flatten(escalationPathPriorNamesFrom(ctx, prior))
 	model.Start = types.StringValue(start)
 	model.Sequences = escalationPathSequencesToMap(ctx, sequences, diags)
 	model.WorkingHours = escalationPathWorkingHoursFromAPI(ctx, ep.WorkingHours, diags)

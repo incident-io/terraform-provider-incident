@@ -126,8 +126,15 @@ func escalationPathTargetsAttribute(docType string) schema.ListNestedAttribute {
 					Required:            true,
 				},
 				"urgency": schema.StringAttribute{
-					MarkdownDescription: EnumValuesDescription("EscalationPathTargetV2", "urgency"),
-					Required:            true,
+					MarkdownDescription: "Deprecated: notification urgency has been renamed to interruption level. Use `interruption_level` instead. " +
+						EnumValuesDescription("EscalationPathTargetV2", "urgency"),
+					DeprecationMessage: targetUrgencyDeprecation,
+					Optional:           true,
+				},
+				"interruption_level": schema.StringAttribute{
+					MarkdownDescription: EnumValuesDescription("EscalationPathTargetV3", "interruption_level") +
+						" Required, unless the target sets the deprecated `urgency`.",
+					Optional: true,
 				},
 				"schedule_mode": schema.StringAttribute{
 					MarkdownDescription: EnumValuesDescription("EscalationPathTargetV2", "schedule_mode"),
@@ -142,6 +149,10 @@ func escalationPathTargetsAttribute(docType string) schema.ListNestedAttribute {
 		},
 	}
 }
+
+// targetUrgencyDeprecation is the warning a config still setting a target's urgency gets.
+const targetUrgencyDeprecation = "Notification urgency has been renamed to interruption level. Please use interruption_level instead. " +
+	escalationPathMigrateTogether
 
 // escalationPathLevelAttribute returns the level block's schema. The GA resource keeps
 // ack_mode defaulting to "all": flipping it would rewrite ack_mode in existing state.
