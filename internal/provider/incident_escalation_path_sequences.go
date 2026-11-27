@@ -634,15 +634,15 @@ func validateSequenceNodes(sequences map[string][]escalationPathNode, diags *dia
 		// sequence there would diff forever. An empty sequence nothing branches to (the start,
 		// or a stranded one) does nothing at all. While a branch's target is unknown we can't
 		// tell which this is.
-		if len(nodes) == 0 && (thenTargets[key] || unknownTarget) {
-			continue
-		}
 		if len(nodes) == 0 && elseTargets[key] {
 			diags.AddAttributeError(
 				sequencePath,
 				"Empty sequence",
 				fmt.Sprintf("Sequence %q has no nodes. To end the escalation path when the condition isn't met, leave the branch's else unset instead.", key),
 			)
+			continue
+		}
+		if len(nodes) == 0 && (thenTargets[key] || unknownTarget) {
 			continue
 		}
 		if len(nodes) == 0 {

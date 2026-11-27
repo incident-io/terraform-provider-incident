@@ -392,6 +392,28 @@ func TestValidateSequences(t *testing.T) {
 // another resource computes — `nodes = local.from_a_resource`. decodeSequences reads an
 // unknown list as no nodes at all, so without a guard every check below it sees an empty
 // sequence and an escalation path that reaches nothing.
+// TestValidateSequencesEmptyElseWithUnknownTarget covers an empty sequence a branch's else
+// names while another branch's target is still unknown: the else side is known, so it's
+// still rejected.
+func TestValidateSequencesEmptyElseWithUnknownTarget(t *testing.T) {
+	unknownThen := branchNode("", "")
+	unknownThen.Branch.Then = types.StringUnknown()
+
+	var diags diag.Diagnostics
+	validateSequences(context.Background(), betaModel(t, "main", map[string][]escalationPathNode{
+		"main":      {branchNode("main_then", "main_else")},
+		"main_then": {unknownThen},
+		"main_else": {},
+	}), &diags)
+
+	for _, d := range diags.Errors() {
+		if strings.Contains(d.Detail(), "leave the branch's else unset") {
+			return
+		}
+	}
+	t.Errorf("expected the empty else sequence to be rejected, got %+v", diags.Errors())
+}
+
 func TestValidateSequencesSkipsUnknownNodes(t *testing.T) {
 	ctx := context.Background()
 
