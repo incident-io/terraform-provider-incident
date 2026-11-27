@@ -240,6 +240,18 @@ func TestValidateSequences(t *testing.T) {
 			wantError: "Sequence \"stranded\" has no nodes",
 		},
 		{
+			// A read leaves else unset rather than naming an empty sequence, so this would
+			// diff forever.
+			name:  "a branch's else side names a sequence with no nodes",
+			start: "main",
+			sequences: map[string][]escalationPathNode{
+				"main":      {branchNode("main_then", "main_else")},
+				"main_then": {levelNode(t, "")},
+				"main_else": {},
+			},
+			wantError: "leave the branch's else unset",
+		},
+		{
 			// How a read spells a branch whose then side ends the escalation path.
 			name:  "a branch's then side names a sequence with no nodes",
 			start: "main",

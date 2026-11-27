@@ -614,7 +614,7 @@ func nodeExists(sequences map[string][]escalationPathNode, id string) bool {
 // path will hold, which the reference checks need.
 func validateSequenceNodes(sequences map[string][]escalationPathNode, diags *diag.Diagnostics) map[string]bool {
 	nodeIDs := map[string]bool{}
-	branchTargets, unknownTarget := sequenceBranchTargets(sequences)
+	thenTargets, elseTargets, unknownTarget := sequenceBranchTargets(sequences)
 
 	for _, key := range sortedKeys(sequences) {
 		nodes := sequences[key]
@@ -628,11 +628,21 @@ func validateSequenceNodes(sequences map[string][]escalationPathNode, diags *dia
 			)
 		}
 
-		// An empty sequence a branch names ends the escalation path on that side. It's how a
-		// read spells a branch whose then side does nothing, so import must be able to plan
-		// it. An empty sequence nothing branches to (the start, or a stranded one) does
-		// nothing at all. While a branch's target is unknown we can't tell which this is.
-		if len(nodes) == 0 && (branchTargets[key] || unknownTarget) {
+		// An empty sequence a branch's then names ends the escalation path on that side. It's
+		// how a read spells a branch whose then side does nothing, so import must be able to
+		// plan it. An else side that does nothing reads back as else unset, so naming an empty
+		// sequence there would diff forever. An empty sequence nothing branches to (the start,
+		// or a stranded one) does nothing at all. While a branch's target is unknown we can't
+		// tell which this is.
+		if len(nodes) == 0 && (thenTargets[key] || unknownTarget) {
+			continue
+		}
+		if len(nodes) == 0 && elseTargets[key] {
+			diags.AddAttributeError(
+				sequencePath,
+				"Empty sequence",
+				fmt.Sprintf("Sequence %q has no nodes. To end the escalation path when the condition isn't met, leave the branch's else unset instead.", key),
+			)
 			continue
 		}
 		if len(nodes) == 0 {
@@ -710,27 +720,33 @@ func validateSequenceNodes(sequences map[string][]escalationPathNode, diags *dia
 	return nodeIDs
 }
 
-// sequenceBranchTargets returns the sequences some branch names, and whether any branch
-// names one that isn't known yet.
-func sequenceBranchTargets(sequences map[string][]escalationPathNode) (map[string]bool, bool) {
-	targets := map[string]bool{}
+// sequenceBranchTargets returns the sequences some branch's then names, those some branch's
+// else names, and whether any branch names one that isn't known yet.
+func sequenceBranchTargets(sequences map[string][]escalationPathNode) (map[string]bool, map[string]bool, bool) {
+	thenTargets, elseTargets := map[string]bool{}, map[string]bool{}
 	unknown := false
 	for _, nodes := range sequences {
 		for _, node := range nodes {
 			if node.Branch == nil {
 				continue
 			}
-			for _, side := range []types.String{node.Branch.Then, node.Branch.Else} {
+			for _, side := range []struct {
+				value   types.String
+				targets map[string]bool
+			}{
+				{node.Branch.Then, thenTargets},
+				{node.Branch.Else, elseTargets},
+			} {
 				switch {
-				case side.IsUnknown():
+				case side.value.IsUnknown():
 					unknown = true
-				case !side.IsNull():
-					targets[side.ValueString()] = true
+				case !side.value.IsNull():
+					side.targets[side.value.ValueString()] = true
 				}
 			}
 		}
 	}
-	return targets, unknown
+	return thenTargets, elseTargets, unknown
 }
 
 // loopEndsSequence reports whether the nodes after a loop are ones the API allows: none,
