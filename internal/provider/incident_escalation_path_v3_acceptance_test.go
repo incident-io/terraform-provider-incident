@@ -83,7 +83,7 @@ func TestAccEscalationPathMigrateToV3(t *testing.T) {
 }
 
 // v7ProviderVersion is the last release before escalation paths could use V3.
-const v7ProviderVersion = "7.12.0"
+const v7ProviderVersion = "7.13.0"
 
 // TestAccUpgradeEscalationPathV2Config checks that a V2 config applied by the last release
 // plans no change on this one. Every target had to set urgency before, so every existing
