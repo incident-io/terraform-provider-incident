@@ -10,6 +10,7 @@ import (
 	"github.com/samber/lo"
 
 	"github.com/incident-io/terraform-provider-incident/v7/internal/client"
+	"github.com/incident-io/terraform-provider-incident/v7/internal/provider/models"
 )
 
 // A target is who a level or notify_channel node escalates to. Both node types hold
@@ -17,23 +18,27 @@ import (
 // escalation_path_nodes.go need to read and write them, so the model and its
 // conversions live here rather than with either caller.
 
+// Urgency and InterruptionLevel are the V2 and V3 names for the same high/low setting. A
+// target sets one, and which one picks the API version: see escalationPathAPIVersion.
 type IncidentEscalationPathTarget struct {
-	ID             types.String `tfsdk:"id"`
-	Type           types.String `tfsdk:"type"`
-	Urgency        types.String `tfsdk:"urgency"`
-	ScheduleMode   types.String `tfsdk:"schedule_mode"`
-	SelectedRotaID types.String `tfsdk:"selected_rota_id"`
+	ID                types.String `tfsdk:"id"`
+	Type              types.String `tfsdk:"type"`
+	Urgency           types.String `tfsdk:"urgency"`
+	InterruptionLevel types.String `tfsdk:"interruption_level"`
+	ScheduleMode      types.String `tfsdk:"schedule_mode"`
+	SelectedRotaID    types.String `tfsdk:"selected_rota_id"`
 }
 
 // targetAttrTypes returns the attribute types for an escalation path target
 // object.
 func targetAttrTypes() map[string]attr.Type {
 	return map[string]attr.Type{
-		"id":               types.StringType,
-		"type":             types.StringType,
-		"urgency":          types.StringType,
-		"schedule_mode":    types.StringType,
-		"selected_rota_id": types.StringType,
+		"id":                 types.StringType,
+		"type":               types.StringType,
+		"urgency":            types.StringType,
+		"interruption_level": types.StringType,
+		"schedule_mode":      types.StringType,
+		"selected_rota_id":   types.StringType,
 	}
 }
 
@@ -67,11 +72,12 @@ func targetsFromAPI(ctx context.Context, targets []client.EscalationPathTargetV2
 		}
 
 		return IncidentEscalationPathTarget{
-			ID:             types.StringValue(target.Id),
-			Type:           types.StringValue(string(target.Type)),
-			Urgency:        types.StringValue(string(target.Urgency)),
-			ScheduleMode:   scheduleMode,
-			SelectedRotaID: selectedRotaID,
+			ID:                types.StringValue(target.Id),
+			Type:              types.StringValue(string(target.Type)),
+			Urgency:           types.StringValue(string(target.Urgency)),
+			InterruptionLevel: types.StringNull(),
+			ScheduleMode:      scheduleMode,
+			SelectedRotaID:    selectedRotaID,
 		}
 	})
 
@@ -100,6 +106,34 @@ func targetsToPayload(ctx context.Context, list types.List, diags *diag.Diagnost
 
 		return targetPayload
 	})
+}
+
+// targetsFromAPIV3 is targetsFromAPI for a path read through V3, which calls the
+// high/low setting interruption_level.
+func targetsFromAPIV3(ctx context.Context, targets []client.EscalationPathTargetV3, diags *diag.Diagnostics) types.List {
+	// Everything but the high/low setting is the same in both versions, so read it as V2
+	// and move the setting across.
+	list := targetsFromAPI(ctx, models.ConvertAPIType[[]client.EscalationPathTargetV2](targets), diags)
+
+	converted := decodeTargets(ctx, list, diags)
+	for index, target := range targets {
+		converted[index].Urgency = types.StringNull()
+		converted[index].InterruptionLevel = types.StringValue(string(target.InterruptionLevel))
+	}
+
+	out, d := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: targetAttrTypes()}, converted)
+	diags.Append(d...)
+	return out
+}
+
+// targetsToPayloadV3 is targetsToPayload for a path written through V3.
+func targetsToPayloadV3(ctx context.Context, list types.List, diags *diag.Diagnostics) []client.EscalationPathTargetV3 {
+	targets := decodeTargets(ctx, list, diags)
+	out := models.ConvertAPIType[[]client.EscalationPathTargetV3](targetsToPayload(ctx, list, diags))
+	for index, target := range targets {
+		out[index].InterruptionLevel = client.EscalationPathTargetV3InterruptionLevel(target.InterruptionLevel.ValueString())
+	}
+	return out
 }
 
 // rotaRequiredScheduleModes is the set of schedule_mode values that require a

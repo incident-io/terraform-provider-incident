@@ -6,6 +6,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/samber/lo"
@@ -35,6 +36,9 @@ type escalationPathTemplateTarget struct {
 
 func escalationPathTemplateTargetAttrTypes() map[string]attr.Type {
 	attrTypes := targetAttrTypes()
+	// Templates go through V2 only, so their targets have no V3 name for the high/low
+	// setting.
+	delete(attrTypes, "interruption_level")
 	attrTypes["binding"] = types.ObjectType{AttrTypes: models.ParamBindingAttrTypes()}
 	return attrTypes
 }
@@ -117,7 +121,27 @@ func escalationPathTemplateNodeSchema() schema.NestedAttributeObject {
 	notifyChannel.Attributes["targets"] = escalationPathTemplateTargetsAttribute("EscalationPathNodeNotifyChannelWithBindingV2")
 	node.Attributes["notify_channel"] = notifyChannel
 
+	node.Attributes["branch"] = escalationPathBranchAttribute(escalationPathTemplateBranchIfAttribute())
+
 	return node
+}
+
+// validateEscalationPathTemplateBranches rejects urgency_one_of: templates go through V2,
+// which can't branch on urgency.
+func validateEscalationPathTemplateBranches(ctx context.Context, sequences types.Map, diags *diag.Diagnostics) {
+	decoded := decodeSequences(ctx, sequences, diags)
+	for _, key := range sortedKeys(decoded) {
+		for index, node := range decoded[key] {
+			if node.Branch == nil || node.Branch.If == nil || node.Branch.If.UrgencyOneOf.IsNull() {
+				continue
+			}
+			diags.AddAttributeError(
+				path.Root("sequences").AtMapKey(key).AtName("nodes").AtListIndex(index).AtName("branch").AtName("if").AtName("urgency_one_of"),
+				"Templates can't branch on urgency",
+				"An escalation path template branches on priority_one_of. To branch on urgency_one_of, use incident_escalation_path.",
+			)
+		}
+	}
 }
 
 func decodeTemplateTargets(ctx context.Context, list types.List, diags *diag.Diagnostics) []escalationPathTemplateTarget {

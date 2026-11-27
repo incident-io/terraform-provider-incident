@@ -1,5 +1,11 @@
 ## Unreleased
 
+- `incident_escalation_path` now manages escalation paths through the V3 escalation paths API, which branches on escalation urgency instead of alert priority. In V3, a target's high/low setting is `interruption_level`, and a branch tests urgency with `urgency_one_of`. A path that still uses `urgency` or `priority_one_of` uses the V2 API, as before. Those two attributes are deprecated. A path can't use attributes from both versions. The `incident_escalation_path` data source reads a path that branches on urgency through V3, and sets `interruption_level` and `urgency_one_of`. Escalation path templates still branch on priority. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/escalation_path). (ALE-314)
+
+  To move a path to V3, replace `urgency` with `interruption_level` on every target. The values are the same. Then replace `priority_one_of` with `urgency_one_of` on every branch, and list escalation urgency IDs. Terraform updates the path in place.
+
+  Earlier provider versions can't read an escalation path that branches on urgency: the V2 API returns a 409. A path saved in the dashboard branches on urgency. Upgrade the provider before you move a path to V3.
+
 ## v7.13.0
 
 - Add `alertmanager_options` to the `incident_alert_source` resource and data source. Its `one_alert_per_group` sets whether an Alertmanager source creates one alert per Alertmanager group, or one alert for each alert that fires. Leave the block out to keep the setting chosen in the dashboard. A new source groups alerts. See the [docs](https://registry.terraform.io/providers/incident-io/incident/latest/docs/resources/alert_source). (#711)

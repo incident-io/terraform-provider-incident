@@ -214,7 +214,7 @@ func severityFromAPIV1(severity *client.IncidentTemplateSeverityBindingV1, plan 
 		return SeverityObjectNull()
 	}
 
-	return SeverityFromAPI(convertEngineType[*client.AlertRouteSeverityBindingV2](severity), plan)
+	return SeverityFromAPI(ConvertAPIType[*client.AlertRouteSeverityBindingV2](severity), plan)
 }
 
 // severityToPayloadV1 mirrors the v2 severity payload into the v1 shape.
@@ -224,7 +224,7 @@ func severityToPayloadV1(ctx context.Context, severityObj types.Object) *client.
 		return nil
 	}
 
-	return convertEngineType[*client.IncidentTemplateSeverityBindingPayloadV1](v2)
+	return ConvertAPIType[*client.IncidentTemplateSeverityBindingPayloadV1](v2)
 }
 
 // ToConfigPayload builds the IncidentTemplateConfigPayloadV1 for create/update.

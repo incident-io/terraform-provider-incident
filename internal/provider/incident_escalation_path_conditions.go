@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"regexp"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -16,14 +17,19 @@ import (
 	"github.com/incident-io/terraform-provider-incident/v7/internal/provider/models"
 )
 
-// A branch tests one thing: the escalation's priority, or whether one of the path's
-// working hours is active. Those are all an escalation knows about itself, and the API
-// takes exactly one condition on a branch, so this resource takes one attribute per test
+// A branch tests one thing: the escalation's priority or urgency, or whether one of the
+// path's working hours is active. Those are all an escalation knows about itself, and the
+// API takes exactly one condition on a branch, so this resource takes one attribute per test
 // and builds the condition from whichever the author set.
+//
+// V2 branches on priority and V3 on urgency, and neither accepts the other's. Both
+// conditions are built and read the same way, so this file handles both, and
+// escalationPathAPIVersion decides which API a path uses.
 
 const (
 	// The references the escalation scope holds, which is what a condition's subject names.
 	escalationPrioritySubject = "escalation.priority"
+	escalationUrgencySubject  = "escalation.urgency"
 
 	// Built and read exactly as the escalation scope registers it, quotes and all. %q
 	// would escape an id the scope leaves alone, giving a subject that matches nothing.
@@ -44,6 +50,7 @@ var escalationWorkingHoursSubjectPattern = regexp.MustCompile(`^escalation\.work
 type escalationPathBranchIf struct {
 	WorkingHoursActive types.String `tfsdk:"working_hours_active"`
 	PriorityOneOf      types.Set    `tfsdk:"priority_one_of"`
+	UrgencyOneOf       types.Set    `tfsdk:"urgency_one_of"`
 }
 
 // escalationPathBranchIfAttrTypes returns the attribute types for a branch's if object.
@@ -51,6 +58,7 @@ func escalationPathBranchIfAttrTypes() map[string]attr.Type {
 	return map[string]attr.Type{
 		"working_hours_active": types.StringType,
 		"priority_one_of":      types.SetType{ElemType: types.StringType},
+		"urgency_one_of":       types.SetType{ElemType: types.StringType},
 	}
 }
 
@@ -65,25 +73,56 @@ func escalationPathBranchIfAttribute() schema.SingleNestedAttribute {
 				Optional:            true,
 			},
 			"priority_one_of": schema.SetAttribute{
-				MarkdownDescription: "Alert priority ids, met when the escalation came in at one of them.",
+				MarkdownDescription: "Alert priority ids, met when the escalation came in at one of them. Deprecated: use `urgency_one_of`, which moves the escalation path to the V3 API. See the `urgency_one_of` docs.",
+				DeprecationMessage:  priorityOneOfDeprecation,
 				Optional:            true,
 				ElementType:         types.StringType,
+			},
+			"urgency_one_of": schema.SetAttribute{
+				MarkdownDescription: "Escalation urgency ids, met when the escalation came in at one of them. " +
+					"An escalation path using `urgency_one_of` or `interruption_level` is managed through the V3 API, " +
+					"and can't also use `priority_one_of` or `urgency`.",
+				Optional:    true,
+				ElementType: types.StringType,
 			},
 		},
 	}
 }
 
-// toPayload builds the one condition the API stores, reporting a branch that tests both
-// things or neither rather than sending a payload the API would reject.
+// escalationPathTemplateBranchIfAttribute is the if attribute for templates, which go
+// through V2 only, so priority_one_of isn't deprecated there. urgency_one_of stays in the
+// schema because templates share escalationPathBranchIf with paths.
+func escalationPathTemplateBranchIfAttribute() schema.SingleNestedAttribute {
+	attribute := escalationPathBranchIfAttribute()
+	attribute.Attributes["priority_one_of"] = schema.SetAttribute{
+		MarkdownDescription: "Alert priority ids, met when the escalation came in at one of them.",
+		Optional:            true,
+		ElementType:         types.StringType,
+	}
+	attribute.Attributes["urgency_one_of"] = schema.SetAttribute{
+		MarkdownDescription: "Not supported on templates, which branch on `priority_one_of`.",
+		Optional:            true,
+		ElementType:         types.StringType,
+	}
+	return attribute
+}
+
+// priorityOneOfDeprecation is the warning a config still branching on priority gets.
+const priorityOneOfDeprecation = "Branch on escalation urgency with urgency_one_of instead. " +
+	"An escalation path that uses priority_one_of or a target's urgency goes through the V2 API, which is deprecated. " +
+	"To move it to V3, use urgency_one_of and interruption_level throughout."
+
+// toPayload builds the one condition the API stores, reporting a branch that tests more
+// than one thing, or nothing, rather than sending a payload the API would reject.
 //
-// validateSequenceConditions reports the same two, but only for a config it can read: one
+// validateSequenceConditions reports the same, but only for a config it can read: one
 // whose sequences another resource computes reaches here unchecked.
 func (i *escalationPathBranchIf) toPayload(ctx context.Context, diags *diag.Diagnostics) []client.ConditionPayloadV2 {
 	none := []client.ConditionPayloadV2{}
 	nothingToTest := func() []client.ConditionPayloadV2 {
 		diags.AddError(
 			"Branch tests nothing",
-			"A branch sets neither working_hours_active nor priority_one_of, so it has nothing to choose on.",
+			"A branch sets none of working_hours_active, urgency_one_of and priority_one_of, so it has nothing to choose on.",
 		)
 		return none
 	}
@@ -94,20 +133,22 @@ func (i *escalationPathBranchIf) toPayload(ctx context.Context, diags *diag.Diag
 		return nothingToTest()
 	}
 
+	if set := i.testsSet(); len(set) > 1 {
+		diags.AddError(
+			"Branch tests more than one thing",
+			fmt.Sprintf("A branch sets %s, and a branch tests one thing.", strings.Join(set, " and ")),
+		)
+		return none
+	}
+
 	workingHours := i.WorkingHoursActive.ValueString()
-	priorities := escalationPathPriorityIDs(ctx, i.PriorityOneOf, diags)
+	priorities := escalationPathOneOfIDs(ctx, i.PriorityOneOf, diags)
+	urgencies := escalationPathOneOfIDs(ctx, i.UrgencyOneOf, diags)
 	if diags.HasError() {
 		return none
 	}
 
 	switch {
-	case workingHours != "" && !i.PriorityOneOf.IsNull():
-		diags.AddError(
-			"Branch tests more than one thing",
-			"A branch sets working_hours_active and priority_one_of, and a branch tests one thing.",
-		)
-		return none
-
 	case workingHours != "":
 		return []client.ConditionPayloadV2{{
 			Subject:       fmt.Sprintf(escalationWorkingHoursSubject, workingHours),
@@ -116,24 +157,47 @@ func (i *escalationPathBranchIf) toPayload(ctx context.Context, diags *diag.Diag
 		}}
 
 	case len(priorities) > 0:
-		values := lo.Map(priorities, func(id string, _ int) client.EngineParamBindingValuePayloadV2 {
-			return client.EngineParamBindingValuePayloadV2{Literal: lo.ToPtr(id)}
-		})
-		return []client.ConditionPayloadV2{{
-			Subject:   escalationPrioritySubject,
-			Operation: escalationOperationOneOf,
-			ParamBindings: []client.EngineParamBindingPayloadV2{
-				{ArrayValue: &values},
-			},
-		}}
+		return []client.ConditionPayloadV2{oneOfConditionPayload(escalationPrioritySubject, priorities)}
+
+	case len(urgencies) > 0:
+		return []client.ConditionPayloadV2{oneOfConditionPayload(escalationUrgencySubject, urgencies)}
 
 	default:
 		return nothingToTest()
 	}
 }
 
-// escalationPathPriorityIDs decodes the priority set, treating an unset one as empty.
-func escalationPathPriorityIDs(ctx context.Context, set types.Set, diags *diag.Diagnostics) []string {
+// testsSet names the tests this branch sets, in the order the schema declares them.
+func (i *escalationPathBranchIf) testsSet() []string {
+	var set []string
+	if !i.WorkingHoursActive.IsNull() {
+		set = append(set, "working_hours_active")
+	}
+	if !i.PriorityOneOf.IsNull() {
+		set = append(set, "priority_one_of")
+	}
+	if !i.UrgencyOneOf.IsNull() {
+		set = append(set, "urgency_one_of")
+	}
+	return set
+}
+
+// oneOfConditionPayload builds a condition met when subject is one of ids.
+func oneOfConditionPayload(subject string, ids []string) client.ConditionPayloadV2 {
+	values := lo.Map(ids, func(id string, _ int) client.EngineParamBindingValuePayloadV2 {
+		return client.EngineParamBindingValuePayloadV2{Literal: lo.ToPtr(id)}
+	})
+	return client.ConditionPayloadV2{
+		Subject:   subject,
+		Operation: escalationOperationOneOf,
+		ParamBindings: []client.EngineParamBindingPayloadV2{
+			{ArrayValue: &values},
+		},
+	}
+}
+
+// escalationPathOneOfIDs decodes a priority or urgency set, treating an unset one as empty.
+func escalationPathOneOfIDs(ctx context.Context, set types.Set, diags *diag.Diagnostics) []string {
 	if set.IsNull() || set.IsUnknown() {
 		return nil
 	}
@@ -153,6 +217,7 @@ func escalationPathBranchIfFromAPI(ctx context.Context, conditions []client.Cond
 	out := &escalationPathBranchIf{
 		WorkingHoursActive: types.StringNull(),
 		PriorityOneOf:      types.SetNull(types.StringType),
+		UrgencyOneOf:       types.SetNull(types.StringType),
 	}
 
 	unsupported := func(detail string) *escalationPathBranchIf {
@@ -179,26 +244,31 @@ func escalationPathBranchIfFromAPI(ctx context.Context, conditions []client.Cond
 		return out
 	}
 
-	if subject == escalationPrioritySubject {
+	oneOf := map[string]*types.Set{
+		escalationPrioritySubject: &out.PriorityOneOf,
+		escalationUrgencySubject:  &out.UrgencyOneOf,
+	}
+	if target, ok := oneOf[subject]; ok {
+		name := strings.TrimPrefix(subject, "escalation.")
 		if operation != escalationOperationOneOf {
-			return unsupported(fmt.Sprintf("A branch tests whether the priority is %q.", operation))
+			return unsupported(fmt.Sprintf("A branch tests whether the %s is %q.", name, operation))
 		}
-		ids, ok := escalationPathPriorityIDsFromAPI(condition.ParamBindings)
+		ids, ok := escalationPathOneOfIDsFromAPI(condition.ParamBindings)
 		if !ok {
-			return unsupported("A branch tests the priority against something other than a list of priority ids.")
+			return unsupported(fmt.Sprintf("A branch tests the %s against something other than a list of %s ids.", name, name))
 		}
 		set, d := types.SetValueFrom(ctx, types.StringType, ids)
 		diags.Append(d...)
-		out.PriorityOneOf = set
+		*target = set
 		return out
 	}
 
-	return unsupported(fmt.Sprintf("A branch tests %s, which is neither the priority nor a set of working hours.", subject))
+	return unsupported(fmt.Sprintf("A branch tests %s, which is neither the priority, the urgency nor a set of working hours.", subject))
 }
 
-// escalationPathPriorityIDsFromAPI pulls the priority ids out of a one_of's bindings,
-// reporting false for a binding holding anything but literals.
-func escalationPathPriorityIDsFromAPI(bindings []client.EngineParamBindingV2) ([]string, bool) {
+// escalationPathOneOfIDsFromAPI pulls the priority or urgency ids out of a one_of's
+// bindings, reporting false for a binding holding anything but literals.
+func escalationPathOneOfIDsFromAPI(bindings []client.EngineParamBindingV2) ([]string, bool) {
 	ids := []string{}
 	for _, binding := range bindings {
 		if binding.Value != nil || binding.ArrayValue == nil {
@@ -230,33 +300,41 @@ func validateSequenceConditions(ctx context.Context, data *escalationPathModel, 
 			}
 			ifPath := path.Root("sequences").AtMapKey(key).AtName("nodes").AtListIndex(index).AtName("branch").AtName("if")
 
-			workingHours := node.Branch.If.WorkingHoursActive
-			priorities := node.Branch.If.PriorityOneOf
+			branchIf := node.Branch.If
+			workingHours := branchIf.WorkingHoursActive
 
-			switch {
-			case workingHours.IsNull() && priorities.IsNull():
+			// Report two tests only once all are known: a value another resource computes may
+			// still resolve to null, and toPayload catches a branch that really sets two.
+			switch set := branchIf.testsSet(); {
+			case len(set) == 0:
 				diags.AddAttributeError(
 					ifPath,
 					"Branch tests nothing",
-					"Set working_hours_active or priority_one_of, so the branch has something to choose on.",
+					"Set working_hours_active or urgency_one_of, so the branch has something to choose on.",
 				)
-			// Only once both are known: a value another resource computes may still
-			// resolve to null, and toPayload catches a branch that really does set both.
-			case !workingHours.IsNull() && !workingHours.IsUnknown() &&
-				!priorities.IsNull() && !priorities.IsUnknown():
+			case len(set) > 1 && branchIf.testsKnown():
 				diags.AddAttributeError(
 					ifPath,
 					"Branch tests more than one thing",
-					"A branch sets working_hours_active and priority_one_of, and a branch tests one thing. Move the second test into a branch in the sequence this one names.",
+					fmt.Sprintf("A branch sets %s, and a branch tests one thing. Move the second test into a branch in the sequence this one names.", strings.Join(set, " and ")),
 				)
 			}
 
-			if !priorities.IsNull() && !priorities.IsUnknown() && len(priorities.Elements()) == 0 {
-				diags.AddAttributeError(
-					ifPath.AtName("priority_one_of"),
-					"No priorities to match",
-					"priority_one_of is empty, so no escalation could satisfy it. Give it a priority, or leave it out.",
-				)
+			for _, oneOf := range []struct {
+				name string
+				ids  types.Set
+			}{
+				{"priority_one_of", branchIf.PriorityOneOf},
+				{"urgency_one_of", branchIf.UrgencyOneOf},
+			} {
+				name, ids := oneOf.name, oneOf.ids
+				if !ids.IsNull() && !ids.IsUnknown() && len(ids.Elements()) == 0 {
+					diags.AddAttributeError(
+						ifPath.AtName(name),
+						"Nothing to match",
+						fmt.Sprintf("%s is empty, so no escalation could satisfy it. Give it an id, or leave it out.", name),
+					)
+				}
 			}
 
 			// An empty string is set as far as the switch above is concerned, but names no
@@ -280,6 +358,11 @@ func validateSequenceConditions(ctx context.Context, data *escalationPathModel, 
 			}
 		}
 	}
+}
+
+// testsKnown reports whether every test this branch could set is known.
+func (i *escalationPathBranchIf) testsKnown() bool {
+	return !i.WorkingHoursActive.IsUnknown() && !i.PriorityOneOf.IsUnknown() && !i.UrgencyOneOf.IsUnknown()
 }
 
 // escalationPathWorkingHoursIDs returns the ids of the working hours this path

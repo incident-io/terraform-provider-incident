@@ -21,6 +21,7 @@ func workingHoursIf() *escalationPathBranchIf {
 	return &escalationPathBranchIf{
 		WorkingHoursActive: types.StringValue("UK"),
 		PriorityOneOf:      types.SetNull(types.StringType),
+		UrgencyOneOf:       types.SetNull(types.StringType),
 	}
 }
 
@@ -34,7 +35,29 @@ func priorityIf(t *testing.T, ids ...string) *escalationPathBranchIf {
 	return &escalationPathBranchIf{
 		WorkingHoursActive: types.StringNull(),
 		PriorityOneOf:      set,
+		UrgencyOneOf:       types.SetNull(types.StringType),
 	}
+}
+
+func urgencyIf(t *testing.T, ids ...string) *escalationPathBranchIf {
+	t.Helper()
+
+	set, diags := types.SetValueFrom(context.Background(), types.StringType, ids)
+	if diags.HasError() {
+		t.Fatalf("building urgency set: %+v", diags)
+	}
+	return &escalationPathBranchIf{
+		WorkingHoursActive: types.StringNull(),
+		PriorityOneOf:      types.SetNull(types.StringType),
+		UrgencyOneOf:       set,
+	}
+}
+
+// branchWith is a branch to the "urgent" sequence, testing branchIf.
+func branchWith(branchIf *escalationPathBranchIf) escalationPathNode {
+	node := branchNode("urgent", "")
+	node.Branch.If = branchIf
+	return node
 }
 
 // apiConditions converts payload conditions into the response shape, so a round-trip test
@@ -122,14 +145,17 @@ func TestEscalationPathBranchIfToPayload(t *testing.T) {
 			{"neither attribute set", &escalationPathBranchIf{
 				WorkingHoursActive: types.StringNull(),
 				PriorityOneOf:      types.SetNull(types.StringType),
+				UrgencyOneOf:       types.SetNull(types.StringType),
 			}},
 			{"an empty working hours id", &escalationPathBranchIf{
 				WorkingHoursActive: types.StringValue(""),
 				PriorityOneOf:      types.SetNull(types.StringType),
+				UrgencyOneOf:       types.SetNull(types.StringType),
 			}},
 			{"an empty priority set", &escalationPathBranchIf{
 				WorkingHoursActive: types.StringNull(),
 				PriorityOneOf:      types.SetValueMust(types.StringType, []attr.Value{}),
+				UrgencyOneOf:       types.SetNull(types.StringType),
 			}},
 			{"no if at all", nil},
 		} {
@@ -142,6 +168,40 @@ func TestEscalationPathBranchIfToPayload(t *testing.T) {
 					t.Error("expected an error")
 				}
 			})
+		}
+	})
+
+	t.Run("builds the urgency condition from ids", func(t *testing.T) {
+		var diags diag.Diagnostics
+		got := urgencyIf(t, "01HIGH").toPayload(ctx, &diags)
+
+		if diags.HasError() {
+			t.Fatalf("unexpected errors: %+v", diags)
+		}
+		if len(got) != 1 {
+			t.Fatalf("got %d conditions, want 1", len(got))
+		}
+		if got[0].Subject != "escalation.urgency" || got[0].Operation != "one_of" {
+			t.Errorf("got subject %q and operation %q, want escalation.urgency one_of", got[0].Subject, got[0].Operation)
+		}
+		literals := lo.FilterMap(lo.FromPtr(got[0].ParamBindings[0].ArrayValue), func(value client.EngineParamBindingValuePayloadV2, _ int) (string, bool) {
+			return lo.FromPtr(value.Literal), value.Literal != nil
+		})
+		if len(literals) != 1 || literals[0] != "01HIGH" {
+			t.Errorf("got literals %v, want [01HIGH]", literals)
+		}
+	})
+
+	t.Run("refuses a branch on both priority and urgency", func(t *testing.T) {
+		var diags diag.Diagnostics
+		both := priorityIf(t, "01AAA")
+		both.UrgencyOneOf = urgencyIf(t, "01HIGH").UrgencyOneOf
+
+		if got := both.toPayload(ctx, &diags); len(got) != 0 {
+			t.Errorf("got %d conditions, want none", len(got))
+		}
+		if !diags.HasError() {
+			t.Error("expected an error")
 		}
 	})
 
@@ -191,11 +251,35 @@ func TestEscalationPathBranchIfFromAPI(t *testing.T) {
 		}
 	})
 
+	t.Run("round-trips urgencies", func(t *testing.T) {
+		var diags diag.Diagnostics
+		want := urgencyIf(t, "01HIGH", "01LOW")
+		got := escalationPathBranchIfFromAPI(ctx, apiConditions(want.toPayload(ctx, &diags)), &diags)
+
+		if diags.HasError() {
+			t.Fatalf("unexpected errors: %+v", diags)
+		}
+		if !got.WorkingHoursActive.IsNull() || !got.PriorityOneOf.IsNull() {
+			t.Errorf("got %+v, want only urgencies set", got)
+		}
+		if !got.UrgencyOneOf.Equal(want.UrgencyOneOf) {
+			t.Errorf("got %v, want %v", got.UrgencyOneOf, want.UrgencyOneOf)
+		}
+	})
+
 	for _, tc := range []struct {
 		name       string
 		conditions []client.ConditionV2
 		wantError  string
 	}{
+		{
+			name: "urgency tested with another operation",
+			conditions: []client.ConditionV2{{
+				Subject:   client.ConditionSubjectV2{Reference: "escalation.urgency"},
+				Operation: client.ConditionOperationV2{Value: "not_one_of"},
+			}},
+			wantError: `urgency is "not_one_of"`,
+		},
 		{
 			name:       "a branch with no conditions",
 			conditions: nil,
@@ -241,7 +325,7 @@ func TestEscalationPathBranchIfFromAPI(t *testing.T) {
 				Subject:   client.ConditionSubjectV2{Reference: `escalation.working_hours[""]`},
 				Operation: client.ConditionOperationV2{Value: "is_active"},
 			}},
-			wantError: "neither the priority nor a set of working hours",
+			wantError: "neither the priority, the urgency nor a set of working hours",
 		},
 		{
 			name: "a subject the resource knows nothing about",
@@ -249,7 +333,7 @@ func TestEscalationPathBranchIfFromAPI(t *testing.T) {
 				Subject:   client.ConditionSubjectV2{Reference: "escalation.something_else"},
 				Operation: client.ConditionOperationV2{Value: "is_set"},
 			}},
-			wantError: "neither the priority nor a set of working hours",
+			wantError: "neither the priority, the urgency nor a set of working hours",
 		},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
@@ -271,12 +355,6 @@ func TestEscalationPathBranchIfFromAPI(t *testing.T) {
 
 func TestValidateSequenceConditions(t *testing.T) {
 	ctx := context.Background()
-
-	branchWith := func(branchIf *escalationPathBranchIf) escalationPathNode {
-		node := branchNode("urgent", "")
-		node.Branch.If = branchIf
-		return node
-	}
 
 	for _, tc := range []struct {
 		name         string
@@ -303,14 +381,16 @@ func TestValidateSequenceConditions(t *testing.T) {
 			branchIf: &escalationPathBranchIf{
 				WorkingHoursActive: types.StringNull(),
 				PriorityOneOf:      types.SetNull(types.StringType),
+				UrgencyOneOf:       types.SetNull(types.StringType),
 			},
-			wantError: "Set working_hours_active or priority_one_of",
+			wantError: "Set working_hours_active or urgency_one_of",
 		},
 		{
 			name: "a branch testing both",
 			branchIf: &escalationPathBranchIf{
 				WorkingHoursActive: types.StringValue("UK"),
 				PriorityOneOf:      priorityIf(t, "01AAA").PriorityOneOf,
+				UrgencyOneOf:       types.SetNull(types.StringType),
 			},
 			workingHours: []string{"UK"},
 			wantError:    "a branch tests one thing",
@@ -322,6 +402,7 @@ func TestValidateSequenceConditions(t *testing.T) {
 			branchIf: &escalationPathBranchIf{
 				WorkingHoursActive: types.StringUnknown(),
 				PriorityOneOf:      types.SetUnknown(types.StringType),
+				UrgencyOneOf:       types.SetNull(types.StringType),
 			},
 			workingHours: []string{"UK"},
 		},
@@ -330,14 +411,38 @@ func TestValidateSequenceConditions(t *testing.T) {
 			branchIf: &escalationPathBranchIf{
 				WorkingHoursActive: types.StringValue(""),
 				PriorityOneOf:      types.SetNull(types.StringType),
+				UrgencyOneOf:       types.SetNull(types.StringType),
 			},
 			wantError: "working_hours_active is empty",
+		},
+		{
+			name:     "a branch on urgency",
+			branchIf: urgencyIf(t, "01HIGH"),
+		},
+		{
+			name: "a branch testing priority and urgency",
+			branchIf: &escalationPathBranchIf{
+				WorkingHoursActive: types.StringNull(),
+				PriorityOneOf:      priorityIf(t, "01AAA").PriorityOneOf,
+				UrgencyOneOf:       urgencyIf(t, "01HIGH").UrgencyOneOf,
+			},
+			wantError: "priority_one_of and urgency_one_of",
+		},
+		{
+			name: "a branch matching no urgency at all",
+			branchIf: &escalationPathBranchIf{
+				WorkingHoursActive: types.StringNull(),
+				PriorityOneOf:      types.SetNull(types.StringType),
+				UrgencyOneOf:       types.SetValueMust(types.StringType, []attr.Value{}),
+			},
+			wantError: "urgency_one_of is empty",
 		},
 		{
 			name: "a branch matching no priority at all",
 			branchIf: &escalationPathBranchIf{
 				WorkingHoursActive: types.StringNull(),
 				PriorityOneOf:      types.SetValueMust(types.StringType, []attr.Value{}),
+				UrgencyOneOf:       types.SetNull(types.StringType),
 			},
 			wantError: "priority_one_of is empty",
 		},

@@ -6,6 +6,21 @@ description: |-
   Create and manage escalation paths, written as a flat map of named node sequences.
   Each sequence runs its nodes in order and either ends with a branch, which names the sequences to continue down, or falls off the end of the escalation path.
   We'd generally recommend building escalation paths in our web dashboard https://app.incident.io/~/on-call/escalation-paths and using the 'Export' flow to generate your Terraform.
+  Branching on escalation urgency
+  An escalation path uses the V3 escalation paths API, unless its configuration sets
+  urgency on a target or priority_one_of on a branch. Those two are V2 attributes,
+  and are deprecated. In V3, a target's high/low setting is interruption_level, and a
+  branch tests escalation urgency with urgency_one_of instead of alert priority. A
+  configuration that uses attributes from both versions is an error.
+  To move an escalation path to V3, change every target's urgency to
+  interruption_level. The values are the same. Then change every branch's
+  priority_one_of to urgency_one_of, and list the IDs of the escalation urgencies
+  to match. Terraform updates the path in place.
+  Provider versions from before V3 support can't read an escalation path that branches on
+  urgency: the V2 API returns a 409. A path saved in the dashboard branches on urgency. This
+  provider reads such a path through V3. If the configuration still uses V2 attributes,
+  Terraform plans a change, and the update fails with a message that tells you to move the
+  configuration to V3.
   Upgrading from v6
   Before v7 this resource nested a branch's nodes inside it, as if_else.then_path and
   if_else.else_path. Terraform schemas can't recurse indefinitely, so it stopped at five
@@ -39,6 +54,25 @@ Create and manage escalation paths, written as a flat map of named node sequence
 Each sequence runs its nodes in order and either ends with a `branch`, which names the sequences to continue down, or falls off the end of the escalation path.
 
 We'd generally recommend building escalation paths in our [web dashboard](https://app.incident.io/~/on-call/escalation-paths) and using the 'Export' flow to generate your Terraform.
+
+## Branching on escalation urgency
+
+An escalation path uses the V3 escalation paths API, unless its configuration sets
+`urgency` on a target or `priority_one_of` on a branch. Those two are V2 attributes,
+and are deprecated. In V3, a target's high/low setting is `interruption_level`, and a
+branch tests escalation urgency with `urgency_one_of` instead of alert priority. A
+configuration that uses attributes from both versions is an error.
+
+To move an escalation path to V3, change every target's `urgency` to
+`interruption_level`. The values are the same. Then change every branch's
+`priority_one_of` to `urgency_one_of`, and list the IDs of the escalation urgencies
+to match. Terraform updates the path in place.
+
+Provider versions from before V3 support can't read an escalation path that branches on
+urgency: the V2 API returns a 409. A path saved in the dashboard branches on urgency. This
+provider reads such a path through V3. If the configuration still uses V2 attributes,
+Terraform plans a change, and the update fails with a message that tells you to move the
+configuration to V3.
 
 ## Upgrading from v6
 
@@ -81,26 +115,29 @@ data "incident_user" "on_call" {
 
 # A last resort path, which the path below hands over to out of hours.
 resource "incident_escalation_path" "fallback" {
-  name = "Fallback"
+  name  = "Fallback"
+  start = "main"
 
-  path = [
-    {
-      type = "level"
-      level = {
-        targets = [{
-          type    = "user"
-          id      = data.incident_user.on_call.id
-          urgency = "high"
-        }]
-        time_to_ack_seconds = 300
-      }
+  sequences = {
+    main = {
+      nodes = [
+        {
+          level = {
+            targets = [{
+              type               = "user"
+              id                 = data.incident_user.on_call.id
+              interruption_level = "high"
+            }]
+            time_to_ack_seconds = 300
+          }
+        }
+      ]
     }
-  ]
+  }
 }
 
-# The same escalation path as the incident_escalation_path example, written as a
-# flat map of sequences: if in working hours, page with high urgency; otherwise
-# page with low urgency.
+# An escalation path written as a flat map of sequences: if in working hours, page
+# with a high interruption level; otherwise page with a low one.
 resource "incident_escalation_path" "urgent_support" {
   name = "Urgent support"
 
@@ -117,7 +154,8 @@ resource "incident_escalation_path" "urgent_support" {
           id = "start"
           branch = {
             # A branch tests one thing: whether a set of this path's working hours is
-            # active, or which priorities the escalation came in at.
+            # active, or which escalation urgencies the escalation came in at, with
+            # `urgency_one_of = [<escalation urgency id>, ...]`.
             if = {
               working_hours_active = "UK"
             }
@@ -134,9 +172,9 @@ resource "incident_escalation_path" "urgent_support" {
           # Leave `id` out on nodes nothing loops back to.
           level = {
             targets = [{
-              type    = "user"
-              id      = data.incident_user.on_call.id
-              urgency = "high"
+              type               = "user"
+              id                 = data.incident_user.on_call.id
+              interruption_level = "high"
             }]
             time_to_ack_seconds = 300
           }
@@ -160,9 +198,9 @@ resource "incident_escalation_path" "urgent_support" {
         {
           level = {
             targets = [{
-              type    = "user"
-              id      = data.incident_user.on_call.id
-              urgency = "low"
+              type               = "user"
+              id                 = data.incident_user.on_call.id
+              interruption_level = "low"
             }]
             time_to_ack_seconds = 300
           }
@@ -295,7 +333,8 @@ Optional:
 
 Optional:
 
-- `priority_one_of` (Set of String) Alert priority ids, met when the escalation came in at one of them.
+- `priority_one_of` (Set of String, Deprecated) Alert priority ids, met when the escalation came in at one of them. Deprecated: use `urgency_one_of`, which moves the escalation path to the V3 API. See the `urgency_one_of` docs.
+- `urgency_one_of` (Set of String) Escalation urgency ids, met when the escalation came in at one of them. An escalation path using `urgency_one_of` or `interruption_level` is managed through the V3 API, and can't also use `priority_one_of` or `urgency`.
 - `working_hours_active` (String) The `id` of one of this escalation path's `working_hours`, met while those hours are active.
 
 
@@ -341,12 +380,13 @@ Required:
 
 - `id` (String) Uniquely identifies an entity of this type
 - `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
-- `urgency` (String) The interruption level we notify this target at: high or low. Possible values are: `high`, `low`.
 
 Optional:
 
+- `interruption_level` (String) How we interrupt this target when we notify them: high or low. Possible values are: `high`, `low`. Set exactly one of `interruption_level` and `urgency`. An escalation path using `interruption_level` or `urgency_one_of` is managed through the V3 API.
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+- `urgency` (String, Deprecated) The interruption level we notify this target at: high or low. Possible values are: `high`, `low`. Deprecated: use `interruption_level`, which takes the same values and moves the escalation path to the V3 API.
 
 
 <a id="nestedatt--sequences--nodes--level--retry_config"></a>
@@ -400,12 +440,13 @@ Required:
 
 - `id` (String) Uniquely identifies an entity of this type
 - `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
-- `urgency` (String) The interruption level we notify this target at: high or low. Possible values are: `high`, `low`.
 
 Optional:
 
+- `interruption_level` (String) How we interrupt this target when we notify them: high or low. Possible values are: `high`, `low`. Set exactly one of `interruption_level` and `urgency`. An escalation path using `interruption_level` or `urgency_one_of` is managed through the V3 API.
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+- `urgency` (String, Deprecated) The interruption level we notify this target at: high or low. Possible values are: `high`, `low`. Deprecated: use `interruption_level`, which takes the same values and moves the escalation path to the V3 API.
 
 
 

@@ -249,7 +249,7 @@ func (IncidentEngineConditionGroups) FromPayload(groups []client.ConditionGroupP
 				Subject:   types.StringValue(c.Subject),
 				Operation: types.StringValue(c.Operation),
 				ParamBindings: IncidentEngineParamBindings{}.FromAPI(
-					convertEngineType[[]client.EngineParamBindingV2](c.ParamBindings),
+					ConvertAPIType[[]client.EngineParamBindingV2](c.ParamBindings),
 				),
 			})
 		}

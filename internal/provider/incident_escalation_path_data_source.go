@@ -242,35 +242,10 @@ func escalationPathNodeDataSourceSchema() schema.NestedAttributeObject {
 			"notify_channel":  escalationPathNotifyChannelAttributeDataSource(),
 			"delay":           escalationPathDelayAttributeDataSource(),
 			"escalation_path": escalationPathEscalationPathAttributeDataSource(),
-			"branch": schema.SingleNestedAttribute{
-				Computed:            true,
-				MarkdownDescription: "Send the escalation down one of two sequences, depending on what `if` tests. A branch must be the last node in its sequence.",
-				Attributes: map[string]schema.Attribute{
-					"if": schema.SingleNestedAttribute{
-						Computed:            true,
-						MarkdownDescription: "What the branch tests. Set exactly one of these: a branch tests one thing, so combining them means nesting a second branch inside the first.",
-						Attributes: map[string]schema.Attribute{
-							"working_hours_active": schema.StringAttribute{
-								Computed:            true,
-								MarkdownDescription: "The `id` of one of this escalation path's `working_hours`, met while those hours are active.",
-							},
-							"priority_one_of": schema.SetAttribute{
-								Computed:            true,
-								MarkdownDescription: "Alert priority ids, met when the escalation came in at one of them.",
-								ElementType:         types.StringType,
-							},
-						},
-					},
-					"then": schema.StringAttribute{
-						Computed:            true,
-						MarkdownDescription: "The key of the sequence to continue down when the condition is met. Name a sequence with no nodes to end the escalation path instead.",
-					},
-					"else": schema.StringAttribute{
-						Computed:            true,
-						MarkdownDescription: "The key of the sequence to continue down when the condition is not met.",
-					},
-				},
-			},
+			"branch": escalationPathBranchAttributeDataSource(
+				"Alert priority ids, met when the escalation came in at one of them. Set when the path branches on priority, and read through the V2 API.",
+				"Escalation urgency ids, met when the escalation came in at one of them. Set when the path branches on urgency, and read through the V3 API.",
+			),
 			"loop": schema.SingleNestedAttribute{
 				Computed:            true,
 				MarkdownDescription: "Go back to an earlier node and run from there again. A loop must be the last node in its sequence, or be followed by a single `escalation_path` node to reassign to once it has run out of repeats.",
@@ -284,6 +259,46 @@ func escalationPathNodeDataSourceSchema() schema.NestedAttributeObject {
 						MarkdownDescription: apischema.Docstring("EscalationPathNodeRepeatV2", "repeat_times"),
 					},
 				},
+			},
+		},
+	}
+}
+
+// escalationPathBranchAttributeDataSource is the computed form of
+// escalationPathBranchAttribute. Templates branch on priority only, so they describe the
+// two one_of attributes differently.
+func escalationPathBranchAttributeDataSource(priorityDescription, urgencyDescription string) schema.SingleNestedAttribute {
+	return schema.SingleNestedAttribute{
+		Computed:            true,
+		MarkdownDescription: "Send the escalation down one of two sequences, depending on what `if` tests. A branch must be the last node in its sequence.",
+		Attributes: map[string]schema.Attribute{
+			"if": schema.SingleNestedAttribute{
+				Computed:            true,
+				MarkdownDescription: "What the branch tests. Set exactly one of these: a branch tests one thing, so combining them means nesting a second branch inside the first.",
+				Attributes: map[string]schema.Attribute{
+					"working_hours_active": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "The `id` of one of this escalation path's `working_hours`, met while those hours are active.",
+					},
+					"priority_one_of": schema.SetAttribute{
+						Computed:            true,
+						MarkdownDescription: priorityDescription,
+						ElementType:         types.StringType,
+					},
+					"urgency_one_of": schema.SetAttribute{
+						Computed:            true,
+						MarkdownDescription: urgencyDescription,
+						ElementType:         types.StringType,
+					},
+				},
+			},
+			"then": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "The key of the sequence to continue down when the condition is met. Name a sequence with no nodes to end the escalation path instead.",
+			},
+			"else": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "The key of the sequence to continue down when the condition is not met.",
 			},
 		},
 	}
@@ -305,7 +320,11 @@ func escalationPathTargetsAttributeDataSource(docType string) schema.ListNestedA
 				},
 				"urgency": schema.StringAttribute{
 					Computed:            true,
-					MarkdownDescription: EnumValuesDescription("EscalationPathTargetV2", "urgency"),
+					MarkdownDescription: EnumValuesDescription("EscalationPathTargetV2", "urgency") + " Set when the path is read through the V2 API.",
+				},
+				"interruption_level": schema.StringAttribute{
+					Computed:            true,
+					MarkdownDescription: EnumValuesDescription("EscalationPathTargetV3", "interruption_level") + " Set when the path is read through the V3 API, which it is when it branches on urgency.",
 				},
 				"schedule_mode": schema.StringAttribute{
 					Computed:            true,
@@ -461,19 +480,8 @@ func (d *EscalationPathDataSource) Read(ctx context.Context, req datasource.Read
 		return
 	}
 
-	var escalationPath *client.EscalationPathV2
-	if !data.ID.IsNull() {
-		result, err := d.client.EscalationPathsV2ShowWithResponse(ctx, data.ID.ValueString())
-		if err != nil {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read escalation path, got error: %s", err))
-			return
-		}
-		if result.JSON200 == nil {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read escalation path, unexpected response: %s", result.Status()))
-			return
-		}
-		escalationPath = &result.JSON200.EscalationPath
-	} else {
+	id := data.ID.ValueString()
+	if data.ID.IsNull() {
 		escalationPathTypeID, err := d.getEscalationPathTypeID(ctx)
 		if err != nil {
 			resp.Diagnostics.AddError("Client Error", err.Error())
@@ -507,20 +515,16 @@ func (d *EscalationPathDataSource) Read(ctx context.Context, req datasource.Read
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Catalog entry for escalation path '%s' has no external ID", name))
 			return
 		}
-
-		result, err := d.client.EscalationPathsV2ShowWithResponse(ctx, *catalogEntry.ExternalId)
-		if err != nil {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read escalation path with ID %s, got error: %s", *catalogEntry.ExternalId, err))
-			return
-		}
-		if result.JSON200 == nil {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read escalation path, unexpected response: %s", result.Status()))
-			return
-		}
-		escalationPath = &result.JSON200.EscalationPath
+		id = *catalogEntry.ExternalId
 	}
 
-	model := (&escalationPathResource{}).buildModel(ctx, *escalationPath, nil, &resp.Diagnostics)
+	// V2 first, so a path branching on priority reads as before. showEscalationPath falls
+	// back to V3 for a path branching on urgency.
+	model, err := showEscalationPath(ctx, d.client, id, escalationPathAPIV2, nil, &resp.Diagnostics)
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read escalation path with ID %s, got error: %s", id, err))
+		return
+	}
 	if resp.Diagnostics.HasError() {
 		return
 	}

@@ -6,26 +6,29 @@ data "incident_user" "on_call" {
 
 # A last resort path, which the path below hands over to out of hours.
 resource "incident_escalation_path" "fallback" {
-  name = "Fallback"
+  name  = "Fallback"
+  start = "main"
 
-  path = [
-    {
-      type = "level"
-      level = {
-        targets = [{
-          type    = "user"
-          id      = data.incident_user.on_call.id
-          urgency = "high"
-        }]
-        time_to_ack_seconds = 300
-      }
+  sequences = {
+    main = {
+      nodes = [
+        {
+          level = {
+            targets = [{
+              type               = "user"
+              id                 = data.incident_user.on_call.id
+              interruption_level = "high"
+            }]
+            time_to_ack_seconds = 300
+          }
+        }
+      ]
     }
-  ]
+  }
 }
 
-# The same escalation path as the incident_escalation_path example, written as a
-# flat map of sequences: if in working hours, page with high urgency; otherwise
-# page with low urgency.
+# An escalation path written as a flat map of sequences: if in working hours, page
+# with a high interruption level; otherwise page with a low one.
 resource "incident_escalation_path" "urgent_support" {
   name = "Urgent support"
 
@@ -42,7 +45,8 @@ resource "incident_escalation_path" "urgent_support" {
           id = "start"
           branch = {
             # A branch tests one thing: whether a set of this path's working hours is
-            # active, or which priorities the escalation came in at.
+            # active, or which escalation urgencies the escalation came in at, with
+            # `urgency_one_of = [<escalation urgency id>, ...]`.
             if = {
               working_hours_active = "UK"
             }
@@ -59,9 +63,9 @@ resource "incident_escalation_path" "urgent_support" {
           # Leave `id` out on nodes nothing loops back to.
           level = {
             targets = [{
-              type    = "user"
-              id      = data.incident_user.on_call.id
-              urgency = "high"
+              type               = "user"
+              id                 = data.incident_user.on_call.id
+              interruption_level = "high"
             }]
             time_to_ack_seconds = 300
           }
@@ -85,9 +89,9 @@ resource "incident_escalation_path" "urgent_support" {
         {
           level = {
             targets = [{
-              type    = "user"
-              id      = data.incident_user.on_call.id
-              urgency = "low"
+              type               = "user"
+              id                 = data.incident_user.on_call.id
+              interruption_level = "low"
             }]
             time_to_ack_seconds = 300
           }
