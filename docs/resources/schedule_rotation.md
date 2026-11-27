@@ -21,6 +21,11 @@ description: |-
   To change both, take it in two applies:
   Change first_interval_starts_at on its own, with rollout unset. The new
   cadence takes effect straight away.Then make the line-up change, with rollout set.
+  A phased rollout can move the interval start the API holds by whole intervals, so the
+  new line-up slots in at the next handover. The handover still falls on the same day
+  and time, so the provider keeps your configured value and doesn't show a diff. Later
+  edits to other attributes, like name, leave first_interval_starts_at out of the
+  update unless you've changed it in config, so they don't move who is on call.
   Choosing a scheduling mode
   scheduling_mode decides who takes the next shift.
   fair shares time on call out evenly, tracking how much each person has already
