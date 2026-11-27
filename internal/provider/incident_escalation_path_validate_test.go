@@ -223,13 +223,31 @@ func TestValidateSequences(t *testing.T) {
 			wantError: "Nothing branches to \"stranded\"",
 		},
 		{
-			name:  "a sequence has no nodes",
+			name:  "the start sequence has no nodes",
 			start: "main",
 			sequences: map[string][]escalationPathNode{
-				"main":   {branchNode("urgent", "")},
-				"urgent": {},
+				"main": {},
 			},
-			wantError: "Sequence \"urgent\" has no nodes",
+			wantError: "Sequence \"main\" has no nodes",
+		},
+		{
+			name:  "a sequence nothing branches to has no nodes",
+			start: "main",
+			sequences: map[string][]escalationPathNode{
+				"main":     {levelNode(t, "")},
+				"stranded": {},
+			},
+			wantError: "Sequence \"stranded\" has no nodes",
+		},
+		{
+			// How a read spells a branch whose then side ends the escalation path.
+			name:  "a branch's then side names a sequence with no nodes",
+			start: "main",
+			sequences: map[string][]escalationPathNode{
+				"main":      {branchNode("main_then", "main_else")},
+				"main_then": {},
+				"main_else": {levelNode(t, "")},
+			},
 		},
 		{
 			name:  "two nodes share an id",

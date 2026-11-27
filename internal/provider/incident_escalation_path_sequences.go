@@ -614,6 +614,7 @@ func nodeExists(sequences map[string][]escalationPathNode, id string) bool {
 // path will hold, which the reference checks need.
 func validateSequenceNodes(sequences map[string][]escalationPathNode, diags *diag.Diagnostics) map[string]bool {
 	nodeIDs := map[string]bool{}
+	branchTargets, unknownTarget := sequenceBranchTargets(sequences)
 
 	for _, key := range sortedKeys(sequences) {
 		nodes := sequences[key]
@@ -627,6 +628,13 @@ func validateSequenceNodes(sequences map[string][]escalationPathNode, diags *dia
 			)
 		}
 
+		// An empty sequence a branch names ends the escalation path on that side. It's how a
+		// read spells a branch whose then side does nothing, so import must be able to plan
+		// it. An empty sequence nothing branches to (the start, or a stranded one) does
+		// nothing at all. While a branch's target is unknown we can't tell which this is.
+		if len(nodes) == 0 && (branchTargets[key] || unknownTarget) {
+			continue
+		}
 		if len(nodes) == 0 {
 			diags.AddAttributeError(
 				sequencePath,
@@ -700,6 +708,29 @@ func validateSequenceNodes(sequences map[string][]escalationPathNode, diags *dia
 	}
 
 	return nodeIDs
+}
+
+// sequenceBranchTargets returns the sequences some branch names, and whether any branch
+// names one that isn't known yet.
+func sequenceBranchTargets(sequences map[string][]escalationPathNode) (map[string]bool, bool) {
+	targets := map[string]bool{}
+	unknown := false
+	for _, nodes := range sequences {
+		for _, node := range nodes {
+			if node.Branch == nil {
+				continue
+			}
+			for _, side := range []types.String{node.Branch.Then, node.Branch.Else} {
+				switch {
+				case side.IsUnknown():
+					unknown = true
+				case !side.IsNull():
+					targets[side.ValueString()] = true
+				}
+			}
+		}
+	}
+	return targets, unknown
 }
 
 // loopEndsSequence reports whether the nodes after a loop are ones the API allows: none,

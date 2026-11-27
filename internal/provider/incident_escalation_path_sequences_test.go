@@ -268,6 +268,52 @@ func TestFlattenSequences(t *testing.T) {
 		}
 	})
 
+	t.Run("imports a branch whose then side ends the path, and plans it back unchanged", func(t *testing.T) {
+		// A dashboard path that stops on a match and pages otherwise.
+		nodes := []client.EscalationPathNodeV2{{
+			Id:   "01AAA",
+			Type: client.EscalationPathNodeV2TypeIfElse,
+			IfElse: &client.EscalationPathNodeIfElseV2{
+				Conditions: workingHoursConditions("UK"),
+				ThenPath:   []client.EscalationPathNodeV2{},
+				ElsePath:   []client.EscalationPathNodeV2{{Id: "01CCC", Type: client.EscalationPathNodeV2TypeDelay, Delay: &client.EscalationPathNodeDelayV2{}}},
+			},
+		}}
+
+		var diags diag.Diagnostics
+		start, got := flattenSequences(ctx, nodes, escalationPathPriorNames{}, &diags)
+		if diags.HasError() {
+			t.Fatalf("unexpected errors: %+v", diags)
+		}
+
+		branch := got["main"][0].Branch
+		if branch == nil || branch.Then.ValueString() != "main_then" || branch.Else.ValueString() != "main_else" {
+			t.Fatalf("got branch %+v, want then=main_then else=main_else", branch)
+		}
+		if thenNodes, ok := got["main_then"]; !ok || len(thenNodes) != 0 {
+			t.Fatalf("got main_then %v (present %v), want an empty sequence", thenNodes, ok)
+		}
+
+		validateSequences(ctx, betaModel(t, start, got), &diags)
+		if diags.HasError() {
+			t.Fatalf("the imported config doesn't validate: %+v", diags)
+		}
+
+		payload := unflattenSequences(ctx, start, got, &diags)
+		if diags.HasError() {
+			t.Fatalf("unexpected errors: %+v", diags)
+		}
+		if len(payload) != 1 || payload[0].IfElse == nil {
+			t.Fatalf("got %+v, want a single branch", payload)
+		}
+		if then := payload[0].IfElse.ThenPath; len(then) != 0 {
+			t.Errorf("got then_path %+v, want empty", then)
+		}
+		if els := payload[0].IfElse.ElsePath; len(els) != 1 {
+			t.Errorf("got else_path %+v, want one node", els)
+		}
+	})
+
 	// The API rejects a branch that isn't last in its node list, so it shouldn't hand us one.
 	// Reporting it beats splitting the trailing nodes into a sequence nothing reaches.
 	t.Run("reports a path with nodes after a branch, which the API shouldn't return", func(t *testing.T) {
