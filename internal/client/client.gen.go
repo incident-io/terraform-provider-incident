@@ -3522,6 +3522,45 @@ func (e CallRouteOptionV2Digit) Valid() bool {
 	}
 }
 
+// Defines values for CallRouteOptionV3Digit.
+const (
+	CallRouteOptionV3DigitN1 CallRouteOptionV3Digit = "1"
+	CallRouteOptionV3DigitN2 CallRouteOptionV3Digit = "2"
+	CallRouteOptionV3DigitN3 CallRouteOptionV3Digit = "3"
+	CallRouteOptionV3DigitN4 CallRouteOptionV3Digit = "4"
+	CallRouteOptionV3DigitN5 CallRouteOptionV3Digit = "5"
+	CallRouteOptionV3DigitN6 CallRouteOptionV3Digit = "6"
+	CallRouteOptionV3DigitN7 CallRouteOptionV3Digit = "7"
+	CallRouteOptionV3DigitN8 CallRouteOptionV3Digit = "8"
+	CallRouteOptionV3DigitN9 CallRouteOptionV3Digit = "9"
+)
+
+// Valid indicates whether the value is a known member of the CallRouteOptionV3Digit enum.
+func (e CallRouteOptionV3Digit) Valid() bool {
+	switch e {
+	case CallRouteOptionV3DigitN1:
+		return true
+	case CallRouteOptionV3DigitN2:
+		return true
+	case CallRouteOptionV3DigitN3:
+		return true
+	case CallRouteOptionV3DigitN4:
+		return true
+	case CallRouteOptionV3DigitN5:
+		return true
+	case CallRouteOptionV3DigitN6:
+		return true
+	case CallRouteOptionV3DigitN7:
+		return true
+	case CallRouteOptionV3DigitN8:
+		return true
+	case CallRouteOptionV3DigitN9:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for CallRoutePathNodePayloadV2Type.
 const (
 	CallRoutePathNodePayloadV2TypeLevel     CallRoutePathNodePayloadV2Type = "level"
@@ -3540,6 +3579,24 @@ func (e CallRoutePathNodePayloadV2Type) Valid() bool {
 	}
 }
 
+// Defines values for CallRoutePathNodePayloadV3Type.
+const (
+	CallRoutePathNodePayloadV3TypeLevel     CallRoutePathNodePayloadV3Type = "level"
+	CallRoutePathNodePayloadV3TypeVoicemail CallRoutePathNodePayloadV3Type = "voicemail"
+)
+
+// Valid indicates whether the value is a known member of the CallRoutePathNodePayloadV3Type enum.
+func (e CallRoutePathNodePayloadV3Type) Valid() bool {
+	switch e {
+	case CallRoutePathNodePayloadV3TypeLevel:
+		return true
+	case CallRoutePathNodePayloadV3TypeVoicemail:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for CallRoutePathNodeV2Type.
 const (
 	CallRoutePathNodeV2TypeLevel     CallRoutePathNodeV2Type = "level"
@@ -3552,6 +3609,24 @@ func (e CallRoutePathNodeV2Type) Valid() bool {
 	case CallRoutePathNodeV2TypeLevel:
 		return true
 	case CallRoutePathNodeV2TypeVoicemail:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CallRoutePathNodeV3Type.
+const (
+	CallRoutePathNodeV3TypeLevel     CallRoutePathNodeV3Type = "level"
+	CallRoutePathNodeV3TypeVoicemail CallRoutePathNodeV3Type = "voicemail"
+)
+
+// Valid indicates whether the value is a known member of the CallRoutePathNodeV3Type enum.
+func (e CallRoutePathNodeV3Type) Valid() bool {
+	switch e {
+	case CallRoutePathNodeV3TypeLevel:
+		return true
+	case CallRoutePathNodeV3TypeVoicemail:
 		return true
 	default:
 		return false
@@ -3627,6 +3702,75 @@ func (e CallRouteTargetV2Urgency) Valid() bool {
 	}
 }
 
+// Defines values for CallRouteTargetV3InterruptionLevel.
+const (
+	CallRouteTargetV3InterruptionLevelHigh CallRouteTargetV3InterruptionLevel = "high"
+	CallRouteTargetV3InterruptionLevelLow  CallRouteTargetV3InterruptionLevel = "low"
+)
+
+// Valid indicates whether the value is a known member of the CallRouteTargetV3InterruptionLevel enum.
+func (e CallRouteTargetV3InterruptionLevel) Valid() bool {
+	switch e {
+	case CallRouteTargetV3InterruptionLevelHigh:
+		return true
+	case CallRouteTargetV3InterruptionLevelLow:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CallRouteTargetV3ScheduleMode.
+const (
+	CallRouteTargetV3ScheduleModeAllUsers               CallRouteTargetV3ScheduleMode = "all_users"
+	CallRouteTargetV3ScheduleModeAllUsersForRota        CallRouteTargetV3ScheduleMode = "all_users_for_rota"
+	CallRouteTargetV3ScheduleModeCurrentlyOnCall        CallRouteTargetV3ScheduleMode = "currently_on_call"
+	CallRouteTargetV3ScheduleModeCurrentlyOnCallForRota CallRouteTargetV3ScheduleMode = "currently_on_call_for_rota"
+	CallRouteTargetV3ScheduleModeEmpty                  CallRouteTargetV3ScheduleMode = ""
+	CallRouteTargetV3ScheduleModeNextOnCall             CallRouteTargetV3ScheduleMode = "next_on_call"
+	CallRouteTargetV3ScheduleModeNextOnCallForRota      CallRouteTargetV3ScheduleMode = "next_on_call_for_rota"
+)
+
+// Valid indicates whether the value is a known member of the CallRouteTargetV3ScheduleMode enum.
+func (e CallRouteTargetV3ScheduleMode) Valid() bool {
+	switch e {
+	case CallRouteTargetV3ScheduleModeAllUsers:
+		return true
+	case CallRouteTargetV3ScheduleModeAllUsersForRota:
+		return true
+	case CallRouteTargetV3ScheduleModeCurrentlyOnCall:
+		return true
+	case CallRouteTargetV3ScheduleModeCurrentlyOnCallForRota:
+		return true
+	case CallRouteTargetV3ScheduleModeEmpty:
+		return true
+	case CallRouteTargetV3ScheduleModeNextOnCall:
+		return true
+	case CallRouteTargetV3ScheduleModeNextOnCallForRota:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CallRouteTargetV3Type.
+const (
+	CallRouteTargetV3TypeSchedule CallRouteTargetV3Type = "schedule"
+	CallRouteTargetV3TypeUser     CallRouteTargetV3Type = "user"
+)
+
+// Valid indicates whether the value is a known member of the CallRouteTargetV3Type enum.
+func (e CallRouteTargetV3Type) Valid() bool {
+	switch e {
+	case CallRouteTargetV3TypeSchedule:
+		return true
+	case CallRouteTargetV3TypeUser:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for CallRouteV2CurrentState.
 const (
 	CallRouteV2CurrentStateActive                       CallRouteV2CurrentState = "active"
@@ -3689,22 +3833,22 @@ func (e CallRouteV2CustomLanguage) Valid() bool {
 
 // Defines values for CallRouteV2PhoneNumberType.
 const (
-	Local    CallRouteV2PhoneNumberType = "local"
-	Mobile   CallRouteV2PhoneNumberType = "mobile"
-	National CallRouteV2PhoneNumberType = "national"
-	TollFree CallRouteV2PhoneNumberType = "toll_free"
+	CallRouteV2PhoneNumberTypeLocal    CallRouteV2PhoneNumberType = "local"
+	CallRouteV2PhoneNumberTypeMobile   CallRouteV2PhoneNumberType = "mobile"
+	CallRouteV2PhoneNumberTypeNational CallRouteV2PhoneNumberType = "national"
+	CallRouteV2PhoneNumberTypeTollFree CallRouteV2PhoneNumberType = "toll_free"
 )
 
 // Valid indicates whether the value is a known member of the CallRouteV2PhoneNumberType enum.
 func (e CallRouteV2PhoneNumberType) Valid() bool {
 	switch e {
-	case Local:
+	case CallRouteV2PhoneNumberTypeLocal:
 		return true
-	case Mobile:
+	case CallRouteV2PhoneNumberTypeMobile:
 		return true
-	case National:
+	case CallRouteV2PhoneNumberTypeNational:
 		return true
-	case TollFree:
+	case CallRouteV2PhoneNumberTypeTollFree:
 		return true
 	default:
 		return false
@@ -3723,6 +3867,108 @@ func (e CallRouteV2ResponderCallerId) Valid() bool {
 	case CallRouteV2ResponderCallerIdOncallNumber:
 		return true
 	case CallRouteV2ResponderCallerIdRouteNumber:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CallRouteV3CurrentState.
+const (
+	CallRouteV3CurrentStateActive                       CallRouteV3CurrentState = "active"
+	CallRouteV3CurrentStatePending                      CallRouteV3CurrentState = "pending"
+	CallRouteV3CurrentStatePendingNumber                CallRouteV3CurrentState = "pending_number"
+	CallRouteV3CurrentStatePendingRegulatoryInformation CallRouteV3CurrentState = "pending_regulatory_information"
+)
+
+// Valid indicates whether the value is a known member of the CallRouteV3CurrentState enum.
+func (e CallRouteV3CurrentState) Valid() bool {
+	switch e {
+	case CallRouteV3CurrentStateActive:
+		return true
+	case CallRouteV3CurrentStatePending:
+		return true
+	case CallRouteV3CurrentStatePendingNumber:
+		return true
+	case CallRouteV3CurrentStatePendingRegulatoryInformation:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CallRouteV3CustomLanguage.
+const (
+	CallRouteV3CustomLanguageDeDE CallRouteV3CustomLanguage = "de-DE"
+	CallRouteV3CustomLanguageEnGB CallRouteV3CustomLanguage = "en-GB"
+	CallRouteV3CustomLanguageEnUS CallRouteV3CustomLanguage = "en-US"
+	CallRouteV3CustomLanguageEsES CallRouteV3CustomLanguage = "es-ES"
+	CallRouteV3CustomLanguageFrFR CallRouteV3CustomLanguage = "fr-FR"
+	CallRouteV3CustomLanguageNlNL CallRouteV3CustomLanguage = "nl-NL"
+	CallRouteV3CustomLanguagePtBR CallRouteV3CustomLanguage = "pt-BR"
+	CallRouteV3CustomLanguagePtPT CallRouteV3CustomLanguage = "pt-PT"
+)
+
+// Valid indicates whether the value is a known member of the CallRouteV3CustomLanguage enum.
+func (e CallRouteV3CustomLanguage) Valid() bool {
+	switch e {
+	case CallRouteV3CustomLanguageDeDE:
+		return true
+	case CallRouteV3CustomLanguageEnGB:
+		return true
+	case CallRouteV3CustomLanguageEnUS:
+		return true
+	case CallRouteV3CustomLanguageEsES:
+		return true
+	case CallRouteV3CustomLanguageFrFR:
+		return true
+	case CallRouteV3CustomLanguageNlNL:
+		return true
+	case CallRouteV3CustomLanguagePtBR:
+		return true
+	case CallRouteV3CustomLanguagePtPT:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CallRouteV3PhoneNumberType.
+const (
+	CallRouteV3PhoneNumberTypeLocal    CallRouteV3PhoneNumberType = "local"
+	CallRouteV3PhoneNumberTypeMobile   CallRouteV3PhoneNumberType = "mobile"
+	CallRouteV3PhoneNumberTypeNational CallRouteV3PhoneNumberType = "national"
+	CallRouteV3PhoneNumberTypeTollFree CallRouteV3PhoneNumberType = "toll_free"
+)
+
+// Valid indicates whether the value is a known member of the CallRouteV3PhoneNumberType enum.
+func (e CallRouteV3PhoneNumberType) Valid() bool {
+	switch e {
+	case CallRouteV3PhoneNumberTypeLocal:
+		return true
+	case CallRouteV3PhoneNumberTypeMobile:
+		return true
+	case CallRouteV3PhoneNumberTypeNational:
+		return true
+	case CallRouteV3PhoneNumberTypeTollFree:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CallRouteV3ResponderCallerId.
+const (
+	CallRouteV3ResponderCallerIdOncallNumber CallRouteV3ResponderCallerId = "oncall_number"
+	CallRouteV3ResponderCallerIdRouteNumber  CallRouteV3ResponderCallerId = "route_number"
+)
+
+// Valid indicates whether the value is a known member of the CallRouteV3ResponderCallerId enum.
+func (e CallRouteV3ResponderCallerId) Valid() bool {
+	switch e {
+	case CallRouteV3ResponderCallerIdOncallNumber:
+		return true
+	case CallRouteV3ResponderCallerIdRouteNumber:
 		return true
 	default:
 		return false
@@ -3768,6 +4014,45 @@ func (e CallRoutesCreateOptionPayloadV2Digit) Valid() bool {
 	}
 }
 
+// Defines values for CallRoutesCreateOptionPayloadV3Digit.
+const (
+	CallRoutesCreateOptionPayloadV3DigitN1 CallRoutesCreateOptionPayloadV3Digit = "1"
+	CallRoutesCreateOptionPayloadV3DigitN2 CallRoutesCreateOptionPayloadV3Digit = "2"
+	CallRoutesCreateOptionPayloadV3DigitN3 CallRoutesCreateOptionPayloadV3Digit = "3"
+	CallRoutesCreateOptionPayloadV3DigitN4 CallRoutesCreateOptionPayloadV3Digit = "4"
+	CallRoutesCreateOptionPayloadV3DigitN5 CallRoutesCreateOptionPayloadV3Digit = "5"
+	CallRoutesCreateOptionPayloadV3DigitN6 CallRoutesCreateOptionPayloadV3Digit = "6"
+	CallRoutesCreateOptionPayloadV3DigitN7 CallRoutesCreateOptionPayloadV3Digit = "7"
+	CallRoutesCreateOptionPayloadV3DigitN8 CallRoutesCreateOptionPayloadV3Digit = "8"
+	CallRoutesCreateOptionPayloadV3DigitN9 CallRoutesCreateOptionPayloadV3Digit = "9"
+)
+
+// Valid indicates whether the value is a known member of the CallRoutesCreateOptionPayloadV3Digit enum.
+func (e CallRoutesCreateOptionPayloadV3Digit) Valid() bool {
+	switch e {
+	case CallRoutesCreateOptionPayloadV3DigitN1:
+		return true
+	case CallRoutesCreateOptionPayloadV3DigitN2:
+		return true
+	case CallRoutesCreateOptionPayloadV3DigitN3:
+		return true
+	case CallRoutesCreateOptionPayloadV3DigitN4:
+		return true
+	case CallRoutesCreateOptionPayloadV3DigitN5:
+		return true
+	case CallRoutesCreateOptionPayloadV3DigitN6:
+		return true
+	case CallRoutesCreateOptionPayloadV3DigitN7:
+		return true
+	case CallRoutesCreateOptionPayloadV3DigitN8:
+		return true
+	case CallRoutesCreateOptionPayloadV3DigitN9:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for CallRoutesUpdateOptionPayloadV2Digit.
 const (
 	CallRoutesUpdateOptionPayloadV2DigitN1 CallRoutesUpdateOptionPayloadV2Digit = "1"
@@ -3801,6 +4086,45 @@ func (e CallRoutesUpdateOptionPayloadV2Digit) Valid() bool {
 	case CallRoutesUpdateOptionPayloadV2DigitN8:
 		return true
 	case CallRoutesUpdateOptionPayloadV2DigitN9:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CallRoutesUpdateOptionPayloadV3Digit.
+const (
+	CallRoutesUpdateOptionPayloadV3DigitN1 CallRoutesUpdateOptionPayloadV3Digit = "1"
+	CallRoutesUpdateOptionPayloadV3DigitN2 CallRoutesUpdateOptionPayloadV3Digit = "2"
+	CallRoutesUpdateOptionPayloadV3DigitN3 CallRoutesUpdateOptionPayloadV3Digit = "3"
+	CallRoutesUpdateOptionPayloadV3DigitN4 CallRoutesUpdateOptionPayloadV3Digit = "4"
+	CallRoutesUpdateOptionPayloadV3DigitN5 CallRoutesUpdateOptionPayloadV3Digit = "5"
+	CallRoutesUpdateOptionPayloadV3DigitN6 CallRoutesUpdateOptionPayloadV3Digit = "6"
+	CallRoutesUpdateOptionPayloadV3DigitN7 CallRoutesUpdateOptionPayloadV3Digit = "7"
+	CallRoutesUpdateOptionPayloadV3DigitN8 CallRoutesUpdateOptionPayloadV3Digit = "8"
+	CallRoutesUpdateOptionPayloadV3DigitN9 CallRoutesUpdateOptionPayloadV3Digit = "9"
+)
+
+// Valid indicates whether the value is a known member of the CallRoutesUpdateOptionPayloadV3Digit enum.
+func (e CallRoutesUpdateOptionPayloadV3Digit) Valid() bool {
+	switch e {
+	case CallRoutesUpdateOptionPayloadV3DigitN1:
+		return true
+	case CallRoutesUpdateOptionPayloadV3DigitN2:
+		return true
+	case CallRoutesUpdateOptionPayloadV3DigitN3:
+		return true
+	case CallRoutesUpdateOptionPayloadV3DigitN4:
+		return true
+	case CallRoutesUpdateOptionPayloadV3DigitN5:
+		return true
+	case CallRoutesUpdateOptionPayloadV3DigitN6:
+		return true
+	case CallRoutesUpdateOptionPayloadV3DigitN7:
+		return true
+	case CallRoutesUpdateOptionPayloadV3DigitN8:
+		return true
+	case CallRoutesUpdateOptionPayloadV3DigitN9:
 		return true
 	default:
 		return false
@@ -3855,6 +4179,60 @@ func (e CallRoutesUpdatePayloadV2ResponderCallerId) Valid() bool {
 	case CallRoutesUpdatePayloadV2ResponderCallerIdOncallNumber:
 		return true
 	case CallRoutesUpdatePayloadV2ResponderCallerIdRouteNumber:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CallRoutesUpdatePayloadV3CustomLanguage.
+const (
+	CallRoutesUpdatePayloadV3CustomLanguageDeDE CallRoutesUpdatePayloadV3CustomLanguage = "de-DE"
+	CallRoutesUpdatePayloadV3CustomLanguageEnGB CallRoutesUpdatePayloadV3CustomLanguage = "en-GB"
+	CallRoutesUpdatePayloadV3CustomLanguageEnUS CallRoutesUpdatePayloadV3CustomLanguage = "en-US"
+	CallRoutesUpdatePayloadV3CustomLanguageEsES CallRoutesUpdatePayloadV3CustomLanguage = "es-ES"
+	CallRoutesUpdatePayloadV3CustomLanguageFrFR CallRoutesUpdatePayloadV3CustomLanguage = "fr-FR"
+	CallRoutesUpdatePayloadV3CustomLanguageNlNL CallRoutesUpdatePayloadV3CustomLanguage = "nl-NL"
+	CallRoutesUpdatePayloadV3CustomLanguagePtBR CallRoutesUpdatePayloadV3CustomLanguage = "pt-BR"
+	CallRoutesUpdatePayloadV3CustomLanguagePtPT CallRoutesUpdatePayloadV3CustomLanguage = "pt-PT"
+)
+
+// Valid indicates whether the value is a known member of the CallRoutesUpdatePayloadV3CustomLanguage enum.
+func (e CallRoutesUpdatePayloadV3CustomLanguage) Valid() bool {
+	switch e {
+	case CallRoutesUpdatePayloadV3CustomLanguageDeDE:
+		return true
+	case CallRoutesUpdatePayloadV3CustomLanguageEnGB:
+		return true
+	case CallRoutesUpdatePayloadV3CustomLanguageEnUS:
+		return true
+	case CallRoutesUpdatePayloadV3CustomLanguageEsES:
+		return true
+	case CallRoutesUpdatePayloadV3CustomLanguageFrFR:
+		return true
+	case CallRoutesUpdatePayloadV3CustomLanguageNlNL:
+		return true
+	case CallRoutesUpdatePayloadV3CustomLanguagePtBR:
+		return true
+	case CallRoutesUpdatePayloadV3CustomLanguagePtPT:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CallRoutesUpdatePayloadV3ResponderCallerId.
+const (
+	CallRoutesUpdatePayloadV3ResponderCallerIdOncallNumber CallRoutesUpdatePayloadV3ResponderCallerId = "oncall_number"
+	CallRoutesUpdatePayloadV3ResponderCallerIdRouteNumber  CallRoutesUpdatePayloadV3ResponderCallerId = "route_number"
+)
+
+// Valid indicates whether the value is a known member of the CallRoutesUpdatePayloadV3ResponderCallerId enum.
+func (e CallRoutesUpdatePayloadV3ResponderCallerId) Valid() bool {
+	switch e {
+	case CallRoutesUpdatePayloadV3ResponderCallerIdOncallNumber:
+		return true
+	case CallRoutesUpdatePayloadV3ResponderCallerIdRouteNumber:
 		return true
 	default:
 		return false
@@ -5544,6 +5922,24 @@ func (e EscalationPathNodeDelayV2DelayIntervalCondition) Valid() bool {
 	}
 }
 
+// Defines values for EscalationPathNodeDelayV3DelayIntervalCondition.
+const (
+	EscalationPathNodeDelayV3DelayIntervalConditionActive   EscalationPathNodeDelayV3DelayIntervalCondition = "active"
+	EscalationPathNodeDelayV3DelayIntervalConditionInactive EscalationPathNodeDelayV3DelayIntervalCondition = "inactive"
+)
+
+// Valid indicates whether the value is a known member of the EscalationPathNodeDelayV3DelayIntervalCondition enum.
+func (e EscalationPathNodeDelayV3DelayIntervalCondition) Valid() bool {
+	switch e {
+	case EscalationPathNodeDelayV3DelayIntervalConditionActive:
+		return true
+	case EscalationPathNodeDelayV3DelayIntervalConditionInactive:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for EscalationPathNodeLevelV2AckMode.
 const (
 	EscalationPathNodeLevelV2AckModeAll   EscalationPathNodeLevelV2AckMode = "all"
@@ -5574,6 +5970,42 @@ func (e EscalationPathNodeLevelV2TimeToAckIntervalCondition) Valid() bool {
 	case EscalationPathNodeLevelV2TimeToAckIntervalConditionActive:
 		return true
 	case EscalationPathNodeLevelV2TimeToAckIntervalConditionInactive:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for EscalationPathNodeLevelV3AckMode.
+const (
+	EscalationPathNodeLevelV3AckModeAll   EscalationPathNodeLevelV3AckMode = "all"
+	EscalationPathNodeLevelV3AckModeFirst EscalationPathNodeLevelV3AckMode = "first"
+)
+
+// Valid indicates whether the value is a known member of the EscalationPathNodeLevelV3AckMode enum.
+func (e EscalationPathNodeLevelV3AckMode) Valid() bool {
+	switch e {
+	case EscalationPathNodeLevelV3AckModeAll:
+		return true
+	case EscalationPathNodeLevelV3AckModeFirst:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for EscalationPathNodeLevelV3TimeToAckIntervalCondition.
+const (
+	EscalationPathNodeLevelV3TimeToAckIntervalConditionActive   EscalationPathNodeLevelV3TimeToAckIntervalCondition = "active"
+	EscalationPathNodeLevelV3TimeToAckIntervalConditionInactive EscalationPathNodeLevelV3TimeToAckIntervalCondition = "inactive"
+)
+
+// Valid indicates whether the value is a known member of the EscalationPathNodeLevelV3TimeToAckIntervalCondition enum.
+func (e EscalationPathNodeLevelV3TimeToAckIntervalCondition) Valid() bool {
+	switch e {
+	case EscalationPathNodeLevelV3TimeToAckIntervalConditionActive:
+		return true
+	case EscalationPathNodeLevelV3TimeToAckIntervalConditionInactive:
 		return true
 	default:
 		return false
@@ -5670,6 +6102,24 @@ func (e EscalationPathNodeNotifyChannelV2TimeToAckIntervalCondition) Valid() boo
 	}
 }
 
+// Defines values for EscalationPathNodeNotifyChannelV3TimeToAckIntervalCondition.
+const (
+	EscalationPathNodeNotifyChannelV3TimeToAckIntervalConditionActive   EscalationPathNodeNotifyChannelV3TimeToAckIntervalCondition = "active"
+	EscalationPathNodeNotifyChannelV3TimeToAckIntervalConditionInactive EscalationPathNodeNotifyChannelV3TimeToAckIntervalCondition = "inactive"
+)
+
+// Valid indicates whether the value is a known member of the EscalationPathNodeNotifyChannelV3TimeToAckIntervalCondition enum.
+func (e EscalationPathNodeNotifyChannelV3TimeToAckIntervalCondition) Valid() bool {
+	switch e {
+	case EscalationPathNodeNotifyChannelV3TimeToAckIntervalConditionActive:
+		return true
+	case EscalationPathNodeNotifyChannelV3TimeToAckIntervalConditionInactive:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for EscalationPathNodeNotifyChannelWithBindingPayloadV2TimeToAckIntervalCondition.
 const (
 	EscalationPathNodeNotifyChannelWithBindingPayloadV2TimeToAckIntervalConditionActive   EscalationPathNodeNotifyChannelWithBindingPayloadV2TimeToAckIntervalCondition = "active"
@@ -5739,6 +6189,39 @@ func (e EscalationPathNodePayloadV2Type) Valid() bool {
 	}
 }
 
+// Defines values for EscalationPathNodePayloadV3Type.
+const (
+	EscalationPathNodePayloadV3TypeDelay          EscalationPathNodePayloadV3Type = "delay"
+	EscalationPathNodePayloadV3TypeEscalationPath EscalationPathNodePayloadV3Type = "escalation_path"
+	EscalationPathNodePayloadV3TypeIfElse         EscalationPathNodePayloadV3Type = "if_else"
+	EscalationPathNodePayloadV3TypeLevel          EscalationPathNodePayloadV3Type = "level"
+	EscalationPathNodePayloadV3TypeNotifyChannel  EscalationPathNodePayloadV3Type = "notify_channel"
+	EscalationPathNodePayloadV3TypeRepeat         EscalationPathNodePayloadV3Type = "repeat"
+	EscalationPathNodePayloadV3TypeVoicemail      EscalationPathNodePayloadV3Type = "voicemail"
+)
+
+// Valid indicates whether the value is a known member of the EscalationPathNodePayloadV3Type enum.
+func (e EscalationPathNodePayloadV3Type) Valid() bool {
+	switch e {
+	case EscalationPathNodePayloadV3TypeDelay:
+		return true
+	case EscalationPathNodePayloadV3TypeEscalationPath:
+		return true
+	case EscalationPathNodePayloadV3TypeIfElse:
+		return true
+	case EscalationPathNodePayloadV3TypeLevel:
+		return true
+	case EscalationPathNodePayloadV3TypeNotifyChannel:
+		return true
+	case EscalationPathNodePayloadV3TypeRepeat:
+		return true
+	case EscalationPathNodePayloadV3TypeVoicemail:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for EscalationPathNodeV2Type.
 const (
 	EscalationPathNodeV2TypeDelay          EscalationPathNodeV2Type = "delay"
@@ -5766,6 +6249,39 @@ func (e EscalationPathNodeV2Type) Valid() bool {
 	case EscalationPathNodeV2TypeRepeat:
 		return true
 	case EscalationPathNodeV2TypeVoicemail:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for EscalationPathNodeV3Type.
+const (
+	EscalationPathNodeV3TypeDelay          EscalationPathNodeV3Type = "delay"
+	EscalationPathNodeV3TypeEscalationPath EscalationPathNodeV3Type = "escalation_path"
+	EscalationPathNodeV3TypeIfElse         EscalationPathNodeV3Type = "if_else"
+	EscalationPathNodeV3TypeLevel          EscalationPathNodeV3Type = "level"
+	EscalationPathNodeV3TypeNotifyChannel  EscalationPathNodeV3Type = "notify_channel"
+	EscalationPathNodeV3TypeRepeat         EscalationPathNodeV3Type = "repeat"
+	EscalationPathNodeV3TypeVoicemail      EscalationPathNodeV3Type = "voicemail"
+)
+
+// Valid indicates whether the value is a known member of the EscalationPathNodeV3Type enum.
+func (e EscalationPathNodeV3Type) Valid() bool {
+	switch e {
+	case EscalationPathNodeV3TypeDelay:
+		return true
+	case EscalationPathNodeV3TypeEscalationPath:
+		return true
+	case EscalationPathNodeV3TypeIfElse:
+		return true
+	case EscalationPathNodeV3TypeLevel:
+		return true
+	case EscalationPathNodeV3TypeNotifyChannel:
+		return true
+	case EscalationPathNodeV3TypeRepeat:
+		return true
+	case EscalationPathNodeV3TypeVoicemail:
 		return true
 	default:
 		return false
@@ -5841,6 +6357,81 @@ func (e EscalationPathTargetV2Urgency) Valid() bool {
 	case EscalationPathTargetV2UrgencyHigh:
 		return true
 	case EscalationPathTargetV2UrgencyLow:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for EscalationPathTargetV3InterruptionLevel.
+const (
+	EscalationPathTargetV3InterruptionLevelHigh EscalationPathTargetV3InterruptionLevel = "high"
+	EscalationPathTargetV3InterruptionLevelLow  EscalationPathTargetV3InterruptionLevel = "low"
+)
+
+// Valid indicates whether the value is a known member of the EscalationPathTargetV3InterruptionLevel enum.
+func (e EscalationPathTargetV3InterruptionLevel) Valid() bool {
+	switch e {
+	case EscalationPathTargetV3InterruptionLevelHigh:
+		return true
+	case EscalationPathTargetV3InterruptionLevelLow:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for EscalationPathTargetV3ScheduleMode.
+const (
+	EscalationPathTargetV3ScheduleModeAllUsers               EscalationPathTargetV3ScheduleMode = "all_users"
+	EscalationPathTargetV3ScheduleModeAllUsersForRota        EscalationPathTargetV3ScheduleMode = "all_users_for_rota"
+	EscalationPathTargetV3ScheduleModeCurrentlyOnCall        EscalationPathTargetV3ScheduleMode = "currently_on_call"
+	EscalationPathTargetV3ScheduleModeCurrentlyOnCallForRota EscalationPathTargetV3ScheduleMode = "currently_on_call_for_rota"
+	EscalationPathTargetV3ScheduleModeEmpty                  EscalationPathTargetV3ScheduleMode = ""
+	EscalationPathTargetV3ScheduleModeNextOnCall             EscalationPathTargetV3ScheduleMode = "next_on_call"
+	EscalationPathTargetV3ScheduleModeNextOnCallForRota      EscalationPathTargetV3ScheduleMode = "next_on_call_for_rota"
+)
+
+// Valid indicates whether the value is a known member of the EscalationPathTargetV3ScheduleMode enum.
+func (e EscalationPathTargetV3ScheduleMode) Valid() bool {
+	switch e {
+	case EscalationPathTargetV3ScheduleModeAllUsers:
+		return true
+	case EscalationPathTargetV3ScheduleModeAllUsersForRota:
+		return true
+	case EscalationPathTargetV3ScheduleModeCurrentlyOnCall:
+		return true
+	case EscalationPathTargetV3ScheduleModeCurrentlyOnCallForRota:
+		return true
+	case EscalationPathTargetV3ScheduleModeEmpty:
+		return true
+	case EscalationPathTargetV3ScheduleModeNextOnCall:
+		return true
+	case EscalationPathTargetV3ScheduleModeNextOnCallForRota:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for EscalationPathTargetV3Type.
+const (
+	EscalationPathTargetV3TypeMsteamsChannel EscalationPathTargetV3Type = "msteams_channel"
+	EscalationPathTargetV3TypeSchedule       EscalationPathTargetV3Type = "schedule"
+	EscalationPathTargetV3TypeSlackChannel   EscalationPathTargetV3Type = "slack_channel"
+	EscalationPathTargetV3TypeUser           EscalationPathTargetV3Type = "user"
+)
+
+// Valid indicates whether the value is a known member of the EscalationPathTargetV3Type enum.
+func (e EscalationPathTargetV3Type) Valid() bool {
+	switch e {
+	case EscalationPathTargetV3TypeMsteamsChannel:
+		return true
+	case EscalationPathTargetV3TypeSchedule:
+		return true
+	case EscalationPathTargetV3TypeSlackChannel:
+		return true
+	case EscalationPathTargetV3TypeUser:
 		return true
 	default:
 		return false
@@ -6102,6 +6693,24 @@ func (e EscalationPathV2Kind) Valid() bool {
 	}
 }
 
+// Defines values for EscalationPathV3Kind.
+const (
+	EscalationPathV3KindStandalone EscalationPathV3Kind = "standalone"
+	EscalationPathV3KindTemplated  EscalationPathV3Kind = "templated"
+)
+
+// Valid indicates whether the value is a known member of the EscalationPathV3Kind enum.
+func (e EscalationPathV3Kind) Valid() bool {
+	switch e {
+	case EscalationPathV3KindStandalone:
+		return true
+	case EscalationPathV3KindTemplated:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for EscalationPathsCreatePayloadV2Kind.
 const (
 	EscalationPathsCreatePayloadV2KindStandalone EscalationPathsCreatePayloadV2Kind = "standalone"
@@ -6114,6 +6723,24 @@ func (e EscalationPathsCreatePayloadV2Kind) Valid() bool {
 	case EscalationPathsCreatePayloadV2KindStandalone:
 		return true
 	case EscalationPathsCreatePayloadV2KindTemplated:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for EscalationPathsCreatePayloadV3Kind.
+const (
+	EscalationPathsCreatePayloadV3KindStandalone EscalationPathsCreatePayloadV3Kind = "standalone"
+	EscalationPathsCreatePayloadV3KindTemplated  EscalationPathsCreatePayloadV3Kind = "templated"
+)
+
+// Valid indicates whether the value is a known member of the EscalationPathsCreatePayloadV3Kind enum.
+func (e EscalationPathsCreatePayloadV3Kind) Valid() bool {
+	switch e {
+	case EscalationPathsCreatePayloadV3KindStandalone:
+		return true
+	case EscalationPathsCreatePayloadV3KindTemplated:
 		return true
 	default:
 		return false
@@ -6138,6 +6765,24 @@ func (e EscalationPathsUpdatePayloadV2Kind) Valid() bool {
 	}
 }
 
+// Defines values for EscalationPathsUpdatePayloadV3Kind.
+const (
+	EscalationPathsUpdatePayloadV3KindStandalone EscalationPathsUpdatePayloadV3Kind = "standalone"
+	EscalationPathsUpdatePayloadV3KindTemplated  EscalationPathsUpdatePayloadV3Kind = "templated"
+)
+
+// Valid indicates whether the value is a known member of the EscalationPathsUpdatePayloadV3Kind enum.
+func (e EscalationPathsUpdatePayloadV3Kind) Valid() bool {
+	switch e {
+	case EscalationPathsUpdatePayloadV3KindStandalone:
+		return true
+	case EscalationPathsUpdatePayloadV3KindTemplated:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for EscalationPathsValidatePayloadV2Kind.
 const (
 	EscalationPathsValidatePayloadV2KindStandalone EscalationPathsValidatePayloadV2Kind = "standalone"
@@ -6150,6 +6795,24 @@ func (e EscalationPathsValidatePayloadV2Kind) Valid() bool {
 	case EscalationPathsValidatePayloadV2KindStandalone:
 		return true
 	case EscalationPathsValidatePayloadV2KindTemplated:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for EscalationPathsValidatePayloadV3Kind.
+const (
+	EscalationPathsValidatePayloadV3KindStandalone EscalationPathsValidatePayloadV3Kind = "standalone"
+	EscalationPathsValidatePayloadV3KindTemplated  EscalationPathsValidatePayloadV3Kind = "templated"
+)
+
+// Valid indicates whether the value is a known member of the EscalationPathsValidatePayloadV3Kind enum.
+func (e EscalationPathsValidatePayloadV3Kind) Valid() bool {
+	switch e {
+	case EscalationPathsValidatePayloadV3KindStandalone:
+		return true
+	case EscalationPathsValidatePayloadV3KindTemplated:
 		return true
 	default:
 		return false
@@ -6270,6 +6933,27 @@ func (e EscalationsRespondEscalationPayloadV2Response) Valid() bool {
 	case EscalationsRespondEscalationPayloadV2ResponseNack:
 		return true
 	case EscalationsRespondEscalationPayloadV2ResponseSnooze:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for EscalationsRespondEscalationPayloadV3Response.
+const (
+	EscalationsRespondEscalationPayloadV3ResponseAck    EscalationsRespondEscalationPayloadV3Response = "ack"
+	EscalationsRespondEscalationPayloadV3ResponseNack   EscalationsRespondEscalationPayloadV3Response = "nack"
+	EscalationsRespondEscalationPayloadV3ResponseSnooze EscalationsRespondEscalationPayloadV3Response = "snooze"
+)
+
+// Valid indicates whether the value is a known member of the EscalationsRespondEscalationPayloadV3Response enum.
+func (e EscalationsRespondEscalationPayloadV3Response) Valid() bool {
+	switch e {
+	case EscalationsRespondEscalationPayloadV3ResponseAck:
+		return true
+	case EscalationsRespondEscalationPayloadV3ResponseNack:
+		return true
+	case EscalationsRespondEscalationPayloadV3ResponseSnooze:
 		return true
 	default:
 		return false
@@ -10854,6 +11538,39 @@ func (e WeekdayIntervalV2Weekday) Valid() bool {
 	}
 }
 
+// Defines values for WeekdayIntervalV3Weekday.
+const (
+	WeekdayIntervalV3WeekdayFriday    WeekdayIntervalV3Weekday = "friday"
+	WeekdayIntervalV3WeekdayMonday    WeekdayIntervalV3Weekday = "monday"
+	WeekdayIntervalV3WeekdaySaturday  WeekdayIntervalV3Weekday = "saturday"
+	WeekdayIntervalV3WeekdaySunday    WeekdayIntervalV3Weekday = "sunday"
+	WeekdayIntervalV3WeekdayThursday  WeekdayIntervalV3Weekday = "thursday"
+	WeekdayIntervalV3WeekdayTuesday   WeekdayIntervalV3Weekday = "tuesday"
+	WeekdayIntervalV3WeekdayWednesday WeekdayIntervalV3Weekday = "wednesday"
+)
+
+// Valid indicates whether the value is a known member of the WeekdayIntervalV3Weekday enum.
+func (e WeekdayIntervalV3Weekday) Valid() bool {
+	switch e {
+	case WeekdayIntervalV3WeekdayFriday:
+		return true
+	case WeekdayIntervalV3WeekdayMonday:
+		return true
+	case WeekdayIntervalV3WeekdaySaturday:
+		return true
+	case WeekdayIntervalV3WeekdaySunday:
+		return true
+	case WeekdayIntervalV3WeekdayThursday:
+		return true
+	case WeekdayIntervalV3WeekdayTuesday:
+		return true
+	case WeekdayIntervalV3WeekdayWednesday:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for WorkflowSlimV2AutoRunMode.
 const (
 	WorkflowSlimV2AutoRunModeConfirmBeforeRunning WorkflowSlimV2AutoRunMode = "confirm_before_running"
@@ -15306,6 +16023,22 @@ type AlertSlimV2 struct {
 // Example: firing
 type AlertSlimV2Status string
 
+// AlertSourceAlertmanagerOptionsV2 Example: {"one_alert_per_group":true}
+type AlertSourceAlertmanagerOptionsV2 struct {
+	// OneAlertPerGroup Whether to create one alert per evaluation group or one alert per series within a group
+	//
+	// Example: true
+	OneAlertPerGroup bool `json:"one_alert_per_group"`
+}
+
+// AlertSourceAlertmanagerOptionsV3 Example: {"one_alert_per_group":true}
+type AlertSourceAlertmanagerOptionsV3 struct {
+	// OneAlertPerGroup Whether to create one alert per evaluation group or one alert per series within a group
+	//
+	// Example: true
+	OneAlertPerGroup bool `json:"one_alert_per_group"`
+}
+
 // AlertSourceAttributeCreatePayloadV3 Example: {"alert_attribute_id":"01GW2G3V0S59R238FAHPDS1R66","array_value":[{"literal":"SEV123","reference":"incident.severity"}],"expected_version":4,"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"merge_strategy":"first_wins","value":{"literal":"SEV123","reference":"incident.severity"}}
 type AlertSourceAttributeCreatePayloadV3 struct {
 	// AlertAttributeId The alert attribute to bind
@@ -15464,12 +16197,15 @@ type AlertSourceCloudwatchOptionsV3 struct {
 	DeduplicationKeyPath string `json:"deduplication_key_path"`
 }
 
-// AlertSourceCreatePayloadV3 Example: {"ai_titles_enabled":true,"annotations":{"incident.io/terraform/version":"version-of-terraform"},"auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"cloudwatch_options":{"deduplication_key_path":"$.AlarmArn"},"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"email_options":{"redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"filter_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"sns_options":{"deduplication_key_path":"$.MessageJSON.AlarmArn","deduplication_strategy":"automatic"},"source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
+// AlertSourceCreatePayloadV3 Example: {"ai_titles_enabled":true,"alertmanager_options":{"one_alert_per_group":true},"annotations":{"incident.io/terraform/version":"version-of-terraform"},"auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"cloudwatch_options":{"deduplication_key_path":"$.AlarmArn"},"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"email_options":{"redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"filter_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"sns_options":{"deduplication_key_path":"$.MessageJSON.AlarmArn","deduplication_strategy":"automatic"},"source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
 type AlertSourceCreatePayloadV3 struct {
 	// AiTitlesEnabled Whether to improve the titles of alerts from this source with AI. We create one title format for each kind of alert and reuse it, so the same alert gets a consistent title each time it fires. Defaults to false.
 	//
 	// Example: true
 	AiTitlesEnabled *bool `json:"ai_titles_enabled,omitempty"`
+
+	// AlertmanagerOptions Example: {"one_alert_per_group":true}
+	AlertmanagerOptions *AlertSourceAlertmanagerOptionsV3 `json:"alertmanager_options,omitempty"`
 
 	// Annotations Annotations that track metadata about this alert source
 	//
@@ -15841,12 +16577,15 @@ type AlertSourceSnsOptionsV3 struct {
 // Example: automatic
 type AlertSourceSnsOptionsV3DeduplicationStrategy string
 
-// AlertSourceUpdatePayloadV3 Example: {"ai_titles_enabled":true,"annotations":{"incident.io/terraform/version":"version-of-terraform"},"auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"cloudwatch_options":{"deduplication_key_path":"$.AlarmArn"},"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"disabled":false,"email_options":{"redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expected_version":4,"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"filter_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"sns_options":{"deduplication_key_path":"$.MessageJSON.AlarmArn","deduplication_strategy":"automatic"},"title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
+// AlertSourceUpdatePayloadV3 Example: {"ai_titles_enabled":true,"alertmanager_options":{"one_alert_per_group":true},"annotations":{"incident.io/terraform/version":"version-of-terraform"},"auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"cloudwatch_options":{"deduplication_key_path":"$.AlarmArn"},"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"disabled":false,"email_options":{"redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expected_version":4,"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"filter_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"sns_options":{"deduplication_key_path":"$.MessageJSON.AlarmArn","deduplication_strategy":"automatic"},"title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
 type AlertSourceUpdatePayloadV3 struct {
 	// AiTitlesEnabled Whether to improve the titles of alerts from this source with AI. We create one title format for each kind of alert and reuse it, so the same alert gets a consistent title each time it fires. Omit to leave unchanged.
 	//
 	// Example: true
 	AiTitlesEnabled *bool `json:"ai_titles_enabled,omitempty"`
+
+	// AlertmanagerOptions Example: {"one_alert_per_group":true}
+	AlertmanagerOptions *AlertSourceAlertmanagerOptionsV3 `json:"alertmanager_options,omitempty"`
 
 	// Annotations Annotations that track metadata about this alert source
 	//
@@ -15942,12 +16681,15 @@ type AlertSourceUpdatePayloadV3 struct {
 	VisibleToTeams *EngineParamBindingPayloadV3 `json:"visible_to_teams,omitempty"`
 }
 
-// AlertSourceV2 Example: {"alert_events_url":"https://api.incident.io/v2/alert_events/http/01GW2G3V0S59R238FAHPDS1R66","auto_resolve_incident_alerts":false,"auto_resolve_timeout_minutes":1,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"filter_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01GW2G3V0S59R238FAHPDS1R66","jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"Production Web Dashboard Alerts","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"secret_token":"some-secret-token","source_type":"alertmanager","template":{"attributes":[{"alert_attribute_id":"abc123","binding":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"description":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"is_private":false,"title":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"visible_to_teams":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}}
+// AlertSourceV2 Example: {"alert_events_url":"https://api.incident.io/v2/alert_events/http/01GW2G3V0S59R238FAHPDS1R66","alertmanager_options":{"one_alert_per_group":true},"auto_resolve_incident_alerts":false,"auto_resolve_timeout_minutes":1,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"filter_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01GW2G3V0S59R238FAHPDS1R66","jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"Production Web Dashboard Alerts","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"secret_token":"some-secret-token","source_type":"alertmanager","template":{"attributes":[{"alert_attribute_id":"abc123","binding":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"description":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"is_private":false,"title":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"visible_to_teams":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}}
 type AlertSourceV2 struct {
 	// AlertEventsUrl URL that can be used to send alert events to this source. This is only set for sources that accept webhook/HTTP events; email sources use the email_address field, and integration-based sources (like Jira) receive events through their native integrations.
 	//
 	// Example: https://api.incident.io/v2/alert_events/http/01GW2G3V0S59R238FAHPDS1R66
 	AlertEventsUrl *string `json:"alert_events_url,omitempty"`
+
+	// AlertmanagerOptions Example: {"one_alert_per_group":true}
+	AlertmanagerOptions *AlertSourceAlertmanagerOptionsV2 `json:"alertmanager_options,omitempty"`
 
 	// AutoResolveIncidentAlerts Whether alerts from this source keep counting down to auto-resolve while attached to an incident. Defaults to true. Has no effect without auto_resolve_timeout_minutes.
 	//
@@ -16023,7 +16765,7 @@ type AlertSourceV2 struct {
 // Example: alertmanager
 type AlertSourceV2SourceType string
 
-// AlertSourceV3 Example: {"ai_titles_enabled":false,"alert_events_url":"https://api.incident.io/v2/alert_events/http/01FCNDV6P870EA6S7TK1DSYDG0","auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"cloudwatch_options":{"deduplication_key_path":"$.AlarmArn"},"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"disabled":false,"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"filter_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"secret_token":"incident_io_alert_source_token_01FCNDV6P870EA6S7TK1DSYDG0","sns_options":{"deduplication_key_path":"$.MessageJSON.AlarmArn","deduplication_strategy":"automatic"},"source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"version":4,"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
+// AlertSourceV3 Example: {"ai_titles_enabled":false,"alert_events_url":"https://api.incident.io/v2/alert_events/http/01FCNDV6P870EA6S7TK1DSYDG0","alertmanager_options":{"one_alert_per_group":true},"auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"cloudwatch_options":{"deduplication_key_path":"$.AlarmArn"},"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"disabled":false,"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"filter_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"secret_token":"incident_io_alert_source_token_01FCNDV6P870EA6S7TK1DSYDG0","sns_options":{"deduplication_key_path":"$.MessageJSON.AlarmArn","deduplication_strategy":"automatic"},"source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"version":4,"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
 type AlertSourceV3 struct {
 	// AiTitlesEnabled Whether to improve the titles of alerts from this source with AI. We create one title format for each kind of alert and reuse it, so the same alert gets a consistent title each time it fires.
 	//
@@ -16034,6 +16776,9 @@ type AlertSourceV3 struct {
 	//
 	// Example: https://api.incident.io/v2/alert_events/http/01FCNDV6P870EA6S7TK1DSYDG0
 	AlertEventsUrl *string `json:"alert_events_url,omitempty"`
+
+	// AlertmanagerOptions Example: {"one_alert_per_group":true}
+	AlertmanagerOptions *AlertSourceAlertmanagerOptionsV3 `json:"alertmanager_options,omitempty"`
 
 	// AutoResolveIncidentAlerts Whether alerts from this source keep counting down to auto-resolve while attached to an incident. Defaults to true. Has no effect without auto_resolve_timeout_minutes.
 	//
@@ -16229,8 +16974,11 @@ type AlertSourcesCreateAttributeResultV3 struct {
 	AlertSourceAttribute AlertSourceAttributeV3 `json:"alert_source_attribute"`
 }
 
-// AlertSourcesCreatePayloadV2 Example: {"auto_resolve_incident_alerts":false,"auto_resolve_timeout_minutes":1,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"email_options":{"redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"filter_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"Production Web Dashboard Alerts","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"source_type":"alertmanager","template":{"attributes":[{"alert_attribute_id":"abc123","binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"literal":"SEV123","reference":"incident.severity"}}}],"description":{"literal":"SEV123","reference":"incident.severity"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"is_private":false,"title":{"literal":"SEV123","reference":"incident.severity"},"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}
+// AlertSourcesCreatePayloadV2 Example: {"alertmanager_options":{"one_alert_per_group":true},"auto_resolve_incident_alerts":false,"auto_resolve_timeout_minutes":1,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"email_options":{"redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"filter_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"Production Web Dashboard Alerts","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"source_type":"alertmanager","template":{"attributes":[{"alert_attribute_id":"abc123","binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"literal":"SEV123","reference":"incident.severity"}}}],"description":{"literal":"SEV123","reference":"incident.severity"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"is_private":false,"title":{"literal":"SEV123","reference":"incident.severity"},"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}
 type AlertSourcesCreatePayloadV2 struct {
+	// AlertmanagerOptions Example: {"one_alert_per_group":true}
+	AlertmanagerOptions *AlertSourceAlertmanagerOptionsV2 `json:"alertmanager_options,omitempty"`
+
 	// AutoResolveIncidentAlerts Whether alerts from this source keep counting down to auto-resolve while attached to an incident. Defaults to true. Has no effect without auto_resolve_timeout_minutes.
 	//
 	// Example: false
@@ -16295,21 +17043,21 @@ type AlertSourcesCreatePayloadV2 struct {
 // Example: alertmanager
 type AlertSourcesCreatePayloadV2SourceType string
 
-// AlertSourcesCreatePayloadV3 Example: {"alert_source":{"ai_titles_enabled":true,"annotations":{"incident.io/terraform/version":"version-of-terraform"},"auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"cloudwatch_options":{"deduplication_key_path":"$.AlarmArn"},"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"email_options":{"redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"filter_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"sns_options":{"deduplication_key_path":"$.MessageJSON.AlarmArn","deduplication_strategy":"automatic"},"source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}
+// AlertSourcesCreatePayloadV3 Example: {"alert_source":{"ai_titles_enabled":true,"alertmanager_options":{"one_alert_per_group":true},"annotations":{"incident.io/terraform/version":"version-of-terraform"},"auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"cloudwatch_options":{"deduplication_key_path":"$.AlarmArn"},"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"email_options":{"redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"filter_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"sns_options":{"deduplication_key_path":"$.MessageJSON.AlarmArn","deduplication_strategy":"automatic"},"source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}
 type AlertSourcesCreatePayloadV3 struct {
-	// AlertSource Example: {"ai_titles_enabled":true,"annotations":{"incident.io/terraform/version":"version-of-terraform"},"auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"cloudwatch_options":{"deduplication_key_path":"$.AlarmArn"},"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"email_options":{"redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"filter_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || '',\n  sourceURL: $.url || $.link || '',\n  metadata: { team: $.team, severity: $.severity }\n}"},"is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"sns_options":{"deduplication_key_path":"$.MessageJSON.AlarmArn","deduplication_strategy":"automatic"},"source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
+	// AlertSource Example: {"ai_titles_enabled":true,"alertmanager_options":{"one_alert_per_group":true},"annotations":{"incident.io/terraform/version":"version-of-terraform"},"auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"cloudwatch_options":{"deduplication_key_path":"$.AlarmArn"},"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"email_options":{"redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"filter_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || '',\n  sourceURL: $.url || $.link || '',\n  metadata: { team: $.team, severity: $.severity }\n}"},"is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"sns_options":{"deduplication_key_path":"$.MessageJSON.AlarmArn","deduplication_strategy":"automatic"},"source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
 	AlertSource AlertSourceCreatePayloadV3 `json:"alert_source"`
 }
 
-// AlertSourcesCreateResultV2 Example: {"alert_source":{"alert_events_url":"https://api.incident.io/v2/alert_events/http/01GW2G3V0S59R238FAHPDS1R66","auto_resolve_incident_alerts":false,"auto_resolve_timeout_minutes":1,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"filter_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01GW2G3V0S59R238FAHPDS1R66","jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"Production Web Dashboard Alerts","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"secret_token":"some-secret-token","source_type":"alertmanager","template":{"attributes":[{"alert_attribute_id":"abc123","binding":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"description":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"is_private":false,"title":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"visible_to_teams":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}}}
+// AlertSourcesCreateResultV2 Example: {"alert_source":{"alert_events_url":"https://api.incident.io/v2/alert_events/http/01GW2G3V0S59R238FAHPDS1R66","alertmanager_options":{"one_alert_per_group":true},"auto_resolve_incident_alerts":false,"auto_resolve_timeout_minutes":1,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"filter_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01GW2G3V0S59R238FAHPDS1R66","jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"Production Web Dashboard Alerts","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"secret_token":"some-secret-token","source_type":"alertmanager","template":{"attributes":[{"alert_attribute_id":"abc123","binding":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"description":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"is_private":false,"title":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"visible_to_teams":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}}}
 type AlertSourcesCreateResultV2 struct {
-	// AlertSource Example: {"alert_events_url":"https://api.incident.io/v2/alert_events/http/01GW2G3V0S59R238FAHPDS1R66","auto_resolve_incident_alerts":false,"auto_resolve_timeout_minutes":1,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"filter_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || '',\n  sourceURL: $.url || $.link || '',\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01GW2G3V0S59R238FAHPDS1R66","jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"Production Web Dashboard Alerts","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"secret_token":"some-secret-token","source_type":"alertmanager","template":{"attributes":[{"alert_attribute_id":"abc123","binding":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"description":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"is_private":false,"title":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"visible_to_teams":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}}
+	// AlertSource Example: {"alert_events_url":"https://api.incident.io/v2/alert_events/http/01GW2G3V0S59R238FAHPDS1R66","alertmanager_options":{"one_alert_per_group":true},"auto_resolve_incident_alerts":false,"auto_resolve_timeout_minutes":1,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"filter_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || '',\n  sourceURL: $.url || $.link || '',\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01GW2G3V0S59R238FAHPDS1R66","jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"Production Web Dashboard Alerts","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"secret_token":"some-secret-token","source_type":"alertmanager","template":{"attributes":[{"alert_attribute_id":"abc123","binding":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"description":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"is_private":false,"title":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"visible_to_teams":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}}
 	AlertSource AlertSourceV2 `json:"alert_source"`
 }
 
-// AlertSourcesCreateResultV3 Example: {"alert_source":{"ai_titles_enabled":false,"alert_events_url":"https://api.incident.io/v2/alert_events/http/01FCNDV6P870EA6S7TK1DSYDG0","auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"cloudwatch_options":{"deduplication_key_path":"$.AlarmArn"},"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"disabled":false,"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"filter_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"secret_token":"incident_io_alert_source_token_01FCNDV6P870EA6S7TK1DSYDG0","sns_options":{"deduplication_key_path":"$.MessageJSON.AlarmArn","deduplication_strategy":"automatic"},"source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"version":4,"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}
+// AlertSourcesCreateResultV3 Example: {"alert_source":{"ai_titles_enabled":false,"alert_events_url":"https://api.incident.io/v2/alert_events/http/01FCNDV6P870EA6S7TK1DSYDG0","alertmanager_options":{"one_alert_per_group":true},"auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"cloudwatch_options":{"deduplication_key_path":"$.AlarmArn"},"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"disabled":false,"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"filter_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"secret_token":"incident_io_alert_source_token_01FCNDV6P870EA6S7TK1DSYDG0","sns_options":{"deduplication_key_path":"$.MessageJSON.AlarmArn","deduplication_strategy":"automatic"},"source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"version":4,"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}
 type AlertSourcesCreateResultV3 struct {
-	// AlertSource Example: {"ai_titles_enabled":false,"alert_events_url":"https://api.incident.io/v2/alert_events/http/01FCNDV6P870EA6S7TK1DSYDG0","auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"cloudwatch_options":{"deduplication_key_path":"$.AlarmArn"},"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"disabled":false,"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"filter_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || '',\n  sourceURL: $.url || $.link || '',\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"secret_token":"incident_io_alert_source_token_01FCNDV6P870EA6S7TK1DSYDG0","sns_options":{"deduplication_key_path":"$.MessageJSON.AlarmArn","deduplication_strategy":"automatic"},"source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"version":4,"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
+	// AlertSource Example: {"ai_titles_enabled":false,"alert_events_url":"https://api.incident.io/v2/alert_events/http/01FCNDV6P870EA6S7TK1DSYDG0","alertmanager_options":{"one_alert_per_group":true},"auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"cloudwatch_options":{"deduplication_key_path":"$.AlarmArn"},"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"disabled":false,"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"filter_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || '',\n  sourceURL: $.url || $.link || '',\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"secret_token":"incident_io_alert_source_token_01FCNDV6P870EA6S7TK1DSYDG0","sns_options":{"deduplication_key_path":"$.MessageJSON.AlarmArn","deduplication_strategy":"automatic"},"source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"version":4,"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
 	AlertSource AlertSourceV3 `json:"alert_source"`
 }
 
@@ -16319,15 +17067,15 @@ type AlertSourcesListAttributesResultV3 struct {
 	AlertSourceAttributes []AlertSourceAttributeV3 `json:"alert_source_attributes"`
 }
 
-// AlertSourcesListResultV2 Example: {"alert_sources":[{"alert_events_url":"https://api.incident.io/v2/alert_events/http/01GW2G3V0S59R238FAHPDS1R66","auto_resolve_incident_alerts":false,"auto_resolve_timeout_minutes":1,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"filter_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01GW2G3V0S59R238FAHPDS1R66","jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"Production Web Dashboard Alerts","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"secret_token":"some-secret-token","source_type":"alertmanager","template":{"attributes":[{"alert_attribute_id":"abc123","binding":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"description":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"is_private":false,"title":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"visible_to_teams":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}}]}
+// AlertSourcesListResultV2 Example: {"alert_sources":[{"alert_events_url":"https://api.incident.io/v2/alert_events/http/01GW2G3V0S59R238FAHPDS1R66","alertmanager_options":{"one_alert_per_group":true},"auto_resolve_incident_alerts":false,"auto_resolve_timeout_minutes":1,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"filter_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01GW2G3V0S59R238FAHPDS1R66","jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"Production Web Dashboard Alerts","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"secret_token":"some-secret-token","source_type":"alertmanager","template":{"attributes":[{"alert_attribute_id":"abc123","binding":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"description":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"is_private":false,"title":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"visible_to_teams":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}}]}
 type AlertSourcesListResultV2 struct {
-	// AlertSources Example: [{"alert_events_url":"https://api.incident.io/v2/alert_events/http/01GW2G3V0S59R238FAHPDS1R66","auto_resolve_incident_alerts":false,"auto_resolve_timeout_minutes":1,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"filter_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || '',\n  sourceURL: $.url || $.link || '',\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01GW2G3V0S59R238FAHPDS1R66","jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"Production Web Dashboard Alerts","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"secret_token":"some-secret-token","source_type":"alertmanager","template":{"attributes":[{"alert_attribute_id":"abc123","binding":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"description":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"is_private":false,"title":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"visible_to_teams":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}}]
+	// AlertSources Example: [{"alert_events_url":"https://api.incident.io/v2/alert_events/http/01GW2G3V0S59R238FAHPDS1R66","alertmanager_options":{"one_alert_per_group":true},"auto_resolve_incident_alerts":false,"auto_resolve_timeout_minutes":1,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"filter_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || '',\n  sourceURL: $.url || $.link || '',\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01GW2G3V0S59R238FAHPDS1R66","jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"Production Web Dashboard Alerts","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"secret_token":"some-secret-token","source_type":"alertmanager","template":{"attributes":[{"alert_attribute_id":"abc123","binding":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"description":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"is_private":false,"title":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"visible_to_teams":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}}]
 	AlertSources []AlertSourceV2 `json:"alert_sources"`
 }
 
-// AlertSourcesListResultV3 Example: {"alert_sources":[{"ai_titles_enabled":false,"alert_events_url":"https://api.incident.io/v2/alert_events/http/01FCNDV6P870EA6S7TK1DSYDG0","auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"cloudwatch_options":{"deduplication_key_path":"$.AlarmArn"},"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"disabled":false,"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"filter_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"secret_token":"incident_io_alert_source_token_01FCNDV6P870EA6S7TK1DSYDG0","sns_options":{"deduplication_key_path":"$.MessageJSON.AlarmArn","deduplication_strategy":"automatic"},"source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"version":4,"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}]}
+// AlertSourcesListResultV3 Example: {"alert_sources":[{"ai_titles_enabled":false,"alert_events_url":"https://api.incident.io/v2/alert_events/http/01FCNDV6P870EA6S7TK1DSYDG0","alertmanager_options":{"one_alert_per_group":true},"auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"cloudwatch_options":{"deduplication_key_path":"$.AlarmArn"},"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"disabled":false,"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"filter_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"secret_token":"incident_io_alert_source_token_01FCNDV6P870EA6S7TK1DSYDG0","sns_options":{"deduplication_key_path":"$.MessageJSON.AlarmArn","deduplication_strategy":"automatic"},"source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"version":4,"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}]}
 type AlertSourcesListResultV3 struct {
-	// AlertSources Example: [{"ai_titles_enabled":false,"alert_events_url":"https://api.incident.io/v2/alert_events/http/01FCNDV6P870EA6S7TK1DSYDG0","auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"cloudwatch_options":{"deduplication_key_path":"$.AlarmArn"},"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"disabled":false,"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"filter_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || '',\n  sourceURL: $.url || $.link || '',\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"secret_token":"incident_io_alert_source_token_01FCNDV6P870EA6S7TK1DSYDG0","sns_options":{"deduplication_key_path":"$.MessageJSON.AlarmArn","deduplication_strategy":"automatic"},"source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"version":4,"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}]
+	// AlertSources Example: [{"ai_titles_enabled":false,"alert_events_url":"https://api.incident.io/v2/alert_events/http/01FCNDV6P870EA6S7TK1DSYDG0","alertmanager_options":{"one_alert_per_group":true},"auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"cloudwatch_options":{"deduplication_key_path":"$.AlarmArn"},"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"disabled":false,"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"filter_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || '',\n  sourceURL: $.url || $.link || '',\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"secret_token":"incident_io_alert_source_token_01FCNDV6P870EA6S7TK1DSYDG0","sns_options":{"deduplication_key_path":"$.MessageJSON.AlarmArn","deduplication_strategy":"automatic"},"source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"version":4,"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}]
 	AlertSources []AlertSourceV3 `json:"alert_sources"`
 }
 
@@ -16337,15 +17085,15 @@ type AlertSourcesShowAttributeResultV3 struct {
 	AlertSourceAttribute AlertSourceAttributeV3 `json:"alert_source_attribute"`
 }
 
-// AlertSourcesShowResultV2 Example: {"alert_source":{"alert_events_url":"https://api.incident.io/v2/alert_events/http/01GW2G3V0S59R238FAHPDS1R66","auto_resolve_incident_alerts":false,"auto_resolve_timeout_minutes":1,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"filter_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01GW2G3V0S59R238FAHPDS1R66","jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"Production Web Dashboard Alerts","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"secret_token":"some-secret-token","source_type":"alertmanager","template":{"attributes":[{"alert_attribute_id":"abc123","binding":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"description":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"is_private":false,"title":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"visible_to_teams":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}}}
+// AlertSourcesShowResultV2 Example: {"alert_source":{"alert_events_url":"https://api.incident.io/v2/alert_events/http/01GW2G3V0S59R238FAHPDS1R66","alertmanager_options":{"one_alert_per_group":true},"auto_resolve_incident_alerts":false,"auto_resolve_timeout_minutes":1,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"filter_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01GW2G3V0S59R238FAHPDS1R66","jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"Production Web Dashboard Alerts","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"secret_token":"some-secret-token","source_type":"alertmanager","template":{"attributes":[{"alert_attribute_id":"abc123","binding":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"description":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"is_private":false,"title":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"visible_to_teams":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}}}
 type AlertSourcesShowResultV2 struct {
-	// AlertSource Example: {"alert_events_url":"https://api.incident.io/v2/alert_events/http/01GW2G3V0S59R238FAHPDS1R66","auto_resolve_incident_alerts":false,"auto_resolve_timeout_minutes":1,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"filter_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || '',\n  sourceURL: $.url || $.link || '',\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01GW2G3V0S59R238FAHPDS1R66","jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"Production Web Dashboard Alerts","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"secret_token":"some-secret-token","source_type":"alertmanager","template":{"attributes":[{"alert_attribute_id":"abc123","binding":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"description":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"is_private":false,"title":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"visible_to_teams":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}}
+	// AlertSource Example: {"alert_events_url":"https://api.incident.io/v2/alert_events/http/01GW2G3V0S59R238FAHPDS1R66","alertmanager_options":{"one_alert_per_group":true},"auto_resolve_incident_alerts":false,"auto_resolve_timeout_minutes":1,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"filter_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || '',\n  sourceURL: $.url || $.link || '',\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01GW2G3V0S59R238FAHPDS1R66","jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"Production Web Dashboard Alerts","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"secret_token":"some-secret-token","source_type":"alertmanager","template":{"attributes":[{"alert_attribute_id":"abc123","binding":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"description":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"is_private":false,"title":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"visible_to_teams":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}}
 	AlertSource AlertSourceV2 `json:"alert_source"`
 }
 
-// AlertSourcesShowResultV3 Example: {"alert_source":{"ai_titles_enabled":false,"alert_events_url":"https://api.incident.io/v2/alert_events/http/01FCNDV6P870EA6S7TK1DSYDG0","auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"cloudwatch_options":{"deduplication_key_path":"$.AlarmArn"},"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"disabled":false,"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"filter_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"secret_token":"incident_io_alert_source_token_01FCNDV6P870EA6S7TK1DSYDG0","sns_options":{"deduplication_key_path":"$.MessageJSON.AlarmArn","deduplication_strategy":"automatic"},"source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"version":4,"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}
+// AlertSourcesShowResultV3 Example: {"alert_source":{"ai_titles_enabled":false,"alert_events_url":"https://api.incident.io/v2/alert_events/http/01FCNDV6P870EA6S7TK1DSYDG0","alertmanager_options":{"one_alert_per_group":true},"auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"cloudwatch_options":{"deduplication_key_path":"$.AlarmArn"},"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"disabled":false,"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"filter_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"secret_token":"incident_io_alert_source_token_01FCNDV6P870EA6S7TK1DSYDG0","sns_options":{"deduplication_key_path":"$.MessageJSON.AlarmArn","deduplication_strategy":"automatic"},"source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"version":4,"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}
 type AlertSourcesShowResultV3 struct {
-	// AlertSource Example: {"ai_titles_enabled":false,"alert_events_url":"https://api.incident.io/v2/alert_events/http/01FCNDV6P870EA6S7TK1DSYDG0","auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"cloudwatch_options":{"deduplication_key_path":"$.AlarmArn"},"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"disabled":false,"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"filter_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || '',\n  sourceURL: $.url || $.link || '',\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"secret_token":"incident_io_alert_source_token_01FCNDV6P870EA6S7TK1DSYDG0","sns_options":{"deduplication_key_path":"$.MessageJSON.AlarmArn","deduplication_strategy":"automatic"},"source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"version":4,"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
+	// AlertSource Example: {"ai_titles_enabled":false,"alert_events_url":"https://api.incident.io/v2/alert_events/http/01FCNDV6P870EA6S7TK1DSYDG0","alertmanager_options":{"one_alert_per_group":true},"auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"cloudwatch_options":{"deduplication_key_path":"$.AlarmArn"},"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"disabled":false,"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"filter_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || '',\n  sourceURL: $.url || $.link || '',\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"secret_token":"incident_io_alert_source_token_01FCNDV6P870EA6S7TK1DSYDG0","sns_options":{"deduplication_key_path":"$.MessageJSON.AlarmArn","deduplication_strategy":"automatic"},"source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"version":4,"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
 	AlertSource AlertSourceV3 `json:"alert_source"`
 }
 
@@ -16361,8 +17109,11 @@ type AlertSourcesUpdateAttributeResultV3 struct {
 	AlertSourceAttribute AlertSourceAttributeV3 `json:"alert_source_attribute"`
 }
 
-// AlertSourcesUpdatePayloadV2 Example: {"auto_resolve_incident_alerts":false,"auto_resolve_timeout_minutes":1,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"disabled":false,"email_options":{"redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"filter_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"Production Web Dashboard Alerts","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"template":{"attributes":[{"alert_attribute_id":"abc123","binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"literal":"SEV123","reference":"incident.severity"}}}],"description":{"literal":"SEV123","reference":"incident.severity"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"is_private":false,"title":{"literal":"SEV123","reference":"incident.severity"},"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}
+// AlertSourcesUpdatePayloadV2 Example: {"alertmanager_options":{"one_alert_per_group":true},"auto_resolve_incident_alerts":false,"auto_resolve_timeout_minutes":1,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"disabled":false,"email_options":{"redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"filter_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"Production Web Dashboard Alerts","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"template":{"attributes":[{"alert_attribute_id":"abc123","binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"literal":"SEV123","reference":"incident.severity"}}}],"description":{"literal":"SEV123","reference":"incident.severity"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"is_private":false,"title":{"literal":"SEV123","reference":"incident.severity"},"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}
 type AlertSourcesUpdatePayloadV2 struct {
+	// AlertmanagerOptions Example: {"one_alert_per_group":true}
+	AlertmanagerOptions *AlertSourceAlertmanagerOptionsV2 `json:"alertmanager_options,omitempty"`
+
 	// AutoResolveIncidentAlerts Whether alerts from this source keep counting down to auto-resolve while attached to an incident. Defaults to true. Has no effect without auto_resolve_timeout_minutes.
 	//
 	// Example: false
@@ -16422,21 +17173,21 @@ type AlertSourcesUpdatePayloadV2 struct {
 	Template AlertTemplatePayloadV2 `json:"template"`
 }
 
-// AlertSourcesUpdatePayloadV3 Example: {"alert_source":{"ai_titles_enabled":true,"annotations":{"incident.io/terraform/version":"version-of-terraform"},"auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"cloudwatch_options":{"deduplication_key_path":"$.AlarmArn"},"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"disabled":false,"email_options":{"redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expected_version":4,"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"filter_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"sns_options":{"deduplication_key_path":"$.MessageJSON.AlarmArn","deduplication_strategy":"automatic"},"title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}
+// AlertSourcesUpdatePayloadV3 Example: {"alert_source":{"ai_titles_enabled":true,"alertmanager_options":{"one_alert_per_group":true},"annotations":{"incident.io/terraform/version":"version-of-terraform"},"auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"cloudwatch_options":{"deduplication_key_path":"$.AlarmArn"},"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"disabled":false,"email_options":{"redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expected_version":4,"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"filter_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"sns_options":{"deduplication_key_path":"$.MessageJSON.AlarmArn","deduplication_strategy":"automatic"},"title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}
 type AlertSourcesUpdatePayloadV3 struct {
-	// AlertSource Example: {"ai_titles_enabled":true,"annotations":{"incident.io/terraform/version":"version-of-terraform"},"auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"cloudwatch_options":{"deduplication_key_path":"$.AlarmArn"},"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"disabled":false,"email_options":{"redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expected_version":4,"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"filter_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || '',\n  sourceURL: $.url || $.link || '',\n  metadata: { team: $.team, severity: $.severity }\n}"},"is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"sns_options":{"deduplication_key_path":"$.MessageJSON.AlarmArn","deduplication_strategy":"automatic"},"title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
+	// AlertSource Example: {"ai_titles_enabled":true,"alertmanager_options":{"one_alert_per_group":true},"annotations":{"incident.io/terraform/version":"version-of-terraform"},"auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"cloudwatch_options":{"deduplication_key_path":"$.AlarmArn"},"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"disabled":false,"email_options":{"redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expected_version":4,"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"filter_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || '',\n  sourceURL: $.url || $.link || '',\n  metadata: { team: $.team, severity: $.severity }\n}"},"is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"sns_options":{"deduplication_key_path":"$.MessageJSON.AlarmArn","deduplication_strategy":"automatic"},"title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
 	AlertSource AlertSourceUpdatePayloadV3 `json:"alert_source"`
 }
 
-// AlertSourcesUpdateResultV2 Example: {"alert_source":{"alert_events_url":"https://api.incident.io/v2/alert_events/http/01GW2G3V0S59R238FAHPDS1R66","auto_resolve_incident_alerts":false,"auto_resolve_timeout_minutes":1,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"filter_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01GW2G3V0S59R238FAHPDS1R66","jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"Production Web Dashboard Alerts","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"secret_token":"some-secret-token","source_type":"alertmanager","template":{"attributes":[{"alert_attribute_id":"abc123","binding":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"description":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"is_private":false,"title":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"visible_to_teams":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}}}
+// AlertSourcesUpdateResultV2 Example: {"alert_source":{"alert_events_url":"https://api.incident.io/v2/alert_events/http/01GW2G3V0S59R238FAHPDS1R66","alertmanager_options":{"one_alert_per_group":true},"auto_resolve_incident_alerts":false,"auto_resolve_timeout_minutes":1,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"filter_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01GW2G3V0S59R238FAHPDS1R66","jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"Production Web Dashboard Alerts","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"secret_token":"some-secret-token","source_type":"alertmanager","template":{"attributes":[{"alert_attribute_id":"abc123","binding":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"description":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"is_private":false,"title":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"visible_to_teams":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}}}
 type AlertSourcesUpdateResultV2 struct {
-	// AlertSource Example: {"alert_events_url":"https://api.incident.io/v2/alert_events/http/01GW2G3V0S59R238FAHPDS1R66","auto_resolve_incident_alerts":false,"auto_resolve_timeout_minutes":1,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"filter_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || '',\n  sourceURL: $.url || $.link || '',\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01GW2G3V0S59R238FAHPDS1R66","jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"Production Web Dashboard Alerts","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"secret_token":"some-secret-token","source_type":"alertmanager","template":{"attributes":[{"alert_attribute_id":"abc123","binding":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"description":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"is_private":false,"title":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"visible_to_teams":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}}
+	// AlertSource Example: {"alert_events_url":"https://api.incident.io/v2/alert_events/http/01GW2G3V0S59R238FAHPDS1R66","alertmanager_options":{"one_alert_per_group":true},"auto_resolve_incident_alerts":false,"auto_resolve_timeout_minutes":1,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"filter_condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || '',\n  sourceURL: $.url || $.link || '',\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01GW2G3V0S59R238FAHPDS1R66","jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"Production Web Dashboard Alerts","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"secret_token":"some-secret-token","source_type":"alertmanager","template":{"attributes":[{"alert_attribute_id":"abc123","binding":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"description":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"is_private":false,"title":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"visible_to_teams":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}}
 	AlertSource AlertSourceV2 `json:"alert_source"`
 }
 
-// AlertSourcesUpdateResultV3 Example: {"alert_source":{"ai_titles_enabled":false,"alert_events_url":"https://api.incident.io/v2/alert_events/http/01FCNDV6P870EA6S7TK1DSYDG0","auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"cloudwatch_options":{"deduplication_key_path":"$.AlarmArn"},"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"disabled":false,"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"filter_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"secret_token":"incident_io_alert_source_token_01FCNDV6P870EA6S7TK1DSYDG0","sns_options":{"deduplication_key_path":"$.MessageJSON.AlarmArn","deduplication_strategy":"automatic"},"source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"version":4,"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}
+// AlertSourcesUpdateResultV3 Example: {"alert_source":{"ai_titles_enabled":false,"alert_events_url":"https://api.incident.io/v2/alert_events/http/01FCNDV6P870EA6S7TK1DSYDG0","alertmanager_options":{"one_alert_per_group":true},"auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"cloudwatch_options":{"deduplication_key_path":"$.AlarmArn"},"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"disabled":false,"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"filter_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"secret_token":"incident_io_alert_source_token_01FCNDV6P870EA6S7TK1DSYDG0","sns_options":{"deduplication_key_path":"$.MessageJSON.AlarmArn","deduplication_strategy":"automatic"},"source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"version":4,"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}
 type AlertSourcesUpdateResultV3 struct {
-	// AlertSource Example: {"ai_titles_enabled":false,"alert_events_url":"https://api.incident.io/v2/alert_events/http/01FCNDV6P870EA6S7TK1DSYDG0","auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"cloudwatch_options":{"deduplication_key_path":"$.AlarmArn"},"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"disabled":false,"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"filter_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || '',\n  sourceURL: $.url || $.link || '',\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"secret_token":"incident_io_alert_source_token_01FCNDV6P870EA6S7TK1DSYDG0","sns_options":{"deduplication_key_path":"$.MessageJSON.AlarmArn","deduplication_strategy":"automatic"},"source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"version":4,"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
+	// AlertSource Example: {"ai_titles_enabled":false,"alert_events_url":"https://api.incident.io/v2/alert_events/http/01FCNDV6P870EA6S7TK1DSYDG0","alertmanager_options":{"one_alert_per_group":true},"auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"azure_devops_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","ba038695-f5f7-4490-a9ea-bf4ab3cbf483"]},"cloudwatch_options":{"deduplication_key_path":"$.AlarmArn"},"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"disabled":false,"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"filter_condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"fixed_team_id":"01G0J1EXE7AXZ2C93K61WBPYEH","heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || '',\n  sourceURL: $.url || $.link || '',\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"rate_limit_sharding":{"rate_limit_shard_key_path":"$.priority"},"secret_token":"incident_io_alert_source_token_01FCNDV6P870EA6S7TK1DSYDG0","sns_options":{"deduplication_key_path":"$.MessageJSON.AlarmArn","deduplication_strategy":"automatic"},"source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"version":4,"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
 	AlertSource AlertSourceV3 `json:"alert_source"`
 }
 
@@ -17404,6 +18155,37 @@ type CallRouteOptionV2 struct {
 // Example: 1
 type CallRouteOptionV2Digit string
 
+// CallRouteOptionV3 One entry in a call route's phone-tree menu: the digit a caller presses, the
+// prompt we read out to offer it, and who we page when they choose it.
+//
+// Example: {"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}
+type CallRouteOptionV3 struct {
+	// Digit The keypad digit a caller presses to choose this option
+	//
+	// Example: 1
+	Digit CallRouteOptionV3Digit `json:"digit"`
+
+	// Id Unique identifier for this option
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	Id string `json:"id"`
+
+	// Path Who we page when a caller chooses this option
+	//
+	// Example: [{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}]
+	Path []CallRoutePathNodeV3 `json:"path"`
+
+	// Prompt What we read out to offer this option, via text-to-speech in the route's language, exactly as written
+	//
+	// Example: For an urgent production outage, press 1
+	Prompt string `json:"prompt"`
+}
+
+// CallRouteOptionV3Digit The keypad digit a caller presses to choose this option
+//
+// Example: 1
+type CallRouteOptionV3Digit string
+
 // CallRoutePathNodeLevelV2 The targets a level pages.
 //
 // We call each target for 30 seconds, rotating to the next after 60 seconds, and
@@ -17416,6 +18198,20 @@ type CallRoutePathNodeLevelV2 struct {
 	//
 	// Example: [{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]
 	Targets []CallRouteTargetV2 `json:"targets"`
+}
+
+// CallRoutePathNodeLevelV3 The targets a level pages.
+//
+// We call each target for 30 seconds, rotating to the next after 60 seconds, and
+// move to the next node if nobody acknowledges within 5 minutes. Those timings are
+// fixed for call routes.
+//
+// Example: {"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]}
+type CallRoutePathNodeLevelV3 struct {
+	// Targets The users and schedules to page
+	//
+	// Example: [{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]
+	Targets []CallRouteTargetV3 `json:"targets"`
 }
 
 // CallRoutePathNodePayloadV2 Example: {"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}
@@ -17453,6 +18249,42 @@ type CallRoutePathNodePayloadV2 struct {
 //
 // Example: level
 type CallRoutePathNodePayloadV2Type string
+
+// CallRoutePathNodePayloadV3 Example: {"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}
+type CallRoutePathNodePayloadV3 struct {
+	// Id Unique identifier for this node. Omit it and we'll generate one.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	Id *string `json:"id,omitempty"`
+
+	// Level The targets a level pages.
+	//
+	// We call each target for 30 seconds, rotating to the next after 60 seconds, and
+	// move to the next node if nobody acknowledges within 5 minutes. Those timings are
+	// fixed for call routes.
+	//
+	// Example: {"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]}
+	Level *CallRoutePathNodeLevelV3 `json:"level,omitempty"`
+
+	// Type The type of this node. Available types are:
+	// * level: page a set of targets, rotating between them
+	// * voicemail: record a message from the caller
+	//
+	// Example: level
+	Type CallRoutePathNodePayloadV3Type `json:"type"`
+
+	// Voicemail Records a message from the caller, and enriches the resulting alert with the transcript.
+	//
+	// Example: {"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}
+	Voicemail *CallRoutePathNodeVoicemailV2 `json:"voicemail,omitempty"`
+}
+
+// CallRoutePathNodePayloadV3Type The type of this node. Available types are:
+// * level: page a set of targets, rotating between them
+// * voicemail: record a message from the caller
+//
+// Example: level
+type CallRoutePathNodePayloadV3Type string
 
 // CallRoutePathNodeV2 A single step in a call route's path.
 //
@@ -17495,6 +18327,48 @@ type CallRoutePathNodeV2 struct {
 //
 // Example: level
 type CallRoutePathNodeV2Type string
+
+// CallRoutePathNodeV3 A single step in a call route's path.
+//
+// Levels page a set of targets, and a trailing voicemail node records a message
+// from the caller. A path made up of only a voicemail node sends callers straight
+// to voicemail without paging anyone.
+//
+// Example: {"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}
+type CallRoutePathNodeV3 struct {
+	// Id Unique identifier for this node
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	Id string `json:"id"`
+
+	// Level The targets a level pages.
+	//
+	// We call each target for 30 seconds, rotating to the next after 60 seconds, and
+	// move to the next node if nobody acknowledges within 5 minutes. Those timings are
+	// fixed for call routes.
+	//
+	// Example: {"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]}
+	Level *CallRoutePathNodeLevelV3 `json:"level,omitempty"`
+
+	// Type The type of this node. Available types are:
+	// * level: page a set of targets, rotating between them
+	// * voicemail: record a message from the caller
+	//
+	// Example: level
+	Type CallRoutePathNodeV3Type `json:"type"`
+
+	// Voicemail Records a message from the caller, and enriches the resulting alert with the transcript.
+	//
+	// Example: {"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}
+	Voicemail *CallRoutePathNodeVoicemailV2 `json:"voicemail,omitempty"`
+}
+
+// CallRoutePathNodeV3Type The type of this node. Available types are:
+// * level: page a set of targets, rotating between them
+// * voicemail: record a message from the caller
+//
+// Example: level
+type CallRoutePathNodeV3Type string
 
 // CallRoutePathNodeVoicemailV2 Records a message from the caller, and enriches the resulting alert with the transcript.
 //
@@ -17550,6 +18424,51 @@ type CallRouteTargetV2Type string
 //
 // Example: high
 type CallRouteTargetV2Urgency string
+
+// CallRouteTargetV3 Someone a call route pages when a call comes in.
+//
+// Example: {"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}
+type CallRouteTargetV3 struct {
+	// Id Uniquely identifies an entity of this type
+	//
+	// Example: lawrencejones
+	Id string `json:"id"`
+
+	// InterruptionLevel How we interrupt this target when we notify them: high or low
+	//
+	// Example: high
+	InterruptionLevel CallRouteTargetV3InterruptionLevel `json:"interruption_level"`
+
+	// ScheduleMode Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+	//
+	// Example: currently_on_call
+	ScheduleMode *CallRouteTargetV3ScheduleMode `json:"schedule_mode,omitempty"`
+
+	// SelectedRotaId For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	SelectedRotaId *string `json:"selected_rota_id,omitempty"`
+
+	// Type Whether a call route target is a user or a schedule
+	//
+	// Example: schedule
+	Type CallRouteTargetV3Type `json:"type"`
+}
+
+// CallRouteTargetV3InterruptionLevel How we interrupt this target when we notify them: high or low
+//
+// Example: high
+type CallRouteTargetV3InterruptionLevel string
+
+// CallRouteTargetV3ScheduleMode Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+//
+// Example: currently_on_call
+type CallRouteTargetV3ScheduleMode string
+
+// CallRouteTargetV3Type Whether a call route target is a user or a schedule
+//
+// Example: schedule
+type CallRouteTargetV3Type string
 
 // CallRouteV2 A call route is a phone number your customers can call to reach whoever is
 // on call, for an urgent support line or a regulator hotline.
@@ -17662,6 +18581,117 @@ type CallRouteV2PhoneNumberType string
 // Example: route_number
 type CallRouteV2ResponderCallerId string
 
+// CallRouteV3 A call route is a phone number your customers can call to reach whoever is
+// on call, for an urgent support line or a regulator hotline.
+//
+// When a call comes in we work down the route's path, ringing each level's targets
+// in turn until someone answers, then connect them to the caller. A trailing
+// voicemail node records a message instead. Every call raises an alert, so calls
+// can open incidents through an alert route.
+//
+// List and edit call routes here. Create and delete them in the dashboard.
+//
+// Example: {"allowed_callers":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}],"country_code":"US","created_at":"2021-08-17T13:28:57.801578Z","current_state":"active","custom_language":"en-US","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator urgent request","options":[{"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}],"path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"phone_number":"+15551234567","phone_number_type":"toll_free","responder_caller_id":"route_number","updated_at":"2021-08-17T13:28:57.801578Z","use_caller_allowlist":true}
+type CallRouteV3 struct {
+	// AllowedCallers The numbers allowed to call this route. Only enforced when use_caller_allowlist is true.
+	//
+	// Example: [{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}]
+	AllowedCallers []CallRouteAllowedCallerV2 `json:"allowed_callers"`
+
+	// CountryCode The country this route's number belongs to
+	//
+	// Example: US
+	CountryCode *string `json:"country_code,omitempty"`
+
+	// CreatedAt Example: 2021-08-17T13:28:57.801578Z
+	CreatedAt time.Time `json:"created_at"`
+
+	// CurrentState Where this route is in provisioning. Only an active route answers calls:
+	// * pending: created, and awaiting manual work from us
+	// * pending_regulatory_information: awaiting regulatory compliance information, collected in the dashboard
+	// * pending_number: compliance is settled, and we're provisioning a number
+	// * active: fully provisioned, and answering calls
+	//
+	// Example: active
+	CurrentState CallRouteV3CurrentState `json:"current_state"`
+
+	// CustomLanguage The language we speak voice prompts in, via text-to-speech
+	//
+	// Example: en-US
+	CustomLanguage CallRouteV3CustomLanguage `json:"custom_language"`
+
+	// Id Unique identifier for this call route
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	Id string `json:"id"`
+
+	// Name Name for this call route
+	//
+	// Example: Regulator urgent request
+	Name string `json:"name"`
+
+	// Options The phone-tree menu this route presents. Empty when callers are routed down the route's path.
+	//
+	// Example: [{"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}]
+	Options []CallRouteOptionV3 `json:"options"`
+
+	// Path Who we page when a call comes in. Empty when this route presents a phone-tree menu, in which case each menu option carries its own path.
+	//
+	// Example: [{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}]
+	Path []CallRoutePathNodeV3 `json:"path"`
+
+	// PhoneNumber The number your customers call to reach this route, once one has been provisioned
+	//
+	// Example: +15551234567
+	PhoneNumber *string `json:"phone_number,omitempty"`
+
+	// PhoneNumberType The type of phone number, which determines the regulatory requirements for provisioning it
+	//
+	// Example: toll_free
+	PhoneNumberType *CallRouteV3PhoneNumberType `json:"phone_number_type,omitempty"`
+
+	// ResponderCallerId Which number responders see when we call them:
+	// * route_number: this route's own number
+	// * oncall_number: an incident.io on-call number
+	//
+	// Example: route_number
+	ResponderCallerId CallRouteV3ResponderCallerId `json:"responder_caller_id"`
+
+	// UpdatedAt Example: 2021-08-17T13:28:57.801578Z
+	UpdatedAt time.Time `json:"updated_at"`
+
+	// UseCallerAllowlist Whether this route only answers calls from its allowed callers
+	//
+	// Example: true
+	UseCallerAllowlist bool `json:"use_caller_allowlist"`
+}
+
+// CallRouteV3CurrentState Where this route is in provisioning. Only an active route answers calls:
+// * pending: created, and awaiting manual work from us
+// * pending_regulatory_information: awaiting regulatory compliance information, collected in the dashboard
+// * pending_number: compliance is settled, and we're provisioning a number
+// * active: fully provisioned, and answering calls
+//
+// Example: active
+type CallRouteV3CurrentState string
+
+// CallRouteV3CustomLanguage The language we speak voice prompts in, via text-to-speech
+//
+// Example: en-US
+type CallRouteV3CustomLanguage string
+
+// CallRouteV3PhoneNumberType The type of phone number, which determines the regulatory requirements for provisioning it
+//
+// Example: toll_free
+type CallRouteV3PhoneNumberType string
+
+// CallRouteV3ResponderCallerId Which number responders see when we call them:
+// * route_number: this route's own number
+// * oncall_number: an incident.io on-call number
+//
+// Example: route_number
+type CallRouteV3ResponderCallerId string
+
 // CallRoutesCreateAllowedCallerPayloadV2 Example: {"name":"Regulator duty desk","phone_number":"+15551234567"}
 type CallRoutesCreateAllowedCallerPayloadV2 struct {
 	// Name Label for whose number this is
@@ -17675,8 +18705,29 @@ type CallRoutesCreateAllowedCallerPayloadV2 struct {
 	PhoneNumber string `json:"phone_number"`
 }
 
+// CallRoutesCreateAllowedCallerPayloadV3 Example: {"name":"Regulator duty desk","phone_number":"+15551234567"}
+type CallRoutesCreateAllowedCallerPayloadV3 struct {
+	// Name Label for whose number this is
+	//
+	// Example: Regulator duty desk
+	Name *string `json:"name,omitempty"`
+
+	// PhoneNumber The number to allow, in international format
+	//
+	// Example: +15551234567
+	PhoneNumber string `json:"phone_number"`
+}
+
 // CallRoutesCreateAllowedCallerResultV2 Example: {"allowed_caller":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}}
 type CallRoutesCreateAllowedCallerResultV2 struct {
+	// AllowedCaller A phone number allowed to reach a call route.
+	//
+	// Example: {"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}
+	AllowedCaller CallRouteAllowedCallerV2 `json:"allowed_caller"`
+}
+
+// CallRoutesCreateAllowedCallerResultV3 Example: {"allowed_caller":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}}
+type CallRoutesCreateAllowedCallerResultV3 struct {
 	// AllowedCaller A phone number allowed to reach a call route.
 	//
 	// Example: {"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}
@@ -17706,6 +18757,29 @@ type CallRoutesCreateOptionPayloadV2 struct {
 // Example: 1
 type CallRoutesCreateOptionPayloadV2Digit string
 
+// CallRoutesCreateOptionPayloadV3 Example: {"digit":"1","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}
+type CallRoutesCreateOptionPayloadV3 struct {
+	// Digit The keypad digit a caller presses to choose this option
+	//
+	// Example: 1
+	Digit CallRoutesCreateOptionPayloadV3Digit `json:"digit"`
+
+	// Path Who to page when a caller chooses this option
+	//
+	// Example: [{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}]
+	Path []CallRoutePathNodePayloadV3 `json:"path"`
+
+	// Prompt What we read out to offer this option, via text-to-speech in the route's language, exactly as written
+	//
+	// Example: For an urgent production outage, press 1
+	Prompt string `json:"prompt"`
+}
+
+// CallRoutesCreateOptionPayloadV3Digit The keypad digit a caller presses to choose this option
+//
+// Example: 1
+type CallRoutesCreateOptionPayloadV3Digit string
+
 // CallRoutesCreateOptionResultV2 Example: {"option":{"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}}
 type CallRoutesCreateOptionResultV2 struct {
 	// Option One entry in a call route's phone-tree menu: the digit a caller presses, the
@@ -17715,8 +18789,23 @@ type CallRoutesCreateOptionResultV2 struct {
 	Option CallRouteOptionV2 `json:"option"`
 }
 
+// CallRoutesCreateOptionResultV3 Example: {"option":{"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}}
+type CallRoutesCreateOptionResultV3 struct {
+	// Option One entry in a call route's phone-tree menu: the digit a caller presses, the
+	// prompt we read out to offer it, and who we page when they choose it.
+	//
+	// Example: {"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}
+	Option CallRouteOptionV3 `json:"option"`
+}
+
 // CallRoutesListAllowedCallersResultV2 Example: {"allowed_callers":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}]}
 type CallRoutesListAllowedCallersResultV2 struct {
+	// AllowedCallers Example: [{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}]
+	AllowedCallers []CallRouteAllowedCallerV2 `json:"allowed_callers"`
+}
+
+// CallRoutesListAllowedCallersResultV3 Example: {"allowed_callers":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}]}
+type CallRoutesListAllowedCallersResultV3 struct {
 	// AllowedCallers Example: [{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}]
 	AllowedCallers []CallRouteAllowedCallerV2 `json:"allowed_callers"`
 }
@@ -17725,6 +18814,12 @@ type CallRoutesListAllowedCallersResultV2 struct {
 type CallRoutesListOptionsResultV2 struct {
 	// Options Example: [{"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}]
 	Options []CallRouteOptionV2 `json:"options"`
+}
+
+// CallRoutesListOptionsResultV3 Example: {"options":[{"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}]}
+type CallRoutesListOptionsResultV3 struct {
+	// Options Example: [{"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}]
+	Options []CallRouteOptionV3 `json:"options"`
 }
 
 // CallRoutesListResultV2 Example: {"call_routes":[{"allowed_callers":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}],"country_code":"US","created_at":"2021-08-17T13:28:57.801578Z","current_state":"active","custom_language":"en-US","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator urgent request","options":[{"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}],"path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"phone_number":"+15551234567","phone_number_type":"toll_free","responder_caller_id":"route_number","updated_at":"2021-08-17T13:28:57.801578Z","use_caller_allowlist":true}],"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}}
@@ -17736,8 +18831,25 @@ type CallRoutesListResultV2 struct {
 	PaginationMeta *PaginationMetaResultV2 `json:"pagination_meta,omitempty"`
 }
 
+// CallRoutesListResultV3 Example: {"call_routes":[{"allowed_callers":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}],"country_code":"US","created_at":"2021-08-17T13:28:57.801578Z","current_state":"active","custom_language":"en-US","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator urgent request","options":[{"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}],"path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"phone_number":"+15551234567","phone_number_type":"toll_free","responder_caller_id":"route_number","updated_at":"2021-08-17T13:28:57.801578Z","use_caller_allowlist":true}],"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}}
+type CallRoutesListResultV3 struct {
+	// CallRoutes Example: [{"allowed_callers":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}],"country_code":"US","created_at":"2021-08-17T13:28:57.801578Z","current_state":"active","custom_language":"en-US","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator urgent request","options":[{"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}],"path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"phone_number":"+15551234567","phone_number_type":"toll_free","responder_caller_id":"route_number","updated_at":"2021-08-17T13:28:57.801578Z","use_caller_allowlist":true}]
+	CallRoutes []CallRouteV3 `json:"call_routes"`
+
+	// PaginationMeta Example: {"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}
+	PaginationMeta *PaginationMetaResultV3 `json:"pagination_meta,omitempty"`
+}
+
 // CallRoutesShowAllowedCallerResultV2 Example: {"allowed_caller":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}}
 type CallRoutesShowAllowedCallerResultV2 struct {
+	// AllowedCaller A phone number allowed to reach a call route.
+	//
+	// Example: {"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}
+	AllowedCaller CallRouteAllowedCallerV2 `json:"allowed_caller"`
+}
+
+// CallRoutesShowAllowedCallerResultV3 Example: {"allowed_caller":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}}
+type CallRoutesShowAllowedCallerResultV3 struct {
 	// AllowedCaller A phone number allowed to reach a call route.
 	//
 	// Example: {"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}
@@ -17751,6 +18863,15 @@ type CallRoutesShowOptionResultV2 struct {
 	//
 	// Example: {"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}
 	Option CallRouteOptionV2 `json:"option"`
+}
+
+// CallRoutesShowOptionResultV3 Example: {"option":{"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}}
+type CallRoutesShowOptionResultV3 struct {
+	// Option One entry in a call route's phone-tree menu: the digit a caller presses, the
+	// prompt we read out to offer it, and who we page when they choose it.
+	//
+	// Example: {"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}
+	Option CallRouteOptionV3 `json:"option"`
 }
 
 // CallRoutesShowResultV2 Example: {"call_route":{"allowed_callers":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}],"country_code":"US","created_at":"2021-08-17T13:28:57.801578Z","current_state":"active","custom_language":"en-US","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator urgent request","options":[{"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}],"path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"phone_number":"+15551234567","phone_number_type":"toll_free","responder_caller_id":"route_number","updated_at":"2021-08-17T13:28:57.801578Z","use_caller_allowlist":true}}
@@ -17769,6 +18890,22 @@ type CallRoutesShowResultV2 struct {
 	CallRoute CallRouteV2 `json:"call_route"`
 }
 
+// CallRoutesShowResultV3 Example: {"call_route":{"allowed_callers":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}],"country_code":"US","created_at":"2021-08-17T13:28:57.801578Z","current_state":"active","custom_language":"en-US","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator urgent request","options":[{"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}],"path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"phone_number":"+15551234567","phone_number_type":"toll_free","responder_caller_id":"route_number","updated_at":"2021-08-17T13:28:57.801578Z","use_caller_allowlist":true}}
+type CallRoutesShowResultV3 struct {
+	// CallRoute A call route is a phone number your customers can call to reach whoever is
+	// on call, for an urgent support line or a regulator hotline.
+	//
+	// When a call comes in we work down the route's path, ringing each level's targets
+	// in turn until someone answers, then connect them to the caller. A trailing
+	// voicemail node records a message instead. Every call raises an alert, so calls
+	// can open incidents through an alert route.
+	//
+	// List and edit call routes here. Create and delete them in the dashboard.
+	//
+	// Example: {"allowed_callers":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}],"country_code":"US","created_at":"2021-08-17T13:28:57.801578Z","current_state":"active","custom_language":"en-US","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator urgent request","options":[{"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}],"path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"phone_number":"+15551234567","phone_number_type":"toll_free","responder_caller_id":"route_number","updated_at":"2021-08-17T13:28:57.801578Z","use_caller_allowlist":true}
+	CallRoute CallRouteV3 `json:"call_route"`
+}
+
 // CallRoutesUpdateAllowedCallerPayloadV2 Example: {"name":"Regulator duty desk","phone_number":"+15551234567"}
 type CallRoutesUpdateAllowedCallerPayloadV2 struct {
 	// Name Label for whose number this is
@@ -17782,8 +18919,29 @@ type CallRoutesUpdateAllowedCallerPayloadV2 struct {
 	PhoneNumber string `json:"phone_number"`
 }
 
+// CallRoutesUpdateAllowedCallerPayloadV3 Example: {"name":"Regulator duty desk","phone_number":"+15551234567"}
+type CallRoutesUpdateAllowedCallerPayloadV3 struct {
+	// Name Label for whose number this is
+	//
+	// Example: Regulator duty desk
+	Name *string `json:"name,omitempty"`
+
+	// PhoneNumber The number to allow, in international format
+	//
+	// Example: +15551234567
+	PhoneNumber string `json:"phone_number"`
+}
+
 // CallRoutesUpdateAllowedCallerResultV2 Example: {"allowed_caller":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}}
 type CallRoutesUpdateAllowedCallerResultV2 struct {
+	// AllowedCaller A phone number allowed to reach a call route.
+	//
+	// Example: {"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}
+	AllowedCaller CallRouteAllowedCallerV2 `json:"allowed_caller"`
+}
+
+// CallRoutesUpdateAllowedCallerResultV3 Example: {"allowed_caller":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}}
+type CallRoutesUpdateAllowedCallerResultV3 struct {
 	// AllowedCaller A phone number allowed to reach a call route.
 	//
 	// Example: {"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}
@@ -17813,6 +18971,29 @@ type CallRoutesUpdateOptionPayloadV2 struct {
 // Example: 1
 type CallRoutesUpdateOptionPayloadV2Digit string
 
+// CallRoutesUpdateOptionPayloadV3 Example: {"digit":"1","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}
+type CallRoutesUpdateOptionPayloadV3 struct {
+	// Digit The keypad digit a caller presses to choose this option
+	//
+	// Example: 1
+	Digit CallRoutesUpdateOptionPayloadV3Digit `json:"digit"`
+
+	// Path Who to page when a caller chooses this option
+	//
+	// Example: [{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}]
+	Path []CallRoutePathNodePayloadV3 `json:"path"`
+
+	// Prompt What we read out to offer this option, via text-to-speech in the route's language, exactly as written
+	//
+	// Example: For an urgent production outage, press 1
+	Prompt string `json:"prompt"`
+}
+
+// CallRoutesUpdateOptionPayloadV3Digit The keypad digit a caller presses to choose this option
+//
+// Example: 1
+type CallRoutesUpdateOptionPayloadV3Digit string
+
 // CallRoutesUpdateOptionResultV2 Example: {"option":{"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}}
 type CallRoutesUpdateOptionResultV2 struct {
 	// Option One entry in a call route's phone-tree menu: the digit a caller presses, the
@@ -17820,6 +19001,15 @@ type CallRoutesUpdateOptionResultV2 struct {
 	//
 	// Example: {"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}
 	Option CallRouteOptionV2 `json:"option"`
+}
+
+// CallRoutesUpdateOptionResultV3 Example: {"option":{"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}}
+type CallRoutesUpdateOptionResultV3 struct {
+	// Option One entry in a call route's phone-tree menu: the digit a caller presses, the
+	// prompt we read out to offer it, and who we page when they choose it.
+	//
+	// Example: {"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}
+	Option CallRouteOptionV3 `json:"option"`
 }
 
 // CallRoutesUpdatePayloadV2 Example: {"custom_language":"en-US","name":"Regulator urgent request","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"responder_caller_id":"route_number","use_caller_allowlist":true}
@@ -17864,6 +19054,48 @@ type CallRoutesUpdatePayloadV2CustomLanguage string
 // Example: route_number
 type CallRoutesUpdatePayloadV2ResponderCallerId string
 
+// CallRoutesUpdatePayloadV3 Example: {"custom_language":"en-US","name":"Regulator urgent request","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"responder_caller_id":"route_number","use_caller_allowlist":true}
+type CallRoutesUpdatePayloadV3 struct {
+	// CustomLanguage The language we speak voice prompts in, via text-to-speech
+	//
+	// Example: en-US
+	CustomLanguage CallRoutesUpdatePayloadV3CustomLanguage `json:"custom_language"`
+
+	// Name Name for this call route
+	//
+	// Example: Regulator urgent request
+	Name string `json:"name"`
+
+	// Path Who to page when a call comes in. Retires any phone-tree menu on the route; send an empty list to keep the menu.
+	//
+	// Example: [{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}]
+	Path []CallRoutePathNodePayloadV3 `json:"path"`
+
+	// ResponderCallerId Which number responders see when we call them:
+	// * route_number: this route's own number
+	// * oncall_number: an incident.io on-call number
+	//
+	// Example: route_number
+	ResponderCallerId CallRoutesUpdatePayloadV3ResponderCallerId `json:"responder_caller_id"`
+
+	// UseCallerAllowlist Whether to only answer calls from this route's allowed callers. Needs at least one allowed caller.
+	//
+	// Example: true
+	UseCallerAllowlist bool `json:"use_caller_allowlist"`
+}
+
+// CallRoutesUpdatePayloadV3CustomLanguage The language we speak voice prompts in, via text-to-speech
+//
+// Example: en-US
+type CallRoutesUpdatePayloadV3CustomLanguage string
+
+// CallRoutesUpdatePayloadV3ResponderCallerId Which number responders see when we call them:
+// * route_number: this route's own number
+// * oncall_number: an incident.io on-call number
+//
+// Example: route_number
+type CallRoutesUpdatePayloadV3ResponderCallerId string
+
 // CallRoutesUpdateResultV2 Example: {"call_route":{"allowed_callers":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}],"country_code":"US","created_at":"2021-08-17T13:28:57.801578Z","current_state":"active","custom_language":"en-US","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator urgent request","options":[{"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}],"path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"phone_number":"+15551234567","phone_number_type":"toll_free","responder_caller_id":"route_number","updated_at":"2021-08-17T13:28:57.801578Z","use_caller_allowlist":true}}
 type CallRoutesUpdateResultV2 struct {
 	// CallRoute A call route is a phone number your customers can call to reach whoever is
@@ -17878,6 +19110,22 @@ type CallRoutesUpdateResultV2 struct {
 	//
 	// Example: {"allowed_callers":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}],"country_code":"US","created_at":"2021-08-17T13:28:57.801578Z","current_state":"active","custom_language":"en-US","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator urgent request","options":[{"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}],"path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"phone_number":"+15551234567","phone_number_type":"toll_free","responder_caller_id":"route_number","updated_at":"2021-08-17T13:28:57.801578Z","use_caller_allowlist":true}
 	CallRoute CallRouteV2 `json:"call_route"`
+}
+
+// CallRoutesUpdateResultV3 Example: {"call_route":{"allowed_callers":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}],"country_code":"US","created_at":"2021-08-17T13:28:57.801578Z","current_state":"active","custom_language":"en-US","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator urgent request","options":[{"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}],"path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"phone_number":"+15551234567","phone_number_type":"toll_free","responder_caller_id":"route_number","updated_at":"2021-08-17T13:28:57.801578Z","use_caller_allowlist":true}}
+type CallRoutesUpdateResultV3 struct {
+	// CallRoute A call route is a phone number your customers can call to reach whoever is
+	// on call, for an urgent support line or a regulator hotline.
+	//
+	// When a call comes in we work down the route's path, ringing each level's targets
+	// in turn until someone answers, then connect them to the caller. A trailing
+	// voicemail node records a message instead. Every call raises an alert, so calls
+	// can open incidents through an alert route.
+	//
+	// List and edit call routes here. Create and delete them in the dashboard.
+	//
+	// Example: {"allowed_callers":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}],"country_code":"US","created_at":"2021-08-17T13:28:57.801578Z","current_state":"active","custom_language":"en-US","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator urgent request","options":[{"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}],"path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"phone_number":"+15551234567","phone_number_type":"toll_free","responder_caller_id":"route_number","updated_at":"2021-08-17T13:28:57.801578Z","use_caller_allowlist":true}
+	CallRoute CallRouteV3 `json:"call_route"`
 }
 
 // CallSessionV2 A call session is a single occurrence of a call that Scribe attended,
@@ -17963,6 +19211,19 @@ type CallTranscriptEntryV2 struct {
 //
 // Example: spoken
 type CallTranscriptEntryV2Medium string
+
+// CatalogBulkArchiveEntriesPayloadV3 Example: {"catalog_type_id":"01GW2G3V0S59R238FAHPDS1R66","entry_ids":["01GW2G3V0S59R238FAHPDS1R67","01GW2G3V0S59R238FAHPDS1R68"]}
+type CatalogBulkArchiveEntriesPayloadV3 struct {
+	// CatalogTypeId The ID of the catalog type that the entries belong to
+	//
+	// Example: 01GW2G3V0S59R238FAHPDS1R66
+	CatalogTypeId string `json:"catalog_type_id"`
+
+	// EntryIds The IDs of the entries to archive. Maximum 250 entries per request.
+	//
+	// Example: ["01GW2G3V0S59R238FAHPDS1R67","01GW2G3V0S59R238FAHPDS1R68"]
+	EntryIds []string `json:"entry_ids"`
+}
 
 // CatalogBulkUpdateEntriesPayloadV3 Example: {"catalog_type_id":"01GW2G3V0S59R238FAHPDS1R66","entries":[{"aliases":["abc123"],"attribute_values":{"abc123":{"array_value":[{"literal":"SEV123"}],"value":{"literal":"SEV123"}}},"custom_aliases":["primary-on-call"],"entry_id":"abc123","external_id":"abc123","name":"abc123","rank":1},{"aliases":["abc123"],"attribute_values":{"abc123":{"array_value":[{"literal":"SEV123"}],"value":{"literal":"SEV123"}}},"custom_aliases":["primary-on-call"],"entry_id":"abc123","external_id":"abc123","name":"abc123","rank":1}],"update_attributes":["01GW2G3V0S59R238FAHPDS1R66","01GW2G3V0S59R238FAHPDS1R67"]}
 type CatalogBulkUpdateEntriesPayloadV3 struct {
@@ -20806,8 +22067,39 @@ type EscalationPathNodeDelayV2 struct {
 // Example: active
 type EscalationPathNodeDelayV2DelayIntervalCondition string
 
+// EscalationPathNodeDelayV3 Example: {"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
+type EscalationPathNodeDelayV3 struct {
+	// DelayIntervalCondition If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+	//
+	// Example: active
+	DelayIntervalCondition *EscalationPathNodeDelayV3DelayIntervalCondition `json:"delay_interval_condition,omitempty"`
+
+	// DelaySeconds How long to delay before advancing to the next node in the path, in seconds
+	//
+	// Example: 300
+	DelaySeconds *int64 `json:"delay_seconds,omitempty"`
+
+	// DelayWeekdayIntervalConfigId If the delay is relative to a time window, this identifies which window it is relative to
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	DelayWeekdayIntervalConfigId *string `json:"delay_weekday_interval_config_id,omitempty"`
+}
+
+// EscalationPathNodeDelayV3DelayIntervalCondition If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+//
+// Example: active
+type EscalationPathNodeDelayV3DelayIntervalCondition string
+
 // EscalationPathNodeEscalationPathV2 Example: {"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
 type EscalationPathNodeEscalationPathV2 struct {
+	// EscalationPathId The ID of the escalation path to reassign to
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	EscalationPathId string `json:"escalation_path_id"`
+}
+
+// EscalationPathNodeEscalationPathV3 Example: {"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
+type EscalationPathNodeEscalationPathV3 struct {
 	// EscalationPathId The ID of the escalation path to reassign to
 	//
 	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
@@ -20832,6 +22124,24 @@ type EscalationPathNodeIfElsePayloadV2 struct {
 	ThenPath []EscalationPathNodePayloadV2 `json:"then_path"`
 }
 
+// EscalationPathNodeIfElsePayloadV3 Example: {"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}],"else_path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"then_path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]}
+type EscalationPathNodeIfElsePayloadV3 struct {
+	// Conditions Conditions on escalation.urgency that decide which branch to take
+	//
+	// Example: [{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]
+	Conditions *[]ConditionPayloadV3 `json:"conditions,omitempty"`
+
+	// ElsePath The nodes that form the levels if our condition is not met
+	//
+	// Example: [{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]
+	ElsePath []EscalationPathNodePayloadV3 `json:"else_path"`
+
+	// ThenPath The nodes that form the levels if our condition is met
+	//
+	// Example: [{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]
+	ThenPath []EscalationPathNodePayloadV3 `json:"then_path"`
+}
+
 // EscalationPathNodeIfElseV2 Example: {"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"then_path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]}
 type EscalationPathNodeIfElseV2 struct {
 	// Conditions The condition that defines which branch to take
@@ -20848,6 +22158,24 @@ type EscalationPathNodeIfElseV2 struct {
 	//
 	// Example: [{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]
 	ThenPath []EscalationPathNodeV2 `json:"then_path"`
+}
+
+// EscalationPathNodeIfElseV3 Example: {"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}],"else_path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"then_path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]}
+type EscalationPathNodeIfElseV3 struct {
+	// Conditions The conditions on the escalation's urgency that decide which branch to take
+	//
+	// Example: [{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}]
+	Conditions []ConditionV3 `json:"conditions"`
+
+	// ElsePath The nodes that form the levels if our condition is not met
+	//
+	// Example: [{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]
+	ElsePath []EscalationPathNodeV3 `json:"else_path"`
+
+	// ThenPath The nodes that form the levels if our condition is met
+	//
+	// Example: [{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]
+	ThenPath []EscalationPathNodeV3 `json:"then_path"`
 }
 
 // EscalationPathNodeLevelV2 Example: {"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
@@ -20893,6 +22221,50 @@ type EscalationPathNodeLevelV2AckMode string
 //
 // Example: active
 type EscalationPathNodeLevelV2TimeToAckIntervalCondition string
+
+// EscalationPathNodeLevelV3 Example: {"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
+type EscalationPathNodeLevelV3 struct {
+	// AckMode Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+	//
+	// Example: all
+	AckMode *EscalationPathNodeLevelV3AckMode `json:"ack_mode,omitempty"`
+
+	// RetryConfig Example: {"attempts":3,"interval_seconds":300}
+	RetryConfig *EscalationPathRetryConfigV3 `json:"retry_config,omitempty"`
+
+	// RoundRobinConfig Example: {"enabled":false,"rotate_after_seconds":120}
+	RoundRobinConfig *EscalationPathRoundRobinConfigV3 `json:"round_robin_config,omitempty"`
+
+	// Targets The targets (users or schedules) for this level
+	//
+	// Example: [{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]
+	Targets []EscalationPathTargetV3 `json:"targets"`
+
+	// TimeToAckIntervalCondition If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+	//
+	// Example: active
+	TimeToAckIntervalCondition *EscalationPathNodeLevelV3TimeToAckIntervalCondition `json:"time_to_ack_interval_condition,omitempty"`
+
+	// TimeToAckSeconds How long should we wait for this level to acknowledge before proceeding to the next node in the path?
+	//
+	// Example: 1800
+	TimeToAckSeconds *int64 `json:"time_to_ack_seconds,omitempty"`
+
+	// TimeToAckWeekdayIntervalConfigId If the time to ack is relative to a time window, this identifies which window it is relative to
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	TimeToAckWeekdayIntervalConfigId *string `json:"time_to_ack_weekday_interval_config_id,omitempty"`
+}
+
+// EscalationPathNodeLevelV3AckMode Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+//
+// Example: all
+type EscalationPathNodeLevelV3AckMode string
+
+// EscalationPathNodeLevelV3TimeToAckIntervalCondition If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+//
+// Example: active
+type EscalationPathNodeLevelV3TimeToAckIntervalCondition string
 
 // EscalationPathNodeLevelWithBindingPayloadV2 Example: {"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
 type EscalationPathNodeLevelWithBindingPayloadV2 struct {
@@ -21010,6 +22382,34 @@ type EscalationPathNodeNotifyChannelV2 struct {
 // Example: active
 type EscalationPathNodeNotifyChannelV2TimeToAckIntervalCondition string
 
+// EscalationPathNodeNotifyChannelV3 Example: {"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
+type EscalationPathNodeNotifyChannelV3 struct {
+	// Targets The targets (Slack channels) for this level
+	//
+	// Example: [{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}]
+	Targets []EscalationPathTargetV3 `json:"targets"`
+
+	// TimeToAckIntervalCondition If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+	//
+	// Example: active
+	TimeToAckIntervalCondition *EscalationPathNodeNotifyChannelV3TimeToAckIntervalCondition `json:"time_to_ack_interval_condition,omitempty"`
+
+	// TimeToAckSeconds How long should we wait for this level to acknowledge before moving on to the next node in the path?
+	//
+	// Example: 1800
+	TimeToAckSeconds *int64 `json:"time_to_ack_seconds,omitempty"`
+
+	// TimeToAckWeekdayIntervalConfigId If the time to ack is relative to a time window, this identifies which window it is relative to
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	TimeToAckWeekdayIntervalConfigId *string `json:"time_to_ack_weekday_interval_config_id,omitempty"`
+}
+
+// EscalationPathNodeNotifyChannelV3TimeToAckIntervalCondition If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+//
+// Example: active
+type EscalationPathNodeNotifyChannelV3TimeToAckIntervalCondition string
+
 // EscalationPathNodeNotifyChannelWithBindingPayloadV2 Example: {"targets":[{"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
 type EscalationPathNodeNotifyChannelWithBindingPayloadV2 struct {
 	// Targets The channels to notify, each concrete or a parameter binding.
@@ -21118,8 +22518,73 @@ type EscalationPathNodePayloadV2 struct {
 // Example: if_else
 type EscalationPathNodePayloadV2Type string
 
+// EscalationPathNodePayloadV3 Example: {"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}
+type EscalationPathNodePayloadV3 struct {
+	// Delay Example: {"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
+	Delay *EscalationPathNodeDelayV3 `json:"delay,omitempty"`
+
+	// EscalationPath Example: {"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
+	EscalationPath *EscalationPathNodeEscalationPathV3 `json:"escalation_path,omitempty"`
+
+	// Id An ID for this node, unique within the escalation path.
+	//
+	// This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	Id string `json:"id"`
+
+	// IfElse Example: {"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}],"else_path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"then_path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]}
+	IfElse *EscalationPathNodeIfElsePayloadV3 `json:"if_else,omitempty"`
+
+	// Level Example: {"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
+	Level *EscalationPathNodeLevelV3 `json:"level,omitempty"`
+
+	// NotifyChannel Example: {"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
+	NotifyChannel *EscalationPathNodeNotifyChannelV3 `json:"notify_channel,omitempty"`
+
+	// Repeat Example: {"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"}
+	Repeat *EscalationPathNodeRepeatV3 `json:"repeat,omitempty"`
+
+	// Type The type of this node. Available types are:
+	// * level: A set of targets (users or schedules) that should be paged, either all at once, or with a round-robin configuration.
+	// * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
+	// * if_else: Branch the escalation based on a set of conditions.
+	// * repeat: Go back to a previous node and repeat the logic from there.
+	// * delay: Pause the escalation for a configured duration before advancing to the next node.
+	// * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
+	// * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
+	//
+	// Example: if_else
+	Type EscalationPathNodePayloadV3Type `json:"type"`
+}
+
+// EscalationPathNodePayloadV3Type The type of this node. Available types are:
+// * level: A set of targets (users or schedules) that should be paged, either all at once, or with a round-robin configuration.
+// * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
+// * if_else: Branch the escalation based on a set of conditions.
+// * repeat: Go back to a previous node and repeat the logic from there.
+// * delay: Pause the escalation for a configured duration before advancing to the next node.
+// * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
+// * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
+//
+// Example: if_else
+type EscalationPathNodePayloadV3Type string
+
 // EscalationPathNodeRepeatV2 Example: {"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"}
 type EscalationPathNodeRepeatV2 struct {
+	// RepeatTimes How many times to repeat these nodes
+	//
+	// Example: 3
+	RepeatTimes int64 `json:"repeat_times"`
+
+	// ToNode Which node ID we begin repeating from.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	ToNode string `json:"to_node"`
+}
+
+// EscalationPathNodeRepeatV3 Example: {"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"}
+type EscalationPathNodeRepeatV3 struct {
 	// RepeatTimes How many times to repeat these nodes
 	//
 	// Example: 3
@@ -21183,8 +22648,73 @@ type EscalationPathNodeV2 struct {
 // Example: if_else
 type EscalationPathNodeV2Type string
 
+// EscalationPathNodeV3 Example: {"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}
+type EscalationPathNodeV3 struct {
+	// Delay Example: {"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
+	Delay *EscalationPathNodeDelayV3 `json:"delay,omitempty"`
+
+	// EscalationPath Example: {"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
+	EscalationPath *EscalationPathNodeEscalationPathV3 `json:"escalation_path,omitempty"`
+
+	// Id An ID for this node, unique within the escalation path.
+	//
+	// This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	Id string `json:"id"`
+
+	// IfElse Example: {"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}],"else_path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"then_path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]}
+	IfElse *EscalationPathNodeIfElseV3 `json:"if_else,omitempty"`
+
+	// Level Example: {"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
+	Level *EscalationPathNodeLevelV3 `json:"level,omitempty"`
+
+	// NotifyChannel Example: {"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
+	NotifyChannel *EscalationPathNodeNotifyChannelV3 `json:"notify_channel,omitempty"`
+
+	// Repeat Example: {"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"}
+	Repeat *EscalationPathNodeRepeatV3 `json:"repeat,omitempty"`
+
+	// Type The type of this node. Available types are:
+	// * level: A set of targets (users or schedules) that should be paged, either all at once, or with a round-robin configuration.
+	// * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
+	// * if_else: Branch the escalation based on a set of conditions.
+	// * repeat: Go back to a previous node and repeat the logic from there.
+	// * delay: Pause the escalation for a configured duration before advancing to the next node.
+	// * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
+	// * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
+	//
+	// Example: if_else
+	Type EscalationPathNodeV3Type `json:"type"`
+}
+
+// EscalationPathNodeV3Type The type of this node. Available types are:
+// * level: A set of targets (users or schedules) that should be paged, either all at once, or with a round-robin configuration.
+// * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
+// * if_else: Branch the escalation based on a set of conditions.
+// * repeat: Go back to a previous node and repeat the logic from there.
+// * delay: Pause the escalation for a configured duration before advancing to the next node.
+// * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
+// * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
+//
+// Example: if_else
+type EscalationPathNodeV3Type string
+
 // EscalationPathRepeatConfigV2 Example: {"delay_repeat_on_activity":false,"repeat_after_seconds":1800}
 type EscalationPathRepeatConfigV2 struct {
+	// DelayRepeatOnActivity When true, incident activity resets the repeat timer.
+	//
+	// Example: false
+	DelayRepeatOnActivity bool `json:"delay_repeat_on_activity"`
+
+	// RepeatAfterSeconds Number of seconds we'll wait before repeating an escalation.
+	//
+	// Example: 1800
+	RepeatAfterSeconds int32 `json:"repeat_after_seconds"`
+}
+
+// EscalationPathRepeatConfigV3 Example: {"delay_repeat_on_activity":false,"repeat_after_seconds":1800}
+type EscalationPathRepeatConfigV3 struct {
 	// DelayRepeatOnActivity When true, incident activity resets the repeat timer.
 	//
 	// Example: false
@@ -21209,8 +22739,34 @@ type EscalationPathRetryConfigV2 struct {
 	IntervalSeconds int64 `json:"interval_seconds"`
 }
 
+// EscalationPathRetryConfigV3 Example: {"attempts":3,"interval_seconds":300}
+type EscalationPathRetryConfigV3 struct {
+	// Attempts The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+	//
+	// Example: 3
+	Attempts int64 `json:"attempts"`
+
+	// IntervalSeconds How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+	//
+	// Example: 300
+	IntervalSeconds int64 `json:"interval_seconds"`
+}
+
 // EscalationPathRoundRobinConfigV2 Example: {"enabled":false,"rotate_after_seconds":120}
 type EscalationPathRoundRobinConfigV2 struct {
+	// Enabled Whether round robin is enabled for this level
+	//
+	// Example: false
+	Enabled bool `json:"enabled"`
+
+	// RotateAfterSeconds How long should we wait before rotating to the next target in a round robin, if not set will stick with a single target per level.
+	//
+	// Example: 120
+	RotateAfterSeconds *int64 `json:"rotate_after_seconds,omitempty"`
+}
+
+// EscalationPathRoundRobinConfigV3 Example: {"enabled":false,"rotate_after_seconds":120}
+type EscalationPathRoundRobinConfigV3 struct {
 	// Enabled Whether round robin is enabled for this level
 	//
 	// Example: false
@@ -21264,6 +22820,49 @@ type EscalationPathTargetV2Type string
 //
 // Example: high
 type EscalationPathTargetV2Urgency string
+
+// EscalationPathTargetV3 Example: {"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}
+type EscalationPathTargetV3 struct {
+	// Id Uniquely identifies an entity of this type
+	//
+	// Example: lawrencejones
+	Id string `json:"id"`
+
+	// InterruptionLevel How we interrupt this target when we notify them: high or low
+	//
+	// Example: high
+	InterruptionLevel EscalationPathTargetV3InterruptionLevel `json:"interruption_level"`
+
+	// ScheduleMode Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+	//
+	// Example: currently_on_call
+	ScheduleMode *EscalationPathTargetV3ScheduleMode `json:"schedule_mode,omitempty"`
+
+	// SelectedRotaId For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	SelectedRotaId *string `json:"selected_rota_id,omitempty"`
+
+	// Type Controls what type of entity this target identifies, such as EscalationPolicy or User
+	//
+	// Example: schedule
+	Type EscalationPathTargetV3Type `json:"type"`
+}
+
+// EscalationPathTargetV3InterruptionLevel How we interrupt this target when we notify them: high or low
+//
+// Example: high
+type EscalationPathTargetV3InterruptionLevel string
+
+// EscalationPathTargetV3ScheduleMode Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+//
+// Example: currently_on_call
+type EscalationPathTargetV3ScheduleMode string
+
+// EscalationPathTargetV3Type Controls what type of entity this target identifies, such as EscalationPolicy or User
+//
+// Example: schedule
+type EscalationPathTargetV3Type string
 
 // EscalationPathTargetWithBindingPayloadV2 Example: {"binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}
 type EscalationPathTargetWithBindingPayloadV2 struct {
@@ -21791,8 +23390,82 @@ type EscalationPathV2 struct {
 // Example: templated
 type EscalationPathV2Kind string
 
+// EscalationPathV3 Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
+type EscalationPathV3 struct {
+	// CurrentResponders Users who are currently on-call for this escalation path
+	//
+	// Example: [{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","slack_user_id":"U02AYNF2XJM"}]
+	CurrentResponders *[]UserV3 `json:"current_responders,omitempty"`
+
+	// Id Unique identifier for this escalation path.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	Id string `json:"id"`
+
+	// Kind Whether this path carries its own nodes, or is built from an escalation path template.
+	//
+	// Example: templated
+	Kind EscalationPathV3Kind `json:"kind"`
+
+	// Name The name of this escalation path, for the user's reference.
+	//
+	// Example: Urgent Support
+	Name string `json:"name"`
+
+	// ParamBindings For a templated path, the values bound to the template's declared parameters, keyed by parameter name.
+	//
+	// Example: {"abc123":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
+	ParamBindings *map[string]EngineParamBindingV3 `json:"param_bindings,omitempty"`
+
+	// Path The nodes that form the levels and branches of this escalation path. Empty for a templated path, which takes them from its template.
+	//
+	// Example: [{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]
+	Path []EscalationPathNodeV3 `json:"path"`
+
+	// RepeatConfig Example: {"delay_repeat_on_activity":false,"repeat_after_seconds":1800}
+	RepeatConfig *EscalationPathRepeatConfigV3 `json:"repeat_config,omitempty"`
+
+	// TeamIds IDs of the teams that own this escalation path. This will automatically sync escalation paths with the right teams in Catalog. If you have an escalation paths attribute on your Teams, this attribute is required.
+	//
+	// Example: ["01JPQA75EPNEES4479P16P4XAB"]
+	TeamIds []string `json:"team_ids"`
+
+	// TemplateId For a templated path, the template it is built from.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	TemplateId *string `json:"template_id,omitempty"`
+
+	// WorkingHours The working hours for this escalation path. Absent for a templated path, which takes them from its template.
+	//
+	// Example: [{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]
+	WorkingHours *[]WeekdayIntervalConfigV3 `json:"working_hours,omitempty"`
+}
+
+// EscalationPathV3Kind Whether this path carries its own nodes, or is built from an escalation path template.
+//
+// Example: templated
+type EscalationPathV3Kind string
+
 // EscalationPathValidateWarningV2 Example: {"detail":"When the condition matches, escalation stops here instead of continuing.","path":"path.0.if_else.then_path","summary":"if_else has an empty \"then\" branch"}
 type EscalationPathValidateWarningV2 struct {
+	// Detail The full explanation of what this means for the escalation
+	//
+	// Example: When the condition matches, escalation stops here instead of continuing.
+	Detail string `json:"detail"`
+
+	// Path The part of the payload this is about, so a client can point at the value that caused it
+	//
+	// Example: path.0.if_else.then_path
+	Path string `json:"path"`
+
+	// Summary A single line naming the problem
+	//
+	// Example: if_else has an empty "then" branch
+	Summary string `json:"summary"`
+}
+
+// EscalationPathValidateWarningV3 Example: {"detail":"When the condition matches, escalation stops here instead of continuing.","path":"path.0.if_else.then_path","summary":"if_else has an empty \"then\" branch"}
+type EscalationPathValidateWarningV3 struct {
 	// Detail The full explanation of what this means for the escalation
 	//
 	// Example: When the condition matches, escalation stops here instead of continuing.
@@ -21817,10 +23490,24 @@ type EscalationPathsCreateExternalPayloadV2 struct {
 	ExternalEscalationPathId string `json:"external_escalation_path_id"`
 }
 
+// EscalationPathsCreateExternalPayloadV3 Example: {"external_escalation_path_id":"01G0J1EXE7AXZ2C93K61WBPYEH"}
+type EscalationPathsCreateExternalPayloadV3 struct {
+	// ExternalEscalationPathId ID of the external escalation path to import
+	//
+	// Example: 01G0J1EXE7AXZ2C93K61WBPYEH
+	ExternalEscalationPathId string `json:"external_escalation_path_id"`
+}
+
 // EscalationPathsCreateExternalResultV2 Example: {"escalation_path":{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}}
 type EscalationPathsCreateExternalResultV2 struct {
 	// EscalationPath Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
 	EscalationPath EscalationPathV2 `json:"escalation_path"`
+}
+
+// EscalationPathsCreateExternalResultV3 Example: {"escalation_path":{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}}
+type EscalationPathsCreateExternalResultV3 struct {
+	// EscalationPath Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
+	EscalationPath EscalationPathV3 `json:"escalation_path"`
 }
 
 // EscalationPathsCreatePayloadV2 Example: {"kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
@@ -21869,10 +23556,62 @@ type EscalationPathsCreatePayloadV2 struct {
 // Example: templated
 type EscalationPathsCreatePayloadV2Kind string
 
+// EscalationPathsCreatePayloadV3 Example: {"kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
+type EscalationPathsCreatePayloadV3 struct {
+	// Kind Whether this path carries its own nodes, or is built from an escalation path template.
+	//
+	// Example: templated
+	Kind *EscalationPathsCreatePayloadV3Kind `json:"kind,omitempty"`
+
+	// Name The name of this escalation path, for the user's reference.
+	//
+	// Example: Urgent Support
+	Name string `json:"name"`
+
+	// ParamBindings For a templated path, the values to bind to the template's declared parameters, keyed by parameter name.
+	//
+	// Example: {"abc123":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
+	ParamBindings *map[string]EngineParamBindingPayloadV3 `json:"param_bindings,omitempty"`
+
+	// Path The nodes that form the levels and branches of this escalation path.
+	//
+	// Example: [{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]
+	Path []EscalationPathNodePayloadV3 `json:"path"`
+
+	// RepeatConfig Example: {"delay_repeat_on_activity":false,"repeat_after_seconds":1800}
+	RepeatConfig *EscalationPathRepeatConfigV3 `json:"repeat_config,omitempty"`
+
+	// TeamIds IDs of the teams that own this escalation path. This will automatically sync escalation paths with the right teams in Catalog. If you have an escalation paths attribute on your Teams, this attribute is required.
+	//
+	// Example: ["01JPQA75EPNEES4479P16P4XAB"]
+	TeamIds *[]string `json:"team_ids,omitempty"`
+
+	// TemplateId For a templated path, the template to build it from. Required when kind is templated.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	TemplateId *string `json:"template_id,omitempty"`
+
+	// WorkingHours The working hours for this escalation path.
+	//
+	// Example: [{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]
+	WorkingHours *[]WeekdayIntervalConfigV3 `json:"working_hours,omitempty"`
+}
+
+// EscalationPathsCreatePayloadV3Kind Whether this path carries its own nodes, or is built from an escalation path template.
+//
+// Example: templated
+type EscalationPathsCreatePayloadV3Kind string
+
 // EscalationPathsCreateResultV2 Example: {"escalation_path":{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}}
 type EscalationPathsCreateResultV2 struct {
 	// EscalationPath Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
 	EscalationPath EscalationPathV2 `json:"escalation_path"`
+}
+
+// EscalationPathsCreateResultV3 Example: {"escalation_path":{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}}
+type EscalationPathsCreateResultV3 struct {
+	// EscalationPath Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
+	EscalationPath EscalationPathV3 `json:"escalation_path"`
 }
 
 // EscalationPathsListExternalResultV2 Example: {"external_escalation_paths":[{"created_native_escalation_path_id":"01G0J1EXE7AXZ2C93K61WBPYEH","external_provider":"pagerduty","external_provider_id":"PO8107X","id":"01G0J1EXE7AXZ2C93K61WBPYEH","import_unavailable_reasons":["too_many_repeats"],"import_warnings":["groups_skipped"],"name":"Primary On-Call","referenced_external_schedules":[{"created_native_schedule_id":"01G0J1EXE7AXZ2C93K61WBPYEH","external_provider_id":"PO8107X","id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Primary Schedule","native_config_unavailable_reason":"abc123"}],"unresolvable_users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}]}],"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}}
@@ -21884,6 +23623,15 @@ type EscalationPathsListExternalResultV2 struct {
 	PaginationMeta PaginationMetaResultV2 `json:"pagination_meta"`
 }
 
+// EscalationPathsListExternalResultV3 Example: {"external_escalation_paths":[{"created_native_escalation_path_id":"01G0J1EXE7AXZ2C93K61WBPYEH","external_provider":"pagerduty","external_provider_id":"PO8107X","id":"01G0J1EXE7AXZ2C93K61WBPYEH","import_unavailable_reasons":["too_many_repeats"],"import_warnings":["groups_skipped"],"name":"Primary On-Call","referenced_external_schedules":[{"created_native_schedule_id":"01G0J1EXE7AXZ2C93K61WBPYEH","external_provider_id":"PO8107X","id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Primary Schedule","native_config_unavailable_reason":"abc123"}],"unresolvable_users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}]}],"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}}
+type EscalationPathsListExternalResultV3 struct {
+	// ExternalEscalationPaths Example: [{"created_native_escalation_path_id":"01G0J1EXE7AXZ2C93K61WBPYEH","external_provider":"pagerduty","external_provider_id":"PO8107X","id":"01G0J1EXE7AXZ2C93K61WBPYEH","import_unavailable_reasons":["too_many_repeats"],"import_warnings":["groups_skipped"],"name":"Primary On-Call","referenced_external_schedules":[{"created_native_schedule_id":"01G0J1EXE7AXZ2C93K61WBPYEH","external_provider_id":"PO8107X","id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Primary Schedule","native_config_unavailable_reason":"abc123"}],"unresolvable_users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}]}]
+	ExternalEscalationPaths []ExternalEscalationPathV2 `json:"external_escalation_paths"`
+
+	// PaginationMeta Example: {"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}
+	PaginationMeta PaginationMetaResultV3 `json:"pagination_meta"`
+}
+
 // EscalationPathsListResultV2 Example: {"escalation_paths":[{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}],"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}}
 type EscalationPathsListResultV2 struct {
 	// EscalationPaths Example: [{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}]
@@ -21893,10 +23641,25 @@ type EscalationPathsListResultV2 struct {
 	PaginationMeta PaginationMetaResultV2 `json:"pagination_meta"`
 }
 
+// EscalationPathsListResultV3 Example: {"escalation_paths":[{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}],"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}}
+type EscalationPathsListResultV3 struct {
+	// EscalationPaths Example: [{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}]
+	EscalationPaths []EscalationPathV3 `json:"escalation_paths"`
+
+	// PaginationMeta Example: {"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}
+	PaginationMeta PaginationMetaResultV3 `json:"pagination_meta"`
+}
+
 // EscalationPathsShowResultV2 Example: {"escalation_path":{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}}
 type EscalationPathsShowResultV2 struct {
 	// EscalationPath Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
 	EscalationPath EscalationPathV2 `json:"escalation_path"`
+}
+
+// EscalationPathsShowResultV3 Example: {"escalation_path":{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}}
+type EscalationPathsShowResultV3 struct {
+	// EscalationPath Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
+	EscalationPath EscalationPathV3 `json:"escalation_path"`
 }
 
 // EscalationPathsUpdatePayloadV2 Example: {"kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
@@ -21945,10 +23708,62 @@ type EscalationPathsUpdatePayloadV2 struct {
 // Example: templated
 type EscalationPathsUpdatePayloadV2Kind string
 
+// EscalationPathsUpdatePayloadV3 Example: {"kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
+type EscalationPathsUpdatePayloadV3 struct {
+	// Kind Whether this path carries its own nodes, or is built from an escalation path template.
+	//
+	// Example: templated
+	Kind *EscalationPathsUpdatePayloadV3Kind `json:"kind,omitempty"`
+
+	// Name The name of this escalation path, for the user's reference.
+	//
+	// Example: Urgent Support
+	Name string `json:"name"`
+
+	// ParamBindings For a templated path, the values to bind to the template's declared parameters, keyed by parameter name.
+	//
+	// Example: {"abc123":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
+	ParamBindings *map[string]EngineParamBindingPayloadV3 `json:"param_bindings,omitempty"`
+
+	// Path The nodes that form the levels and branches of this escalation path.
+	//
+	// Example: [{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]
+	Path []EscalationPathNodePayloadV3 `json:"path"`
+
+	// RepeatConfig Example: {"delay_repeat_on_activity":false,"repeat_after_seconds":1800}
+	RepeatConfig *EscalationPathRepeatConfigV3 `json:"repeat_config,omitempty"`
+
+	// TeamIds IDs of the teams that own this escalation path. This will automatically sync escalation paths with the right teams in Catalog. If you have an escalation paths attribute on your Teams, this attribute is required.
+	//
+	// Example: ["01JPQA75EPNEES4479P16P4XAB"]
+	TeamIds *[]string `json:"team_ids,omitempty"`
+
+	// TemplateId For a templated path, the template to build it from. Required when kind is templated.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	TemplateId *string `json:"template_id,omitempty"`
+
+	// WorkingHours The working hours for this escalation path.
+	//
+	// Example: [{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]
+	WorkingHours *[]WeekdayIntervalConfigV3 `json:"working_hours,omitempty"`
+}
+
+// EscalationPathsUpdatePayloadV3Kind Whether this path carries its own nodes, or is built from an escalation path template.
+//
+// Example: templated
+type EscalationPathsUpdatePayloadV3Kind string
+
 // EscalationPathsUpdateResultV2 Example: {"escalation_path":{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}}
 type EscalationPathsUpdateResultV2 struct {
 	// EscalationPath Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
 	EscalationPath EscalationPathV2 `json:"escalation_path"`
+}
+
+// EscalationPathsUpdateResultV3 Example: {"escalation_path":{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}}
+type EscalationPathsUpdateResultV3 struct {
+	// EscalationPath Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","kind":"templated","name":"Urgent Support","param_bindings":{"abc123":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Priority","reference":"alert.priority"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
+	EscalationPath EscalationPathV3 `json:"escalation_path"`
 }
 
 // EscalationPathsValidatePayloadV2 Example: {"kind":"templated","param_bindings":{"abc123":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
@@ -21992,12 +23807,61 @@ type EscalationPathsValidatePayloadV2 struct {
 // Example: templated
 type EscalationPathsValidatePayloadV2Kind string
 
+// EscalationPathsValidatePayloadV3 Example: {"kind":"templated","param_bindings":{"abc123":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"template_id":"01FCNDV6P870EA6S7TK1DSYDG0","working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
+type EscalationPathsValidatePayloadV3 struct {
+	// Kind Whether this path carries its own nodes, or is built from an escalation path template.
+	//
+	// Example: templated
+	Kind *EscalationPathsValidatePayloadV3Kind `json:"kind,omitempty"`
+
+	// ParamBindings For a templated path, the values to bind to the template's declared parameters, keyed by parameter name.
+	//
+	// Example: {"abc123":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
+	ParamBindings *map[string]EngineParamBindingPayloadV3 `json:"param_bindings,omitempty"`
+
+	// Path The nodes that form the levels and branches of this escalation path.
+	//
+	// Example: [{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","interruption_level":"high","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]
+	Path []EscalationPathNodePayloadV3 `json:"path"`
+
+	// RepeatConfig Example: {"delay_repeat_on_activity":false,"repeat_after_seconds":1800}
+	RepeatConfig *EscalationPathRepeatConfigV3 `json:"repeat_config,omitempty"`
+
+	// TeamIds IDs of the teams that own this escalation path. This will automatically sync escalation paths with the right teams in Catalog. If you have an escalation paths attribute on your Teams, this attribute is required.
+	//
+	// Example: ["01JPQA75EPNEES4479P16P4XAB"]
+	TeamIds *[]string `json:"team_ids,omitempty"`
+
+	// TemplateId For a templated path, the template to build it from. Required when kind is templated.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	TemplateId *string `json:"template_id,omitempty"`
+
+	// WorkingHours The working hours for this escalation path.
+	//
+	// Example: [{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]
+	WorkingHours *[]WeekdayIntervalConfigV3 `json:"working_hours,omitempty"`
+}
+
+// EscalationPathsValidatePayloadV3Kind Whether this path carries its own nodes, or is built from an escalation path template.
+//
+// Example: templated
+type EscalationPathsValidatePayloadV3Kind string
+
 // EscalationPathsValidateResultV2 Example: {"warnings":[{"detail":"When the condition matches, escalation stops here instead of continuing.","path":"path.0.if_else.then_path","summary":"if_else has an empty \"then\" branch"}]}
 type EscalationPathsValidateResultV2 struct {
 	// Warnings Anything suspect about this config that isn't severe enough to reject it. Empty when there's nothing to say.
 	//
 	// Example: [{"detail":"When the condition matches, escalation stops here instead of continuing.","path":"path.0.if_else.then_path","summary":"if_else has an empty \"then\" branch"}]
 	Warnings []EscalationPathValidateWarningV2 `json:"warnings"`
+}
+
+// EscalationPathsValidateResultV3 Example: {"warnings":[{"detail":"When the condition matches, escalation stops here instead of continuing.","path":"path.0.if_else.then_path","summary":"if_else has an empty \"then\" branch"}]}
+type EscalationPathsValidateResultV3 struct {
+	// Warnings Anything suspect about this config that isn't severe enough to reject it. Empty when there's nothing to say.
+	//
+	// Example: [{"detail":"When the condition matches, escalation stops here instead of continuing.","path":"path.0.if_else.then_path","summary":"if_else has an empty \"then\" branch"}]
+	Warnings []EscalationPathValidateWarningV3 `json:"warnings"`
 }
 
 // EscalationPriorityV2 The priority associated with this escalation.
@@ -22200,8 +24064,24 @@ type EscalationsCheckEscalationPermissionsPayloadV2 struct {
 	UserIds []string `json:"user_ids"`
 }
 
+// EscalationsCheckEscalationPermissionsPayloadV3 Example: {"user_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"]}
+type EscalationsCheckEscalationPermissionsPayloadV3 struct {
+	// UserIds The IDs of the users to check response options for
+	//
+	// Example: ["01G0J1EXE7AXZ2C93K61WBPYEH"]
+	UserIds []string `json:"user_ids"`
+}
+
 // EscalationsCheckEscalationPermissionsResultV2 Example: {"response_options":[{"available_actions":["ack","nack","snooze"],"user_id":"01G0J1EXE7AXZ2C93K61WBPYEH"}]}
 type EscalationsCheckEscalationPermissionsResultV2 struct {
+	// ResponseOptions The response options available to each requested user, in the same order as the request.
+	//
+	// Example: [{"available_actions":["ack","nack","snooze"],"user_id":"01G0J1EXE7AXZ2C93K61WBPYEH"}]
+	ResponseOptions []EscalationUserResponseOptionsV2 `json:"response_options"`
+}
+
+// EscalationsCheckEscalationPermissionsResultV3 Example: {"response_options":[{"available_actions":["ack","nack","snooze"],"user_id":"01G0J1EXE7AXZ2C93K61WBPYEH"}]}
+type EscalationsCheckEscalationPermissionsResultV3 struct {
 	// ResponseOptions The response options available to each requested user, in the same order as the request.
 	//
 	// Example: [{"available_actions":["ack","nack","snooze"],"user_id":"01G0J1EXE7AXZ2C93K61WBPYEH"}]
@@ -22241,10 +24121,54 @@ type EscalationsCreatePayloadV2 struct {
 	UserIds *[]string `json:"user_ids,omitempty"`
 }
 
+// EscalationsCreatePayloadV3 Example: {"description":"Database CPU has been above 90% for 5 minutes","escalation_path_id":"01H0J1EXE7AXZ2C93K61WBPYEH","idempotency_key":"2024-01-15-abc123","incident_id":"01H0J1EXE7AXZ2C93K61WBPYEH","title":"Production database experiencing high CPU","urgency_id":"01H0J1EXE7AXZ2C93K61WBPYEH","user_ids":["01H0J1EXE7AXZ2C93K61WBPYEH","01H0J1EXE7AXZ2C93K61WBPYEI"]}
+type EscalationsCreatePayloadV3 struct {
+	// Description Additional details about the escalation
+	//
+	// Example: Database CPU has been above 90% for 5 minutes
+	Description *string `json:"description,omitempty"`
+
+	// EscalationPathId ID of the escalation path to follow
+	//
+	// Example: 01H0J1EXE7AXZ2C93K61WBPYEH
+	EscalationPathId *string `json:"escalation_path_id,omitempty"`
+
+	// IdempotencyKey Unique key to prevent duplicate escalations. If this key has already been used, the existing escalation will be returned.
+	//
+	// Example: 2024-01-15-abc123
+	IdempotencyKey string `json:"idempotency_key"`
+
+	// IncidentId ID of an incident to associate with this escalation. The linked incident will appear in the escalation's related_incidents field.
+	//
+	// Example: 01H0J1EXE7AXZ2C93K61WBPYEH
+	IncidentId *string `json:"incident_id,omitempty"`
+
+	// Title The title of the escalation. This message will be included in all notifications about this escalation.
+	//
+	// Example: Production database experiencing high CPU
+	Title string `json:"title"`
+
+	// UrgencyId ID of the escalation urgency to page at. Without it, the escalation pages at your most urgent escalation urgency.
+	//
+	// Example: 01H0J1EXE7AXZ2C93K61WBPYEH
+	UrgencyId *string `json:"urgency_id,omitempty"`
+
+	// UserIds IDs of users to escalate directly to
+	//
+	// Example: ["01H0J1EXE7AXZ2C93K61WBPYEH","01H0J1EXE7AXZ2C93K61WBPYEI"]
+	UserIds *[]string `json:"user_ids,omitempty"`
+}
+
 // EscalationsCreateResultV2 Example: {"escalation":{"created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"description":"Database CPU has been above 90% for 5 minutes","escalation_path_id":"01G0J1EXE7AXZ2C93K61WBPYEH","events":[{"channels":[{"microsoft_teams_channel_id":"abc123","microsoft_teams_team_id":"abc123","slack_channel_id":"abc123","slack_team_id":"abc123"}],"event":"entered_grace_period","id":"01G0J1EXE7AXZ2C93K61WBPYEH","occurred_at":"2021-08-17T13:28:57.801578Z","urgency":"high","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}]}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","priority":{"name":"P1"},"related_alerts":[{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}],"related_incidents":[{"external_id":123,"id":"01FDAG4SAP5TYPT98WGR2N7W91","name":"Our database is sad","reference":"INC-123","status_category":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}],"status":"pending","title":"Database CPU is high","updated_at":"2021-08-17T13:28:57.801578Z"}}
 type EscalationsCreateResultV2 struct {
 	// Escalation Example: {"created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"description":"Database CPU has been above 90% for 5 minutes","escalation_path_id":"01G0J1EXE7AXZ2C93K61WBPYEH","events":[{"channels":[{"microsoft_teams_channel_id":"abc123","microsoft_teams_team_id":"abc123","slack_channel_id":"abc123","slack_team_id":"abc123"}],"event":"entered_grace_period","id":"01G0J1EXE7AXZ2C93K61WBPYEH","occurred_at":"2021-08-17T13:28:57.801578Z","urgency":"high","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}]}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","priority":{"name":"P1"},"related_alerts":[{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}],"related_incidents":[{"external_id":123,"id":"01FDAG4SAP5TYPT98WGR2N7W91","name":"Our database is sad","reference":"INC-123","status_category":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}],"status":"pending","title":"Database CPU is high","updated_at":"2021-08-17T13:28:57.801578Z"}
 	Escalation EscalationV2 `json:"escalation"`
+}
+
+// EscalationsCreateResultV3 Example: {"escalation":{"created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"description":"Database CPU has been above 90% for 5 minutes","escalation_path_id":"01G0J1EXE7AXZ2C93K61WBPYEH","events":[{"channels":[{"microsoft_teams_channel_id":"abc123","microsoft_teams_team_id":"abc123","slack_channel_id":"abc123","slack_team_id":"abc123"}],"event":"entered_grace_period","id":"01G0J1EXE7AXZ2C93K61WBPYEH","interruption_level":"high","occurred_at":"2021-08-17T13:28:57.801578Z","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}]}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","related_alerts":[{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}],"related_incidents":[{"external_id":123,"id":"01FDAG4SAP5TYPT98WGR2N7W91","name":"Our database is sad","reference":"INC-123","status_category":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}],"status":"pending","title":"Database CPU is high","updated_at":"2021-08-17T13:28:57.801578Z","urgency":{"id":"01GW2G3V0S59R238FAHPDS1R66","name":"Urgent"}}}
+type EscalationsCreateResultV3 struct {
+	// Escalation Example: {"created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"description":"Database CPU has been above 90% for 5 minutes","escalation_path_id":"01G0J1EXE7AXZ2C93K61WBPYEH","events":[{"channels":[{"microsoft_teams_channel_id":"abc123","microsoft_teams_team_id":"abc123","slack_channel_id":"abc123","slack_team_id":"abc123"}],"event":"entered_grace_period","id":"01G0J1EXE7AXZ2C93K61WBPYEH","interruption_level":"high","occurred_at":"2021-08-17T13:28:57.801578Z","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}]}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","related_alerts":[{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}],"related_incidents":[{"external_id":123,"id":"01FDAG4SAP5TYPT98WGR2N7W91","name":"Our database is sad","reference":"INC-123","status_category":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}],"status":"pending","title":"Database CPU is high","updated_at":"2021-08-17T13:28:57.801578Z","urgency":{"id":"01GW2G3V0S59R238FAHPDS1R66","name":"Urgent"}}
+	Escalation EscalationV3 `json:"escalation"`
 }
 
 // EscalationsListResultV2 Example: {"escalations":[{"created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"description":"Database CPU has been above 90% for 5 minutes","escalation_path_id":"01G0J1EXE7AXZ2C93K61WBPYEH","events":[{"channels":[{"microsoft_teams_channel_id":"abc123","microsoft_teams_team_id":"abc123","slack_channel_id":"abc123","slack_team_id":"abc123"}],"event":"entered_grace_period","id":"01G0J1EXE7AXZ2C93K61WBPYEH","occurred_at":"2021-08-17T13:28:57.801578Z","urgency":"high","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}]}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","priority":{"name":"P1"},"related_alerts":[{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}],"related_incidents":[{"external_id":123,"id":"01FDAG4SAP5TYPT98WGR2N7W91","name":"Our database is sad","reference":"INC-123","status_category":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}],"status":"pending","title":"Database CPU is high","updated_at":"2021-08-17T13:28:57.801578Z"}],"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}}
@@ -22293,10 +24217,44 @@ type EscalationsReassignEscalationPayloadV2 struct {
 	UserIds *[]string `json:"user_ids,omitempty"`
 }
 
+// EscalationsReassignEscalationPayloadV3 Example: {"description":"Database CPU has been above 90% for 5 minutes","escalation_path_id":"01H0J1EXE7AXZ2C93K61WBPYEH","resolve_original":true,"title":"Production database experiencing high CPU","user_ids":["01H0J1EXE7AXZ2C93K61WBPYEH","01H0J1EXE7AXZ2C93K61WBPYEI"]}
+type EscalationsReassignEscalationPayloadV3 struct {
+	// Description Additional details about the new escalation. Defaults to the original's description.
+	//
+	// Example: Database CPU has been above 90% for 5 minutes
+	Description *string `json:"description,omitempty"`
+
+	// EscalationPathId ID of the escalation path to reassign to
+	//
+	// Example: 01H0J1EXE7AXZ2C93K61WBPYEH
+	EscalationPathId *string `json:"escalation_path_id,omitempty"`
+
+	// ResolveOriginal Whether to resolve the original escalation, stopping it paging its targets. Defaults to true.
+	//
+	// Example: true
+	ResolveOriginal *bool `json:"resolve_original,omitempty"`
+
+	// Title The title of the new escalation. Defaults to the original's title.
+	//
+	// Example: Production database experiencing high CPU
+	Title *string `json:"title,omitempty"`
+
+	// UserIds IDs of users to reassign directly to
+	//
+	// Example: ["01H0J1EXE7AXZ2C93K61WBPYEH","01H0J1EXE7AXZ2C93K61WBPYEI"]
+	UserIds *[]string `json:"user_ids,omitempty"`
+}
+
 // EscalationsReassignEscalationResultV2 Example: {"escalation":{"created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"description":"Database CPU has been above 90% for 5 minutes","escalation_path_id":"01G0J1EXE7AXZ2C93K61WBPYEH","events":[{"channels":[{"microsoft_teams_channel_id":"abc123","microsoft_teams_team_id":"abc123","slack_channel_id":"abc123","slack_team_id":"abc123"}],"event":"entered_grace_period","id":"01G0J1EXE7AXZ2C93K61WBPYEH","occurred_at":"2021-08-17T13:28:57.801578Z","urgency":"high","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}]}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","priority":{"name":"P1"},"related_alerts":[{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}],"related_incidents":[{"external_id":123,"id":"01FDAG4SAP5TYPT98WGR2N7W91","name":"Our database is sad","reference":"INC-123","status_category":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}],"status":"pending","title":"Database CPU is high","updated_at":"2021-08-17T13:28:57.801578Z"}}
 type EscalationsReassignEscalationResultV2 struct {
 	// Escalation Example: {"created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"description":"Database CPU has been above 90% for 5 minutes","escalation_path_id":"01G0J1EXE7AXZ2C93K61WBPYEH","events":[{"channels":[{"microsoft_teams_channel_id":"abc123","microsoft_teams_team_id":"abc123","slack_channel_id":"abc123","slack_team_id":"abc123"}],"event":"entered_grace_period","id":"01G0J1EXE7AXZ2C93K61WBPYEH","occurred_at":"2021-08-17T13:28:57.801578Z","urgency":"high","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}]}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","priority":{"name":"P1"},"related_alerts":[{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}],"related_incidents":[{"external_id":123,"id":"01FDAG4SAP5TYPT98WGR2N7W91","name":"Our database is sad","reference":"INC-123","status_category":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}],"status":"pending","title":"Database CPU is high","updated_at":"2021-08-17T13:28:57.801578Z"}
 	Escalation EscalationV2 `json:"escalation"`
+}
+
+// EscalationsReassignEscalationResultV3 Example: {"escalation":{"created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"description":"Database CPU has been above 90% for 5 minutes","escalation_path_id":"01G0J1EXE7AXZ2C93K61WBPYEH","events":[{"channels":[{"microsoft_teams_channel_id":"abc123","microsoft_teams_team_id":"abc123","slack_channel_id":"abc123","slack_team_id":"abc123"}],"event":"entered_grace_period","id":"01G0J1EXE7AXZ2C93K61WBPYEH","interruption_level":"high","occurred_at":"2021-08-17T13:28:57.801578Z","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}]}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","related_alerts":[{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}],"related_incidents":[{"external_id":123,"id":"01FDAG4SAP5TYPT98WGR2N7W91","name":"Our database is sad","reference":"INC-123","status_category":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}],"status":"pending","title":"Database CPU is high","updated_at":"2021-08-17T13:28:57.801578Z","urgency":{"id":"01GW2G3V0S59R238FAHPDS1R66","name":"Urgent"}}}
+type EscalationsReassignEscalationResultV3 struct {
+	// Escalation Example: {"created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"description":"Database CPU has been above 90% for 5 minutes","escalation_path_id":"01G0J1EXE7AXZ2C93K61WBPYEH","events":[{"channels":[{"microsoft_teams_channel_id":"abc123","microsoft_teams_team_id":"abc123","slack_channel_id":"abc123","slack_team_id":"abc123"}],"event":"entered_grace_period","id":"01G0J1EXE7AXZ2C93K61WBPYEH","interruption_level":"high","occurred_at":"2021-08-17T13:28:57.801578Z","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}]}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","related_alerts":[{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}],"related_incidents":[{"external_id":123,"id":"01FDAG4SAP5TYPT98WGR2N7W91","name":"Our database is sad","reference":"INC-123","status_category":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}],"status":"pending","title":"Database CPU is high","updated_at":"2021-08-17T13:28:57.801578Z","urgency":{"id":"01GW2G3V0S59R238FAHPDS1R66","name":"Urgent"}}
+	Escalation EscalationV3 `json:"escalation"`
 }
 
 // EscalationsRespondEscalationPayloadV2 Example: {"response":"ack","snooze_details":{"reason":"Waiting for deployment to complete","snooze_until":"2025-01-01T12:00:00Z"}}
@@ -22314,6 +24272,22 @@ type EscalationsRespondEscalationPayloadV2 struct {
 //
 // Example: ack
 type EscalationsRespondEscalationPayloadV2Response string
+
+// EscalationsRespondEscalationPayloadV3 Example: {"response":"ack","snooze_details":{"reason":"Waiting for deployment to complete","snooze_until":"2025-01-01T12:00:00Z"}}
+type EscalationsRespondEscalationPayloadV3 struct {
+	// Response Whether to acknowledge, decline or snooze the escalation
+	//
+	// Example: ack
+	Response EscalationsRespondEscalationPayloadV3Response `json:"response"`
+
+	// SnoozeDetails Example: {"reason":"Waiting for deployment to complete","snooze_until":"2025-01-01T12:00:00Z"}
+	SnoozeDetails *EscalationRespondSnoozeDetailsPayloadV2 `json:"snooze_details,omitempty"`
+}
+
+// EscalationsRespondEscalationPayloadV3Response Whether to acknowledge, decline or snooze the escalation
+//
+// Example: ack
+type EscalationsRespondEscalationPayloadV3Response string
 
 // EscalationsShowResultV2 Example: {"escalation":{"created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"description":"Database CPU has been above 90% for 5 minutes","escalation_path_id":"01G0J1EXE7AXZ2C93K61WBPYEH","events":[{"channels":[{"microsoft_teams_channel_id":"abc123","microsoft_teams_team_id":"abc123","slack_channel_id":"abc123","slack_team_id":"abc123"}],"event":"entered_grace_period","id":"01G0J1EXE7AXZ2C93K61WBPYEH","occurred_at":"2021-08-17T13:28:57.801578Z","urgency":"high","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}]}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","priority":{"name":"P1"},"related_alerts":[{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}],"related_incidents":[{"external_id":123,"id":"01FDAG4SAP5TYPT98WGR2N7W91","name":"Our database is sad","reference":"INC-123","status_category":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}],"status":"pending","title":"Database CPU is high","updated_at":"2021-08-17T13:28:57.801578Z"}}
 type EscalationsShowResultV2 struct {
@@ -33304,6 +35278,27 @@ type WeekdayIntervalConfigV2 struct {
 	WeekdayIntervals []WeekdayIntervalV2 `json:"weekday_intervals"`
 }
 
+// WeekdayIntervalConfigV3 Example: {"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}
+type WeekdayIntervalConfigV3 struct {
+	// Id The unique identifier for this set of working intervals
+	//
+	// Example: abc123
+	Id string `json:"id"`
+
+	// Name A human readable label for this set of working intervals
+	//
+	// Example: abc123
+	Name string `json:"name"`
+
+	// Timezone How to interpret all the intervals
+	//
+	// Example: abc123
+	Timezone string `json:"timezone"`
+
+	// WeekdayIntervals Example: [{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]
+	WeekdayIntervals []WeekdayIntervalV3 `json:"weekday_intervals"`
+}
+
 // WeekdayIntervalV2 Example: {"end_time":"17:00","start_time":"09:00","weekday":"monday"}
 type WeekdayIntervalV2 struct {
 	// EndTime End time of the interval, in 24hr format
@@ -33326,6 +35321,29 @@ type WeekdayIntervalV2 struct {
 //
 // Example: monday
 type WeekdayIntervalV2Weekday string
+
+// WeekdayIntervalV3 Example: {"end_time":"17:00","start_time":"09:00","weekday":"monday"}
+type WeekdayIntervalV3 struct {
+	// EndTime End time of the interval, in 24hr format
+	//
+	// Example: 17:00
+	EndTime string `json:"end_time"`
+
+	// StartTime Start time of the interval, in 24hr format
+	//
+	// Example: 09:00
+	StartTime string `json:"start_time"`
+
+	// Weekday Weekdays for use within an escalation path
+	//
+	// Example: monday
+	Weekday WeekdayIntervalV3Weekday `json:"weekday"`
+}
+
+// WeekdayIntervalV3Weekday Weekdays for use within an escalation path
+//
+// Example: monday
+type WeekdayIntervalV3Weekday string
 
 // WorkflowActorV2 Example: {"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}
 type WorkflowActorV2 struct {
@@ -35174,6 +37192,15 @@ type AlertSourcesV3DestroyAttributeParams struct {
 	ExpectedVersion *int64 `form:"expected_version,omitempty" json:"expected_version,omitempty"`
 }
 
+// CallRoutesV3ListParams defines parameters for CallRoutesV3List.
+type CallRoutesV3ListParams struct {
+	// PageSize Integer number of records to return
+	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// After A call route's ID. This endpoint will return a list of call routes after this ID in relation to the API response order.
+	After *string `form:"after,omitempty" json:"after,omitempty"`
+}
+
 // CatalogV3ListEntriesParams defines parameters for CatalogV3ListEntries.
 type CatalogV3ListEntriesParams struct {
 	// CatalogTypeId ID of this catalog type
@@ -35195,6 +37222,33 @@ type CatalogV3ListEntriesParams struct {
 type CatalogV3ShowEntryParams struct {
 	// Expand Whether to include details of all attribute links (forwards and backwards) within the response. Default behaviour (no query param) is to include only forward links. When expand is false, we only show attributes of the catalog entry itself.When expand is true, we show forward and backward links
 	Expand *bool `form:"expand,omitempty" json:"expand,omitempty"`
+}
+
+// EscalationPathsV3ListParams defines parameters for EscalationPathsV3List.
+type EscalationPathsV3ListParams struct {
+	// PageSize Integer number of records to return
+	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// After An record's ID. This endpoint will return a list of records after this ID in relation to the API response order.
+	After *string `form:"after,omitempty" json:"after,omitempty"`
+}
+
+// EscalationPathsV3ListExternalParams defines parameters for EscalationPathsV3ListExternal.
+type EscalationPathsV3ListExternalParams struct {
+	// PageSize Number of results to return per page
+	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// After An external escalation path's name. This endpoint will return results after this name in alphabetical order.
+	After *string `form:"after,omitempty" json:"after,omitempty"`
+
+	// Search Search query to filter results by name or external provider ID
+	Search *string `form:"search,omitempty" json:"search,omitempty"`
+
+	// ExternalId Filter results to the escalation path matching this external provider ID (e.g. a PagerDuty escalation policy ID)
+	ExternalId *string `form:"external_id,omitempty" json:"external_id,omitempty"`
+
+	// Imported Filter by whether the escalation path has already been imported into incident.io
+	Imported *bool `form:"imported,omitempty" json:"imported,omitempty"`
 }
 
 // EscalationsV3ListParams defines parameters for EscalationsV3List.
@@ -35788,8 +37842,26 @@ type AlertSourcesV3UpdateAttributeJSONRequestBody = AlertSourcesUpdateAttributeP
 // AlertSourcesV3UpdateJSONRequestBody defines body for AlertSourcesV3Update for application/json ContentType.
 type AlertSourcesV3UpdateJSONRequestBody = AlertSourcesUpdatePayloadV3
 
+// CallRoutesV3CreateAllowedCallerJSONRequestBody defines body for CallRoutesV3CreateAllowedCaller for application/json ContentType.
+type CallRoutesV3CreateAllowedCallerJSONRequestBody = CallRoutesCreateAllowedCallerPayloadV3
+
+// CallRoutesV3UpdateAllowedCallerJSONRequestBody defines body for CallRoutesV3UpdateAllowedCaller for application/json ContentType.
+type CallRoutesV3UpdateAllowedCallerJSONRequestBody = CallRoutesUpdateAllowedCallerPayloadV3
+
+// CallRoutesV3CreateOptionJSONRequestBody defines body for CallRoutesV3CreateOption for application/json ContentType.
+type CallRoutesV3CreateOptionJSONRequestBody = CallRoutesCreateOptionPayloadV3
+
+// CallRoutesV3UpdateOptionJSONRequestBody defines body for CallRoutesV3UpdateOption for application/json ContentType.
+type CallRoutesV3UpdateOptionJSONRequestBody = CallRoutesUpdateOptionPayloadV3
+
+// CallRoutesV3UpdateJSONRequestBody defines body for CallRoutesV3Update for application/json ContentType.
+type CallRoutesV3UpdateJSONRequestBody = CallRoutesUpdatePayloadV3
+
 // CatalogV3CreateEntryJSONRequestBody defines body for CatalogV3CreateEntry for application/json ContentType.
 type CatalogV3CreateEntryJSONRequestBody = CatalogCreateEntryPayloadV3
+
+// CatalogV3BulkArchiveEntriesJSONRequestBody defines body for CatalogV3BulkArchiveEntries for application/json ContentType.
+type CatalogV3BulkArchiveEntriesJSONRequestBody = CatalogBulkArchiveEntriesPayloadV3
 
 // CatalogV3BulkUpdateEntriesJSONRequestBody defines body for CatalogV3BulkUpdateEntries for application/json ContentType.
 type CatalogV3BulkUpdateEntriesJSONRequestBody = CatalogBulkUpdateEntriesPayloadV3
@@ -35805,6 +37877,30 @@ type CatalogV3UpdateTypeJSONRequestBody = CatalogUpdateTypePayloadV3
 
 // CatalogV3UpdateTypeSchemaJSONRequestBody defines body for CatalogV3UpdateTypeSchema for application/json ContentType.
 type CatalogV3UpdateTypeSchemaJSONRequestBody = CatalogUpdateTypeSchemaPayloadV3
+
+// EscalationPathsV3CreateJSONRequestBody defines body for EscalationPathsV3Create for application/json ContentType.
+type EscalationPathsV3CreateJSONRequestBody = EscalationPathsCreatePayloadV3
+
+// EscalationPathsV3ValidateJSONRequestBody defines body for EscalationPathsV3Validate for application/json ContentType.
+type EscalationPathsV3ValidateJSONRequestBody = EscalationPathsValidatePayloadV3
+
+// EscalationPathsV3CreateExternalJSONRequestBody defines body for EscalationPathsV3CreateExternal for application/json ContentType.
+type EscalationPathsV3CreateExternalJSONRequestBody = EscalationPathsCreateExternalPayloadV3
+
+// EscalationPathsV3UpdateJSONRequestBody defines body for EscalationPathsV3Update for application/json ContentType.
+type EscalationPathsV3UpdateJSONRequestBody = EscalationPathsUpdatePayloadV3
+
+// EscalationsV3CreateJSONRequestBody defines body for EscalationsV3Create for application/json ContentType.
+type EscalationsV3CreateJSONRequestBody = EscalationsCreatePayloadV3
+
+// EscalationsV3CheckEscalationPermissionsJSONRequestBody defines body for EscalationsV3CheckEscalationPermissions for application/json ContentType.
+type EscalationsV3CheckEscalationPermissionsJSONRequestBody = EscalationsCheckEscalationPermissionsPayloadV3
+
+// EscalationsV3ReassignEscalationJSONRequestBody defines body for EscalationsV3ReassignEscalation for application/json ContentType.
+type EscalationsV3ReassignEscalationJSONRequestBody = EscalationsReassignEscalationPayloadV3
+
+// EscalationsV3RespondEscalationJSONRequestBody defines body for EscalationsV3RespondEscalation for application/json ContentType.
+type EscalationsV3RespondEscalationJSONRequestBody = EscalationsRespondEscalationPayloadV3
 
 // FollowUpsV3CreateJSONRequestBody defines body for FollowUpsV3Create for application/json ContentType.
 type FollowUpsV3CreateJSONRequestBody = FollowUpsCreatePayloadV3
@@ -41693,6 +43789,180 @@ type ClientInterface interface {
 	// Corresponds with PUT /v3/alert_sources/{id} (the `AlertSourcesV3Update` operationId).
 	AlertSourcesV3Update(ctx context.Context, id string, body AlertSourcesV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// CallRoutesV3List List Call Routes V3
+	//
+	// List all call routes for this organisation.
+	//
+	// Corresponds with GET /v3/call_routes (the `CallRoutesV3List` operationId).
+	CallRoutesV3List(ctx context.Context, params *CallRoutesV3ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CallRoutesV3ListAllowedCallers ListAllowedCallers Call Routes V3
+	//
+	// List the numbers allowed to call a route.
+	//
+	// Corresponds with GET /v3/call_routes/{call_route_id}/allowed_callers (the `CallRoutesV3ListAllowedCallers` operationId).
+	CallRoutesV3ListAllowedCallers(ctx context.Context, callRouteId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CallRoutesV3CreateAllowedCallerWithBody CreateAllowedCaller Call Routes V3
+	//
+	// Allow a number to call this route.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v3/call_routes/{call_route_id}/allowed_callers (the `CallRoutesV3CreateAllowedCaller` operationId).
+	CallRoutesV3CreateAllowedCallerWithBody(ctx context.Context, callRouteId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CallRoutesV3CreateAllowedCaller CreateAllowedCaller Call Routes V3
+	//
+	// Allow a number to call this route.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v3/call_routes/{call_route_id}/allowed_callers (the `CallRoutesV3CreateAllowedCaller` operationId).
+	CallRoutesV3CreateAllowedCaller(ctx context.Context, callRouteId string, body CallRoutesV3CreateAllowedCallerJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CallRoutesV3DestroyAllowedCaller DestroyAllowedCaller Call Routes V3
+	//
+	// Stop allowing a number to call this route.
+	//
+	// A route that only answers its allowed callers must keep at least one, so turn
+	// use_caller_allowlist off before removing the last number.
+	//
+	// Corresponds with DELETE /v3/call_routes/{call_route_id}/allowed_callers/{id} (the `CallRoutesV3DestroyAllowedCaller` operationId).
+	CallRoutesV3DestroyAllowedCaller(ctx context.Context, callRouteId string, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CallRoutesV3ShowAllowedCaller ShowAllowedCaller Call Routes V3
+	//
+	// Show a single allowed caller.
+	//
+	// Corresponds with GET /v3/call_routes/{call_route_id}/allowed_callers/{id} (the `CallRoutesV3ShowAllowedCaller` operationId).
+	CallRoutesV3ShowAllowedCaller(ctx context.Context, callRouteId string, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CallRoutesV3UpdateAllowedCallerWithBody UpdateAllowedCaller Call Routes V3
+	//
+	// Replace an allowed caller's number and label.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PUT /v3/call_routes/{call_route_id}/allowed_callers/{id} (the `CallRoutesV3UpdateAllowedCaller` operationId).
+	CallRoutesV3UpdateAllowedCallerWithBody(ctx context.Context, callRouteId string, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CallRoutesV3UpdateAllowedCaller UpdateAllowedCaller Call Routes V3
+	//
+	// Replace an allowed caller's number and label.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PUT /v3/call_routes/{call_route_id}/allowed_callers/{id} (the `CallRoutesV3UpdateAllowedCaller` operationId).
+	CallRoutesV3UpdateAllowedCaller(ctx context.Context, callRouteId string, id string, body CallRoutesV3UpdateAllowedCallerJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CallRoutesV3ListOptions ListOptions Call Routes V3
+	//
+	// List a call route's phone-tree options, in the order callers hear them.
+	//
+	// Corresponds with GET /v3/call_routes/{call_route_id}/options (the `CallRoutesV3ListOptions` operationId).
+	CallRoutesV3ListOptions(ctx context.Context, callRouteId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CallRoutesV3CreateOptionWithBody CreateOption Call Routes V3
+	//
+	// Add an option to a call route's phone-tree menu.
+	//
+	// Callers hear the menu instead of being routed down the route's own path, so
+	// adding the first option clears that path. Every plan allows a single option. A
+	// menu of two or more options is not on every plan, so get in touch if you need
+	// one enabled.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v3/call_routes/{call_route_id}/options (the `CallRoutesV3CreateOption` operationId).
+	CallRoutesV3CreateOptionWithBody(ctx context.Context, callRouteId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CallRoutesV3CreateOption CreateOption Call Routes V3
+	//
+	// Add an option to a call route's phone-tree menu.
+	//
+	// Callers hear the menu instead of being routed down the route's own path, so
+	// adding the first option clears that path. Every plan allows a single option. A
+	// menu of two or more options is not on every plan, so get in touch if you need
+	// one enabled.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v3/call_routes/{call_route_id}/options (the `CallRoutesV3CreateOption` operationId).
+	CallRoutesV3CreateOption(ctx context.Context, callRouteId string, body CallRoutesV3CreateOptionJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CallRoutesV3DestroyOption DestroyOption Call Routes V3
+	//
+	// Remove an option from a call route's phone-tree menu.
+	//
+	// A route has to route calls somewhere, so give it a path before removing its last
+	// option.
+	//
+	// Corresponds with DELETE /v3/call_routes/{call_route_id}/options/{id} (the `CallRoutesV3DestroyOption` operationId).
+	CallRoutesV3DestroyOption(ctx context.Context, callRouteId string, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CallRoutesV3ShowOption ShowOption Call Routes V3
+	//
+	// Show a single phone-tree option.
+	//
+	// Corresponds with GET /v3/call_routes/{call_route_id}/options/{id} (the `CallRoutesV3ShowOption` operationId).
+	CallRoutesV3ShowOption(ctx context.Context, callRouteId string, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CallRoutesV3UpdateOptionWithBody UpdateOption Call Routes V3
+	//
+	// Replace a phone-tree option.
+	//
+	// Two live options can't share a digit, so moving an option onto a digit the menu
+	// already uses is rejected.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PUT /v3/call_routes/{call_route_id}/options/{id} (the `CallRoutesV3UpdateOption` operationId).
+	CallRoutesV3UpdateOptionWithBody(ctx context.Context, callRouteId string, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CallRoutesV3UpdateOption UpdateOption Call Routes V3
+	//
+	// Replace a phone-tree option.
+	//
+	// Two live options can't share a digit, so moving an option onto a digit the menu
+	// already uses is rejected.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PUT /v3/call_routes/{call_route_id}/options/{id} (the `CallRoutesV3UpdateOption` operationId).
+	CallRoutesV3UpdateOption(ctx context.Context, callRouteId string, id string, body CallRoutesV3UpdateOptionJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CallRoutesV3Show Show Call Routes V3
+	//
+	// Show a single call route.
+	//
+	// Corresponds with GET /v3/call_routes/{id} (the `CallRoutesV3Show` operationId).
+	CallRoutesV3Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CallRoutesV3UpdateWithBody Update Call Routes V3
+	//
+	// Replace a call route's configuration.
+	//
+	// Sending a path retires any phone-tree menu on the route. Send an empty path to
+	// keep the menu.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PUT /v3/call_routes/{id} (the `CallRoutesV3Update` operationId).
+	CallRoutesV3UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CallRoutesV3Update Update Call Routes V3
+	//
+	// Replace a call route's configuration.
+	//
+	// Sending a path retires any phone-tree menu on the route. Send an empty path to
+	// keep the menu.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PUT /v3/call_routes/{id} (the `CallRoutesV3Update` operationId).
+	CallRoutesV3Update(ctx context.Context, id string, body CallRoutesV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// CatalogV3ListEntries ListEntries Catalog V3
 	//
 	// List entries for a catalog type.
@@ -41721,6 +43991,28 @@ type ClientInterface interface {
 	//
 	// Corresponds with POST /v3/catalog_entries (the `CatalogV3CreateEntry` operationId).
 	CatalogV3CreateEntry(ctx context.Context, body CatalogV3CreateEntryJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CatalogV3BulkArchiveEntriesWithBody BulkArchiveEntries Catalog V3
+	//
+	// Archive up to 250 entries of one catalog type in a single request. This has the same effect as deleting each entry individually. This operation is atomic: if the request fails, no entries are archived.
+	//
+	// Entries that don't exist, are already archived, or belong to a different catalog type are skipped and don't fail the request. If any of the entries set attributes that you don't have permission to clear, the request fails with a 403 that lists those entries, and no entries are archived.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v3/catalog_entries/actions/bulk_archive (the `CatalogV3BulkArchiveEntries` operationId).
+	CatalogV3BulkArchiveEntriesWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CatalogV3BulkArchiveEntries BulkArchiveEntries Catalog V3
+	//
+	// Archive up to 250 entries of one catalog type in a single request. This has the same effect as deleting each entry individually. This operation is atomic: if the request fails, no entries are archived.
+	//
+	// Entries that don't exist, are already archived, or belong to a different catalog type are skipped and don't fail the request. If any of the entries set attributes that you don't have permission to clear, the request fails with a 403 that lists those entries, and no entries are archived.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v3/catalog_entries/actions/bulk_archive (the `CatalogV3BulkArchiveEntries` operationId).
+	CatalogV3BulkArchiveEntries(ctx context.Context, body CatalogV3BulkArchiveEntriesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// CatalogV3BulkUpdateEntriesWithBody BulkUpdateEntries Catalog V3
 	//
@@ -41872,6 +44164,172 @@ type ClientInterface interface {
 	// Corresponds with POST /v3/catalog_types/{id}/actions/update_schema (the `CatalogV3UpdateTypeSchema` operationId).
 	CatalogV3UpdateTypeSchema(ctx context.Context, id string, body CatalogV3UpdateTypeSchemaJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// EscalationPathsV3List List Escalation Paths V3
+	//
+	// List all escalation paths in your account.
+	//
+	// An escalation path is a series of steps that describe how a page should be escalated,
+	// represented as a graph, supporting conditional branches based on escalation urgency and
+	// working intervals.
+	//
+	// Corresponds with GET /v3/escalation_paths (the `EscalationPathsV3List` operationId).
+	EscalationPathsV3List(ctx context.Context, params *EscalationPathsV3ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// EscalationPathsV3CreateWithBody Create Escalation Paths V3
+	//
+	// Create an escalation path.
+	//
+	// If/else nodes can only branch on escalation.urgency, and their conditions compare against
+	// the IDs of your escalation urgencies.
+	//
+	// An escalation path is a series of steps that describe how a page should be escalated,
+	// represented as a graph, supporting conditional branches based on escalation urgency and
+	// working intervals.
+	//
+	// We recommend you create escalation paths in the incident.io dashboard where our path
+	// builder makes it easy to use conditions and visualise the path.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v3/escalation_paths (the `EscalationPathsV3Create` operationId).
+	EscalationPathsV3CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// EscalationPathsV3Create Create Escalation Paths V3
+	//
+	// Create an escalation path.
+	//
+	// If/else nodes can only branch on escalation.urgency, and their conditions compare against
+	// the IDs of your escalation urgencies.
+	//
+	// An escalation path is a series of steps that describe how a page should be escalated,
+	// represented as a graph, supporting conditional branches based on escalation urgency and
+	// working intervals.
+	//
+	// We recommend you create escalation paths in the incident.io dashboard where our path
+	// builder makes it easy to use conditions and visualise the path.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v3/escalation_paths (the `EscalationPathsV3Create` operationId).
+	EscalationPathsV3Create(ctx context.Context, body EscalationPathsV3CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// EscalationPathsV3ValidateWithBody Validate Escalation Paths V3
+	//
+	// Check whether an escalation path's config is valid, without creating or updating anything.
+	//
+	// If/else nodes can only branch on escalation.urgency, and their conditions compare against
+	// the IDs of your escalation urgencies.
+	//
+	// This runs the same checks creating or updating a path would, so a config this accepts is
+	// one those endpoints will accept. A config that's valid but has no practical effect comes
+	// back as a warning on a successful response. A client can show it without blocking.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v3/escalation_paths/actions/validate (the `EscalationPathsV3Validate` operationId).
+	EscalationPathsV3ValidateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// EscalationPathsV3Validate Validate Escalation Paths V3
+	//
+	// Check whether an escalation path's config is valid, without creating or updating anything.
+	//
+	// If/else nodes can only branch on escalation.urgency, and their conditions compare against
+	// the IDs of your escalation urgencies.
+	//
+	// This runs the same checks creating or updating a path would, so a config this accepts is
+	// one those endpoints will accept. A config that's valid but has no practical effect comes
+	// back as a warning on a successful response. A client can show it without blocking.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v3/escalation_paths/actions/validate (the `EscalationPathsV3Validate` operationId).
+	EscalationPathsV3Validate(ctx context.Context, body EscalationPathsV3ValidateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// EscalationPathsV3ListExternal ListExternal Escalation Paths V3
+	//
+	// List external escalation paths available for import from connected providers.
+	//
+	// This endpoint returns escalation paths from connected external providers (e.g. PagerDuty)
+	// that can be imported into incident.io. Each entry includes whether the path can be
+	// imported, and if not, why.
+	//
+	// Corresponds with GET /v3/escalation_paths/external (the `EscalationPathsV3ListExternal` operationId).
+	EscalationPathsV3ListExternal(ctx context.Context, params *EscalationPathsV3ListExternalParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// EscalationPathsV3CreateExternalWithBody CreateExternal Escalation Paths V3
+	//
+	// Import an external escalation path and its referenced schedules.
+	//
+	// Takes the ID of an external escalation path (as returned by the list endpoint) and
+	// imports it along with any referenced schedules that haven't already been imported.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v3/escalation_paths/external (the `EscalationPathsV3CreateExternal` operationId).
+	EscalationPathsV3CreateExternalWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// EscalationPathsV3CreateExternal CreateExternal Escalation Paths V3
+	//
+	// Import an external escalation path and its referenced schedules.
+	//
+	// Takes the ID of an external escalation path (as returned by the list endpoint) and
+	// imports it along with any referenced schedules that haven't already been imported.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v3/escalation_paths/external (the `EscalationPathsV3CreateExternal` operationId).
+	EscalationPathsV3CreateExternal(ctx context.Context, body EscalationPathsV3CreateExternalJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// EscalationPathsV3Destroy Destroy Escalation Paths V3
+	//
+	// Archives an escalation path.
+	//
+	// We recommend you create escalation paths in the incident.io dashboard where our path
+	// builder makes it easy to use conditions and visualise the path.
+	//
+	// Corresponds with DELETE /v3/escalation_paths/{id} (the `EscalationPathsV3Destroy` operationId).
+	EscalationPathsV3Destroy(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// EscalationPathsV3Show Show Escalation Paths V3
+	//
+	// Show an escalation path.
+	//
+	// We recommend you create escalation paths in the incident.io dashboard where our path
+	// builder makes it easy to use conditions and visualise the path.
+	//
+	// Corresponds with GET /v3/escalation_paths/{id} (the `EscalationPathsV3Show` operationId).
+	EscalationPathsV3Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// EscalationPathsV3UpdateWithBody Update Escalation Paths V3
+	//
+	// Updates an escalation path.
+	//
+	// If/else nodes can only branch on escalation.urgency, and their conditions compare against
+	// the IDs of your escalation urgencies.
+	//
+	// We recommend you create escalation paths in the incident.io dashboard where our path
+	// builder makes it easy to use conditions and visualise the path.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PUT /v3/escalation_paths/{id} (the `EscalationPathsV3Update` operationId).
+	EscalationPathsV3UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// EscalationPathsV3Update Update Escalation Paths V3
+	//
+	// Updates an escalation path.
+	//
+	// If/else nodes can only branch on escalation.urgency, and their conditions compare against
+	// the IDs of your escalation urgencies.
+	//
+	// We recommend you create escalation paths in the incident.io dashboard where our path
+	// builder makes it easy to use conditions and visualise the path.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PUT /v3/escalation_paths/{id} (the `EscalationPathsV3Update` operationId).
+	EscalationPathsV3Update(ctx context.Context, id string, body EscalationPathsV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// EscalationsV3List List Escalations V3
 	//
 	// List all escalations for your account.
@@ -41952,12 +44410,232 @@ type ClientInterface interface {
 	// Corresponds with GET /v3/escalations (the `EscalationsV3List` operationId).
 	EscalationsV3List(ctx context.Context, params *EscalationsV3ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// EscalationsV3CreateWithBody Create Escalations V3
+	//
+	// Create an escalation.
+	//
+	// An escalation pages people, either according to an escalation path, or directly to
+	// specific users. You must provide either an escalation_path_id OR user_ids, but not both.
+	//
+	// Each escalation pages at an escalation urgency. Set urgency_id to choose one. Without it,
+	// the escalation pages at your most urgent escalation urgency. An unknown or archived
+	// urgency_id is rejected.
+	//
+	// When escalating via an escalation path, the escalation will follow the configured path
+	// with its levels and timeouts.
+	//
+	// When escalating directly to users, they're notified at the urgency's default
+	// interruption level (high or low), based on their notification rules.
+	//
+	// This endpoint is rate-limited to 60 requests per minute, since it is intended for
+	// interactive use cases (for example someone clicking a "escalate to team" button
+	// in your internal developer platform). To escalate based on automated alerts, we
+	// recommend sending events to an alert source instead.
+	//
+	// If your API key's permissions are scoped to teams, you can only escalate via an
+	// escalation path that one of those teams owns. Escalating directly to user_ids
+	// needs the permission at the account level, because an escalation aimed at a
+	// person has no owning team.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v3/escalations (the `EscalationsV3Create` operationId).
+	EscalationsV3CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// EscalationsV3Create Create Escalations V3
+	//
+	// Create an escalation.
+	//
+	// An escalation pages people, either according to an escalation path, or directly to
+	// specific users. You must provide either an escalation_path_id OR user_ids, but not both.
+	//
+	// Each escalation pages at an escalation urgency. Set urgency_id to choose one. Without it,
+	// the escalation pages at your most urgent escalation urgency. An unknown or archived
+	// urgency_id is rejected.
+	//
+	// When escalating via an escalation path, the escalation will follow the configured path
+	// with its levels and timeouts.
+	//
+	// When escalating directly to users, they're notified at the urgency's default
+	// interruption level (high or low), based on their notification rules.
+	//
+	// This endpoint is rate-limited to 60 requests per minute, since it is intended for
+	// interactive use cases (for example someone clicking a "escalate to team" button
+	// in your internal developer platform). To escalate based on automated alerts, we
+	// recommend sending events to an alert source instead.
+	//
+	// If your API key's permissions are scoped to teams, you can only escalate via an
+	// escalation path that one of those teams owns. Escalating directly to user_ids
+	// needs the permission at the account level, because an escalation aimed at a
+	// person has no owning team.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v3/escalations (the `EscalationsV3Create` operationId).
+	EscalationsV3Create(ctx context.Context, body EscalationsV3CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// EscalationsV3CheckEscalationPermissionsWithBody CheckEscalationPermissions Escalations V3
+	//
+	// Check whether the given users can currently acknowledge, decline, or snooze an escalation.
+	//
+	// This is a read-only projection of the escalation's current state, intended for deciding
+	// which response actions to surface to each user in a custom integration.
+	//
+	// To use this API, you will need an API key that can view escalations and users.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v3/escalations/{escalation_id}/actions/check_permissions (the `EscalationsV3CheckEscalationPermissions` operationId).
+	EscalationsV3CheckEscalationPermissionsWithBody(ctx context.Context, escalationId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// EscalationsV3CheckEscalationPermissions CheckEscalationPermissions Escalations V3
+	//
+	// Check whether the given users can currently acknowledge, decline, or snooze an escalation.
+	//
+	// This is a read-only projection of the escalation's current state, intended for deciding
+	// which response actions to surface to each user in a custom integration.
+	//
+	// To use this API, you will need an API key that can view escalations and users.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v3/escalations/{escalation_id}/actions/check_permissions (the `EscalationsV3CheckEscalationPermissions` operationId).
+	EscalationsV3CheckEscalationPermissions(ctx context.Context, escalationId string, body EscalationsV3CheckEscalationPermissionsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// EscalationsV3ReassignEscalationWithBody ReassignEscalation Escalations V3
+	//
+	// Reassign an escalation to a different escalation path or set of users.
+	//
+	// Use this when a page reached the wrong people. Reassigning creates a new escalation
+	// aimed at the targets you give, linked back to the original, and carries over the
+	// original's title, description, urgency, incident and alert so the page stays attached
+	// to the same alert and acknowledgements keep grouping under it.
+	//
+	// You must provide either an escalation_path_id OR user_ids, but not both. Both name
+	// incident.io escalation paths and users, so an escalation cannot be reassigned to an
+	// external escalator such as PagerDuty or Opsgenie.
+	//
+	// By default the original escalation is resolved, so the first targets stop being paged.
+	// Pass resolve_original=false to leave it running alongside the new one. Resolving the
+	// original additionally needs the "escalations.respond" permission, since it stops a page
+	// someone else may be responding to.
+	//
+	// An escalation can only be reassigned once: calling this again for the same escalation
+	// is rejected. Retrying a request whose response you never saw is safe in the sense that
+	// matters — a reassignment that already happened is never repeated, so nobody is paged
+	// twice — but the retry is rejected rather than returning the escalation the first call
+	// created, so keep the ID from the original response.
+	//
+	// To use this API, you will need an API key with the "Create and manage escalations"
+	// permission. The reassignment is attributed to the key; to attribute it to one of your
+	// users instead, set the X-Incident-User header, which needs the
+	// "api_keys.act_on_behalf_of_users" scope and no team permissions on the key.
+	//
+	// If your API key's permissions are scoped to teams, the escalation you're reassigning
+	// must be owned by one of those teams, and you can only reassign via an escalation path
+	// one of them owns. Reassigning directly to user_ids needs the permission at the account
+	// level, because an escalation aimed at a person has no owning team.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v3/escalations/{escalation_id}/actions/reassign (the `EscalationsV3ReassignEscalation` operationId).
+	EscalationsV3ReassignEscalationWithBody(ctx context.Context, escalationId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// EscalationsV3ReassignEscalation ReassignEscalation Escalations V3
+	//
+	// Reassign an escalation to a different escalation path or set of users.
+	//
+	// Use this when a page reached the wrong people. Reassigning creates a new escalation
+	// aimed at the targets you give, linked back to the original, and carries over the
+	// original's title, description, urgency, incident and alert so the page stays attached
+	// to the same alert and acknowledgements keep grouping under it.
+	//
+	// You must provide either an escalation_path_id OR user_ids, but not both. Both name
+	// incident.io escalation paths and users, so an escalation cannot be reassigned to an
+	// external escalator such as PagerDuty or Opsgenie.
+	//
+	// By default the original escalation is resolved, so the first targets stop being paged.
+	// Pass resolve_original=false to leave it running alongside the new one. Resolving the
+	// original additionally needs the "escalations.respond" permission, since it stops a page
+	// someone else may be responding to.
+	//
+	// An escalation can only be reassigned once: calling this again for the same escalation
+	// is rejected. Retrying a request whose response you never saw is safe in the sense that
+	// matters — a reassignment that already happened is never repeated, so nobody is paged
+	// twice — but the retry is rejected rather than returning the escalation the first call
+	// created, so keep the ID from the original response.
+	//
+	// To use this API, you will need an API key with the "Create and manage escalations"
+	// permission. The reassignment is attributed to the key; to attribute it to one of your
+	// users instead, set the X-Incident-User header, which needs the
+	// "api_keys.act_on_behalf_of_users" scope and no team permissions on the key.
+	//
+	// If your API key's permissions are scoped to teams, the escalation you're reassigning
+	// must be owned by one of those teams, and you can only reassign via an escalation path
+	// one of them owns. Reassigning directly to user_ids needs the permission at the account
+	// level, because an escalation aimed at a person has no owning team.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v3/escalations/{escalation_id}/actions/reassign (the `EscalationsV3ReassignEscalation` operationId).
+	EscalationsV3ReassignEscalation(ctx context.Context, escalationId string, body EscalationsV3ReassignEscalationJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// EscalationsV3RespondEscalationWithBody RespondEscalation Escalations V3
+	//
+	// Respond to an escalation.
+	//
+	// An API key can acknowledge or snooze an escalation on its own, and the response is
+	// attributed to the key.
+	//
+	// Declining ("nack") means "I personally can't take this page", so it isn't available to
+	// an API key responding in its own right.
+	//
+	// To use this API, you will need an API key with the "Create and manage escalations" permission.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v3/escalations/{escalation_id}/actions/respond (the `EscalationsV3RespondEscalation` operationId).
+	EscalationsV3RespondEscalationWithBody(ctx context.Context, escalationId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// EscalationsV3RespondEscalation RespondEscalation Escalations V3
+	//
+	// Respond to an escalation.
+	//
+	// An API key can acknowledge or snooze an escalation on its own, and the response is
+	// attributed to the key.
+	//
+	// Declining ("nack") means "I personally can't take this page", so it isn't available to
+	// an API key responding in its own right.
+	//
+	// To use this API, you will need an API key with the "Create and manage escalations" permission.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v3/escalations/{escalation_id}/actions/respond (the `EscalationsV3RespondEscalation` operationId).
+	EscalationsV3RespondEscalation(ctx context.Context, escalationId string, body EscalationsV3RespondEscalationJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// EscalationsV3Show Show Escalations V3
 	//
 	// Show a specific escalation.
 	//
 	// Corresponds with GET /v3/escalations/{id} (the `EscalationsV3Show` operationId).
 	EscalationsV3Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// EscalationsV3CancelEscalation CancelEscalation Escalations V3
+	//
+	// Cancel an escalation.
+	//
+	// Cancelling an escalation stops any further paging: notifications cease and the
+	// escalation will not advance to further levels or repeat. This works on escalations
+	// that are still paging (for example to silence a page when an incident is resolved
+	// before anyone acknowledges it) as well as snoozed ones. Escalations that have already
+	// resolved or expired cannot be cancelled, and cancelling an already-cancelled
+	// escalation is a no-op.
+	//
+	// To use this API, you will need an API key with the "Create and manage escalations" permission.
+	//
+	// Corresponds with POST /v3/escalations/{id}/actions/cancel (the `EscalationsV3CancelEscalation` operationId).
+	EscalationsV3CancelEscalation(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// FollowUpsV3List List Follow-ups V3
 	//
@@ -53284,6 +55962,360 @@ func (c *Client) AlertSourcesV3Update(ctx context.Context, id string, body Alert
 	return c.Client.Do(req)
 }
 
+// CallRoutesV3List List Call Routes V3
+//
+// List all call routes for this organisation.
+//
+// Corresponds with GET /v3/call_routes (the `CallRoutesV3List` operationId).
+func (c *Client) CallRoutesV3List(ctx context.Context, params *CallRoutesV3ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCallRoutesV3ListRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CallRoutesV3ListAllowedCallers ListAllowedCallers Call Routes V3
+//
+// List the numbers allowed to call a route.
+//
+// Corresponds with GET /v3/call_routes/{call_route_id}/allowed_callers (the `CallRoutesV3ListAllowedCallers` operationId).
+func (c *Client) CallRoutesV3ListAllowedCallers(ctx context.Context, callRouteId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCallRoutesV3ListAllowedCallersRequest(c.Server, callRouteId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CallRoutesV3CreateAllowedCallerWithBody CreateAllowedCaller Call Routes V3
+//
+// Allow a number to call this route.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v3/call_routes/{call_route_id}/allowed_callers (the `CallRoutesV3CreateAllowedCaller` operationId).
+func (c *Client) CallRoutesV3CreateAllowedCallerWithBody(ctx context.Context, callRouteId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCallRoutesV3CreateAllowedCallerRequestWithBody(c.Server, callRouteId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CallRoutesV3CreateAllowedCaller CreateAllowedCaller Call Routes V3
+//
+// Allow a number to call this route.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v3/call_routes/{call_route_id}/allowed_callers (the `CallRoutesV3CreateAllowedCaller` operationId).
+func (c *Client) CallRoutesV3CreateAllowedCaller(ctx context.Context, callRouteId string, body CallRoutesV3CreateAllowedCallerJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCallRoutesV3CreateAllowedCallerRequest(c.Server, callRouteId, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CallRoutesV3DestroyAllowedCaller DestroyAllowedCaller Call Routes V3
+//
+// Stop allowing a number to call this route.
+//
+// A route that only answers its allowed callers must keep at least one, so turn
+// use_caller_allowlist off before removing the last number.
+//
+// Corresponds with DELETE /v3/call_routes/{call_route_id}/allowed_callers/{id} (the `CallRoutesV3DestroyAllowedCaller` operationId).
+func (c *Client) CallRoutesV3DestroyAllowedCaller(ctx context.Context, callRouteId string, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCallRoutesV3DestroyAllowedCallerRequest(c.Server, callRouteId, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CallRoutesV3ShowAllowedCaller ShowAllowedCaller Call Routes V3
+//
+// Show a single allowed caller.
+//
+// Corresponds with GET /v3/call_routes/{call_route_id}/allowed_callers/{id} (the `CallRoutesV3ShowAllowedCaller` operationId).
+func (c *Client) CallRoutesV3ShowAllowedCaller(ctx context.Context, callRouteId string, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCallRoutesV3ShowAllowedCallerRequest(c.Server, callRouteId, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CallRoutesV3UpdateAllowedCallerWithBody UpdateAllowedCaller Call Routes V3
+//
+// Replace an allowed caller's number and label.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PUT /v3/call_routes/{call_route_id}/allowed_callers/{id} (the `CallRoutesV3UpdateAllowedCaller` operationId).
+func (c *Client) CallRoutesV3UpdateAllowedCallerWithBody(ctx context.Context, callRouteId string, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCallRoutesV3UpdateAllowedCallerRequestWithBody(c.Server, callRouteId, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CallRoutesV3UpdateAllowedCaller UpdateAllowedCaller Call Routes V3
+//
+// Replace an allowed caller's number and label.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PUT /v3/call_routes/{call_route_id}/allowed_callers/{id} (the `CallRoutesV3UpdateAllowedCaller` operationId).
+func (c *Client) CallRoutesV3UpdateAllowedCaller(ctx context.Context, callRouteId string, id string, body CallRoutesV3UpdateAllowedCallerJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCallRoutesV3UpdateAllowedCallerRequest(c.Server, callRouteId, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CallRoutesV3ListOptions ListOptions Call Routes V3
+//
+// List a call route's phone-tree options, in the order callers hear them.
+//
+// Corresponds with GET /v3/call_routes/{call_route_id}/options (the `CallRoutesV3ListOptions` operationId).
+func (c *Client) CallRoutesV3ListOptions(ctx context.Context, callRouteId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCallRoutesV3ListOptionsRequest(c.Server, callRouteId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CallRoutesV3CreateOptionWithBody CreateOption Call Routes V3
+//
+// Add an option to a call route's phone-tree menu.
+//
+// Callers hear the menu instead of being routed down the route's own path, so
+// adding the first option clears that path. Every plan allows a single option. A
+// menu of two or more options is not on every plan, so get in touch if you need
+// one enabled.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v3/call_routes/{call_route_id}/options (the `CallRoutesV3CreateOption` operationId).
+func (c *Client) CallRoutesV3CreateOptionWithBody(ctx context.Context, callRouteId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCallRoutesV3CreateOptionRequestWithBody(c.Server, callRouteId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CallRoutesV3CreateOption CreateOption Call Routes V3
+//
+// Add an option to a call route's phone-tree menu.
+//
+// Callers hear the menu instead of being routed down the route's own path, so
+// adding the first option clears that path. Every plan allows a single option. A
+// menu of two or more options is not on every plan, so get in touch if you need
+// one enabled.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v3/call_routes/{call_route_id}/options (the `CallRoutesV3CreateOption` operationId).
+func (c *Client) CallRoutesV3CreateOption(ctx context.Context, callRouteId string, body CallRoutesV3CreateOptionJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCallRoutesV3CreateOptionRequest(c.Server, callRouteId, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CallRoutesV3DestroyOption DestroyOption Call Routes V3
+//
+// Remove an option from a call route's phone-tree menu.
+//
+// A route has to route calls somewhere, so give it a path before removing its last
+// option.
+//
+// Corresponds with DELETE /v3/call_routes/{call_route_id}/options/{id} (the `CallRoutesV3DestroyOption` operationId).
+func (c *Client) CallRoutesV3DestroyOption(ctx context.Context, callRouteId string, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCallRoutesV3DestroyOptionRequest(c.Server, callRouteId, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CallRoutesV3ShowOption ShowOption Call Routes V3
+//
+// Show a single phone-tree option.
+//
+// Corresponds with GET /v3/call_routes/{call_route_id}/options/{id} (the `CallRoutesV3ShowOption` operationId).
+func (c *Client) CallRoutesV3ShowOption(ctx context.Context, callRouteId string, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCallRoutesV3ShowOptionRequest(c.Server, callRouteId, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CallRoutesV3UpdateOptionWithBody UpdateOption Call Routes V3
+//
+// Replace a phone-tree option.
+//
+// Two live options can't share a digit, so moving an option onto a digit the menu
+// already uses is rejected.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PUT /v3/call_routes/{call_route_id}/options/{id} (the `CallRoutesV3UpdateOption` operationId).
+func (c *Client) CallRoutesV3UpdateOptionWithBody(ctx context.Context, callRouteId string, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCallRoutesV3UpdateOptionRequestWithBody(c.Server, callRouteId, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CallRoutesV3UpdateOption UpdateOption Call Routes V3
+//
+// Replace a phone-tree option.
+//
+// Two live options can't share a digit, so moving an option onto a digit the menu
+// already uses is rejected.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PUT /v3/call_routes/{call_route_id}/options/{id} (the `CallRoutesV3UpdateOption` operationId).
+func (c *Client) CallRoutesV3UpdateOption(ctx context.Context, callRouteId string, id string, body CallRoutesV3UpdateOptionJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCallRoutesV3UpdateOptionRequest(c.Server, callRouteId, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CallRoutesV3Show Show Call Routes V3
+//
+// Show a single call route.
+//
+// Corresponds with GET /v3/call_routes/{id} (the `CallRoutesV3Show` operationId).
+func (c *Client) CallRoutesV3Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCallRoutesV3ShowRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CallRoutesV3UpdateWithBody Update Call Routes V3
+//
+// Replace a call route's configuration.
+//
+// Sending a path retires any phone-tree menu on the route. Send an empty path to
+// keep the menu.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PUT /v3/call_routes/{id} (the `CallRoutesV3Update` operationId).
+func (c *Client) CallRoutesV3UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCallRoutesV3UpdateRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CallRoutesV3Update Update Call Routes V3
+//
+// Replace a call route's configuration.
+//
+// Sending a path retires any phone-tree menu on the route. Send an empty path to
+// keep the menu.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PUT /v3/call_routes/{id} (the `CallRoutesV3Update` operationId).
+func (c *Client) CallRoutesV3Update(ctx context.Context, id string, body CallRoutesV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCallRoutesV3UpdateRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 // CatalogV3ListEntries ListEntries Catalog V3
 //
 // List entries for a catalog type.
@@ -53333,6 +56365,48 @@ func (c *Client) CatalogV3CreateEntryWithBody(ctx context.Context, contentType s
 // Corresponds with POST /v3/catalog_entries (the `CatalogV3CreateEntry` operationId).
 func (c *Client) CatalogV3CreateEntry(ctx context.Context, body CatalogV3CreateEntryJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewCatalogV3CreateEntryRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CatalogV3BulkArchiveEntriesWithBody BulkArchiveEntries Catalog V3
+//
+// Archive up to 250 entries of one catalog type in a single request. This has the same effect as deleting each entry individually. This operation is atomic: if the request fails, no entries are archived.
+//
+// Entries that don't exist, are already archived, or belong to a different catalog type are skipped and don't fail the request. If any of the entries set attributes that you don't have permission to clear, the request fails with a 403 that lists those entries, and no entries are archived.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v3/catalog_entries/actions/bulk_archive (the `CatalogV3BulkArchiveEntries` operationId).
+func (c *Client) CatalogV3BulkArchiveEntriesWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCatalogV3BulkArchiveEntriesRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CatalogV3BulkArchiveEntries BulkArchiveEntries Catalog V3
+//
+// Archive up to 250 entries of one catalog type in a single request. This has the same effect as deleting each entry individually. This operation is atomic: if the request fails, no entries are archived.
+//
+// Entries that don't exist, are already archived, or belong to a different catalog type are skipped and don't fail the request. If any of the entries set attributes that you don't have permission to clear, the request fails with a 403 that lists those entries, and no entries are archived.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v3/catalog_entries/actions/bulk_archive (the `CatalogV3BulkArchiveEntries` operationId).
+func (c *Client) CatalogV3BulkArchiveEntries(ctx context.Context, body CatalogV3BulkArchiveEntriesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCatalogV3BulkArchiveEntriesRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -53653,6 +56727,292 @@ func (c *Client) CatalogV3UpdateTypeSchema(ctx context.Context, id string, body 
 	return c.Client.Do(req)
 }
 
+// EscalationPathsV3List List Escalation Paths V3
+//
+// List all escalation paths in your account.
+//
+// An escalation path is a series of steps that describe how a page should be escalated,
+// represented as a graph, supporting conditional branches based on escalation urgency and
+// working intervals.
+//
+// Corresponds with GET /v3/escalation_paths (the `EscalationPathsV3List` operationId).
+func (c *Client) EscalationPathsV3List(ctx context.Context, params *EscalationPathsV3ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationPathsV3ListRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// EscalationPathsV3CreateWithBody Create Escalation Paths V3
+//
+// Create an escalation path.
+//
+// If/else nodes can only branch on escalation.urgency, and their conditions compare against
+// the IDs of your escalation urgencies.
+//
+// An escalation path is a series of steps that describe how a page should be escalated,
+// represented as a graph, supporting conditional branches based on escalation urgency and
+// working intervals.
+//
+// We recommend you create escalation paths in the incident.io dashboard where our path
+// builder makes it easy to use conditions and visualise the path.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v3/escalation_paths (the `EscalationPathsV3Create` operationId).
+func (c *Client) EscalationPathsV3CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationPathsV3CreateRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// EscalationPathsV3Create Create Escalation Paths V3
+//
+// Create an escalation path.
+//
+// If/else nodes can only branch on escalation.urgency, and their conditions compare against
+// the IDs of your escalation urgencies.
+//
+// An escalation path is a series of steps that describe how a page should be escalated,
+// represented as a graph, supporting conditional branches based on escalation urgency and
+// working intervals.
+//
+// We recommend you create escalation paths in the incident.io dashboard where our path
+// builder makes it easy to use conditions and visualise the path.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v3/escalation_paths (the `EscalationPathsV3Create` operationId).
+func (c *Client) EscalationPathsV3Create(ctx context.Context, body EscalationPathsV3CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationPathsV3CreateRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// EscalationPathsV3ValidateWithBody Validate Escalation Paths V3
+//
+// Check whether an escalation path's config is valid, without creating or updating anything.
+//
+// If/else nodes can only branch on escalation.urgency, and their conditions compare against
+// the IDs of your escalation urgencies.
+//
+// This runs the same checks creating or updating a path would, so a config this accepts is
+// one those endpoints will accept. A config that's valid but has no practical effect comes
+// back as a warning on a successful response. A client can show it without blocking.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v3/escalation_paths/actions/validate (the `EscalationPathsV3Validate` operationId).
+func (c *Client) EscalationPathsV3ValidateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationPathsV3ValidateRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// EscalationPathsV3Validate Validate Escalation Paths V3
+//
+// Check whether an escalation path's config is valid, without creating or updating anything.
+//
+// If/else nodes can only branch on escalation.urgency, and their conditions compare against
+// the IDs of your escalation urgencies.
+//
+// This runs the same checks creating or updating a path would, so a config this accepts is
+// one those endpoints will accept. A config that's valid but has no practical effect comes
+// back as a warning on a successful response. A client can show it without blocking.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v3/escalation_paths/actions/validate (the `EscalationPathsV3Validate` operationId).
+func (c *Client) EscalationPathsV3Validate(ctx context.Context, body EscalationPathsV3ValidateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationPathsV3ValidateRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// EscalationPathsV3ListExternal ListExternal Escalation Paths V3
+//
+// List external escalation paths available for import from connected providers.
+//
+// This endpoint returns escalation paths from connected external providers (e.g. PagerDuty)
+// that can be imported into incident.io. Each entry includes whether the path can be
+// imported, and if not, why.
+//
+// Corresponds with GET /v3/escalation_paths/external (the `EscalationPathsV3ListExternal` operationId).
+func (c *Client) EscalationPathsV3ListExternal(ctx context.Context, params *EscalationPathsV3ListExternalParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationPathsV3ListExternalRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// EscalationPathsV3CreateExternalWithBody CreateExternal Escalation Paths V3
+//
+// Import an external escalation path and its referenced schedules.
+//
+// Takes the ID of an external escalation path (as returned by the list endpoint) and
+// imports it along with any referenced schedules that haven't already been imported.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v3/escalation_paths/external (the `EscalationPathsV3CreateExternal` operationId).
+func (c *Client) EscalationPathsV3CreateExternalWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationPathsV3CreateExternalRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// EscalationPathsV3CreateExternal CreateExternal Escalation Paths V3
+//
+// Import an external escalation path and its referenced schedules.
+//
+// Takes the ID of an external escalation path (as returned by the list endpoint) and
+// imports it along with any referenced schedules that haven't already been imported.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v3/escalation_paths/external (the `EscalationPathsV3CreateExternal` operationId).
+func (c *Client) EscalationPathsV3CreateExternal(ctx context.Context, body EscalationPathsV3CreateExternalJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationPathsV3CreateExternalRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// EscalationPathsV3Destroy Destroy Escalation Paths V3
+//
+// Archives an escalation path.
+//
+// We recommend you create escalation paths in the incident.io dashboard where our path
+// builder makes it easy to use conditions and visualise the path.
+//
+// Corresponds with DELETE /v3/escalation_paths/{id} (the `EscalationPathsV3Destroy` operationId).
+func (c *Client) EscalationPathsV3Destroy(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationPathsV3DestroyRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// EscalationPathsV3Show Show Escalation Paths V3
+//
+// Show an escalation path.
+//
+// We recommend you create escalation paths in the incident.io dashboard where our path
+// builder makes it easy to use conditions and visualise the path.
+//
+// Corresponds with GET /v3/escalation_paths/{id} (the `EscalationPathsV3Show` operationId).
+func (c *Client) EscalationPathsV3Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationPathsV3ShowRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// EscalationPathsV3UpdateWithBody Update Escalation Paths V3
+//
+// Updates an escalation path.
+//
+// If/else nodes can only branch on escalation.urgency, and their conditions compare against
+// the IDs of your escalation urgencies.
+//
+// We recommend you create escalation paths in the incident.io dashboard where our path
+// builder makes it easy to use conditions and visualise the path.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PUT /v3/escalation_paths/{id} (the `EscalationPathsV3Update` operationId).
+func (c *Client) EscalationPathsV3UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationPathsV3UpdateRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// EscalationPathsV3Update Update Escalation Paths V3
+//
+// Updates an escalation path.
+//
+// If/else nodes can only branch on escalation.urgency, and their conditions compare against
+// the IDs of your escalation urgencies.
+//
+// We recommend you create escalation paths in the incident.io dashboard where our path
+// builder makes it easy to use conditions and visualise the path.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PUT /v3/escalation_paths/{id} (the `EscalationPathsV3Update` operationId).
+func (c *Client) EscalationPathsV3Update(ctx context.Context, id string, body EscalationPathsV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationPathsV3UpdateRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 // EscalationsV3List List Escalations V3
 //
 // List all escalations for your account.
@@ -53743,6 +57103,290 @@ func (c *Client) EscalationsV3List(ctx context.Context, params *EscalationsV3Lis
 	return c.Client.Do(req)
 }
 
+// EscalationsV3CreateWithBody Create Escalations V3
+//
+// Create an escalation.
+//
+// An escalation pages people, either according to an escalation path, or directly to
+// specific users. You must provide either an escalation_path_id OR user_ids, but not both.
+//
+// Each escalation pages at an escalation urgency. Set urgency_id to choose one. Without it,
+// the escalation pages at your most urgent escalation urgency. An unknown or archived
+// urgency_id is rejected.
+//
+// When escalating via an escalation path, the escalation will follow the configured path
+// with its levels and timeouts.
+//
+// When escalating directly to users, they're notified at the urgency's default
+// interruption level (high or low), based on their notification rules.
+//
+// This endpoint is rate-limited to 60 requests per minute, since it is intended for
+// interactive use cases (for example someone clicking a "escalate to team" button
+// in your internal developer platform). To escalate based on automated alerts, we
+// recommend sending events to an alert source instead.
+//
+// If your API key's permissions are scoped to teams, you can only escalate via an
+// escalation path that one of those teams owns. Escalating directly to user_ids
+// needs the permission at the account level, because an escalation aimed at a
+// person has no owning team.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v3/escalations (the `EscalationsV3Create` operationId).
+func (c *Client) EscalationsV3CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationsV3CreateRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// EscalationsV3Create Create Escalations V3
+//
+// Create an escalation.
+//
+// An escalation pages people, either according to an escalation path, or directly to
+// specific users. You must provide either an escalation_path_id OR user_ids, but not both.
+//
+// Each escalation pages at an escalation urgency. Set urgency_id to choose one. Without it,
+// the escalation pages at your most urgent escalation urgency. An unknown or archived
+// urgency_id is rejected.
+//
+// When escalating via an escalation path, the escalation will follow the configured path
+// with its levels and timeouts.
+//
+// When escalating directly to users, they're notified at the urgency's default
+// interruption level (high or low), based on their notification rules.
+//
+// This endpoint is rate-limited to 60 requests per minute, since it is intended for
+// interactive use cases (for example someone clicking a "escalate to team" button
+// in your internal developer platform). To escalate based on automated alerts, we
+// recommend sending events to an alert source instead.
+//
+// If your API key's permissions are scoped to teams, you can only escalate via an
+// escalation path that one of those teams owns. Escalating directly to user_ids
+// needs the permission at the account level, because an escalation aimed at a
+// person has no owning team.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v3/escalations (the `EscalationsV3Create` operationId).
+func (c *Client) EscalationsV3Create(ctx context.Context, body EscalationsV3CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationsV3CreateRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// EscalationsV3CheckEscalationPermissionsWithBody CheckEscalationPermissions Escalations V3
+//
+// Check whether the given users can currently acknowledge, decline, or snooze an escalation.
+//
+// This is a read-only projection of the escalation's current state, intended for deciding
+// which response actions to surface to each user in a custom integration.
+//
+// To use this API, you will need an API key that can view escalations and users.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v3/escalations/{escalation_id}/actions/check_permissions (the `EscalationsV3CheckEscalationPermissions` operationId).
+func (c *Client) EscalationsV3CheckEscalationPermissionsWithBody(ctx context.Context, escalationId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationsV3CheckEscalationPermissionsRequestWithBody(c.Server, escalationId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// EscalationsV3CheckEscalationPermissions CheckEscalationPermissions Escalations V3
+//
+// Check whether the given users can currently acknowledge, decline, or snooze an escalation.
+//
+// This is a read-only projection of the escalation's current state, intended for deciding
+// which response actions to surface to each user in a custom integration.
+//
+// To use this API, you will need an API key that can view escalations and users.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v3/escalations/{escalation_id}/actions/check_permissions (the `EscalationsV3CheckEscalationPermissions` operationId).
+func (c *Client) EscalationsV3CheckEscalationPermissions(ctx context.Context, escalationId string, body EscalationsV3CheckEscalationPermissionsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationsV3CheckEscalationPermissionsRequest(c.Server, escalationId, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// EscalationsV3ReassignEscalationWithBody ReassignEscalation Escalations V3
+//
+// Reassign an escalation to a different escalation path or set of users.
+//
+// Use this when a page reached the wrong people. Reassigning creates a new escalation
+// aimed at the targets you give, linked back to the original, and carries over the
+// original's title, description, urgency, incident and alert so the page stays attached
+// to the same alert and acknowledgements keep grouping under it.
+//
+// You must provide either an escalation_path_id OR user_ids, but not both. Both name
+// incident.io escalation paths and users, so an escalation cannot be reassigned to an
+// external escalator such as PagerDuty or Opsgenie.
+//
+// By default the original escalation is resolved, so the first targets stop being paged.
+// Pass resolve_original=false to leave it running alongside the new one. Resolving the
+// original additionally needs the "escalations.respond" permission, since it stops a page
+// someone else may be responding to.
+//
+// An escalation can only be reassigned once: calling this again for the same escalation
+// is rejected. Retrying a request whose response you never saw is safe in the sense that
+// matters — a reassignment that already happened is never repeated, so nobody is paged
+// twice — but the retry is rejected rather than returning the escalation the first call
+// created, so keep the ID from the original response.
+//
+// To use this API, you will need an API key with the "Create and manage escalations"
+// permission. The reassignment is attributed to the key; to attribute it to one of your
+// users instead, set the X-Incident-User header, which needs the
+// "api_keys.act_on_behalf_of_users" scope and no team permissions on the key.
+//
+// If your API key's permissions are scoped to teams, the escalation you're reassigning
+// must be owned by one of those teams, and you can only reassign via an escalation path
+// one of them owns. Reassigning directly to user_ids needs the permission at the account
+// level, because an escalation aimed at a person has no owning team.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v3/escalations/{escalation_id}/actions/reassign (the `EscalationsV3ReassignEscalation` operationId).
+func (c *Client) EscalationsV3ReassignEscalationWithBody(ctx context.Context, escalationId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationsV3ReassignEscalationRequestWithBody(c.Server, escalationId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// EscalationsV3ReassignEscalation ReassignEscalation Escalations V3
+//
+// Reassign an escalation to a different escalation path or set of users.
+//
+// Use this when a page reached the wrong people. Reassigning creates a new escalation
+// aimed at the targets you give, linked back to the original, and carries over the
+// original's title, description, urgency, incident and alert so the page stays attached
+// to the same alert and acknowledgements keep grouping under it.
+//
+// You must provide either an escalation_path_id OR user_ids, but not both. Both name
+// incident.io escalation paths and users, so an escalation cannot be reassigned to an
+// external escalator such as PagerDuty or Opsgenie.
+//
+// By default the original escalation is resolved, so the first targets stop being paged.
+// Pass resolve_original=false to leave it running alongside the new one. Resolving the
+// original additionally needs the "escalations.respond" permission, since it stops a page
+// someone else may be responding to.
+//
+// An escalation can only be reassigned once: calling this again for the same escalation
+// is rejected. Retrying a request whose response you never saw is safe in the sense that
+// matters — a reassignment that already happened is never repeated, so nobody is paged
+// twice — but the retry is rejected rather than returning the escalation the first call
+// created, so keep the ID from the original response.
+//
+// To use this API, you will need an API key with the "Create and manage escalations"
+// permission. The reassignment is attributed to the key; to attribute it to one of your
+// users instead, set the X-Incident-User header, which needs the
+// "api_keys.act_on_behalf_of_users" scope and no team permissions on the key.
+//
+// If your API key's permissions are scoped to teams, the escalation you're reassigning
+// must be owned by one of those teams, and you can only reassign via an escalation path
+// one of them owns. Reassigning directly to user_ids needs the permission at the account
+// level, because an escalation aimed at a person has no owning team.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v3/escalations/{escalation_id}/actions/reassign (the `EscalationsV3ReassignEscalation` operationId).
+func (c *Client) EscalationsV3ReassignEscalation(ctx context.Context, escalationId string, body EscalationsV3ReassignEscalationJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationsV3ReassignEscalationRequest(c.Server, escalationId, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// EscalationsV3RespondEscalationWithBody RespondEscalation Escalations V3
+//
+// Respond to an escalation.
+//
+// An API key can acknowledge or snooze an escalation on its own, and the response is
+// attributed to the key.
+//
+// Declining ("nack") means "I personally can't take this page", so it isn't available to
+// an API key responding in its own right.
+//
+// To use this API, you will need an API key with the "Create and manage escalations" permission.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v3/escalations/{escalation_id}/actions/respond (the `EscalationsV3RespondEscalation` operationId).
+func (c *Client) EscalationsV3RespondEscalationWithBody(ctx context.Context, escalationId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationsV3RespondEscalationRequestWithBody(c.Server, escalationId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// EscalationsV3RespondEscalation RespondEscalation Escalations V3
+//
+// Respond to an escalation.
+//
+// An API key can acknowledge or snooze an escalation on its own, and the response is
+// attributed to the key.
+//
+// Declining ("nack") means "I personally can't take this page", so it isn't available to
+// an API key responding in its own right.
+//
+// To use this API, you will need an API key with the "Create and manage escalations" permission.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v3/escalations/{escalation_id}/actions/respond (the `EscalationsV3RespondEscalation` operationId).
+func (c *Client) EscalationsV3RespondEscalation(ctx context.Context, escalationId string, body EscalationsV3RespondEscalationJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationsV3RespondEscalationRequest(c.Server, escalationId, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 // EscalationsV3Show Show Escalations V3
 //
 // Show a specific escalation.
@@ -53750,6 +57394,32 @@ func (c *Client) EscalationsV3List(ctx context.Context, params *EscalationsV3Lis
 // Corresponds with GET /v3/escalations/{id} (the `EscalationsV3Show` operationId).
 func (c *Client) EscalationsV3Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewEscalationsV3ShowRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// EscalationsV3CancelEscalation CancelEscalation Escalations V3
+//
+// Cancel an escalation.
+//
+// Cancelling an escalation stops any further paging: notifications cease and the
+// escalation will not advance to further levels or repeat. This works on escalations
+// that are still paging (for example to silence a page when an incident is resolved
+// before anyone acknowledges it) as well as snoozed ones. Escalations that have already
+// resolved or expired cannot be cancelled, and cancelling an already-cancelled
+// escalation is a no-op.
+//
+// To use this API, you will need an API key with the "Create and manage escalations" permission.
+//
+// Corresponds with POST /v3/escalations/{id}/actions/cancel (the `EscalationsV3CancelEscalation` operationId).
+func (c *Client) EscalationsV3CancelEscalation(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationsV3CancelEscalationRequest(c.Server, id)
 	if err != nil {
 		return nil, err
 	}
@@ -71607,6 +75277,587 @@ func NewAlertSourcesV3UpdateRequestWithBody(server string, id string, contentTyp
 	return req, nil
 }
 
+// NewCallRoutesV3ListRequest constructs an http.Request for the CallRoutesV3List method
+func NewCallRoutesV3ListRequest(server string, params *CallRoutesV3ListParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/call_routes")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.PageSize != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "page_size", *params.PageSize, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: "int64"}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.After != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "after", *params.After, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCallRoutesV3ListAllowedCallersRequest constructs an http.Request for the CallRoutesV3ListAllowedCallers method
+func NewCallRoutesV3ListAllowedCallersRequest(server string, callRouteId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "call_route_id", callRouteId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/call_routes/%s/allowed_callers", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCallRoutesV3CreateAllowedCallerRequest calls the generic CallRoutesV3CreateAllowedCaller builder with application/json body
+func NewCallRoutesV3CreateAllowedCallerRequest(server string, callRouteId string, body CallRoutesV3CreateAllowedCallerJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCallRoutesV3CreateAllowedCallerRequestWithBody(server, callRouteId, "application/json", bodyReader)
+}
+
+// NewCallRoutesV3CreateAllowedCallerRequestWithBody constructs an http.Request for the CallRoutesV3CreateAllowedCaller method, with any body, and a specified content type
+func NewCallRoutesV3CreateAllowedCallerRequestWithBody(server string, callRouteId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "call_route_id", callRouteId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/call_routes/%s/allowed_callers", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewCallRoutesV3DestroyAllowedCallerRequest constructs an http.Request for the CallRoutesV3DestroyAllowedCaller method
+func NewCallRoutesV3DestroyAllowedCallerRequest(server string, callRouteId string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "call_route_id", callRouteId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/call_routes/%s/allowed_callers/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCallRoutesV3ShowAllowedCallerRequest constructs an http.Request for the CallRoutesV3ShowAllowedCaller method
+func NewCallRoutesV3ShowAllowedCallerRequest(server string, callRouteId string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "call_route_id", callRouteId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/call_routes/%s/allowed_callers/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCallRoutesV3UpdateAllowedCallerRequest calls the generic CallRoutesV3UpdateAllowedCaller builder with application/json body
+func NewCallRoutesV3UpdateAllowedCallerRequest(server string, callRouteId string, id string, body CallRoutesV3UpdateAllowedCallerJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCallRoutesV3UpdateAllowedCallerRequestWithBody(server, callRouteId, id, "application/json", bodyReader)
+}
+
+// NewCallRoutesV3UpdateAllowedCallerRequestWithBody constructs an http.Request for the CallRoutesV3UpdateAllowedCaller method, with any body, and a specified content type
+func NewCallRoutesV3UpdateAllowedCallerRequestWithBody(server string, callRouteId string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "call_route_id", callRouteId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/call_routes/%s/allowed_callers/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPut, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewCallRoutesV3ListOptionsRequest constructs an http.Request for the CallRoutesV3ListOptions method
+func NewCallRoutesV3ListOptionsRequest(server string, callRouteId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "call_route_id", callRouteId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/call_routes/%s/options", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCallRoutesV3CreateOptionRequest calls the generic CallRoutesV3CreateOption builder with application/json body
+func NewCallRoutesV3CreateOptionRequest(server string, callRouteId string, body CallRoutesV3CreateOptionJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCallRoutesV3CreateOptionRequestWithBody(server, callRouteId, "application/json", bodyReader)
+}
+
+// NewCallRoutesV3CreateOptionRequestWithBody constructs an http.Request for the CallRoutesV3CreateOption method, with any body, and a specified content type
+func NewCallRoutesV3CreateOptionRequestWithBody(server string, callRouteId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "call_route_id", callRouteId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/call_routes/%s/options", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewCallRoutesV3DestroyOptionRequest constructs an http.Request for the CallRoutesV3DestroyOption method
+func NewCallRoutesV3DestroyOptionRequest(server string, callRouteId string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "call_route_id", callRouteId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/call_routes/%s/options/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCallRoutesV3ShowOptionRequest constructs an http.Request for the CallRoutesV3ShowOption method
+func NewCallRoutesV3ShowOptionRequest(server string, callRouteId string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "call_route_id", callRouteId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/call_routes/%s/options/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCallRoutesV3UpdateOptionRequest calls the generic CallRoutesV3UpdateOption builder with application/json body
+func NewCallRoutesV3UpdateOptionRequest(server string, callRouteId string, id string, body CallRoutesV3UpdateOptionJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCallRoutesV3UpdateOptionRequestWithBody(server, callRouteId, id, "application/json", bodyReader)
+}
+
+// NewCallRoutesV3UpdateOptionRequestWithBody constructs an http.Request for the CallRoutesV3UpdateOption method, with any body, and a specified content type
+func NewCallRoutesV3UpdateOptionRequestWithBody(server string, callRouteId string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "call_route_id", callRouteId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/call_routes/%s/options/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPut, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewCallRoutesV3ShowRequest constructs an http.Request for the CallRoutesV3Show method
+func NewCallRoutesV3ShowRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/call_routes/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCallRoutesV3UpdateRequest calls the generic CallRoutesV3Update builder with application/json body
+func NewCallRoutesV3UpdateRequest(server string, id string, body CallRoutesV3UpdateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCallRoutesV3UpdateRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewCallRoutesV3UpdateRequestWithBody constructs an http.Request for the CallRoutesV3Update method, with any body, and a specified content type
+func NewCallRoutesV3UpdateRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/call_routes/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPut, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewCatalogV3ListEntriesRequest constructs an http.Request for the CatalogV3ListEntries method
 func NewCatalogV3ListEntriesRequest(server string, params *CatalogV3ListEntriesParams) (*http.Request, error) {
 	var err error
@@ -71710,6 +75961,46 @@ func NewCatalogV3CreateEntryRequestWithBody(server string, contentType string, b
 	}
 
 	operationPath := fmt.Sprintf("/v3/catalog_entries")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewCatalogV3BulkArchiveEntriesRequest calls the generic CatalogV3BulkArchiveEntries builder with application/json body
+func NewCatalogV3BulkArchiveEntriesRequest(server string, body CatalogV3BulkArchiveEntriesJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCatalogV3BulkArchiveEntriesRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewCatalogV3BulkArchiveEntriesRequestWithBody constructs an http.Request for the CatalogV3BulkArchiveEntries method, with any body, and a specified content type
+func NewCatalogV3BulkArchiveEntriesRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/catalog_entries/actions/bulk_archive")
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -72167,6 +76458,409 @@ func NewCatalogV3UpdateTypeSchemaRequestWithBody(server string, id string, conte
 	return req, nil
 }
 
+// NewEscalationPathsV3ListRequest constructs an http.Request for the EscalationPathsV3List method
+func NewEscalationPathsV3ListRequest(server string, params *EscalationPathsV3ListParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/escalation_paths")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.PageSize != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "page_size", *params.PageSize, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: "int64"}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.After != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "after", *params.After, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewEscalationPathsV3CreateRequest calls the generic EscalationPathsV3Create builder with application/json body
+func NewEscalationPathsV3CreateRequest(server string, body EscalationPathsV3CreateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewEscalationPathsV3CreateRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewEscalationPathsV3CreateRequestWithBody constructs an http.Request for the EscalationPathsV3Create method, with any body, and a specified content type
+func NewEscalationPathsV3CreateRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/escalation_paths")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewEscalationPathsV3ValidateRequest calls the generic EscalationPathsV3Validate builder with application/json body
+func NewEscalationPathsV3ValidateRequest(server string, body EscalationPathsV3ValidateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewEscalationPathsV3ValidateRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewEscalationPathsV3ValidateRequestWithBody constructs an http.Request for the EscalationPathsV3Validate method, with any body, and a specified content type
+func NewEscalationPathsV3ValidateRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/escalation_paths/actions/validate")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewEscalationPathsV3ListExternalRequest constructs an http.Request for the EscalationPathsV3ListExternal method
+func NewEscalationPathsV3ListExternalRequest(server string, params *EscalationPathsV3ListExternalParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/escalation_paths/external")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.PageSize != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "page_size", *params.PageSize, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: "int64"}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.After != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "after", *params.After, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Search != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "search", *params.Search, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.ExternalId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "external_id", *params.ExternalId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Imported != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "imported", *params.Imported, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "boolean", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewEscalationPathsV3CreateExternalRequest calls the generic EscalationPathsV3CreateExternal builder with application/json body
+func NewEscalationPathsV3CreateExternalRequest(server string, body EscalationPathsV3CreateExternalJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewEscalationPathsV3CreateExternalRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewEscalationPathsV3CreateExternalRequestWithBody constructs an http.Request for the EscalationPathsV3CreateExternal method, with any body, and a specified content type
+func NewEscalationPathsV3CreateExternalRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/escalation_paths/external")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewEscalationPathsV3DestroyRequest constructs an http.Request for the EscalationPathsV3Destroy method
+func NewEscalationPathsV3DestroyRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/escalation_paths/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewEscalationPathsV3ShowRequest constructs an http.Request for the EscalationPathsV3Show method
+func NewEscalationPathsV3ShowRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/escalation_paths/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewEscalationPathsV3UpdateRequest calls the generic EscalationPathsV3Update builder with application/json body
+func NewEscalationPathsV3UpdateRequest(server string, id string, body EscalationPathsV3UpdateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewEscalationPathsV3UpdateRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewEscalationPathsV3UpdateRequestWithBody constructs an http.Request for the EscalationPathsV3Update method, with any body, and a specified content type
+func NewEscalationPathsV3UpdateRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/escalation_paths/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPut, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewEscalationsV3ListRequest constructs an http.Request for the EscalationsV3List method
 func NewEscalationsV3ListRequest(server string, params *EscalationsV3ListParams) (*http.Request, error) {
 	var err error
@@ -72329,6 +77023,187 @@ func NewEscalationsV3ListRequest(server string, params *EscalationsV3ListParams)
 	return req, nil
 }
 
+// NewEscalationsV3CreateRequest calls the generic EscalationsV3Create builder with application/json body
+func NewEscalationsV3CreateRequest(server string, body EscalationsV3CreateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewEscalationsV3CreateRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewEscalationsV3CreateRequestWithBody constructs an http.Request for the EscalationsV3Create method, with any body, and a specified content type
+func NewEscalationsV3CreateRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/escalations")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewEscalationsV3CheckEscalationPermissionsRequest calls the generic EscalationsV3CheckEscalationPermissions builder with application/json body
+func NewEscalationsV3CheckEscalationPermissionsRequest(server string, escalationId string, body EscalationsV3CheckEscalationPermissionsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewEscalationsV3CheckEscalationPermissionsRequestWithBody(server, escalationId, "application/json", bodyReader)
+}
+
+// NewEscalationsV3CheckEscalationPermissionsRequestWithBody constructs an http.Request for the EscalationsV3CheckEscalationPermissions method, with any body, and a specified content type
+func NewEscalationsV3CheckEscalationPermissionsRequestWithBody(server string, escalationId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "escalation_id", escalationId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/escalations/%s/actions/check_permissions", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewEscalationsV3ReassignEscalationRequest calls the generic EscalationsV3ReassignEscalation builder with application/json body
+func NewEscalationsV3ReassignEscalationRequest(server string, escalationId string, body EscalationsV3ReassignEscalationJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewEscalationsV3ReassignEscalationRequestWithBody(server, escalationId, "application/json", bodyReader)
+}
+
+// NewEscalationsV3ReassignEscalationRequestWithBody constructs an http.Request for the EscalationsV3ReassignEscalation method, with any body, and a specified content type
+func NewEscalationsV3ReassignEscalationRequestWithBody(server string, escalationId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "escalation_id", escalationId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/escalations/%s/actions/reassign", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewEscalationsV3RespondEscalationRequest calls the generic EscalationsV3RespondEscalation builder with application/json body
+func NewEscalationsV3RespondEscalationRequest(server string, escalationId string, body EscalationsV3RespondEscalationJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewEscalationsV3RespondEscalationRequestWithBody(server, escalationId, "application/json", bodyReader)
+}
+
+// NewEscalationsV3RespondEscalationRequestWithBody constructs an http.Request for the EscalationsV3RespondEscalation method, with any body, and a specified content type
+func NewEscalationsV3RespondEscalationRequestWithBody(server string, escalationId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "escalation_id", escalationId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/escalations/%s/actions/respond", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewEscalationsV3ShowRequest constructs an http.Request for the EscalationsV3Show method
 func NewEscalationsV3ShowRequest(server string, id string) (*http.Request, error) {
 	var err error
@@ -72356,6 +77231,40 @@ func NewEscalationsV3ShowRequest(server string, id string) (*http.Request, error
 	}
 
 	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewEscalationsV3CancelEscalationRequest constructs an http.Request for the EscalationsV3CancelEscalation method
+func NewEscalationsV3CancelEscalationRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/escalations/%s/actions/cancel", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -80091,6 +85000,196 @@ type ClientWithResponsesInterface interface {
 	// Corresponds with PUT /v3/alert_sources/{id} (the `AlertSourcesV3Update` operationId).
 	AlertSourcesV3UpdateWithResponse(ctx context.Context, id string, body AlertSourcesV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertSourcesV3UpdateResponse, error)
 
+	// CallRoutesV3ListWithResponse List Call Routes V3
+	//
+	// List all call routes for this organisation.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v3/call_routes (the `CallRoutesV3List` operationId).
+	CallRoutesV3ListWithResponse(ctx context.Context, params *CallRoutesV3ListParams, reqEditors ...RequestEditorFn) (*CallRoutesV3ListResponse, error)
+
+	// CallRoutesV3ListAllowedCallersWithResponse ListAllowedCallers Call Routes V3
+	//
+	// List the numbers allowed to call a route.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v3/call_routes/{call_route_id}/allowed_callers (the `CallRoutesV3ListAllowedCallers` operationId).
+	CallRoutesV3ListAllowedCallersWithResponse(ctx context.Context, callRouteId string, reqEditors ...RequestEditorFn) (*CallRoutesV3ListAllowedCallersResponse, error)
+
+	// CallRoutesV3CreateAllowedCallerWithBodyWithResponse CreateAllowedCaller Call Routes V3
+	//
+	// Allow a number to call this route.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/call_routes/{call_route_id}/allowed_callers (the `CallRoutesV3CreateAllowedCaller` operationId).
+	CallRoutesV3CreateAllowedCallerWithBodyWithResponse(ctx context.Context, callRouteId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CallRoutesV3CreateAllowedCallerResponse, error)
+
+	// CallRoutesV3CreateAllowedCallerWithResponse CreateAllowedCaller Call Routes V3
+	//
+	// Allow a number to call this route.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/call_routes/{call_route_id}/allowed_callers (the `CallRoutesV3CreateAllowedCaller` operationId).
+	CallRoutesV3CreateAllowedCallerWithResponse(ctx context.Context, callRouteId string, body CallRoutesV3CreateAllowedCallerJSONRequestBody, reqEditors ...RequestEditorFn) (*CallRoutesV3CreateAllowedCallerResponse, error)
+
+	// CallRoutesV3DestroyAllowedCallerWithResponse DestroyAllowedCaller Call Routes V3
+	//
+	// Stop allowing a number to call this route.
+	//
+	// A route that only answers its allowed callers must keep at least one, so turn
+	// use_caller_allowlist off before removing the last number.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v3/call_routes/{call_route_id}/allowed_callers/{id} (the `CallRoutesV3DestroyAllowedCaller` operationId).
+	CallRoutesV3DestroyAllowedCallerWithResponse(ctx context.Context, callRouteId string, id string, reqEditors ...RequestEditorFn) (*CallRoutesV3DestroyAllowedCallerResponse, error)
+
+	// CallRoutesV3ShowAllowedCallerWithResponse ShowAllowedCaller Call Routes V3
+	//
+	// Show a single allowed caller.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v3/call_routes/{call_route_id}/allowed_callers/{id} (the `CallRoutesV3ShowAllowedCaller` operationId).
+	CallRoutesV3ShowAllowedCallerWithResponse(ctx context.Context, callRouteId string, id string, reqEditors ...RequestEditorFn) (*CallRoutesV3ShowAllowedCallerResponse, error)
+
+	// CallRoutesV3UpdateAllowedCallerWithBodyWithResponse UpdateAllowedCaller Call Routes V3
+	//
+	// Replace an allowed caller's number and label.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v3/call_routes/{call_route_id}/allowed_callers/{id} (the `CallRoutesV3UpdateAllowedCaller` operationId).
+	CallRoutesV3UpdateAllowedCallerWithBodyWithResponse(ctx context.Context, callRouteId string, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CallRoutesV3UpdateAllowedCallerResponse, error)
+
+	// CallRoutesV3UpdateAllowedCallerWithResponse UpdateAllowedCaller Call Routes V3
+	//
+	// Replace an allowed caller's number and label.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v3/call_routes/{call_route_id}/allowed_callers/{id} (the `CallRoutesV3UpdateAllowedCaller` operationId).
+	CallRoutesV3UpdateAllowedCallerWithResponse(ctx context.Context, callRouteId string, id string, body CallRoutesV3UpdateAllowedCallerJSONRequestBody, reqEditors ...RequestEditorFn) (*CallRoutesV3UpdateAllowedCallerResponse, error)
+
+	// CallRoutesV3ListOptionsWithResponse ListOptions Call Routes V3
+	//
+	// List a call route's phone-tree options, in the order callers hear them.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v3/call_routes/{call_route_id}/options (the `CallRoutesV3ListOptions` operationId).
+	CallRoutesV3ListOptionsWithResponse(ctx context.Context, callRouteId string, reqEditors ...RequestEditorFn) (*CallRoutesV3ListOptionsResponse, error)
+
+	// CallRoutesV3CreateOptionWithBodyWithResponse CreateOption Call Routes V3
+	//
+	// Add an option to a call route's phone-tree menu.
+	//
+	// Callers hear the menu instead of being routed down the route's own path, so
+	// adding the first option clears that path. Every plan allows a single option. A
+	// menu of two or more options is not on every plan, so get in touch if you need
+	// one enabled.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/call_routes/{call_route_id}/options (the `CallRoutesV3CreateOption` operationId).
+	CallRoutesV3CreateOptionWithBodyWithResponse(ctx context.Context, callRouteId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CallRoutesV3CreateOptionResponse, error)
+
+	// CallRoutesV3CreateOptionWithResponse CreateOption Call Routes V3
+	//
+	// Add an option to a call route's phone-tree menu.
+	//
+	// Callers hear the menu instead of being routed down the route's own path, so
+	// adding the first option clears that path. Every plan allows a single option. A
+	// menu of two or more options is not on every plan, so get in touch if you need
+	// one enabled.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/call_routes/{call_route_id}/options (the `CallRoutesV3CreateOption` operationId).
+	CallRoutesV3CreateOptionWithResponse(ctx context.Context, callRouteId string, body CallRoutesV3CreateOptionJSONRequestBody, reqEditors ...RequestEditorFn) (*CallRoutesV3CreateOptionResponse, error)
+
+	// CallRoutesV3DestroyOptionWithResponse DestroyOption Call Routes V3
+	//
+	// Remove an option from a call route's phone-tree menu.
+	//
+	// A route has to route calls somewhere, so give it a path before removing its last
+	// option.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v3/call_routes/{call_route_id}/options/{id} (the `CallRoutesV3DestroyOption` operationId).
+	CallRoutesV3DestroyOptionWithResponse(ctx context.Context, callRouteId string, id string, reqEditors ...RequestEditorFn) (*CallRoutesV3DestroyOptionResponse, error)
+
+	// CallRoutesV3ShowOptionWithResponse ShowOption Call Routes V3
+	//
+	// Show a single phone-tree option.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v3/call_routes/{call_route_id}/options/{id} (the `CallRoutesV3ShowOption` operationId).
+	CallRoutesV3ShowOptionWithResponse(ctx context.Context, callRouteId string, id string, reqEditors ...RequestEditorFn) (*CallRoutesV3ShowOptionResponse, error)
+
+	// CallRoutesV3UpdateOptionWithBodyWithResponse UpdateOption Call Routes V3
+	//
+	// Replace a phone-tree option.
+	//
+	// Two live options can't share a digit, so moving an option onto a digit the menu
+	// already uses is rejected.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v3/call_routes/{call_route_id}/options/{id} (the `CallRoutesV3UpdateOption` operationId).
+	CallRoutesV3UpdateOptionWithBodyWithResponse(ctx context.Context, callRouteId string, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CallRoutesV3UpdateOptionResponse, error)
+
+	// CallRoutesV3UpdateOptionWithResponse UpdateOption Call Routes V3
+	//
+	// Replace a phone-tree option.
+	//
+	// Two live options can't share a digit, so moving an option onto a digit the menu
+	// already uses is rejected.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v3/call_routes/{call_route_id}/options/{id} (the `CallRoutesV3UpdateOption` operationId).
+	CallRoutesV3UpdateOptionWithResponse(ctx context.Context, callRouteId string, id string, body CallRoutesV3UpdateOptionJSONRequestBody, reqEditors ...RequestEditorFn) (*CallRoutesV3UpdateOptionResponse, error)
+
+	// CallRoutesV3ShowWithResponse Show Call Routes V3
+	//
+	// Show a single call route.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v3/call_routes/{id} (the `CallRoutesV3Show` operationId).
+	CallRoutesV3ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*CallRoutesV3ShowResponse, error)
+
+	// CallRoutesV3UpdateWithBodyWithResponse Update Call Routes V3
+	//
+	// Replace a call route's configuration.
+	//
+	// Sending a path retires any phone-tree menu on the route. Send an empty path to
+	// keep the menu.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v3/call_routes/{id} (the `CallRoutesV3Update` operationId).
+	CallRoutesV3UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CallRoutesV3UpdateResponse, error)
+
+	// CallRoutesV3UpdateWithResponse Update Call Routes V3
+	//
+	// Replace a call route's configuration.
+	//
+	// Sending a path retires any phone-tree menu on the route. Send an empty path to
+	// keep the menu.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v3/call_routes/{id} (the `CallRoutesV3Update` operationId).
+	CallRoutesV3UpdateWithResponse(ctx context.Context, id string, body CallRoutesV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*CallRoutesV3UpdateResponse, error)
+
 	// CatalogV3ListEntriesWithResponse ListEntries Catalog V3
 	//
 	// List entries for a catalog type.
@@ -80121,6 +85220,28 @@ type ClientWithResponsesInterface interface {
 	//
 	// Corresponds with POST /v3/catalog_entries (the `CatalogV3CreateEntry` operationId).
 	CatalogV3CreateEntryWithResponse(ctx context.Context, body CatalogV3CreateEntryJSONRequestBody, reqEditors ...RequestEditorFn) (*CatalogV3CreateEntryResponse, error)
+
+	// CatalogV3BulkArchiveEntriesWithBodyWithResponse BulkArchiveEntries Catalog V3
+	//
+	// Archive up to 250 entries of one catalog type in a single request. This has the same effect as deleting each entry individually. This operation is atomic: if the request fails, no entries are archived.
+	//
+	// Entries that don't exist, are already archived, or belong to a different catalog type are skipped and don't fail the request. If any of the entries set attributes that you don't have permission to clear, the request fails with a 403 that lists those entries, and no entries are archived.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/catalog_entries/actions/bulk_archive (the `CatalogV3BulkArchiveEntries` operationId).
+	CatalogV3BulkArchiveEntriesWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CatalogV3BulkArchiveEntriesResponse, error)
+
+	// CatalogV3BulkArchiveEntriesWithResponse BulkArchiveEntries Catalog V3
+	//
+	// Archive up to 250 entries of one catalog type in a single request. This has the same effect as deleting each entry individually. This operation is atomic: if the request fails, no entries are archived.
+	//
+	// Entries that don't exist, are already archived, or belong to a different catalog type are skipped and don't fail the request. If any of the entries set attributes that you don't have permission to clear, the request fails with a 403 that lists those entries, and no entries are archived.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/catalog_entries/actions/bulk_archive (the `CatalogV3BulkArchiveEntries` operationId).
+	CatalogV3BulkArchiveEntriesWithResponse(ctx context.Context, body CatalogV3BulkArchiveEntriesJSONRequestBody, reqEditors ...RequestEditorFn) (*CatalogV3BulkArchiveEntriesResponse, error)
 
 	// CatalogV3BulkUpdateEntriesWithBodyWithResponse BulkUpdateEntries Catalog V3
 	//
@@ -80284,6 +85405,180 @@ type ClientWithResponsesInterface interface {
 	// Corresponds with POST /v3/catalog_types/{id}/actions/update_schema (the `CatalogV3UpdateTypeSchema` operationId).
 	CatalogV3UpdateTypeSchemaWithResponse(ctx context.Context, id string, body CatalogV3UpdateTypeSchemaJSONRequestBody, reqEditors ...RequestEditorFn) (*CatalogV3UpdateTypeSchemaResponse, error)
 
+	// EscalationPathsV3ListWithResponse List Escalation Paths V3
+	//
+	// List all escalation paths in your account.
+	//
+	// An escalation path is a series of steps that describe how a page should be escalated,
+	// represented as a graph, supporting conditional branches based on escalation urgency and
+	// working intervals.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v3/escalation_paths (the `EscalationPathsV3List` operationId).
+	EscalationPathsV3ListWithResponse(ctx context.Context, params *EscalationPathsV3ListParams, reqEditors ...RequestEditorFn) (*EscalationPathsV3ListResponse, error)
+
+	// EscalationPathsV3CreateWithBodyWithResponse Create Escalation Paths V3
+	//
+	// Create an escalation path.
+	//
+	// If/else nodes can only branch on escalation.urgency, and their conditions compare against
+	// the IDs of your escalation urgencies.
+	//
+	// An escalation path is a series of steps that describe how a page should be escalated,
+	// represented as a graph, supporting conditional branches based on escalation urgency and
+	// working intervals.
+	//
+	// We recommend you create escalation paths in the incident.io dashboard where our path
+	// builder makes it easy to use conditions and visualise the path.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/escalation_paths (the `EscalationPathsV3Create` operationId).
+	EscalationPathsV3CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*EscalationPathsV3CreateResponse, error)
+
+	// EscalationPathsV3CreateWithResponse Create Escalation Paths V3
+	//
+	// Create an escalation path.
+	//
+	// If/else nodes can only branch on escalation.urgency, and their conditions compare against
+	// the IDs of your escalation urgencies.
+	//
+	// An escalation path is a series of steps that describe how a page should be escalated,
+	// represented as a graph, supporting conditional branches based on escalation urgency and
+	// working intervals.
+	//
+	// We recommend you create escalation paths in the incident.io dashboard where our path
+	// builder makes it easy to use conditions and visualise the path.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/escalation_paths (the `EscalationPathsV3Create` operationId).
+	EscalationPathsV3CreateWithResponse(ctx context.Context, body EscalationPathsV3CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*EscalationPathsV3CreateResponse, error)
+
+	// EscalationPathsV3ValidateWithBodyWithResponse Validate Escalation Paths V3
+	//
+	// Check whether an escalation path's config is valid, without creating or updating anything.
+	//
+	// If/else nodes can only branch on escalation.urgency, and their conditions compare against
+	// the IDs of your escalation urgencies.
+	//
+	// This runs the same checks creating or updating a path would, so a config this accepts is
+	// one those endpoints will accept. A config that's valid but has no practical effect comes
+	// back as a warning on a successful response. A client can show it without blocking.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/escalation_paths/actions/validate (the `EscalationPathsV3Validate` operationId).
+	EscalationPathsV3ValidateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*EscalationPathsV3ValidateResponse, error)
+
+	// EscalationPathsV3ValidateWithResponse Validate Escalation Paths V3
+	//
+	// Check whether an escalation path's config is valid, without creating or updating anything.
+	//
+	// If/else nodes can only branch on escalation.urgency, and their conditions compare against
+	// the IDs of your escalation urgencies.
+	//
+	// This runs the same checks creating or updating a path would, so a config this accepts is
+	// one those endpoints will accept. A config that's valid but has no practical effect comes
+	// back as a warning on a successful response. A client can show it without blocking.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/escalation_paths/actions/validate (the `EscalationPathsV3Validate` operationId).
+	EscalationPathsV3ValidateWithResponse(ctx context.Context, body EscalationPathsV3ValidateJSONRequestBody, reqEditors ...RequestEditorFn) (*EscalationPathsV3ValidateResponse, error)
+
+	// EscalationPathsV3ListExternalWithResponse ListExternal Escalation Paths V3
+	//
+	// List external escalation paths available for import from connected providers.
+	//
+	// This endpoint returns escalation paths from connected external providers (e.g. PagerDuty)
+	// that can be imported into incident.io. Each entry includes whether the path can be
+	// imported, and if not, why.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v3/escalation_paths/external (the `EscalationPathsV3ListExternal` operationId).
+	EscalationPathsV3ListExternalWithResponse(ctx context.Context, params *EscalationPathsV3ListExternalParams, reqEditors ...RequestEditorFn) (*EscalationPathsV3ListExternalResponse, error)
+
+	// EscalationPathsV3CreateExternalWithBodyWithResponse CreateExternal Escalation Paths V3
+	//
+	// Import an external escalation path and its referenced schedules.
+	//
+	// Takes the ID of an external escalation path (as returned by the list endpoint) and
+	// imports it along with any referenced schedules that haven't already been imported.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/escalation_paths/external (the `EscalationPathsV3CreateExternal` operationId).
+	EscalationPathsV3CreateExternalWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*EscalationPathsV3CreateExternalResponse, error)
+
+	// EscalationPathsV3CreateExternalWithResponse CreateExternal Escalation Paths V3
+	//
+	// Import an external escalation path and its referenced schedules.
+	//
+	// Takes the ID of an external escalation path (as returned by the list endpoint) and
+	// imports it along with any referenced schedules that haven't already been imported.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/escalation_paths/external (the `EscalationPathsV3CreateExternal` operationId).
+	EscalationPathsV3CreateExternalWithResponse(ctx context.Context, body EscalationPathsV3CreateExternalJSONRequestBody, reqEditors ...RequestEditorFn) (*EscalationPathsV3CreateExternalResponse, error)
+
+	// EscalationPathsV3DestroyWithResponse Destroy Escalation Paths V3
+	//
+	// Archives an escalation path.
+	//
+	// We recommend you create escalation paths in the incident.io dashboard where our path
+	// builder makes it easy to use conditions and visualise the path.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v3/escalation_paths/{id} (the `EscalationPathsV3Destroy` operationId).
+	EscalationPathsV3DestroyWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*EscalationPathsV3DestroyResponse, error)
+
+	// EscalationPathsV3ShowWithResponse Show Escalation Paths V3
+	//
+	// Show an escalation path.
+	//
+	// We recommend you create escalation paths in the incident.io dashboard where our path
+	// builder makes it easy to use conditions and visualise the path.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v3/escalation_paths/{id} (the `EscalationPathsV3Show` operationId).
+	EscalationPathsV3ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*EscalationPathsV3ShowResponse, error)
+
+	// EscalationPathsV3UpdateWithBodyWithResponse Update Escalation Paths V3
+	//
+	// Updates an escalation path.
+	//
+	// If/else nodes can only branch on escalation.urgency, and their conditions compare against
+	// the IDs of your escalation urgencies.
+	//
+	// We recommend you create escalation paths in the incident.io dashboard where our path
+	// builder makes it easy to use conditions and visualise the path.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v3/escalation_paths/{id} (the `EscalationPathsV3Update` operationId).
+	EscalationPathsV3UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*EscalationPathsV3UpdateResponse, error)
+
+	// EscalationPathsV3UpdateWithResponse Update Escalation Paths V3
+	//
+	// Updates an escalation path.
+	//
+	// If/else nodes can only branch on escalation.urgency, and their conditions compare against
+	// the IDs of your escalation urgencies.
+	//
+	// We recommend you create escalation paths in the incident.io dashboard where our path
+	// builder makes it easy to use conditions and visualise the path.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v3/escalation_paths/{id} (the `EscalationPathsV3Update` operationId).
+	EscalationPathsV3UpdateWithResponse(ctx context.Context, id string, body EscalationPathsV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*EscalationPathsV3UpdateResponse, error)
+
 	// EscalationsV3ListWithResponse List Escalations V3
 	//
 	// List all escalations for your account.
@@ -80366,6 +85661,210 @@ type ClientWithResponsesInterface interface {
 	// Corresponds with GET /v3/escalations (the `EscalationsV3List` operationId).
 	EscalationsV3ListWithResponse(ctx context.Context, params *EscalationsV3ListParams, reqEditors ...RequestEditorFn) (*EscalationsV3ListResponse, error)
 
+	// EscalationsV3CreateWithBodyWithResponse Create Escalations V3
+	//
+	// Create an escalation.
+	//
+	// An escalation pages people, either according to an escalation path, or directly to
+	// specific users. You must provide either an escalation_path_id OR user_ids, but not both.
+	//
+	// Each escalation pages at an escalation urgency. Set urgency_id to choose one. Without it,
+	// the escalation pages at your most urgent escalation urgency. An unknown or archived
+	// urgency_id is rejected.
+	//
+	// When escalating via an escalation path, the escalation will follow the configured path
+	// with its levels and timeouts.
+	//
+	// When escalating directly to users, they're notified at the urgency's default
+	// interruption level (high or low), based on their notification rules.
+	//
+	// This endpoint is rate-limited to 60 requests per minute, since it is intended for
+	// interactive use cases (for example someone clicking a "escalate to team" button
+	// in your internal developer platform). To escalate based on automated alerts, we
+	// recommend sending events to an alert source instead.
+	//
+	// If your API key's permissions are scoped to teams, you can only escalate via an
+	// escalation path that one of those teams owns. Escalating directly to user_ids
+	// needs the permission at the account level, because an escalation aimed at a
+	// person has no owning team.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/escalations (the `EscalationsV3Create` operationId).
+	EscalationsV3CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*EscalationsV3CreateResponse, error)
+
+	// EscalationsV3CreateWithResponse Create Escalations V3
+	//
+	// Create an escalation.
+	//
+	// An escalation pages people, either according to an escalation path, or directly to
+	// specific users. You must provide either an escalation_path_id OR user_ids, but not both.
+	//
+	// Each escalation pages at an escalation urgency. Set urgency_id to choose one. Without it,
+	// the escalation pages at your most urgent escalation urgency. An unknown or archived
+	// urgency_id is rejected.
+	//
+	// When escalating via an escalation path, the escalation will follow the configured path
+	// with its levels and timeouts.
+	//
+	// When escalating directly to users, they're notified at the urgency's default
+	// interruption level (high or low), based on their notification rules.
+	//
+	// This endpoint is rate-limited to 60 requests per minute, since it is intended for
+	// interactive use cases (for example someone clicking a "escalate to team" button
+	// in your internal developer platform). To escalate based on automated alerts, we
+	// recommend sending events to an alert source instead.
+	//
+	// If your API key's permissions are scoped to teams, you can only escalate via an
+	// escalation path that one of those teams owns. Escalating directly to user_ids
+	// needs the permission at the account level, because an escalation aimed at a
+	// person has no owning team.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/escalations (the `EscalationsV3Create` operationId).
+	EscalationsV3CreateWithResponse(ctx context.Context, body EscalationsV3CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*EscalationsV3CreateResponse, error)
+
+	// EscalationsV3CheckEscalationPermissionsWithBodyWithResponse CheckEscalationPermissions Escalations V3
+	//
+	// Check whether the given users can currently acknowledge, decline, or snooze an escalation.
+	//
+	// This is a read-only projection of the escalation's current state, intended for deciding
+	// which response actions to surface to each user in a custom integration.
+	//
+	// To use this API, you will need an API key that can view escalations and users.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/escalations/{escalation_id}/actions/check_permissions (the `EscalationsV3CheckEscalationPermissions` operationId).
+	EscalationsV3CheckEscalationPermissionsWithBodyWithResponse(ctx context.Context, escalationId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*EscalationsV3CheckEscalationPermissionsResponse, error)
+
+	// EscalationsV3CheckEscalationPermissionsWithResponse CheckEscalationPermissions Escalations V3
+	//
+	// Check whether the given users can currently acknowledge, decline, or snooze an escalation.
+	//
+	// This is a read-only projection of the escalation's current state, intended for deciding
+	// which response actions to surface to each user in a custom integration.
+	//
+	// To use this API, you will need an API key that can view escalations and users.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/escalations/{escalation_id}/actions/check_permissions (the `EscalationsV3CheckEscalationPermissions` operationId).
+	EscalationsV3CheckEscalationPermissionsWithResponse(ctx context.Context, escalationId string, body EscalationsV3CheckEscalationPermissionsJSONRequestBody, reqEditors ...RequestEditorFn) (*EscalationsV3CheckEscalationPermissionsResponse, error)
+
+	// EscalationsV3ReassignEscalationWithBodyWithResponse ReassignEscalation Escalations V3
+	//
+	// Reassign an escalation to a different escalation path or set of users.
+	//
+	// Use this when a page reached the wrong people. Reassigning creates a new escalation
+	// aimed at the targets you give, linked back to the original, and carries over the
+	// original's title, description, urgency, incident and alert so the page stays attached
+	// to the same alert and acknowledgements keep grouping under it.
+	//
+	// You must provide either an escalation_path_id OR user_ids, but not both. Both name
+	// incident.io escalation paths and users, so an escalation cannot be reassigned to an
+	// external escalator such as PagerDuty or Opsgenie.
+	//
+	// By default the original escalation is resolved, so the first targets stop being paged.
+	// Pass resolve_original=false to leave it running alongside the new one. Resolving the
+	// original additionally needs the "escalations.respond" permission, since it stops a page
+	// someone else may be responding to.
+	//
+	// An escalation can only be reassigned once: calling this again for the same escalation
+	// is rejected. Retrying a request whose response you never saw is safe in the sense that
+	// matters — a reassignment that already happened is never repeated, so nobody is paged
+	// twice — but the retry is rejected rather than returning the escalation the first call
+	// created, so keep the ID from the original response.
+	//
+	// To use this API, you will need an API key with the "Create and manage escalations"
+	// permission. The reassignment is attributed to the key; to attribute it to one of your
+	// users instead, set the X-Incident-User header, which needs the
+	// "api_keys.act_on_behalf_of_users" scope and no team permissions on the key.
+	//
+	// If your API key's permissions are scoped to teams, the escalation you're reassigning
+	// must be owned by one of those teams, and you can only reassign via an escalation path
+	// one of them owns. Reassigning directly to user_ids needs the permission at the account
+	// level, because an escalation aimed at a person has no owning team.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/escalations/{escalation_id}/actions/reassign (the `EscalationsV3ReassignEscalation` operationId).
+	EscalationsV3ReassignEscalationWithBodyWithResponse(ctx context.Context, escalationId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*EscalationsV3ReassignEscalationResponse, error)
+
+	// EscalationsV3ReassignEscalationWithResponse ReassignEscalation Escalations V3
+	//
+	// Reassign an escalation to a different escalation path or set of users.
+	//
+	// Use this when a page reached the wrong people. Reassigning creates a new escalation
+	// aimed at the targets you give, linked back to the original, and carries over the
+	// original's title, description, urgency, incident and alert so the page stays attached
+	// to the same alert and acknowledgements keep grouping under it.
+	//
+	// You must provide either an escalation_path_id OR user_ids, but not both. Both name
+	// incident.io escalation paths and users, so an escalation cannot be reassigned to an
+	// external escalator such as PagerDuty or Opsgenie.
+	//
+	// By default the original escalation is resolved, so the first targets stop being paged.
+	// Pass resolve_original=false to leave it running alongside the new one. Resolving the
+	// original additionally needs the "escalations.respond" permission, since it stops a page
+	// someone else may be responding to.
+	//
+	// An escalation can only be reassigned once: calling this again for the same escalation
+	// is rejected. Retrying a request whose response you never saw is safe in the sense that
+	// matters — a reassignment that already happened is never repeated, so nobody is paged
+	// twice — but the retry is rejected rather than returning the escalation the first call
+	// created, so keep the ID from the original response.
+	//
+	// To use this API, you will need an API key with the "Create and manage escalations"
+	// permission. The reassignment is attributed to the key; to attribute it to one of your
+	// users instead, set the X-Incident-User header, which needs the
+	// "api_keys.act_on_behalf_of_users" scope and no team permissions on the key.
+	//
+	// If your API key's permissions are scoped to teams, the escalation you're reassigning
+	// must be owned by one of those teams, and you can only reassign via an escalation path
+	// one of them owns. Reassigning directly to user_ids needs the permission at the account
+	// level, because an escalation aimed at a person has no owning team.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/escalations/{escalation_id}/actions/reassign (the `EscalationsV3ReassignEscalation` operationId).
+	EscalationsV3ReassignEscalationWithResponse(ctx context.Context, escalationId string, body EscalationsV3ReassignEscalationJSONRequestBody, reqEditors ...RequestEditorFn) (*EscalationsV3ReassignEscalationResponse, error)
+
+	// EscalationsV3RespondEscalationWithBodyWithResponse RespondEscalation Escalations V3
+	//
+	// Respond to an escalation.
+	//
+	// An API key can acknowledge or snooze an escalation on its own, and the response is
+	// attributed to the key.
+	//
+	// Declining ("nack") means "I personally can't take this page", so it isn't available to
+	// an API key responding in its own right.
+	//
+	// To use this API, you will need an API key with the "Create and manage escalations" permission.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/escalations/{escalation_id}/actions/respond (the `EscalationsV3RespondEscalation` operationId).
+	EscalationsV3RespondEscalationWithBodyWithResponse(ctx context.Context, escalationId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*EscalationsV3RespondEscalationResponse, error)
+
+	// EscalationsV3RespondEscalationWithResponse RespondEscalation Escalations V3
+	//
+	// Respond to an escalation.
+	//
+	// An API key can acknowledge or snooze an escalation on its own, and the response is
+	// attributed to the key.
+	//
+	// Declining ("nack") means "I personally can't take this page", so it isn't available to
+	// an API key responding in its own right.
+	//
+	// To use this API, you will need an API key with the "Create and manage escalations" permission.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/escalations/{escalation_id}/actions/respond (the `EscalationsV3RespondEscalation` operationId).
+	EscalationsV3RespondEscalationWithResponse(ctx context.Context, escalationId string, body EscalationsV3RespondEscalationJSONRequestBody, reqEditors ...RequestEditorFn) (*EscalationsV3RespondEscalationResponse, error)
+
 	// EscalationsV3ShowWithResponse Show Escalations V3
 	//
 	// Show a specific escalation.
@@ -80374,6 +85873,24 @@ type ClientWithResponsesInterface interface {
 	//
 	// Corresponds with GET /v3/escalations/{id} (the `EscalationsV3Show` operationId).
 	EscalationsV3ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*EscalationsV3ShowResponse, error)
+
+	// EscalationsV3CancelEscalationWithResponse CancelEscalation Escalations V3
+	//
+	// Cancel an escalation.
+	//
+	// Cancelling an escalation stops any further paging: notifications cease and the
+	// escalation will not advance to further levels or repeat. This works on escalations
+	// that are still paging (for example to silence a page when an incident is resolved
+	// before anyone acknowledges it) as well as snoozed ones. Escalations that have already
+	// resolved or expired cannot be cancelled, and cancelling an already-cancelled
+	// escalation is a no-op.
+	//
+	// To use this API, you will need an API key with the "Create and manage escalations" permission.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/escalations/{id}/actions/cancel (the `EscalationsV3CancelEscalation` operationId).
+	EscalationsV3CancelEscalationWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*EscalationsV3CancelEscalationResponse, error)
 
 	// FollowUpsV3ListWithResponse List Follow-ups V3
 	//
@@ -128118,6 +133635,1708 @@ func (r AlertSourcesV3UpdateResponse) ContentType() string {
 	return ""
 }
 
+type CallRoutesV3ListResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *CallRoutesListResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r CallRoutesV3ListResponse) GetJSON200() *CallRoutesListResultV3 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r CallRoutesV3ListResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r CallRoutesV3ListResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r CallRoutesV3ListResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r CallRoutesV3ListResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r CallRoutesV3ListResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r CallRoutesV3ListResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r CallRoutesV3ListResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r CallRoutesV3ListResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r CallRoutesV3ListResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r CallRoutesV3ListResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r CallRoutesV3ListResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r CallRoutesV3ListResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r CallRoutesV3ListResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r CallRoutesV3ListResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r CallRoutesV3ListResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CallRoutesV3ListResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r CallRoutesV3ListResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type CallRoutesV3ListAllowedCallersResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *CallRoutesListAllowedCallersResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r CallRoutesV3ListAllowedCallersResponse) GetJSON200() *CallRoutesListAllowedCallersResultV3 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r CallRoutesV3ListAllowedCallersResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r CallRoutesV3ListAllowedCallersResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r CallRoutesV3ListAllowedCallersResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r CallRoutesV3ListAllowedCallersResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r CallRoutesV3ListAllowedCallersResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r CallRoutesV3ListAllowedCallersResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r CallRoutesV3ListAllowedCallersResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r CallRoutesV3ListAllowedCallersResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r CallRoutesV3ListAllowedCallersResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r CallRoutesV3ListAllowedCallersResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r CallRoutesV3ListAllowedCallersResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r CallRoutesV3ListAllowedCallersResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r CallRoutesV3ListAllowedCallersResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r CallRoutesV3ListAllowedCallersResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r CallRoutesV3ListAllowedCallersResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CallRoutesV3ListAllowedCallersResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r CallRoutesV3ListAllowedCallersResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type CallRoutesV3CreateAllowedCallerResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON201 the response for an HTTP 201 `application/json` response
+	JSON201 *CallRoutesCreateAllowedCallerResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON201 returns the response for an HTTP 201 `application/json` response
+func (r CallRoutesV3CreateAllowedCallerResponse) GetJSON201() *CallRoutesCreateAllowedCallerResultV3 {
+	return r.JSON201
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r CallRoutesV3CreateAllowedCallerResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r CallRoutesV3CreateAllowedCallerResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r CallRoutesV3CreateAllowedCallerResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r CallRoutesV3CreateAllowedCallerResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r CallRoutesV3CreateAllowedCallerResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r CallRoutesV3CreateAllowedCallerResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r CallRoutesV3CreateAllowedCallerResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r CallRoutesV3CreateAllowedCallerResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r CallRoutesV3CreateAllowedCallerResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r CallRoutesV3CreateAllowedCallerResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r CallRoutesV3CreateAllowedCallerResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r CallRoutesV3CreateAllowedCallerResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r CallRoutesV3CreateAllowedCallerResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r CallRoutesV3CreateAllowedCallerResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r CallRoutesV3CreateAllowedCallerResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CallRoutesV3CreateAllowedCallerResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r CallRoutesV3CreateAllowedCallerResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type CallRoutesV3DestroyAllowedCallerResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r CallRoutesV3DestroyAllowedCallerResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r CallRoutesV3DestroyAllowedCallerResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r CallRoutesV3DestroyAllowedCallerResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r CallRoutesV3DestroyAllowedCallerResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r CallRoutesV3DestroyAllowedCallerResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r CallRoutesV3DestroyAllowedCallerResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r CallRoutesV3DestroyAllowedCallerResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r CallRoutesV3DestroyAllowedCallerResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r CallRoutesV3DestroyAllowedCallerResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r CallRoutesV3DestroyAllowedCallerResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r CallRoutesV3DestroyAllowedCallerResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r CallRoutesV3DestroyAllowedCallerResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r CallRoutesV3DestroyAllowedCallerResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r CallRoutesV3DestroyAllowedCallerResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r CallRoutesV3DestroyAllowedCallerResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CallRoutesV3DestroyAllowedCallerResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r CallRoutesV3DestroyAllowedCallerResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type CallRoutesV3ShowAllowedCallerResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *CallRoutesShowAllowedCallerResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r CallRoutesV3ShowAllowedCallerResponse) GetJSON200() *CallRoutesShowAllowedCallerResultV3 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r CallRoutesV3ShowAllowedCallerResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r CallRoutesV3ShowAllowedCallerResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r CallRoutesV3ShowAllowedCallerResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r CallRoutesV3ShowAllowedCallerResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r CallRoutesV3ShowAllowedCallerResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r CallRoutesV3ShowAllowedCallerResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r CallRoutesV3ShowAllowedCallerResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r CallRoutesV3ShowAllowedCallerResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r CallRoutesV3ShowAllowedCallerResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r CallRoutesV3ShowAllowedCallerResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r CallRoutesV3ShowAllowedCallerResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r CallRoutesV3ShowAllowedCallerResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r CallRoutesV3ShowAllowedCallerResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r CallRoutesV3ShowAllowedCallerResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r CallRoutesV3ShowAllowedCallerResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CallRoutesV3ShowAllowedCallerResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r CallRoutesV3ShowAllowedCallerResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type CallRoutesV3UpdateAllowedCallerResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *CallRoutesUpdateAllowedCallerResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r CallRoutesV3UpdateAllowedCallerResponse) GetJSON200() *CallRoutesUpdateAllowedCallerResultV3 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r CallRoutesV3UpdateAllowedCallerResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r CallRoutesV3UpdateAllowedCallerResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r CallRoutesV3UpdateAllowedCallerResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r CallRoutesV3UpdateAllowedCallerResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r CallRoutesV3UpdateAllowedCallerResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r CallRoutesV3UpdateAllowedCallerResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r CallRoutesV3UpdateAllowedCallerResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r CallRoutesV3UpdateAllowedCallerResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r CallRoutesV3UpdateAllowedCallerResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r CallRoutesV3UpdateAllowedCallerResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r CallRoutesV3UpdateAllowedCallerResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r CallRoutesV3UpdateAllowedCallerResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r CallRoutesV3UpdateAllowedCallerResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r CallRoutesV3UpdateAllowedCallerResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r CallRoutesV3UpdateAllowedCallerResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CallRoutesV3UpdateAllowedCallerResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r CallRoutesV3UpdateAllowedCallerResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type CallRoutesV3ListOptionsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *CallRoutesListOptionsResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r CallRoutesV3ListOptionsResponse) GetJSON200() *CallRoutesListOptionsResultV3 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r CallRoutesV3ListOptionsResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r CallRoutesV3ListOptionsResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r CallRoutesV3ListOptionsResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r CallRoutesV3ListOptionsResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r CallRoutesV3ListOptionsResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r CallRoutesV3ListOptionsResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r CallRoutesV3ListOptionsResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r CallRoutesV3ListOptionsResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r CallRoutesV3ListOptionsResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r CallRoutesV3ListOptionsResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r CallRoutesV3ListOptionsResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r CallRoutesV3ListOptionsResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r CallRoutesV3ListOptionsResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r CallRoutesV3ListOptionsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r CallRoutesV3ListOptionsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CallRoutesV3ListOptionsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r CallRoutesV3ListOptionsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type CallRoutesV3CreateOptionResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON201 the response for an HTTP 201 `application/json` response
+	JSON201 *CallRoutesCreateOptionResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON201 returns the response for an HTTP 201 `application/json` response
+func (r CallRoutesV3CreateOptionResponse) GetJSON201() *CallRoutesCreateOptionResultV3 {
+	return r.JSON201
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r CallRoutesV3CreateOptionResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r CallRoutesV3CreateOptionResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r CallRoutesV3CreateOptionResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r CallRoutesV3CreateOptionResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r CallRoutesV3CreateOptionResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r CallRoutesV3CreateOptionResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r CallRoutesV3CreateOptionResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r CallRoutesV3CreateOptionResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r CallRoutesV3CreateOptionResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r CallRoutesV3CreateOptionResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r CallRoutesV3CreateOptionResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r CallRoutesV3CreateOptionResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r CallRoutesV3CreateOptionResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r CallRoutesV3CreateOptionResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r CallRoutesV3CreateOptionResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CallRoutesV3CreateOptionResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r CallRoutesV3CreateOptionResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type CallRoutesV3DestroyOptionResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r CallRoutesV3DestroyOptionResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r CallRoutesV3DestroyOptionResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r CallRoutesV3DestroyOptionResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r CallRoutesV3DestroyOptionResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r CallRoutesV3DestroyOptionResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r CallRoutesV3DestroyOptionResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r CallRoutesV3DestroyOptionResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r CallRoutesV3DestroyOptionResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r CallRoutesV3DestroyOptionResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r CallRoutesV3DestroyOptionResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r CallRoutesV3DestroyOptionResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r CallRoutesV3DestroyOptionResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r CallRoutesV3DestroyOptionResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r CallRoutesV3DestroyOptionResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r CallRoutesV3DestroyOptionResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CallRoutesV3DestroyOptionResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r CallRoutesV3DestroyOptionResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type CallRoutesV3ShowOptionResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *CallRoutesShowOptionResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r CallRoutesV3ShowOptionResponse) GetJSON200() *CallRoutesShowOptionResultV3 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r CallRoutesV3ShowOptionResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r CallRoutesV3ShowOptionResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r CallRoutesV3ShowOptionResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r CallRoutesV3ShowOptionResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r CallRoutesV3ShowOptionResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r CallRoutesV3ShowOptionResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r CallRoutesV3ShowOptionResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r CallRoutesV3ShowOptionResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r CallRoutesV3ShowOptionResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r CallRoutesV3ShowOptionResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r CallRoutesV3ShowOptionResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r CallRoutesV3ShowOptionResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r CallRoutesV3ShowOptionResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r CallRoutesV3ShowOptionResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r CallRoutesV3ShowOptionResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CallRoutesV3ShowOptionResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r CallRoutesV3ShowOptionResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type CallRoutesV3UpdateOptionResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *CallRoutesUpdateOptionResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r CallRoutesV3UpdateOptionResponse) GetJSON200() *CallRoutesUpdateOptionResultV3 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r CallRoutesV3UpdateOptionResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r CallRoutesV3UpdateOptionResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r CallRoutesV3UpdateOptionResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r CallRoutesV3UpdateOptionResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r CallRoutesV3UpdateOptionResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r CallRoutesV3UpdateOptionResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r CallRoutesV3UpdateOptionResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r CallRoutesV3UpdateOptionResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r CallRoutesV3UpdateOptionResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r CallRoutesV3UpdateOptionResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r CallRoutesV3UpdateOptionResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r CallRoutesV3UpdateOptionResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r CallRoutesV3UpdateOptionResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r CallRoutesV3UpdateOptionResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r CallRoutesV3UpdateOptionResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CallRoutesV3UpdateOptionResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r CallRoutesV3UpdateOptionResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type CallRoutesV3ShowResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *CallRoutesShowResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r CallRoutesV3ShowResponse) GetJSON200() *CallRoutesShowResultV3 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r CallRoutesV3ShowResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r CallRoutesV3ShowResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r CallRoutesV3ShowResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r CallRoutesV3ShowResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r CallRoutesV3ShowResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r CallRoutesV3ShowResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r CallRoutesV3ShowResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r CallRoutesV3ShowResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r CallRoutesV3ShowResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r CallRoutesV3ShowResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r CallRoutesV3ShowResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r CallRoutesV3ShowResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r CallRoutesV3ShowResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r CallRoutesV3ShowResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r CallRoutesV3ShowResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CallRoutesV3ShowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r CallRoutesV3ShowResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type CallRoutesV3UpdateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *CallRoutesUpdateResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r CallRoutesV3UpdateResponse) GetJSON200() *CallRoutesUpdateResultV3 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r CallRoutesV3UpdateResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r CallRoutesV3UpdateResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r CallRoutesV3UpdateResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r CallRoutesV3UpdateResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r CallRoutesV3UpdateResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r CallRoutesV3UpdateResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r CallRoutesV3UpdateResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r CallRoutesV3UpdateResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r CallRoutesV3UpdateResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r CallRoutesV3UpdateResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r CallRoutesV3UpdateResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r CallRoutesV3UpdateResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r CallRoutesV3UpdateResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r CallRoutesV3UpdateResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r CallRoutesV3UpdateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CallRoutesV3UpdateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r CallRoutesV3UpdateResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
 type CatalogV3ListEntriesResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -128376,6 +135595,131 @@ func (r CatalogV3CreateEntryResponse) StatusCode() int {
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
 func (r CatalogV3CreateEntryResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type CatalogV3BulkArchiveEntriesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r CatalogV3BulkArchiveEntriesResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r CatalogV3BulkArchiveEntriesResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r CatalogV3BulkArchiveEntriesResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r CatalogV3BulkArchiveEntriesResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r CatalogV3BulkArchiveEntriesResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r CatalogV3BulkArchiveEntriesResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r CatalogV3BulkArchiveEntriesResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r CatalogV3BulkArchiveEntriesResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r CatalogV3BulkArchiveEntriesResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r CatalogV3BulkArchiveEntriesResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r CatalogV3BulkArchiveEntriesResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r CatalogV3BulkArchiveEntriesResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r CatalogV3BulkArchiveEntriesResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r CatalogV3BulkArchiveEntriesResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r CatalogV3BulkArchiveEntriesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CatalogV3BulkArchiveEntriesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r CatalogV3BulkArchiveEntriesResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
@@ -129813,6 +137157,1055 @@ func (r CatalogV3UpdateTypeSchemaResponse) ContentType() string {
 	return ""
 }
 
+type EscalationPathsV3ListResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *EscalationPathsListResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r EscalationPathsV3ListResponse) GetJSON200() *EscalationPathsListResultV3 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r EscalationPathsV3ListResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r EscalationPathsV3ListResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r EscalationPathsV3ListResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r EscalationPathsV3ListResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r EscalationPathsV3ListResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r EscalationPathsV3ListResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r EscalationPathsV3ListResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r EscalationPathsV3ListResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r EscalationPathsV3ListResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r EscalationPathsV3ListResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r EscalationPathsV3ListResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r EscalationPathsV3ListResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r EscalationPathsV3ListResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r EscalationPathsV3ListResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r EscalationPathsV3ListResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r EscalationPathsV3ListResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r EscalationPathsV3ListResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type EscalationPathsV3CreateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON201 the response for an HTTP 201 `application/json` response
+	JSON201 *EscalationPathsCreateResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON201 returns the response for an HTTP 201 `application/json` response
+func (r EscalationPathsV3CreateResponse) GetJSON201() *EscalationPathsCreateResultV3 {
+	return r.JSON201
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r EscalationPathsV3CreateResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r EscalationPathsV3CreateResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r EscalationPathsV3CreateResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r EscalationPathsV3CreateResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r EscalationPathsV3CreateResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r EscalationPathsV3CreateResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r EscalationPathsV3CreateResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r EscalationPathsV3CreateResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r EscalationPathsV3CreateResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r EscalationPathsV3CreateResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r EscalationPathsV3CreateResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r EscalationPathsV3CreateResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r EscalationPathsV3CreateResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r EscalationPathsV3CreateResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r EscalationPathsV3CreateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r EscalationPathsV3CreateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r EscalationPathsV3CreateResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type EscalationPathsV3ValidateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *EscalationPathsValidateResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r EscalationPathsV3ValidateResponse) GetJSON200() *EscalationPathsValidateResultV3 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r EscalationPathsV3ValidateResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r EscalationPathsV3ValidateResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r EscalationPathsV3ValidateResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r EscalationPathsV3ValidateResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r EscalationPathsV3ValidateResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r EscalationPathsV3ValidateResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r EscalationPathsV3ValidateResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r EscalationPathsV3ValidateResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r EscalationPathsV3ValidateResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r EscalationPathsV3ValidateResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r EscalationPathsV3ValidateResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r EscalationPathsV3ValidateResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r EscalationPathsV3ValidateResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r EscalationPathsV3ValidateResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r EscalationPathsV3ValidateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r EscalationPathsV3ValidateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r EscalationPathsV3ValidateResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type EscalationPathsV3ListExternalResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *EscalationPathsListExternalResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r EscalationPathsV3ListExternalResponse) GetJSON200() *EscalationPathsListExternalResultV3 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r EscalationPathsV3ListExternalResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r EscalationPathsV3ListExternalResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r EscalationPathsV3ListExternalResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r EscalationPathsV3ListExternalResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r EscalationPathsV3ListExternalResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r EscalationPathsV3ListExternalResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r EscalationPathsV3ListExternalResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r EscalationPathsV3ListExternalResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r EscalationPathsV3ListExternalResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r EscalationPathsV3ListExternalResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r EscalationPathsV3ListExternalResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r EscalationPathsV3ListExternalResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r EscalationPathsV3ListExternalResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r EscalationPathsV3ListExternalResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r EscalationPathsV3ListExternalResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r EscalationPathsV3ListExternalResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r EscalationPathsV3ListExternalResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type EscalationPathsV3CreateExternalResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON201 the response for an HTTP 201 `application/json` response
+	JSON201 *EscalationPathsCreateExternalResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON201 returns the response for an HTTP 201 `application/json` response
+func (r EscalationPathsV3CreateExternalResponse) GetJSON201() *EscalationPathsCreateExternalResultV3 {
+	return r.JSON201
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r EscalationPathsV3CreateExternalResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r EscalationPathsV3CreateExternalResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r EscalationPathsV3CreateExternalResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r EscalationPathsV3CreateExternalResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r EscalationPathsV3CreateExternalResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r EscalationPathsV3CreateExternalResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r EscalationPathsV3CreateExternalResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r EscalationPathsV3CreateExternalResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r EscalationPathsV3CreateExternalResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r EscalationPathsV3CreateExternalResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r EscalationPathsV3CreateExternalResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r EscalationPathsV3CreateExternalResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r EscalationPathsV3CreateExternalResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r EscalationPathsV3CreateExternalResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r EscalationPathsV3CreateExternalResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r EscalationPathsV3CreateExternalResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r EscalationPathsV3CreateExternalResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type EscalationPathsV3DestroyResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r EscalationPathsV3DestroyResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r EscalationPathsV3DestroyResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r EscalationPathsV3DestroyResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r EscalationPathsV3DestroyResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r EscalationPathsV3DestroyResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r EscalationPathsV3DestroyResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r EscalationPathsV3DestroyResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r EscalationPathsV3DestroyResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r EscalationPathsV3DestroyResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r EscalationPathsV3DestroyResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r EscalationPathsV3DestroyResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r EscalationPathsV3DestroyResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r EscalationPathsV3DestroyResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r EscalationPathsV3DestroyResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r EscalationPathsV3DestroyResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r EscalationPathsV3DestroyResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r EscalationPathsV3DestroyResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type EscalationPathsV3ShowResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *EscalationPathsShowResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r EscalationPathsV3ShowResponse) GetJSON200() *EscalationPathsShowResultV3 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r EscalationPathsV3ShowResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r EscalationPathsV3ShowResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r EscalationPathsV3ShowResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r EscalationPathsV3ShowResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r EscalationPathsV3ShowResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r EscalationPathsV3ShowResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r EscalationPathsV3ShowResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r EscalationPathsV3ShowResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r EscalationPathsV3ShowResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r EscalationPathsV3ShowResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r EscalationPathsV3ShowResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r EscalationPathsV3ShowResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r EscalationPathsV3ShowResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r EscalationPathsV3ShowResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r EscalationPathsV3ShowResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r EscalationPathsV3ShowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r EscalationPathsV3ShowResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type EscalationPathsV3UpdateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *EscalationPathsUpdateResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r EscalationPathsV3UpdateResponse) GetJSON200() *EscalationPathsUpdateResultV3 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r EscalationPathsV3UpdateResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r EscalationPathsV3UpdateResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r EscalationPathsV3UpdateResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r EscalationPathsV3UpdateResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r EscalationPathsV3UpdateResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r EscalationPathsV3UpdateResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r EscalationPathsV3UpdateResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r EscalationPathsV3UpdateResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r EscalationPathsV3UpdateResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r EscalationPathsV3UpdateResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r EscalationPathsV3UpdateResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r EscalationPathsV3UpdateResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r EscalationPathsV3UpdateResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r EscalationPathsV3UpdateResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r EscalationPathsV3UpdateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r EscalationPathsV3UpdateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r EscalationPathsV3UpdateResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
 type EscalationsV3ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -129945,6 +138338,527 @@ func (r EscalationsV3ListResponse) ContentType() string {
 	return ""
 }
 
+type EscalationsV3CreateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON201 the response for an HTTP 201 `application/json` response
+	JSON201 *EscalationsCreateResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON201 returns the response for an HTTP 201 `application/json` response
+func (r EscalationsV3CreateResponse) GetJSON201() *EscalationsCreateResultV3 {
+	return r.JSON201
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r EscalationsV3CreateResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r EscalationsV3CreateResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r EscalationsV3CreateResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r EscalationsV3CreateResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r EscalationsV3CreateResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r EscalationsV3CreateResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r EscalationsV3CreateResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r EscalationsV3CreateResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r EscalationsV3CreateResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r EscalationsV3CreateResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r EscalationsV3CreateResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r EscalationsV3CreateResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r EscalationsV3CreateResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r EscalationsV3CreateResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r EscalationsV3CreateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r EscalationsV3CreateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r EscalationsV3CreateResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type EscalationsV3CheckEscalationPermissionsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *EscalationsCheckEscalationPermissionsResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r EscalationsV3CheckEscalationPermissionsResponse) GetJSON200() *EscalationsCheckEscalationPermissionsResultV3 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r EscalationsV3CheckEscalationPermissionsResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r EscalationsV3CheckEscalationPermissionsResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r EscalationsV3CheckEscalationPermissionsResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r EscalationsV3CheckEscalationPermissionsResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r EscalationsV3CheckEscalationPermissionsResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r EscalationsV3CheckEscalationPermissionsResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r EscalationsV3CheckEscalationPermissionsResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r EscalationsV3CheckEscalationPermissionsResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r EscalationsV3CheckEscalationPermissionsResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r EscalationsV3CheckEscalationPermissionsResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r EscalationsV3CheckEscalationPermissionsResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r EscalationsV3CheckEscalationPermissionsResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r EscalationsV3CheckEscalationPermissionsResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r EscalationsV3CheckEscalationPermissionsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r EscalationsV3CheckEscalationPermissionsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r EscalationsV3CheckEscalationPermissionsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r EscalationsV3CheckEscalationPermissionsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type EscalationsV3ReassignEscalationResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON201 the response for an HTTP 201 `application/json` response
+	JSON201 *EscalationsReassignEscalationResultV3
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON201 returns the response for an HTTP 201 `application/json` response
+func (r EscalationsV3ReassignEscalationResponse) GetJSON201() *EscalationsReassignEscalationResultV3 {
+	return r.JSON201
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r EscalationsV3ReassignEscalationResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r EscalationsV3ReassignEscalationResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r EscalationsV3ReassignEscalationResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r EscalationsV3ReassignEscalationResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r EscalationsV3ReassignEscalationResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r EscalationsV3ReassignEscalationResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r EscalationsV3ReassignEscalationResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r EscalationsV3ReassignEscalationResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r EscalationsV3ReassignEscalationResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r EscalationsV3ReassignEscalationResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r EscalationsV3ReassignEscalationResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r EscalationsV3ReassignEscalationResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r EscalationsV3ReassignEscalationResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r EscalationsV3ReassignEscalationResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r EscalationsV3ReassignEscalationResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r EscalationsV3ReassignEscalationResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r EscalationsV3ReassignEscalationResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type EscalationsV3RespondEscalationResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r EscalationsV3RespondEscalationResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r EscalationsV3RespondEscalationResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r EscalationsV3RespondEscalationResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r EscalationsV3RespondEscalationResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r EscalationsV3RespondEscalationResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r EscalationsV3RespondEscalationResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r EscalationsV3RespondEscalationResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r EscalationsV3RespondEscalationResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r EscalationsV3RespondEscalationResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r EscalationsV3RespondEscalationResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r EscalationsV3RespondEscalationResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r EscalationsV3RespondEscalationResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r EscalationsV3RespondEscalationResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r EscalationsV3RespondEscalationResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r EscalationsV3RespondEscalationResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r EscalationsV3RespondEscalationResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r EscalationsV3RespondEscalationResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
 type EscalationsV3ShowResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -130071,6 +138985,131 @@ func (r EscalationsV3ShowResponse) StatusCode() int {
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
 func (r EscalationsV3ShowResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type EscalationsV3CancelEscalationResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r EscalationsV3CancelEscalationResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r EscalationsV3CancelEscalationResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r EscalationsV3CancelEscalationResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r EscalationsV3CancelEscalationResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r EscalationsV3CancelEscalationResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r EscalationsV3CancelEscalationResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r EscalationsV3CancelEscalationResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r EscalationsV3CancelEscalationResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r EscalationsV3CancelEscalationResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r EscalationsV3CancelEscalationResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r EscalationsV3CancelEscalationResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r EscalationsV3CancelEscalationResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r EscalationsV3CancelEscalationResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r EscalationsV3CancelEscalationResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r EscalationsV3CancelEscalationResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r EscalationsV3CancelEscalationResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r EscalationsV3CancelEscalationResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
@@ -143379,6 +152418,304 @@ func (c *ClientWithResponses) AlertSourcesV3UpdateWithResponse(ctx context.Conte
 	return ParseAlertSourcesV3UpdateResponse(rsp)
 }
 
+// CallRoutesV3ListWithResponse List Call Routes V3
+//
+// List all call routes for this organisation.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v3/call_routes (the `CallRoutesV3List` operationId).
+func (c *ClientWithResponses) CallRoutesV3ListWithResponse(ctx context.Context, params *CallRoutesV3ListParams, reqEditors ...RequestEditorFn) (*CallRoutesV3ListResponse, error) {
+	rsp, err := c.CallRoutesV3List(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCallRoutesV3ListResponse(rsp)
+}
+
+// CallRoutesV3ListAllowedCallersWithResponse ListAllowedCallers Call Routes V3
+//
+// List the numbers allowed to call a route.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v3/call_routes/{call_route_id}/allowed_callers (the `CallRoutesV3ListAllowedCallers` operationId).
+func (c *ClientWithResponses) CallRoutesV3ListAllowedCallersWithResponse(ctx context.Context, callRouteId string, reqEditors ...RequestEditorFn) (*CallRoutesV3ListAllowedCallersResponse, error) {
+	rsp, err := c.CallRoutesV3ListAllowedCallers(ctx, callRouteId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCallRoutesV3ListAllowedCallersResponse(rsp)
+}
+
+// CallRoutesV3CreateAllowedCallerWithBodyWithResponse CreateAllowedCaller Call Routes V3
+//
+// Allow a number to call this route.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/call_routes/{call_route_id}/allowed_callers (the `CallRoutesV3CreateAllowedCaller` operationId).
+func (c *ClientWithResponses) CallRoutesV3CreateAllowedCallerWithBodyWithResponse(ctx context.Context, callRouteId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CallRoutesV3CreateAllowedCallerResponse, error) {
+	rsp, err := c.CallRoutesV3CreateAllowedCallerWithBody(ctx, callRouteId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCallRoutesV3CreateAllowedCallerResponse(rsp)
+}
+
+// CallRoutesV3CreateAllowedCallerWithResponse CreateAllowedCaller Call Routes V3
+//
+// Allow a number to call this route.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/call_routes/{call_route_id}/allowed_callers (the `CallRoutesV3CreateAllowedCaller` operationId).
+func (c *ClientWithResponses) CallRoutesV3CreateAllowedCallerWithResponse(ctx context.Context, callRouteId string, body CallRoutesV3CreateAllowedCallerJSONRequestBody, reqEditors ...RequestEditorFn) (*CallRoutesV3CreateAllowedCallerResponse, error) {
+	rsp, err := c.CallRoutesV3CreateAllowedCaller(ctx, callRouteId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCallRoutesV3CreateAllowedCallerResponse(rsp)
+}
+
+// CallRoutesV3DestroyAllowedCallerWithResponse DestroyAllowedCaller Call Routes V3
+//
+// Stop allowing a number to call this route.
+//
+// A route that only answers its allowed callers must keep at least one, so turn
+// use_caller_allowlist off before removing the last number.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v3/call_routes/{call_route_id}/allowed_callers/{id} (the `CallRoutesV3DestroyAllowedCaller` operationId).
+func (c *ClientWithResponses) CallRoutesV3DestroyAllowedCallerWithResponse(ctx context.Context, callRouteId string, id string, reqEditors ...RequestEditorFn) (*CallRoutesV3DestroyAllowedCallerResponse, error) {
+	rsp, err := c.CallRoutesV3DestroyAllowedCaller(ctx, callRouteId, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCallRoutesV3DestroyAllowedCallerResponse(rsp)
+}
+
+// CallRoutesV3ShowAllowedCallerWithResponse ShowAllowedCaller Call Routes V3
+//
+// Show a single allowed caller.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v3/call_routes/{call_route_id}/allowed_callers/{id} (the `CallRoutesV3ShowAllowedCaller` operationId).
+func (c *ClientWithResponses) CallRoutesV3ShowAllowedCallerWithResponse(ctx context.Context, callRouteId string, id string, reqEditors ...RequestEditorFn) (*CallRoutesV3ShowAllowedCallerResponse, error) {
+	rsp, err := c.CallRoutesV3ShowAllowedCaller(ctx, callRouteId, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCallRoutesV3ShowAllowedCallerResponse(rsp)
+}
+
+// CallRoutesV3UpdateAllowedCallerWithBodyWithResponse UpdateAllowedCaller Call Routes V3
+//
+// Replace an allowed caller's number and label.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v3/call_routes/{call_route_id}/allowed_callers/{id} (the `CallRoutesV3UpdateAllowedCaller` operationId).
+func (c *ClientWithResponses) CallRoutesV3UpdateAllowedCallerWithBodyWithResponse(ctx context.Context, callRouteId string, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CallRoutesV3UpdateAllowedCallerResponse, error) {
+	rsp, err := c.CallRoutesV3UpdateAllowedCallerWithBody(ctx, callRouteId, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCallRoutesV3UpdateAllowedCallerResponse(rsp)
+}
+
+// CallRoutesV3UpdateAllowedCallerWithResponse UpdateAllowedCaller Call Routes V3
+//
+// Replace an allowed caller's number and label.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v3/call_routes/{call_route_id}/allowed_callers/{id} (the `CallRoutesV3UpdateAllowedCaller` operationId).
+func (c *ClientWithResponses) CallRoutesV3UpdateAllowedCallerWithResponse(ctx context.Context, callRouteId string, id string, body CallRoutesV3UpdateAllowedCallerJSONRequestBody, reqEditors ...RequestEditorFn) (*CallRoutesV3UpdateAllowedCallerResponse, error) {
+	rsp, err := c.CallRoutesV3UpdateAllowedCaller(ctx, callRouteId, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCallRoutesV3UpdateAllowedCallerResponse(rsp)
+}
+
+// CallRoutesV3ListOptionsWithResponse ListOptions Call Routes V3
+//
+// List a call route's phone-tree options, in the order callers hear them.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v3/call_routes/{call_route_id}/options (the `CallRoutesV3ListOptions` operationId).
+func (c *ClientWithResponses) CallRoutesV3ListOptionsWithResponse(ctx context.Context, callRouteId string, reqEditors ...RequestEditorFn) (*CallRoutesV3ListOptionsResponse, error) {
+	rsp, err := c.CallRoutesV3ListOptions(ctx, callRouteId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCallRoutesV3ListOptionsResponse(rsp)
+}
+
+// CallRoutesV3CreateOptionWithBodyWithResponse CreateOption Call Routes V3
+//
+// Add an option to a call route's phone-tree menu.
+//
+// Callers hear the menu instead of being routed down the route's own path, so
+// adding the first option clears that path. Every plan allows a single option. A
+// menu of two or more options is not on every plan, so get in touch if you need
+// one enabled.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/call_routes/{call_route_id}/options (the `CallRoutesV3CreateOption` operationId).
+func (c *ClientWithResponses) CallRoutesV3CreateOptionWithBodyWithResponse(ctx context.Context, callRouteId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CallRoutesV3CreateOptionResponse, error) {
+	rsp, err := c.CallRoutesV3CreateOptionWithBody(ctx, callRouteId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCallRoutesV3CreateOptionResponse(rsp)
+}
+
+// CallRoutesV3CreateOptionWithResponse CreateOption Call Routes V3
+//
+// Add an option to a call route's phone-tree menu.
+//
+// Callers hear the menu instead of being routed down the route's own path, so
+// adding the first option clears that path. Every plan allows a single option. A
+// menu of two or more options is not on every plan, so get in touch if you need
+// one enabled.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/call_routes/{call_route_id}/options (the `CallRoutesV3CreateOption` operationId).
+func (c *ClientWithResponses) CallRoutesV3CreateOptionWithResponse(ctx context.Context, callRouteId string, body CallRoutesV3CreateOptionJSONRequestBody, reqEditors ...RequestEditorFn) (*CallRoutesV3CreateOptionResponse, error) {
+	rsp, err := c.CallRoutesV3CreateOption(ctx, callRouteId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCallRoutesV3CreateOptionResponse(rsp)
+}
+
+// CallRoutesV3DestroyOptionWithResponse DestroyOption Call Routes V3
+//
+// Remove an option from a call route's phone-tree menu.
+//
+// A route has to route calls somewhere, so give it a path before removing its last
+// option.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v3/call_routes/{call_route_id}/options/{id} (the `CallRoutesV3DestroyOption` operationId).
+func (c *ClientWithResponses) CallRoutesV3DestroyOptionWithResponse(ctx context.Context, callRouteId string, id string, reqEditors ...RequestEditorFn) (*CallRoutesV3DestroyOptionResponse, error) {
+	rsp, err := c.CallRoutesV3DestroyOption(ctx, callRouteId, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCallRoutesV3DestroyOptionResponse(rsp)
+}
+
+// CallRoutesV3ShowOptionWithResponse ShowOption Call Routes V3
+//
+// Show a single phone-tree option.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v3/call_routes/{call_route_id}/options/{id} (the `CallRoutesV3ShowOption` operationId).
+func (c *ClientWithResponses) CallRoutesV3ShowOptionWithResponse(ctx context.Context, callRouteId string, id string, reqEditors ...RequestEditorFn) (*CallRoutesV3ShowOptionResponse, error) {
+	rsp, err := c.CallRoutesV3ShowOption(ctx, callRouteId, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCallRoutesV3ShowOptionResponse(rsp)
+}
+
+// CallRoutesV3UpdateOptionWithBodyWithResponse UpdateOption Call Routes V3
+//
+// Replace a phone-tree option.
+//
+// Two live options can't share a digit, so moving an option onto a digit the menu
+// already uses is rejected.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v3/call_routes/{call_route_id}/options/{id} (the `CallRoutesV3UpdateOption` operationId).
+func (c *ClientWithResponses) CallRoutesV3UpdateOptionWithBodyWithResponse(ctx context.Context, callRouteId string, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CallRoutesV3UpdateOptionResponse, error) {
+	rsp, err := c.CallRoutesV3UpdateOptionWithBody(ctx, callRouteId, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCallRoutesV3UpdateOptionResponse(rsp)
+}
+
+// CallRoutesV3UpdateOptionWithResponse UpdateOption Call Routes V3
+//
+// Replace a phone-tree option.
+//
+// Two live options can't share a digit, so moving an option onto a digit the menu
+// already uses is rejected.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v3/call_routes/{call_route_id}/options/{id} (the `CallRoutesV3UpdateOption` operationId).
+func (c *ClientWithResponses) CallRoutesV3UpdateOptionWithResponse(ctx context.Context, callRouteId string, id string, body CallRoutesV3UpdateOptionJSONRequestBody, reqEditors ...RequestEditorFn) (*CallRoutesV3UpdateOptionResponse, error) {
+	rsp, err := c.CallRoutesV3UpdateOption(ctx, callRouteId, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCallRoutesV3UpdateOptionResponse(rsp)
+}
+
+// CallRoutesV3ShowWithResponse Show Call Routes V3
+//
+// Show a single call route.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v3/call_routes/{id} (the `CallRoutesV3Show` operationId).
+func (c *ClientWithResponses) CallRoutesV3ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*CallRoutesV3ShowResponse, error) {
+	rsp, err := c.CallRoutesV3Show(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCallRoutesV3ShowResponse(rsp)
+}
+
+// CallRoutesV3UpdateWithBodyWithResponse Update Call Routes V3
+//
+// Replace a call route's configuration.
+//
+// Sending a path retires any phone-tree menu on the route. Send an empty path to
+// keep the menu.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v3/call_routes/{id} (the `CallRoutesV3Update` operationId).
+func (c *ClientWithResponses) CallRoutesV3UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CallRoutesV3UpdateResponse, error) {
+	rsp, err := c.CallRoutesV3UpdateWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCallRoutesV3UpdateResponse(rsp)
+}
+
+// CallRoutesV3UpdateWithResponse Update Call Routes V3
+//
+// Replace a call route's configuration.
+//
+// Sending a path retires any phone-tree menu on the route. Send an empty path to
+// keep the menu.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v3/call_routes/{id} (the `CallRoutesV3Update` operationId).
+func (c *ClientWithResponses) CallRoutesV3UpdateWithResponse(ctx context.Context, id string, body CallRoutesV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*CallRoutesV3UpdateResponse, error) {
+	rsp, err := c.CallRoutesV3Update(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCallRoutesV3UpdateResponse(rsp)
+}
+
 // CatalogV3ListEntriesWithResponse ListEntries Catalog V3
 //
 // List entries for a catalog type.
@@ -143426,6 +152763,40 @@ func (c *ClientWithResponses) CatalogV3CreateEntryWithResponse(ctx context.Conte
 		return nil, err
 	}
 	return ParseCatalogV3CreateEntryResponse(rsp)
+}
+
+// CatalogV3BulkArchiveEntriesWithBodyWithResponse BulkArchiveEntries Catalog V3
+//
+// Archive up to 250 entries of one catalog type in a single request. This has the same effect as deleting each entry individually. This operation is atomic: if the request fails, no entries are archived.
+//
+// Entries that don't exist, are already archived, or belong to a different catalog type are skipped and don't fail the request. If any of the entries set attributes that you don't have permission to clear, the request fails with a 403 that lists those entries, and no entries are archived.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/catalog_entries/actions/bulk_archive (the `CatalogV3BulkArchiveEntries` operationId).
+func (c *ClientWithResponses) CatalogV3BulkArchiveEntriesWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CatalogV3BulkArchiveEntriesResponse, error) {
+	rsp, err := c.CatalogV3BulkArchiveEntriesWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCatalogV3BulkArchiveEntriesResponse(rsp)
+}
+
+// CatalogV3BulkArchiveEntriesWithResponse BulkArchiveEntries Catalog V3
+//
+// Archive up to 250 entries of one catalog type in a single request. This has the same effect as deleting each entry individually. This operation is atomic: if the request fails, no entries are archived.
+//
+// Entries that don't exist, are already archived, or belong to a different catalog type are skipped and don't fail the request. If any of the entries set attributes that you don't have permission to clear, the request fails with a 403 that lists those entries, and no entries are archived.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/catalog_entries/actions/bulk_archive (the `CatalogV3BulkArchiveEntries` operationId).
+func (c *ClientWithResponses) CatalogV3BulkArchiveEntriesWithResponse(ctx context.Context, body CatalogV3BulkArchiveEntriesJSONRequestBody, reqEditors ...RequestEditorFn) (*CatalogV3BulkArchiveEntriesResponse, error) {
+	rsp, err := c.CatalogV3BulkArchiveEntries(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCatalogV3BulkArchiveEntriesResponse(rsp)
 }
 
 // CatalogV3BulkUpdateEntriesWithBodyWithResponse BulkUpdateEntries Catalog V3
@@ -143686,6 +153057,252 @@ func (c *ClientWithResponses) CatalogV3UpdateTypeSchemaWithResponse(ctx context.
 	return ParseCatalogV3UpdateTypeSchemaResponse(rsp)
 }
 
+// EscalationPathsV3ListWithResponse List Escalation Paths V3
+//
+// List all escalation paths in your account.
+//
+// An escalation path is a series of steps that describe how a page should be escalated,
+// represented as a graph, supporting conditional branches based on escalation urgency and
+// working intervals.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v3/escalation_paths (the `EscalationPathsV3List` operationId).
+func (c *ClientWithResponses) EscalationPathsV3ListWithResponse(ctx context.Context, params *EscalationPathsV3ListParams, reqEditors ...RequestEditorFn) (*EscalationPathsV3ListResponse, error) {
+	rsp, err := c.EscalationPathsV3List(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationPathsV3ListResponse(rsp)
+}
+
+// EscalationPathsV3CreateWithBodyWithResponse Create Escalation Paths V3
+//
+// Create an escalation path.
+//
+// If/else nodes can only branch on escalation.urgency, and their conditions compare against
+// the IDs of your escalation urgencies.
+//
+// An escalation path is a series of steps that describe how a page should be escalated,
+// represented as a graph, supporting conditional branches based on escalation urgency and
+// working intervals.
+//
+// We recommend you create escalation paths in the incident.io dashboard where our path
+// builder makes it easy to use conditions and visualise the path.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/escalation_paths (the `EscalationPathsV3Create` operationId).
+func (c *ClientWithResponses) EscalationPathsV3CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*EscalationPathsV3CreateResponse, error) {
+	rsp, err := c.EscalationPathsV3CreateWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationPathsV3CreateResponse(rsp)
+}
+
+// EscalationPathsV3CreateWithResponse Create Escalation Paths V3
+//
+// Create an escalation path.
+//
+// If/else nodes can only branch on escalation.urgency, and their conditions compare against
+// the IDs of your escalation urgencies.
+//
+// An escalation path is a series of steps that describe how a page should be escalated,
+// represented as a graph, supporting conditional branches based on escalation urgency and
+// working intervals.
+//
+// We recommend you create escalation paths in the incident.io dashboard where our path
+// builder makes it easy to use conditions and visualise the path.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/escalation_paths (the `EscalationPathsV3Create` operationId).
+func (c *ClientWithResponses) EscalationPathsV3CreateWithResponse(ctx context.Context, body EscalationPathsV3CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*EscalationPathsV3CreateResponse, error) {
+	rsp, err := c.EscalationPathsV3Create(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationPathsV3CreateResponse(rsp)
+}
+
+// EscalationPathsV3ValidateWithBodyWithResponse Validate Escalation Paths V3
+//
+// Check whether an escalation path's config is valid, without creating or updating anything.
+//
+// If/else nodes can only branch on escalation.urgency, and their conditions compare against
+// the IDs of your escalation urgencies.
+//
+// This runs the same checks creating or updating a path would, so a config this accepts is
+// one those endpoints will accept. A config that's valid but has no practical effect comes
+// back as a warning on a successful response. A client can show it without blocking.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/escalation_paths/actions/validate (the `EscalationPathsV3Validate` operationId).
+func (c *ClientWithResponses) EscalationPathsV3ValidateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*EscalationPathsV3ValidateResponse, error) {
+	rsp, err := c.EscalationPathsV3ValidateWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationPathsV3ValidateResponse(rsp)
+}
+
+// EscalationPathsV3ValidateWithResponse Validate Escalation Paths V3
+//
+// Check whether an escalation path's config is valid, without creating or updating anything.
+//
+// If/else nodes can only branch on escalation.urgency, and their conditions compare against
+// the IDs of your escalation urgencies.
+//
+// This runs the same checks creating or updating a path would, so a config this accepts is
+// one those endpoints will accept. A config that's valid but has no practical effect comes
+// back as a warning on a successful response. A client can show it without blocking.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/escalation_paths/actions/validate (the `EscalationPathsV3Validate` operationId).
+func (c *ClientWithResponses) EscalationPathsV3ValidateWithResponse(ctx context.Context, body EscalationPathsV3ValidateJSONRequestBody, reqEditors ...RequestEditorFn) (*EscalationPathsV3ValidateResponse, error) {
+	rsp, err := c.EscalationPathsV3Validate(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationPathsV3ValidateResponse(rsp)
+}
+
+// EscalationPathsV3ListExternalWithResponse ListExternal Escalation Paths V3
+//
+// List external escalation paths available for import from connected providers.
+//
+// This endpoint returns escalation paths from connected external providers (e.g. PagerDuty)
+// that can be imported into incident.io. Each entry includes whether the path can be
+// imported, and if not, why.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v3/escalation_paths/external (the `EscalationPathsV3ListExternal` operationId).
+func (c *ClientWithResponses) EscalationPathsV3ListExternalWithResponse(ctx context.Context, params *EscalationPathsV3ListExternalParams, reqEditors ...RequestEditorFn) (*EscalationPathsV3ListExternalResponse, error) {
+	rsp, err := c.EscalationPathsV3ListExternal(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationPathsV3ListExternalResponse(rsp)
+}
+
+// EscalationPathsV3CreateExternalWithBodyWithResponse CreateExternal Escalation Paths V3
+//
+// Import an external escalation path and its referenced schedules.
+//
+// Takes the ID of an external escalation path (as returned by the list endpoint) and
+// imports it along with any referenced schedules that haven't already been imported.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/escalation_paths/external (the `EscalationPathsV3CreateExternal` operationId).
+func (c *ClientWithResponses) EscalationPathsV3CreateExternalWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*EscalationPathsV3CreateExternalResponse, error) {
+	rsp, err := c.EscalationPathsV3CreateExternalWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationPathsV3CreateExternalResponse(rsp)
+}
+
+// EscalationPathsV3CreateExternalWithResponse CreateExternal Escalation Paths V3
+//
+// Import an external escalation path and its referenced schedules.
+//
+// Takes the ID of an external escalation path (as returned by the list endpoint) and
+// imports it along with any referenced schedules that haven't already been imported.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/escalation_paths/external (the `EscalationPathsV3CreateExternal` operationId).
+func (c *ClientWithResponses) EscalationPathsV3CreateExternalWithResponse(ctx context.Context, body EscalationPathsV3CreateExternalJSONRequestBody, reqEditors ...RequestEditorFn) (*EscalationPathsV3CreateExternalResponse, error) {
+	rsp, err := c.EscalationPathsV3CreateExternal(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationPathsV3CreateExternalResponse(rsp)
+}
+
+// EscalationPathsV3DestroyWithResponse Destroy Escalation Paths V3
+//
+// Archives an escalation path.
+//
+// We recommend you create escalation paths in the incident.io dashboard where our path
+// builder makes it easy to use conditions and visualise the path.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v3/escalation_paths/{id} (the `EscalationPathsV3Destroy` operationId).
+func (c *ClientWithResponses) EscalationPathsV3DestroyWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*EscalationPathsV3DestroyResponse, error) {
+	rsp, err := c.EscalationPathsV3Destroy(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationPathsV3DestroyResponse(rsp)
+}
+
+// EscalationPathsV3ShowWithResponse Show Escalation Paths V3
+//
+// Show an escalation path.
+//
+// We recommend you create escalation paths in the incident.io dashboard where our path
+// builder makes it easy to use conditions and visualise the path.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v3/escalation_paths/{id} (the `EscalationPathsV3Show` operationId).
+func (c *ClientWithResponses) EscalationPathsV3ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*EscalationPathsV3ShowResponse, error) {
+	rsp, err := c.EscalationPathsV3Show(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationPathsV3ShowResponse(rsp)
+}
+
+// EscalationPathsV3UpdateWithBodyWithResponse Update Escalation Paths V3
+//
+// Updates an escalation path.
+//
+// If/else nodes can only branch on escalation.urgency, and their conditions compare against
+// the IDs of your escalation urgencies.
+//
+// We recommend you create escalation paths in the incident.io dashboard where our path
+// builder makes it easy to use conditions and visualise the path.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v3/escalation_paths/{id} (the `EscalationPathsV3Update` operationId).
+func (c *ClientWithResponses) EscalationPathsV3UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*EscalationPathsV3UpdateResponse, error) {
+	rsp, err := c.EscalationPathsV3UpdateWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationPathsV3UpdateResponse(rsp)
+}
+
+// EscalationPathsV3UpdateWithResponse Update Escalation Paths V3
+//
+// Updates an escalation path.
+//
+// If/else nodes can only branch on escalation.urgency, and their conditions compare against
+// the IDs of your escalation urgencies.
+//
+// We recommend you create escalation paths in the incident.io dashboard where our path
+// builder makes it easy to use conditions and visualise the path.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v3/escalation_paths/{id} (the `EscalationPathsV3Update` operationId).
+func (c *ClientWithResponses) EscalationPathsV3UpdateWithResponse(ctx context.Context, id string, body EscalationPathsV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*EscalationPathsV3UpdateResponse, error) {
+	rsp, err := c.EscalationPathsV3Update(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationPathsV3UpdateResponse(rsp)
+}
+
 // EscalationsV3ListWithResponse List Escalations V3
 //
 // List all escalations for your account.
@@ -143774,6 +153391,258 @@ func (c *ClientWithResponses) EscalationsV3ListWithResponse(ctx context.Context,
 	return ParseEscalationsV3ListResponse(rsp)
 }
 
+// EscalationsV3CreateWithBodyWithResponse Create Escalations V3
+//
+// Create an escalation.
+//
+// An escalation pages people, either according to an escalation path, or directly to
+// specific users. You must provide either an escalation_path_id OR user_ids, but not both.
+//
+// Each escalation pages at an escalation urgency. Set urgency_id to choose one. Without it,
+// the escalation pages at your most urgent escalation urgency. An unknown or archived
+// urgency_id is rejected.
+//
+// When escalating via an escalation path, the escalation will follow the configured path
+// with its levels and timeouts.
+//
+// When escalating directly to users, they're notified at the urgency's default
+// interruption level (high or low), based on their notification rules.
+//
+// This endpoint is rate-limited to 60 requests per minute, since it is intended for
+// interactive use cases (for example someone clicking a "escalate to team" button
+// in your internal developer platform). To escalate based on automated alerts, we
+// recommend sending events to an alert source instead.
+//
+// If your API key's permissions are scoped to teams, you can only escalate via an
+// escalation path that one of those teams owns. Escalating directly to user_ids
+// needs the permission at the account level, because an escalation aimed at a
+// person has no owning team.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/escalations (the `EscalationsV3Create` operationId).
+func (c *ClientWithResponses) EscalationsV3CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*EscalationsV3CreateResponse, error) {
+	rsp, err := c.EscalationsV3CreateWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationsV3CreateResponse(rsp)
+}
+
+// EscalationsV3CreateWithResponse Create Escalations V3
+//
+// Create an escalation.
+//
+// An escalation pages people, either according to an escalation path, or directly to
+// specific users. You must provide either an escalation_path_id OR user_ids, but not both.
+//
+// Each escalation pages at an escalation urgency. Set urgency_id to choose one. Without it,
+// the escalation pages at your most urgent escalation urgency. An unknown or archived
+// urgency_id is rejected.
+//
+// When escalating via an escalation path, the escalation will follow the configured path
+// with its levels and timeouts.
+//
+// When escalating directly to users, they're notified at the urgency's default
+// interruption level (high or low), based on their notification rules.
+//
+// This endpoint is rate-limited to 60 requests per minute, since it is intended for
+// interactive use cases (for example someone clicking a "escalate to team" button
+// in your internal developer platform). To escalate based on automated alerts, we
+// recommend sending events to an alert source instead.
+//
+// If your API key's permissions are scoped to teams, you can only escalate via an
+// escalation path that one of those teams owns. Escalating directly to user_ids
+// needs the permission at the account level, because an escalation aimed at a
+// person has no owning team.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/escalations (the `EscalationsV3Create` operationId).
+func (c *ClientWithResponses) EscalationsV3CreateWithResponse(ctx context.Context, body EscalationsV3CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*EscalationsV3CreateResponse, error) {
+	rsp, err := c.EscalationsV3Create(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationsV3CreateResponse(rsp)
+}
+
+// EscalationsV3CheckEscalationPermissionsWithBodyWithResponse CheckEscalationPermissions Escalations V3
+//
+// Check whether the given users can currently acknowledge, decline, or snooze an escalation.
+//
+// This is a read-only projection of the escalation's current state, intended for deciding
+// which response actions to surface to each user in a custom integration.
+//
+// To use this API, you will need an API key that can view escalations and users.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/escalations/{escalation_id}/actions/check_permissions (the `EscalationsV3CheckEscalationPermissions` operationId).
+func (c *ClientWithResponses) EscalationsV3CheckEscalationPermissionsWithBodyWithResponse(ctx context.Context, escalationId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*EscalationsV3CheckEscalationPermissionsResponse, error) {
+	rsp, err := c.EscalationsV3CheckEscalationPermissionsWithBody(ctx, escalationId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationsV3CheckEscalationPermissionsResponse(rsp)
+}
+
+// EscalationsV3CheckEscalationPermissionsWithResponse CheckEscalationPermissions Escalations V3
+//
+// Check whether the given users can currently acknowledge, decline, or snooze an escalation.
+//
+// This is a read-only projection of the escalation's current state, intended for deciding
+// which response actions to surface to each user in a custom integration.
+//
+// To use this API, you will need an API key that can view escalations and users.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/escalations/{escalation_id}/actions/check_permissions (the `EscalationsV3CheckEscalationPermissions` operationId).
+func (c *ClientWithResponses) EscalationsV3CheckEscalationPermissionsWithResponse(ctx context.Context, escalationId string, body EscalationsV3CheckEscalationPermissionsJSONRequestBody, reqEditors ...RequestEditorFn) (*EscalationsV3CheckEscalationPermissionsResponse, error) {
+	rsp, err := c.EscalationsV3CheckEscalationPermissions(ctx, escalationId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationsV3CheckEscalationPermissionsResponse(rsp)
+}
+
+// EscalationsV3ReassignEscalationWithBodyWithResponse ReassignEscalation Escalations V3
+//
+// Reassign an escalation to a different escalation path or set of users.
+//
+// Use this when a page reached the wrong people. Reassigning creates a new escalation
+// aimed at the targets you give, linked back to the original, and carries over the
+// original's title, description, urgency, incident and alert so the page stays attached
+// to the same alert and acknowledgements keep grouping under it.
+//
+// You must provide either an escalation_path_id OR user_ids, but not both. Both name
+// incident.io escalation paths and users, so an escalation cannot be reassigned to an
+// external escalator such as PagerDuty or Opsgenie.
+//
+// By default the original escalation is resolved, so the first targets stop being paged.
+// Pass resolve_original=false to leave it running alongside the new one. Resolving the
+// original additionally needs the "escalations.respond" permission, since it stops a page
+// someone else may be responding to.
+//
+// An escalation can only be reassigned once: calling this again for the same escalation
+// is rejected. Retrying a request whose response you never saw is safe in the sense that
+// matters — a reassignment that already happened is never repeated, so nobody is paged
+// twice — but the retry is rejected rather than returning the escalation the first call
+// created, so keep the ID from the original response.
+//
+// To use this API, you will need an API key with the "Create and manage escalations"
+// permission. The reassignment is attributed to the key; to attribute it to one of your
+// users instead, set the X-Incident-User header, which needs the
+// "api_keys.act_on_behalf_of_users" scope and no team permissions on the key.
+//
+// If your API key's permissions are scoped to teams, the escalation you're reassigning
+// must be owned by one of those teams, and you can only reassign via an escalation path
+// one of them owns. Reassigning directly to user_ids needs the permission at the account
+// level, because an escalation aimed at a person has no owning team.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/escalations/{escalation_id}/actions/reassign (the `EscalationsV3ReassignEscalation` operationId).
+func (c *ClientWithResponses) EscalationsV3ReassignEscalationWithBodyWithResponse(ctx context.Context, escalationId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*EscalationsV3ReassignEscalationResponse, error) {
+	rsp, err := c.EscalationsV3ReassignEscalationWithBody(ctx, escalationId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationsV3ReassignEscalationResponse(rsp)
+}
+
+// EscalationsV3ReassignEscalationWithResponse ReassignEscalation Escalations V3
+//
+// Reassign an escalation to a different escalation path or set of users.
+//
+// Use this when a page reached the wrong people. Reassigning creates a new escalation
+// aimed at the targets you give, linked back to the original, and carries over the
+// original's title, description, urgency, incident and alert so the page stays attached
+// to the same alert and acknowledgements keep grouping under it.
+//
+// You must provide either an escalation_path_id OR user_ids, but not both. Both name
+// incident.io escalation paths and users, so an escalation cannot be reassigned to an
+// external escalator such as PagerDuty or Opsgenie.
+//
+// By default the original escalation is resolved, so the first targets stop being paged.
+// Pass resolve_original=false to leave it running alongside the new one. Resolving the
+// original additionally needs the "escalations.respond" permission, since it stops a page
+// someone else may be responding to.
+//
+// An escalation can only be reassigned once: calling this again for the same escalation
+// is rejected. Retrying a request whose response you never saw is safe in the sense that
+// matters — a reassignment that already happened is never repeated, so nobody is paged
+// twice — but the retry is rejected rather than returning the escalation the first call
+// created, so keep the ID from the original response.
+//
+// To use this API, you will need an API key with the "Create and manage escalations"
+// permission. The reassignment is attributed to the key; to attribute it to one of your
+// users instead, set the X-Incident-User header, which needs the
+// "api_keys.act_on_behalf_of_users" scope and no team permissions on the key.
+//
+// If your API key's permissions are scoped to teams, the escalation you're reassigning
+// must be owned by one of those teams, and you can only reassign via an escalation path
+// one of them owns. Reassigning directly to user_ids needs the permission at the account
+// level, because an escalation aimed at a person has no owning team.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/escalations/{escalation_id}/actions/reassign (the `EscalationsV3ReassignEscalation` operationId).
+func (c *ClientWithResponses) EscalationsV3ReassignEscalationWithResponse(ctx context.Context, escalationId string, body EscalationsV3ReassignEscalationJSONRequestBody, reqEditors ...RequestEditorFn) (*EscalationsV3ReassignEscalationResponse, error) {
+	rsp, err := c.EscalationsV3ReassignEscalation(ctx, escalationId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationsV3ReassignEscalationResponse(rsp)
+}
+
+// EscalationsV3RespondEscalationWithBodyWithResponse RespondEscalation Escalations V3
+//
+// Respond to an escalation.
+//
+// An API key can acknowledge or snooze an escalation on its own, and the response is
+// attributed to the key.
+//
+// Declining ("nack") means "I personally can't take this page", so it isn't available to
+// an API key responding in its own right.
+//
+// To use this API, you will need an API key with the "Create and manage escalations" permission.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/escalations/{escalation_id}/actions/respond (the `EscalationsV3RespondEscalation` operationId).
+func (c *ClientWithResponses) EscalationsV3RespondEscalationWithBodyWithResponse(ctx context.Context, escalationId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*EscalationsV3RespondEscalationResponse, error) {
+	rsp, err := c.EscalationsV3RespondEscalationWithBody(ctx, escalationId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationsV3RespondEscalationResponse(rsp)
+}
+
+// EscalationsV3RespondEscalationWithResponse RespondEscalation Escalations V3
+//
+// Respond to an escalation.
+//
+// An API key can acknowledge or snooze an escalation on its own, and the response is
+// attributed to the key.
+//
+// Declining ("nack") means "I personally can't take this page", so it isn't available to
+// an API key responding in its own right.
+//
+// To use this API, you will need an API key with the "Create and manage escalations" permission.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/escalations/{escalation_id}/actions/respond (the `EscalationsV3RespondEscalation` operationId).
+func (c *ClientWithResponses) EscalationsV3RespondEscalationWithResponse(ctx context.Context, escalationId string, body EscalationsV3RespondEscalationJSONRequestBody, reqEditors ...RequestEditorFn) (*EscalationsV3RespondEscalationResponse, error) {
+	rsp, err := c.EscalationsV3RespondEscalation(ctx, escalationId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationsV3RespondEscalationResponse(rsp)
+}
+
 // EscalationsV3ShowWithResponse Show Escalations V3
 //
 // Show a specific escalation.
@@ -143787,6 +153656,30 @@ func (c *ClientWithResponses) EscalationsV3ShowWithResponse(ctx context.Context,
 		return nil, err
 	}
 	return ParseEscalationsV3ShowResponse(rsp)
+}
+
+// EscalationsV3CancelEscalationWithResponse CancelEscalation Escalations V3
+//
+// Cancel an escalation.
+//
+// Cancelling an escalation stops any further paging: notifications cease and the
+// escalation will not advance to further levels or repeat. This works on escalations
+// that are still paging (for example to silence a page when an incident is resolved
+// before anyone acknowledges it) as well as snoozed ones. Escalations that have already
+// resolved or expired cannot be cancelled, and cancelling an already-cancelled
+// escalation is a no-op.
+//
+// To use this API, you will need an API key with the "Create and manage escalations" permission.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/escalations/{id}/actions/cancel (the `EscalationsV3CancelEscalation` operationId).
+func (c *ClientWithResponses) EscalationsV3CancelEscalationWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*EscalationsV3CancelEscalationResponse, error) {
+	rsp, err := c.EscalationsV3CancelEscalation(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationsV3CancelEscalationResponse(rsp)
 }
 
 // FollowUpsV3ListWithResponse List Follow-ups V3
@@ -186593,6 +196486,1519 @@ func ParseAlertSourcesV3UpdateResponse(rsp *http.Response) (*AlertSourcesV3Updat
 	return response, nil
 }
 
+// ParseCallRoutesV3ListResponse parses an HTTP response from a CallRoutesV3ListWithResponse call
+func ParseCallRoutesV3ListResponse(rsp *http.Response) (*CallRoutesV3ListResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CallRoutesV3ListResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CallRoutesListResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCallRoutesV3ListAllowedCallersResponse parses an HTTP response from a CallRoutesV3ListAllowedCallersWithResponse call
+func ParseCallRoutesV3ListAllowedCallersResponse(rsp *http.Response) (*CallRoutesV3ListAllowedCallersResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CallRoutesV3ListAllowedCallersResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CallRoutesListAllowedCallersResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCallRoutesV3CreateAllowedCallerResponse parses an HTTP response from a CallRoutesV3CreateAllowedCallerWithResponse call
+func ParseCallRoutesV3CreateAllowedCallerResponse(rsp *http.Response) (*CallRoutesV3CreateAllowedCallerResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CallRoutesV3CreateAllowedCallerResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest CallRoutesCreateAllowedCallerResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCallRoutesV3DestroyAllowedCallerResponse parses an HTTP response from a CallRoutesV3DestroyAllowedCallerWithResponse call
+func ParseCallRoutesV3DestroyAllowedCallerResponse(rsp *http.Response) (*CallRoutesV3DestroyAllowedCallerResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CallRoutesV3DestroyAllowedCallerResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case rsp.StatusCode == 204:
+		break // No content-type
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCallRoutesV3ShowAllowedCallerResponse parses an HTTP response from a CallRoutesV3ShowAllowedCallerWithResponse call
+func ParseCallRoutesV3ShowAllowedCallerResponse(rsp *http.Response) (*CallRoutesV3ShowAllowedCallerResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CallRoutesV3ShowAllowedCallerResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CallRoutesShowAllowedCallerResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCallRoutesV3UpdateAllowedCallerResponse parses an HTTP response from a CallRoutesV3UpdateAllowedCallerWithResponse call
+func ParseCallRoutesV3UpdateAllowedCallerResponse(rsp *http.Response) (*CallRoutesV3UpdateAllowedCallerResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CallRoutesV3UpdateAllowedCallerResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CallRoutesUpdateAllowedCallerResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCallRoutesV3ListOptionsResponse parses an HTTP response from a CallRoutesV3ListOptionsWithResponse call
+func ParseCallRoutesV3ListOptionsResponse(rsp *http.Response) (*CallRoutesV3ListOptionsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CallRoutesV3ListOptionsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CallRoutesListOptionsResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCallRoutesV3CreateOptionResponse parses an HTTP response from a CallRoutesV3CreateOptionWithResponse call
+func ParseCallRoutesV3CreateOptionResponse(rsp *http.Response) (*CallRoutesV3CreateOptionResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CallRoutesV3CreateOptionResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest CallRoutesCreateOptionResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCallRoutesV3DestroyOptionResponse parses an HTTP response from a CallRoutesV3DestroyOptionWithResponse call
+func ParseCallRoutesV3DestroyOptionResponse(rsp *http.Response) (*CallRoutesV3DestroyOptionResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CallRoutesV3DestroyOptionResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case rsp.StatusCode == 204:
+		break // No content-type
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCallRoutesV3ShowOptionResponse parses an HTTP response from a CallRoutesV3ShowOptionWithResponse call
+func ParseCallRoutesV3ShowOptionResponse(rsp *http.Response) (*CallRoutesV3ShowOptionResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CallRoutesV3ShowOptionResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CallRoutesShowOptionResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCallRoutesV3UpdateOptionResponse parses an HTTP response from a CallRoutesV3UpdateOptionWithResponse call
+func ParseCallRoutesV3UpdateOptionResponse(rsp *http.Response) (*CallRoutesV3UpdateOptionResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CallRoutesV3UpdateOptionResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CallRoutesUpdateOptionResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCallRoutesV3ShowResponse parses an HTTP response from a CallRoutesV3ShowWithResponse call
+func ParseCallRoutesV3ShowResponse(rsp *http.Response) (*CallRoutesV3ShowResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CallRoutesV3ShowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CallRoutesShowResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCallRoutesV3UpdateResponse parses an HTTP response from a CallRoutesV3UpdateWithResponse call
+func ParseCallRoutesV3UpdateResponse(rsp *http.Response) (*CallRoutesV3UpdateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CallRoutesV3UpdateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CallRoutesUpdateResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseCatalogV3ListEntriesResponse parses an HTTP response from a CatalogV3ListEntriesWithResponse call
 func ParseCatalogV3ListEntriesResponse(rsp *http.Response) (*CatalogV3ListEntriesResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -186730,6 +198136,119 @@ func ParseCatalogV3CreateEntryResponse(rsp *http.Response) (*CatalogV3CreateEntr
 			return nil, err
 		}
 		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCatalogV3BulkArchiveEntriesResponse parses an HTTP response from a CatalogV3BulkArchiveEntriesWithResponse call
+func ParseCatalogV3BulkArchiveEntriesResponse(rsp *http.Response) (*CatalogV3BulkArchiveEntriesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CatalogV3BulkArchiveEntriesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case rsp.StatusCode == 204:
+		break // No content-type
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
 		var dest ErrorResponse
@@ -188102,6 +199621,938 @@ func ParseCatalogV3UpdateTypeSchemaResponse(rsp *http.Response) (*CatalogV3Updat
 	return response, nil
 }
 
+// ParseEscalationPathsV3ListResponse parses an HTTP response from a EscalationPathsV3ListWithResponse call
+func ParseEscalationPathsV3ListResponse(rsp *http.Response) (*EscalationPathsV3ListResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &EscalationPathsV3ListResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest EscalationPathsListResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseEscalationPathsV3CreateResponse parses an HTTP response from a EscalationPathsV3CreateWithResponse call
+func ParseEscalationPathsV3CreateResponse(rsp *http.Response) (*EscalationPathsV3CreateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &EscalationPathsV3CreateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest EscalationPathsCreateResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseEscalationPathsV3ValidateResponse parses an HTTP response from a EscalationPathsV3ValidateWithResponse call
+func ParseEscalationPathsV3ValidateResponse(rsp *http.Response) (*EscalationPathsV3ValidateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &EscalationPathsV3ValidateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest EscalationPathsValidateResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseEscalationPathsV3ListExternalResponse parses an HTTP response from a EscalationPathsV3ListExternalWithResponse call
+func ParseEscalationPathsV3ListExternalResponse(rsp *http.Response) (*EscalationPathsV3ListExternalResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &EscalationPathsV3ListExternalResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest EscalationPathsListExternalResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseEscalationPathsV3CreateExternalResponse parses an HTTP response from a EscalationPathsV3CreateExternalWithResponse call
+func ParseEscalationPathsV3CreateExternalResponse(rsp *http.Response) (*EscalationPathsV3CreateExternalResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &EscalationPathsV3CreateExternalResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest EscalationPathsCreateExternalResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseEscalationPathsV3DestroyResponse parses an HTTP response from a EscalationPathsV3DestroyWithResponse call
+func ParseEscalationPathsV3DestroyResponse(rsp *http.Response) (*EscalationPathsV3DestroyResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &EscalationPathsV3DestroyResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case rsp.StatusCode == 204:
+		break // No content-type
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseEscalationPathsV3ShowResponse parses an HTTP response from a EscalationPathsV3ShowWithResponse call
+func ParseEscalationPathsV3ShowResponse(rsp *http.Response) (*EscalationPathsV3ShowResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &EscalationPathsV3ShowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest EscalationPathsShowResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseEscalationPathsV3UpdateResponse parses an HTTP response from a EscalationPathsV3UpdateWithResponse call
+func ParseEscalationPathsV3UpdateResponse(rsp *http.Response) (*EscalationPathsV3UpdateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &EscalationPathsV3UpdateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest EscalationPathsUpdateResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseEscalationsV3ListResponse parses an HTTP response from a EscalationsV3ListWithResponse call
 func ParseEscalationsV3ListResponse(rsp *http.Response) (*EscalationsV3ListResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -188219,6 +200670,470 @@ func ParseEscalationsV3ListResponse(rsp *http.Response) (*EscalationsV3ListRespo
 	return response, nil
 }
 
+// ParseEscalationsV3CreateResponse parses an HTTP response from a EscalationsV3CreateWithResponse call
+func ParseEscalationsV3CreateResponse(rsp *http.Response) (*EscalationsV3CreateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &EscalationsV3CreateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest EscalationsCreateResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseEscalationsV3CheckEscalationPermissionsResponse parses an HTTP response from a EscalationsV3CheckEscalationPermissionsWithResponse call
+func ParseEscalationsV3CheckEscalationPermissionsResponse(rsp *http.Response) (*EscalationsV3CheckEscalationPermissionsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &EscalationsV3CheckEscalationPermissionsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest EscalationsCheckEscalationPermissionsResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseEscalationsV3ReassignEscalationResponse parses an HTTP response from a EscalationsV3ReassignEscalationWithResponse call
+func ParseEscalationsV3ReassignEscalationResponse(rsp *http.Response) (*EscalationsV3ReassignEscalationResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &EscalationsV3ReassignEscalationResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest EscalationsReassignEscalationResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseEscalationsV3RespondEscalationResponse parses an HTTP response from a EscalationsV3RespondEscalationWithResponse call
+func ParseEscalationsV3RespondEscalationResponse(rsp *http.Response) (*EscalationsV3RespondEscalationResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &EscalationsV3RespondEscalationResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case rsp.StatusCode == 200:
+		break // No content-type
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseEscalationsV3ShowResponse parses an HTTP response from a EscalationsV3ShowWithResponse call
 func ParseEscalationsV3ShowResponse(rsp *http.Response) (*EscalationsV3ShowResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -188239,6 +201154,119 @@ func ParseEscalationsV3ShowResponse(rsp *http.Response) (*EscalationsV3ShowRespo
 			return nil, err
 		}
 		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseEscalationsV3CancelEscalationResponse parses an HTTP response from a EscalationsV3CancelEscalationWithResponse call
+func ParseEscalationsV3CancelEscalationResponse(rsp *http.Response) (*EscalationsV3CancelEscalationResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &EscalationsV3CancelEscalationResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case rsp.StatusCode == 200:
+		break // No content-type
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
 		var dest ErrorResponse

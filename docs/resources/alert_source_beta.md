@@ -55,6 +55,7 @@ documentation.
 - `ai_titles_enabled` (Boolean) Whether to improve the titles of alerts from this source with AI. We create one title format for each kind of alert and reuse it, so the same alert gets a consistent title each time it fires.
 
 Leave the attribute unset to keep the current value, so AI titles turned on in the dashboard stay on after an unrelated apply. A new source created without it has AI titles off.
+- `alertmanager_options` (Attributes) (see [below for nested schema](#nestedatt--alertmanager_options))
 - `auto_resolve_incident_alerts` (Boolean) Whether alerts from this source keep counting down to auto-resolve while attached to an incident. Defaults to true. Has no effect without auto_resolve_timeout_minutes.
 - `auto_resolve_timeout_minutes` (Number) How long to wait before automatically resolving alerts from this source
 - `description` (Attributes) (see [below for nested schema](#nestedatt--description))
@@ -84,6 +85,14 @@ Only heartbeat sources can be paused, and only once one has received its first p
 - `id` (String) Unique identifier for this alert source
 - `secret_token` (String, Sensitive) The token to use when sending alerts to this source. Only returned to callers with permission to update the source.
 - `version` (Number) The source's current version, which increments on every write. Pass it back as expected_version to reject a write built from a stale read.
+
+<a id="nestedatt--alertmanager_options"></a>
+### Nested Schema for `alertmanager_options`
+
+Required:
+
+- `one_alert_per_group` (Boolean) Whether to create one alert per evaluation group or one alert per series within a group
+
 
 <a id="nestedatt--description"></a>
 ### Nested Schema for `description`

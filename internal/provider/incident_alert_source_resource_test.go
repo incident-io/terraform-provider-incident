@@ -515,6 +515,59 @@ func TestAlertSourceSNSOptions(t *testing.T) {
 	})
 }
 
+func TestAlertSourceAlertmanagerOptions(t *testing.T) {
+	source := alertSourceV3("alertmanager")
+	source.AlertmanagerOptions = &client.AlertSourceAlertmanagerOptionsV3{OneAlertPerGroup: false}
+
+	// The API reports the setting on every alertmanager source, so a config without the block
+	// must not read one back: the value is left to the dashboard.
+	t.Run("the resource leaves the block null when the config sets none", func(t *testing.T) {
+		diags := diag.Diagnostics{}
+		model := alertSourceResourceFromAPI(source, &alertSourceModel{}, &diags)
+		if diags.HasError() {
+			t.Fatalf("unexpected diagnostics: %+v", diags.Errors())
+		}
+		if model.AlertmanagerOptions != nil {
+			t.Errorf("expected no alertmanager_options, got %+v", model.AlertmanagerOptions)
+		}
+	})
+
+	t.Run("the resource reads the setting back when the config sets one", func(t *testing.T) {
+		config := &alertSourceModel{AlertmanagerOptions: &alertSourceAlertmanagerOptions{
+			OneAlertPerGroup: types.BoolValue(false),
+		}}
+
+		diags := diag.Diagnostics{}
+		model := alertSourceResourceFromAPI(source, config, &diags)
+		if diags.HasError() {
+			t.Fatalf("unexpected diagnostics: %+v", diags.Errors())
+		}
+		if model.AlertmanagerOptions == nil || model.AlertmanagerOptions.OneAlertPerGroup.ValueBool() {
+			t.Errorf("expected one_alert_per_group = false, got %+v", model.AlertmanagerOptions)
+		}
+	})
+
+	t.Run("the data source always shows the setting", func(t *testing.T) {
+		model := fromAPI(t, source, &alertSourceModel{})
+		if model.AlertmanagerOptions == nil || model.AlertmanagerOptions.OneAlertPerGroup.ValueBool() {
+			t.Errorf("expected one_alert_per_group = false, got %+v", model.AlertmanagerOptions)
+		}
+	})
+
+	t.Run("sends the setting, and nothing when the block is absent", func(t *testing.T) {
+		options := &alertSourceAlertmanagerOptions{OneAlertPerGroup: types.BoolValue(false)}
+		payload := options.toPayload()
+		if payload == nil || payload.OneAlertPerGroup {
+			t.Errorf("expected one_alert_per_group = false, got %+v", payload)
+		}
+
+		var absent *alertSourceAlertmanagerOptions
+		if absent.toPayload() != nil {
+			t.Error("expected no payload for an absent block, so the API keeps the stored value")
+		}
+	})
+}
+
 func TestValidateSNSOptions(t *testing.T) {
 	for _, tc := range []struct {
 		name     string
