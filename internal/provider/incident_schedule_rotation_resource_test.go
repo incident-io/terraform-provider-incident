@@ -367,6 +367,61 @@ func TestRotationLineUpDiffers(t *testing.T) {
 	}
 }
 
+func TestFirstIntervalStartsAtToSend(t *testing.T) {
+	model := func(startsAt string) IncidentScheduleRotationModel {
+		return IncidentScheduleRotationModel{FirstIntervalStartsAt: timetypes.NewRFC3339ValueMust(startsAt)}
+	}
+
+	// State holds the configured value even after a phased rollout has slid the API's
+	// one along (anchorToState), so sending it back on a rename would undo the slide
+	// and change who is on call.
+	for name, planned := range map[string]string{
+		"same instant":         "2025-08-16T15:20:00Z",
+		"same instant, offset": "2025-08-16T16:20:00+01:00",
+	} {
+		t.Run(name+" is left out", func(t *testing.T) {
+			got, diags := firstIntervalStartsAtToSend(model(planned), model("2025-08-16T15:20:00Z"))
+			if diags.HasError() {
+				t.Fatalf("unexpected diagnostics: %v", diags)
+			}
+			if got != nil {
+				t.Errorf("expected first_interval_starts_at to be left out, got %s", got)
+			}
+		})
+	}
+
+	for name, planned := range map[string]string{
+		"moved by a whole week": "2025-08-23T15:20:00Z",
+		"moved clock time":      "2025-08-16T09:00:00Z",
+	} {
+		t.Run(name+" is sent", func(t *testing.T) {
+			got, diags := firstIntervalStartsAtToSend(model(planned), model("2025-08-16T15:20:00Z"))
+			if diags.HasError() {
+				t.Fatalf("unexpected diagnostics: %v", diags)
+			}
+			want, _ := time.Parse(time.RFC3339, planned)
+			if got == nil || !got.Equal(want) {
+				t.Errorf("expected %s to be sent, got %v", want, got)
+			}
+		})
+	}
+
+	t.Run("rename after a phased rollout leaves it out of the payload", func(t *testing.T) {
+		state := model("2025-08-16T15:20:00Z")
+		state.Name = types.StringValue("Primary")
+		plan := state
+		plan.Name = types.StringValue("Renamed")
+
+		startsAt, diags := firstIntervalStartsAtToSend(plan, state)
+		if diags.HasError() {
+			t.Fatalf("unexpected diagnostics: %v", diags)
+		}
+		if payload := rotationUpdatePayload(plan, startsAt); payload.FirstIntervalStartsAt != nil {
+			t.Errorf("expected no first_interval_starts_at, got %s", payload.FirstIntervalStartsAt)
+		}
+	})
+}
+
 func ptr[T any](value T) *T {
 	return &value
 }

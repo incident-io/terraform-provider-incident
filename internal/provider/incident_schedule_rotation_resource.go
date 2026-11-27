@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -112,6 +113,12 @@ To change both, take it in two applies:
 1. Change ` + "`first_interval_starts_at`" + ` on its own, with ` + "`rollout`" + ` unset. The new
    cadence takes effect straight away.
 2. Then make the line-up change, with ` + "`rollout`" + ` set.
+
+A phased rollout can move the interval start the API holds by whole intervals, so the
+new line-up slots in at the next handover. The handover still falls on the same day
+and time, so the provider keeps your configured value and doesn't show a diff. Later
+edits to other attributes, like ` + "`name`" + `, leave ` + "`first_interval_starts_at`" + ` out of the
+update unless you've changed it in config, so they don't move who is on call.
 
 ## Choosing a scheduling mode
 
@@ -733,7 +740,7 @@ func (r *IncidentScheduleRotationResource) planEffectiveFrom(ctx context.Context
 		client.SchedulesV3PreviewRotationRolloutJSONRequestBody{
 			From:     time.Now().UTC(),
 			Rollout:  &strategy,
-			Rotation: rotationUpdatePayload(plan, startsAt),
+			Rotation: rotationUpdatePayload(plan, &startsAt),
 		})
 	if err != nil {
 		resp.Diagnostics.AddError("Unable to preview schedule rotation rollout", err.Error())
@@ -1080,7 +1087,7 @@ func (r *IncidentScheduleRotationResource) Update(ctx context.Context, req resou
 		return
 	}
 
-	startsAt, diags := plan.FirstIntervalStartsAt.ValueRFC3339Time()
+	startsAt, diags := firstIntervalStartsAtToSend(plan, state)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -1208,14 +1215,38 @@ func toWorkingIntervalsPayload(windows []IncidentScheduleRotationWorkingWindow) 
 	return &payload
 }
 
-func rotationUpdatePayload(data IncidentScheduleRotationModel, startsAt time.Time) client.ScheduleRotationUpdatePayloadV3 {
+// firstIntervalStartsAtToSend returns the first_interval_starts_at an update should
+// send, or nil to leave it out so the API keeps the rotation handing over when it
+// does today.
+//
+// It's sent only when the config moved it. A phased rollout slides the API's value
+// along by whole intervals, and anchorToState keeps the configured value in state so
+// that slide isn't a diff. Sending that configured value back on an unrelated edit,
+// like a rename, would undo the slide and change who is on call there and then.
+func firstIntervalStartsAtToSend(plan, state IncidentScheduleRotationModel) (*time.Time, diag.Diagnostics) {
+	planned, diags := plan.FirstIntervalStartsAt.ValueRFC3339Time()
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	if !state.FirstIntervalStartsAt.IsNull() && !state.FirstIntervalStartsAt.IsUnknown() {
+		prior, priorDiags := state.FirstIntervalStartsAt.ValueRFC3339Time()
+		if !priorDiags.HasError() && prior.Equal(planned) {
+			return nil, diags
+		}
+	}
+
+	return &planned, diags
+}
+
+// rotationUpdatePayload builds an update. A nil startsAt leaves
+// first_interval_starts_at out, which keeps the rotation's current handover.
+func rotationUpdatePayload(data IncidentScheduleRotationModel, startsAt *time.Time) client.ScheduleRotationUpdatePayloadV3 {
 	payload := client.ScheduleRotationUpdatePayloadV3{
-		Name:      data.Name.ValueString(),
-		Users:     toUserReferences(data.Users),
-		Handovers: toHandoversPayload(data.Handovers),
-		// Sent even though the API keeps the current value when it's omitted, since
-		// the config is what this rotation should look like.
-		FirstIntervalStartsAt: &startsAt,
+		Name:                  data.Name.ValueString(),
+		Users:                 toUserReferences(data.Users),
+		Handovers:             toHandoversPayload(data.Handovers),
+		FirstIntervalStartsAt: startsAt,
 		ConcurrentShifts:      data.ConcurrentShifts.ValueInt64Pointer(),
 		WorkingIntervals:      toWorkingIntervalsPayload(data.WorkingIntervals),
 		Rank:                  data.Rank.ValueInt64Pointer(),
